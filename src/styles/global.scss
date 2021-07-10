@@ -1,0 +1,7 @@
+@import '~normalize.css';
+@import 'variables.scss';
+@import 'mixins.scss';
+
+body {
+  background: $background-color;
+}
