@@ -1,0 +1,12 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 400px;
+  input {
+    margin: 5px;
+  }
+
+  button {
+    margin: 5px;
+  }
+}

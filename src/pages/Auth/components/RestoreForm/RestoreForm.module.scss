@@ -1,0 +1,20 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 400px;
+  input {
+    margin: 5px;
+  }
+
+  button {
+    margin: 5px;
+  }
+
+  .btnWrapper {
+    display: flex;
+    align-items: center;
+    a {
+      margin-left: 5px;
+    }
+  }
+}
