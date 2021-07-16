@@ -1,15 +1,8 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
-import {
-  fetchRestorePassword,
-  fetchSignin,
-} from '../../../../store/ducks/user/actionCreators';
-import {
-  RestorePasswordData,
-  SigninData,
-} from '../../../../store/ducks/user/contracts/state';
-import { selectUserStatus } from '../../../../store/ducks/user/selectors';
+import { useHistory, useLocation } from 'react-router-dom';
+import { fetchRestorePassword } from '../../../../store/ducks/user/actionCreators';
+import { RestorePasswordData } from '../../../../store/ducks/user/contracts/state';
 import s from './RestoreForm.module.scss';
 
 interface Props {}
@@ -17,6 +10,7 @@ interface Props {}
 export const RestoreForm = (props: Props) => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const history = useHistory();
 
   const restoreToken = location.search.split('token=')[1];
 
@@ -36,6 +30,7 @@ export const RestoreForm = (props: Props) => {
     e.preventDefault();
     try {
       dispatch(fetchRestorePassword(data));
+      history.push('/signin');
     } catch (error) {
       console.log(error);
     }

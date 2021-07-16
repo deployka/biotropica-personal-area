@@ -1,0 +1,38 @@
+@mixin avatar() {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  box-sizing: border-box;
+
+  border: 3px solid $color-primary;
+  filter: drop-shadow(0px 0px 4px rgba(126, 134, 239, 0.15));
+
+  transition: all 0.2s ease;
+
+  &__img {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    img {
+      height: 100%;
+    }
+  }
+
+  &:hover {
+    border-color: $color-white;
+  }
+}

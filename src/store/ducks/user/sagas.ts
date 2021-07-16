@@ -17,9 +17,11 @@ export function* fetchSigninRequest({
   payload,
 }: FetchSigninActionInterface): any {
   try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(AuthService.signin, payload);
     window.localStorage.setItem('token', data.accessToken);
     yield put(setUserData(data));
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } catch (error) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
@@ -29,9 +31,11 @@ export function* fetchSignupRequest({
   payload,
 }: FetchSignupActionInterface): any {
   try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(AuthService.signup, payload);
     window.localStorage.setItem('token', data.accessToken);
     yield put(setUserData(data));
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } catch (error) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
@@ -39,9 +43,11 @@ export function* fetchSignupRequest({
 
 export function* fetchSignoutRequest({}: FetchSignupActionInterface): any {
   try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(AuthService.signout);
     console.log(data);
     yield put(setUserData(data));
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } catch (error) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
@@ -51,8 +57,10 @@ export function* fetchForgotPasswordRequest({
   payload,
 }: FetchForgotPasswordActionInterface): any {
   try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(AuthService.forgotPassword, payload);
     yield put(setUserData(data));
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } catch (error) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
@@ -62,8 +70,10 @@ export function* fetchChangePasswordRequest({
   payload,
 }: FetchChangePasswordActionInterface): any {
   try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(AuthService.changePassword, payload);
     yield put(setUserData(data));
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } catch (error) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
@@ -73,8 +83,10 @@ export function* fetchRestorePasswordRequest({
   payload,
 }: FetchRestorePasswordActionInterface): any {
   try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(AuthService.restorePassword, payload);
     yield put(setUserData(data));
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } catch (error) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
@@ -82,8 +94,10 @@ export function* fetchRestorePasswordRequest({
 
 export function* fetchUserDataRequest({}: FetchUserDataActionInterface): any {
   try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(UserService.getMe);
     yield put(setUserData(data));
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } catch (error) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }

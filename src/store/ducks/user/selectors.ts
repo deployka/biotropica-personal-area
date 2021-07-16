@@ -13,5 +13,5 @@ export const selectIsAuth = (state: RootState): boolean =>
 export const selectUserStatus = (state: RootState): UserState['status'] =>
   selectUserState(state).status;
 
-export const selectUserIsLoading = (state: RootState): boolean =>
-  selectUserState(state).status === LoadingStatus.LOADING;
+export const selectUserLoadingStatus = (state: RootState): string =>
+  selectUserState(state).status;

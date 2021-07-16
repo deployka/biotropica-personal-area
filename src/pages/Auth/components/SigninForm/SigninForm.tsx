@@ -1,14 +1,16 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchSignin } from '../../../../store/ducks/user/actionCreators';
 import { SigninData } from '../../../../store/ducks/user/contracts/state';
-import { selectUserStatus } from '../../../../store/ducks/user/selectors';
+
 import s from './SigninForm.module.scss';
 
-interface Props {}
+interface Props {
+  setRedirect: Dispatch<SetStateAction<boolean>>;
+}
 
-export const SigninForm = (props: Props) => {
+export const SigninForm = ({ setRedirect }: Props) => {
   const dispatch = useDispatch();
 
   const [data, setData] = useState<SigninData>({
@@ -26,6 +28,7 @@ export const SigninForm = (props: Props) => {
     e.preventDefault();
     try {
       dispatch(fetchSignin(data));
+      setRedirect(true);
     } catch (error) {
       console.log(error);
     }

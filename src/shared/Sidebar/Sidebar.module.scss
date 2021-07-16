@@ -1,0 +1,151 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 80px;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: $color-black;
+
+  &__top {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  // .sidebar__avatar
+
+  .avatar {
+    margin: 25px 0 20px 0;
+
+    @include avatar();
+  }
+
+  // .sidebar__divider
+
+  &__divider {
+    width: 54px;
+    height: 2px;
+
+    background-color: #6f61d0;
+    opacity: 0.1;
+    border-radius: 18px;
+  }
+
+  // .sidebar__nav
+
+  &__nav {
+    margin: 25px 0 0 0;
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  // .sidebar__link
+
+  &__link {
+    padding: 13px 0;
+
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &::after {
+      content: '';
+
+      display: block;
+      width: 2px;
+      height: 0;
+
+      position: absolute;
+      left: 0;
+
+      background-color: #6f61d0;
+      border-radius: 0px 2px 2px 0px;
+
+      transition: all 0.2s ease-in;
+    }
+
+    &:hover {
+      .sidebar__prompt {
+        opacity: 1;
+        pointer-events: all;
+        z-index: 10;
+      }
+    }
+
+    &:hover::after {
+      height: 40px;
+    }
+  }
+
+  // .sidebar__bottom
+
+  &__bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  // .sidebar__logout
+
+  &__logout {
+    margin: 25px 0 40px 0;
+  }
+
+  &__prompt {
+    padding: 5px 10px;
+
+    position: absolute;
+    left: calc(100% + 5px);
+
+    background: linear-gradient(
+      0deg,
+      rgba(30, 23, 77, 0.8),
+      rgba(30, 23, 77, 0.8)
+    );
+    border: 1px solid #6f61d0;
+    box-sizing: border-box;
+
+    border-radius: 15px;
+
+    white-space: nowrap;
+
+    opacity: 0;
+    pointer-events: none;
+    z-index: -10;
+
+    transition: all 0.2s ease-in-out;
+
+    p {
+      font-size: 16px;
+      color: #ffffff;
+    }
+  }
+}
+
+.link_active {
+  &::after {
+    height: 40px;
+    background-color: #ffffff;
+  }
+
+  svg path {
+    stroke: #ffffff;
+  }
+  svg ellipse {
+    stroke: #ffffff;
+  }
+}
