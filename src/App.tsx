@@ -78,31 +78,33 @@ function App() {
     return (
       <>
         {getLoading() && <Loader />}
-        <Switch>
-          <Route exact path="/signin">
-            <SigninForm
-              loadingStatus={loadingStatus}
-              setRedirect={setRedirect}
-            />
-          </Route>
+        <div className="auth__container">
+          <Switch>
+            <Route exact path="/signin">
+              <SigninForm
+                loadingStatus={loadingStatus}
+                setRedirect={setRedirect}
+              />
+            </Route>
 
-          <Route exact path="/signup">
-            <SignupForm
-              loadingStatus={loadingStatus}
-              setRedirect={setRedirect}
-            />
-          </Route>
+            <Route exact path="/signup">
+              <SignupForm
+                loadingStatus={loadingStatus}
+                setRedirect={setRedirect}
+              />
+            </Route>
 
-          <Route exact path="/forgot-password">
-            <ForgotForm loadingStatus={loadingStatus} />
-          </Route>
+            <Route exact path="/forgot-password">
+              <ForgotForm loadingStatus={loadingStatus} />
+            </Route>
 
-          <Route exact path="/restore-password">
-            <RestoreForm loadingStatus={loadingStatus} />
-          </Route>
+            <Route exact path="/restore-password">
+              <RestoreForm loadingStatus={loadingStatus} />
+            </Route>
 
-          <Route render={() => <Redirect to="/signin" />} />
-        </Switch>
+            <Route render={() => <Redirect to="/signin" />} />
+          </Switch>
+        </div>
       </>
     );
   }
