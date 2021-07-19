@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, {
   Dispatch,
   ReactElement,
@@ -197,7 +198,10 @@ export const Sidebar = ({ setPage }: Props) => {
       <div className={s.sidebar__top}>
         <Link
           to="/profile"
-          className={s.sidebar__avatar}
+          className={classNames({
+            [s.sidebar__avatar]: true,
+            [s.active__profile]: pages[0].link === location.pathname,
+          })}
           onClick={() => setPage('Профиль')}
         >
           <div className={s.img}>
