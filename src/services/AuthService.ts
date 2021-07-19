@@ -3,6 +3,7 @@ import $api from '../http';
 import { AuthResponse } from '../models/AuthResponse';
 import {
   ChangePasswordData,
+  ErrorsData,
   ForgotPasswordData,
   RestorePasswordData,
   SigninData,
@@ -12,6 +13,7 @@ import {
 interface Response {
   status: string;
   data: AuthResponse;
+  errors: ErrorsData;
 }
 
 interface ResponseRefresh {

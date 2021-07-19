@@ -7,7 +7,9 @@ import {
   FetchSignupActionInterface,
   FetchUserDataActionInterface,
   SetUserDataActionInterface,
+  SetUserErrorsActionInterface,
   SetUserLoadingStatusActionInterface,
+  SetUserResponseActionInterface,
   UserActionsType,
 } from './contracts/actionTypes';
 import {
@@ -19,13 +21,6 @@ import {
   User,
   UserState,
 } from './contracts/state';
-
-export const setUserData = (
-  payload: UserState['data']
-): SetUserDataActionInterface => ({
-  type: UserActionsType.SET_USER_DATA,
-  payload,
-});
 
 export const fetchUserData = (): FetchUserDataActionInterface => ({
   type: UserActionsType.FETCH_USER_DATA,
@@ -77,6 +72,29 @@ export const setUserLoadingStatus = (
   payload,
 });
 
+export const setUserData = (
+  payload: UserState['data']
+): SetUserDataActionInterface => ({
+  type: UserActionsType.SET_USER_DATA,
+  payload,
+});
+
+export const setUserErrors = (
+  payload: UserState['errors']
+): SetUserErrorsActionInterface => ({
+  type: UserActionsType.SET_USER_ERRORS,
+  payload,
+});
+
+export const setUserResponse = (
+  payload: UserState['response']
+): SetUserResponseActionInterface => ({
+  type: UserActionsType.SET_USER_RESPONSE,
+  payload,
+});
+
 export type UserActions =
   | SetUserDataActionInterface
-  | SetUserLoadingStatusActionInterface;
+  | SetUserLoadingStatusActionInterface
+  | SetUserErrorsActionInterface
+  | SetUserResponseActionInterface;

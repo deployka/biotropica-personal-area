@@ -2,16 +2,20 @@ import { Action } from 'redux';
 import { LoadingStatus } from '../../../types';
 import {
   ChangePasswordData,
+  ErrorsData,
   ForgotPasswordData,
   RestorePasswordData,
   SigninData,
   SignupData,
   User,
+  UserState,
 } from './state';
 
 export enum UserActionsType {
   SET_USER_DATA = 'user/SET_USER_DATA',
   SET_LOADING_STATE = 'user/SET_LOADING_STATE',
+  SET_USER_ERRORS = 'user/SET_USER_ERRORS',
+  SET_USER_RESPONSE = 'user/SET_USER_RESPONSE',
   FETCH_USER_DATA = 'user/FETCH_USER_DATA',
   FETCH_SIGN_IN = 'user/FETCH_SIGN_IN',
   FETCH_SIGN_UP = 'user/FETCH_SIGN_UP',
@@ -56,6 +60,16 @@ export interface FetchRestorePasswordActionInterface
 
 export interface FetchUserDataActionInterface extends Action<UserActionsType> {
   type: UserActionsType.FETCH_USER_DATA;
+}
+export interface SetUserErrorsActionInterface extends Action<UserActionsType> {
+  type: UserActionsType.SET_USER_ERRORS;
+  payload: ErrorsData | undefined;
+}
+
+export interface SetUserResponseActionInterface
+  extends Action<UserActionsType> {
+  type: UserActionsType.SET_USER_RESPONSE;
+  payload: any;
 }
 
 export interface SetUserDataActionInterface extends Action<UserActionsType> {

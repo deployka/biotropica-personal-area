@@ -1,0 +1,31 @@
+$font-primary: 'Montserrat', sans-serif;
+
+@mixin typography($fsize, $fweight, $fcolor) {
+  font-family: $font-primary;
+
+  font-size: $fsize;
+  font-weight: $fweight;
+
+  color: $fcolor;
+}
+
+@mixin font-title($color) {
+  @include typography(24px, 600, $color);
+  font-family: $font-primary;
+
+  letter-spacing: 0.75%;
+}
+
+@mixin font-headline($color) {
+  @include typography(18px, 500, $color);
+  font-family: $font-primary;
+
+  letter-spacing: 0.75%;
+
+  color: $color;
+}
+@mixin font-body($color) {
+  @include typography(16px, 300, $color);
+
+  font-family: $font-primary;
+}

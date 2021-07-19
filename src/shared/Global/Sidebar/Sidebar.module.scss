@@ -1,5 +1,6 @@
-@import '../../styles/variables.scss';
-@import '../../styles/mixins.scss';
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
 .sidebar {
   position: fixed;
   top: 0;
@@ -25,10 +26,47 @@
 
   // .sidebar__avatar
 
-  .avatar {
+  &__avatar {
     margin: 25px 0 20px 0;
 
-    @include avatar();
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+    border: 3px solid $color-primary;
+    filter: drop-shadow(0px 0px 4px rgba(126, 134, 239, 0.15));
+
+    transition: all 0.2s ease;
+
+    .img {
+      width: 100%;
+      height: 100%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      overflow: hidden;
+
+      img {
+        height: 100%;
+      }
+    }
+
+    &:hover {
+      border-color: $color-white;
+    }
   }
 
   // .sidebar__divider
@@ -45,7 +83,7 @@
   // .sidebar__nav
 
   &__nav {
-    margin: 25px 0 0 0;
+    margin: 38px 0 0 0;
 
     width: 100%;
     display: flex;
@@ -55,12 +93,12 @@
   // .sidebar__link
 
   &__link {
-    padding: 13px 0;
-
     width: 100%;
+
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 35px;
 
     &::after {
       content: '';
@@ -89,6 +127,23 @@
     &:hover::after {
       height: 40px;
     }
+  }
+  .active__nav {
+    .sidebar__link:after {
+      background: #fff;
+      height: 40px;
+    }
+    svg {
+      path {
+        stroke: #fff;
+      }
+      ellipse {
+        stroke: #fff;
+      }
+    }
+  }
+
+  .active__profile {
   }
 
   // .sidebar__bottom
@@ -132,6 +187,7 @@
     p {
       font-size: 16px;
       color: #ffffff;
+      margin: 0;
     }
   }
 }

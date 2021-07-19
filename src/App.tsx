@@ -6,9 +6,7 @@ import {
   useHistory,
   useLocation,
 } from 'react-router-dom';
-import './styles/global.scss';
 import { ErrorPage } from './pages/404/containers/404';
-import { Calendar } from './pages/Calendar/containers/Calendar';
 import { Goals } from './pages/Goals/containers/Goals';
 import { Home } from './pages/Home/containers/Home';
 import { Profile } from './pages/Profile/containers/Profile';
@@ -20,12 +18,22 @@ import {
 } from './store/ducks/user/selectors';
 import { SigninForm } from './pages/Auth/components/SigninForm/SigninForm';
 import { SignupForm } from './pages/Auth/components/SignupForm/SignupForm';
-import { fetchUserData } from './store/ducks/user/actionCreators';
+import {
+  fetchUserData,
+  setUserErrors,
+  setUserLoadingStatus,
+  setUserResponse,
+} from './store/ducks/user/actionCreators';
 import { RestoreForm } from './pages/Auth/components/RestoreForm/RestoreForm';
 import { ForgotForm } from './pages/Auth/components/ForgotForm/ForgotForm';
-import { Loader } from './shared/Loader/Loader';
+import { Loader } from './shared/Global/Loader/Loader';
 import { LoadingStatus } from './store/types';
-import { Sidebar } from './shared/Sidebar/Sidebar';
+import { Sidebar } from './shared/Global/Sidebar/Sidebar';
+import { Tariffs } from './pages/Tariffs/containers/Tariffs';
+import { Services } from './pages/Services/containers/Services';
+import { Header } from './shared/Global/Header/Header';
+
+import './styles/global.scss';
 
 function App() {
   const isAuth = useSelector(selectIsAuth);
@@ -33,7 +41,9 @@ function App() {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
+
   const [redirect, setRedirect] = useState<boolean>(false);
+  const [page, setPage] = useState<string>('Главная');
 
   const currentPath = location.pathname;
   const authPaths = ['/signin', '/signup'];
@@ -43,58 +53,82 @@ function App() {
   }, [isAuth]);
 
   useEffect(() => {
-    if (authPaths.includes(currentPath)) {
+    dispatch(setUserLoadingStatus(LoadingStatus.LOADED));
+    dispatch(setUserErrors(undefined));
+    dispatch(setUserResponse(undefined));
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (isAuth && authPaths.includes(currentPath)) {
       history.push('/');
     } else if (loadingStatus === LoadingStatus.SUCCESS && isAuth && redirect) {
       history.push(currentPath);
+      setRedirect(false);
     }
   }, [isAuth, loadingStatus]);
 
-  console.log(loadingStatus);
-
-  if (
-    loadingStatus === LoadingStatus.LOADING ||
-    loadingStatus === LoadingStatus.NEVER
-  ) {
-    return <Loader />;
+  function getLoading() {
+    return (
+      loadingStatus === LoadingStatus.LOADING ||
+      loadingStatus === LoadingStatus.NEVER
+    );
   }
 
   if (!isAuth) {
     return (
-      <Switch>
-        <Route exact path="/signin">
-          <SigninForm setRedirect={setRedirect} />
-        </Route>
+      <>
+        {getLoading() && <Loader />}
+        <Switch>
+          <Route exact path="/signin">
+            <SigninForm
+              loadingStatus={loadingStatus}
+              setRedirect={setRedirect}
+            />
+          </Route>
 
-        <Route exact path="/signup">
-          <SignupForm setRedirect={setRedirect} />
-        </Route>
+          <Route exact path="/signup">
+            <SignupForm
+              loadingStatus={loadingStatus}
+              setRedirect={setRedirect}
+            />
+          </Route>
 
-        <Route exact path="/restore-password" component={RestoreForm} />
+          <Route exact path="/forgot-password">
+            <ForgotForm loadingStatus={loadingStatus} />
+          </Route>
 
-        <Route exact path="/forgot-password" component={ForgotForm} />
+          <Route exact path="/restore-password">
+            <RestoreForm loadingStatus={loadingStatus} />
+          </Route>
 
-        <Route render={() => <Redirect to="/signin" />} />
-      </Switch>
+          <Route render={() => <Redirect to="/signin" />} />
+        </Switch>
+      </>
     );
   }
 
   return (
     <>
-      <Sidebar />
-      <Switch>
-        <Route exact path="/" component={Home} />
+      {getLoading() && <Loader />}
+      <Sidebar setPage={setPage} />
+      <Header page={page} />
+      <div className="container">
+        <Switch>
+          <Route exact path="/" component={Home} />
 
-        <Route exact path="/questionnaire" component={Questionnaire} />
+          <Route exact path="/questionnaire" component={Questionnaire} />
 
-        <Route exact path="/calendar" component={Calendar} />
+          <Route exact path="/profile" component={Profile} />
 
-        <Route exact path="/profile" component={Profile} />
+          <Route path="/goals" component={Goals} />
 
-        <Route path="/goals" component={Goals} />
+          <Route path="/tariffs" component={Tariffs} />
 
-        <Route component={ErrorPage} />
-      </Switch>
+          <Route path="/services" component={Services} />
+
+          <Route component={ErrorPage} />
+        </Switch>
+      </div>
     </>
   );
 }

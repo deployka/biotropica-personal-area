@@ -1,0 +1,89 @@
+.profile {
+  &__card {
+    padding: 30px 0;
+
+    width: 260px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: #ffffff;
+    box-shadow: 0px 0px 6px rgba(205, 199, 230, 0.5);
+    border-radius: 15px;
+  }
+
+  // .profile__avatar
+
+  &__avatar {
+    width: 112px;
+    height: 112px;
+
+    border: 3px solid #f2f2f7;
+    box-sizing: border-box;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    img {
+      height: 100%;
+    }
+  }
+
+  // .profile__name
+
+  &__name {
+    margin: 20px 0 0 0;
+
+    p {
+      color: #04030a;
+      font-weight: 500;
+      font-size: 18px;
+    }
+  }
+
+  &__mail,
+  &__phone,
+  &__birth {
+    margin: 5px 0 0 0;
+
+    p {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 20px;
+
+      color: #736f8b;
+    }
+  }
+
+  &__edit {
+    display: flex;
+
+    cursor: pointer;
+
+    &Icon {
+      margin: 0 10px 0 0;
+    }
+
+    a {
+      text-decoration: none;
+      font-size: 14px;
+      color: #6f61d0;
+
+      &::after {
+        content: '';
+
+        display: block;
+        width: 100%;
+        height: 1px;
+
+        background-color: rgba(111, 97, 208, 0.5);
+        border-radius: 5px;
+      }
+    }
+  }
+}

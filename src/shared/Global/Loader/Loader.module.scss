@@ -1,23 +1,20 @@
 .loader {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   .loaderLine {
     width: 0%;
     height: 4px;
     background: linear-gradient(
       to right,
-      rgb(51, 253, 93),
-      rgb(71, 185, 236),
-      rgb(42, 147, 245),
-      rgb(41, 168, 222),
       rgb(120, 56, 179),
-      rgb(234, 34, 70)
+      rgb(34, 129, 184),
+      rgb(51, 253, 93)
     );
-    background-size: 100vw 4px;
+    background-size: 100% 4px;
     border-radius: 0px;
-    animation: loading 3s ease-in-out forwards;
+    animation: loading 4s ease-in-out forwards;
   }
 }
 

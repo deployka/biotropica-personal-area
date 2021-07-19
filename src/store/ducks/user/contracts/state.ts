@@ -24,6 +24,8 @@ export interface User {
 export interface UserState {
   data: User | undefined;
   status: LoadingStatus;
+  response: any;
+  errors: ErrorsData | undefined;
 }
 
 export interface SignupData {
@@ -40,6 +42,11 @@ export interface SigninData {
   password: string;
 }
 
+export interface ErrorsData {
+  message: string;
+  statusCode: string;
+}
+
 export interface ForgotPasswordData {
   email: string;
 }
@@ -51,5 +58,5 @@ export interface ChangePasswordData {
 export interface RestorePasswordData {
   password: string;
   verification_password: string;
-  restoreToken: string;
+  restoreToken?: string;
 }
