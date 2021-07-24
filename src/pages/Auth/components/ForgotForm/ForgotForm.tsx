@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { fetchForgotPassword } from '../../../../store/ducks/user/actionCreators';

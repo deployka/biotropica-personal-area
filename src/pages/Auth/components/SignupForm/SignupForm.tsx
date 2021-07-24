@@ -15,7 +15,7 @@ import {
 } from '../../../../utils/phoneValidator';
 import { validationSchema } from './validationSchema';
 import { selectUserErrors } from '../../../../store/ducks/user/selectors';
-import { Loader } from '../../../../shared/Global/Loader/Loader';
+import { Loader } from '../../../../shared/Form/Loader/Loader';
 
 interface Props {
   setRedirect: Dispatch<SetStateAction<boolean>>;
