@@ -61,10 +61,6 @@ export interface FetchRestorePasswordActionInterface
 export interface FetchUserDataActionInterface extends Action<UserActionsType> {
   type: UserActionsType.FETCH_USER_DATA;
 }
-export interface SetUserErrorsActionInterface extends Action<UserActionsType> {
-  type: UserActionsType.SET_USER_ERRORS;
-  payload: ErrorsData | undefined;
-}
 
 export interface SetUserResponseActionInterface
   extends Action<UserActionsType> {

@@ -9,10 +9,7 @@ import { Formik } from 'formik';
 
 import s from './ForgotForm.module.scss';
 import { validationSchema } from './validationSchema';
-import {
-  selectUserErrors,
-  selectUserResponse,
-} from '../../../../store/ducks/user/selectors';
+import { selectUserResponse } from '../../../../store/ducks/user/selectors';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
 
 interface Props {
@@ -23,16 +20,17 @@ let setFieldValue: any = null;
 
 export const ForgotForm = ({ loadingStatus }: Props) => {
   const dispatch = useDispatch();
-  const errorsServer = useSelector(selectUserErrors);
-  const responseServer = useSelector(selectUserResponse);
+  const response = useSelector(selectUserResponse);
   const location = useLocation();
   const history = useHistory();
   const email = location.search.split('=')[1];
 
   const [loader, setLoader] = useState<boolean>(false);
-  const [sending, setSending] = useState<boolean>(false);
 
   useEffect(() => {
+    if (loadingStatus === LoadingStatus.LOADING) {
+      setLoader(true);
+    }
     if (
       loadingStatus === LoadingStatus.SUCCESS ||
       loadingStatus === LoadingStatus.ERROR
@@ -40,11 +38,11 @@ export const ForgotForm = ({ loadingStatus }: Props) => {
       setLoader(false);
     }
 
-    if (loadingStatus === LoadingStatus.ERROR && sending) {
+    if (loadingStatus === LoadingStatus.ERROR && setFieldValue) {
       setFieldValue?.('email', '');
     }
 
-    if (loadingStatus === LoadingStatus.SUCCESS && sending) {
+    if (loadingStatus === LoadingStatus.SUCCESS && setFieldValue) {
       setFieldValue?.('email', '');
       setTimeout(() => {
         history.push('/signin');
@@ -55,12 +53,8 @@ export const ForgotForm = ({ loadingStatus }: Props) => {
   async function onSubmit(values: ForgotPasswordData, options: any) {
     setFieldValue = options.setFieldValue;
     try {
-      setLoader(true);
       dispatch(fetchForgotPassword(values));
-      setSending(true);
-    } catch (error) {
-      setLoader(false);
-    }
+    } catch (error) {}
   }
 
   return (
@@ -92,17 +86,13 @@ export const ForgotForm = ({ loadingStatus }: Props) => {
                 На ваш e-mail будет отправлена ссылка для смены пароля
               </h2>
               <div
-                style={
-                  errorsServer?.message || responseServer?.message
-                    ? { display: 'flex' }
-                    : {}
-                }
+                style={response?.message ? { display: 'flex' } : {}}
                 className={classNames({
-                  [s.error__server]: !!errorsServer?.message,
-                  [s.success__server]: !!responseServer?.message,
+                  [s.error__server]: response?.statusCode === 404,
+                  [s.success__server]: response?.statusCode === 200,
                 })}
               >
-                {errorsServer?.message || responseServer?.message}
+                {response?.message}
               </div>
 
               <div className={s.input__wrapper}>

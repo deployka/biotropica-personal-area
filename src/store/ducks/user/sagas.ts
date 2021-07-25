@@ -4,7 +4,6 @@ import UserService from '../../../services/UserService';
 import { LoadingStatus } from '../../types';
 import {
   setUserData,
-  setUserErrors,
   setUserLoadingStatus,
   setUserResponse,
 } from './actionCreators';
@@ -21,16 +20,13 @@ import {
 export function* fetchSigninRequest({
   payload,
 }: FetchSigninActionInterface): any {
-  yield put(setUserErrors(undefined));
-  yield put(setUserResponse(undefined));
   yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-  const { response, data } = yield call(AuthService.signin, payload);
-  if (data) {
+  const { data, status } = yield call(AuthService.signin, payload);
+  yield put(setUserResponse(data));
+  if (status === 200) {
     window.localStorage.setItem('token', data.accessToken);
-    yield put(setUserResponse(data));
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } else {
-    yield put(setUserErrors(response.data));
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
 }
@@ -38,16 +34,13 @@ export function* fetchSigninRequest({
 export function* fetchSignupRequest({
   payload,
 }: FetchSignupActionInterface): any {
-  yield put(setUserErrors(undefined));
-  yield put(setUserResponse(undefined));
   yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-  const { response, data } = yield call(AuthService.signup, payload);
-  if (data) {
+  const { data, status } = yield call(AuthService.signup, payload);
+  yield put(setUserResponse(data));
+  if (status === 200) {
     window.localStorage.setItem('token', data.accessToken);
-    yield put(setUserResponse(data));
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } else {
-    yield put(setUserErrors(response.data));
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
 }
@@ -66,15 +59,12 @@ export function* fetchSignoutRequest({}: FetchSignupActionInterface): any {
 export function* fetchForgotPasswordRequest({
   payload,
 }: FetchForgotPasswordActionInterface): any {
-  yield put(setUserErrors(undefined));
-  yield put(setUserResponse(undefined));
   yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-  const { response, data } = yield call(AuthService.forgotPassword, payload);
-  if (data) {
-    yield put(setUserResponse(data));
+  const { data, status } = yield call(AuthService.forgotPassword, payload);
+  yield put(setUserResponse(data));
+  if (status === 200) {
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } else {
-    yield put(setUserErrors(response.data));
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
 }
@@ -82,15 +72,12 @@ export function* fetchForgotPasswordRequest({
 export function* fetchChangePasswordRequest({
   payload,
 }: FetchChangePasswordActionInterface): any {
-  yield put(setUserErrors(undefined));
-  yield put(setUserResponse(undefined));
   yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-  const { response, data } = yield call(AuthService.changePassword, payload);
-  if (data) {
-    yield put(setUserResponse(data));
+  const { data, status } = yield call(AuthService.changePassword, payload);
+  yield put(setUserResponse(data));
+  if (status === 200) {
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } else {
-    yield put(setUserErrors(response.data));
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
 }
@@ -98,26 +85,23 @@ export function* fetchChangePasswordRequest({
 export function* fetchRestorePasswordRequest({
   payload,
 }: FetchRestorePasswordActionInterface): any {
-  yield put(setUserErrors(undefined));
-  yield put(setUserResponse(undefined));
   yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-  const { response, data } = yield call(AuthService.restorePassword, payload);
-  if (data) {
-    yield put(setUserResponse(data));
+  const { data, status } = yield call(AuthService.restorePassword, payload);
+  yield put(setUserResponse(data));
+  if (status === 200) {
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } else {
-    yield put(setUserErrors(response.data));
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
 }
 
 export function* fetchUserDataRequest({}: FetchUserDataActionInterface): any {
-  try {
-    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-    const { data } = yield call(UserService.getMe);
+  yield put(setUserLoadingStatus(LoadingStatus.LOADING));
+  const { data, status } = yield call(UserService.getMe);
+  if (status === 200) {
     yield put(setUserData(data));
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
-  } catch (error) {
+  } else {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
 }

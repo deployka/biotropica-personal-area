@@ -22,13 +22,15 @@ $api.interceptors.response.use(
     if (error.response.status === 401 && originalRequest && !isRetry) {
       isRetry = true;
       try {
-        const { data } = await AuthService.refresh();
-        window.localStorage.setItem('token', data.accessToken);
+        const { data, status } = await AuthService.refresh();
+        if (status === 200) {
+          window.localStorage.setItem('token', data.accessToken);
+        }
       } catch (error) {}
 
       return $api.request(originalRequest);
     }
-    return error;
+    return error.response;
   }
 );
 

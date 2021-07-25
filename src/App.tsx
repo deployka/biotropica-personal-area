@@ -20,7 +20,6 @@ import { SigninForm } from './pages/Auth/components/SigninForm/SigninForm';
 import { SignupForm } from './pages/Auth/components/SignupForm/SignupForm';
 import {
   fetchUserData,
-  setUserErrors,
   setUserLoadingStatus,
   setUserResponse,
 } from './store/ducks/user/actionCreators';
@@ -54,7 +53,6 @@ function App() {
 
   useEffect(() => {
     dispatch(setUserLoadingStatus(LoadingStatus.LOADED));
-    dispatch(setUserErrors(undefined));
     dispatch(setUserResponse(undefined));
   }, [location.pathname]);
 
@@ -81,10 +79,7 @@ function App() {
         <div className="auth__container">
           <Switch>
             <Route exact path="/signin">
-              <SigninForm
-                loadingStatus={loadingStatus}
-                setRedirect={setRedirect}
-              />
+              <SigninForm setRedirect={setRedirect} />
             </Route>
 
             <Route exact path="/signup">

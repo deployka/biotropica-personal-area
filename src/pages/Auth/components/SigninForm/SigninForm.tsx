@@ -2,7 +2,10 @@ import classNames from 'classnames';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchSignin } from '../../../../store/ducks/user/actionCreators';
+import {
+  fetchSignin,
+  setUserResponse,
+} from '../../../../store/ducks/user/actionCreators';
 import { SigninData } from '../../../../store/ducks/user/contracts/state';
 import { LoadingStatus } from '../../../../store/types';
 import { Formik } from 'formik';
@@ -10,50 +13,48 @@ import { Formik } from 'formik';
 import s from './SigninForm.module.scss';
 import { validationSchema } from './validationSchema';
 import {
-  selectUserErrors,
+  selectUserLoadingStatus,
   selectUserResponse,
 } from '../../../../store/ducks/user/selectors';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
 
 interface Props {
   setRedirect: Dispatch<SetStateAction<boolean>>;
-  loadingStatus: string;
 }
 
 let setFieldValue: any = null;
 
-export const SigninForm = ({ setRedirect, loadingStatus }: Props) => {
+export const SigninForm = ({ setRedirect }: Props) => {
   const dispatch = useDispatch();
-  const errorsServer = useSelector(selectUserErrors);
-  const responseServer = useSelector(selectUserResponse);
+  const loadingStatus = useSelector(selectUserLoadingStatus);
+  const response = useSelector(selectUserResponse);
 
-  const [sending, setSending] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
 
   useEffect(() => {
-    if (loadingStatus === LoadingStatus.ERROR && sending) {
-      setFieldValue('password', '');
-      setLoader(false);
+    if (loadingStatus === LoadingStatus.LOADING) {
+      setLoader(true);
     }
-
+    if (loadingStatus === LoadingStatus.ERROR && setFieldValue) {
+      setFieldValue('password', '');
+    }
     if (
       loadingStatus === LoadingStatus.SUCCESS ||
       loadingStatus === LoadingStatus.ERROR
     ) {
       setLoader(false);
     }
+    if (loadingStatus === LoadingStatus.SUCCESS) {
+      dispatch(setUserResponse(undefined));
+      setRedirect(true);
+    }
   }, [loadingStatus]);
 
   async function onSubmit(values: SigninData, options: any) {
     setFieldValue = options.setFieldValue;
     try {
-      setLoader(true);
-      setSending(true);
       dispatch(fetchSignin(values));
-      setRedirect(true);
-    } catch (error) {
-      setLoader(false);
-    }
+    } catch (error) {}
   }
 
   return (
@@ -83,14 +84,10 @@ export const SigninForm = ({ setRedirect, loadingStatus }: Props) => {
               Пожалуйста, заполните информацию ниже:
             </h2>
             <div
-              style={
-                errorsServer?.message || responseServer?.message
-                  ? { display: 'flex' }
-                  : {}
-              }
+              style={response?.message ? { display: 'flex' } : {}}
               className={s.error__server}
             >
-              {errorsServer?.message}
+              {response?.message}
             </div>
 
             <div className={s.input__wrapper}>

@@ -22,10 +22,9 @@ export interface User {
 }
 
 export interface UserState {
-  data: User | undefined;
+  user: User | undefined;
   status: LoadingStatus;
   response: any;
-  errors: ErrorsData | undefined;
 }
 
 export interface SignupData {

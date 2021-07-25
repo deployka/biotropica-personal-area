@@ -7,7 +7,6 @@ import {
   FetchSignupActionInterface,
   FetchUserDataActionInterface,
   SetUserDataActionInterface,
-  SetUserErrorsActionInterface,
   SetUserLoadingStatusActionInterface,
   SetUserResponseActionInterface,
   UserActionsType,
@@ -73,16 +72,9 @@ export const setUserLoadingStatus = (
 });
 
 export const setUserData = (
-  payload: UserState['data']
+  payload: UserState['user']
 ): SetUserDataActionInterface => ({
   type: UserActionsType.SET_USER_DATA,
-  payload,
-});
-
-export const setUserErrors = (
-  payload: UserState['errors']
-): SetUserErrorsActionInterface => ({
-  type: UserActionsType.SET_USER_ERRORS,
   payload,
 });
 
@@ -96,5 +88,4 @@ export const setUserResponse = (
 export type UserActions =
   | SetUserDataActionInterface
   | SetUserLoadingStatusActionInterface
-  | SetUserErrorsActionInterface
   | SetUserResponseActionInterface;

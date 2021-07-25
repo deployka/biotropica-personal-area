@@ -14,8 +14,8 @@ import {
   onPhonePaste,
 } from '../../../../utils/phoneValidator';
 import { validationSchema } from './validationSchema';
-import { selectUserErrors } from '../../../../store/ducks/user/selectors';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
+import { selectUserResponse } from '../../../../store/ducks/user/selectors';
 
 interface Props {
   setRedirect: Dispatch<SetStateAction<boolean>>;
@@ -27,22 +27,26 @@ let setFieldValue: any = null;
 export const SignupForm = ({ setRedirect, loadingStatus }: Props) => {
   const dispatch = useDispatch();
   const [errorValue, errorText] =
-    useSelector(selectUserErrors)?.message?.split(':') || [];
+    useSelector(selectUserResponse)?.message?.split(':') || [];
 
   const [loader, setLoader] = useState<boolean>(false);
   const [checked, setChecked] = useState<boolean>(false);
-  const [sending, setSending] = useState<boolean>(false);
 
   useEffect(() => {
+    if (loadingStatus === LoadingStatus.LOADING) {
+      setLoader(true);
+    }
     if (
       loadingStatus === LoadingStatus.SUCCESS ||
       loadingStatus === LoadingStatus.ERROR
     ) {
       setLoader(false);
     }
-
-    if (loadingStatus === LoadingStatus.ERROR && sending) {
+    if (loadingStatus === LoadingStatus.ERROR && setFieldValue) {
       errorValue && setFieldValue(errorValue, '');
+    }
+    if (loadingStatus === LoadingStatus.SUCCESS) {
+      setRedirect(true);
     }
   }, [loadingStatus]);
 
@@ -52,13 +56,8 @@ export const SignupForm = ({ setRedirect, loadingStatus }: Props) => {
     }
     setFieldValue = options.setFieldValue;
     try {
-      setSending(true);
-      setLoader(true);
       dispatch(fetchSignup(values));
-      setRedirect(true);
-    } catch (error) {
-      setLoader(false);
-    }
+    } catch (error) {}
   }
 
   return (
