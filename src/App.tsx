@@ -11,6 +11,12 @@ import { Goals } from './pages/Goals/containers/Goals';
 import { Home } from './pages/Home/containers/Home';
 import { Profile } from './pages/Profile/containers/Profile';
 import { Questionnaire } from './pages/Questionnaire/containers/Questionnaire';
+import { Edit } from './pages/Profile/pages/Edit/container/Edit';
+import { Tariffs } from './pages/Tariffs/containers/Tariffs';
+import { Services } from './pages/Services/containers/Services';
+import { RestoreForm } from './pages/Auth/components/RestoreForm/RestoreForm';
+import { ForgotForm } from './pages/Auth/components/ForgotForm/ForgotForm';
+
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectIsAuth,
@@ -23,17 +29,13 @@ import {
   setUserLoadingStatus,
   setUserResponse,
 } from './store/ducks/user/actionCreators';
-import { RestoreForm } from './pages/Auth/components/RestoreForm/RestoreForm';
-import { ForgotForm } from './pages/Auth/components/ForgotForm/ForgotForm';
-import { Loader } from './shared/Global/Loader/Loader';
 import { LoadingStatus } from './store/types';
-import { Sidebar } from './shared/Global/Sidebar/Sidebar';
-import { Tariffs } from './pages/Tariffs/containers/Tariffs';
-import { Services } from './pages/Services/containers/Services';
+
+import { Loader } from './shared/Global/Loader/Loader';
 import { Header } from './shared/Global/Header/Header';
+import { Sidebar } from './shared/Global/Sidebar/Sidebar';
 
 import './styles/global.scss';
-import { Edit } from './pages/Profile/pages/Edit/container/Edit';
 
 function App() {
   const isAuth = useSelector(selectIsAuth);
