@@ -30,7 +30,7 @@ $api.interceptors.response.use(
 
       return $api.request(originalRequest);
     }
-    return error.response;
+    return error?.response;
   }
 );
 
