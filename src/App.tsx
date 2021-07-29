@@ -33,6 +33,7 @@ import { Services } from './pages/Services/containers/Services';
 import { Header } from './shared/Global/Header/Header';
 
 import './styles/global.scss';
+import { Edit } from './pages/Profile/pages/Edit/container/Edit';
 
 function App() {
   const isAuth = useSelector(selectIsAuth);
@@ -117,11 +118,17 @@ function App() {
 
           <Route exact path="/profile" component={Profile} />
 
+          <Route exact path="/profile/edit" component={Edit} />
+
           <Route path="/goals" component={Goals} />
 
           <Route path="/tariffs" component={Tariffs} />
 
           <Route path="/services" component={Services} />
+
+          <Route exact path="/forgot-password">
+            <ForgotForm loadingStatus={loadingStatus} />
+          </Route>
 
           <Route component={ErrorPage} />
         </Switch>

@@ -1,3 +1,4 @@
+import { ISelect } from '../../../../pages/Profile/pages/Edit/components/EditProfileData/EditProfileData';
 import { LoadingStatus } from '../../../types';
 
 export interface User {
@@ -8,7 +9,7 @@ export interface User {
   name: string;
   lastname: string;
   patronymic: string;
-  dob: string;
+  dob?: string;
   phone: string;
   gender: string;
   before_photos: JSON;
@@ -41,15 +42,27 @@ export interface SigninData {
   password: string;
 }
 
-export interface ErrorsData {
-  message: string;
-  statusCode: string;
+export interface UpdateUserData {
+  id?: number;
+  email?: string;
+  password?: string;
+  profile_photo?: string;
+  name?: string;
+  lastname?: string;
+  patronymic?: string;
+  dob?: Date | null;
+  phone?: string;
+  gender?: ISelect[];
+  before_photos?: JSON;
+  after_photos?: JSON;
+  paid?: boolean;
 }
 
 export interface ForgotPasswordData {
   email: string;
 }
 export interface ChangePasswordData {
+  current_password: string;
   password: string;
   verification_password: string;
 }

@@ -13,6 +13,7 @@ import {
   FetchRestorePasswordActionInterface,
   FetchSigninActionInterface,
   FetchSignupActionInterface,
+  FetchUpdateUserActionInterface,
   FetchUserDataActionInterface,
   UserActionsType,
 } from './contracts/actionTypes';
@@ -106,6 +107,23 @@ export function* fetchUserDataRequest({}: FetchUserDataActionInterface): any {
   }
 }
 
+export function* fetchUpdateUserRequest({
+  payload,
+}: FetchUpdateUserActionInterface): any {
+  yield put(setUserLoadingStatus(LoadingStatus.LOADING));
+  const { data, status } = yield call(UserService.update, payload);
+  if (status === 200) {
+    yield put(setUserData(data));
+    yield put(
+      setUserResponse({ statusCode: status, message: 'Данные обновлены' })
+    );
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
+  } else {
+    yield put(setUserResponse(data));
+    yield put(setUserLoadingStatus(LoadingStatus.ERROR));
+  }
+}
+
 export function* userSaga(): any {
   yield takeLatest(UserActionsType.FETCH_SIGN_IN, fetchSigninRequest);
   yield takeLatest(UserActionsType.FETCH_SIGN_UP, fetchSignupRequest);
@@ -123,4 +141,5 @@ export function* userSaga(): any {
     UserActionsType.FETCH_RESTORE_PASSWORD,
     fetchRestorePasswordRequest
   );
+  yield takeLatest(UserActionsType.FETCH_UPDATE_USER, fetchUpdateUserRequest);
 }

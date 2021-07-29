@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -22,21 +22,20 @@ interface Props {
   setRedirect: Dispatch<SetStateAction<boolean>>;
 }
 
-let setFieldValue: any = null;
-
 export const SigninForm = ({ setRedirect }: Props) => {
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectUserLoadingStatus);
   const response = useSelector(selectUserResponse);
 
   const [loader, setLoader] = useState<boolean>(false);
+  const refSetFieldValue = useRef<any>(null);
 
   useEffect(() => {
     if (loadingStatus === LoadingStatus.LOADING) {
       setLoader(true);
     }
-    if (loadingStatus === LoadingStatus.ERROR && setFieldValue) {
-      setFieldValue('password', '');
+    if (loadingStatus === LoadingStatus.ERROR && refSetFieldValue.current) {
+      refSetFieldValue.current('password', '');
     }
     if (
       loadingStatus === LoadingStatus.SUCCESS ||
@@ -51,10 +50,14 @@ export const SigninForm = ({ setRedirect }: Props) => {
   }, [loadingStatus]);
 
   async function onSubmit(values: SigninData, options: any) {
-    setFieldValue = options.setFieldValue;
+    refSetFieldValue.current = options.setFieldValue;
     try {
       dispatch(fetchSignin(values));
     } catch (error) {}
+  }
+
+  function isDisabled(isValid: boolean, dirty: boolean) {
+    return (!isValid && !dirty) || loader;
   }
 
   return (
@@ -119,6 +122,7 @@ export const SigninForm = ({ setRedirect }: Props) => {
               <input
                 className={classNames({
                   [s.input]: true,
+                  [s.input__current_password]: true,
                   [s.success__input]: touched.password && !errors.password,
                   [s.error__input]: touched.password && errors.password,
                 })}
@@ -135,12 +139,12 @@ export const SigninForm = ({ setRedirect }: Props) => {
             </div>
 
             <button
-              disabled={(!isValid && !dirty) || loader}
+              disabled={isDisabled(isValid, dirty)}
               type="submit"
               onClick={() => handleSubmit()}
               className={classNames({
                 [s.btn]: true,
-                [s.disabled]: (!isValid && !dirty) || loader,
+                [s.disabled]: isDisabled(isValid, dirty),
               })}
             >
               {loader ? <Loader /> : 'Войти'}

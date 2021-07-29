@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchSignup } from '../../../../store/ducks/user/actionCreators';
@@ -22,8 +22,6 @@ interface Props {
   loadingStatus: string;
 }
 
-let setFieldValue: any = null;
-
 export const SignupForm = ({ setRedirect, loadingStatus }: Props) => {
   const dispatch = useDispatch();
   const [errorValue, errorText] =
@@ -31,6 +29,7 @@ export const SignupForm = ({ setRedirect, loadingStatus }: Props) => {
 
   const [loader, setLoader] = useState<boolean>(false);
   const [checked, setChecked] = useState<boolean>(false);
+  const refSetFieldValue = useRef<any>(null);
 
   useEffect(() => {
     if (loadingStatus === LoadingStatus.LOADING) {
@@ -42,8 +41,8 @@ export const SignupForm = ({ setRedirect, loadingStatus }: Props) => {
     ) {
       setLoader(false);
     }
-    if (loadingStatus === LoadingStatus.ERROR && setFieldValue) {
-      errorValue && setFieldValue(errorValue, '');
+    if (loadingStatus === LoadingStatus.ERROR && refSetFieldValue.current) {
+      errorValue && refSetFieldValue.current(errorValue, '');
     }
     if (loadingStatus === LoadingStatus.SUCCESS) {
       setRedirect(true);
@@ -54,10 +53,14 @@ export const SignupForm = ({ setRedirect, loadingStatus }: Props) => {
     if (!checked) {
       return;
     }
-    setFieldValue = options.setFieldValue;
+    refSetFieldValue.current = options.setFieldValue;
     try {
       dispatch(fetchSignup(values));
     } catch (error) {}
+  }
+
+  function isDisabled(isValid: boolean, dirty: boolean) {
+    return (!isValid && !dirty) || !checked || loader;
   }
 
   return (
@@ -228,12 +231,12 @@ export const SignupForm = ({ setRedirect, loadingStatus }: Props) => {
             </div>
 
             <button
-              disabled={(!isValid && !dirty) || !checked || loader}
+              disabled={isDisabled(isValid, dirty)}
               type="submit"
               onClick={() => handleSubmit()}
               className={classNames({
                 [s.btn]: true,
-                [s.disabled]: (!isValid && !dirty) || !checked || loader,
+                [s.disabled]: isDisabled(isValid, dirty),
               })}
             >
               {loader ? <Loader /> : 'Зарегистрироваться'}

@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import $api from '../http';
-import { User } from '../store/ducks/user/contracts/state';
+import { UpdateUserData, User } from '../store/ducks/user/contracts/state';
 
 interface Response {
   status: string;
@@ -12,5 +12,13 @@ export default class UserService {
 
   static async getMe(): Promise<AxiosResponse<Response>> {
     return await $api.get<Response>(`/${UserService.route}/me`);
+  }
+
+  static async update(payload: FormData): Promise<AxiosResponse<Response>> {
+    return await $api.patch<Response>(`/${UserService.route}/update`, payload, {
+      headers: {
+        'Content-Type': 'multipart/form-data; boundary',
+      },
+    });
   }
 }

@@ -5,11 +5,14 @@ import React, {
   SetStateAction,
   useEffect,
 } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { fetchSignout } from '../../../store/ducks/user/actionCreators';
+import { selectUserData } from '../../../store/ducks/user/selectors';
 
 import s from './Sidebar.module.scss';
+
+import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 
 interface Props {
   setPage: Dispatch<SetStateAction<string>>;
@@ -181,9 +184,12 @@ export const Sidebar = ({ setPage }: Props) => {
   const dispatch = useDispatch();
   const location = useLocation();
 
+  const user = useSelector(selectUserData);
+
   useEffect(() => {
     pages.forEach(value => {
-      if (location.pathname === value.link) {
+      const currentPath = location.pathname.split('/');
+      if ('/' + currentPath[1] === value.link) {
         setPage(value.page);
       }
     });
@@ -200,16 +206,23 @@ export const Sidebar = ({ setPage }: Props) => {
           to="/profile"
           className={classNames({
             [s.sidebar__avatar]: true,
-            [s.active__profile]: pages[0].link === location.pathname,
+            [s.active__profile]:
+              pages[0].link === '/' + location.pathname.split('/')[1],
           })}
           onClick={() => setPage('Профиль')}
         >
-          <div className={s.img}>
-            <img
-              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
-              alt=""
-            />
-          </div>
+          <div
+            className={s.img}
+            style={{
+              backgroundImage: `url(${
+                (user?.profile_photo &&
+                  process.env.REACT_APP_BACKEND_URL +
+                    '/' +
+                    user?.profile_photo) ||
+                defaultAvatar
+              })`,
+            }}
+          ></div>
         </Link>
         <div className={s.sidebar__divider}></div>
         <nav className={s.sidebar__nav}>

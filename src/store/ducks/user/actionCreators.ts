@@ -5,6 +5,7 @@ import {
   FetchSigninActionInterface,
   FetchSignoutActionInterface,
   FetchSignupActionInterface,
+  FetchUpdateUserActionInterface,
   FetchUserDataActionInterface,
   SetUserDataActionInterface,
   SetUserLoadingStatusActionInterface,
@@ -17,7 +18,6 @@ import {
   RestorePasswordData,
   SigninData,
   SignupData,
-  User,
   UserState,
 } from './contracts/state';
 
@@ -40,6 +40,13 @@ export const fetchSignup = (
   payload: SignupData
 ): FetchSignupActionInterface => ({
   type: UserActionsType.FETCH_SIGN_UP,
+  payload,
+});
+
+export const fetchUpdateUser = (
+  payload: FormData
+): FetchUpdateUserActionInterface => ({
+  type: UserActionsType.FETCH_UPDATE_USER,
   payload,
 });
 

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { fetchRestorePassword } from '../../../../store/ducks/user/actionCreators';
@@ -11,12 +11,11 @@ import s from './RestoreForm.module.scss';
 import { validationSchema } from './validationSchema';
 import { selectUserResponse } from '../../../../store/ducks/user/selectors';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
+import { ERROR_SERVER_CODES } from '../../../../constants/errors-server-list';
 
 interface Props {
   loadingStatus: string;
 }
-
-let setFieldValue: any = null;
 
 export const RestoreForm = ({ loadingStatus }: Props) => {
   const dispatch = useDispatch();
@@ -26,15 +25,16 @@ export const RestoreForm = ({ loadingStatus }: Props) => {
   const token = location.search?.split('=')[1];
 
   const [loader, setLoader] = useState<boolean>(false);
+  const refSetFieldValue = useRef<any>(null);
 
   useEffect(() => {
     if (loadingStatus === LoadingStatus.LOADING) {
       setLoader(true);
     }
-    if (loadingStatus === LoadingStatus.ERROR && setFieldValue) {
+    if (loadingStatus === LoadingStatus.ERROR && refSetFieldValue.current) {
       setLoader(false);
-      setFieldValue('password', '');
-      setFieldValue('verification_password', '');
+      refSetFieldValue.current('password', '');
+      refSetFieldValue.current('verification_password', '');
     }
     if (loadingStatus === LoadingStatus.SUCCESS) {
       setLoader(false);
@@ -45,10 +45,14 @@ export const RestoreForm = ({ loadingStatus }: Props) => {
   }, [loadingStatus]);
 
   async function onSubmit(values: RestorePasswordData, options: any) {
-    setFieldValue = options.setFieldValue;
+    refSetFieldValue.current = options.setFieldValue;
     try {
       dispatch(fetchRestorePassword(values));
     } catch (error) {}
+  }
+
+  function isDisabled(isValid: boolean, dirty: boolean) {
+    return (!isValid && !dirty) || loader;
   }
 
   return (
@@ -82,7 +86,9 @@ export const RestoreForm = ({ loadingStatus }: Props) => {
               <div
                 style={response?.message ? { display: 'flex' } : {}}
                 className={classNames({
-                  [s.error__server]: response?.statusCode === 401,
+                  [s.error__server]: ERROR_SERVER_CODES.includes(
+                    response?.statusCode
+                  ),
                   [s.success__server]: response?.statusCode === 200,
                 })}
               >
@@ -136,12 +142,12 @@ export const RestoreForm = ({ loadingStatus }: Props) => {
               </div>
 
               <button
-                disabled={(!isValid && !dirty) || loader}
+                disabled={isDisabled(isValid, dirty)}
                 type="submit"
                 onClick={() => handleSubmit()}
                 className={classNames({
                   [s.btn]: true,
-                  [s.disabled]: (!isValid && !dirty) || loader,
+                  [s.disabled]: isDisabled(isValid, dirty),
                 })}
               >
                 {loader ? <Loader /> : 'Сменить пароль'}
