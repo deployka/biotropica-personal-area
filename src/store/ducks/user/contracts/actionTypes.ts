@@ -2,11 +2,11 @@ import { Action } from 'redux';
 import { LoadingStatus } from '../../../types';
 import {
   ChangePasswordData,
-  ErrorsData,
   ForgotPasswordData,
   RestorePasswordData,
   SigninData,
   SignupData,
+  UpdateUserData,
   User,
   UserState,
 } from './state';
@@ -14,7 +14,6 @@ import {
 export enum UserActionsType {
   SET_USER_DATA = 'user/SET_USER_DATA',
   SET_LOADING_STATE = 'user/SET_LOADING_STATE',
-  SET_USER_ERRORS = 'user/SET_USER_ERRORS',
   SET_USER_RESPONSE = 'user/SET_USER_RESPONSE',
   FETCH_USER_DATA = 'user/FETCH_USER_DATA',
   FETCH_SIGN_IN = 'user/FETCH_SIGN_IN',
@@ -24,6 +23,7 @@ export enum UserActionsType {
   FETCH_CHANGE_PASSWORD = 'user/FETCH_CHANGE_PASSWORD',
   FETCH_FORGOT_PASSWORD = 'user/FETCH_FORGOT_PASSWORD',
   FETCH_RESTORE_PASSWORD = 'user/FETCH_RESTORE_PASSWORD',
+  FETCH_UPDATE_USER = 'user/FETCH_UPDATE_USER',
 }
 
 export interface FetchSigninActionInterface extends Action<UserActionsType> {
@@ -56,6 +56,11 @@ export interface FetchRestorePasswordActionInterface
   extends Action<UserActionsType> {
   type: UserActionsType.FETCH_RESTORE_PASSWORD;
   payload: RestorePasswordData;
+}
+export interface FetchUpdateUserActionInterface
+  extends Action<UserActionsType> {
+  type: UserActionsType.FETCH_UPDATE_USER;
+  payload: FormData;
 }
 
 export interface FetchUserDataActionInterface extends Action<UserActionsType> {

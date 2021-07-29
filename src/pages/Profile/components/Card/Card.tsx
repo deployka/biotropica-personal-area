@@ -1,8 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { User } from '../../../../store/ducks/user/contracts/state';
 
 import s from './Card.module.scss';
 
+import defaultAvatar from '../../../../assets/images/profile/default_avatar.png';
+import edit from '../../../../assets/images/profile/edit.svg';
+import { formatDate } from '../../../../utils/formatDate';
+import moment from 'moment';
+import 'moment/locale/ru';
+moment.locale('ru');
 interface Props {
   user: User;
 }
@@ -12,12 +19,18 @@ export const Card = ({ user }: Props) => {
     <div className={s.profile__card}>
       <div className={s.profile__avatar}>
         <img
-          src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
+          src={
+            (user?.profile_photo &&
+              process.env.REACT_APP_BACKEND_URL + '/' + user?.profile_photo) ||
+            defaultAvatar
+          }
           alt=""
         />
       </div>
       <div className={s.profile__name}>
-        <p>{user.name}</p>
+        <p>
+          {user.lastname} {user.name}
+        </p>
       </div>
       <div className={s.profile__mail}>
         <p>{user.email}</p>
@@ -26,14 +39,14 @@ export const Card = ({ user }: Props) => {
         <p>{user.phone}</p>
       </div>
       <div className={s.profile__birth}>
-        <p>{user.dob}</p>
+        <p>{user?.dob && moment(new Date(user?.dob || '')).format('LL')}</p>
       </div>
-      <div className={s.profile__edit}>
+      <Link to="/profile/edit" className={s.profile__edit}>
         <div className={s.profile__editIcon}>
-          <img src="./images/icons/Edit.svg" alt="" />
+          <img src={edit} alt="редактировать" />
         </div>
-        <a href="#">редактировать</a>
-      </div>
+        <span>редактировать</span>
+      </Link>
     </div>
   );
 };

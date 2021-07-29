@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { fetchForgotPassword } from '../../../../store/ducks/user/actionCreators';
@@ -11,12 +11,11 @@ import s from './ForgotForm.module.scss';
 import { validationSchema } from './validationSchema';
 import { selectUserResponse } from '../../../../store/ducks/user/selectors';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
+import { ERROR_SERVER_CODES } from '../../../../constants/errors-server-list';
 
 interface Props {
   loadingStatus: string;
 }
-
-let setFieldValue: any = null;
 
 export const ForgotForm = ({ loadingStatus }: Props) => {
   const dispatch = useDispatch();
@@ -26,6 +25,7 @@ export const ForgotForm = ({ loadingStatus }: Props) => {
   const email = location.search.split('=')[1];
 
   const [loader, setLoader] = useState<boolean>(false);
+  const refSetFieldValue = useRef<any>(null);
 
   useEffect(() => {
     if (loadingStatus === LoadingStatus.LOADING) {
@@ -38,12 +38,12 @@ export const ForgotForm = ({ loadingStatus }: Props) => {
       setLoader(false);
     }
 
-    if (loadingStatus === LoadingStatus.ERROR && setFieldValue) {
-      setFieldValue?.('email', '');
+    if (loadingStatus === LoadingStatus.ERROR && refSetFieldValue.current) {
+      refSetFieldValue.current?.('email', '');
     }
 
-    if (loadingStatus === LoadingStatus.SUCCESS && setFieldValue) {
-      setFieldValue?.('email', '');
+    if (loadingStatus === LoadingStatus.SUCCESS && refSetFieldValue.current) {
+      refSetFieldValue.current?.('email', '');
       setTimeout(() => {
         history.push('/signin');
       }, 2000);
@@ -51,10 +51,14 @@ export const ForgotForm = ({ loadingStatus }: Props) => {
   }, [loadingStatus]);
 
   async function onSubmit(values: ForgotPasswordData, options: any) {
-    setFieldValue = options.setFieldValue;
+    refSetFieldValue.current = options.setFieldValue;
     try {
       dispatch(fetchForgotPassword(values));
     } catch (error) {}
+  }
+
+  function isDisabled(isValid: boolean, dirty: boolean) {
+    return (!isValid && !dirty) || loader;
   }
 
   return (
@@ -88,7 +92,9 @@ export const ForgotForm = ({ loadingStatus }: Props) => {
               <div
                 style={response?.message ? { display: 'flex' } : {}}
                 className={classNames({
-                  [s.error__server]: response?.statusCode === 404,
+                  [s.error__server]: ERROR_SERVER_CODES.includes(
+                    response?.statusCode
+                  ),
                   [s.success__server]: response?.statusCode === 200,
                 })}
               >
@@ -115,12 +121,12 @@ export const ForgotForm = ({ loadingStatus }: Props) => {
               </div>
 
               <button
-                disabled={(!isValid && !dirty) || loader}
+                disabled={isDisabled(isValid, dirty)}
                 type="submit"
                 onClick={() => handleSubmit()}
                 className={classNames({
                   [s.btn]: true,
-                  [s.disabled]: (!isValid && !dirty) || loader,
+                  [s.disabled]: isDisabled(isValid, dirty),
                 })}
               >
                 {loader ? <Loader /> : 'Продолжить'}

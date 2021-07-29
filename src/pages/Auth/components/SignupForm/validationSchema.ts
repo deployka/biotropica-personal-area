@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 const phoneRegExp =
-  /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+  /^(\+7)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
 
 export const validationSchema = yup.object().shape({
   name: yup.string().typeError('Должно быть строкой').required('Введите имя'),

@@ -1,8 +1,6 @@
 .profile {
   &__card {
-    padding: 30px 0;
-
-    width: 260px;
+    padding: 30px 50px;
 
     display: flex;
     flex-direction: column;
@@ -16,8 +14,8 @@
   // .profile__avatar
 
   &__avatar {
-    width: 112px;
-    height: 112px;
+    width: 117px;
+    height: 117px;
 
     border: 3px solid #f2f2f7;
     box-sizing: border-box;
@@ -28,7 +26,7 @@
     justify-content: center;
 
     overflow: hidden;
-
+    margin-bottom: 20px;
     img {
       height: 100%;
     }
@@ -37,40 +35,40 @@
   // .profile__name
 
   &__name {
-    margin: 20px 0 0 0;
-
     p {
-      color: #04030a;
-      font-weight: 500;
+      margin: 0;
+      font-weight: 600;
       font-size: 18px;
+      line-height: 22px;
+      color: #04030a;
     }
   }
 
   &__mail,
   &__phone,
   &__birth {
-    margin: 5px 0 0 0;
+    margin: 7px 0 0 0;
 
     p {
-      font-weight: 400;
+      margin: 0;
       font-size: 16px;
+      font-weight: 500;
       line-height: 20px;
-
       color: #736f8b;
     }
   }
 
   &__edit {
     display: flex;
-
+    text-decoration: none;
     cursor: pointer;
+    margin-top: 7px;
 
     &Icon {
-      margin: 0 10px 0 0;
+      margin: -2px 10px 0 0;
     }
 
-    a {
-      text-decoration: none;
+    span {
       font-size: 14px;
       color: #6f61d0;
 
