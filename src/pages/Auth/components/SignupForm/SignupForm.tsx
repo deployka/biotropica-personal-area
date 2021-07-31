@@ -16,6 +16,8 @@ import {
 import { validationSchema } from './validationSchema';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
 import { selectUserResponse } from '../../../../store/ducks/user/selectors';
+import { Input } from '../../../../shared/Form/Input/Input';
+import { Button } from '../../../../shared/Form/Button/Button';
 
 interface Props {
   setRedirect: Dispatch<SetStateAction<boolean>>;
@@ -105,70 +107,43 @@ export const SignupForm = ({ setRedirect, loadingStatus }: Props) => {
             </div>
 
             <div className={s.input__wrapper_name}>
-              <input
-                className={classNames({
-                  [s.input]: true,
-                  [s.success__input]: touched.name && !errors.name,
-                  [s.error__input]: touched.name && errors.name,
-                })}
+              <Input
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Имя"
                 name="name"
                 value={values.name}
-                type="text"
+                type="name"
+                options={{ touched, errors }}
               />
-
-              {touched.name && errors.name && (
-                <span className={s.error}>{errors.name}</span>
-              )}
             </div>
 
             <div className={s.input__wrapper_lastname}>
-              <input
-                className={classNames({
-                  [s.input]: true,
-                  [s.success__input]: touched.lastname && !errors.lastname,
-                  [s.error__input]: touched.lastname && errors.lastname,
-                })}
+              <Input
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Фамилия"
                 name="lastname"
                 value={values.lastname}
                 type="text"
+                options={{ touched, errors }}
               />
-              {touched.lastname && errors.lastname && (
-                <span className={s.error}>{errors.lastname}</span>
-              )}
             </div>
 
             <div className={s.input__wrapper}>
-              <input
-                className={classNames({
-                  [s.input]: true,
-                  [s.success__input]: touched.email && !errors.email,
-                  [s.error__input]: touched.email && errors.email,
-                })}
+              <Input
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Email"
                 name="email"
                 value={values.email}
                 type="email"
+                options={{ touched, errors }}
               />
-              {touched.email && errors.email && (
-                <span className={s.error}>{errors.email}</span>
-              )}
             </div>
 
             <div className={s.input__wrapper}>
-              <input
-                className={classNames({
-                  [s.input]: true,
-                  [s.success__input]: touched.phone && !errors.phone,
-                  [s.error__input]: touched.phone && errors.phone,
-                })}
+              <Input
                 onChange={handleChange}
                 onKeyDown={onPhoneKeyDown}
                 onInput={onPhoneInput}
@@ -178,19 +153,12 @@ export const SignupForm = ({ setRedirect, loadingStatus }: Props) => {
                 name="phone"
                 value={values.phone}
                 type="phone"
+                options={{ touched, errors }}
               />
-              {touched.phone && errors.phone && (
-                <span className={s.error}>{errors.phone}</span>
-              )}
             </div>
 
             <div className={s.input__wrapper}>
-              <input
-                className={classNames({
-                  [s.input]: true,
-                  [s.success__input]: touched.password && !errors.password,
-                  [s.error__input]: touched.password && errors.password,
-                })}
+              <Input
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Пароль"
@@ -198,49 +166,33 @@ export const SignupForm = ({ setRedirect, loadingStatus }: Props) => {
                 autoComplete="new-password"
                 value={values.password}
                 type="password"
+                options={{ touched, errors }}
               />
-              {touched.password && errors.password && (
-                <span className={s.error}>{errors.password}</span>
-              )}
             </div>
 
             <div className={s.input__wrapper}>
-              <input
-                className={classNames({
-                  [s.input]: true,
-                  [s.success__input]:
-                    touched.verification_password &&
-                    !errors.verification_password,
-                  [s.error__input]:
-                    touched.verification_password &&
-                    errors.verification_password,
-                })}
+              <Input
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Повторите пароль"
                 name="verification_password"
                 value={values.verification_password}
                 type="password"
+                options={{ touched, errors }}
               />
-              {touched.verification_password &&
-                errors.verification_password && (
-                  <span className={s.error}>
-                    {errors.verification_password}
-                  </span>
-                )}
             </div>
 
-            <button
+            <Button
               disabled={isDisabled(isValid, dirty)}
               type="submit"
               onClick={() => handleSubmit()}
-              className={classNames({
-                [s.btn]: true,
-                [s.disabled]: isDisabled(isValid, dirty),
-              })}
-            >
-              {loader ? <Loader /> : 'Зарегистрироваться'}
-            </button>
+              options={{
+                content: loader ? <Loader /> : 'Зарегистрироваться',
+                setDisabledStyle: isDisabled(isValid, dirty),
+                width: '100%',
+                height: '50px',
+              }}
+            />
 
             <div className={s.checkbox__wrapper}>
               <input

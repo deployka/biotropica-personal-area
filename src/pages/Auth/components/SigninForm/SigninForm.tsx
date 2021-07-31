@@ -17,6 +17,8 @@ import {
   selectUserResponse,
 } from '../../../../store/ducks/user/selectors';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
+import { Input } from '../../../../shared/Form/Input/Input';
+import { Button } from '../../../../shared/Form/Button/Button';
 
 interface Props {
   setRedirect: Dispatch<SetStateAction<boolean>>;
@@ -94,22 +96,15 @@ export const SigninForm = ({ setRedirect }: Props) => {
             </div>
 
             <div className={s.input__wrapper}>
-              <input
-                className={classNames({
-                  [s.input]: true,
-                  [s.success__input]: touched.email && !errors.email,
-                  [s.error__input]: touched.email && errors.email,
-                })}
+              <Input
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Email"
                 name="email"
                 value={values.email}
                 type="email"
+                options={{ touched, errors }}
               />
-              {touched.email && errors.email && (
-                <span className={s.error}>{errors.email}</span>
-              )}
             </div>
 
             <div className={s.input__wrapper}>
@@ -119,36 +114,28 @@ export const SigninForm = ({ setRedirect }: Props) => {
               >
                 Восстановить
               </Link>
-              <input
-                className={classNames({
-                  [s.input]: true,
-                  [s.input__current_password]: true,
-                  [s.success__input]: touched.password && !errors.password,
-                  [s.error__input]: touched.password && errors.password,
-                })}
+              <Input
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Пароль"
                 name="password"
                 value={values.password}
                 type="password"
+                options={{ touched, errors }}
               />
-              {touched.password && errors.password && (
-                <span className={s.error}>{errors.password}</span>
-              )}
             </div>
 
-            <button
+            <Button
               disabled={isDisabled(isValid, dirty)}
               type="submit"
               onClick={() => handleSubmit()}
-              className={classNames({
-                [s.btn]: true,
-                [s.disabled]: isDisabled(isValid, dirty),
-              })}
-            >
-              {loader ? <Loader /> : 'Войти'}
-            </button>
+              options={{
+                content: loader ? <Loader /> : 'Войти',
+                setDisabledStyle: isDisabled(isValid, dirty),
+                width: '100%',
+                height: '50px',
+              }}
+            />
 
             <Link className={s.signin} to="/signup">
               Нет учетной записи? Создайте сейчас
