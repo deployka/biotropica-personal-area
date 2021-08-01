@@ -3,12 +3,14 @@ import { Formik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { notification } from '../../../../../../config/notification/notificationForm';
 import { Button } from '../../../../../../shared/Form/Button/Button';
 import { Input } from '../../../../../../shared/Form/Input/Input';
 import { Loader } from '../../../../../../shared/Form/Loader/Loader';
 import {
   fetchChangePassword,
   fetchSignout,
+  setUserResponse,
 } from '../../../../../../store/ducks/user/actionCreators';
 import { ChangePasswordData } from '../../../../../../store/ducks/user/contracts/state';
 import {
@@ -21,6 +23,8 @@ import { LoadingStatus } from '../../../../../../store/types';
 import s from './EditPassword.module.scss';
 import { validationSchema } from './validationSchema';
 
+import { store } from 'react-notifications-component';
+
 interface Props {}
 
 export const EditPassword = ({}: Props) => {
@@ -32,12 +36,17 @@ export const EditPassword = ({}: Props) => {
   const refResetForm = useRef<any>(null);
 
   const [loader, setLoader] = useState<boolean>(false);
-
   useEffect(() => {
     if (loadingStatus === LoadingStatus.LOADING) {
       setLoader(true);
     }
     if (loadingStatus === LoadingStatus.ERROR && refSetFieldValue.current) {
+      store.addNotification({
+        ...notification,
+        title: 'Произошла ошибка!',
+        message: response?.message,
+        type: 'danger',
+      });
       refSetFieldValue.current('current_password', '');
     }
     if (
@@ -47,8 +56,15 @@ export const EditPassword = ({}: Props) => {
       setLoader(false);
     }
     if (loadingStatus === LoadingStatus.SUCCESS && refResetForm.current) {
+      store.addNotification({
+        ...notification,
+        title: 'Успешно!',
+        message: response?.message,
+        type: 'success',
+      });
       refResetForm.current();
     }
+    dispatch(setUserResponse(undefined));
   }, [loadingStatus]);
 
   async function onSubmit(values: ChangePasswordData, options: any) {
@@ -92,17 +108,6 @@ export const EditPassword = ({}: Props) => {
           dirty,
         }) => (
           <div className={s.form}>
-            <div
-              style={response?.message ? { display: 'flex' } : {}}
-              className={classNames({
-                [s.error__server]:
-                  response?.statusCode === 401 || response?.statusCode === 400,
-                [s.success__server]: response?.statusCode === 200,
-              })}
-            >
-              {response?.message}
-            </div>
-
             <div className={s.input__wrapper}>
               <Link
                 to={`/forgot-password?email=${user?.email || ''}`}

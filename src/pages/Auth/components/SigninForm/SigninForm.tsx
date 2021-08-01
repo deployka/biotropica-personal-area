@@ -20,6 +20,8 @@ import { Loader } from '../../../../shared/Form/Loader/Loader';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
 
+import { store } from 'react-notifications-component';
+import { notification } from '../../../../config/notification/notificationForm';
 interface Props {
   setRedirect: Dispatch<SetStateAction<boolean>>;
 }
@@ -37,6 +39,12 @@ export const SigninForm = ({ setRedirect }: Props) => {
       setLoader(true);
     }
     if (loadingStatus === LoadingStatus.ERROR && refSetFieldValue.current) {
+      store.addNotification({
+        ...notification,
+        title: 'Произошла ошибка!',
+        message: response?.message,
+        type: 'danger',
+      });
       refSetFieldValue.current('password', '');
     }
     if (
@@ -88,12 +96,6 @@ export const SigninForm = ({ setRedirect }: Props) => {
             <h2 className={s.subtitle}>
               Пожалуйста, заполните информацию ниже:
             </h2>
-            <div
-              style={response?.message ? { display: 'flex' } : {}}
-              className={s.error__server}
-            >
-              {response?.message}
-            </div>
 
             <div className={s.input__wrapper}>
               <Input

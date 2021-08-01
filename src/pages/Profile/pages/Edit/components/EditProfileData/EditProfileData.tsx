@@ -27,7 +27,6 @@ import s from './EditProfileData.module.scss';
 import { validationSchema } from './validationSchema';
 
 import camera from '../../../../../../assets/icons/forms/camera.svg';
-import { ERROR_SERVER_CODES } from '../../../../../../constants/errors-server-list';
 
 import { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -39,6 +38,10 @@ import { Input } from '../../../../../../shared/Form/Input/Input';
 import { DatePickerCustom } from '../../../../../../shared/Form/DatePicker/DatePickerCustom';
 import { Button } from '../../../../../../shared/Form/Button/Button';
 import { SelectCustom } from '../../../../../../shared/Form/Select/SelectCustom';
+
+import { store } from 'react-notifications-component';
+import { notification } from '../../../../../../config/notification/notificationForm';
+
 registerLocale('ru', ru);
 
 interface Props {
@@ -66,7 +69,6 @@ export const EditProfileData = ({ user }: Props) => {
     user?.profile_photo &&
     process.env.REACT_APP_BACKEND_URL + '/' + user?.profile_photo;
 
-  const [disabled, setDisabled] = useState(false);
   const [loader, setLoader] = useState<boolean>(false);
   const [image, setImage] = useState<string | ArrayBuffer | null>(
     userImage || ''
@@ -75,34 +77,39 @@ export const EditProfileData = ({ user }: Props) => {
   useEffect(() => {
     if (loadingStatus === LoadingStatus.LOADING) {
       setLoader(true);
-      setDisabled(true);
     }
 
-    if (
-      (loadingStatus === LoadingStatus.SUCCESS ||
-        loadingStatus === LoadingStatus.ERROR) &&
-      response
-    ) {
+    if (loadingStatus === LoadingStatus.ERROR && response) {
+      store.addNotification({
+        ...notification,
+        title: 'Произошла ошибка!',
+        message: response?.message,
+        type: 'danger',
+      });
       setLoader(false);
-      setTimeout(() => {
-        dispatch(setUserResponse(undefined));
-        history.push('/profile');
-      }, 2500);
     }
-    if (loadingStatus === LoadingStatus.SUCCESS) {
+    if (loadingStatus === LoadingStatus.SUCCESS && response) {
+      store.addNotification({
+        ...notification,
+        title: 'Успешно!',
+        message: response?.message,
+        type: 'success',
+      });
+      setLoader(false);
+      dispatch(setUserResponse(undefined));
+      history.push('/profile');
     }
   }, [loadingStatus, response]);
 
   async function onSubmit(values: UpdateUserData, options: any) {
     try {
-      const data = {
+      const data: any = {
         ...values,
         gender: values?.gender?.[0].label,
         dob: values?.dob?.toString().split('+')[0]?.trim(),
       };
       const formData = new FormData();
       for (let value in data) {
-        //@ts-ignore
         formData.append(value, data[value]);
       }
       dispatch(fetchUpdateUser(formData));
@@ -112,19 +119,39 @@ export const EditProfileData = ({ user }: Props) => {
   function loadAvatar(e: React.ChangeEvent<HTMLInputElement>) {
     const tgt = e.target;
     const files = tgt.files;
+    const permittedPaths = ['image/png', 'image/jpeg', 'image/gif'];
 
-    if (FileReader && files && files.length) {
+    if (
+      FileReader &&
+      files &&
+      files.length &&
+      permittedPaths.includes(files?.[0]?.type)
+    ) {
+      store.removeNotification('avatar_type_error');
       const fr = new FileReader();
       fr.onload = function () {
         setImage(fr.result);
+
         refSetFieldValue.current('profile_photo', files[0]);
       };
       fr.readAsDataURL(files[0]);
+    } else {
+      store.addNotification({
+        ...notification,
+        title: 'Фото профиля не обновлено!',
+        message: 'Допустимые типы изображения: png, jpg, gif',
+        type: 'danger',
+        id: 'avatar_type_error',
+        dismiss: {
+          duration: 7000,
+          onScreen: true,
+        },
+      });
     }
   }
 
   function isDisabled(isValid: boolean, dirty: boolean) {
-    return disabled || (!isValid && !dirty) || loader;
+    return (!isValid && !dirty) || loader;
   }
 
   return (
@@ -164,18 +191,6 @@ export const EditProfileData = ({ user }: Props) => {
             className={s.form}
           >
             <div
-              className={classNames({
-                [s.message__server]: true,
-                [s.error__server]: ERROR_SERVER_CODES.includes(
-                  response?.statusCode
-                ),
-                [s.success__server]: response?.statusCode === 200,
-              })}
-            >
-              {response?.message}
-            </div>
-
-            <div
               style={{
                 backgroundImage: `url(${image})`,
               }}
@@ -188,7 +203,7 @@ export const EditProfileData = ({ user }: Props) => {
               <input
                 type="file"
                 name="profile_photo"
-                accept="image/*"
+                accept=".png, .jpg, .jpeg, .gif"
                 onChange={e => {
                   refSetFieldValue.current = setFieldValue;
                   loadAvatar(e);

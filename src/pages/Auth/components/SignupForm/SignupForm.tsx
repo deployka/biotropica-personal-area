@@ -18,7 +18,8 @@ import { Loader } from '../../../../shared/Form/Loader/Loader';
 import { selectUserResponse } from '../../../../store/ducks/user/selectors';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
-
+import { notification } from '../../../../config/notification/notificationForm';
+import { store } from 'react-notifications-component';
 interface Props {
   setRedirect: Dispatch<SetStateAction<boolean>>;
   loadingStatus: string;
@@ -44,6 +45,12 @@ export const SignupForm = ({ setRedirect, loadingStatus }: Props) => {
       setLoader(false);
     }
     if (loadingStatus === LoadingStatus.ERROR && refSetFieldValue.current) {
+      store.addNotification({
+        ...notification,
+        title: 'Произошла ошибка!',
+        message: errorText,
+        type: 'danger',
+      });
       errorValue && refSetFieldValue.current(errorValue, '');
     }
     if (loadingStatus === LoadingStatus.SUCCESS) {
@@ -95,16 +102,6 @@ export const SignupForm = ({ setRedirect, loadingStatus }: Props) => {
             <h2 className={s.subtitle}>
               Пожалуйста, заполните информацию ниже:
             </h2>
-            <div
-              style={
-                errorText && loadingStatus === LoadingStatus.ERROR
-                  ? { display: 'flex' }
-                  : {}
-              }
-              className={s.error__server}
-            >
-              {errorText}
-            </div>
 
             <div className={s.input__wrapper_name}>
               <Input

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { retry } from 'redux-saga/effects';
 import AuthService from '../services/AuthService';
 
 const $api = axios.create({
@@ -25,6 +26,7 @@ $api.interceptors.response.use(
         const { data, status } = await AuthService.refresh();
         if (status === 200) {
           window.localStorage.setItem('token', data.accessToken);
+          isRetry = false;
         }
       } catch (error) {}
 

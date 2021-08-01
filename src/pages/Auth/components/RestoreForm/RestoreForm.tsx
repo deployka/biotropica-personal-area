@@ -11,9 +11,10 @@ import s from './RestoreForm.module.scss';
 import { validationSchema } from './validationSchema';
 import { selectUserResponse } from '../../../../store/ducks/user/selectors';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
-import { ERROR_SERVER_CODES } from '../../../../constants/errors-server-list';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
+import { store } from 'react-notifications-component';
+import { notification } from '../../../../config/notification/notificationForm';
 
 interface Props {
   loadingStatus: string;
@@ -35,14 +36,24 @@ export const RestoreForm = ({ loadingStatus }: Props) => {
     }
     if (loadingStatus === LoadingStatus.ERROR && refSetFieldValue.current) {
       setLoader(false);
+      store.addNotification({
+        ...notification,
+        title: 'Произошла ошибка!',
+        message: response?.message,
+        type: 'danger',
+      });
       refSetFieldValue.current('password', '');
       refSetFieldValue.current('verification_password', '');
     }
     if (loadingStatus === LoadingStatus.SUCCESS) {
+      store.addNotification({
+        ...notification,
+        title: 'Успешно!',
+        message: response?.message,
+        type: 'success',
+      });
       setLoader(false);
-      setTimeout(() => {
-        history.push('/signin');
-      }, 2000);
+      history.push('/signin');
     }
   }, [loadingStatus]);
 
@@ -85,17 +96,6 @@ export const RestoreForm = ({ loadingStatus }: Props) => {
             <h1 className={s.title}>Смена пароля</h1>
             <div className={s.form}>
               <h2 className={s.subtitle}>Введите пароли</h2>
-              <div
-                style={response?.message ? { display: 'flex' } : {}}
-                className={classNames({
-                  [s.error__server]: ERROR_SERVER_CODES.includes(
-                    response?.statusCode
-                  ),
-                  [s.success__server]: response?.statusCode === 200,
-                })}
-              >
-                {response?.message}
-              </div>
 
               <div className={s.input__wrapper}>
                 <Input
