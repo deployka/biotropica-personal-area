@@ -1,0 +1,91 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+.sidebar {
+  &__chat__wrapper {
+    position: absolute;
+    right: -100vw;
+    top: 0;
+    transition: 0.2s;
+    background: rgba(0, 0, 0, 0.1);
+    height: 100vh;
+    width: 100vw;
+    z-index: 5;
+    display: flex;
+    justify-content: flex-end;
+  }
+  &__chat {
+    position: relative;
+    background: $color-white;
+    height: 100vh;
+    width: 431px;
+    z-index: 5;
+    padding: 0 30px;
+  }
+  &__header {
+    @include flex(row, space-between, center, nowrap);
+    border-bottom: 2px solid $color-divider;
+    padding: 30px 0;
+    &__title {
+      color: $color-black;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 120%;
+    }
+    &__close {
+      cursor: pointer;
+      @include wh(17px, 18px);
+    }
+  }
+}
+.sidebar__messages {
+  // overflow-y: scroll;
+  // height: 100%;
+
+  //CUSTOM SCROLLBAR
+  // &:-webkit-scrollbar {
+  //   /* 1 - скроллбар */
+  //   // width: 82px;
+  //   // height: 5px;
+  //   background: black;
+  //   // border-radius: 5px;
+  // }
+
+  // &:-webkit-scrollbar-button {
+  //   /* 2 - кнопка */
+  //   width: 15px;
+  //   height: 5px;
+  //   color: black;
+  //   background: black;
+  //   border-radius: 5px;
+  // }
+
+  // &:-webkit-scrollbar-track {
+  //   /* 3 - трек */
+  //   background: white;
+  // }
+
+  // &:-webkit-scrollbar-track-piece {
+  //   /* 4 - видимая часть трека */
+  //   background: red;
+  // }
+
+  // &:-webkit-scrollbar-thumb {
+  //   /* 5 - ползунок */
+  //   border-radius: 2px;
+  //   background-color: #d1d1d1;
+  // }
+
+  // &:-webkit-scrollbar-corner {
+  //   /* 6 - уголок */
+  // }
+
+  // &:-webkit-resizer {
+  //   /* 7 - изменение размеров */
+  // }
+}
+.open {
+  right: 0;
+}
+.messages {
+  @include flex(column, flex-start, flex-start, nowrap);
+}

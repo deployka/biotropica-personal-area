@@ -1,0 +1,9 @@
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
+.message {
+  &__image {
+    @include maxwh(201px, 129px);
+    border: 4px solid #f7f6fb;
+    border-radius: 15px 0px 15px 15px;
+  }
+}

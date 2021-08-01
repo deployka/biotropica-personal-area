@@ -1,0 +1,56 @@
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
+
+.notification {
+  @include flex(column, flex-start, flex-start);
+  padding: 10px 0;
+  width: 100%;
+  margin-bottom: 10px;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+  &__info {
+    @include flex(column, flex-start, flex-start);
+    margin-bottom: 10px;
+  }
+  &__text {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    margin-bottom: 5px;
+    color: $color-black;
+  }
+  &__actions {
+    @include flex(row, space-between, center, nowrap);
+    width: 100%;
+  }
+  &__link {
+    cursor: pointer;
+    display: block;
+    color: $color-primary;
+    text-decoration: none;
+    border-bottom: 1px solid $color-primary;
+    padding-bottom: 1px;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 120%;
+  }
+  &__delete {
+    cursor: pointer;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: $color-grey-3;
+  }
+}
+.date {
+  &__belate {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: $color-grey-3;
+  }
+}
+.new {
+  background: $color-green-2;
+}

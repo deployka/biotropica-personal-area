@@ -36,3 +36,30 @@
     border-color: $color-white;
   }
 }
+@mixin flex($direction: row, $justify: center, $align: center, $wrap: nowrap) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+  flex-direction: $direction;
+}
+@mixin wh($width: 100px, $height: 100px) {
+  width: $width;
+  height: $height;
+}
+@mixin minwh($width: 100px, $height: 100px) {
+  min-width: $width;
+  min-height: $height;
+}
+@mixin maxwh($width: 100px, $height: 100px) {
+  max-width: $width;
+  max-height: $height;
+}
+@mixin allwh($width: 100px, $height: 100px) {
+  width: $width;
+  height: $height;
+  min-width: $width;
+  min-height: $height;
+  max-width: $width;
+  max-height: $height;
+}

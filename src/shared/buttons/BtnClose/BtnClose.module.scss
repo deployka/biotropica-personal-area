@@ -1,0 +1,8 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+
+.btn__close {
+  @include flex();
+  @include wh(18px, 18px);
+  cursor: pointer;
+}
