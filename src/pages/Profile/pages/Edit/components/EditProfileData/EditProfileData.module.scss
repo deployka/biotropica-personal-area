@@ -4,10 +4,14 @@
   flex-direction: column;
   width: 780px;
 
+  button {
+    margin-right: 20px;
+  }
+
   .text__inputs__wrapper {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 23px;
+    margin-bottom: 5px;
     justify-content: space-between;
   }
 
@@ -18,7 +22,7 @@
     overflow: hidden;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
     display: flex;
     border-radius: 50%;
     cursor: pointer;
@@ -53,8 +57,8 @@
       margin-bottom: 6px;
     }
     span {
-      z-index: 999;
       font-size: 16px;
+      z-index: 999;
       color: #ffffff;
     }
   }
@@ -64,7 +68,7 @@
     display: flex;
     flex-direction: column;
     width: 47.4%;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     .forgot {
       position: absolute;
       top: 19px;
@@ -80,57 +84,9 @@
     }
   }
 
-  .input {
-    height: 50px;
-    margin-bottom: 5px;
-    padding: 15px 20px;
-    background: transparent;
-    border: 0;
-    font-size: 16px;
-    &:placeholder {
-      color: #9895a7;
-    }
-    border: 1px solid #9895a7;
-    border-radius: 15px;
-  }
-
   .button__wrapper {
     display: flex;
-    justify-content: space-between;
     width: 47.4%;
-  }
-  .btn {
-    background: #6f61d0;
-
-    border: none;
-    width: 175px;
-    height: 50px;
-    font-size: 16px;
-    color: #ffffff;
-    cursor: pointer;
-    border-radius: 50px;
-    margin-bottom: 19px;
-    margin-bottom: 20px;
-    transition: 0.3s;
-    &:hover {
-      background: #a59ce2;
-    }
-
-    &.disabled {
-      background: #bbbbbb;
-      cursor: default;
-      &:hover {
-        background: #bbbbbb;
-      }
-    }
-
-    &__discard {
-      background: #9e97be;
-      a {
-        text-decoration: none;
-        color: #fff;
-      }
-    }
   }
 
   .small__input__wrapper {
@@ -139,10 +95,6 @@
     justify-content: space-between;
   }
 
-  .error {
-    font-size: 12px;
-    color: #d06361;
-  }
   .error__server,
   .success__server,
   .message__server {
@@ -168,15 +120,5 @@
     background: #309a74;
     color: #fff;
     display: initial;
-  }
-
-  .error__input {
-    border: 1px solid #d06361;
-    color: #d06361;
-  }
-
-  .success__input {
-    border: 1px solid #309a74;
-    color: #309a74;
   }
 }

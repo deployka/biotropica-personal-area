@@ -27,6 +27,10 @@
 }
 
 .form {
+  button {
+    font-size: 16px;
+  }
+
   display: flex;
   text-align: center;
   flex-direction: column;
@@ -38,10 +42,10 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-bottom: 21px;
+    margin-bottom: 15px;
     .forgot {
       position: absolute;
-      top: 19px;
+      top: 18px;
       right: 20px;
       font-size: 12px;
       color: #6f61d0;
@@ -49,61 +53,6 @@
       z-index: 100;
       text-decoration: none;
     }
-  }
-
-  .input {
-    height: 50px;
-    padding: 15px 20px;
-    background: transparent;
-    border: 0;
-    font-size: 16px;
-    &:placeholder {
-      color: #9895a7;
-    }
-    border: 1px solid #9895a7;
-    border-radius: 15px;
-  }
-
-  .btn {
-    background: #6f61d0;
-    border: none;
-    width: 100%;
-    height: 50px;
-    font-size: 16px;
-    color: #ffffff;
-    cursor: pointer;
-    border-radius: 50px;
-    margin-bottom: 19px;
-    margin-bottom: 20px;
-    transition: 0.3s;
-    &:hover {
-      background: #a59ce2;
-    }
-
-    &.disabled {
-      background: #bbbbbb;
-      cursor: default;
-      &:hover {
-        background: #bbbbbb;
-      }
-    }
-  }
-
-  .error__input {
-    border: 1px solid #d06361;
-    color: #d06361;
-  }
-
-  .success__input {
-    border: 1px solid #309a74;
-    color: #309a74;
-  }
-
-  .error {
-    font-size: 12px;
-    color: #d06361;
-    text-align: left;
-    margin-top: 10px;
   }
 
   .error__server,

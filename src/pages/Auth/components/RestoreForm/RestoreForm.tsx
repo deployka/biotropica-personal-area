@@ -12,6 +12,8 @@ import { validationSchema } from './validationSchema';
 import { selectUserResponse } from '../../../../store/ducks/user/selectors';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
 import { ERROR_SERVER_CODES } from '../../../../constants/errors-server-list';
+import { Input } from '../../../../shared/Form/Input/Input';
+import { Button } from '../../../../shared/Form/Button/Button';
 
 interface Props {
   loadingStatus: string;
@@ -96,12 +98,7 @@ export const RestoreForm = ({ loadingStatus }: Props) => {
               </div>
 
               <div className={s.input__wrapper}>
-                <input
-                  className={classNames({
-                    [s.input]: true,
-                    [s.success__input]: touched.password && !errors.password,
-                    [s.error__input]: touched.password && errors.password,
-                  })}
+                <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="Пароль"
@@ -109,49 +106,33 @@ export const RestoreForm = ({ loadingStatus }: Props) => {
                   autoComplete="new-password"
                   value={values.password}
                   type="password"
+                  options={{ touched, errors }}
                 />
-                {touched.password && errors.password && (
-                  <span className={s.error}>{errors.password}</span>
-                )}
               </div>
 
               <div className={s.input__wrapper}>
-                <input
-                  className={classNames({
-                    [s.input]: true,
-                    [s.success__input]:
-                      touched.verification_password &&
-                      !errors.verification_password,
-                    [s.error__input]:
-                      touched.verification_password &&
-                      errors.verification_password,
-                  })}
+                <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="Повторите пароль"
                   name="verification_password"
                   value={values.verification_password}
                   type="password"
+                  options={{ touched, errors }}
                 />
-                {touched.verification_password &&
-                  errors.verification_password && (
-                    <span className={s.error}>
-                      {errors.verification_password}
-                    </span>
-                  )}
               </div>
 
-              <button
+              <Button
                 disabled={isDisabled(isValid, dirty)}
                 type="submit"
                 onClick={() => handleSubmit()}
-                className={classNames({
-                  [s.btn]: true,
-                  [s.disabled]: isDisabled(isValid, dirty),
-                })}
-              >
-                {loader ? <Loader /> : 'Сменить пароль'}
-              </button>
+                options={{
+                  content: loader ? <Loader /> : 'Сменить пароль',
+                  setDisabledStyle: isDisabled(isValid, dirty),
+                  width: '100%',
+                  height: '50px',
+                }}
+              />
               <Link className={s.signin} to="/signin">
                 Войти
               </Link>

@@ -12,6 +12,8 @@ import { validationSchema } from './validationSchema';
 import { selectUserResponse } from '../../../../store/ducks/user/selectors';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
 import { ERROR_SERVER_CODES } from '../../../../constants/errors-server-list';
+import { Input } from '../../../../shared/Form/Input/Input';
+import { Button } from '../../../../shared/Form/Button/Button';
 
 interface Props {
   loadingStatus: string;
@@ -102,35 +104,28 @@ export const ForgotForm = ({ loadingStatus }: Props) => {
               </div>
 
               <div className={s.input__wrapper}>
-                <input
-                  className={classNames({
-                    [s.input]: true,
-                    [s.success__input]: touched.email && !errors.email,
-                    [s.error__input]: touched.email && errors.email,
-                  })}
+                <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="Email"
                   name="email"
                   value={values.email}
                   type="email"
+                  options={{ touched, errors }}
                 />
-                {touched.email && errors.email && (
-                  <span className={s.error}>{errors.email}</span>
-                )}
               </div>
 
-              <button
+              <Button
                 disabled={isDisabled(isValid, dirty)}
                 type="submit"
                 onClick={() => handleSubmit()}
-                className={classNames({
-                  [s.btn]: true,
-                  [s.disabled]: isDisabled(isValid, dirty),
-                })}
-              >
-                {loader ? <Loader /> : 'Продолжить'}
-              </button>
+                options={{
+                  content: loader ? <Loader /> : 'Продолжить',
+                  setDisabledStyle: isDisabled(isValid, dirty),
+                  width: '100%',
+                  height: '50px',
+                }}
+              />
             </div>
             <Link className={s.signin} to="/signin">
               Помните свой пароль? Вернуться на страницу входа

@@ -3,6 +3,8 @@ import { Formik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Button } from '../../../../../../shared/Form/Button/Button';
+import { Input } from '../../../../../../shared/Form/Input/Input';
 import { Loader } from '../../../../../../shared/Form/Loader/Loader';
 import {
   fetchChangePassword,
@@ -61,6 +63,10 @@ export const EditPassword = ({}: Props) => {
     dispatch(fetchSignout());
   }
 
+  function isDisabled(isValid: boolean, dirty: boolean) {
+    return (!isValid && !dirty) || loader;
+  }
+
   return (
     <div className={s.edit__password}>
       <Formik
@@ -105,34 +111,24 @@ export const EditPassword = ({}: Props) => {
               >
                 Восстановить
               </Link>
-              <input
-                className={classNames({
-                  [s.input]: true,
-                  [s.input__current_password]: true,
-                  [s.success__input]:
-                    touched.current_password && !errors.current_password,
-                  [s.error__input]:
-                    touched.current_password && errors.current_password,
-                })}
+
+              <Input
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Старый пароль"
                 name="current_password"
                 value={values.current_password}
                 type="password"
+                options={{
+                  touched,
+                  errors,
+                  classes: { [s.input__current_password]: true },
+                }}
               />
-              {touched.current_password && errors.current_password && (
-                <span className={s.error}>{errors.current_password}</span>
-              )}
             </div>
 
             <div className={s.input__wrapper}>
-              <input
-                className={classNames({
-                  [s.input]: true,
-                  [s.success__input]: touched.password && !errors.password,
-                  [s.error__input]: touched.password && errors.password,
-                })}
+              <Input
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Новый пароль"
@@ -140,60 +136,46 @@ export const EditPassword = ({}: Props) => {
                 autoComplete="new-password"
                 value={values.password}
                 type="password"
+                options={{
+                  touched,
+                  errors,
+                }}
               />
-              {touched.password && errors.password && (
-                <span className={s.error}>{errors.password}</span>
-              )}
             </div>
 
             <div className={s.input__wrapper}>
-              <input
-                className={classNames({
-                  [s.input]: true,
-                  [s.success__input]:
-                    touched.verification_password &&
-                    !errors.verification_password,
-                  [s.error__input]:
-                    touched.verification_password &&
-                    errors.verification_password,
-                })}
+              <Input
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Повторите пароль"
                 name="verification_password"
                 value={values.verification_password}
                 type="password"
+                options={{
+                  touched,
+                  errors,
+                }}
               />
-              {touched.verification_password &&
-                errors.verification_password && (
-                  <span className={s.error}>
-                    {errors.verification_password}
-                  </span>
-                )}
             </div>
 
             <div className={s.button__wrapper}>
-              <button
-                disabled={(!isValid && !dirty) || loader}
+              <Button
+                disabled={isDisabled(isValid, dirty)}
                 type="submit"
                 onClick={() => handleSubmit()}
-                className={classNames({
-                  [s.btn]: true,
-                  [s.disabled]: (!isValid && !dirty) || loader,
-                })}
-              >
-                {loader ? <Loader /> : 'Сохранить'}
-              </button>
+                options={{
+                  content: loader ? <Loader /> : 'Сохранить',
+                  setDisabledStyle: isDisabled(isValid, dirty),
+                }}
+              />
 
               <Link to="/profile">
-                <button
-                  className={classNames({
-                    [s.btn]: true,
-                    [s.btn__discard]: true,
-                  })}
-                >
-                  Отменить
-                </button>
+                <Button
+                  options={{
+                    classes: { discard: true },
+                    content: 'Отмена',
+                  }}
+                />
               </Link>
             </div>
           </div>

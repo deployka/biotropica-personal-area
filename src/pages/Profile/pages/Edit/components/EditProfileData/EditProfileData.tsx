@@ -28,15 +28,17 @@ import { validationSchema } from './validationSchema';
 
 import camera from '../../../../../../assets/icons/forms/camera.svg';
 import { ERROR_SERVER_CODES } from '../../../../../../constants/errors-server-list';
-import Select from 'react-select';
 
-import DatePicker from 'react-datepicker';
 import { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import MaskedInput from 'react-maskedinput';
 
 import ru from 'date-fns/locale/ru';
+import { Input } from '../../../../../../shared/Form/Input/Input';
+import { DatePickerCustom } from '../../../../../../shared/Form/DatePicker/DatePickerCustom';
+import { Button } from '../../../../../../shared/Form/Button/Button';
+import { SelectCustom } from '../../../../../../shared/Form/Select/SelectCustom';
 registerLocale('ru', ru);
 
 interface Props {
@@ -49,16 +51,6 @@ export interface ISelect {
 }
 
 export const EditProfileData = ({ user }: Props) => {
-  const Styles = {
-    control: (styles: any) => ({
-      ...styles,
-      borderRadius: 15,
-      height: 50,
-      border: '1px solid #9895a7',
-      paddingLeft: 5,
-    }),
-  };
-
   const options = [
     { value: 'Мужской', label: 'Мужской' },
     { value: 'Женский', label: 'Женский' },
@@ -196,6 +188,7 @@ export const EditProfileData = ({ user }: Props) => {
               <input
                 type="file"
                 name="profile_photo"
+                accept="image/*"
                 onChange={e => {
                   refSetFieldValue.current = setFieldValue;
                   loadAvatar(e);
@@ -204,94 +197,60 @@ export const EditProfileData = ({ user }: Props) => {
               <img src={camera} alt="photo" />
               <span>Изменить</span>
             </div>
+
             <div className={s.text__inputs__wrapper}>
               <div className={s.small__input__wrapper}>
                 <div className={s.input__wrapper}>
-                  <input
-                    className={classNames({
-                      [s.input]: true,
-                      [s.success__input]: touched.lastname && !errors.lastname,
-                      [s.error__input]: touched.lastname && errors.lastname,
-                    })}
+                  <Input
                     onChange={handleChange}
                     onBlur={handleBlur}
                     placeholder="Фамилия"
                     name="lastname"
                     value={values.lastname}
                     type="text"
+                    options={{ touched, errors }}
                   />
-                  {touched.lastname && errors.lastname && (
-                    <span className={s.error}>{errors.lastname}</span>
-                  )}
                 </div>
 
                 <div className={s.input__wrapper}>
-                  <input
-                    className={classNames({
-                      [s.input]: true,
-                      [s.success__input]: touched.name && !errors.name,
-                      [s.error__input]: touched.name && errors.name,
-                    })}
+                  <Input
                     onChange={handleChange}
                     onBlur={handleBlur}
                     placeholder="Имя"
                     name="name"
                     value={values.name}
                     type="text"
+                    options={{ touched, errors }}
                   />
-
-                  {touched.name && errors.name && (
-                    <span className={s.error}>{errors.name}</span>
-                  )}
                 </div>
               </div>
 
               <div className={s.input__wrapper}>
-                <input
-                  className={classNames({
-                    [s.input]: true,
-                    [s.success__input]: touched.email && !errors.email,
-                    [s.error__input]: touched.email && errors.email,
-                  })}
+                <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="Email"
                   name="email"
                   value={values.email}
                   type="email"
+                  options={{ touched, errors }}
                 />
-                {touched.email && errors.email && (
-                  <span className={s.error}>{errors.email}</span>
-                )}
               </div>
 
               <div className={s.input__wrapper}>
-                <input
-                  className={classNames({
-                    [s.input]: true,
-                    [s.success__input]:
-                      touched.patronymic && !errors.patronymic,
-                    [s.error__input]: touched.patronymic && errors.patronymic,
-                  })}
+                <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="Отчество"
                   name="patronymic"
                   value={values.patronymic}
                   type="text"
+                  options={{ touched, errors }}
                 />
-                {touched.patronymic && errors.patronymic && (
-                  <span className={s.error}>{errors.patronymic}</span>
-                )}
               </div>
 
               <div className={s.input__wrapper}>
-                <DatePicker
-                  className={classNames({
-                    [s.input]: true,
-                    [s.success__input]: touched.dob && !errors.dob,
-                    [s.error__input]: touched.dob && errors.dob,
-                  })}
+                <DatePickerCustom
                   onChange={(date: Date) => setFieldValue('dob', date)}
                   onSelect={(date: Date) => setFieldValue('dob', date)}
                   onBlur={handleBlur}
@@ -299,26 +258,23 @@ export const EditProfileData = ({ user }: Props) => {
                   locale={ru}
                   selected={values.dob}
                   showYearDropdown
-                  yearDropdownItemNumber={150}
                   scrollableYearDropdown
                   maxDate={new Date()}
                   dateFormat={'P'}
-                  customInput={
-                    <MaskedInput mask="11.11.1111" placeholder="dd.mm.yyyy" />
-                  }
+                  options={{
+                    touched,
+                    errors,
+                    label: 'Дата рождения',
+                    yearDropdownItemNumber: 150,
+                    customInput: (
+                      <MaskedInput mask="11.11.1111" placeholder="dd.mm.yyyy" />
+                    ),
+                  }}
                 />
-                {touched.dob && errors.dob && (
-                  <span className={s.error}>{errors.dob}</span>
-                )}
               </div>
 
               <div className={s.input__wrapper}>
-                <input
-                  className={classNames({
-                    [s.input]: true,
-                    [s.success__input]: touched.phone && !errors.phone,
-                    [s.error__input]: touched.phone && errors.phone,
-                  })}
+                <Input
                   onChange={handleChange}
                   onKeyDown={onPhoneKeyDown}
                   onInput={onPhoneInput}
@@ -328,52 +284,43 @@ export const EditProfileData = ({ user }: Props) => {
                   name="phone"
                   value={values.phone}
                   type="phone"
+                  options={{ touched, errors }}
                 />
-                {touched.phone && errors.phone && (
-                  <span className={s.error}>{errors.phone}</span>
-                )}
               </div>
 
               <div className={s.input__wrapper}>
-                <Select
-                  onChange={e => {
+                <SelectCustom
+                  onChange={(e: any) => {
                     setFieldValue('gender', [e]);
                   }}
                   placeholder="Выберите пол..."
                   onBlur={handleBlur}
-                  styles={Styles}
                   name="gender"
                   value={(values.gender?.[0].label && values.gender) || null}
                   options={options}
+                  settings={{ touched, errors }}
                 />
-                {touched.gender && errors.gender && (
-                  <span className={s.error}>{errors.gender}</span>
-                )}
               </div>
             </div>
 
             <div className={s.button__wrapper}>
-              <button
+              <Button
                 disabled={isDisabled(isValid, dirty)}
                 type="submit"
                 onClick={() => handleSubmit()}
-                className={classNames({
-                  [s.btn]: true,
-                  [s.disabled]: isDisabled(isValid, dirty),
-                })}
-              >
-                {loader ? <Loader /> : 'Сохранить'}
-              </button>
+                options={{
+                  content: loader ? <Loader /> : 'Сохранить',
+                  setDisabledStyle: isDisabled(isValid, dirty),
+                }}
+              />
 
               <Link to="/profile">
-                <button
-                  className={classNames({
-                    [s.btn]: true,
-                    [s.btn__discard]: true,
-                  })}
-                >
-                  Отменить
-                </button>
+                <Button
+                  options={{
+                    classes: { discard: true },
+                    content: 'Отмена',
+                  }}
+                />
               </Link>
             </div>
           </form>
