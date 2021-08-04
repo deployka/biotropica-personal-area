@@ -1,5 +1,5 @@
-@import "../../../../styles/mixins.scss";
-@import "../../../../styles/variables.scss";
+@import '../../../../styles/mixins.scss';
+@import '../../../../styles/variables.scss';
 
 .btn {
   &__back {
@@ -152,7 +152,7 @@
     margin-right: 6.5px;
     &:after {
       position: absolute;
-      content: "";
+      content: '';
       background: $color-grey-2;
       border-radius: 50%;
       @include wh(2.5px, 2.5px);
@@ -218,14 +218,14 @@
   }
   &__submit__btn {
     cursor: pointer;
-    @include wh(31px, 31px);
+    @include wh(29px, 29px);
     padding: 0;
     border: 0;
     background: transparent;
     margin: 0;
     @include flex();
     svg {
-      @include wh(31px, 31px);
+      @include wh(29px, 29px);
     }
   }
 }

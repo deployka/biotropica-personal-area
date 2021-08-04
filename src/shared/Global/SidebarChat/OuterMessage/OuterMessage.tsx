@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import React from 'react';
 import s from './OuterMessage.module.scss';
 
 interface Props {

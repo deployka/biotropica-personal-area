@@ -30,11 +30,19 @@
 
   &__links {
     display: flex;
+    align-items: flex-end;
   }
 
   // .header__link
 
   &__link {
     margin: 0 0 0 20px;
+    cursor: pointer;
+
+    &:hover {
+      svg {
+        stroke: #6f61d0;
+      }
+    }
   }
 }

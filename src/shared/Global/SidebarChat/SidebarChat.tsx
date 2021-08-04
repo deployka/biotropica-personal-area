@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { Dispatch, SetStateAction } from 'react';
 import s from './SidebarChat.module.scss';
-import close from '../../../assets/icons/close-cross.svg';
+import close from '../../../assets/icons/global/close-cross.svg';
 import { BtnClose } from '../../buttons/BtnClose/BtnClose';
 import testAvatar1 from '../../../assets/images/test-avatars/avatar-1.jpg';
 import testAvatar2 from '../../../assets/images/test-avatars/avatar-2.jpg';
@@ -34,40 +34,47 @@ export const SidebarChat = ({ open, setOpen }: Props) => {
       status: false,
     },
   ];
+
   const testProfile = {
     name: 'Глеб Воронин',
     image: testAvatar1,
     post: 'фитнес инструктор',
   };
   return (
-    <div
-      className={classNames({
-        [s.sidebar__chat__wrapper]: true,
-        [s.open]: open,
-      })}
-    >
-      <div className={s.sidebar__chat}>
-        {/* <div className={s.sidebar__header}>
-          <div className={s.sidebar__header__title}>Сообщения</div>
-          <BtnClose />
-        </div> */}
-        {/* <div className={s.sidebar__messages}>
-          {messages.map((message, index) => {
-            return (
-              <OuterMessage
-                key={index}
-                options={{
-                  image: message.image,
-                  name: message.name,
-                  content: message.content,
-                  status: message.status,
-                }}
-              />
-            );
-          })}
-        </div> */}
-        <InnerChat options={testProfile} />
+    <>
+      <div
+        onClick={() => setOpen(false)}
+        className={(open && s.sidebar__background) || ''}
+      ></div>
+      <div
+        className={classNames({
+          [s.sidebar__chat__wrapper]: true,
+          [s.open]: open,
+        })}
+      >
+        <div className={s.sidebar__chat}>
+          <div className={s.sidebar__header}>
+            <div className={s.sidebar__header__title}>Сообщения</div>
+            <BtnClose setOpen={setOpen} />
+          </div>
+          <div className={s.sidebar__messages}>
+            {messages.map((message, index) => {
+              return (
+                <OuterMessage
+                  key={index}
+                  options={{
+                    image: message.image,
+                    name: message.name,
+                    content: message.content,
+                    status: message.status,
+                  }}
+                />
+              );
+            })}
+          </div>
+          {/* <InnerChat options={testProfile} /> */}
+        </div>
       </div>
-    </div>
+    </>
   );
 };

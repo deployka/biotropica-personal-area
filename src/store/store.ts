@@ -1,5 +1,6 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import { NotificationState } from './ducks/notification/contracts/state';
 import { UserState } from './ducks/user/contracts/state';
 
 import { rootReducer } from './rootReducer';
@@ -21,6 +22,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 export interface RootState {
   user: UserState;
+  notification: NotificationState;
 }
 
 export const store = createStore(

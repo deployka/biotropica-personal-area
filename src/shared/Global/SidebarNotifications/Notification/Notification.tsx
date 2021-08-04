@@ -1,30 +1,32 @@
-import classNames from 'classnames';
-import React from 'react';
+import moment from 'moment';
+import { Link } from 'react-router-dom';
+import { Notification as INotification } from '../../../../store/ducks/notification/contracts/state';
 import s from './Notification.module.scss';
 
 interface Props {
-  options: any;
+  notification: INotification;
 }
 
-export const Notification = ({ options }: Props) => {
+export const Notification = ({ notification }: Props) => {
+  const { text, date, taskLink, createdAt } = notification;
   return (
     <div className={s.notification}>
       <div className={s.notification__info}>
         <div className={s.notification__text}>
-          {options.text}
+          {text}
           {'   '}
-          <span className={s.date__day}>{options.day}</span>
-          {'   '}
-          <span className={s.date__month}>{options.month}</span>
+          <span className={s.date__month}>
+            {moment(date).format('Do MMMM')}
+          </span>
         </div>
         <div className={s.date__belate}>
-          {options.belate} {options.units} назад
+          {moment(new Date(createdAt), 'YYYYMMDD').fromNow()}
         </div>
       </div>
       <div className={s.notification__actions}>
-        <a href={options.taskLink} className={s.notification__link}>
+        <Link to={taskLink} className={s.notification__link}>
           перейти к заданию
-        </a>
+        </Link>
         <div className={s.notification__delete}>удалить</div>
       </div>
     </div>

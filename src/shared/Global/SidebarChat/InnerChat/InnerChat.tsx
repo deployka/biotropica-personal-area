@@ -7,8 +7,7 @@ import { Message } from './Message/Message';
 import testImg1 from '../../../../assets/images/test/bg.png';
 import testImg2 from '../../../../assets/images/test/0UWwSriFOJY.jpg';
 import testImg3 from '../../../../assets/images/test/aMAX0OFJu1ePT_hBY1gl6SjgMT-V1qDGEYii0RGE91Lhzthhgyr5aurONBrIdFNblLopYRbpT6tnVy7DZDQicO1-.jpg';
-import document from '../../../../assets/icons/document.svg';
-import sprite from '../../../../assets/icons/sprite.svg';
+import { GlobalSvgSelector } from '../../../../assets/icons/global/GlobalSvgSelector';
 
 interface Props {
   options: any;
@@ -31,7 +30,7 @@ export const InnerChat = ({ options }: Props) => {
           </div>
         </div>
         <div className={s.btn__close}>
-          <BtnClose />
+          {/* <BtnClose  setOpen={setOpen}/> */}
         </div>
       </div>
       <div className={s.messages}>
@@ -124,7 +123,9 @@ export const InnerChat = ({ options }: Props) => {
         >
           <a className={s.message__type__document__top}>
             <div className={s.document__img__wrapper}>
-              <img src={document} className={s.document__img} />
+              <div className={s.document__img}>
+                <GlobalSvgSelector id="document" />
+              </div>
             </div>
             <div className={s.document__name}>Упражнения</div>
           </a>
@@ -156,7 +157,9 @@ export const InnerChat = ({ options }: Props) => {
         <div className={classNames(s.message, s.message__type__document)}>
           <a className={s.message__type__document__top}>
             <div className={s.document__img__wrapper}>
-              <img src={document} className={s.document__img} />
+              <div className={s.document__img}>
+                <GlobalSvgSelector id="document" />
+              </div>
             </div>
             <div className={s.document__name}>Упражнения</div>
           </a>
@@ -180,9 +183,9 @@ export const InnerChat = ({ options }: Props) => {
       <form action="" className={s.chat__footer__form}>
         <div className={s.attach__popup}>
           <div className={s.attach__popup__media}>
-            <svg className={s.popup__icon}>
-              <use href={sprite + '#media'}></use>
-            </svg>
+            <div className={s.popup__icon}>
+              <GlobalSvgSelector id="media" />
+            </div>
             <div className={s.popup__text}>фото или видео</div>
             <input
               accept=".png, .jpg, .jpeg, .webp, .mp4, .mov, .webm, .avi, .gif"
@@ -191,9 +194,9 @@ export const InnerChat = ({ options }: Props) => {
             />
           </div>
           <div className={s.attach__popup__documents}>
-            <svg className={s.popup__icon}>
-              <use href={sprite + '#document'}></use>
-            </svg>
+            <div className={s.popup__icon}>
+              <GlobalSvgSelector id="document" />
+            </div>
             <div className={s.popup__text}>документы</div>
             <input type="file" className={s.popup__input} />
           </div>
@@ -202,20 +205,20 @@ export const InnerChat = ({ options }: Props) => {
         <div className={s.form__text__wrapper}>
           <textarea rows={10} className={s.form__text} name="" id=""></textarea>
           <div className={s.form__smile__btn}>
-            <svg className={s.form__submit__btn__img}>
-              <use href={sprite + '#smile'}></use>
-            </svg>
+            <div className={s.form__submit__btn__img}>
+              <GlobalSvgSelector id="smile" />
+            </div>
           </div>
           <div className={s.form__attach__btn}>
-            <svg className={s.form__submit__btn__img}>
-              <use href={sprite + '#attach'}></use>
-            </svg>
+            <div className={s.form__submit__btn__img}>
+              <GlobalSvgSelector id="attach" />
+            </div>
           </div>
         </div>
         <button type="submit" className={s.form__submit__btn}>
-          <svg className={s.form__submit__btn__img}>
-            <use href={sprite + '#send'}></use>
-          </svg>
+          <div className={s.form__submit__btn__img}>
+            <GlobalSvgSelector id="send" />
+          </div>
         </button>
       </form>
     </div>

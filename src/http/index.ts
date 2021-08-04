@@ -25,6 +25,7 @@ $api.interceptors.response.use(
         const { data, status } = await AuthService.refresh();
         if (status === 200) {
           window.localStorage.setItem('token', data.accessToken);
+          isRetry = false;
         }
       } catch (error) {}
 

@@ -1,10 +1,10 @@
-@import "../../../styles/mixins.scss";
-@import "../../../styles/variables.scss";
+@import '../../../styles/mixins.scss';
+@import '../../../styles/variables.scss';
 
 .btn__back {
   @include flex();
-  cursor: pointer;
   @include wh(fit-content, fit-content);
+  cursor: pointer;
   &__img {
     @include wh(9px, 15px);
   }

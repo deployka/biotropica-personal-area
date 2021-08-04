@@ -1,12 +1,10 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { User } from '../../../../store/ducks/user/contracts/state';
 
 import s from './Card.module.scss';
 
 import defaultAvatar from '../../../../assets/images/profile/default_avatar.png';
-import edit from '../../../../assets/images/profile/edit.svg';
-import { formatDate } from '../../../../utils/formatDate';
+import edit from '../../../../assets/icons/profile/edit.svg';
 import moment from 'moment';
 import 'moment/locale/ru';
 moment.locale('ru');

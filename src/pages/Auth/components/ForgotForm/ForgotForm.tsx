@@ -7,14 +7,15 @@ import { ForgotPasswordData } from '../../../../store/ducks/user/contracts/state
 import { LoadingStatus } from '../../../../store/types';
 import { Formik } from 'formik';
 
-import s from './ForgotForm.module.scss';
 import { validationSchema } from './validationSchema';
 import { selectUserResponse } from '../../../../store/ducks/user/selectors';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
-import { ERROR_SERVER_CODES } from '../../../../constants/errors-server-list';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
+import { notification } from '../../../../config/notification/notificationForm';
+import { store } from 'react-notifications-component';
 
+import s from './ForgotForm.module.scss';
 interface Props {
   loadingStatus: string;
 }
@@ -42,13 +43,22 @@ export const ForgotForm = ({ loadingStatus }: Props) => {
 
     if (loadingStatus === LoadingStatus.ERROR && refSetFieldValue.current) {
       refSetFieldValue.current?.('email', '');
+      store.addNotification({
+        ...notification,
+        title: 'Произошла ошибка!',
+        message: response?.message,
+        type: 'danger',
+      });
     }
 
     if (loadingStatus === LoadingStatus.SUCCESS && refSetFieldValue.current) {
-      refSetFieldValue.current?.('email', '');
-      setTimeout(() => {
-        history.push('/signin');
-      }, 2000);
+      store.addNotification({
+        ...notification,
+        title: 'Успешно!',
+        message: response?.message,
+        type: 'success',
+      });
+      history.push('/signin');
     }
   }, [loadingStatus]);
 
@@ -91,17 +101,6 @@ export const ForgotForm = ({ loadingStatus }: Props) => {
               <h2 className={s.subtitle}>
                 На ваш e-mail будет отправлена ссылка для смены пароля
               </h2>
-              <div
-                style={response?.message ? { display: 'flex' } : {}}
-                className={classNames({
-                  [s.error__server]: ERROR_SERVER_CODES.includes(
-                    response?.statusCode
-                  ),
-                  [s.success__server]: response?.statusCode === 200,
-                })}
-              >
-                {response?.message}
-              </div>
 
               <div className={s.input__wrapper}>
                 <Input

@@ -1,18 +1,25 @@
-@import "../../../styles/mixins.scss";
-@import "../../../styles/variables.scss";
+@import '../../../styles/mixins.scss';
+@import '../../../styles/variables.scss';
 .sidebar {
   &__chat__wrapper {
     position: absolute;
     right: -100vw;
     top: 0;
-    transition: 0.2s;
-    background: rgba(0, 0, 0, 0.1);
-    height: 100vh;
-    width: 100vw;
-    z-index: 5;
+    transition: 0.4s;
     display: flex;
+    z-index: 1000;
     justify-content: flex-end;
   }
+
+  &__background {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    transition: 0.3s;
+    z-index: 500;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
   &__chat {
     position: relative;
     background: $color-white;

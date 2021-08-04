@@ -1,12 +1,11 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction } from 'react';
+import { HeaderSvgSelector } from '../../../assets/icons/header/HeaderSvgSelector';
 
-import s from './Header.module.scss'
-import notificationImg from '../../../assets/icons/header/notification.svg'
-import chatImg from '../../../assets/icons/header/chat.svg'
+import s from './Header.module.scss';
 interface Props {
-  page: string
-  setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>
-  setSidebarChatOpen: Dispatch<SetStateAction<boolean>>
+  page: string;
+  setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
+  setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export const Header = ({
@@ -14,6 +13,8 @@ export const Header = ({
   setSidebarNotificationsOpen,
   setSidebarChatOpen,
 }: Props) => {
+  const notifications = [1];
+
   return (
     <header className={s.header}>
       <div className={s.header__wrapper}>
@@ -21,21 +22,24 @@ export const Header = ({
           <h2>{page}</h2>
         </div>
         <div className={s.header__links}>
-          <div className={s.header__link}>
-            <a onClick={() => setSidebarNotificationsOpen(true)} href="#">
-              <img src={notificationImg} alt="уведомления" />
-            </a>
+          <div
+            onClick={() => setSidebarNotificationsOpen(true)}
+            className={s.header__link}
+          >
+            {notifications.length ? (
+              <HeaderSvgSelector id="notification-active" />
+            ) : (
+              <HeaderSvgSelector id="notification" />
+            )}
           </div>
           <div
             onClick={() => setSidebarChatOpen(true)}
             className={s.header__link}
           >
-            <a href="#">
-              <img src={chatImg} alt="чат" />
-            </a>
+            <HeaderSvgSelector id="chat" />
           </div>
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
