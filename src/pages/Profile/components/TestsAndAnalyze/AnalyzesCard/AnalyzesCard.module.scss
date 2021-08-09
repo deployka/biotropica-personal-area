@@ -1,0 +1,89 @@
+@import "../../../../../styles/mixins.scss";
+@import "../../../../../styles/variables.scss";
+.analyzes__card {
+  @include flex(column, flex-start, flex-start);
+  width: 892px;
+  border: 1px solid $color-secondary;
+  border-radius: 15px;
+  padding: 30px;
+}
+.card {
+  &__header {
+    @include flex($justify: space-between);
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  &__title {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 120%;
+    color: $color-black;
+  }
+  &__update {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 120%;
+    color: $color-grey-2;
+    padding-bottom: 2px;
+    border-bottom: 1px solid $color-grey-2;
+    text-decoration: none;
+  }
+  &__analyzes {
+    &__text__list {
+      @include flex(column, flex-start, flex-start, nowrap);
+      max-width: 495px;
+      margin-bottom: 20px;
+    }
+    &__documents__list {
+      @include flex(column, flex-start, flex-start, nowrap);
+      margin-bottom: 20px;
+    }
+    &__text {
+      color: $color-secondary;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 130%;
+      margin-bottom: 3px;
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+      &__answer {
+        color: $color-grey-3;
+      }
+    }
+  }
+  &__more__btn {
+    cursor: pointer;
+    color: $color-primary;
+    border-bottom: 1px solid $color-primary;
+    font-size: 16px;
+    line-height: 120%;
+    padding-bottom: 2px;
+  }
+}
+.document {
+  margin-bottom: 16px;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+  &__createdAt {
+    color: $color-secondary;
+  }
+  &__name {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 120%;
+    text-decoration: none;
+    color: $color-black;
+    padding-bottom: 2px;
+    border-bottom: 1px solid $color-secondary;
+  }
+  &__img {
+    margin-right: 15px;
+  }
+  &__top {
+    @include flex($justify: flex-start);
+    margin-bottom: 7px;
+  }
+}

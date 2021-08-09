@@ -1,0 +1,121 @@
+.rate {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+
+  &__card {
+    width: 384px;
+    height: 534px;
+
+    background: #ffffff;
+    box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__top {
+    margin: 30px 0 0 0;
+  }
+
+  // .rate__price
+
+  &__price {
+    display: flex;
+  }
+  &__prise__text {
+    p {
+      font-weight: 500;
+      font-size: 18px;
+      color: #6f61d0;
+    }
+  }
+
+  &__prise__sub {
+    margin: 0 0 0 10px;
+
+    p {
+      font-weight: 400;
+      font-size: 17px;
+      color: #9e97be;
+    }
+  }
+
+  // .rate__headline
+
+  &__headline {
+    margin: 20px 0 0 0;
+
+    h3 {
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 24px;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  // .rate__list
+
+  &__list {
+    width: 324px;
+    line-height: 120%;
+  }
+
+  // .rate__list-elem
+
+  &__list__elem {
+    margin: 20px 0 0 0;
+
+    width: 100%;
+
+    display: flex;
+
+    img {
+      margin: 0 15px 0 0;
+    }
+  }
+
+  // .rate__bottom
+
+  &__bottom {
+    margin: 0 0 30px 0;
+
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  &__btn {
+    width: 324px;
+
+    display: flex;
+    justify-content: flex-start;
+    text-decoration: none !important;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 120%;
+    button {
+      padding: 7px 15px;
+      background-color: #ffffff00;
+      border: 1px solid #6f61d0;
+      box-sizing: border-box;
+      border-radius: 100px;
+
+      font-weight: 500;
+      font-size: 14px;
+
+      color: #6f61d0;
+
+      transition: all 0.15s ease-in;
+
+      &:hover {
+        background-color: #6f61d0;
+        color: #ffffff;
+      }
+    }
+  }
+}

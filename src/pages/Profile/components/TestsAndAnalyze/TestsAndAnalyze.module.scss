@@ -1,4 +1,6 @@
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
 .tests__and__analyze {
-  display: block;
-  //
+  @include flex(column, flex-start, flex-start);
+  padding-bottom: 16px;
 }

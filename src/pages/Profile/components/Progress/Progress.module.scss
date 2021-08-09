@@ -1,3 +1,8 @@
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
 .progress {
-  //
+  @include flex(column, flex-start, flex-start, nowrap);
+  scrollbar-width: none;
+  max-height: 624px;
+  overflow-y: auto;
 }

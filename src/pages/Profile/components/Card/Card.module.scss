@@ -1,8 +1,8 @@
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
 .profile {
   &__card {
     padding: 30px 50px;
-
-    margin-right: 30px;
 
     display: flex;
     flex-direction: column;
@@ -11,32 +11,39 @@
     background: #ffffff;
     box-shadow: 0px 0px 6px rgba(205, 199, 230, 0.5);
     border-radius: 15px;
+    margin-bottom: 21.5px;
   }
 
   // .profile__avatar
 
   &__avatar {
-    width: 117px;
-    height: 117px;
-
-    border: 3px solid #f2f2f7;
     box-sizing: border-box;
-    border-radius: 50%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+    @include flex();
     overflow: hidden;
-    margin-bottom: 20px;
     img {
       height: 100%;
+    }
+    object-fit: cover;
+    @include minwh(117px, 117px);
+    pointer-events: none;
+    &__wrapper {
+      border: 3px solid #f2f2f7;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      margin-right: 10px;
+      border-radius: 50%;
+      filter: drop-shadow(0px 0px 4px rgba(126, 134, 239, 0.15));
+
+      @include flex();
+      overflow: hidden;
+      @include wh(117px, 117px);
     }
   }
 
   // .profile__name
 
   &__name {
+    text-align: center;
     p {
       margin: 0;
       font-weight: 600;
@@ -51,12 +58,36 @@
   &__birth {
     margin: 7px 0 0 0;
 
+    max-width: 100%;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -ms-line-clamp: 1;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    display: -webkit-box;
+    word-wrap: break-word;
+    -webkit-box-orient: vertical;
+    display: box;
+    box-orient: vertical;
     p {
       margin: 0;
       font-size: 16px;
       font-weight: 500;
       line-height: 20px;
       color: #736f8b;
+      max-width: 100%;
+      -ms-text-overflow: ellipsis;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      -ms-line-clamp: 1;
+      -webkit-line-clamp: 1;
+      line-clamp: 1;
+      display: -webkit-box;
+      word-wrap: break-word;
+      -webkit-box-orient: vertical;
+      display: box;
+      box-orient: vertical;
     }
   }
 
@@ -75,7 +106,7 @@
       color: #6f61d0;
 
       &::after {
-        content: '';
+        content: "";
 
         display: block;
         width: 100%;

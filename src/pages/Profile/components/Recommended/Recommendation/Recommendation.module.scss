@@ -1,0 +1,88 @@
+@import "../../../../../styles/mixins.scss";
+@import "../../../../../styles/variables.scss";
+.recommendation {
+  width: 508px;
+}
+.card {
+  &__header {
+    @include flex($justify: flex-start);
+    padding: 20px 0;
+    border-bottom: 2px solid $color-divider;
+  }
+  &__post {
+    padding: 20px 0;
+    max-height: 507px;
+    scrollbar-width: none;
+    overflow-y: auto;
+  }
+}
+.post {
+  &__title {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 120%;
+    letter-spacing: 0.0075em;
+    color: $color-black;
+    margin-bottom: 10px;
+  }
+  &__subtitle {
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+  &__text {
+    color: $color-grey-3;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+  }
+}
+.profile {
+  &__avatar {
+    object-fit: cover;
+    @include minwh(42px, 42px);
+    pointer-events: none;
+    &__wrapper {
+      margin-right: 10px;
+      border-radius: 50%;
+      filter: drop-shadow(0px 0px 4px rgba(126, 134, 239, 0.15));
+      border: 2px solid $color-white;
+      @include flex();
+      overflow: hidden;
+      @include wh(42px, 42px);
+    }
+  }
+  &__name {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 120%;
+    letter-spacing: 0.0075em;
+    margin-bottom: 5px;
+    color: $color-black-2;
+  }
+  &__post {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 120%;
+    color: $color-grey-2;
+  }
+  &__btn {
+    @include wh(176px, 32px);
+    @include flex();
+    color: $color-primary;
+    border: 1px solid $color-primary;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 120%;
+    border-radius: 100px;
+    &__wrapper {
+      margin-left: auto;
+      text-decoration: none;
+    }
+    @media (min-width: $sze-laptop-sm) {
+      &:hover {
+        color: $color-primary-hover;
+        border: 1px solid $color-primary-hover;
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
+.goals {
+  cursor: pointer;
+  padding: 20px 30px;
+  @include wh(100%, 59px);
+  border-radius: 15px;
+  color: $color-primary;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 120%;
+  margin-bottom: 21.5px;
+  border: 1px solid $color-primary;
+  @media (min-width: $sze-laptop-sm) {
+    transition: 0.3s;
+    &:hover {
+      border: 1px solid $color-primary;
+      background: $color-primary;
+      color: $color-white;
+    }
+  }
+}

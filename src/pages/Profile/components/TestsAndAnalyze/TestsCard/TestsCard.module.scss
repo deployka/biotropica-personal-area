@@ -1,0 +1,60 @@
+@import "../../../../../styles/mixins.scss";
+@import "../../../../../styles/variables.scss";
+.tests__card {
+  @include flex(column, flex-start, flex-start);
+  width: 892px;
+  border: 1px solid $color-secondary;
+  border-radius: 15px;
+  padding: 30px;
+  margin-bottom: 32px;
+}
+.card {
+  &__header {
+    @include flex($justify: space-between);
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  &__title {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 120%;
+    color: $color-black;
+  }
+  &__update {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 120%;
+    color: $color-grey-2;
+    padding-bottom: 2px;
+    border-bottom: 1px solid $color-grey-2;
+    text-decoration: none;
+  }
+  &__tests {
+    &__list {
+      @include flex(column, flex-start, flex-start, nowrap);
+      margin-bottom: 20px;
+    }
+    &__item {
+      color: $color-secondary;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 120%;
+      margin-bottom: 10px;
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+      &__answer {
+        color: $color-grey-3;
+      }
+    }
+  }
+  &__more__btn {
+    cursor: pointer;
+    color: $color-primary;
+    border-bottom: 1px solid $color-primary;
+    font-size: 16px;
+    line-height: 120%;
+    padding-bottom: 2px;
+  }
+}

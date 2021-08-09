@@ -15,8 +15,9 @@ interface Props {
 export const Card = ({ user }: Props) => {
   return (
     <div className={s.profile__card}>
-      <div className={s.profile__avatar}>
+      <div className={s.profile__avatar__wrapper}>
         <img
+          className={s.profile__avatar}
           src={
             (user?.profile_photo &&
               process.env.REACT_APP_BACKEND_URL + '/' + user?.profile_photo) ||
@@ -27,7 +28,9 @@ export const Card = ({ user }: Props) => {
       </div>
       <div className={s.profile__name}>
         <p>
-          {user.lastname} {user.name}
+          {user.lastname}
+          {'  '}
+          {user.name}
         </p>
       </div>
       <div className={s.profile__mail}>

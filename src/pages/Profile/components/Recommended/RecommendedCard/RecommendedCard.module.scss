@@ -1,0 +1,85 @@
+@import "../../../../../styles/mixins.scss";
+@import "../../../../../styles/variables.scss";
+
+.recommended__card {
+  width: 300px;
+  position: relative;
+  height: 300px;
+  background: $color-white;
+  @include wh(354px, 80px);
+  box-shadow: 0px 0px 6px rgba(205, 199, 230, 0.5);
+  border-radius: 15px;
+  cursor: pointer;
+  padding: 19px 30px 18px 26px;
+  margin-bottom: 20px;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+  @media (min-width: $sze-laptop-sm) {
+    &:hover {
+      button {
+        filter: drop-shadow(1px 0px 13px rgba(91, 76, 200, 0.3));
+        background: $color-primary;
+        svg {
+          stroke: $color-white;
+        }
+      }
+    }
+  }
+}
+.card {
+  &__status {
+    border-radius: 0px 2px 2px 0px;
+    position: absolute;
+    @include wh(3px, 40px);
+    left: 0;
+    top: calc(50% - 20px);
+  }
+  &__title {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 120%;
+    letter-spacing: 0.0075em;
+    margin-bottom: 5px;
+    color: $color-black;
+  }
+  &__recommendations {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 120%;
+    color: $color-grey-2;
+  }
+}
+.btn__expand {
+  background: $color-white;
+  border-radius: 50%;
+  position: absolute;
+  right: -11px;
+  top: calc(50% - 16px);
+  @include wh(32px, 32px);
+  @include flex();
+  filter: drop-shadow(0px 3px 16px rgba(233, 229, 247, 0.5));
+  svg {
+    overflow: visible;
+    stroke: #333;
+    @include wh(7px, 12px);
+  }
+}
+
+// Card active state
+.active {
+  background: $color-primary;
+  .card {
+    &__title {
+      color: $color-white;
+    }
+    &__recommendations {
+      color: $color-primary-hover-2;
+    }
+  }
+  button {
+    transition: 0.1s;
+    transform: scale(-1, 1);
+    filter: drop-shadow(0px 3px 16px rgba(91, 76, 200, 0.6));
+  }
+}
