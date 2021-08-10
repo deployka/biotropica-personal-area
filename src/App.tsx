@@ -38,6 +38,8 @@ import { Sidebar } from './shared/Global/Sidebar/Sidebar';
 import './styles/global.scss';
 import { SidebarChat } from './shared/Global/SidebarChat/SidebarChat';
 import { SidebarNotifications } from './shared/Global/SidebarNotifications/SidebarNotifications';
+import { AddGoalsSelect } from './pages/Goals/components/AddGoalsSelect/AddGoalsSelect';
+import { AddGoalsForm } from './pages/Goals/components/AddGoalsForm/AddGoalsForm';
 
 function App() {
   const isAuth = useSelector(selectIsAuth);
@@ -140,7 +142,11 @@ function App() {
 
             <Route exact path="/profile/edit" component={Edit} />
 
-            <Route path="/goals" component={Goals} />
+            <Route exact path="/goals" component={Goals} />
+
+            <Route exact path="/goals/add-select" component={AddGoalsSelect} />
+
+            <Route exact path="/goals/add" component={AddGoalsForm} />
 
             <Route path="/tariffs" component={Tariffs} />
 
