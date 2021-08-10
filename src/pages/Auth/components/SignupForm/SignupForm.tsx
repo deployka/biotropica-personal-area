@@ -2,7 +2,10 @@ import classNames from 'classnames';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchSignup } from '../../../../store/ducks/user/actionCreators';
+import {
+  fetchSignup,
+  setUserResponse,
+} from '../../../../store/ducks/user/actionCreators';
 import { SignupData } from '../../../../store/ducks/user/contracts/state';
 import { LoadingStatus } from '../../../../store/types';
 import { Formik } from 'formik';
@@ -25,10 +28,11 @@ interface Props {
   loadingStatus: string;
 }
 
-export const SignupForm = ({ setRedirect, loadingStatus }: Props) => {
+export const SignupForm = ({ loadingStatus }: Props) => {
   const dispatch = useDispatch();
-  const [errorValue, errorText] =
-    useSelector(selectUserResponse)?.message?.split(':') || [];
+  const res = useSelector(selectUserResponse);
+
+  const [errorValue, errorText] = res?.message?.split(':') || [];
 
   const [loader, setLoader] = useState<boolean>(false);
   const [checked, setChecked] = useState<boolean>(false);
@@ -48,12 +52,13 @@ export const SignupForm = ({ setRedirect, loadingStatus }: Props) => {
       store.addNotification({
         ...notification,
         title: 'Произошла ошибка!',
-        message: errorText,
+        message: errorText || 'Произошла непредвиденная ошибка',
         type: 'danger',
       });
       errorValue && refSetFieldValue.current(errorValue, '');
     }
     if (loadingStatus === LoadingStatus.SUCCESS) {
+      dispatch(setUserResponse(undefined));
     }
   }, [loadingStatus]);
 

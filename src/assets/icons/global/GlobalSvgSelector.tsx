@@ -44,9 +44,9 @@ export const GlobalSvgSelector = ({ id }: Props) => {
         <svg viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M1.25954 1.25954L6 6L1.25954 10.7405"
-            stroke-width="1.81493"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.81493"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       );

@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const Progress = ({ user }: Props) => {
-  const progressCards = [
+  const progress = [
     {
       images: [testImg, testImg8, testImg4],
       date: '5 дней, 13 июня 2021г.',
@@ -32,7 +32,7 @@ export const Progress = ({ user }: Props) => {
   ];
   return (
     <div className={s.progress}>
-      {progressCards.map((card) => (
+      {progress.map(card => (
         <ProgressCard options={card} />
       ))}
     </div>

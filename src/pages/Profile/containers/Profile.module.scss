@@ -1,17 +1,20 @@
-@import "../../../styles/mixins.scss";
-@import "../../../styles/variables.scss";
+@import '../../../styles/mixins.scss';
+@import '../../../styles/variables.scss';
 .profile {
   width: 100%;
-
   display: flex;
+  position: relative;
   &__info {
     padding-right: 30px;
-    @include wh(308px, auto);
+    position: sticky;
+    top: 20px;
+    @include wh(308px);
   }
   &__tasks,
   &__rate {
     margin: 20px 0 0 0;
     width: calc(100% - 60px);
+
     padding: 20px 30px;
 
     border: 1px solid #6f61d0;
@@ -47,5 +50,25 @@
   &__content {
     display: flex;
     flex-direction: column;
+  }
+}
+
+.btn__add__photo {
+  @include flex();
+  @include wh(139px, 31px);
+  border: 1px solid $color-primary;
+  color: $color-primary;
+  font-weight: 500;
+  position: absolute;
+  right: 0;
+  top: -3px;
+  border-radius: 100px;
+  font-size: 14px;
+  line-height: 120%;
+  @media (min-width: $sze-laptop-sm) {
+    &:hover {
+      border: 1px solid $color-secondary;
+      color: $color-secondary;
+    }
   }
 }

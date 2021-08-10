@@ -33,25 +33,34 @@ export const Profile = (props: Props) => {
   const user = useSelector(selectUserData);
 
   const [activeTab, setActiveTab] = useState<string>(tabs[0].key);
+
   const GoalsData = {
     amount: 3,
   };
+
   const TariffData = {
     name: 'стандарт',
     expires: '9 июля 2021',
   };
+
   return (
-    <div className={s.profile}>
-      <div className={s.profile__info}>
-        {user && <Card user={user} />} {<Goals Goals={GoalsData} />}
-        {<Tariff Tariff={TariffData} />}
+    <>
+      <div className={s.profile}>
+        <div className={s.profile__info}>
+          {user && <Card user={user} />}
+          <Goals Goals={GoalsData} />
+          <Tariff Tariff={TariffData} />
+        </div>
+        <div className={s.content}>
+          <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+          {activeTab === tabs[0].key && user && <Recommended user={user} />}
+          {activeTab === tabs[1].key && user && <TestsAndAnalyze user={user} />}
+          {activeTab === tabs[2].key && user && <Progress user={user} />}
+          {activeTab === tabs[2].key && (
+            <button className={s.btn__add__photo}>добавить фото</button>
+          )}
+        </div>
       </div>
-      <div className={s.content}>
-        <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
-        {activeTab === tabs[0].key && user && <Recommended user={user} />}
-        {activeTab === tabs[1].key && user && <TestsAndAnalyze user={user} />}
-        {activeTab === tabs[2].key && user && <Progress user={user} />}
-      </div>
-    </div>
+    </>
   );
 };

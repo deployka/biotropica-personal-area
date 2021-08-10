@@ -1,83 +1,83 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {
   Redirect,
   Route,
   Switch,
   useHistory,
   useLocation,
-} from 'react-router-dom'
-import { ErrorPage } from './pages/404/containers/404'
-import { Goals } from './pages/Goals/containers/Goals'
-import { Home } from './pages/Home/containers/Home'
-import { Profile } from './pages/Profile/containers/Profile'
-import { Questionnaire } from './pages/Questionnaire/containers/Questionnaire'
-import { Edit } from './pages/Profile/pages/Edit/container/Edit'
-import { Tariffs } from './pages/Tariffs/containers/Tariffs'
-import { Services } from './pages/Services/containers/Services'
-import { RestoreForm } from './pages/Auth/components/RestoreForm/RestoreForm'
-import { ForgotForm } from './pages/Auth/components/ForgotForm/ForgotForm'
+} from 'react-router-dom';
+import { ErrorPage } from './pages/404/containers/404';
+import { Goals } from './pages/Goals/containers/Goals';
+import { Home } from './pages/Home/containers/Home';
+import { Profile } from './pages/Profile/containers/Profile';
+import { Questionnaire } from './pages/Questionnaire/containers/Questionnaire';
+import { Edit } from './pages/Profile/pages/Edit/container/Edit';
+import { Tariffs } from './pages/Tariffs/containers/Tariffs';
+import { Services } from './pages/Services/containers/Services';
+import { RestoreForm } from './pages/Auth/components/RestoreForm/RestoreForm';
+import { ForgotForm } from './pages/Auth/components/ForgotForm/ForgotForm';
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import {
   selectIsAuth,
   selectUserLoadingStatus,
-} from './store/ducks/user/selectors'
-import { SigninForm } from './pages/Auth/components/SigninForm/SigninForm'
-import { SignupForm } from './pages/Auth/components/SignupForm/SignupForm'
+} from './store/ducks/user/selectors';
+import { SigninForm } from './pages/Auth/components/SigninForm/SigninForm';
+import { SignupForm } from './pages/Auth/components/SignupForm/SignupForm';
 import {
   fetchUserData,
   setUserLoadingStatus,
   setUserResponse,
-} from './store/ducks/user/actionCreators'
-import { LoadingStatus } from './store/types'
+} from './store/ducks/user/actionCreators';
+import { LoadingStatus } from './store/types';
 
-import { Loader } from './shared/Global/Loader/Loader'
-import { Header } from './shared/Global/Header/Header'
-import { Sidebar } from './shared/Global/Sidebar/Sidebar'
+import { Loader } from './shared/Global/Loader/Loader';
+import { Header } from './shared/Global/Header/Header';
+import { Sidebar } from './shared/Global/Sidebar/Sidebar';
 
-import './styles/global.scss'
-import { SidebarChat } from './shared/Global/SidebarChat/SidebarChat'
-import { SidebarNotifications } from './shared/Global/SidebarNotifications/SidebarNotifications'
+import './styles/global.scss';
+import { SidebarChat } from './shared/Global/SidebarChat/SidebarChat';
+import { SidebarNotifications } from './shared/Global/SidebarNotifications/SidebarNotifications';
 
 function App() {
-  const isAuth = useSelector(selectIsAuth)
-  const loadingStatus = useSelector(selectUserLoadingStatus)
-  const history = useHistory()
-  const location = useLocation()
-  const dispatch = useDispatch()
+  const isAuth = useSelector(selectIsAuth);
+  const loadingStatus = useSelector(selectUserLoadingStatus);
+  const history = useHistory();
+  const location = useLocation();
+  const dispatch = useDispatch();
 
-  const [redirect, setRedirect] = useState<boolean>(false)
-  const [page, setPage] = useState<string>('Главная')
+  const [redirect, setRedirect] = useState<boolean>(false);
+  const [page, setPage] = useState<string>('Главная');
   const [sidebarNotificationsOpen, setSidebarNotificationsOpen] =
-    useState<boolean>(false)
-  const [chatNotificationsOpen, setSidebarChatOpen] = useState<boolean>(false)
+    useState<boolean>(false);
+  const [chatNotificationsOpen, setSidebarChatOpen] = useState<boolean>(false);
 
-  const currentPath = location.pathname
-  const authPaths = ['/signin', '/signup']
-
-  useEffect(() => {
-    dispatch(fetchUserData())
-  }, [isAuth])
+  const currentPath = location.pathname;
+  const authPaths = ['/signin', '/signup'];
 
   useEffect(() => {
-    dispatch(setUserLoadingStatus(LoadingStatus.LOADED))
-    dispatch(setUserResponse(undefined))
-  }, [location.pathname])
+    dispatch(fetchUserData());
+  }, [isAuth]);
+
+  useEffect(() => {
+    dispatch(setUserLoadingStatus(LoadingStatus.LOADED));
+    dispatch(setUserResponse(undefined));
+  }, [location.pathname]);
 
   useEffect(() => {
     if (isAuth && authPaths.includes(currentPath)) {
-      history.push('/')
+      history.push('/');
     } else if (loadingStatus === LoadingStatus.SUCCESS && isAuth && redirect) {
-      history.push(currentPath)
-      setRedirect(false)
+      history.push(currentPath);
+      setRedirect(false);
     }
-  }, [isAuth, loadingStatus])
+  }, [isAuth, loadingStatus]);
 
   function getLoading() {
     return (
       loadingStatus === LoadingStatus.LOADING ||
       loadingStatus === LoadingStatus.NEVER
-    )
+    );
   }
 
   if (!isAuth) {
@@ -109,7 +109,7 @@ function App() {
           </Switch>
         </div>
       </>
-    )
+    );
   }
 
   return (
@@ -155,7 +155,7 @@ function App() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

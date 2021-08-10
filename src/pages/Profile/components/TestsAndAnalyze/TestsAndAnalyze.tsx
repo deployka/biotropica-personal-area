@@ -7,37 +7,46 @@ interface Props {
   user: User;
 }
 
+export interface Analyze {
+  info: string;
+  fileName: string;
+  link: string;
+  createdAt: string;
+}
+
+export interface Tests {
+  info: string;
+  fileName: string;
+  link: string;
+  createdAt: string;
+}
+
 export const TestsAndAnalyze = ({ user }: Props) => {
-  const testFields = {
+  const tests = {
     age: '20',
     plans: 'бегу, плаванию',
     asthma: 'нет',
     diabetes: 'нет',
     updateUrl: 'upd8271389',
   };
-  const testAnalyzes = {
-    updateUrl: 'upd8271389',
-    analyzes: [
-      'Общеклинический анализ крови с лейкоцитами;',
-      'Биохимический анализ крови(включает параметры функции печени: АЛТ, ФСЕ,ГГТ, щелочная фосфатаза',
-    ],
-    documents: [
-      {
-        name: 'анализ крови с лейкоцитами',
-        createdAt: '15 июня',
-        link: 'doc213123',
-      },
-      {
-        name: 'Биохимический анализ крови',
-        createdAt: '15 марта',
-        link: 'doc21243123',
-      },
-    ],
-  };
+  const analyzes: Analyze[] = [
+    {
+      link: 'upd8271389',
+      info: 'Общеклинический анализ крови с лейкоцитами;',
+      fileName: 'анализ крови с лейкоцитами',
+      createdAt: '15 июня',
+    },
+    {
+      createdAt: '15 марта',
+      link: 'doc21243123',
+      info: 'Биохимический анализ крови(включает параметры функции печени: АЛТ, ФСЕ,ГГТ, щелочная фосфатаза',
+      fileName: 'Биохимический анализ крови',
+    },
+  ];
   return (
     <div className={s.tests__and__analyze}>
-      <TestsCard options={testFields} />
-      <AnalyzesCard options={testAnalyzes} />
+      <TestsCard tests={tests} />
+      <AnalyzesCard analyzes={analyzes} />
     </div>
   );
 };

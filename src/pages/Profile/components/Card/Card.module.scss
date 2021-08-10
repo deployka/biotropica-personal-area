@@ -1,8 +1,10 @@
-@import "../../../../styles/mixins.scss";
-@import "../../../../styles/variables.scss";
+@import '../../../../styles/mixins.scss';
+@import '../../../../styles/variables.scss';
 .profile {
   &__card {
     padding: 30px 50px;
+
+    top: 20px;
 
     display: flex;
     flex-direction: column;
@@ -106,7 +108,7 @@
       color: #6f61d0;
 
       &::after {
-        content: "";
+        content: '';
 
         display: block;
         width: 100%;
