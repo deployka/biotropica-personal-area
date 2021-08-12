@@ -1,0 +1,97 @@
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
+.add__goals__select {
+  box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+  background: $color-white;
+  border-radius: 30px;
+  @include flex();
+  padding: 50px;
+  margin: 0 auto;
+}
+.selector {
+  margin-bottom: 15px;
+  &:last-of-type {
+    margin-bottom: 48px;
+  }
+  background: linear-gradient(to right, #c77edf 0%, #6f61d0 73.44%);
+  padding: 1px;
+  @include wh(390px, 83px);
+  border-radius: 15px;
+
+  cursor: pointer;
+
+  &__content {
+    border-radius: 15px;
+    background: $color-white;
+    padding: 20px 28px;
+    position: relative;
+    border: 1px solid transparent;
+    z-index: 3;
+    @include flex(column, flex-start, flex-start, nowrap);
+    @include wh(100%, 100%);
+  }
+  &__title {
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 120%;
+    letter-spacing: 0.0075em;
+  }
+  &__description {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 120%;
+    color: $color-secondary;
+  }
+  @media (min-width: $sze-laptop-sm) {
+    transition: 0.3s;
+    &:hover {
+      background: $color-primary;
+      .selector {
+        &__content {
+          background: $color-primary;
+          color: $color-white;
+        }
+        &__description {
+          color: rgba($color-white, 0.7);
+        }
+      }
+    }
+  }
+}
+.add__goals__select {
+  &__title {
+    margin-bottom: 35px;
+  }
+  &__wrapper {
+    @include flex(column, flex-start, center, nowrap);
+    max-width: 358px;
+  }
+}
+.select {
+  &__buttons {
+    @include flex();
+  }
+}
+.btn {
+  &__next,
+  &__discard {
+    @include flex();
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 120%;
+    border-radius: 100px;
+    cursor: pointer;
+  }
+  &__next {
+    background: $color-primary;
+    color: $color-white;
+    @include wh(77px, 31px);
+  }
+  &__discard {
+    @include wh(87px, 31px);
+    margin-right: 20px;
+    border: 1px solid $color-primary;
+    color: $color-primary;
+  }
+}

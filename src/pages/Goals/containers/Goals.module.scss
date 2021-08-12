@@ -1,0 +1,100 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+.goals {
+  width: 100%;
+  &__header {
+    @include flex($justify: space-between);
+    margin-bottom: 20px;
+  }
+  &__container {
+    width: 100%;
+    max-width: 891px;
+    @include flex($justify: space-between);
+  }
+}
+.goal {
+  &__content {
+    background: $color-white;
+    padding: 38px 29px 49px 23px;
+    box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+    border-radius: 15px;
+    @include flex($justify: flex-start, $align: flex-start);
+
+    &__graph {
+      margin-right: 35px;
+      @include flex(column, flex-start, flex-start);
+    }
+  }
+  &__info {
+    @include flex(column, flex-start, flex-start);
+  }
+  &__title {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 120%;
+    color: $color-black;
+    margin-bottom: 5px;
+  }
+  &__description {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 120%;
+    color: $color-secondary;
+  }
+}
+.graph {
+  &__placeholder {
+    cursor: crosshair;
+    @include wh(860px, 382px);
+    @include flex();
+    font-size: 80px;
+    padding: 20px;
+  }
+  &__header {
+    width: 100%;
+    @include flex(row, space-between, flex-start, nowrap);
+    margin-bottom: 50px;
+  }
+  &__period {
+    &__selectors {
+      @include flex(row, space-between, center, nowrap);
+    }
+    &__selector {
+      cursor: pointer;
+      margin-right: 30px;
+      padding-bottom: 2px;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 120%;
+      color: $color-secondary;
+      &.selected {
+        border-bottom: 1px solid rgba(111, 97, 208, 0.5);
+        color: $color-primary;
+      }
+    }
+  }
+}
+.btn__create__goal {
+  @include wh(277px, 59px);
+  @include flex();
+  color: $color-primary;
+  border: 1px solid $color-primary;
+  box-shadow: 0px 0px 4px rgba(111, 97, 208, 0.14);
+  border-radius: 50px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 120%;
+}
+.btn__calendar {
+  border: 1px solid $color-secondary;
+  color: $color-secondary;
+  font-size: 16px;
+  line-height: 120%;
+  @include flex();
+  @include wh(199px, 34px);
+  border-radius: 40px;
+  &__date {
+    @include flex();
+    margin-right: 15px;
+  }
+}

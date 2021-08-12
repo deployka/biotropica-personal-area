@@ -94,8 +94,8 @@ export const GlobalSvgSelector = ({ id }: Props) => {
         >
           <rect width="20" height="20" rx="10" fill="#6F61D0" />
           <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
+            fillRule="evenodd"
+            clipRule="evenodd"
             d="M13.9642 6.75014C13.5357 6.32157 12.8928 6.32157 12.4642 6.75014L8.92852 10.2859L7.53566 8.893C7.10709 8.46443 6.46423 8.46443 6.03566 8.893C5.60709 9.32157 5.60709 9.96443 6.03566 10.393L8.17852 12.5359C8.3928 12.7501 8.60709 12.8573 8.92852 12.8573C9.24995 12.8573 9.46423 12.7501 9.67852 12.5359L13.9642 8.25014C14.3928 7.82157 14.3928 7.17871 13.9642 6.75014Z"
             fill="white"
           />
@@ -170,6 +170,123 @@ export const GlobalSvgSelector = ({ id }: Props) => {
             clipRule="evenodd"
             d="M13.6 1L14.21 1.008L14.5117 1.00895L20.8 7.40594V21.709C20.8 22.8688 19.8598 23.809 18.7 23.809H6.1C4.9402 23.809 4 22.8688 4 21.709V3.10895C4 1.94916 4.9402 1.00895 6.1 1.00895L13.599 1.008L13.6 1ZM13.599 2.208L6.1 2.20895C5.60294 2.20895 5.2 2.6119 5.2 3.10895V21.709C5.2 22.206 5.60294 22.609 6.1 22.609H18.7C19.1971 22.609 19.6 22.206 19.6 21.709V8.249L15.7 8.20895C14.5402 8.20895 13.6 7.26875 13.6 6.10895L13.599 2.208ZM14.8 6.10895V3.0139L18.759 7.04093L15.7063 7.00899C15.2029 7.00895 14.8 6.60601 14.8 6.10895Z"
             fill="#6F61D0"
+          />
+        </svg>
+      );
+    case 'calendar':
+      return (
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M3.09265 9.40445H20.9166"
+            stroke="#9E97BE"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M16.442 13.3097H16.4512"
+            stroke="#9E97BE"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M12.0047 13.3097H12.014"
+            stroke="#9E97BE"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M7.55793 13.3097H7.5672"
+            stroke="#9E97BE"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M16.442 17.1964H16.4512"
+            stroke="#9E97BE"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M12.0047 17.1964H12.014"
+            stroke="#9E97BE"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M7.55793 17.1964H7.5672"
+            stroke="#9E97BE"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M16.0438 2V5.29078"
+            stroke="#9E97BE"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M7.9654 2V5.29078"
+            stroke="#9E97BE"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M16.2383 3.5791H7.77096C4.83427 3.5791 3 5.21504 3 8.22213V17.2718C3 20.3261 4.83427 21.9999 7.77096 21.9999H16.229C19.175 21.9999 21 20.3545 21 17.3474V8.22213C21.0092 5.21504 19.1842 3.5791 16.2383 3.5791Z"
+            stroke="#9E97BE"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case 'edit':
+      return (
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11.4165 16.5817H16.7307"
+            stroke="#6F61D0"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M10.7126 4.13C11.3268 3.3475 12.3193 3.38833 13.1026 4.0025L14.2609 4.91083C15.0443 5.525 15.3218 6.4775 14.7076 7.26166L7.80009 16.0742C7.56926 16.3692 7.21676 16.5433 6.84176 16.5475L4.17759 16.5817L3.57426 13.9858C3.48926 13.6217 3.57426 13.2383 3.80509 12.9425L10.7126 4.13Z"
+            stroke="#6F61D0"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M9.41919 5.78027L13.4142 8.91194"
+            stroke="#6F61D0"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       );
