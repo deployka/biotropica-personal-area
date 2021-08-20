@@ -1,3 +1,146 @@
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
 .question {
-  //
+  @include flex(column);
+  &__body {
+    @include flex(column);
+  }
+  &__number {
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 120%;
+    color: #6f61d0;
+    margin-bottom: 40px;
+  }
+  &__title {
+    margin-bottom: 30px;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 120%;
+    max-width: 525px;
+    text-align: center;
+    color: $color-black;
+    &:nth-of-type(n + 2) {
+      margin-top: 30px;
+    }
+  }
+  &__input {
+    font-weight: normal;
+    border-radius: 15px;
+    font-size: 16px;
+    @include wh(370px, auto);
+    line-height: 120%;
+    padding: 15.31px 20px;
+    border: 1px solid $color-grey-2;
+    &::placeholder {
+      color: $color-grey-2;
+    }
+  }
+  &__answer__selectors {
+    width: 600px;
+    @include invisibleScroll();
+    .selector {
+      padding: 15px 30px;
+      border-radius: 60px;
+      border: 1px solid $color-divider;
+      @include wh(603px, auto);
+      @include flex($justify: space-between);
+      &:nth-of-type(n + 2) {
+        margin-top: 15px;
+      }
+      &__title {
+        color: $color-grey-3;
+        max-width: 378px;
+      }
+      &__btns {
+        @include flex($justify: space-between);
+        min-width: 145px;
+      }
+      &__btn {
+        @include defaultBtn(auto, auto, 1px solid $color-grey-2, $color-grey-2, $lh: 16px);
+        max-height: 36px;
+        @include flex();
+        padding: 10px 20px;
+      }
+    }
+  }
+}
+
+.nav__btns {
+  height: 30px;
+  @include flex(row, space-between);
+  width: 252px;
+  margin-top: 40px;
+}
+.btn__prev {
+  height: 30px;
+  @include flex(row, flex-start);
+  padding: 0 20px 0 15px;
+  &__text {
+    color: $color-grey-2;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  &__icon {
+    max-height: fit-content;
+    margin-right: 10px;
+    @include flex();
+    @include wh(24px, 24px);
+    overflow: visible;
+  }
+  * {
+    overflow: visible;
+  }
+}
+.btn__next {
+  @include flex(row, flex-start);
+  padding: 0 20px 0 15px;
+  &__text {
+    color: $color-primary;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  &__icon {
+    margin-left: 10px;
+    @include flex();
+    @include wh(24px, 24px);
+    overflow: visible;
+    * {
+      overflow: visible;
+    }
+    path {
+      stroke: $color-primary;
+    }
+    transform: rotate(180deg);
+  }
+}
+
+.small__buttons__select {
+  @include flex($wrap: wrap);
+  .small__button {
+    margin-right: 15px;
+    &:last-of-type {
+      margin-right: 0;
+    }
+    @include defaultBtn(auto, auto, 1px solid $color-grey-2, $color-grey-2);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    padding: 10px 20px;
+  }
+}
+.big__buttons__select {
+  @include flex(column);
+  .big__button {
+    margin-bottom: 15px;
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+    @include defaultBtn(184px, 39px, 1px solid $color-grey-2, $color-black);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 120%;
+  }
 }

@@ -63,3 +63,54 @@
   max-width: $width;
   max-height: $height;
 }
+@mixin defaultBtn(
+  $width: 141px,
+  $height: 31px,
+  $border: 1px solid $color-primary,
+  $clr: $color-primary,
+  $bg: transparent,
+  $hoverClr: $color-secondary,
+  $hoverBg: $color-secondary,
+  $hoverBorder: 1px solid $color-secondary,
+  $transition: 0.2s,
+  $disabledClr: $color-disabled,
+  $disabledBg: $color-disabled,
+  $selectedClr: $color-white,
+  $selectedBg: $color-primary,
+  $selectedBorder: $color-primary,
+  $fs: 16px,
+  $fw: 500,
+  $lh: 120%
+) {
+  cursor: pointer;
+  @include flex();
+  border-radius: 50px;
+  width: $width;
+  height: $height;
+  border: $border;
+  color: $clr;
+  background: $bg;
+  transition: $transition;
+  font-size: $fs;
+  font-weight: $fw;
+  line-height: $lh;
+  @media (min-width: $sze-laptop-sm) {
+    &:hover {
+      color: $hoverClr;
+      border: $hoverBorder;
+    }
+  }
+  &:disabled {
+    color: $disabledClr;
+    background: $disabledBg;
+  }
+  &.selected {
+    color: $selectedClr;
+    background: $selectedBg;
+    border: $selectedBorder;
+  }
+}
+@mixin invisibleScroll() {
+  scrollbar-width: none;
+  overflow-y: auto;
+}

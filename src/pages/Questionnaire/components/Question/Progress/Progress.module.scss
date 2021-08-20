@@ -1,0 +1,38 @@
+@import "../../../../../styles/mixins.scss";
+@import "../../../../../styles/variables.scss";
+.progress {
+  width: 432px;
+  @include flex(column, flex-start, flex-start);
+  margin-bottom: 50px;
+  &__info {
+    @include flex($justify: space-between);
+    width: 100%;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 120%;
+    color: $color-grey-2;
+    margin-bottom: 10px;
+  }
+  &__number__current {
+    color: $color-primary;
+  }
+  &__bar {
+    @include wh(100%, 6px);
+    border: none;
+    border-radius: 50px;
+    background: $color-grey;
+    &::-webkit-progress-bar {
+      background: $color-grey;
+      border-radius: 50px;
+    }
+    &::-webkit-progress-value {
+      background: $color-primary;
+      border-radius: 50px;
+    }
+    &::-moz-progress-bar {
+      background: $color-primary;
+      border-radius: 50px;
+      background: $color-primary;
+    }
+  }
+}

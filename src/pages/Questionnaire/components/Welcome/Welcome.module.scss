@@ -1,0 +1,40 @@
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
+.welcome {
+  @include wh(585px, 640px);
+  box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+  border-radius: 20px;
+  background: $color-white;
+  padding: 160px 0;
+  @include flex();
+  &__content {
+    max-width: 336px;
+    @include flex(column, flex-start);
+    text-align: center;
+    width: fit-content;
+  }
+  &__title {
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 120%;
+    color: $color-black;
+  }
+  &__subtitle {
+    color: $color-grey-2;
+    margin-bottom: 46px;
+  }
+  &__logo {
+    &__wrapper {
+      @include flex();
+      @include wh(80.93px, 47.66px);
+      margin-bottom: 40px;
+    }
+  }
+}
+.btn__start {
+  @include wh(159px, 39px);
+  @include defaultBtn($width: 159px, $height: 39px);
+  color: $color-primary;
+  border: 1px solid $color-primary;
+}
