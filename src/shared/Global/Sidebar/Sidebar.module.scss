@@ -3,36 +3,71 @@
 
 .sidebar {
   position: fixed;
-  top: 0;
-  left: 0;
+  left: 50%;
+  bottom: 20px;
+  transform: translate(-50%, -50%);
 
-  width: 80px;
-  height: 100%;
+  padding: 0 30px;
+
+  height: 60px;
+  border-radius: 15px;
 
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
 
-  background-color: $color-black;
+  background-color: $color-white;
+
+  max-width: 581px;
+  width: 100%;
+
+  box-shadow: 0px 1px 30px rgba(111, 97, 208, 0.08);
 
   z-index: 1000;
 
   &__top {
-    width: 100%;
-
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
   }
 
   // .sidebar__avatar
 
   &__avatar {
-    margin: 25px 0 20px 0;
+    display: flex;
+    position: relative;
 
-    width: 36px;
-    height: 36px;
+    &:after {
+      content: '';
+      width: 41px;
+      height: 41px;
+      border-radius: 50%;
+      z-index: -1;
+      position: absolute;
+      opacity: 0;
+      transition: 0.5s;
+      background-image: linear-gradient(
+        to right top,
+        #ff642e,
+        #ff4163,
+        #eb3994,
+        #bb4dbb,
+        #6f61d0
+      );
+      animation: rotate 2s infinite;
+      border: 2px;
+    }
+
+    svg {
+      transition: 0.5s;
+      width: 44px;
+      height: 44px;
+      position: absolute;
+      opacity: 0;
+    }
+
+    margin-right: 30px;
 
     display: flex;
     align-items: center;
@@ -41,17 +76,16 @@
     border-radius: 50%;
 
     box-sizing: border-box;
+    border: 3px solid $color-white;
+    border-image-slice: 1;
 
-    overflow: hidden;
-
-    border: 3px solid $color-primary;
     filter: drop-shadow(0px 0px 4px rgba(126, 134, 239, 0.15));
 
     transition: all 0.2s ease;
 
     .img {
-      width: 100%;
-      height: 100%;
+      width: 36px;
+      height: 36px;
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
@@ -65,16 +99,15 @@
     }
 
     &:hover {
-      border-color: $color-white;
+      border-color: $color-primary;
     }
   }
 
   // .sidebar__divider
 
   &__divider {
-    width: 54px;
-    height: 2px;
-
+    width: 2px;
+    height: 30px;
     background-color: #6f61d0;
     opacity: 0.1;
     border-radius: 18px;
@@ -83,39 +116,39 @@
   // .sidebar__nav
 
   &__nav {
-    margin: 38px 0 0 0;
-
-    width: 100%;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    flex-direction: row;
+    margin-left: 12px;
   }
 
   // .sidebar__link
 
   &__link {
-    width: 100%;
-
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 35px;
-
+    width: 40px;
+    height: 20px;
+    margin-right: 12px;
     &::after {
       content: '';
-
       display: block;
-      width: 2px;
-      height: 0;
-
+      width: 0px;
+      height: 3px;
       position: absolute;
-      left: 0;
-
-      background-color: #6f61d0;
-      border-radius: 0px 2px 2px 0px;
-
+      bottom: 0;
+      background-color: #9e97be;
+      border-radius: 2px 2px 0px 0px;
       transition: all 0.2s ease-in;
     }
 
+    &:hover::after {
+      width: 20px;
+    }
+  }
+
+  .nav__link {
     &:hover {
       .sidebar__prompt {
         opacity: 1;
@@ -123,56 +156,139 @@
         z-index: 10;
       }
     }
-
-    &:hover::after {
-      height: 40px;
-    }
   }
   .active__nav {
     .sidebar__link:after {
-      background: #fff;
-      height: 40px;
+      background-color: #6f61d0;
+      width: 40px;
     }
     svg {
-      path {
-        stroke: #fff;
-      }
+      path,
       ellipse {
-        stroke: #fff;
+        transition: 0.3s;
+        stroke: #6f61d0;
       }
     }
   }
 
   .active__profile {
-    border-color: $color-white;
+    border-color: $color-primary;
+  }
+
+  .active__profile_paid {
+    &:after {
+      opacity: 1;
+    }
   }
 
   // .sidebar__bottom
 
   &__bottom {
+    a {
+      height: 19px;
+    }
+    .logout__svg {
+      height: 19px;
+      path,
+      ellipse {
+        transition: 0.3s;
+      }
+    }
+
+    svg {
+      path {
+        transition: 0.3s;
+      }
+    }
+
+    .chat__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        .sidebar__prompt {
+          opacity: 1;
+          pointer-events: all;
+          z-index: 10;
+        }
+      }
+
+      &:hover::after {
+        width: 20px;
+      }
+      &::after {
+        content: '';
+        display: block;
+        width: 0px;
+        height: 3px;
+        position: absolute;
+        bottom: 0;
+        background-color: #9e97be;
+        border-radius: 2px 2px 0px 0px;
+        transition: all 0.2s ease-in;
+      }
+    }
+
+    .active__chat {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:after {
+        content: '';
+        display: block;
+        width: 0px;
+        height: 3px;
+        position: absolute;
+        bottom: 0;
+        background-color: #9e97be;
+        border-radius: 2px 2px 0px 0px;
+        transition: all 0.2s ease-in;
+        background-color: #6f61d0;
+        width: 40px;
+      }
+      svg {
+        path,
+        ellipse {
+          transition: 0.3s;
+          fill: #6f61d0;
+        }
+      }
+    }
+
+    width: 87px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
   }
 
   // .sidebar__logout
 
   &__logout {
-    margin: 25px 0 40px 0;
+    margin: 0;
+    height: 20px;
+    &:hover {
+      .sidebar__prompt {
+        opacity: 1;
+        pointer-events: all;
+        z-index: 10;
+      }
+      path,
+      ellipse {
+        stroke: #6f61d0;
+      }
+    }
   }
 
   &__prompt {
     padding: 5px 10px;
 
     position: absolute;
-    left: calc(100% + 5px);
+    right: calc(100% + 10px);
+    bottom: calc(50% - 15px);
 
-    background: linear-gradient(
-      0deg,
-      rgba(30, 23, 77, 0.8),
-      rgba(30, 23, 77, 0.8)
-    );
-    border: 1px solid #6f61d0;
+    border: 1px solid $color-primary;
     box-sizing: border-box;
 
     border-radius: 15px;
@@ -187,22 +303,17 @@
 
     p {
       font-size: 16px;
-      color: #ffffff;
+      color: $color-primary;
       margin: 0;
     }
   }
 }
 
-.link_active {
-  &::after {
-    height: 40px;
-    background-color: #ffffff;
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
   }
-
-  svg path {
-    stroke: #ffffff;
-  }
-  svg ellipse {
-    stroke: #ffffff;
+  100% {
+    transform: rotate(360deg);
   }
 }

@@ -4,6 +4,10 @@ import s from './SidebarNotifications.module.scss';
 import { BtnClose } from '../../buttons/BtnClose/BtnClose';
 import { Notification } from './Notification/Notification';
 import { Notification as INotification } from '../../../store/ducks/notification/contracts/state';
+
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+
 interface Props {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -35,6 +39,66 @@ export const SidebarNotifications = ({ open, setOpen }: Props) => {
       date: '2001-04-07',
       createdAt: '2001-04-07',
     },
+    {
+      text: 'О нет! Вы забыли про задание',
+      taskLink: 'task384712387123',
+      date: '2001-04-07',
+      createdAt: '2001-04-07',
+    },
+    {
+      text: 'О нет! Вы забыли про задание',
+      taskLink: 'task384712387123',
+      date: '2001-04-07',
+      createdAt: '2001-04-07',
+    },
+    {
+      text: 'О нет! Вы забыли про задание',
+      taskLink: 'task384712387123',
+      date: '2001-04-07',
+      createdAt: '2001-04-07',
+    },
+    {
+      text: 'О нет! Вы забыли про задание',
+      taskLink: 'task384712387123',
+      date: '2001-04-07',
+      createdAt: '2001-04-07',
+    },
+    {
+      text: 'О нет! Вы забыли про задание',
+      taskLink: 'task384712387123',
+      date: '2001-04-07',
+      createdAt: '2001-04-07',
+    },
+    {
+      text: 'О нет! Вы забыли про задание',
+      taskLink: 'task384712387123',
+      date: '2001-04-07',
+      createdAt: '2001-04-07',
+    },
+    {
+      text: 'О нет! Вы забыли про задание',
+      taskLink: 'task384712387123',
+      date: '2001-04-07',
+      createdAt: '2001-04-07',
+    },
+    {
+      text: 'О нет! Вы забыли про задание',
+      taskLink: 'task384712387123',
+      date: '2001-04-07',
+      createdAt: '2001-04-07',
+    },
+    {
+      text: 'О нет! Вы забыли про задание',
+      taskLink: 'task384712387123',
+      date: '2001-04-07',
+      createdAt: '2001-04-07',
+    },
+    {
+      text: 'О нет! Вы забыли про задание',
+      taskLink: 'task384712387123',
+      date: '2001-04-07',
+      createdAt: '2001-04-07',
+    },
   ];
   return (
     <>
@@ -53,16 +117,18 @@ export const SidebarNotifications = ({ open, setOpen }: Props) => {
             <div className={s.sidebar__header__title}>Уведомления</div>
             <BtnClose setOpen={setOpen} />
           </div>
-          <div className={s.notifications}>
-            {notifications.map((notification: INotification, i: number) => {
-              return (
-                <Notification
-                  key={i + notification.taskLink}
-                  notification={notification}
-                />
-              );
-            })}
-          </div>
+          <PerfectScrollbar>
+            <div className={s.notifications}>
+              {notifications.map((notification: INotification, i: number) => {
+                return (
+                  <Notification
+                    key={i + notification.taskLink}
+                    notification={notification}
+                  />
+                );
+              })}
+            </div>
+          </PerfectScrollbar>
         </div>
       </div>
     </>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { GlobalSvgSelector } from '../../../../assets/icons/global/GlobalSvgSelector';
 import { Calendar } from '../../../../shared/Global/Сalendar/Calendar';
-import { ProgressBar } from './components/ProgressBar/ProgressBar';
+import { ProgressBar } from '../ProgressBar/ProgressBar';
 
 import s from './ProgressForm.module.scss';
 

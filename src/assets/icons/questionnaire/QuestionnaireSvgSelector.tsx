@@ -16,16 +16,16 @@ export const QuestionnaireSvgSelector = ({ id }: Props) => {
           <path
             d="M1.25 7.27393L16.25 7.27393"
             stroke="#9895A7"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M7.2998 13.2985L1.2498 7.27451L7.2998 1.24951"
             stroke="#9895A7"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       );

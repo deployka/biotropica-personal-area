@@ -118,7 +118,12 @@ function App() {
     <>
       <div className="global__container">
         {getLoading() && <Loader />}
-        <Sidebar setPage={setPage} />
+        <Sidebar
+          setSidebarNotificationsOpen={setSidebarNotificationsOpen}
+          setSidebarChatOpen={setSidebarChatOpen}
+          chatNotificationsOpen={chatNotificationsOpen}
+          setPage={setPage}
+        />
         <SidebarChat
           open={chatNotificationsOpen}
           setOpen={setSidebarChatOpen}
@@ -127,12 +132,12 @@ function App() {
           open={sidebarNotificationsOpen}
           setOpen={setSidebarNotificationsOpen}
         />
-        <Header
-          setSidebarChatOpen={setSidebarChatOpen}
-          setSidebarNotificationsOpen={setSidebarNotificationsOpen}
-          page={page}
-        />
         <div className="container">
+          <Header
+            setSidebarChatOpen={setSidebarChatOpen}
+            setSidebarNotificationsOpen={setSidebarNotificationsOpen}
+            page={page}
+          />
           <Switch>
             <Route exact path="/" component={Home} />
 

@@ -1,5 +1,5 @@
-@import "../../../../../../styles/mixins.scss";
-@import "../../../../../../styles/variables.scss";
+@import '../../../../styles/mixins.scss';
+@import '../../../../styles/variables.scss';
 .progress__bar {
   @include flex();
   padding: 0;
@@ -18,7 +18,7 @@
     right: 0;
   }
   &__circle {
-    stroke-linecap: round;
+    strokelinecap: round;
     transform-origin: center;
     transform: rotate(-90deg);
     transition: stroke-dashoffset 0.3s;

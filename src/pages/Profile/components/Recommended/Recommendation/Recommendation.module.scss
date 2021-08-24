@@ -11,8 +11,7 @@
   }
   &__post {
     padding: 20px 0;
-    scrollbar-width: none;
-    overflow-y: auto;
+    max-height: 58vh;
   }
 }
 .post {

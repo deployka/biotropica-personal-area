@@ -2,6 +2,5 @@
 @import '../../../../styles/variables.scss';
 .progress {
   @include flex(column, flex-start, flex-start, nowrap);
-  scrollbar-width: none;
-  overflow-y: auto;
+  max-height: 58vh;
 }

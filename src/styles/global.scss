@@ -10,6 +10,7 @@
 body {
   background: $background-color;
   font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
 }
 
 button {
@@ -28,8 +29,7 @@ button {
 
 .container {
   max-width: 1200px;
-  margin-left: 120px;
-  padding: 40px 0 0 0;
+  margin: 0 auto;
   position: relative;
 }
 

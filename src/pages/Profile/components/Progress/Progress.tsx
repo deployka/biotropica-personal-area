@@ -1,4 +1,8 @@
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+
 import { ProgressCard } from './ProgressCard/ProgressCard';
+
 import s from './Progress.module.scss';
 import testImg from '../../../../assets/images/test-progress/progress.jpg';
 import testImg2 from '../../../../assets/images/test-progress/progress2.jpg';
@@ -31,10 +35,12 @@ export const Progress = ({ user }: Props) => {
     },
   ];
   return (
-    <div className={s.progress}>
-      {progress.map(card => (
-        <ProgressCard options={card} />
-      ))}
-    </div>
+    <PerfectScrollbar>
+      <div className={s.progress}>
+        {progress.map(card => (
+          <ProgressCard options={card} />
+        ))}
+      </div>
+    </PerfectScrollbar>
   );
 };

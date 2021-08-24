@@ -1,9 +1,9 @@
-@import "../../../../styles/mixins.scss";
-@import "../../../../styles/variables.scss";
+@import '../../../../styles/mixins.scss';
+@import '../../../../styles/variables.scss';
 
 .notification {
   @include flex(column, flex-start, flex-start);
-  padding: 10px 0;
+  padding: 10px 30px;
   width: 100%;
   margin-bottom: 10px;
   &:last-of-type {
