@@ -1,80 +1,66 @@
 import classNames from 'classnames';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import s from './SidebarChat.module.scss';
-import close from '../../../assets/icons/global/close-cross.svg';
-import { BtnClose } from '../../buttons/BtnClose/BtnClose';
-import testAvatar1 from '../../../assets/images/test-avatars/avatar-1.jpg';
-import testAvatar2 from '../../../assets/images/test-avatars/avatar-2.jpg';
-import testAvatar3 from '../../../assets/images/test-avatars/avatar-3.jpg';
-import { OuterMessage } from './OuterMessage/OuterMessage';
-import { InnerChat } from './InnerChat/InnerChat';
+import {InnerChat} from './InnerChat/InnerChat';
+import {User} from "../../../store/ducks/user/contracts/state";
+import {Dialog} from "../../../services/ChatService";
+import {useDispatch, useSelector} from "react-redux";
+import {selectUserData} from "../../../store/ducks/user/selectors";
+import {fetchDialog, fetchDialogs, setCurrentDialog} from "../../../store/ducks/chat/actionCreators";
+import {selectChatDialogs, selectDialog} from "../../../store/ducks/chat/selectors";
+import {DialogList} from "./DialogList/DialogList";
+
 interface Props {
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+    open: boolean;
+    setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export const SidebarChat = ({ open, setOpen }: Props) => {
-  const messages = [
-    {
-      name: 'Глеб Воронин',
-      image: testAvatar1,
-      content: 'Добрый день!',
-      status: true,
-    },
-    {
-      name: 'Злата Воронцова',
-      image: testAvatar2,
-      content: 'Отличные рузультат. ',
-      status: false,
-    },
-    {
-      name: 'Марк Никонов',
-      image: testAvatar3,
-      content: 'Можно уточнить какие именно в виду имеете',
-      status: false,
-    },
-  ];
 
-  const testProfile = {
-    name: 'Глеб Воронин',
-    image: testAvatar1,
-    post: 'фитнес инструктор',
-  };
-  return (
-    <>
-      <div
-        onClick={() => setOpen(false)}
-        className={(open && s.sidebar__background) || ''}
-      ></div>
-      <div
-        className={classNames({
-          [s.sidebar__chat__wrapper]: true,
-          [s.open]: open,
-        })}
-      >
-        <div className={s.sidebar__chat}>
-          <div className={s.sidebar__header}>
-            <div className={s.sidebar__header__title}>Сообщения</div>
-            <BtnClose setOpen={setOpen} />
-          </div>
-          <div className={s.sidebar__messages}>
-            {messages.map((message, index) => {
-              return (
-                <OuterMessage
-                  key={index}
-                  options={{
-                    image: message.image,
-                    name: message.name,
-                    content: message.content,
-                    status: message.status,
-                  }}
-                />
-              );
-            })}
-          </div>
-          {/* <InnerChat options={testProfile} /> */}
-        </div>
-      </div>
-    </>
-  );
+export const SidebarChat = ({open, setOpen}: Props) => {
+    const user = useSelector(selectUserData) as User;
+    const dialogs = useSelector(selectChatDialogs) as Dialog[];
+    const selectedDialog = useSelector(selectDialog);
+    const dispatch = useDispatch()
+
+    function closeDialog() {
+        dispatch(setCurrentDialog())
+    }
+
+    function openDialog(dialog: Dialog) {
+        dispatch(fetchDialog(dialog.id))
+    }
+
+    useEffect(() => {
+        dispatch(fetchDialogs())
+    }, [])
+
+    return (
+        <>
+            <div
+                onClick={() => setOpen(false)}
+                className={(open && s.sidebar__background) || ''}
+            />
+            <div
+                className={classNames({
+                    [s.sidebar__chat__wrapper]: true,
+                    [s.open]: open,
+                })}
+            >
+                <div className={s.sidebar__chat}>
+                    {selectedDialog ?
+                        <InnerChat
+                            options={selectedDialog}
+                            id={selectedDialog.id}
+                            onClose={() => closeDialog()}
+                        /> :
+                        <DialogList
+                            dialogs={dialogs}
+                            currentUser={user}
+                            onClose={() => setOpen(false)}
+                            onOpenDialog={openDialog}
+                        />}
+                </div>
+            </div>
+        </>
+    );
 };
