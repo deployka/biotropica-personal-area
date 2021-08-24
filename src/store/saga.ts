@@ -1,12 +1,8 @@
-import {all} from 'redux-saga/effects';
-import {notificationSaga} from './ducks/notification/sagas';
-import {userSaga} from './ducks/user/sagas';
-import {chatSaga} from "./ducks/chat/sagas";
+import { all } from 'redux-saga/effects';
+import { notificationSaga } from './ducks/notification/sagas';
+import { userSaga } from './ducks/user/sagas';
 
 export default function* rootSaga(): any {
-    yield all([
-        chatSaga(),
-        userSaga(),
-        notificationSaga()
-    ]);
+  yield all([userSaga()]);
+  yield all([notificationSaga()]);
 }
