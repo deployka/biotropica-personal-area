@@ -1,13 +1,14 @@
 import classNames from 'classnames';
-import s from './OuterMessage.module.scss';
+import s from './DialogList.module.scss';
 
 interface Props {
   options: any;
+  onClick: () => void;
 }
 
-export const OuterMessage = ({ options }: Props) => {
+export const DialogItem = ({ options, onClick }: Props) => {
   return (
-    <div className={s.message}>
+    <div className={s.message} onClick={() => onClick()}>
       <div className={s.message__avatar__wrapper}>
         <img src={options.image} className={s.message__avatar}></img>
       </div>

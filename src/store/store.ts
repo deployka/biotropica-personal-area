@@ -6,6 +6,7 @@ import { UserState } from './ducks/user/contracts/state';
 import { rootReducer } from './rootReducer';
 
 import rootSaga from './saga';
+import {ChatState} from "./ducks/chat/contracts/state";
 
 declare global {
   interface Window {
@@ -23,6 +24,7 @@ const sagaMiddleware = createSagaMiddleware();
 export interface RootState {
   user: UserState;
   notification: NotificationState;
+  chat: ChatState;
 }
 
 export const store = createStore(
