@@ -7,6 +7,7 @@ import defaultAvatar from '../../../../assets/images/profile/default_avatar.png'
 import edit from '../../../../assets/icons/profile/edit.svg';
 import moment from 'moment';
 import 'moment/locale/ru';
+import classNames from 'classnames';
 moment.locale('ru');
 interface Props {
   user: User;
@@ -15,7 +16,12 @@ interface Props {
 export const Card = ({ user }: Props) => {
   return (
     <div className={s.profile__card}>
-      <div className={s.profile__avatar__wrapper}>
+      <div
+        className={classNames({
+          [s.profile__avatar__wrapper]: true,
+          [s.paid]: true,
+        })}
+      >
         <img
           className={s.profile__avatar}
           src={

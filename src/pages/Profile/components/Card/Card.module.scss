@@ -3,9 +3,6 @@
 .profile {
   &__card {
     padding: 30px 50px;
-
-    top: 20px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -19,30 +16,50 @@
   // .profile__avatar
 
   &__avatar {
+    position: relative;
     box-sizing: border-box;
     @include flex();
-    overflow: hidden;
-    img {
-      height: 100%;
-    }
+    border-radius: 50%;
+
     object-fit: cover;
-    @include minwh(117px, 117px);
+    @include minwh(105px, 105px);
     pointer-events: none;
     &__wrapper {
       border: 3px solid #f2f2f7;
       border-radius: 50%;
       margin-bottom: 20px;
       margin-right: 10px;
-      border-radius: 50%;
       filter: drop-shadow(0px 0px 4px rgba(126, 134, 239, 0.15));
 
+      img {
+        @include wh(105px, 105px);
+      }
+
+      &.paid {
+        &:after {
+          content: '';
+          width: 111px;
+          height: 111px;
+          border-radius: 50%;
+          position: absolute;
+          z-index: -1;
+          transition: 0.5s;
+          background-image: linear-gradient(
+            to right top,
+            #ff642e,
+            #ff4163,
+            #eb3994,
+            #bb4dbb,
+            #6f61d0
+          );
+          animation: rotate 2s infinite;
+          border: 2px;
+        }
+      }
+
       @include flex();
-      overflow: hidden;
-      @include wh(117px, 117px);
     }
   }
-
-  // .profile__name
 
   &__name {
     text-align: center;
@@ -118,5 +135,14 @@
         border-radius: 5px;
       }
     }
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
