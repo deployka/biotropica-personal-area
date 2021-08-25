@@ -16,6 +16,7 @@
 
 .inner__chat {
   height: 100%;
+
   @include flex(column, flex-start, flex-start);
   & > div {
     width: 100%;
@@ -25,7 +26,7 @@
 .chat {
   &__header {
     @include flex($justify: flex-start);
-    padding: 15.56px 0;
+    padding: 15.56px 25px;
     border-bottom: 2px solid $color-divider;
 
     &__profile {
@@ -65,7 +66,7 @@
 }
 // messages
 .messages {
-  padding: 30px 0;
+  padding: 30px 30px;
   @include flex(column, flex-start, flex-start);
   overflow-y: auto;
   scrollbar-width: none;

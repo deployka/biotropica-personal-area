@@ -15,6 +15,7 @@ export interface User {
   before_photos: JSON;
   after_photos: JSON;
   paid: boolean;
+  isOnline: boolean;
   banned: boolean;
   banReason: string;
   confirmed: boolean;

@@ -38,7 +38,7 @@ export const Progress = ({ user }: Props) => {
     <PerfectScrollbar>
       <div className={s.progress}>
         {progress.map(card => (
-          <ProgressCard options={card} />
+          <ProgressCard key={card.date} options={card} />
         ))}
       </div>
     </PerfectScrollbar>

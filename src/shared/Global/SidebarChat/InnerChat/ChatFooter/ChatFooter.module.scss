@@ -1,11 +1,12 @@
-@import "src/styles/mixins";
-@import "src/styles/variables";
+@import 'src/styles/mixins';
+@import 'src/styles/variables';
 
 .chat__footer__form {
   position: relative;
   @include flex($justify: space-between);
   margin-top: auto;
   width: 100%;
+  padding: 0 30px;
 }
 .form {
   &__attach__btn {

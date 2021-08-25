@@ -1,9 +1,10 @@
-@import "../../../../styles/mixins.scss";
-@import "../../../../styles/variables.scss";
+@import '../../../../styles/mixins.scss';
+@import '../../../../styles/variables.scss';
 
 .message {
   @include flex(row, flex-start, center, nowrap);
-  padding: 10px 0;
+  padding: 10px 30px;
+
   width: 100%;
   cursor: pointer;
   @media (min-width: 1200px) {
