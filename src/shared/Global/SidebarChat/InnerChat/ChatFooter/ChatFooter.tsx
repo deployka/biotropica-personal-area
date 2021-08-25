@@ -16,6 +16,9 @@ export function ChatFooter({onSubmit, onFocus, onBlur}: Props) {
     const [popup, setPopup] = useState<boolean>(false);
 
     async function onSubmitHandler(event: any) {
+        if(!message) {
+            return
+        }
         onSubmit({
             text: message,
             type: MessageType.TEXT
