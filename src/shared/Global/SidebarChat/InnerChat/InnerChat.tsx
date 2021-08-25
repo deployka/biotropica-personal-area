@@ -19,6 +19,7 @@ import {
   updateMessage,
 } from '../../../../store/ducks/chat/actionCreators';
 import { Timemark } from './Message/Timemark';
+import {getOpponent} from "../../../../utils/dialogHelper";
 
 interface Props {
   options: any;
@@ -172,7 +173,7 @@ export const InnerChat = ({ options, onClose, id }: Props) => {
 
   return selectedDialog ? (
     <div className={s.inner__chat}>
-      <ChatHeader user={selectedDialog.participants[0]} onClose={onClose} />
+      <ChatHeader user={getOpponent(selectedDialog, user) as User} onClose={onClose} />
       <div className={s.messages} id="InnerChat">
         {List}
         {opponentWriting ? <PrintedMessage /> : ''}
