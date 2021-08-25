@@ -20,7 +20,7 @@
     }
     &__text {
       position: absolute;
-      right: 6.47%;
+      right: 2.47%;
       bottom: 15.38%;
     }
 
@@ -45,6 +45,7 @@
       line-height: 130%;
       letter-spacing: 0.25px;
       color: $color-black;
+      word-break: break-word;
     }
     &__image {
       cursor: pointer;

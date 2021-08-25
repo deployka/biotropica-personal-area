@@ -31,8 +31,10 @@ export const SidebarChat = ({open, setOpen}: Props) => {
     }
 
     useEffect(() => {
-        dispatch(fetchDialogs())
-    }, [])
+        if(open) {
+            dispatch(fetchDialogs())
+        }
+    }, [open])
 
     return (
         <>
