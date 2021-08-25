@@ -18,7 +18,7 @@
     right: 0;
   }
   &__circle {
-    strokelinecap: round;
+    stroke-linecap: round;
     transform-origin: center;
     transform: rotate(-90deg);
     transition: stroke-dashoffset 0.3s;

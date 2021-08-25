@@ -32,10 +32,14 @@
   &__link {
     margin: 0 0 0 20px;
     cursor: pointer;
-
+    svg {
+      transition: 0.3s;
+    }
     &:hover {
       svg {
-        stroke: #6f61d0;
+        path {
+          fill: #6f61d0;
+        }
       }
     }
   }

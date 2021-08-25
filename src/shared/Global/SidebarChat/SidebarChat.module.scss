@@ -43,52 +43,6 @@
     }
   }
 }
-.sidebar__messages {
-  // overflow-y: scroll;
-  // height: 100%;
-
-  //CUSTOM SCROLLBAR
-  // &:-webkit-scrollbar {
-  //   /* 1 - скроллбар */
-  //   // width: 82px;
-  //   // height: 5px;
-  //   background: black;
-  //   // border-radius: 5px;
-  // }
-
-  // &:-webkit-scrollbar-button {
-  //   /* 2 - кнопка */
-  //   width: 15px;
-  //   height: 5px;
-  //   color: black;
-  //   background: black;
-  //   border-radius: 5px;
-  // }
-
-  // &:-webkit-scrollbar-track {
-  //   /* 3 - трек */
-  //   background: white;
-  // }
-
-  // &:-webkit-scrollbar-track-piece {
-  //   /* 4 - видимая часть трека */
-  //   background: red;
-  // }
-
-  // &:-webkit-scrollbar-thumb {
-  //   /* 5 - ползунок */
-  //   border-radius: 2px;
-  //   background-color: #d1d1d1;
-  // }
-
-  // &:-webkit-scrollbar-corner {
-  //   /* 6 - уголок */
-  // }
-
-  // &:-webkit-resizer {
-  //   /* 7 - изменение размеров */
-  // }
-}
 .open {
   right: 0;
 }

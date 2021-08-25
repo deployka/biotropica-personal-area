@@ -1,9 +1,11 @@
 import classNames from 'classnames';
 import React, {
   Dispatch,
+  MouseEvent,
   ReactElement,
   SetStateAction,
   useEffect,
+  useState,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
@@ -14,6 +16,7 @@ import s from './Sidebar.module.scss';
 
 import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 import { SidebarSvgSelector } from '../../../assets/icons/sidebar/SIdebarSvgSelector';
+import { GlobalSvgSelector } from '../../../assets/icons/global/GlobalSvgSelector';
 
 interface Props {
   setPage: Dispatch<SetStateAction<string>>;
@@ -77,6 +80,8 @@ export const Sidebar = ({
 
   const user = useSelector(selectUserData);
 
+  const [close, setClose] = useState<boolean>(false);
+
   useEffect(() => {
     pages.forEach(value => {
       const currentPath = location.pathname.split('/');
@@ -86,78 +91,100 @@ export const Sidebar = ({
     });
   }, []);
 
-  async function logout() {
-    dispatch(fetchSignout());
+  function openSidebar() {
+    setClose(false);
   }
 
-  async function openChat() {
+  function toggleSidebar(e: MouseEvent<HTMLElement>) {
+    e.stopPropagation();
+    setClose(!close);
+  }
+
+  function openChat() {
     setSidebarNotificationsOpen(false);
     setSidebarChatOpen(!chatNotificationsOpen);
   }
 
+  async function logout() {
+    dispatch(fetchSignout());
+  }
+
   return (
-    <div className={s.sidebar}>
-      <div className={s.sidebar__top}>
-        <Link
-          to="/profile"
-          className={classNames({
-            [s.sidebar__avatar]: true,
-            [s.active__profile_paid]:
-              pages[0].link === '/' + location.pathname.split('/')[1],
-          })}
-          onClick={() => setPage('Профиль')}
-        >
-          <div
-            className={s.img}
-            style={{
-              backgroundImage: `url(${
-                (user?.profile_photo &&
-                  process.env.REACT_APP_BACKEND_URL +
-                    '/' +
-                    user?.profile_photo) ||
-                defaultAvatar
-              })`,
-            }}
-          ></div>
-        </Link>
-        <div className={s.sidebar__divider}></div>
-        <nav className={s.sidebar__nav}>
-          {nav.map((item: Nav) => (
-            <Link
-              key={item.page + item.link}
-              onClick={() => setPage(item.page)}
-              to={item.link}
-              className={
-                item.link === location.pathname ? s.active__nav : s.nav__link
-              }
-            >
-              <div className={s.sidebar__link}>{item.svg}</div>
-              <div className={s.sidebar__prompt}>
-                <p>{item.page}</p>
-              </div>
-            </Link>
-          ))}
-        </nav>
-      </div>
-      <div className={s.sidebar__bottom}>
-        <a
-          href="#"
-          onClick={openChat}
-          className={chatNotificationsOpen ? s.active__chat : s.chat__icon}
-        >
-          <SidebarSvgSelector id="chat" />
-          <div className={s.sidebar__prompt}>
-            <p>{'Чат поддержка'}</p>
-          </div>
-        </a>
-        <div className={s.sidebar__divider}></div>
-        <div className={s.sidebar__logout}>
-          <a href="#" onClick={logout} className={s.logout__svg}>
-            <SidebarSvgSelector id="logout" />
+    <div
+      onClick={openSidebar}
+      className={classNames(s.sidebar, {
+        [s.open]: close,
+      })}
+    >
+      <div className={s.wrapper}>
+        <div className={s.close} onClick={toggleSidebar}>
+          <GlobalSvgSelector id="next-rounded" />
+        </div>
+        <div className={s.sidebar__prompt}>
+          <p>{'Свернуть'}</p>
+        </div>
+        <div className={s.sidebar__top}>
+          <Link
+            to="/profile"
+            className={classNames({
+              [s.sidebar__avatar]: true,
+              [s.active__profile_paid]:
+                pages[0].link === '/' + location.pathname.split('/')[1],
+            })}
+            onClick={() => setPage('Профиль')}
+          >
+            <div
+              className={s.img}
+              style={{
+                backgroundImage: `url(${
+                  (user?.profile_photo &&
+                    process.env.REACT_APP_BACKEND_URL +
+                      '/' +
+                      user?.profile_photo) ||
+                  defaultAvatar
+                })`,
+              }}
+            ></div>
+          </Link>
+          <div className={s.sidebar__divider}></div>
+          <nav className={s.sidebar__nav}>
+            {nav.map((item: Nav) => (
+              <Link
+                key={item.page + item.link}
+                onClick={() => setPage(item.page)}
+                to={item.link}
+                className={
+                  item.link === location.pathname ? s.active__nav : s.nav__link
+                }
+              >
+                <div className={s.sidebar__link}>{item.svg}</div>
+                <div className={s.sidebar__prompt}>
+                  <p>{item.page}</p>
+                </div>
+              </Link>
+            ))}
+          </nav>
+        </div>
+        <div className={s.sidebar__bottom}>
+          <a
+            href="#"
+            onClick={openChat}
+            className={chatNotificationsOpen ? s.active__chat : s.chat__icon}
+          >
+            <SidebarSvgSelector id="chat" />
             <div className={s.sidebar__prompt}>
-              <p>{'Выйти'}</p>
+              <p>{'Чат поддержка'}</p>
             </div>
           </a>
+          <div className={s.sidebar__divider}></div>
+          <div className={s.sidebar__logout}>
+            <a href="#" onClick={logout} className={s.logout__svg}>
+              <SidebarSvgSelector id="logout" />
+              <div className={s.sidebar__prompt}>
+                <p>{'Выйти'}</p>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </div>

@@ -6,25 +6,68 @@
   left: 50%;
   bottom: 20px;
   transform: translate(-50%, -50%);
+  transition: 0.8s;
 
   padding: 0 30px;
 
   height: 60px;
   border-radius: 15px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-
-  background-color: $color-white;
-
   max-width: 581px;
   width: 100%;
+
+  background-color: $color-white;
 
   box-shadow: 0px 1px 30px rgba(111, 97, 208, 0.08);
 
   z-index: 1000;
+
+  .wrapper {
+    height: 100%;
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &.open {
+    width: 93px;
+    left: 0;
+    bottom: 20px;
+    overflow: hidden;
+    transform: translate(10px);
+    .close {
+      svg {
+        transform: rotate(-45deg);
+      }
+    }
+    &.sidebar {
+      cursor: pointer;
+    }
+  }
+
+  .close {
+    position: absolute;
+    left: -22px;
+    bottom: 0;
+    &:hover {
+      ~ .sidebar__prompt {
+        opacity: 1;
+        pointer-events: all;
+        z-index: 10;
+      }
+    }
+    svg {
+      transition: 0.3s;
+      cursor: pointer;
+      width: 8px;
+      transform: rotate(135deg);
+      stroke: $color-secondary;
+      &:hover {
+        stroke: $color-primary;
+      }
+    }
+  }
 
   &__top {
     display: flex;
@@ -40,8 +83,8 @@
 
     &:after {
       content: '';
-      width: 41px;
-      height: 41px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       z-index: -1;
       position: absolute;
@@ -59,14 +102,6 @@
       border: 2px;
     }
 
-    svg {
-      transition: 0.5s;
-      width: 44px;
-      height: 44px;
-      position: absolute;
-      opacity: 0;
-    }
-
     margin-right: 30px;
 
     display: flex;
@@ -76,7 +111,7 @@
     border-radius: 50%;
 
     box-sizing: border-box;
-    border: 3px solid $color-white;
+    border: 2px solid #9e97be;
     border-image-slice: 1;
 
     filter: drop-shadow(0px 0px 4px rgba(126, 134, 239, 0.15));
@@ -84,8 +119,8 @@
     transition: all 0.2s ease;
 
     .img {
-      width: 36px;
-      height: 36px;
+      width: 30px;
+      height: 30px;
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
@@ -115,16 +150,17 @@
 
   // .sidebar__nav
 
-  &__nav {
+  .sidebar__nav {
     display: flex;
     align-items: center;
     flex-direction: row;
     margin-left: 12px;
+    z-index: 1;
   }
 
   // .sidebar__link
 
-  &__link {
+  .sidebar__link {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -181,9 +217,7 @@
     }
   }
 
-  // .sidebar__bottom
-
-  &__bottom {
+  .sidebar__bottom {
     a {
       height: 19px;
     }
@@ -202,6 +236,7 @@
     }
 
     .chat__icon {
+      z-index: 1;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -231,6 +266,7 @@
     }
 
     .active__chat {
+      z-index: 1;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -265,9 +301,10 @@
 
   // .sidebar__logout
 
-  &__logout {
+  .sidebar__logout {
     margin: 0;
     height: 20px;
+    z-index: 1;
     &:hover {
       .sidebar__prompt {
         opacity: 1;
@@ -281,11 +318,11 @@
     }
   }
 
-  &__prompt {
+  .sidebar__prompt {
     padding: 5px 10px;
 
     position: absolute;
-    right: calc(100% + 10px);
+    right: calc(100% + 40px);
     bottom: calc(50% - 15px);
 
     border: 1px solid $color-primary;
