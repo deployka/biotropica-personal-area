@@ -22,7 +22,7 @@ export function ChatFooterAttachPopup(prop: Prop) {
 
     function onDocumentChangeHandler() {
         if (refDoc.current?.files?.length) {
-            prop.onImageLoaded(refDoc.current.files[0]);
+            prop.onDocumentLoaded(refDoc.current.files[0]);
             refDoc.current.value = '';
         }
     }
