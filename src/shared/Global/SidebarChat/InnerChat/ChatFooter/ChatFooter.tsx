@@ -1,9 +1,10 @@
 import s from "./ChatFooter.module.scss";
-import React, {useState} from "react";
+import React, {RefObject, useState} from "react";
 import {GlobalSvgSelector} from "../../../../../assets/icons/global/GlobalSvgSelector";
 import {Message, MessageType} from "../../../../../services/ChatService";
 import FileService from "../../../../../services/FileService";
 import {ChatFooterAttachPopup} from "./ChatFooterAttachPopup";
+import {Textarea} from "./Textarea";
 
 type Props = {
     onSubmit: (payload: Pick<Message, 'type' | 'text' | 'fileId'>) => void
@@ -14,6 +15,9 @@ type Props = {
 export function ChatFooter({onSubmit, onFocus, onBlur}: Props) {
     const [message, setMessage] = useState<string>('');
     const [popup, setPopup] = useState<boolean>(false);
+
+    const refBtn = React.createRef() as RefObject<HTMLDivElement>;
+
 
     async function onSubmitHandler(event: any) {
         if(!message) {
@@ -54,11 +58,12 @@ export function ChatFooter({onSubmit, onFocus, onBlur}: Props) {
             /> : ''}
 
         <div className={s.form__text__wrapper}>
-            <textarea
-                rows={10}
-                className={s.form__text}
+            <Textarea
                 value={message}
-                onChange={e => setMessage(e.target.value)}
+                minRows={1}
+                maxRows={4}
+                placeholder="Напишите сообщение"
+                onChange={setMessage}
                 onFocus={onFocus}
                 onBlur={onBlur}
             />
@@ -67,7 +72,7 @@ export function ChatFooter({onSubmit, onFocus, onBlur}: Props) {
             {/*        <GlobalSvgSelector id="smile"/>*/}
             {/*    </div>*/}
             {/*</div>*/}
-            <div className={s.form__attach__btn} onClick={() => setPopup(true)}>
+            <div ref={refBtn} className={s.form__attach__btn} onClick={() => setPopup(true)}>
                 <div className={s.form__submit__btn__img}>
                     <GlobalSvgSelector id="attach"/>
                 </div>
