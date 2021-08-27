@@ -1,7 +1,8 @@
-@import "../../../styles/mixins.scss";
-@import "../../../styles/variables.scss";
+@import '../../../styles/mixins.scss';
+@import '../../../styles/variables.scss';
 .goals {
   width: 100%;
+
   &__header {
     @include flex($justify: space-between);
     margin-bottom: 20px;
@@ -18,7 +19,7 @@
     padding: 38px 29px 49px 23px;
     box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
     border-radius: 15px;
-    @include flex($justify: flex-start, $align: flex-start);
+    @include flex($justify: space-between, $align: flex-start);
 
     &__graph {
       margin-right: 35px;

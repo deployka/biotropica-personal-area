@@ -1,0 +1,58 @@
+@import '../../../../styles/variables.scss';
+
+.container {
+  width: 850px;
+  height: 350px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.graph {
+  height: 326px;
+  width: 790px;
+  text-align: right;
+  transform: translateY(-130px);
+}
+
+.graph__dates {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  .graph__date {
+    cursor: pointer;
+    font-size: 14px;
+    color: $color-secondary;
+    transition: 0.3s;
+    height: 19px;
+    width: 19px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      color: #fff;
+      border-radius: 50%;
+      background-color: $color-primary;
+    }
+    &.active {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 19px;
+      width: 19px;
+      color: #fff;
+      border-radius: 50%;
+      background-color: $color-primary;
+    }
+  }
+}
+
+.graph__y {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 20px;
+  .graph__y__value {
+    font-size: 14px;
+    color: $color-secondary;
+  }
+}
