@@ -28,8 +28,7 @@ function returnMsg(message: IMessage, currentUser: User, read: boolean) {
                 return '';
             }
             const size = Math.round(message.file.size / 100000)/10;
-            const splited = message.file.originalName.split('.')
-            const format = splited[splited.length - 1].toUpperCase();
+            const extension = message.file.type.toUpperCase();
 
             return <div
                     className={classNames(
@@ -55,7 +54,7 @@ function returnMsg(message: IMessage, currentUser: User, read: boolean) {
                         <div className={s.document__size}>
                             {size} <span className={s.document__size__units}>MB</span>
                         </div>
-                        <div className={s.document__extension}>{format}</div>
+                        <div className={s.document__extension}>{extension}</div>
                         <div
                             className={classNames(s.message__time, s.message__time__document)}
                         >

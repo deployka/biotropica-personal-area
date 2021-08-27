@@ -7,6 +7,7 @@
   margin-bottom: 7px;
   max-width: 309px;
   position: relative;
+  word-break: break-word;
   &__time {
     user-select: none;
     font-weight: normal;
@@ -15,6 +16,7 @@
     color: $color-grey-2;
     display: flex;
     align-items: center;
+    white-space: nowrap;
     &__document {
       margin-left: auto;
     }
@@ -45,7 +47,6 @@
       line-height: 130%;
       letter-spacing: 0.25px;
       color: $color-black;
-      word-break: break-word;
     }
     &__image {
       cursor: pointer;
@@ -93,6 +94,14 @@
       top: calc(50% - 1.25px);
       right: -4.25px;
     }
+  }
+  &__extension {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &__size {
+    white-space: nowrap;
   }
 }
 .by__user {
