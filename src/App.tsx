@@ -38,12 +38,18 @@ import { Sidebar } from './shared/Global/Sidebar/Sidebar';
 import './styles/global.scss';
 import { SidebarChat } from './shared/Global/SidebarChat/SidebarChat';
 import { SidebarNotifications } from './shared/Global/SidebarNotifications/SidebarNotifications';
-import { AddGoalsSelect } from './pages/Goals/components/AddGoalsSelect/AddGoalsSelect';
-import { AddGoalsForm } from './pages/Goals/components/AddGoalsForm/AddGoalsForm';
+import { AddGoal } from './pages/Goals/components/AddGoal/AddGoal';
+import { fetchGoalsData } from './store/ducks/goals/actionCreators';
+import { EditGoalForm } from './pages/Goals/components/EditGoalForm/EditGoalForm';
+import { selectGoalsLoadingStatus } from './store/ducks/goals/selectors';
+import { selectGoalLoadingStatus } from './store/ducks/goal/selectors';
 
 function App() {
   const isAuth = useSelector(selectIsAuth);
-  const loadingStatus = useSelector(selectUserLoadingStatus);
+  const loadingUser = useSelector(selectUserLoadingStatus);
+  const loadingGoals = useSelector(selectGoalsLoadingStatus);
+  const loadingGoal = useSelector(selectGoalLoadingStatus);
+
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -59,7 +65,8 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchUserData());
-  }, [isAuth]);
+    dispatch(fetchGoalsData());
+  }, [isAuth, dispatch]);
 
   useEffect(() => {
     dispatch(setUserLoadingStatus(LoadingStatus.LOADED));
@@ -69,16 +76,18 @@ function App() {
   useEffect(() => {
     if (isAuth && authPaths.includes(currentPath)) {
       history.push('/');
-    } else if (loadingStatus === LoadingStatus.SUCCESS && isAuth && redirect) {
+    } else if (loadingUser === LoadingStatus.SUCCESS && isAuth && redirect) {
       history.push(currentPath);
       setRedirect(false);
     }
-  }, [isAuth, loadingStatus]);
+  }, [isAuth, loadingUser]);
 
   function getLoading() {
     return (
-      loadingStatus === LoadingStatus.LOADING ||
-      loadingStatus === LoadingStatus.NEVER
+      loadingUser === LoadingStatus.LOADING ||
+      loadingUser === LoadingStatus.NEVER ||
+      loadingGoals === LoadingStatus.LOADING ||
+      loadingGoal === LoadingStatus.LOADING
     );
   }
 
@@ -93,18 +102,15 @@ function App() {
             </Route>
 
             <Route exact path="/signup">
-              <SignupForm
-                loadingStatus={loadingStatus}
-                setRedirect={setRedirect}
-              />
+              <SignupForm setRedirect={setRedirect} />
             </Route>
 
             <Route exact path="/forgot-password">
-              <ForgotForm loadingStatus={loadingStatus} />
+              <ForgotForm />
             </Route>
 
             <Route exact path="/restore-password">
-              <RestoreForm loadingStatus={loadingStatus} />
+              <RestoreForm />
             </Route>
 
             <Route render={() => <Redirect to="/signin" />} />
@@ -149,16 +155,15 @@ function App() {
 
             <Route exact path="/goals" component={Goals} />
 
-            <Route exact path="/goals/add-select" component={AddGoalsSelect} />
-
-            <Route exact path="/goals/add" component={AddGoalsForm} />
+            <Route exact path="/goals/add" component={AddGoal} />
+            <Route exact path="/goals/edit/:id" component={EditGoalForm} />
 
             <Route path="/tariffs" component={Tariffs} />
 
             <Route path="/services" component={Services} />
 
             <Route exact path="/forgot-password">
-              <ForgotForm loadingStatus={loadingStatus} />
+              <ForgotForm />
             </Route>
 
             <Route component={ErrorPage} />

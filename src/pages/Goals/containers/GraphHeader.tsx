@@ -1,21 +1,21 @@
 import classNames from 'classnames';
 import React from 'react';
 import { GlobalSvgSelector } from '../../../assets/icons/global/GlobalSvgSelector';
-import { Goal } from '../components/Goal/Goal';
+import { Goal } from '../../../store/ducks/goal/contracts/state';
 
 import s from './Goals.module.scss';
 
 interface Props {
-  goals: any; //TODO:
+  goal: Goal;
   selectedPeriod: any; //TODO:
 }
 
-export const GraphHeader = ({ goals, selectedPeriod }: Props) => {
+export const GraphHeader = ({ goal, selectedPeriod }: Props) => {
   return (
     <div className={s.graph__header}>
       <div className={s.goal__info}>
-        <div className={s.goal__title}>{goals[1].title}</div>
-        <div className={s.goal__description}>{goals[1].description}</div>
+        <div className={s.goal__title}>{goal.name}</div>
+        <div className={s.goal__description}>{goal.description || <br />}</div>
       </div>
       <div className={s.graph__period__selectors}>
         <div className={s.graph__period__selector}>Неделя</div>

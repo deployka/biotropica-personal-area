@@ -15,14 +15,16 @@
   box-shadow: 0px 0px 4px rgba(111, 97, 208, 0.14);
   position: relative;
   z-index: 1;
-  // BUTTON GRADIENT
   background: linear-gradient(to right, #c77edf 0%, #6f61d0 73.44%);
   padding: 1px;
+  margin-right: 30px;
+
   &__title {
     border-radius: 15px;
     background: $color-white;
     position: relative;
-    padding: 1px;
+    word-break: break-word;
+    padding: 25px;
     border: 1px solid transparent;
 
     z-index: 3;

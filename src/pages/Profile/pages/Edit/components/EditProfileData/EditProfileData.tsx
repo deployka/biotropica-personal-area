@@ -31,7 +31,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import MaskedInput from 'react-maskedinput';
 
-import ru from 'date-fns/locale/ru';
 import { Input } from '../../../../../../shared/Form/Input/Input';
 import { DatePickerCustom } from '../../../../../../shared/Form/DatePicker/DatePickerCustom';
 import { Button } from '../../../../../../shared/Form/Button/Button';
@@ -40,7 +39,7 @@ import { SelectCustom } from '../../../../../../shared/Form/Select/SelectCustom'
 import { store } from 'react-notifications-component';
 import { notification } from '../../../../../../config/notification/notificationForm';
 import { FormsSvgSelector } from '../../../../../../assets/icons/forms/FormsSvgSelector';
-
+import ru from 'date-fns/locale/ru';
 registerLocale('ru', ru);
 
 interface Props {

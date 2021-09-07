@@ -8,7 +8,10 @@ import { LoadingStatus } from '../../../../store/types';
 import { Formik } from 'formik';
 
 import { validationSchema } from './validationSchema';
-import { selectUserResponse } from '../../../../store/ducks/user/selectors';
+import {
+  selectUserLoadingStatus,
+  selectUserResponse,
+} from '../../../../store/ducks/user/selectors';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
@@ -16,15 +19,15 @@ import { notification } from '../../../../config/notification/notificationForm';
 import { store } from 'react-notifications-component';
 
 import s from './ForgotForm.module.scss';
-interface Props {
-  loadingStatus: string;
-}
+interface Props {}
 
-export const ForgotForm = ({ loadingStatus }: Props) => {
+export const ForgotForm = ({}: Props) => {
   const dispatch = useDispatch();
   const response = useSelector(selectUserResponse);
   const location = useLocation();
   const history = useHistory();
+
+  const loadingStatus = useSelector(selectUserLoadingStatus);
   const email = location.search.split('=')[1];
 
   const [loader, setLoader] = useState<boolean>(false);

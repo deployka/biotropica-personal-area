@@ -9,22 +9,25 @@ import { Formik } from 'formik';
 
 import s from './RestoreForm.module.scss';
 import { validationSchema } from './validationSchema';
-import { selectUserResponse } from '../../../../store/ducks/user/selectors';
+import {
+  selectUserLoadingStatus,
+  selectUserResponse,
+} from '../../../../store/ducks/user/selectors';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { store } from 'react-notifications-component';
 import { notification } from '../../../../config/notification/notificationForm';
 
-interface Props {
-  loadingStatus: string;
-}
+interface Props {}
 
-export const RestoreForm = ({ loadingStatus }: Props) => {
+export const RestoreForm = ({}: Props) => {
   const dispatch = useDispatch();
   const response = useSelector(selectUserResponse);
   const location = useLocation();
   const history = useHistory();
+
+  const loadingStatus = useSelector(selectUserLoadingStatus);
   const token = location.search?.split('=')[1];
 
   const [loader, setLoader] = useState<boolean>(false);

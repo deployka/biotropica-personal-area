@@ -18,19 +18,22 @@ import {
 } from '../../../../utils/phoneValidator';
 import { validationSchema } from './validationSchema';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
-import { selectUserResponse } from '../../../../store/ducks/user/selectors';
+import {
+  selectUserLoadingStatus,
+  selectUserResponse,
+} from '../../../../store/ducks/user/selectors';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { notification } from '../../../../config/notification/notificationForm';
 import { store } from 'react-notifications-component';
 interface Props {
   setRedirect: Dispatch<SetStateAction<boolean>>;
-  loadingStatus: string;
 }
 
-export const SignupForm = ({ loadingStatus }: Props) => {
+export const SignupForm = ({}: Props) => {
   const dispatch = useDispatch();
   const res = useSelector(selectUserResponse);
+  const loadingStatus = useSelector(selectUserLoadingStatus);
 
   const [errorValue, errorText] = res?.message?.split(':') || [];
 

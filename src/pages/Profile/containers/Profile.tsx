@@ -34,10 +34,6 @@ export const Profile = (props: Props) => {
 
   const [activeTab, setActiveTab] = useState<string>(tabs[0].key);
 
-  const GoalsData = {
-    amount: 3,
-  };
-
   const TariffData = {
     name: 'стандарт',
     expires: '9 июля 2021',
@@ -48,7 +44,7 @@ export const Profile = (props: Props) => {
       <div className={s.profile}>
         <div className={s.profile__info}>
           {user && <Card user={user} />}
-          <Goals Goals={GoalsData} />
+          <Goals />
           <Tariff Tariff={TariffData} />
         </div>
         <div className={s.content}>

@@ -9,6 +9,7 @@ import reportWebVitals from './reportWebVitals';
 import { store } from './store/store';
 
 import 'react-notifications-component/dist/theme.css';
+import 'swiper/swiper.scss';
 
 ReactDOM.render(
   <React.StrictMode>

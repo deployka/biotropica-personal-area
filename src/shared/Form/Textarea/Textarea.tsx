@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import s from './Input.module.scss';
+import s from './Textarea.module.scss';
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 import { Label } from '../Label/Label';
 
@@ -20,26 +20,21 @@ interface Props {
     classes?: any;
     touched: any;
     errors: any;
-    placeholderActive?: string;
   };
 }
 
-export const Input = (props: Props) => {
+export const Textarea = (props: Props) => {
   const { options, ...inputProps } = props;
   const { touched, errors, classes } = options;
-
   return (
     <>
-      <input
-        onKeyUp={e => {
-          const target = e.target as HTMLInputElement;
-        }}
+      <textarea
         className={classNames({
           ...classes,
-          [s.input]: true,
+          [s.textarea]: true,
           [s.active]: !!props.value,
-          [s.success__input]: touched[props.name] && !errors[props.name],
-          [s.error__input]: touched[props.name] && errors[props.name],
+          [s.success__textarea]: touched[props.name] && !errors[props.name],
+          [s.error__textarea]: touched[props.name] && errors[props.name],
         })}
         {...inputProps}
         placeholder=""

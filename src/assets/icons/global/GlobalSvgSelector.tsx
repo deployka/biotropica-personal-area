@@ -4,6 +4,42 @@ interface Props {
 
 export const GlobalSvgSelector = ({ id }: Props) => {
   switch (id) {
+    case 'slider-left':
+      return (
+        <svg
+          width="13"
+          height="14"
+          viewBox="0 0 13 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6.74046 2.25954L2 7L6.74046 11.7405"
+            stroke="#333333"
+            strokeWidth="1.81493"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case 'slider-right':
+      return (
+        <svg
+          width="13"
+          height="14"
+          viewBox="0 0 13 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6.25954 2.25954L11 7L6.25954 11.7405"
+            stroke="#333333"
+            strokeWidth="1.81493"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
     case 'checked':
       return (
         <svg

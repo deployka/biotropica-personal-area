@@ -154,7 +154,9 @@ export const Sidebar = ({
                 onClick={() => setPage(item.page)}
                 to={item.link}
                 className={
-                  item.link === location.pathname ? s.active__nav : s.nav__link
+                  item.link === '/' + location.pathname.split('/')[1]
+                    ? s.active__nav
+                    : s.nav__link
                 }
               >
                 <div className={s.sidebar__link}>{item.svg}</div>

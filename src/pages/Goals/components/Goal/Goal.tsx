@@ -1,14 +1,23 @@
-import React from 'react';
+import classNames from 'classnames';
+import React, { Dispatch, SetStateAction } from 'react';
+import { Goal as IGoal } from '../../../../store/ducks/goal/contracts/state';
 
 import s from './Goal.module.scss';
 interface Props {
-  goal: any;
+  goal: IGoal;
+  active: number;
+  setActive: Dispatch<SetStateAction<IGoal>>;
 }
 
-export const Goal = ({ goal }: Props) => {
+export const Goal = ({ goal, active, setActive }: Props) => {
   return (
-    <div className={s.goal}>
-      <div className={s.goal__title}>{goal.title}</div>
+    <div
+      onClick={() => setActive(goal)}
+      className={classNames(s.goal, {
+        [s.active]: goal.id === active,
+      })}
+    >
+      <div className={s.goal__title}>{goal.name}</div>
     </div>
   );
 };
