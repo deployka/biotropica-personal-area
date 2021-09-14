@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import { fetchGoalData } from '../../../store/ducks/goal/actionCreators';
 import { Goal } from '../../../store/ducks/goal/contracts/state';
+import {
+  selectGoalData,
+  selectGoalStatus,
+} from '../../../store/ducks/goal/selectors';
 import {
   selectGoalsData,
   selectGoalsStatus,
@@ -17,47 +22,57 @@ interface Props {}
 
 export const Goals = (props: Props) => {
   const history = useHistory();
-
+  const location = useLocation();
   const goals: Goal[] = useSelector(selectGoalsData) || [];
   const loading = useSelector(selectGoalsStatus);
+  const loadingGoal = useSelector(selectGoalStatus);
+  const dispatch = useDispatch();
 
-  const [activeGoal, setActiveGoal] = useState<Goal>(goals[goals.length - 1]);
+  const activeGoalId: number = parseInt(location.pathname.split('/')[2]);
+  const goal = useSelector(selectGoalData);
+
+  const activeGoalTemplate = activeGoalId ? goal : goals[goals.length - 1];
+
+  useEffect(() => {
+    if (activeGoalId) {
+      dispatch(fetchGoalData(activeGoalId));
+    }
+  }, [activeGoalId]);
+
+  useEffect(() => {
+    if (
+      (!activeGoalId && loading === LoadingStatus.SUCCESS && goals.length) ||
+      (!activeGoalTemplate && loading === LoadingStatus.SUCCESS)
+    ) {
+      history.push(`/goals/${goals[goals.length - 1]?.id}`);
+    }
+  }, [goals, loading, loadingGoal, activeGoalId]);
 
   useEffect(() => {
     if (loading === LoadingStatus.SUCCESS && !goals.length) {
       history.push('/goals/add');
     }
-  }, [loading]);
-
-  useEffect(() => {
-    setActiveGoal(() => goals[goals.length - 1]);
-  }, [goals, loading]);
+  }, [loading, goals]);
 
   const selectedPeriod = {
     from: '01.06.21',
     to: '31.06.21',
   };
 
-  function isRender() {
-    return activeGoal && goals.length;
-  }
-
   return (
     <div className={s.goals}>
-      {isRender() && (
-        <Header setActive={setActiveGoal} active={activeGoal.id} />
-      )}
-      {isRender() && (
-        <div className={s.goal__content}>
-          <div className={s.goal__content__graph}>
-            <GraphHeader goal={activeGoal} selectedPeriod={selectedPeriod} />
-            <Graph />
-          </div>
-          <div className={s.goal__content__edit}>
-            <ProgressForm goal={activeGoal} />
-          </div>
+      <Header
+        active={activeGoalId ? activeGoalId : goals[goals.length - 1]?.id}
+      />
+      <div className={s.goal__content}>
+        <div className={s.goal__content__graph}>
+          <GraphHeader selectedPeriod={selectedPeriod} />
+          <Graph />
         </div>
-      )}
+        <div className={s.goal__content__edit}>
+          <ProgressForm />
+        </div>
+      </div>
     </div>
   );
 };

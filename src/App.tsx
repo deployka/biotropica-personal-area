@@ -14,7 +14,10 @@ import { Questionnaire } from './pages/Questionnaire/containers/Questionnaire';
 import { Edit } from './pages/Profile/pages/Edit/container/Edit';
 import { Tariffs } from './pages/Tariffs/containers/Tariffs';
 import { Services } from './pages/Services/containers/Services';
-import { RestoreForm } from './pages/Auth/components/RestoreForm/RestoreForm';
+import {
+  RestoreForm,
+  Type,
+} from './pages/Auth/components/RestoreForm/RestoreForm';
 import { ForgotForm } from './pages/Auth/components/ForgotForm/ForgotForm';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -43,6 +46,7 @@ import { fetchGoalsData } from './store/ducks/goals/actionCreators';
 import { EditGoalForm } from './pages/Goals/components/EditGoalForm/EditGoalForm';
 import { selectGoalsLoadingStatus } from './store/ducks/goals/selectors';
 import { selectGoalLoadingStatus } from './store/ducks/goal/selectors';
+import { store } from 'react-notifications-component';
 
 function App() {
   const isAuth = useSelector(selectIsAuth);
@@ -54,7 +58,6 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const [redirect, setRedirect] = useState<boolean>(false);
   const [page, setPage] = useState<string>('Главная');
   const [sidebarNotificationsOpen, setSidebarNotificationsOpen] =
     useState<boolean>(false);
@@ -65,20 +68,22 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchUserData());
-    dispatch(fetchGoalsData());
+    if (isAuth) {
+      dispatch(fetchGoalsData());
+    }
   }, [isAuth, dispatch]);
 
   useEffect(() => {
     dispatch(setUserLoadingStatus(LoadingStatus.LOADED));
     dispatch(setUserResponse(undefined));
+    store.removeNotification('delete-notification');
   }, [location.pathname]);
 
   useEffect(() => {
     if (isAuth && authPaths.includes(currentPath)) {
       history.push('/');
-    } else if (loadingUser === LoadingStatus.SUCCESS && isAuth && redirect) {
+    } else if (loadingUser === LoadingStatus.SUCCESS && isAuth) {
       history.push(currentPath);
-      setRedirect(false);
     }
   }, [isAuth, loadingUser]);
 
@@ -98,11 +103,11 @@ function App() {
         <div className="auth__container">
           <Switch>
             <Route exact path="/signin">
-              <SigninForm setRedirect={setRedirect} />
+              <SigninForm />
             </Route>
 
             <Route exact path="/signup">
-              <SignupForm setRedirect={setRedirect} />
+              <SignupForm />
             </Route>
 
             <Route exact path="/forgot-password">
@@ -110,7 +115,11 @@ function App() {
             </Route>
 
             <Route exact path="/restore-password">
-              <RestoreForm />
+              <RestoreForm type={Type.CHANGE} />
+            </Route>
+
+            <Route exact path="/create-password">
+              <RestoreForm type={Type.CREATE} />
             </Route>
 
             <Route render={() => <Redirect to="/signin" />} />
@@ -154,17 +163,13 @@ function App() {
             <Route exact path="/profile/edit" component={Edit} />
 
             <Route exact path="/goals" component={Goals} />
-
             <Route exact path="/goals/add" component={AddGoal} />
+            <Route exact path="/goals/:id" component={Goals} />
             <Route exact path="/goals/edit/:id" component={EditGoalForm} />
 
             <Route path="/tariffs" component={Tariffs} />
 
             <Route path="/services" component={Services} />
-
-            <Route exact path="/forgot-password">
-              <ForgotForm />
-            </Route>
 
             <Route component={ErrorPage} />
           </Switch>

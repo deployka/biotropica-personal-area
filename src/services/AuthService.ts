@@ -52,4 +52,9 @@ export default class AuthService {
       headers: { authorization: `Bearer ${data.restoreToken}` },
     });
   }
+  static async createPassword(data: RestorePasswordData): Promise<void> {
+    return await $api.post(`/${AuthService.route}/create-password`, data, {
+      headers: { authorization: `Bearer ${data.restoreToken}` },
+    });
+  }
 }

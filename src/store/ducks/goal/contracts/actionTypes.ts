@@ -11,11 +11,17 @@ export enum GoalActionsType {
   CREATE_GOAL_DATA = 'goal/CREATE_GOAL_DATA',
   FETCH_GOALS_DATA = 'goal/FETCH_GOALS_DATA',
   FETCH_UPDATE_GOAL = 'goal/FETCH_UPDATE_GOAL',
+  FETCH_DELETE_GOAL = 'goal/FETCH_DELETE_GOAL',
 }
 
 export interface UpdateGoalActionInterface extends Action<GoalActionsType> {
   type: GoalActionsType.FETCH_UPDATE_GOAL;
   payload: UpdateGoalData;
+}
+
+export interface DeleteGoalActionInterface extends Action<GoalActionsType> {
+  type: GoalActionsType.FETCH_DELETE_GOAL;
+  payload: number;
 }
 
 export interface FetchGoalDataActionInterface extends Action<GoalActionsType> {

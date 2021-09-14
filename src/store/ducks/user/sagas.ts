@@ -96,6 +96,19 @@ export function* fetchRestorePasswordRequest({
   }
 }
 
+export function* fetchCreatePasswordRequest({
+  payload,
+}: FetchRestorePasswordActionInterface): any {
+  yield put(setUserLoadingStatus(LoadingStatus.LOADING));
+  const { data, status } = yield call(AuthService.createPassword, payload);
+  yield put(setUserResponse(data));
+  if (status === 200) {
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
+  } else {
+    yield put(setUserLoadingStatus(LoadingStatus.ERROR));
+  }
+}
+
 export function* fetchUserDataRequest({}: FetchUserDataActionInterface): any {
   yield put(setUserLoadingStatus(LoadingStatus.LOADING));
   const { data, status } = yield call(UserService.getMe);
@@ -142,4 +155,8 @@ export function* userSaga(): any {
     fetchRestorePasswordRequest
   );
   yield takeLatest(UserActionsType.FETCH_UPDATE_USER, fetchUpdateUserRequest);
+  yield takeLatest(
+    UserActionsType.FETCH_CREATE_PASSWORD,
+    fetchCreatePasswordRequest
+  );
 }

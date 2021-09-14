@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Link } from 'react-router-dom';
 import { Goal as IGoal } from '../../../store/ducks/goal/contracts/state';
@@ -13,11 +19,20 @@ SwiperCore.use([Navigation]);
 
 interface Props {
   active: number;
-  setActive: Dispatch<SetStateAction<IGoal>>;
 }
 
-export const Header = ({ setActive, active }: Props) => {
-  const goals: IGoal[] = [...(useSelector(selectGoalsData) || [])].reverse();
+const ButtonAddGoal = memo(() => {
+  return (
+    <Link to={'/goals/add'} className={s.btn__create__goal}>
+      Создать новую цель
+    </Link>
+  );
+});
+
+export const Header = ({ active }: Props) => {
+  const goals: IGoal[] = [...(useSelector(selectGoalsData) || [])]
+    .filter((goal: IGoal) => !goal.completed)
+    .reverse();
 
   return (
     <div className={s.goals__header}>
@@ -32,7 +47,7 @@ export const Header = ({ setActive, active }: Props) => {
         >
           {goals.map((goal: IGoal) => (
             <SwiperSlide key={goal.id}>
-              <Goal setActive={setActive} active={active} goal={goal} />
+              <Goal active={active} goal={goal} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -47,9 +62,7 @@ export const Header = ({ setActive, active }: Props) => {
           </div>
         )}
       </div>
-      <Link to={'/goals/add'} className={s.btn__create__goal}>
-        Создать новую цель
-      </Link>
+      <ButtonAddGoal />
     </div>
   );
 };

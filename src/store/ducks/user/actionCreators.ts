@@ -1,5 +1,6 @@
 import {
   FetchChangePasswordActionInterface,
+  FetchCreatePasswordActionInterface,
   FetchForgotPasswordActionInterface,
   FetchRestorePasswordActionInterface,
   FetchSigninActionInterface,
@@ -68,6 +69,13 @@ export const fetchRestorePassword = (
   payload: RestorePasswordData
 ): FetchRestorePasswordActionInterface => ({
   type: UserActionsType.FETCH_RESTORE_PASSWORD,
+  payload,
+});
+
+export const fetchCreatePassword = (
+  payload: RestorePasswordData
+): FetchCreatePasswordActionInterface => ({
+  type: UserActionsType.FETCH_CREATE_PASSWORD,
   payload,
 });
 

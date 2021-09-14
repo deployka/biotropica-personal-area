@@ -26,9 +26,7 @@ import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { notification } from '../../../../config/notification/notificationForm';
 import { store } from 'react-notifications-component';
-interface Props {
-  setRedirect: Dispatch<SetStateAction<boolean>>;
-}
+interface Props {}
 
 export const SignupForm = ({}: Props) => {
   const dispatch = useDispatch();

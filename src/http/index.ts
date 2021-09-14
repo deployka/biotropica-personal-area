@@ -11,25 +11,29 @@ $api.interceptors.request.use(config => {
   return config;
 });
 
-let isRetry = false;
-
 $api.interceptors.response.use(
   config => {
     return config;
   },
   async error => {
     const originalRequest = error.config;
-    if (error?.response?.status === 401 && originalRequest && !isRetry) {
-      isRetry = true;
+    originalRequest.isRetry = false;
+    if (
+      error?.response?.status === 401 &&
+      originalRequest &&
+      !originalRequest.isRetry
+    ) {
+      console.log(originalRequest.isRetry);
+      originalRequest.isRetry = true;
       try {
         const { data, status } = await AuthService.refresh();
         if (status === 200) {
           window.localStorage.setItem('token', data.accessToken);
-          isRetry = false;
+          return $api.request(originalRequest);
         }
-      } catch (error) {}
-
-      return $api.request(originalRequest);
+      } catch (error) {
+        originalRequest.isRetry = true;
+      }
     }
     return error?.response;
   }
