@@ -1,6 +1,9 @@
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+import { DateContext } from '../../../context/DatesContext';
+import { Dates } from '../../../shared/Global/Calendar/Calendar';
 import { fetchGoalData } from '../../../store/ducks/goal/actionCreators';
 import { Goal } from '../../../store/ducks/goal/contracts/state';
 import {
@@ -31,7 +34,7 @@ export const Goals = (props: Props) => {
   const activeGoalId: number = parseInt(location.pathname.split('/')[2]);
   const goal = useSelector(selectGoalData);
 
-  const activeGoalTemplate = activeGoalId ? goal : goals[goals.length - 1];
+  const activeGoalTemplate = activeGoalId ? goal : goals[0];
 
   useEffect(() => {
     if (activeGoalId) {
@@ -44,7 +47,7 @@ export const Goals = (props: Props) => {
       (!activeGoalId && loading === LoadingStatus.SUCCESS && goals.length) ||
       (!activeGoalTemplate && loading === LoadingStatus.SUCCESS)
     ) {
-      history.push(`/goals/${goals[goals.length - 1]?.id}`);
+      history.push(`/goals/${goals[0]?.id}`);
     }
   }, [goals, loading, loadingGoal, activeGoalId]);
 
@@ -54,25 +57,32 @@ export const Goals = (props: Props) => {
     }
   }, [loading, goals]);
 
-  const selectedPeriod = {
-    from: '01.06.21',
-    to: '31.06.21',
-  };
+  const [dates, setDates] = useState<Dates>({
+    startDate: new Date(),
+    endDate: new Date(),
+  });
 
   return (
-    <div className={s.goals}>
-      <Header
-        active={activeGoalId ? activeGoalId : goals[goals.length - 1]?.id}
-      />
-      <div className={s.goal__content}>
-        <div className={s.goal__content__graph}>
-          <GraphHeader selectedPeriod={selectedPeriod} />
-          <Graph />
-        </div>
-        <div className={s.goal__content__edit}>
-          <ProgressForm />
+    <DateContext.Provider
+      value={{
+        dates,
+        setDates,
+      }}
+    >
+      <div className={s.goals}>
+        <Header
+          active={activeGoalId ? activeGoalId : goals[goals.length - 1]?.id}
+        />
+        <div className={s.goal__content}>
+          <div className={s.goal__content__graph}>
+            <GraphHeader />
+            <Graph dates={dates} />
+          </div>
+          <div className={s.goal__content__edit}>
+            <ProgressForm />
+          </div>
         </div>
       </div>
-    </div>
+    </DateContext.Provider>
   );
 };

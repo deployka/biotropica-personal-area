@@ -23,7 +23,6 @@ $api.interceptors.response.use(
       originalRequest &&
       !originalRequest.isRetry
     ) {
-      console.log(originalRequest.isRetry);
       originalRequest.isRetry = true;
       try {
         const { data, status } = await AuthService.refresh();

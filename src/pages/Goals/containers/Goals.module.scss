@@ -88,7 +88,7 @@
   &__header {
     width: 100%;
     @include flex(row, space-between, flex-start, nowrap);
-    margin-bottom: 50px;
+    margin-bottom: 20px;
   }
   &__period {
     &__selectors {
@@ -121,17 +121,4 @@
   text-decoration: none;
   font-size: 16px;
   line-height: 120%;
-}
-.btn__calendar {
-  border: 1px solid $color-secondary;
-  color: $color-secondary;
-  font-size: 16px;
-  line-height: 120%;
-  @include flex();
-  @include wh(199px, 34px);
-  border-radius: 40px;
-  &__date {
-    @include flex();
-    margin-right: 15px;
-  }
 }

@@ -30,14 +30,16 @@ const ButtonAddGoal = memo(() => {
 });
 
 export const Header = ({ active }: Props) => {
-  const goals: IGoal[] = [...(useSelector(selectGoalsData) || [])]
-    .filter((goal: IGoal) => !goal.completed)
-    .reverse();
+  const goals: IGoal[] = useSelector(selectGoalsData) || [];
+  const sortGoals = [...goals].sort((a: IGoal, b: IGoal): any => {
+    return Date.parse(b.createdAt) - Date.parse(a.createdAt);
+  });
 
   return (
     <div className={s.goals__header}>
       <div className={s.goals__container}>
         <Swiper
+          watchOverflow={true}
           navigation={{
             prevEl: '.left',
             nextEl: '.right',
@@ -45,7 +47,7 @@ export const Header = ({ active }: Props) => {
           spaceBetween={20}
           slidesPerView={goals.length <= 3 ? goals.length : 3}
         >
-          {goals.map((goal: IGoal) => (
+          {sortGoals.map((goal: IGoal) => (
             <SwiperSlide key={goal.id}>
               <Goal active={active} goal={goal} />
             </SwiperSlide>

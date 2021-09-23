@@ -21,6 +21,7 @@ import {
   setGoalResponse,
 } from '../../../../store/ducks/goal/actionCreators';
 import {
+  selectGoalData,
   selectGoalLoadingStatus,
   selectGoalResponse,
 } from '../../../../store/ducks/goal/selectors';
@@ -30,21 +31,23 @@ import s from './AddGoalForm.module.scss';
 import { validationSchema } from './validationSchema';
 import { Textarea } from '../../../../shared/Form/Textarea/Textarea';
 import { useHistory } from 'react-router-dom';
-import { fetchGoalsData } from '../../../../store/ducks/goals/actionCreators';
+import { setGoalsData } from '../../../../store/ducks/goals/actionCreators';
 import { selectGoalsData } from '../../../../store/ducks/goals/selectors';
 
 interface Props {
-  goal: CreateGoalData;
+  goalTemplate: CreateGoalData;
   setNext: Dispatch<SetStateAction<boolean>>;
-  edit?: boolean;
 }
 
-export const AddGoalForm = ({ goal, setNext, edit }: Props) => {
+export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const loadingStatus = useSelector(selectGoalLoadingStatus);
   const response = useSelector(selectGoalResponse);
-  const history = useHistory();
+
   const goals: Goal[] = useSelector(selectGoalsData) || [];
+  const goal: Goal | undefined = useSelector(selectGoalData);
 
   const [name, setName] = useState<string>('');
 
@@ -53,7 +56,7 @@ export const AddGoalForm = ({ goal, setNext, edit }: Props) => {
 
   useEffect(() => {
     if (refResetForm.current) {
-      history.push('/goals');
+      history.push(`/goals`);
     }
   }, [goals, history]);
 
@@ -82,10 +85,16 @@ export const AddGoalForm = ({ goal, setNext, edit }: Props) => {
         message:
           'Не забывайте регулярно отмечать свой прогресс в достижении цели',
         type: 'success',
-        dismiss: false,
+        dismiss: {
+          onScreen: true,
+          duration: 7000,
+          pauseOnHover: true,
+        },
       });
       dispatch(setGoalResponse(undefined));
-      dispatch(fetchGoalsData());
+      if (goal && goals) {
+        dispatch(setGoalsData([...goals, goal]));
+      }
       refResetForm.current();
     }
   }, [loadingStatus]);
@@ -113,7 +122,7 @@ export const AddGoalForm = ({ goal, setNext, edit }: Props) => {
 
         <Formik
           initialValues={{
-            ...goal,
+            ...goalTemplate,
           }}
           validateOnBlur
           onSubmit={(values: CreateGoalData, options) =>

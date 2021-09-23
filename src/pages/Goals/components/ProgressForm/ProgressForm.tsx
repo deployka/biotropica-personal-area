@@ -10,7 +10,7 @@ import { Button } from '../../../../shared/Form/Button/Button';
 import { DatePickerCustom } from '../../../../shared/Form/DatePicker/DatePickerCustom';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
-import { Calendar } from '../../../../shared/Global/Сalendar/Calendar';
+import { Calendar } from '../../../../shared/Global/Calendar/Calendar';
 import {
   deleteGoalData,
   setGoalResponse,
@@ -114,7 +114,11 @@ export const ProgressForm = ({}: Props) => {
         message:
           'Не забывайте регулярно отмечать свой прогресс в достижении цели',
         type: 'info',
-        dismiss: false,
+        dismiss: {
+          duration: 5000,
+          pauseOnHover: true,
+          onScreen: true,
+        },
       });
       dispatch(setGoalResponse(undefined));
       refResetForm.current();
@@ -131,7 +135,9 @@ export const ProgressForm = ({}: Props) => {
         message: 'Чтобы закрыть это уведомление, нажмите на него',
         type: 'success',
         dismiss: {
-          duration: 10000,
+          duration: 5000,
+          pauseOnHover: true,
+          onScreen: true,
         },
       });
       history.push('/goals');

@@ -4,7 +4,7 @@ import {
   CreateGoalData,
   GoalType,
 } from '../../../../store/ducks/goal/contracts/state';
-import { fetchGoalsData } from '../../../../store/ducks/goals/actionCreators';
+
 import { AddGoalForm } from '../AddGoalForm/AddGoalForm';
 import { AddGoalSelect } from '../AddGoalSelect/AddGoalSelect';
 
@@ -24,16 +24,12 @@ export const AddGoal = (props: Props) => {
 
   const [next, setNext] = useState(false);
 
-  useEffect(() => {
-    dispatch(fetchGoalsData());
-  }, [next, dispatch]);
-
   return (
     <div className={s.add__goal}>
       {!next && (
         <AddGoalSelect goal={goal} setNext={setNext} setGoal={setGoal} />
       )}
-      {next && <AddGoalForm goal={goal} setNext={setNext} />}
+      {next && <AddGoalForm goalTemplate={goal} setNext={setNext} />}
     </div>
   );
 };

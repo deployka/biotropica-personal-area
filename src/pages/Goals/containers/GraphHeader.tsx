@@ -1,19 +1,68 @@
 import classNames from 'classnames';
-import React from 'react';
+import moment from 'moment';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { GlobalSvgSelector } from '../../../assets/icons/global/GlobalSvgSelector';
+import { DateContext } from '../../../context/DatesContext';
+import { Calendar, Dates } from '../../../shared/Global/Calendar/Calendar';
 import { Goal } from '../../../store/ducks/goal/contracts/state';
 import { selectGoalData } from '../../../store/ducks/goal/selectors';
+import { Tabs } from '../../Profile/components/Tabs/Tabs';
+import { Tab } from '../../Profile/pages/Edit/container/Edit';
 
 import s from './Goals.module.scss';
 
-interface Props {
-  // goal: Goal;
-  selectedPeriod: any; //TODO:
-}
+interface Props {}
 
-export const GraphHeader = ({ selectedPeriod }: Props) => {
+export const GraphHeader = ({}: Props) => {
   const goal: Goal | undefined = useSelector(selectGoalData);
+  const { setDates, dates } = useContext(DateContext);
+
+  const tabs: Tab[] = [
+    {
+      key: 'week',
+      value: 'Неделя',
+    },
+    {
+      key: 'month',
+      value: 'Месяц',
+    },
+    {
+      key: 'year',
+      value: 'Год',
+    },
+  ];
+
+  function getEndDate() {
+    const currentDate = new Date();
+    switch (activeTab) {
+      case 'month':
+        currentDate.setDate(currentDate.getDate() + 30);
+        break;
+      case 'week':
+        currentDate.setDate(currentDate.getDate() + 7);
+        break;
+      case 'year':
+        currentDate.setDate(currentDate.getDate() + 360);
+        break;
+      default:
+        currentDate.setDate(currentDate.getDate() + 7);
+        break;
+    }
+    return currentDate;
+  }
+
+  const [activeTab, setActiveTab] = useState<string>(tabs[0].key);
+
+  useEffect(() => {
+    setDates({ ...dates, endDate: getEndDate() });
+  }, [activeTab]);
 
   return (
     <>
@@ -26,19 +75,14 @@ export const GraphHeader = ({ selectedPeriod }: Props) => {
             </div>
           </div>
           <div className={s.graph__period__selectors}>
-            <div className={s.graph__period__selector}>Неделя</div>
-            <div className={classNames(s.graph__period__selector, s.selected)}>
-              Месяц
+            <Tabs
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              tabs={tabs}
+            />
+            <div className={s.btn__calendar}>
+              <Calendar />
             </div>
-            <div className={s.graph__period__selector}>Год</div>
-            <button className={s.btn__calendar}>
-              <div className={s.btn__calendar__date}>
-                {selectedPeriod.from}
-                {'  '}-{'  '}
-                {selectedPeriod.to}
-              </div>
-              <GlobalSvgSelector id="calendar" />
-            </button>
           </div>
         </div>
       )}

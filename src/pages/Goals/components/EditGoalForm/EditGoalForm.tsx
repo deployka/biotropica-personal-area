@@ -28,7 +28,8 @@ import s from './EditGoalForm.module.scss';
 import { validationSchema } from './validationSchema';
 import { Textarea } from '../../../../shared/Form/Textarea/Textarea';
 import { useHistory } from 'react-router-dom';
-import { fetchGoalsData } from '../../../../store/ducks/goals/actionCreators';
+import { selectGoalsData } from '../../../../store/ducks/goals/selectors';
+import { setGoalsData } from '../../../../store/ducks/goals/actionCreators';
 
 interface Props {}
 
@@ -40,6 +41,7 @@ export const EditGoalForm = ({}: Props) => {
   const location = useLocation();
 
   const goal: Goal | undefined = useSelector(selectGoalData);
+  const goals: Goal[] | undefined = useSelector(selectGoalsData);
 
   const [name, setName] = useState<string>('');
 
@@ -89,10 +91,18 @@ export const EditGoalForm = ({}: Props) => {
         message:
           'Не забывайте регулярно отмечать свой прогресс в достижении цели',
         type: 'info',
-        dismiss: false,
+        dismiss: {
+          onScreen: true,
+          duration: 5000,
+          pauseOnHover: true,
+        },
       });
       dispatch(setGoalResponse(undefined));
-      dispatch(fetchGoalsData());
+      if (goal && goals) {
+        dispatch(
+          setGoalsData([...goals.filter(fGoal => fGoal.id !== goal.id), goal])
+        );
+      }
       refResetForm.current();
       history.push(`/goals/${goal?.id}`);
     }

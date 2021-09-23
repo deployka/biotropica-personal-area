@@ -10,6 +10,7 @@ export interface Goal {
   userId: number;
   end_result: string;
   completed: boolean;
+  createdAt: string;
 }
 
 export interface GoalValue {
@@ -31,6 +32,9 @@ export enum GoalType {
 
 export interface UpdateGoalData extends Partial<Goal> {}
 export interface CreateGoalData
-  extends Omit<Goal, 'id' | 'description' | 'values' | 'userId' | 'completed'> {
+  extends Omit<
+    Goal,
+    'id' | 'description' | 'values' | 'userId' | 'completed' | 'createdAt'
+  > {
   description: string;
 }
