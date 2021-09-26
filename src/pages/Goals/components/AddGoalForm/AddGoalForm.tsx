@@ -56,7 +56,7 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
 
   useEffect(() => {
     if (refResetForm.current) {
-      history.push(`/goals`);
+      history.push(`/goals/${goal?.id}`);
     }
   }, [goals, history]);
 

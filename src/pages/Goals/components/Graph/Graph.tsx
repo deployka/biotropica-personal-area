@@ -28,7 +28,7 @@ export const Graph = ({ dates }: Props) => {
         datasets: [
           {
             borderColor: '#6f61d0',
-            label: '# of Votes',
+            label: 'Вес',
             data: [],
             borderWidth: 2,
             tension: 0.5,
@@ -37,6 +37,11 @@ export const Graph = ({ dates }: Props) => {
       },
 
       options: {
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
         scales: {
           y: {
             beginAtZero: true,

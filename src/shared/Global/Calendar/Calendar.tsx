@@ -38,7 +38,7 @@ export const Calendar = ({}: Props) => {
         hideKeyboardShortcutsPanel
         customInputIcon={<GlobalSvgSelector id="calendar" />}
         inputIconPosition={'after'}
-        dayPickerNavigationInlineStyles={{ display: 'none' }}
+        // dayPickerNavigationInlineStyles={{ display: 'none' }}
         orientation={'vertical'}
         verticalHeight={330}
         displayFormat={'DD.MM.YY'}

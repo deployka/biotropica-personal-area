@@ -13,6 +13,7 @@ import { DateContext } from '../../../context/DatesContext';
 import { Calendar, Dates } from '../../../shared/Global/Calendar/Calendar';
 import { Goal } from '../../../store/ducks/goal/contracts/state';
 import { selectGoalData } from '../../../store/ducks/goal/selectors';
+import { compareDate } from '../../../utils/compareDate';
 import { Tabs } from '../../Profile/components/Tabs/Tabs';
 import { Tab } from '../../Profile/pages/Edit/container/Edit';
 
@@ -61,7 +62,7 @@ export const GraphHeader = ({}: Props) => {
   const [activeTab, setActiveTab] = useState<string>(tabs[0].key);
 
   useEffect(() => {
-    setDates({ ...dates, endDate: getEndDate() });
+    setDates({ startDate: new Date(), endDate: getEndDate() });
   }, [activeTab]);
 
   return (
