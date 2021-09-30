@@ -48,7 +48,14 @@ export const Profile = (props: Props) => {
           <Tariff Tariff={TariffData} />
         </div>
         <div className={s.content}>
-          <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+          <div className={s.tabs__container}>
+            {' '}
+            <Tabs
+              tabs={tabs}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+            />
+          </div>
           {activeTab === tabs[0].key && user && <Recommended user={user} />}
           {activeTab === tabs[1].key && user && <TestsAndAnalyze user={user} />}
           {activeTab === tabs[2].key && user && <Progress user={user} />}
