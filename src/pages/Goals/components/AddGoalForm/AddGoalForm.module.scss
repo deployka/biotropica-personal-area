@@ -33,7 +33,20 @@
     color: $color-grey-3;
   }
 }
-
+.radio__wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  input {
+    margin-right: 5px;
+  }
+  label {
+    position: static;
+    margin-bottom: 0;
+    margin-right: 20px;
+  }
+}
 .buttons {
   button {
     margin-right: 20px;

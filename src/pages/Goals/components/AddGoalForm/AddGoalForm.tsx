@@ -15,6 +15,8 @@ import { Loader } from '../../../../shared/Form/Loader/Loader';
 import {
   CreateGoalData,
   Goal,
+  GoalSubtype,
+  GoalType,
 } from '../../../../store/ducks/goal/contracts/state';
 import {
   createGoalData,
@@ -33,6 +35,7 @@ import { Textarea } from '../../../../shared/Form/Textarea/Textarea';
 import { useHistory } from 'react-router-dom';
 import { setGoalsData } from '../../../../store/ducks/goals/actionCreators';
 import { selectGoalsData } from '../../../../store/ducks/goals/selectors';
+import { RadioButton } from '../../../../shared/Form/RadioButton/RadioButton';
 
 interface Props {
   goalTemplate: CreateGoalData;
@@ -102,7 +105,6 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
   async function onSubmit(values: CreateGoalData, options: any) {
     refResetForm.current = options.resetForm;
     setName(values.name);
-
     try {
       dispatch(createGoalData(values));
     } catch (error) {}
@@ -110,6 +112,36 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
 
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || loader;
+  }
+
+  function getCurrentTypeNames(type: GoalType): Array<any> {
+    switch (type) {
+      case GoalType.RUN:
+        return [
+          {
+            type: GoalSubtype.MAX_RESULT,
+            name: 'Скорость',
+          },
+          {
+            type: GoalSubtype.SUM_RESULTS,
+            name: 'Расстояние',
+          },
+        ];
+      case GoalType.WEIGHT:
+        return [
+          {
+            type: GoalSubtype.MAX_RESULT,
+            name: 'Набор массы',
+          },
+          {
+            type: GoalSubtype.MAX_RESULT,
+            name: 'Сброс веса',
+          },
+        ];
+
+      default:
+        return [];
+    }
   }
 
   return (
@@ -163,6 +195,24 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
                   type="text"
                   options={{ touched, errors }}
                 />
+              </div>
+
+              <div className={s.radio__wrapper}>
+                {getCurrentTypeNames(values.type).map((radio, i) => (
+                  <RadioButton
+                    key={radio.type}
+                    checked={i === 0}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder={radio.name}
+                    name={radio.name}
+                    value={values.subtype}
+                    options={{
+                      touched,
+                      errors,
+                    }}
+                  />
+                ))}
               </div>
 
               <div className={s.input__wrapper}>

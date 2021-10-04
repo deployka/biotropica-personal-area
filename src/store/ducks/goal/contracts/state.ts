@@ -4,6 +4,7 @@ export interface Goal {
   id: number;
   name: string;
   type: GoalType;
+  subtype: GoalSubtype;
   description: string;
   values: GoalValue[];
   start_result: string;
@@ -11,6 +12,11 @@ export interface Goal {
   end_result: string;
   completed: boolean;
   createdAt: string;
+}
+
+export enum GoalSubtype {
+  SUM_RESULTS = 'SUM_RESULTS',
+  MAX_RESULT = 'MAX_RESULT',
 }
 
 export interface GoalValue {
