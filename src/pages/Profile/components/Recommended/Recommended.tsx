@@ -34,8 +34,8 @@ export const Recommended = ({ user }: Props) => {
     },
     {
       avatar: testAvatar2,
-      name: 'Жопич  Резинка',
-      post: 'проктолог',
+      name: 'Полина Кондратьева',
+      post: 'эндокринолог',
       profileLink: '9129381984',
     },
   ];

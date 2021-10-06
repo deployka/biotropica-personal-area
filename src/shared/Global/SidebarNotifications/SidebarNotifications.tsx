@@ -7,6 +7,7 @@ import { Notification as INotification } from '../../../store/ducks/notification
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
+import { PopupBackground } from '../PopupBackground/PopupBackground';
 
 interface Props {
   open: boolean;
@@ -102,10 +103,9 @@ export const SidebarNotifications = ({ open, setOpen }: Props) => {
   ];
   return (
     <>
-      <div
-        onClick={() => setOpen(false)}
-        className={(open && s.sidebar__background) || ''}
-      ></div>
+      <div onClick={() => setOpen(false)}>
+        <PopupBackground open={open} />
+      </div>
       <div
         className={classNames({
           [s.sidebar__notifications__wrapper]: true,

@@ -9,6 +9,7 @@ import rootSaga from './saga';
 import { ChatState } from './ducks/chat/contracts/state';
 import { GoalState } from './ducks/goal/contracts/state';
 import { GoalsState } from './ducks/goals/contracts/state';
+import { ProgressState } from './ducks/progress/contracts/state';
 
 declare global {
   interface Window {
@@ -27,6 +28,7 @@ export interface RootState {
   user: UserState;
   goals: GoalsState;
   goal: GoalState;
+  progress: ProgressState;
   notification: NotificationState;
   chat: ChatState;
 }
