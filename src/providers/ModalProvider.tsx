@@ -11,20 +11,16 @@ export enum ModalName {
   MODAL_PROGRESS_PHOTO_SLIDER = 'MODAL_PROGRESS_PHOTO_SLIDER',
 }
 
-type ModalTypeProps = {
-  [ModalName.MODAL_ADD_PROGRESS_PHOTO]: undefined;
-  [ModalName.MODAL_PROGRESS_PHOTO_SLIDER]: {
-    photos: Photo[];
-  };
-};
-
-export type ModalType<V extends ModalName> = {
+export type ModalType<Props> = {
   open: boolean;
-  props: ModalTypeProps[V];
+  props: Props;
 };
 
 export type ModalsType = {
-  [key in ModalName]: ModalType<ModalName>;
+  [ModalName.MODAL_ADD_PROGRESS_PHOTO]: ModalType<{}>;
+  [ModalName.MODAL_PROGRESS_PHOTO_SLIDER]: ModalType<{
+    photos: Photo[];
+  }>;
 };
 
 export const modals: ModalsType = Object.keys(ModalName).reduce(

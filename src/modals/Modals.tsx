@@ -23,19 +23,19 @@ export const Modals = ({}: Props) => {
 
   function getElements(): React.ReactNode[] {
     return Object.keys(openModals).map((modal: string) => {
-      if (
-        modal === ModalName.MODAL_ADD_PROGRESS_PHOTO &&
-        openModals[modal].open
-      ) {
-        return <AddPhotoModal {...openModals[modal].props} />;
+      if (!openModals[modal as ModalName].open) {
+        return null;
       }
-      if (
-        modal === ModalName.MODAL_PROGRESS_PHOTO_SLIDER &&
-        openModals[modal].open
-      ) {
-        return <PhotoSliderModal {...openModals[modal].props} />;
+
+      switch (modal) {
+        case ModalName.MODAL_ADD_PROGRESS_PHOTO:
+          return <AddPhotoModal {...openModals[modal].props} />;
+
+        case ModalName.MODAL_PROGRESS_PHOTO_SLIDER:
+          return <PhotoSliderModal {...openModals[modal].props} />;
+        default:
+          return null;
       }
-      return null;
     });
   }
 

@@ -21,7 +21,7 @@ export interface Photo {
 }
 
 interface Props {
-  photos?: Photo[];
+  photos: Photo[];
 }
 
 export const PhotoSliderModal = ({ photos }: Props) => {
