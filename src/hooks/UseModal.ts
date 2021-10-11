@@ -11,7 +11,7 @@ export const useModal = () => {
   const { openModals, setOpenModals } = useContext<Props>(ModalContext);
   return {
     openModals,
-    setOpenModals: (props?: any) => {
+    setOpenModals: (props: Partial<ModalsType>) => {
       setOpenModals({ ...openModals, ...props });
     },
     closeAllModals: () => {
