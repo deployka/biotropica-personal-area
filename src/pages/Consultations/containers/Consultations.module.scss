@@ -1,0 +1,123 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+
+.consultations {
+    .search {
+        position: relative;
+        width: 100%;
+
+        display: flex;
+    }
+
+    .searchLabel {
+        padding: 0 30px;
+        width: 354px;
+        height: 40px;
+
+        border: 1px solid #9e97be;
+        box-sizing: border-box;
+        border-radius: 50px;
+
+        display: flex;
+        align-items: center;
+
+        cursor: pointer;
+    }
+
+    .searchInput {
+        width: 225px;
+        left: 60px;
+        top: 50%;
+        transform: translateY(-50%);
+        position: absolute;
+        border: none;
+
+        font-size: 16px;
+
+        &:focus {
+            outline: none;
+        }
+
+        &::placeholder {
+            color: rgba(158, 151, 190, 0.5);
+        }
+    }
+
+    .button {
+        margin: 0 0 0 15px;
+        padding: 10px 50px;
+
+        border: 1px solid #6f61d0;
+        box-sizing: border-box;
+        border-radius: 50px;
+
+        font-weight: 500;
+        font-size: 16px;
+
+        color: #6f61d0;
+
+        &:hover {
+            border: 1px solid #a59ce2;
+            color: #a59ce2;
+        }
+
+        &:active {
+            transform: scale(0.95);
+        }
+
+        transition: all 0.15s ease;
+    }
+
+    .consultationsList {
+        margin: 40px 0 0 0;
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+    }
+
+    .title {
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .titleName {
+            width: 40%;
+        }
+
+        .titleSpecialiaztion {
+            width: 200px;
+        }
+
+        .titlePrice {
+            display: flex;
+            justify-content: center;
+            width: 150px;
+        }
+
+        .titleAppointment {
+            width: 200px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        p {
+            font-weight: 500;
+            font-size: 18px;
+
+            color: #1e174d;
+        }
+    }
+
+    .list {
+        padding: 40px 0;
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+    }
+}

@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import classNames from "classnames";
 import React, {
   Dispatch,
   MouseEvent,
@@ -6,17 +6,17 @@ import React, {
   SetStateAction,
   useEffect,
   useState,
-} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
-import { fetchSignout } from '../../../store/ducks/user/actionCreators';
-import { selectUserData } from '../../../store/ducks/user/selectors';
+} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { fetchSignout } from "../../../store/ducks/user/actionCreators";
+import { selectUserData } from "../../../store/ducks/user/selectors";
 
-import s from './Sidebar.module.scss';
+import s from "./Sidebar.module.scss";
 
-import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
-import { SidebarSvgSelector } from '../../../assets/icons/sidebar/SIdebarSvgSelector';
-import { GlobalSvgSelector } from '../../../assets/icons/global/GlobalSvgSelector';
+import defaultAvatar from "../../../assets/images/profile/default_avatar.png";
+import { SidebarSvgSelector } from "../../../assets/icons/sidebar/SIdebarSvgSelector";
+import { GlobalSvgSelector } from "../../../assets/icons/global/GlobalSvgSelector";
 
 interface Props {
   setPage: Dispatch<SetStateAction<string>>;
@@ -40,13 +40,13 @@ export const Sidebar = ({
   chatNotificationsOpen,
 }: Props) => {
   const pages = [
-    { page: 'Профиль', link: '/profile' },
-    { page: 'Главная', link: '/' },
-    { page: 'Цели', link: '/goals' },
-    { page: 'Тарифы', link: '/tariffs' },
-    { page: 'Видео', link: '/video' },
-    { page: 'Блог', link: '/blog' },
-    { page: 'Дополнительные услуги', link: '/services' },
+    { page: "Профиль", link: "/profile" },
+    { page: "Главная", link: "/" },
+    { page: "Цели", link: "/goals" },
+    { page: "Тарифы", link: "/tariffs" },
+    { page: "Видеоконсультации", link: "/video" },
+    { page: "Блог", link: "/blog" },
+    { page: "Дополнительные услуги", link: "/services" },
   ];
   const nav: Nav[] = [
     {
@@ -83,9 +83,9 @@ export const Sidebar = ({
   const [close, setClose] = useState<boolean>(false);
 
   useEffect(() => {
-    pages.forEach(value => {
-      const currentPath = location.pathname.split('/');
-      if ('/' + currentPath[1] === value.link) {
+    pages.forEach((value) => {
+      const currentPath = location.pathname.split("/");
+      if ("/" + currentPath[1] === value.link) {
         setPage(value.page);
       }
     });
@@ -121,7 +121,7 @@ export const Sidebar = ({
           <GlobalSvgSelector id="next-rounded" />
         </div>
         <div className={s.sidebar__prompt}>
-          <p>{'Свернуть'}</p>
+          <p>{"Свернуть"}</p>
         </div>
         <div className={s.sidebar__top}>
           <Link
@@ -129,9 +129,9 @@ export const Sidebar = ({
             className={classNames({
               [s.sidebar__avatar]: true,
               [s.active__profile_paid]:
-                pages[0].link === '/' + location.pathname.split('/')[1],
+                pages[0].link === "/" + location.pathname.split("/")[1],
             })}
-            onClick={() => setPage('Профиль')}
+            onClick={() => setPage("Профиль")}
           >
             <div
               className={s.img}
@@ -139,7 +139,7 @@ export const Sidebar = ({
                 backgroundImage: `url(${
                   (user?.profile_photo &&
                     process.env.REACT_APP_BACKEND_URL +
-                      '/' +
+                      "/" +
                       user?.profile_photo) ||
                   defaultAvatar
                 })`,
@@ -154,7 +154,7 @@ export const Sidebar = ({
                 onClick={() => setPage(item.page)}
                 to={item.link}
                 className={
-                  item.link === '/' + location.pathname.split('/')[1]
+                  item.link === "/" + location.pathname.split("/")[1]
                     ? s.active__nav
                     : s.nav__link
                 }
@@ -175,7 +175,7 @@ export const Sidebar = ({
           >
             <SidebarSvgSelector id="chat" />
             <div className={s.sidebar__prompt}>
-              <p>{'Чат поддержка'}</p>
+              <p>{"Чат поддержка"}</p>
             </div>
           </a>
           <div className={s.sidebar__divider}></div>
@@ -183,7 +183,7 @@ export const Sidebar = ({
             <a href="#" onClick={logout} className={s.logout__svg}>
               <SidebarSvgSelector id="logout" />
               <div className={s.sidebar__prompt}>
-                <p>{'Выйти'}</p>
+                <p>{"Выйти"}</p>
               </div>
             </a>
           </div>
