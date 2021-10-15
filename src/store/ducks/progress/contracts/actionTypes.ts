@@ -11,16 +11,9 @@ export enum ProgressActionsType {
   FETCH_UPDATE_PROGRESS = 'progress/FETCH_UPDATE_PROGRESS',
 }
 
-export interface UpdateProgressActionInterface
-  extends Action<ProgressActionsType> {
-  type: ProgressActionsType.FETCH_UPDATE_PROGRESS;
-  payload: UpdateProgressData;
-}
-
 export interface FetchProgressDataActionInterface
   extends Action<ProgressActionsType> {
   type: ProgressActionsType.FETCH_PROGRESS_DATA;
-  payload: number;
 }
 
 export interface CreateProgressDataActionInterface
@@ -38,7 +31,7 @@ export interface SetProgressResponseActionInterface
 export interface SetProgressDataActionInterface
   extends Action<ProgressActionsType> {
   type: ProgressActionsType.SET_PROGRESS_DATA;
-  payload: Progress | undefined;
+  payload: Progress[] | undefined;
 }
 
 export interface SetProgressLoadingStatusActionInterface

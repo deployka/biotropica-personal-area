@@ -19,7 +19,7 @@ export enum TypePhoto {
 }
 
 export interface ProgressState {
-  progress: Progress | undefined;
+  progress: Progress[] | undefined;
   status: LoadingStatus;
   response: any;
 }

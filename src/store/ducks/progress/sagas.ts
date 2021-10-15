@@ -7,17 +7,14 @@ import {
   setProgressResponse,
 } from './actionCreators';
 import {
-  UpdateProgressActionInterface,
   FetchProgressDataActionInterface,
   ProgressActionsType,
   CreateProgressDataActionInterface,
 } from './contracts/actionTypes';
 
-export function* fetchProgressDataRequest({
-  payload,
-}: FetchProgressDataActionInterface): any {
+export function* fetchProgressDataRequest({}: FetchProgressDataActionInterface): any {
   yield put(setProgressLoadingStatus(LoadingStatus.LOADING));
-  const { data, status } = yield call(ProgressService.getOne, payload);
+  const { data, status } = yield call(ProgressService.getAll);
   if (status === 200) {
     yield put(setProgressData(data));
     yield put(setProgressLoadingStatus(LoadingStatus.SUCCESS));
@@ -42,32 +39,12 @@ export function* createProgressDataRequest({
   }
 }
 
-export function* fetchUpdateProgressRequest({
-  payload,
-}: UpdateProgressActionInterface): any {
-  yield put(setProgressLoadingStatus(LoadingStatus.LOADING));
-  const { data, status } = yield call(ProgressService.update, payload);
-  if (status === 200) {
-    yield put(setProgressData(data));
-    yield put(
-      setProgressResponse({ statusCode: status, message: 'Данные обновлены' })
-    );
-    yield put(setProgressLoadingStatus(LoadingStatus.SUCCESS));
-  } else {
-    yield put(setProgressResponse(data));
-    yield put(setProgressLoadingStatus(LoadingStatus.ERROR));
-  }
-}
-
 export function* progressSaga(): any {
   yield takeLatest(
     ProgressActionsType.FETCH_PROGRESS_DATA,
     fetchProgressDataRequest
   );
-  yield takeLatest(
-    ProgressActionsType.FETCH_UPDATE_PROGRESS,
-    fetchUpdateProgressRequest
-  );
+
   yield takeLatest(
     ProgressActionsType.CREATE_PROGRESS_DATA,
     createProgressDataRequest

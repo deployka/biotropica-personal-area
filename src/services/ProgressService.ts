@@ -18,7 +18,7 @@ export default class ProgressService {
     return await $api.get<Response>(`/${ProgressService.route}/${payload}`);
   }
 
-  static async geAll(): Promise<AxiosResponse<Response>> {
+  static async getAll(): Promise<AxiosResponse<Response>> {
     return await $api.get<Response>(`/${ProgressService.route}/`);
   }
 

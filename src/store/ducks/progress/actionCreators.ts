@@ -5,31 +5,17 @@ import {
   SetProgressResponseActionInterface,
   ProgressActionsType,
   CreateProgressDataActionInterface,
-  UpdateProgressActionInterface,
 } from './contracts/actionTypes';
-import {
-  CreateProgressData,
-  ProgressState,
-  UpdateProgressData,
-} from './contracts/state';
+import { CreateProgressData, ProgressState } from './contracts/state';
 
-export const fetchProgressData = (
-  payload: number
-): FetchProgressDataActionInterface => ({
+export const fetchProgressData = (): FetchProgressDataActionInterface => ({
   type: ProgressActionsType.FETCH_PROGRESS_DATA,
-  payload,
 });
 
 export const createProgressData = (
   payload: CreateProgressData
 ): CreateProgressDataActionInterface => ({
   type: ProgressActionsType.CREATE_PROGRESS_DATA,
-  payload,
-});
-export const updateProgressData = (
-  payload: UpdateProgressData
-): UpdateProgressActionInterface => ({
-  type: ProgressActionsType.FETCH_UPDATE_PROGRESS,
   payload,
 });
 
