@@ -4,6 +4,7 @@ export const notification: any = {
   animationIn: ['animate__animated', 'animate__fadeInRight'],
   animationOut: ['animate__animated', 'animate__fadeOutRight'],
   dismiss: {
+    pauseOnHover: true,
     duration: 3000,
     onScreen: true,
   },

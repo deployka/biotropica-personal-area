@@ -21,11 +21,9 @@ import { Button } from '../../../../shared/Form/Button/Button';
 
 import { store } from 'react-notifications-component';
 import { notification } from '../../../../config/notification/notificationForm';
-interface Props {
-  setRedirect: Dispatch<SetStateAction<boolean>>;
-}
+interface Props {}
 
-export const SigninForm = ({ setRedirect }: Props) => {
+export const SigninForm = ({}: Props) => {
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectUserLoadingStatus);
   const response = useSelector(selectUserResponse);
@@ -54,7 +52,6 @@ export const SigninForm = ({ setRedirect }: Props) => {
     }
     if (loadingStatus === LoadingStatus.SUCCESS) {
       dispatch(setUserResponse(undefined));
-      setRedirect(true);
     }
   }, [loadingStatus]);
 

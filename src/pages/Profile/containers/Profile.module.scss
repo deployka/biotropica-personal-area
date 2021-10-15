@@ -3,6 +3,9 @@
 .profile {
   width: 100%;
   display: flex;
+  .tabs__container {
+    margin-bottom: 30px;
+  }
   position: relative;
   &__info {
     padding-right: 30px;

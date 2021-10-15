@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import s from './ProgressBar.module.scss';
 interface ProgressBar {
@@ -21,9 +21,28 @@ export const ProgressBar = ({ options }: ProgressBar) => {
   function calcOffset(percent: number) {
     return circumference - (percent / 100) * circumference;
   }
+
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    if (progress > progressValue) {
+      setProgress(0);
+      return;
+    }
+
+    let timeout: number = -1;
+    if (progress !== progressValue) {
+      timeout = setTimeout(setProgress, 10, progress + 1);
+    }
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [progress, progressValue]);
+
   return (
     <div className={s.progress__bar__wrapper}>
-      <div className={s.progress__bar__number}>{progressValue}%</div>
+      <div className={s.progress__bar__number}>{progress}%</div>
       <div className={s.progress__bar__svg__wrapper}>
         <svg
           viewBox={`${width} ${height}`}

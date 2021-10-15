@@ -1,12 +1,12 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
-import { modals, ModalsType } from '../providers/ModalProvider';
+import { initialModals, Modals } from '../providers/ModalProvider';
 
 interface Props {
-  setOpenModals: Dispatch<SetStateAction<ModalsType>>;
-  openModals: ModalsType;
+  setModals: Dispatch<SetStateAction<Modals>>;
+  modals: Modals;
 }
 
 export const ModalContext = createContext<Props>({
-  setOpenModals: () => null,
-  openModals: modals,
+  setModals: () => null,
+  modals: initialModals,
 });

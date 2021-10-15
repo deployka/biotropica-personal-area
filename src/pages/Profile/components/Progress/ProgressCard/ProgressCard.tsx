@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const ProgressCard = ({ options }: Props) => {
-  const { setOpenModals } = useModal();
+  const { openModal } = useModal();
 
   const photos: Photo[] = [
     {
@@ -29,12 +29,7 @@ export const ProgressCard = ({ options }: Props) => {
     <div
       className={s.progress__card}
       onClick={() =>
-        setOpenModals({
-          [ModalName.MODAL_PROGRESS_PHOTO_SLIDER]: {
-            open: true,
-            props: { photos },
-          },
-        })
+        openModal(ModalName.MODAL_PROGRESS_PHOTO_SLIDER, { photos })
       }
     >
       <div className={s.card__imges}>

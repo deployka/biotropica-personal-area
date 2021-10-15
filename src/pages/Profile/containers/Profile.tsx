@@ -17,7 +17,7 @@ import { ModalName } from '../../../providers/ModalProvider';
 interface Props {}
 
 export const Profile = (props: Props) => {
-  const { setOpenModals, openModals } = useModal();
+  const { openModal } = useModal();
 
   const tabs: Tab[] = [
     {
@@ -52,20 +52,20 @@ export const Profile = (props: Props) => {
           <Tariff Tariff={TariffData} />
         </div>
         <div className={s.content}>
-          <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+          <div className={s.tabs__container}>
+            {' '}
+            <Tabs
+              tabs={tabs}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+            />
+          </div>
           {activeTab === tabs[0].key && user && <Recommended user={user} />}
           {activeTab === tabs[1].key && user && <TestsAndAnalyze user={user} />}
           {activeTab === tabs[2].key && user && <Progress user={user} />}
           {activeTab === tabs[2].key && (
             <button
-              onClick={() =>
-                setOpenModals({
-                  ...openModals,
-                  [ModalName.MODAL_ADD_PROGRESS_PHOTO]: {
-                    open: true,
-                  },
-                })
-              }
+              onClick={() => openModal(ModalName.MODAL_ADD_PROGRESS_PHOTO)}
               className={s.btn__add__photo}
             >
               добавить фото

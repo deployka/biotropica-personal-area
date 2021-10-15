@@ -1,0 +1,17 @@
+.input {
+}
+
+.active {
+  & ~ label {
+  }
+}
+
+.error__input {
+  border: 1px solid #d06361;
+  color: #d06361;
+}
+
+.success__input {
+  border: 1px solid #309a74;
+  color: #309a74;
+}

@@ -79,3 +79,10 @@
     width: 265px;
   }
 }
+
+button[name='discard'] {
+  &:hover {
+    background: #fff;
+    color: #000 !important;
+  }
+}

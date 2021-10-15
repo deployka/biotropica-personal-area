@@ -4,6 +4,38 @@ interface Props {
 
 export const GlobalSvgSelector = ({ id }: Props) => {
   switch (id) {
+    case 'delete-card':
+      return (
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16.1042 7.88965C16.1042 7.88965 15.6517 13.5021 15.3892 15.8663C15.2642 16.9955 14.5667 17.6571 13.4242 17.678C11.25 17.7171 9.07332 17.7196 6.89999 17.6738C5.80082 17.6513 5.11499 16.9813 4.99249 15.8721C4.72832 13.4871 4.27832 7.88965 4.27832 7.88965"
+            stroke="#6F61D0"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M17.2569 5.19987H3.12524"
+            stroke="#6F61D0"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M14.534 5.19949C13.8798 5.19949 13.3165 4.73699 13.1881 4.09616L12.9856 3.08283C12.8606 2.61533 12.4373 2.29199 11.9548 2.29199H8.42731C7.94481 2.29199 7.52148 2.61533 7.39648 3.08283L7.19398 4.09616C7.06564 4.73699 6.50231 5.19949 5.84814 5.19949"
+            stroke="#6F61D0"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
     case 'slider-left':
       return (
         <svg
