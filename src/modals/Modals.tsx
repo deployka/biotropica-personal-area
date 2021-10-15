@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
 import { useModal } from '../hooks/UseModal';
 import { AddPhotoModal } from '../pages/Profile/components/Progress/AddPhotoModal/AddPhotoModal';
 import { PhotoSliderModal } from '../pages/Profile/components/Progress/PhotoSliderModal/PhotoSliderModal';
@@ -8,31 +7,25 @@ import { ModalName } from '../providers/ModalProvider';
 interface Props {}
 
 export const Modals = ({}: Props) => {
-  const { openModals, closeAllModals } = useModal();
-  const location = useLocation();
-
-  useEffect(() => {
-    closeAllModals();
-  }, [location.pathname]);
+  const { modals } = useModal();
 
   useEffect(() => {
     setElements(getElements());
-  }, [openModals]);
+  }, [modals]);
 
   const [elements, setElements] = useState<React.ReactNode[]>(getElements());
 
   function getElements(): React.ReactNode[] {
-    return Object.keys(openModals).map((modal: string) => {
-      if (!openModals[modal as ModalName].open) {
+    return Object.keys(modals).map((modal: string) => {
+      if (!modals[modal as ModalName].open) {
         return null;
       }
-
       switch (modal) {
         case ModalName.MODAL_ADD_PROGRESS_PHOTO:
-          return <AddPhotoModal {...openModals[modal].props} />;
+          return <AddPhotoModal {...modals[modal].props} />;
 
         case ModalName.MODAL_PROGRESS_PHOTO_SLIDER:
-          return <PhotoSliderModal {...openModals[modal].props} />;
+          return <PhotoSliderModal {...modals[modal].props} />;
         default:
           return null;
       }

@@ -2,7 +2,6 @@ import { Formik } from 'formik';
 import { useEffect, useRef, useState } from 'react';
 import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { notification } from '../../../../../config/notification/notificationForm';
 import { useModal } from '../../../../../hooks/UseModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
@@ -33,7 +32,7 @@ export const AddPhotoModal = ({}: Props) => {
   const refSetFieldValue = useRef<any>(null);
   const refResetForm = useRef<any>(null);
 
-  const { setOpenModals, openModals } = useModal();
+  const { closeModal, modals } = useModal();
 
   const [loader, setLoader] = useState<boolean>(false);
   useEffect(() => {
@@ -81,22 +80,12 @@ export const AddPhotoModal = ({}: Props) => {
 
   return (
     <>
-      <div
-        onClick={() =>
-          setOpenModals({
-            [ModalName.MODAL_ADD_PROGRESS_PHOTO]: {
-              open: false,
-            },
-          })
-        }
-      >
-        <PopupBackground open={openModals.MODAL_ADD_PROGRESS_PHOTO.open} />
+      <div onClick={() => closeModal(ModalName.MODAL_ADD_PROGRESS_PHOTO)}>
+        <PopupBackground open={modals.MODAL_ADD_PROGRESS_PHOTO.open} />
       </div>
       <Formik
         initialValues={{
-          current_password: '',
-          password: '',
-          verification_password: '',
+          photos: [],
         }}
         validateOnBlur
         onSubmit={(values: CreateProgressData, options) =>
@@ -131,13 +120,7 @@ export const AddPhotoModal = ({}: Props) => {
             </div>
             <div className={s.pd__buttons}>
               <Button
-                onClick={() =>
-                  setOpenModals({
-                    [ModalName.MODAL_ADD_PROGRESS_PHOTO]: {
-                      open: false,
-                    },
-                  })
-                }
+                onClick={() => closeModal(ModalName.MODAL_ADD_PROGRESS_PHOTO)}
                 options={{
                   width: '90px',
                   height: '32px',

@@ -25,32 +25,18 @@ interface Props {
 }
 
 export const PhotoSliderModal = ({ photos }: Props) => {
-  const { openModals, setOpenModals } = useModal();
+  const { modals, closeModal } = useModal();
 
   return (
     <>
-      <div
-        onClick={() =>
-          setOpenModals({
-            [ModalName.MODAL_PROGRESS_PHOTO_SLIDER]: {
-              open: false,
-            },
-          })
-        }
-      >
-        <PopupBackground open={openModals.MODAL_PROGRESS_PHOTO_SLIDER.open} />
+      <div onClick={() => closeModal(ModalName.MODAL_PROGRESS_PHOTO_SLIDER)}>
+        <PopupBackground open={modals.MODAL_PROGRESS_PHOTO_SLIDER.open} />
       </div>
       <div className={s.results}>
         <div className={s.results__container}>
           <div className={s.results__closebtn}>
             <button
-              onClick={() =>
-                setOpenModals({
-                  [ModalName.MODAL_PROGRESS_PHOTO_SLIDER]: {
-                    open: false,
-                  },
-                })
-              }
+              onClick={() => closeModal(ModalName.MODAL_PROGRESS_PHOTO_SLIDER)}
             >
               <ProfileSvgSelector id="close" />
             </button>

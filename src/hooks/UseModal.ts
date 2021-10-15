@@ -1,23 +1,32 @@
 import { Dispatch, SetStateAction, useContext } from 'react';
 import { ModalContext } from '../context/ModalContext';
-import { ModalsType } from '../providers/ModalProvider';
+import { ModalName, Modals } from '../providers/ModalProvider';
 
 interface Props {
-  openModals: ModalsType;
-  setOpenModals: Dispatch<SetStateAction<ModalsType>>;
+  modals: Modals;
+  setModals: Dispatch<SetStateAction<Modals>>;
 }
 
 export const useModal = () => {
-  const { openModals, setOpenModals } = useContext<Props>(ModalContext);
+  const { modals, setModals } = useContext<Props>(ModalContext);
   return {
-    openModals,
-    setOpenModals: (props?: any) => {
-      setOpenModals({ ...openModals, ...props });
+    modals,
+    openModal<N extends ModalName, P extends Modals[N]['props']>(
+      name: N,
+      props?: P
+    ) {
+      setModals({ ...modals, [name]: { open: true, props } });
     },
-    closeAllModals: () => {
-      Object.keys(openModals).forEach(modal => {
-        setOpenModals(prev => ({ ...prev, [modal]: { open: false } }));
+    closeModal(name: ModalName) {
+      setModals({
+        ...modals,
+        [name]: { open: false, props: null },
       });
+    },
+    closeAllModals() {
+      Object.keys(modals).forEach((modal: string) =>
+        this.closeModal(modal as ModalName)
+      );
     },
   };
 };

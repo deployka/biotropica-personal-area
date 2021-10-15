@@ -11,19 +11,19 @@ export enum ModalName {
   MODAL_PROGRESS_PHOTO_SLIDER = 'MODAL_PROGRESS_PHOTO_SLIDER',
 }
 
-export type ModalType<Props> = {
+export type Modal<props> = {
   open: boolean;
-  props: Props;
+  props: props;
 };
 
-export type ModalsType = {
-  [ModalName.MODAL_ADD_PROGRESS_PHOTO]: ModalType<{}>;
-  [ModalName.MODAL_PROGRESS_PHOTO_SLIDER]: ModalType<{
+export type Modals = {
+  [ModalName.MODAL_ADD_PROGRESS_PHOTO]: Modal<{}>;
+  [ModalName.MODAL_PROGRESS_PHOTO_SLIDER]: Modal<{
     photos: Photo[];
   }>;
 };
 
-export const modals: ModalsType = Object.keys(ModalName).reduce(
+export const initialModals: Modals = Object.keys(ModalName).reduce(
   (acc: any, key: string) => {
     acc[key] = {
       open: false,
@@ -35,9 +35,9 @@ export const modals: ModalsType = Object.keys(ModalName).reduce(
 );
 
 export function ModalProvider({ children, ...props }: Props) {
-  const [openModals, setOpenModals] = useState<ModalsType>(modals);
+  const [modals, setModals] = useState<Modals>(initialModals);
   return (
-    <ModalContext.Provider value={{ openModals, setOpenModals }} {...props}>
+    <ModalContext.Provider value={{ modals, setModals }} {...props}>
       {children}
     </ModalContext.Provider>
   );

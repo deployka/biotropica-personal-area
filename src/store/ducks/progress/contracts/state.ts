@@ -3,7 +3,7 @@ import { LoadingStatus } from '../../../types';
 export interface Progress {
   id: number;
   photos: Photo[];
-  ceratedAt: Date;
+  createdAt: Date;
 }
 
 export type Photo = {
@@ -27,6 +27,6 @@ export interface ProgressState {
 export enum ProgressType {}
 
 export interface UpdateProgressData extends Partial<Progress> {}
-export interface CreateProgressData extends Omit<Progress, 'id' | 'ceratedAt'> {
+export interface CreateProgressData extends Omit<Progress, 'id' | 'createdAt'> {
   id?: number;
 }
