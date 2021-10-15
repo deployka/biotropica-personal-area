@@ -11,14 +11,19 @@ import { store } from './store/store';
 //libs styles
 import 'react-notifications-component/dist/theme.css';
 import 'swiper/swiper.scss';
+
 import 'react-dates/lib/css/_datepicker.css';
+
+import { ModalProvider } from './providers/ModalProvider';
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Provider store={store}>
-        <ReactNotification />
-        <App />
+        <ModalProvider>
+          <ReactNotification />
+          <App />
+        </ModalProvider>
       </Provider>
     </Router>
   </React.StrictMode>,

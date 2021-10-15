@@ -46,7 +46,11 @@ import { fetchGoalsData } from './store/ducks/goals/actionCreators';
 import { EditGoalForm } from './pages/Goals/components/EditGoalForm/EditGoalForm';
 import { selectGoalsLoadingStatus } from './store/ducks/goals/selectors';
 import { selectGoalLoadingStatus } from './store/ducks/goal/selectors';
+
 import { store } from 'react-notifications-component';
+
+import { Modals } from './modals/Modals';
+
 
 function App() {
   const isAuth = useSelector(selectIsAuth);
@@ -133,6 +137,7 @@ function App() {
     <>
       <div className="global__container">
         {getLoading() && <Loader />}
+        <Modals />
         <Sidebar
           setSidebarNotificationsOpen={setSidebarNotificationsOpen}
           setSidebarChatOpen={setSidebarChatOpen}
