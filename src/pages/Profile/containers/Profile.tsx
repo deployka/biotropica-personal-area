@@ -11,10 +11,14 @@ import { TestsAndAnalyze } from '../components/TestsAndAnalyze/TestsAndAnalyze';
 import { Tab } from '../pages/Edit/container/Edit';
 
 import s from './Profile.module.scss';
+import { useModal } from '../../../hooks/UseModal';
+import { ModalName } from '../../../providers/ModalProvider';
 
 interface Props {}
 
 export const Profile = (props: Props) => {
+  const { openModal } = useModal();
+
   const tabs: Tab[] = [
     {
       key: 'recommended',
@@ -53,7 +57,12 @@ export const Profile = (props: Props) => {
           {activeTab === tabs[1].key && user && <TestsAndAnalyze user={user} />}
           {activeTab === tabs[2].key && user && <Progress user={user} />}
           {activeTab === tabs[2].key && (
-            <button className={s.btn__add__photo}>добавить фото</button>
+            <button
+              onClick={() => openModal(ModalName.MODAL_ADD_PROGRESS_PHOTO)}
+              className={s.btn__add__photo}
+            >
+              добавить фото
+            </button>
           )}
         </div>
       </div>
