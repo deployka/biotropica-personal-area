@@ -24,6 +24,7 @@ export enum UserActionsType {
   FETCH_FORGOT_PASSWORD = 'user/FETCH_FORGOT_PASSWORD',
   FETCH_RESTORE_PASSWORD = 'user/FETCH_RESTORE_PASSWORD',
   FETCH_UPDATE_USER = 'user/FETCH_UPDATE_USER',
+  FETCH_CREATE_PASSWORD = 'user/FETCH_CREATE_PASSWORD',
 }
 
 export interface FetchSigninActionInterface extends Action<UserActionsType> {
@@ -55,6 +56,12 @@ export interface FetchChangePasswordActionInterface
 export interface FetchRestorePasswordActionInterface
   extends Action<UserActionsType> {
   type: UserActionsType.FETCH_RESTORE_PASSWORD;
+  payload: RestorePasswordData;
+}
+
+export interface FetchCreatePasswordActionInterface
+  extends Action<UserActionsType> {
+  type: UserActionsType.FETCH_CREATE_PASSWORD;
   payload: RestorePasswordData;
 }
 export interface FetchUpdateUserActionInterface

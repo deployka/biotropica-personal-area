@@ -6,6 +6,7 @@ import {
   GoalActionsType,
   CreateGoalDataActionInterface,
   UpdateGoalActionInterface,
+  DeleteGoalActionInterface,
 } from './contracts/actionTypes';
 import { CreateGoalData, GoalState, UpdateGoalData } from './contracts/state';
 
@@ -22,10 +23,16 @@ export const createGoalData = (
   type: GoalActionsType.CREATE_GOAL_DATA,
   payload,
 });
+
 export const updateGoalData = (
   payload: UpdateGoalData
 ): UpdateGoalActionInterface => ({
   type: GoalActionsType.FETCH_UPDATE_GOAL,
+  payload,
+});
+
+export const deleteGoalData = (payload: number): DeleteGoalActionInterface => ({
+  type: GoalActionsType.FETCH_DELETE_GOAL,
   payload,
 });
 

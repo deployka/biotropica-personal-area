@@ -1,12 +1,12 @@
 import React from 'react';
 import s from './Tariff.module.scss';
-import { Feature as IFeature } from '../containers/Tariffs';
 import checkbox from '../../../assets/icons/tariffs/checkbox.svg';
+import { Tariff as ITariff } from '../containers/Tariffs';
 interface Props {
   tariff: any;
 }
 interface Feature {
-  feature: IFeature;
+  tariff: ITariff;
 }
 
 export const Tariff = ({ tariff }: Props) => {
@@ -28,8 +28,8 @@ export const Tariff = ({ tariff }: Props) => {
               <h3>{name}</h3>
             </div>
             <ul className={s.rate__list}>
-              {features.map((feature: Feature) => (
-                <li className={s.rate__list__elem}>
+              {features.map((feature: string) => (
+                <li key={feature} className={s.rate__list__elem}>
                   <img src={checkbox} alt="" />
                   <p>{feature}</p>
                 </li>

@@ -11,20 +11,23 @@ import {
   FetchGoalDataActionInterface,
   GoalActionsType,
   CreateGoalDataActionInterface,
+  DeleteGoalActionInterface,
 } from './contracts/actionTypes';
 
 export function* fetchGoalDataRequest({
   payload,
 }: FetchGoalDataActionInterface): any {
-  yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
-  const { data, status } = yield call(GoalService.getOne, payload);
-  if (status === 200) {
-    yield put(setGoalData(data));
-    yield put(setGoalLoadingStatus(LoadingStatus.SUCCESS));
-  } else {
-    yield put(setGoalResponse({ statusCode: status, message: data.message }));
-    yield put(setGoalLoadingStatus(LoadingStatus.ERROR));
-  }
+  try {
+    yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
+    const { data, status } = yield call(GoalService.getOne, payload);
+    if (status === 200) {
+      yield put(setGoalData(data));
+      yield put(setGoalLoadingStatus(LoadingStatus.SUCCESS));
+    } else {
+      yield put(setGoalResponse({ statusCode: status, message: data.message }));
+      yield put(setGoalLoadingStatus(LoadingStatus.ERROR));
+    }
+  } catch (error) {}
 }
 
 export function* createGoalDataRequest({
@@ -57,8 +60,24 @@ export function* fetchUpdateGoalRequest({
   }
 }
 
+export function* fetchDeleteGoalRequest({
+  payload,
+}: DeleteGoalActionInterface): any {
+  yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
+  const { data, status } = yield call(GoalService.delete, payload);
+  if (status === 200) {
+    yield put(setGoalData(undefined));
+    yield put(setGoalResponse({ statusCode: status, message: data.message }));
+    yield put(setGoalLoadingStatus(LoadingStatus.SUCCESS));
+  } else {
+    yield put(setGoalResponse(data));
+    yield put(setGoalLoadingStatus(LoadingStatus.ERROR));
+  }
+}
+
 export function* goalSaga(): any {
   yield takeLatest(GoalActionsType.FETCH_GOAL_DATA, fetchGoalDataRequest);
   yield takeLatest(GoalActionsType.FETCH_UPDATE_GOAL, fetchUpdateGoalRequest);
   yield takeLatest(GoalActionsType.CREATE_GOAL_DATA, createGoalDataRequest);
+  yield takeLatest(GoalActionsType.FETCH_DELETE_GOAL, fetchDeleteGoalRequest);
 }

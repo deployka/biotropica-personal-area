@@ -10,8 +10,8 @@ export const Goals = ({}: Props) => {
   return (
     <Link style={{ textDecoration: 'none' }} to="/goals">
       <div className={s.goals}>
+        <span>Активных целей: </span>
         {goals.length}
-        <span> активных целей</span>
       </div>
     </Link>
   );

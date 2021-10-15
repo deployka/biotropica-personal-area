@@ -1,8 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { store } from 'react-notifications-component';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import { notification } from '../../../../config/notification/notificationForm';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Button } from '../../../../shared/Form/Button/Button';
 import {
   CreateGoalData,

@@ -19,6 +19,11 @@ interface Props {
   };
 }
 
+export type ISelect<V> = {
+  value: V;
+  label: string;
+};
+
 export const SelectCustom = (props: Props) => {
   const Styles = {
     control: (styles: any) => ({
@@ -27,16 +32,13 @@ export const SelectCustom = (props: Props) => {
       height: 50,
       border: '1px solid #9895a7',
       paddingLeft: 5,
+      marginBottom: 5,
     }),
 
-    option: (styles: any, { data, isSelected }: any) => ({
+    option: (styles: any, { isSelected }: any) => ({
       ...styles,
       background: isSelected ? '#F7F6FB' : null,
       color: '#1E174D',
-      borderTopLeftRadius: data.value === 'Мужской' ? 15 : 0,
-      borderTopRightRadius: data.value === 'Мужской' ? 15 : 0,
-      borderBottomLeftRadius: data.value === 'Женский' ? 15 : 0,
-      borderBottomRightRadius: data.value === 'Женский' ? 15 : 0,
       height: 45,
       fontWeight: 500,
       padding: '14px 12px',
@@ -46,6 +48,7 @@ export const SelectCustom = (props: Props) => {
       borderRadius: 15,
       border: null,
       boxShadow: '0px 1px 10px rgba(30, 23, 77, 0.05);',
+      zIndex: '45',
     }),
     menuList: (styles: any) => ({
       ...styles,
@@ -61,7 +64,7 @@ export const SelectCustom = (props: Props) => {
       <Label active={true} value={props.placeholder} />
       <Select {...selectProps} styles={Styles} name="gender" />
       {touched[props.name] && errors[props.name] && (
-        <ErrorMessage message={errors[props.name]} />
+        <ErrorMessage message={errors[props.name][0]?.value} />
       )}
     </>
   );

@@ -2,7 +2,10 @@ import classNames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { fetchRestorePassword } from '../../../../store/ducks/user/actionCreators';
+import {
+  fetchCreatePassword,
+  fetchRestorePassword,
+} from '../../../../store/ducks/user/actionCreators';
 import { RestorePasswordData } from '../../../../store/ducks/user/contracts/state';
 import { LoadingStatus } from '../../../../store/types';
 import { Formik } from 'formik';
@@ -19,9 +22,16 @@ import { Button } from '../../../../shared/Form/Button/Button';
 import { store } from 'react-notifications-component';
 import { notification } from '../../../../config/notification/notificationForm';
 
-interface Props {}
+interface Props {
+  type: Type;
+}
 
-export const RestoreForm = ({}: Props) => {
+export enum Type {
+  CREATE = 'CREATE',
+  CHANGE = 'CHANGE',
+}
+
+export const RestoreForm = ({ type }: Props) => {
   const dispatch = useDispatch();
   const response = useSelector(selectUserResponse);
   const location = useLocation();
@@ -47,6 +57,7 @@ export const RestoreForm = ({}: Props) => {
       });
       refSetFieldValue.current('password', '');
       refSetFieldValue.current('verification_password', '');
+      history.push('/signin');
     }
     if (loadingStatus === LoadingStatus.SUCCESS) {
       store.addNotification({
@@ -63,7 +74,11 @@ export const RestoreForm = ({}: Props) => {
   async function onSubmit(values: RestorePasswordData, options: any) {
     refSetFieldValue.current = options.setFieldValue;
     try {
-      dispatch(fetchRestorePassword(values));
+      if (type === Type.CHANGE) {
+        dispatch(fetchRestorePassword(values));
+      } else {
+        dispatch(fetchCreatePassword(values));
+      }
     } catch (error) {}
   }
 
@@ -96,7 +111,9 @@ export const RestoreForm = ({}: Props) => {
           dirty,
         }) => (
           <div className={s.form__wrapper}>
-            <h1 className={s.title}>Смена пароля</h1>
+            <h1 className={s.title}>
+              {type === Type.CHANGE ? 'Смена пароля' : 'Создание пароля'}
+            </h1>
             <div className={s.form}>
               <h2 className={s.subtitle}>Введите пароли</h2>
 
@@ -130,7 +147,13 @@ export const RestoreForm = ({}: Props) => {
                 type="submit"
                 onClick={() => handleSubmit()}
                 options={{
-                  content: loader ? <Loader /> : 'Сменить пароль',
+                  content: loader ? (
+                    <Loader />
+                  ) : type === Type.CHANGE ? (
+                    'Сменить пароль'
+                  ) : (
+                    'Создать пароль'
+                  ),
                   setDisabledStyle: isDisabled(isValid, dirty),
                   width: '100%',
                   height: '50px',

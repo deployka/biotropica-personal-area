@@ -46,11 +46,6 @@ interface Props {
   user: User | undefined;
 }
 
-export interface ISelect {
-  value: string;
-  label: string;
-}
-
 export const EditProfileData = ({ user }: Props) => {
   const options = [
     { value: 'Мужской', label: 'Мужской' },
@@ -99,7 +94,7 @@ export const EditProfileData = ({ user }: Props) => {
     }
   }, [loadingStatus, response]);
 
-  async function onSubmit(values: UpdateUserData, options: any) {
+  async function onSubmit(values: UpdateUserData) {
     try {
       const data: any = {
         ...values,
@@ -167,9 +162,7 @@ export const EditProfileData = ({ user }: Props) => {
           id: user?.id,
         }}
         validateOnBlur
-        onSubmit={(values: UpdateUserData, options) =>
-          onSubmit(values, options)
-        }
+        onSubmit={(values: UpdateUserData, options) => onSubmit(values)}
         validationSchema={validationSchema}
       >
         {({

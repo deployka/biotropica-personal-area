@@ -15,12 +15,18 @@ import { Loader } from '../../../../shared/Form/Loader/Loader';
 import {
   CreateGoalData,
   Goal,
+  GoalSubtype,
+  GoalType,
+  GoalUnits,
+  RunUnits,
+  WeightUnits,
 } from '../../../../store/ducks/goal/contracts/state';
 import {
   createGoalData,
   setGoalResponse,
 } from '../../../../store/ducks/goal/actionCreators';
 import {
+  selectGoalData,
   selectGoalLoadingStatus,
   selectGoalResponse,
 } from '../../../../store/ducks/goal/selectors';
@@ -30,30 +36,60 @@ import s from './AddGoalForm.module.scss';
 import { validationSchema } from './validationSchema';
 import { Textarea } from '../../../../shared/Form/Textarea/Textarea';
 import { useHistory } from 'react-router-dom';
-import { fetchGoalsData } from '../../../../store/ducks/goals/actionCreators';
+import { setGoalsData } from '../../../../store/ducks/goals/actionCreators';
 import { selectGoalsData } from '../../../../store/ducks/goals/selectors';
+import { SelectCustom } from '../../../../shared/Form/Select/SelectCustom';
 
 interface Props {
-  goal: CreateGoalData;
+  goalTemplate: CreateGoalData;
   setNext: Dispatch<SetStateAction<boolean>>;
-  edit?: boolean;
 }
 
-export const AddGoalForm = ({ goal, setNext, edit }: Props) => {
+interface Options {
+  value: Partial<GoalUnits>;
+  label: string;
+}
+
+export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const loadingStatus = useSelector(selectGoalLoadingStatus);
   const response = useSelector(selectGoalResponse);
-  const history = useHistory();
+
   const goals: Goal[] = useSelector(selectGoalsData) || [];
+  const goal: Goal | undefined = useSelector(selectGoalData);
 
   const [name, setName] = useState<string>('');
 
   const [loader, setLoader] = useState<boolean>(false);
   const refResetForm = useRef<any>(null);
 
+  function getOptions() {
+    switch (goalTemplate.type) {
+      case GoalType.RUN:
+        return [
+          { value: RunUnits.KILOMETER, label: 'Километры' },
+          { value: RunUnits.MINUTES, label: 'Минуты' },
+          { value: RunUnits.MINUTES_KILOMETER, label: 'Км/м' },
+        ];
+      case GoalType.WEIGHT:
+        return [
+          { value: WeightUnits.GRAM, label: 'Граммы' },
+          { value: WeightUnits.KILOGRAM, label: 'Килограммы' },
+          { value: WeightUnits.PERCENT, label: 'Проценты' },
+          { value: WeightUnits.CENTIMETERS, label: 'Сантиметры' },
+        ];
+      case GoalType.FORCE:
+        return [{ value: WeightUnits.KILOGRAM, label: 'Килограммы' }];
+      default:
+        return null;
+    }
+  }
+
   useEffect(() => {
     if (refResetForm.current) {
-      history.push('/goals');
+      history.push(`/goals/${goal?.id}`);
     }
   }, [goals, history]);
 
@@ -82,10 +118,16 @@ export const AddGoalForm = ({ goal, setNext, edit }: Props) => {
         message:
           'Не забывайте регулярно отмечать свой прогресс в достижении цели',
         type: 'success',
-        dismiss: false,
+        dismiss: {
+          onScreen: true,
+          duration: 7000,
+          pauseOnHover: true,
+        },
       });
       dispatch(setGoalResponse(undefined));
-      dispatch(fetchGoalsData());
+      if (goal && goals) {
+        dispatch(setGoalsData([...goals, goal]));
+      }
       refResetForm.current();
     }
   }, [loadingStatus]);
@@ -93,7 +135,6 @@ export const AddGoalForm = ({ goal, setNext, edit }: Props) => {
   async function onSubmit(values: CreateGoalData, options: any) {
     refResetForm.current = options.resetForm;
     setName(values.name);
-
     try {
       dispatch(createGoalData(values));
     } catch (error) {}
@@ -113,7 +154,7 @@ export const AddGoalForm = ({ goal, setNext, edit }: Props) => {
 
         <Formik
           initialValues={{
-            ...goal,
+            ...goalTemplate,
           }}
           validateOnBlur
           onSubmit={(values: CreateGoalData, options) =>
@@ -129,6 +170,7 @@ export const AddGoalForm = ({ goal, setNext, edit }: Props) => {
             handleBlur,
             isValid,
             handleSubmit,
+            setFieldValue,
             dirty,
           }) => (
             <div className={s.form}>
@@ -153,6 +195,20 @@ export const AddGoalForm = ({ goal, setNext, edit }: Props) => {
                   value={values.description}
                   type="text"
                   options={{ touched, errors }}
+                />
+              </div>
+
+              <div className={s.input__wrapper}>
+                <SelectCustom
+                  onChange={(e: any) => {
+                    setFieldValue('units', [e]);
+                  }}
+                  placeholder="Единицы измерения"
+                  onBlur={handleBlur}
+                  name="units"
+                  value={(values.units[0].label && values.units) || null}
+                  options={getOptions()}
+                  settings={{ touched, errors }}
                 />
               </div>
 

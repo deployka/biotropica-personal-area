@@ -14,7 +14,7 @@ interface Response {
   data: AuthResponse;
 }
 
-interface ResponseRefresh {
+export interface ResponseRefresh {
   accessToken: string;
   refreshToken: string;
 }
@@ -49,6 +49,11 @@ export default class AuthService {
 
   static async restorePassword(data: RestorePasswordData): Promise<void> {
     return await $api.post(`/${AuthService.route}/restore-password`, data, {
+      headers: { authorization: `Bearer ${data.restoreToken}` },
+    });
+  }
+  static async createPassword(data: RestorePasswordData): Promise<void> {
+    return await $api.post(`/${AuthService.route}/create-password`, data, {
       headers: { authorization: `Bearer ${data.restoreToken}` },
     });
   }
