@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 import { LoadingStatus } from '../../../types';
-import { UpdateGoalData, Goal, GoalState, CreateGoalData } from './state';
+import { UpdateGoalData, Goal, CreateGoalData } from './state';
 
 export enum GoalActionsType {
   SET_GOAL_DATA = 'goal/SET_GOAL_DATA',

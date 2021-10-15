@@ -110,14 +110,16 @@ export function* fetchCreatePasswordRequest({
 }
 
 export function* fetchUserDataRequest({}: FetchUserDataActionInterface): any {
-  yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-  const { data, status } = yield call(UserService.getMe);
-  if (status === 200) {
-    yield put(setUserData(data));
-    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
-  } else {
-    yield put(setUserLoadingStatus(LoadingStatus.ERROR));
-  }
+  try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
+    const { data, status } = yield call(UserService.getMe);
+    if (status === 200) {
+      yield put(setUserData(data));
+      yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
+    } else {
+      yield put(setUserLoadingStatus(LoadingStatus.ERROR));
+    }
+  } catch (error) {}
 }
 
 export function* fetchUpdateUserRequest({

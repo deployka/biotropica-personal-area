@@ -11,30 +11,40 @@ $api.interceptors.request.use(config => {
   return config;
 });
 
+let isRetrying: Promise<void> | undefined = undefined;
+
 $api.interceptors.response.use(
   config => {
     return config;
   },
   async error => {
     const originalRequest = error.config;
-    originalRequest.isRetry = false;
     if (
       error?.response?.status === 401 &&
-      originalRequest &&
-      !originalRequest.isRetry
+      !isRetrying &&
+      originalRequest // TODO: глянуть доку axios
     ) {
-      originalRequest.isRetry = true;
-      try {
-        const { data, status } = await AuthService.refresh();
-        if (status === 200) {
-          window.localStorage.setItem('token', data.accessToken);
-          return $api.request(originalRequest);
+      isRetrying = new Promise(async (resolve, reject) => {
+        try {
+          const { data, status } = await AuthService.refresh();
+          if (status === 200) {
+            window.localStorage.setItem('token', data.accessToken);
+            resolve();
+          } else {
+            reject();
+          }
+        } catch (error) {
+          reject(error);
         }
-      } catch (error) {
-        originalRequest.isRetry = true;
+      });
+      try {
+        await isRetrying;
+        isRetrying = undefined;
+        return $api.request(originalRequest);
+      } catch (e) {
+        return error?.response;
       }
     }
-    return error?.response;
   }
 );
 

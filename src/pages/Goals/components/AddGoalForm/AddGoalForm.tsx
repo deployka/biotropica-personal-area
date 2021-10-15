@@ -17,6 +17,9 @@ import {
   Goal,
   GoalSubtype,
   GoalType,
+  GoalUnits,
+  RunUnits,
+  WeightUnits,
 } from '../../../../store/ducks/goal/contracts/state';
 import {
   createGoalData,
@@ -35,11 +38,16 @@ import { Textarea } from '../../../../shared/Form/Textarea/Textarea';
 import { useHistory } from 'react-router-dom';
 import { setGoalsData } from '../../../../store/ducks/goals/actionCreators';
 import { selectGoalsData } from '../../../../store/ducks/goals/selectors';
-import { RadioButton } from '../../../../shared/Form/RadioButton/RadioButton';
+import { SelectCustom } from '../../../../shared/Form/Select/SelectCustom';
 
 interface Props {
   goalTemplate: CreateGoalData;
   setNext: Dispatch<SetStateAction<boolean>>;
+}
+
+interface Options {
+  value: Partial<GoalUnits>;
+  label: string;
 }
 
 export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
@@ -56,6 +64,28 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
 
   const [loader, setLoader] = useState<boolean>(false);
   const refResetForm = useRef<any>(null);
+
+  function getOptions() {
+    switch (goalTemplate.type) {
+      case GoalType.RUN:
+        return [
+          { value: RunUnits.KILOMETER, label: 'Километры' },
+          { value: RunUnits.MINUTES, label: 'Минуты' },
+          { value: RunUnits.MINUTES_KILOMETER, label: 'Км/м' },
+        ];
+      case GoalType.WEIGHT:
+        return [
+          { value: WeightUnits.GRAM, label: 'Граммы' },
+          { value: WeightUnits.KILOGRAM, label: 'Килограммы' },
+          { value: WeightUnits.PERCENT, label: 'Проценты' },
+          { value: WeightUnits.CENTIMETERS, label: 'Сантиметры' },
+        ];
+      case GoalType.FORCE:
+        return [{ value: WeightUnits.KILOGRAM, label: 'Килограммы' }];
+      default:
+        return null;
+    }
+  }
 
   useEffect(() => {
     if (refResetForm.current) {
@@ -114,36 +144,6 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
     return (!isValid && !dirty) || loader;
   }
 
-  function getCurrentTypeNames(type: GoalType): Array<any> {
-    switch (type) {
-      case GoalType.RUN:
-        return [
-          {
-            type: GoalSubtype.MAX_RESULT,
-            name: 'Скорость',
-          },
-          {
-            type: GoalSubtype.SUM_RESULTS,
-            name: 'Расстояние',
-          },
-        ];
-      case GoalType.WEIGHT:
-        return [
-          {
-            type: GoalSubtype.MAX_RESULT,
-            name: 'Набор массы',
-          },
-          {
-            type: GoalSubtype.MAX_RESULT,
-            name: 'Сброс веса',
-          },
-        ];
-
-      default:
-        return [];
-    }
-  }
-
   return (
     <div className={s.add__goals__form}>
       <div className={s.add__goals__form__wrapper}>
@@ -170,6 +170,7 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
             handleBlur,
             isValid,
             handleSubmit,
+            setFieldValue,
             dirty,
           }) => (
             <div className={s.form}>
@@ -197,22 +198,18 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
                 />
               </div>
 
-              <div className={s.radio__wrapper}>
-                {getCurrentTypeNames(values.type).map((radio, i) => (
-                  <RadioButton
-                    key={radio.type}
-                    checked={i === 0}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    placeholder={radio.name}
-                    name={radio.name}
-                    value={values.subtype}
-                    options={{
-                      touched,
-                      errors,
-                    }}
-                  />
-                ))}
+              <div className={s.input__wrapper}>
+                <SelectCustom
+                  onChange={(e: any) => {
+                    setFieldValue('units', [e]);
+                  }}
+                  placeholder="Единицы измерения"
+                  onBlur={handleBlur}
+                  name="units"
+                  value={(values.units[0].label && values.units) || null}
+                  options={getOptions()}
+                  settings={{ touched, errors }}
+                />
               </div>
 
               <div className={s.input__wrapper}>

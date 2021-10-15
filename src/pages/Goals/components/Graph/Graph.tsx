@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Chart, registerables } from 'chart.js';
 
 import s from './Graph.module.scss';
 import { useSelector } from 'react-redux';
 import { selectGoalData } from '../../../../store/ducks/goal/selectors';
 import { Dates } from '../../../../shared/Global/Calendar/Calendar';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 
 Chart.register(...registerables);
 
@@ -18,7 +18,7 @@ export const Graph = ({ dates }: Props) => {
   const ctx = useRef<any>(null);
   const myChart = useRef<any>(null);
 
-  const values: string[] = [];
+  const values: Array<string> = [];
 
   useEffect(() => {
     myChart.current = new Chart(ctx.current, {
@@ -52,12 +52,28 @@ export const Graph = ({ dates }: Props) => {
   }, []);
 
   useEffect(() => {
+    const datesTemp: Moment[] = [];
+
     if (dates.endDate && dates.startDate) {
       const startDate = moment(dates?.startDate);
       const endDate = moment(dates?.endDate);
       let currentDate = startDate;
-      while (currentDate.add(1, 'days').diff(endDate) < 0) {
-        values.push(currentDate.format('DD'));
+      while (currentDate.add(1, 'days').diff(endDate) <= 0) {
+        datesTemp.push(currentDate);
+      }
+
+      switch (datesTemp.length) {
+        case 7:
+          values.push(...formatArrayDates(datesTemp, 'dddd'));
+          break;
+        case 30:
+          values.push(...formatArrayDates(datesTemp, 'DD'));
+          break;
+        case 360:
+          values.push(...formatArrayDates(datesTemp, 'MMMM'));
+          break;
+        default:
+          break;
       }
       myChart.current.data.labels = values;
       myChart.current.update();
@@ -73,6 +89,10 @@ export const Graph = ({ dates }: Props) => {
       myChart.current.update();
     }
   }, [goal]);
+
+  function formatArrayDates(array: Array<Moment>, format: string) {
+    return array.map((date: Moment) => date.format(format));
+  }
 
   return (
     <div className={s.container}>

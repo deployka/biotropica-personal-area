@@ -14,7 +14,7 @@ interface Response {
   data: AuthResponse;
 }
 
-interface ResponseRefresh {
+export interface ResponseRefresh {
   accessToken: string;
   refreshToken: string;
 }

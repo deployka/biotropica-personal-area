@@ -1,4 +1,4 @@
-import { ISelect } from '../../../../pages/Profile/pages/Edit/components/EditProfileData/EditProfileData';
+import { ISelect } from '../../../../shared/Form/Select/SelectCustom';
 import { LoadingStatus } from '../../../types';
 
 export interface User {
@@ -53,7 +53,7 @@ export interface UpdateUserData {
   patronymic?: string;
   dob?: Date | null;
   phone?: string;
-  gender?: ISelect[];
+  gender?: ISelect<string>[];
   before_photos?: JSON;
   after_photos?: JSON;
   paid?: boolean;

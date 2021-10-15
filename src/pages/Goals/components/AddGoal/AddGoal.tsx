@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   CreateGoalData,
-  GoalSubtype,
   GoalType,
 } from '../../../../store/ducks/goal/contracts/state';
 
@@ -15,7 +14,7 @@ interface Props {}
 export const AddGoal = ({}: Props) => {
   const [goal, setGoal] = useState<CreateGoalData>({
     type: GoalType.WEIGHT,
-    subtype: GoalSubtype.SUM_RESULTS,
+    units: [{ label: '', value: null }],
     description: '',
     end_result: '',
     start_result: '',
