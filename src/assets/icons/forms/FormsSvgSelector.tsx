@@ -4,7 +4,7 @@ interface Props {
 
 export const FormsSvgSelector = ({ id }: Props) => {
   switch (id) {
-    case 'camera':
+    case "camera":
       return (
         <svg
           width="20"
@@ -38,7 +38,7 @@ export const FormsSvgSelector = ({ id }: Props) => {
         </svg>
       );
 
-    case 'check':
+    case "check":
       return (
         <svg
           width="16"
