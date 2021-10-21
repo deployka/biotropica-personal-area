@@ -1,18 +1,31 @@
 import * as yup from 'yup';
 
 export const validationSchema = yup.object().shape({
-  current_password: yup
-    .string()
-    .typeError('Должно быть строкой')
-    .required('Введите пароль')
-    .min(5, 'Пароль должен быть более 5 символов'),
-  password: yup
-    .string()
-    .typeError('Должно быть строкой')
-    .required('Введите пароль')
-    .min(5, 'Пароль должен быть более 5 символов'),
-  verification_password: yup
-    .string()
-    .oneOf([yup.ref('password')], 'Пароли не совпадают')
-    .required('Повторите пароль'),
+  FRONT: yup
+    .mixed()
+    .required('Фото обязательно')
+    .test('fileFormat', 'Только jpg gif png', value => {
+      console.log(value);
+      return (
+        value && ['image/gif', 'image/png', 'image/jpg'].includes(value.type)
+      );
+    }),
+  BACK: yup
+    .mixed()
+    .required('Фото обязательно')
+    .test('fileFormat', 'Только jpg gif png', value => {
+      console.log(value);
+      return (
+        value && ['image/gif', 'image/png', 'image/jpg'].includes(value.type)
+      );
+    }),
+  SIDE: yup
+    .mixed()
+    .required('Фото обязательно')
+    .test('fileFormat', 'Только jpg gif png', value => {
+      console.log(value);
+      return (
+        value && ['image/gif', 'image/png', 'image/jpg'].includes(value.type)
+      );
+    }),
 });
