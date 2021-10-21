@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import s from "./Policy.module.scss";
 
@@ -7,6 +8,9 @@ interface Props {}
 export const Policy = (props: Props) => {
   return (
     <div className={s.policy}>
+      <div className={s.backLink}>
+        <Link to="/signup">{"< назад"}</Link>
+      </div>
       <div className={s.pageTitle}>
         <h2>Политика конфиденциальности и обработки персональных данных</h2>
       </div>
