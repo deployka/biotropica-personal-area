@@ -1,31 +1,31 @@
-import classNames from 'classnames';
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import classNames from "classnames";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   fetchSignup,
   setUserResponse,
-} from '../../../../store/ducks/user/actionCreators';
-import { SignupData } from '../../../../store/ducks/user/contracts/state';
-import { LoadingStatus } from '../../../../store/types';
-import { Formik } from 'formik';
+} from "../../../../store/ducks/user/actionCreators";
+import { SignupData } from "../../../../store/ducks/user/contracts/state";
+import { LoadingStatus } from "../../../../store/types";
+import { Formik } from "formik";
 
-import s from './SignupForm.module.scss';
+import s from "./SignupForm.module.scss";
 import {
   onPhoneInput,
   onPhoneKeyDown,
   onPhonePaste,
-} from '../../../../utils/phoneValidator';
-import { validationSchema } from './validationSchema';
-import { Loader } from '../../../../shared/Form/Loader/Loader';
+} from "../../../../utils/phoneValidator";
+import { validationSchema } from "./validationSchema";
+import { Loader } from "../../../../shared/Form/Loader/Loader";
 import {
   selectUserLoadingStatus,
   selectUserResponse,
-} from '../../../../store/ducks/user/selectors';
-import { Input } from '../../../../shared/Form/Input/Input';
-import { Button } from '../../../../shared/Form/Button/Button';
-import { notification } from '../../../../config/notification/notificationForm';
-import { store } from 'react-notifications-component';
+} from "../../../../store/ducks/user/selectors";
+import { Input } from "../../../../shared/Form/Input/Input";
+import { Button } from "../../../../shared/Form/Button/Button";
+import { notification } from "../../../../config/notification/notificationForm";
+import { store } from "react-notifications-component";
 interface Props {}
 
 export const SignupForm = ({}: Props) => {
@@ -33,7 +33,7 @@ export const SignupForm = ({}: Props) => {
   const res = useSelector(selectUserResponse);
   const loadingStatus = useSelector(selectUserLoadingStatus);
 
-  const [errorValue, errorText] = res?.message?.split(':') || [];
+  const [errorValue, errorText] = res?.message?.split(":") || [];
 
   const [loader, setLoader] = useState<boolean>(false);
   const [checked, setChecked] = useState<boolean>(false);
@@ -52,11 +52,11 @@ export const SignupForm = ({}: Props) => {
     if (loadingStatus === LoadingStatus.ERROR && refSetFieldValue.current) {
       store.addNotification({
         ...notification,
-        title: 'Произошла ошибка!',
-        message: errorText || 'Произошла непредвиденная ошибка',
-        type: 'danger',
+        title: "Произошла ошибка!",
+        message: errorText || "Произошла непредвиденная ошибка",
+        type: "danger",
       });
-      errorValue && refSetFieldValue.current(errorValue, '');
+      errorValue && refSetFieldValue.current(errorValue, "");
     }
     if (loadingStatus === LoadingStatus.SUCCESS) {
       dispatch(setUserResponse(undefined));
@@ -81,12 +81,12 @@ export const SignupForm = ({}: Props) => {
     <>
       <Formik
         initialValues={{
-          email: '',
-          password: '',
-          verification_password: '',
-          name: '',
-          lastname: '',
-          phone: '',
+          email: "",
+          password: "",
+          verification_password: "",
+          name: "",
+          lastname: "",
+          phone: "",
         }}
         validateOnBlur
         onSubmit={(values: SignupData, options) => onSubmit(values, options)}
@@ -189,10 +189,10 @@ export const SignupForm = ({}: Props) => {
               type="submit"
               onClick={() => handleSubmit()}
               options={{
-                content: loader ? <Loader /> : 'Зарегистрироваться',
+                content: loader ? <Loader /> : "Зарегистрироваться",
                 setDisabledStyle: isDisabled(isValid, dirty),
-                width: '100%',
-                height: '50px',
+                width: "100%",
+                height: "50px",
               }}
             />
 
@@ -211,8 +211,8 @@ export const SignupForm = ({}: Props) => {
                 })}
               ></label>
               <span>
-                Нажимая кнопку «Зарегистрироваться», вы принимаете условия
-                пользовательского соглашения
+                Нажимая кнопку «Зарегистрироваться», вы принимаете{" "}
+                <a href="/policy">условия пользовательского соглашения</a>
               </span>
             </div>
 

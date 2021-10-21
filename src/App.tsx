@@ -113,6 +113,9 @@ function App() {
             <Route exact path="/signup">
               <SignupForm />
             </Route>
+            <div className="policyContainer">
+              <Route exact path="/policy" component={Policy} />
+            </div>
 
             <Route exact path="/forgot-password">
               <ForgotForm />
@@ -171,8 +174,6 @@ function App() {
             <Route exact path="/goals/add" component={AddGoal} />
             <Route exact path="/goals/:id" component={Goals} />
             <Route exact path="/goals/edit/:id" component={EditGoalForm} />
-
-            <Route exact path="/policy" component={Policy} />
 
             <Route path="/tariffs" component={Tariffs} />
 
