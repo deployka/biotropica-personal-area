@@ -25,8 +25,6 @@ interface Props {
 
 export const PhotoSliderModal = ({ photos, createdAt, i }: Props) => {
   const { modals, closeModal } = useModal();
-  console.log(i);
-
   return (
     <>
       <div onClick={() => closeModal(ModalName.MODAL_PROGRESS_PHOTO_SLIDER)}>
@@ -44,6 +42,7 @@ export const PhotoSliderModal = ({ photos, createdAt, i }: Props) => {
           <Swiper
             initialSlide={i}
             slidesPerView={1}
+            spaceBetween={50}
             navigation={{
               prevEl: '.left',
               nextEl: '.right',

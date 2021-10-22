@@ -104,6 +104,7 @@ export const AddPhotoModal = ({}: Props) => {
     }
     refResetForm.current = options.resetForm;
     try {
+      setLoader(true);
       const { data: files } = await FileService.uploadFiles([
         values.BACK,
         values.FRONT,
@@ -195,10 +196,8 @@ export const AddPhotoModal = ({}: Props) => {
         validationSchema={validationSchema}
       >
         {({
-          values,
           errors,
           touched,
-          handleChange,
           handleBlur,
           isValid,
           handleSubmit,
