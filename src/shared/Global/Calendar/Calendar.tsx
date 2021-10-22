@@ -4,17 +4,17 @@ import React, {
   useContext,
   useEffect,
   useState,
-} from "react";
-import { DateRangePicker } from "react-dates";
-import { GlobalSvgSelector } from "../../../assets/icons/global/GlobalSvgSelector";
-import { registerLocale } from "react-datepicker";
-import ru from "date-fns/locale/ru";
-import s from "./Calendar.module.scss";
-import moment, { Moment } from "moment";
-import "react-dates/initialize";
-import { DateContext } from "../../../context/DatesContext";
+} from 'react';
+import { DateRangePicker } from 'react-dates';
+import { GlobalSvgSelector } from '../../../assets/icons/global/GlobalSvgSelector';
+import { registerLocale } from 'react-datepicker';
+import ru from 'date-fns/locale/ru';
+import s from './Calendar.module.scss';
+import moment, { Moment } from 'moment';
+import 'react-dates/initialize';
+import { DateContext } from '../../../context/DatesContext';
 
-registerLocale("ru", ru);
+registerLocale('ru', ru);
 interface Props {}
 
 export interface Dates {
@@ -29,13 +29,13 @@ export const Calendar = ({}: Props) => {
   return (
     <div className={s.calendar}>
       <DateRangePicker
-        startDatePlaceholderText={"Начало"}
-        endDatePlaceholderText={"Конец"}
+        startDatePlaceholderText={'Начало'}
+        endDatePlaceholderText={'Конец'}
         hideKeyboardShortcutsPanel
         customInputIcon={<GlobalSvgSelector id="calendar" />}
-        inputIconPosition={"after"}
+        inputIconPosition={'after'}
         numberOfMonths={1}
-        displayFormat={"DD.MM.YY"}
+        displayFormat={'DD.MM.YY'}
         customArrowIcon={<GlobalSvgSelector id="" />}
         startDate={moment(dates.startDate)} // momentPropTypes.momentObj or null,
         startDateId="1" // PropTypes.string.isRequired,

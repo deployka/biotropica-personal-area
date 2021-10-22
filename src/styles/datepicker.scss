@@ -1,131 +1,221 @@
-.react-datepicker {
-    width: 330px;
+//picker-dates
+.DateRangePicker {
+  z-index: 100;
+  width: 100% !important;
+}
+.DateRangePickerInput {
+  width: 100% !important;
+  height: 29px !important;
+  border: none !important;
+  display: flex !important;
+  align-items: center !important;
+}
 
-    box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
-    border-radius: 15px;
+.DayPickerNavigation {
+  display: flex;
+  position: absolute !important;
+  right: 0 !important;
+  width: 130px !important;
+}
 
-    border: none;
+.DayPickerNavigation_button {
+  border: 0;
+  border-radius: 50%;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  width: 32px !important;
+  height: 32px !important;
+  margin-right: 10px !important;
+  box-shadow: 0px 3px 16px rgba(233, 229, 247, 0.5) !important;
+  border: none !important;
+  svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+}
 
-    &__triangle {
-        display: none;
+.DateInput_input {
+  height: 29px !important;
+  font-weight: normal !important;
+  padding: 0 !important;
+  color: #9895a7 !important;
+  font-size: 16px !important;
+}
+
+.DateRangePicker_picker {
+  box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+  border-radius: 15px;
+  padding: 18px;
+  padding-right: 0;
+  overflow: hidden;
+}
+
+.DayPicker {
+  box-shadow: none !important;
+}
+
+.CalendarMonth_caption {
+  color: #6f61d0 !important;
+  text-align: left !important;
+  padding-left: 8px !important;
+  strong {
+    font-weight: 600 !important;
+  }
+}
+
+.DayPicker_weekHeader {
+  border-top: 1px solid #f7f6fb;
+  padding: 0 !important;
+  padding-top: 5px !important;
+}
+
+.CalendarMonth_table {
+  border-collapse: initial !important;
+  border-spacing: 0 4px !important;
+  padding-bottom: 10px !important;
+}
+
+.CalendarDay {
+  border: none !important;
+}
+
+.CalendarDay__selected {
+  background: $color-primary;
+  width: 100%;
+  height: 100%;
+  left: 0;
+}
+
+.CalendarDay__default {
+  color: #1e174d !important;
+  font-size: 16px !important;
+  font-weight: 500;
+  position: relative;
+  background: transparent !important;
+  &:hover {
+    &:after {
+      content: '';
+      width: 96%;
+      height: 96%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: transparent;
+      border: 1px solid #6f61d0;
+      border-radius: 50%;
+    }
+  }
+}
+
+.CalendarDay__defaultCursor {
+  color: #afafaf !important;
+}
+
+.CalendarDay__selected {
+  color: #fff !important;
+}
+
+.CalendarDay__selected_span,
+.CalendarDay__hovered_span {
+  background: rgba(165, 156, 226, 0.2) !important;
+}
+
+.CalendarDay__selected_span {
+  &:hover {
+    color: #1e174d !important;
+    &:after {
+      content: '';
+      width: 96%;
+      height: 96%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: transparent !important;
+      border: 1px solid #6f61d0 !important;
+      border-radius: 50%;
     }
 
-    &__month-container {
-        width: 100%;
+    background: rgba(165, 156, 226, 0.2) !important;
+  }
+}
+.CalendarDay__selected_start,
+.CalendarDay__selected_end {
+  background: #6f61d0 !important;
+  position: relative;
+  &:after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(165, 156, 226, 0.2) !important;
+  }
+  &:hover {
+    background: #6f61d0 !important;
+    &:after {
+      width: 100%;
+      height: 100%;
+      background: rgba(165, 156, 226, 0.2) !important;
+      border: none;
+      border-radius: 0px !important;
     }
+  }
+}
 
-    &__header {
-        padding: 0;
-        border: none;
-        background-color: #fff;
+.CalendarDay__firstDayOfWeek {
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+}
+
+.CalendarDay__lastDayOfWeek {
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+}
+
+.CalendarDay__selected_start,
+.CalendarDay__selected_end {
+  border-radius: 50% !important;
+  position: relative;
+}
+
+.CalendarDay__selected_end {
+  &:after {
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+  }
+  &:hover {
+    &:after {
+      border-top-right-radius: 50% !important;
+      border-bottom-right-radius: 50% !important;
     }
+  }
+}
 
-    &__month {
-        margin: 0 30px 30px 30px;
+.CalendarDay__selected_start {
+  &:after {
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+  }
+  &:hover {
+    &:after {
+      border-top-left-radius: 50% !important;
+      border-bottom-left-radius: 50% !important;
     }
+  }
+}
 
-    &__week {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+.DateInput_fangStroke {
+  stroke: none !important;
+}
 
-    &__day-names {
-        margin: 0 30px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+.DateRangePickerInput_calendarIcon {
+  margin: 0 !important;
+  padding: 0 !important;
+}
 
-    &__current-month {
-        margin: 30px 0 0 0;
-    }
-
-    &__header__dropdown {
-        margin: 0 0 30px 0;
-    }
-
-    &__day-name {
-        width: 32px;
-        height: 32px;
-        font-size: 16px;
-
-        color: #1e174d;
-        text-transform: capitalize;
-    }
-
-    &__day {
-        width: 32px;
-        height: 32px;
-        font-weight: 400;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-
-        color: #1e174d;
-
-        transition: all 0.2s ease;
-
-        &:hover {
-            border-radius: 50px;
-            background-color: #a59ce2;
-        }
-    }
-
-    &__day--disabled {
-        color: #c8c8c8;
-    }
-
-    &__day--today {
-        font-weight: 600;
-    }
-
-    // &__day--outside-month {
-    //   color: #c8c8c8;
-    // }
-
-    &__day--selected {
-        color: #fff;
-        background: #6f61d0;
-        border-radius: 50px;
-
-        transition: all 0.2s ease;
-
-        &:hover {
-            border-radius: 50px;
-            background-color: #6255b8;
-        }
-    }
-
-    &__current-month {
-        color: #6f61d0;
-        text-transform: capitalize;
-        font-size: 18px;
-    }
-
-    &__day--keyboard-selected {
-        color: #fff;
-        background: #6f61d0;
-        border-radius: 50px;
-    }
-
-    &__header__dropdown {
-        margin: 10px 0;
-    }
-
-    &__navigation {
-        margin: 0 !important;
-        top: 25px;
-        span {
-            &:before {
-                border-color: #cccccc;
-                transition: all 0.2s ease;
-                &:hover {
-                    border-color: #c8c8c8;
-                }
-            }
-        }
-    }
+.CalendarMonthGrid__horizontal,
+.CalendarMonthGrid__animating {
+  padding: 0 !important;
 }
