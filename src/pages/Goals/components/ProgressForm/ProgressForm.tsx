@@ -48,11 +48,6 @@ export const ProgressForm = ({}: Props) => {
     progressValue: 0,
   });
 
-  const calendar = {
-    month: 'Август',
-    year: '1993',
-  };
-
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectGoalLoadingStatus);
   const response = useSelector(selectGoalResponse);
@@ -67,9 +62,17 @@ export const ProgressForm = ({}: Props) => {
   const refResetForm = useRef<any>(null);
 
   useEffect(() => {
-    // if (progressBarOptions.progressValue >= 100) {
-    //   dispatch(updateGoalData({ id: goal?.id, completed: true }));
-    // }
+    if (progressBarOptions.progressValue >= 100) {
+      console.log('test');
+
+      dispatch(updateGoalData({ id: goal?.id, completed: true }));
+      store.addNotification({
+        ...notification,
+        title: `Цель ${goal?.name} успешно завершена!`,
+        message: 'Поздравляем с завершением цели!',
+        type: 'success',
+      });
+    }
 
     if (goal) {
       const max: number = parseInt(goal.end_result);
@@ -156,9 +159,7 @@ export const ProgressForm = ({}: Props) => {
           values: [values],
         })
       );
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 
   function isDisabled(isValid: boolean, dirty: boolean) {
