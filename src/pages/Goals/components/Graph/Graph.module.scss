@@ -1,17 +1,11 @@
 @import '../../../../styles/variables.scss';
 
 .container {
-  width: 850px;
-  height: 350px;
   display: flex;
-  justify-content: flex-end;
 }
 
 .graph {
-  height: 326px;
-  width: 790px;
   text-align: right;
-  transform: translateY(-130px);
 }
 
 .graph__dates {

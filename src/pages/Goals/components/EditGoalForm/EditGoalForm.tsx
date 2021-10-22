@@ -12,8 +12,8 @@ import {
   UpdateGoalData,
 } from '../../../../store/ducks/goal/contracts/state';
 import {
-  createGoalData,
   fetchGoalData,
+  setGoalData,
   setGoalResponse,
   updateGoalData,
 } from '../../../../store/ducks/goal/actionCreators';
@@ -28,8 +28,8 @@ import s from './EditGoalForm.module.scss';
 import { validationSchema } from './validationSchema';
 import { Textarea } from '../../../../shared/Form/Textarea/Textarea';
 import { useHistory } from 'react-router-dom';
-import { fetchGoalsData } from '../../../../store/ducks/goals/actionCreators';
 import { selectGoalsData } from '../../../../store/ducks/goals/selectors';
+import { setGoalsData } from '../../../../store/ducks/goals/actionCreators';
 
 interface Props {}
 
@@ -40,8 +40,8 @@ export const EditGoalForm = ({}: Props) => {
   const history = useHistory();
   const location = useLocation();
 
-  const goals: Goal[] = useSelector(selectGoalsData) || [];
   const goal: Goal | undefined = useSelector(selectGoalData);
+  const goals: Goal[] | undefined = useSelector(selectGoalsData);
 
   const [name, setName] = useState<string>('');
 
@@ -49,15 +49,10 @@ export const EditGoalForm = ({}: Props) => {
   const refResetForm = useRef<any>(null);
 
   useEffect(() => {
+    dispatch(setGoalData(undefined));
     const id = location.pathname.split('/')[3];
     dispatch(fetchGoalData(parseInt(id)));
-  }, []);
-
-  useEffect(() => {
-    if (refResetForm.current) {
-      history.push('/goals');
-    }
-  }, [goals, history]);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (!goal && loadingStatus === LoadingStatus.ERROR) {
@@ -67,7 +62,7 @@ export const EditGoalForm = ({}: Props) => {
         message: response?.message || 'Произошла непредвиденная ошибка',
         type: 'danger',
       });
-      history.push('/goals');
+      history.push(`/goals`);
     }
   }, [goal, loadingStatus]);
 
@@ -96,11 +91,20 @@ export const EditGoalForm = ({}: Props) => {
         message:
           'Не забывайте регулярно отмечать свой прогресс в достижении цели',
         type: 'info',
-        dismiss: false,
+        dismiss: {
+          onScreen: true,
+          duration: 5000,
+          pauseOnHover: true,
+        },
       });
       dispatch(setGoalResponse(undefined));
-      dispatch(fetchGoalsData());
+      if (goal && goals) {
+        dispatch(
+          setGoalsData([...goals.filter(fGoal => fGoal.id !== goal.id), goal])
+        );
+      }
       refResetForm.current();
+      history.push(`/goals/${goal?.id}`);
     }
   }, [loadingStatus]);
 
@@ -185,7 +189,7 @@ export const EditGoalForm = ({}: Props) => {
                 </div>
 
                 <div className={s.buttons}>
-                  <Link to={'/goals'}>
+                  <Link to={`/goals/${goal.id}`}>
                     <Button
                       options={{
                         width: '100px',

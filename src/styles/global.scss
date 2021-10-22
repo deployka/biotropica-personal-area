@@ -3,6 +3,8 @@
 @import '~normalize.css';
 @import 'variables.scss';
 @import 'mixins.scss';
+@import 'datepicker.scss';
+
 * {
   box-sizing: border-box;
 }
@@ -40,10 +42,12 @@ button {
   height: 100vh;
 }
 
+//date-picker
 .react-datepicker-popper {
   z-index: 60;
 }
 
+//react-notifications
 .notification {
   .notification__item {
     border-radius: 10px;

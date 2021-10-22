@@ -1,0 +1,17 @@
+@import '../../../styles/mixins.scss';
+@import '../../../styles/variables.scss';
+.calendar {
+  border-radius: 40px;
+  border: 1px solid #9e97be;
+  width: 200px;
+  height: 34px;
+  padding: 0 15px;
+  padding-top: 3px;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  z-index: 1;
+  cursor: pointer;
+}

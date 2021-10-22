@@ -12,14 +12,16 @@ import {
 } from './contracts/actionTypes';
 
 export function* fetchGoalsDataRequest({}: FetchGoalsDataActionInterface): any {
-  yield put(setGoalsLoadingStatus(LoadingStatus.LOADING));
-  const { data, status } = yield call(GoalService.geAll);
-  if (status === 200) {
-    yield put(setGoalsData(data));
-    yield put(setGoalsLoadingStatus(LoadingStatus.SUCCESS));
-  } else {
-    yield put(setGoalsLoadingStatus(LoadingStatus.ERROR));
-  }
+  try {
+    yield put(setGoalsLoadingStatus(LoadingStatus.LOADING));
+    const { data, status } = yield call(GoalService.geAll);
+    if (status === 200) {
+      yield put(setGoalsData(data));
+      yield put(setGoalsLoadingStatus(LoadingStatus.SUCCESS));
+    } else {
+      yield put(setGoalsLoadingStatus(LoadingStatus.ERROR));
+    }
+  } catch (error) {}
 }
 
 export function* goalsSaga(): any {

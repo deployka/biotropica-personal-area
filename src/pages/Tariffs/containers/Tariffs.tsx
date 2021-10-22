@@ -3,12 +3,15 @@ import React from 'react';
 import { Tariff } from '../Tariff/Tariff';
 import s from './Tariffs.module.scss';
 interface Props {}
-export interface Feature {
-  feature: string;
+export interface Tariff {
+  price: string;
+  name: string;
+  features: any[];
+  prolongLink: string;
 }
 
-export const Tariffs = (props: Props, { feature }: Feature) => {
-  const tariffsTest = [
+export const Tariffs = () => {
+  const tariffsTest: Tariff[] = [
     {
       price: '15 999',
       name: 'Базовый пакет',
@@ -49,8 +52,11 @@ export const Tariffs = (props: Props, { feature }: Feature) => {
   ];
   return (
     <div className={s.tariffs}>
-      {tariffsTest.map((currentTariff) => (
-        <Tariff tariff={currentTariff} />
+      {tariffsTest.map((currentTariff: Tariff, i) => (
+        <Tariff
+          key={`${currentTariff.name}_${currentTariff.price}_${i}`}
+          tariff={currentTariff}
+        />
       ))}
     </div>
   );

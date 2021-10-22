@@ -11,7 +11,7 @@ $api.interceptors.request.use(config => {
   return config;
 });
 
-let isRetry = false;
+let isRetrying: Promise<void> | undefined = undefined;
 
 $api.interceptors.response.use(
   config => {
@@ -19,19 +19,32 @@ $api.interceptors.response.use(
   },
   async error => {
     const originalRequest = error.config;
-    if (error?.response?.status === 401 && originalRequest && !isRetry) {
-      isRetry = true;
-      try {
-        const { data, status } = await AuthService.refresh();
-        if (status === 200) {
-          window.localStorage.setItem('token', data.accessToken);
-          isRetry = false;
+    if (
+      error?.response?.status === 401 &&
+      !isRetrying &&
+      originalRequest // TODO: глянуть доку axios
+    ) {
+      isRetrying = new Promise(async (resolve, reject) => {
+        try {
+          const { data, status } = await AuthService.refresh();
+          if (status === 200) {
+            window.localStorage.setItem('token', data.accessToken);
+            resolve();
+          } else {
+            reject();
+          }
+        } catch (error) {
+          reject(error);
         }
-      } catch (error) {}
-
-      return $api.request(originalRequest);
+      });
+      try {
+        await isRetrying;
+        isRetrying = undefined;
+        return $api.request(originalRequest);
+      } catch (e) {
+        return error?.response;
+      }
     }
-    return error?.response;
   }
 );
 

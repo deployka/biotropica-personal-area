@@ -36,4 +36,10 @@ export default class GoalService {
       payload
     );
   }
+
+  static async delete(payload: number): Promise<AxiosResponse<Response>> {
+    return await $api.delete<Response>(
+      `/${GoalService.route}/delete/${payload}`
+    );
+  }
 }
