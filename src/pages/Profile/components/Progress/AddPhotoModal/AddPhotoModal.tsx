@@ -14,6 +14,7 @@ import { Loader } from '../../../../../shared/Form/Loader/Loader';
 import { PopupBackground } from '../../../../../shared/Global/PopupBackground/PopupBackground';
 import {
   createProgressData,
+  fetchProgressData,
   setProgressResponse,
 } from '../../../../../store/ducks/progress/actionCreators';
 import {
@@ -29,35 +30,29 @@ import s from './AddPhotoModal.module.scss';
 import { validationSchema } from './validationSchema';
 import { ErrorMessage } from '../../../../../shared/Form/ErrorMessage/ErrorMessage';
 
-enum InputType {
-  FRONT = 'FRONT',
-  BACK = 'BACK',
-  SIDE = 'SIDE',
-}
-
 interface PhotoInput {
   src: string;
 }
 
 type Inputs = {
-  [key in InputType]: PhotoInput;
+  [key in TypePhoto]: PhotoInput;
 };
 
 type Files = {
-  [key in InputType]: File | null;
+  [key in TypePhoto]: File | null;
 };
 
 interface Props {}
 
 export const AddPhotoModal = ({}: Props) => {
   const [inputs, setInputs] = useState<Inputs>({
-    [InputType.SIDE]: {
+    [TypePhoto.SIDE]: {
       src: '',
     },
-    [InputType.FRONT]: {
+    [TypePhoto.FRONT]: {
       src: '',
     },
-    [InputType.BACK]: {
+    [TypePhoto.BACK]: {
       src: '',
     },
   });
@@ -98,6 +93,7 @@ export const AddPhotoModal = ({}: Props) => {
       });
       refResetForm.current();
       closeModal(ModalName.MODAL_ADD_PROGRESS_PHOTO);
+      dispatch(fetchProgressData());
     }
     dispatch(setProgressResponse(undefined));
   }, [loadingStatus]);
@@ -106,31 +102,23 @@ export const AddPhotoModal = ({}: Props) => {
     if (!values.BACK || !values.SIDE || !values.FRONT) {
       return;
     }
-    refSetFieldValue.current = options.setFieldValue;
     refResetForm.current = options.resetForm;
-    const { data: files } = await FileService.uploadFiles([
-      values.BACK,
-      values.FRONT,
-      values.SIDE,
-    ]);
-
-    const data: CreateProgressData = {
-      photos: [
-        {
-          filename: files[0].name,
-          type: TypePhoto.BACK,
-        },
-        {
-          filename: files[1].name,
-          type: TypePhoto.FRONT,
-        },
-        {
-          filename: files[2].name,
-          type: TypePhoto.SIDE,
-        },
-      ],
-    };
     try {
+      const { data: files } = await FileService.uploadFiles([
+        values.BACK,
+        values.FRONT,
+        values.SIDE,
+      ]);
+
+      const data: CreateProgressData = {
+        photos: new Array(files.length)
+          .fill('')
+          .map((_, i) => Object.keys(TypePhoto)[i])
+          .map((type, i) => ({
+            filename: files[i].name,
+            type: type as TypePhoto,
+          })),
+      };
       dispatch(createProgressData(data));
     } catch (error) {}
   }
@@ -141,7 +129,7 @@ export const AddPhotoModal = ({}: Props) => {
 
   function loadFile(
     e: React.ChangeEvent<HTMLInputElement>,
-    type: InputType,
+    type: TypePhoto,
     setFieldValue: any
   ) {
     const tgt = e.target;
@@ -180,13 +168,13 @@ export const AddPhotoModal = ({}: Props) => {
     }
   }
 
-  function getInputNameByType(type: InputType): string {
+  function getInputNameByType(type: TypePhoto): string {
     switch (type) {
-      case InputType.BACK:
+      case TypePhoto.BACK:
         return 'Вид сзади';
-      case InputType.FRONT:
+      case TypePhoto.FRONT:
         return 'Вид спереди';
-      case InputType.SIDE:
+      case TypePhoto.SIDE:
         return 'Вид сбоку';
     }
   }
@@ -198,9 +186,9 @@ export const AddPhotoModal = ({}: Props) => {
       </div>
       <Formik
         initialValues={{
-          [InputType.BACK]: null,
-          [InputType.FRONT]: null,
-          [InputType.SIDE]: null,
+          [TypePhoto.BACK]: null,
+          [TypePhoto.FRONT]: null,
+          [TypePhoto.SIDE]: null,
         }}
         validateOnBlur
         onSubmit={(values: Files, options) => onSubmit(values, options)}
@@ -222,44 +210,44 @@ export const AddPhotoModal = ({}: Props) => {
               <p>Добавление фото</p>
             </div>
             <div className={s.pd__items}>
-              {Object.keys(inputs).map((type: string, i) => (
-                <div key={type}>
-                  <input
-                    type="file"
-                    className={s.pd__input}
-                    id={`pd_input-${i}`}
-                    onBlur={handleBlur}
-                    onChange={e => {
-                      loadFile(e, type as InputType, setFieldValue);
-                    }}
-                  />
-                  <label
-                    className={classNames(s.pd__label, {
-                      [s.success__input]:
-                        touched[type as InputType] &&
-                        !errors[type as InputType],
-                      [s.error__input]:
-                        touched[type as InputType] && errors[type as InputType],
-                    })}
-                    style={
-                      inputs[type as InputType] && {
-                        backgroundImage: `url(${
-                          inputs[type as InputType].src
-                        })`,
+              {Object.keys(inputs).map((typeStr: string, i) => {
+                const type = typeStr as TypePhoto;
+                return (
+                  <div key={type}>
+                    <input
+                      type="file"
+                      className={s.pd__input}
+                      id={`pd_input-${i}`}
+                      onBlur={handleBlur}
+                      onChange={e => {
+                        loadFile(e, type, setFieldValue);
+                      }}
+                    />
+                    <label
+                      className={classNames(s.pd__label, {
+                        [s.success__input]: touched[type] && !errors[type],
+                        [s.error__input]: touched[type] && errors[type],
+                      })}
+                      style={
+                        inputs[type] && {
+                          backgroundImage: `url(${inputs[type].src})`,
+                        }
                       }
-                    }
-                    htmlFor={`pd_input-${i}`}
-                  >
-                    {!inputs[type as InputType].src && (
-                      <>
-                        <GlobalSvgSelector id="camera" />
-                        <p>{getInputNameByType(type as InputType)}</p>
-                      </>
-                    )}
-                  </label>
-                  <ErrorMessage message={errors[type as InputType] || ''} />
-                </div>
-              ))}
+                      htmlFor={`pd_input-${i}`}
+                    >
+                      {!inputs[type].src && (
+                        <>
+                          <GlobalSvgSelector id="camera" />
+                          <p>{getInputNameByType(type)}</p>
+                        </>
+                      )}
+                    </label>
+                    <div className={s.error}>
+                      <ErrorMessage message={errors[type] || ''} />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
             <div className={s.pd__buttons}>

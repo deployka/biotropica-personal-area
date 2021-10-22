@@ -12,20 +12,20 @@ import { GlobalSvgSelector } from '../../../../../assets/icons/global/GlobalSvgS
 import { PopupBackground } from '../../../../../shared/Global/PopupBackground/PopupBackground';
 import { useModal } from '../../../../../hooks/UseModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
+import { Photo } from '../../../../../store/ducks/progress/contracts/state';
+import moment from 'moment';
 
 SwiperCore.use([Navigation]);
 
-export interface Photo {
-  src: string;
-  title: string;
-}
-
 interface Props {
   photos: Photo[];
+  createdAt: Date;
+  i?: number;
 }
 
-export const PhotoSliderModal = ({ photos }: Props) => {
+export const PhotoSliderModal = ({ photos, createdAt, i }: Props) => {
   const { modals, closeModal } = useModal();
+  console.log(i);
 
   return (
     <>
@@ -42,6 +42,7 @@ export const PhotoSliderModal = ({ photos }: Props) => {
             </button>
           </div>
           <Swiper
+            initialSlide={i}
             slidesPerView={1}
             navigation={{
               prevEl: '.left',
@@ -55,9 +56,13 @@ export const PhotoSliderModal = ({ photos }: Props) => {
               return (
                 <SwiperSlide
                   className={s.results_slider_item}
-                  key={i + photo.title}
+                  key={i + photo.filename}
                 >
-                  <img src={photo.src} alt={photo.title} />
+                  <img
+                    src={
+                      process.env.REACT_APP_BACKEND_URL + '/' + photo.filename
+                    }
+                  />
                 </SwiperSlide>
               );
             })}
@@ -69,7 +74,10 @@ export const PhotoSliderModal = ({ photos }: Props) => {
             <GlobalSvgSelector id="slider-left" />
           </div>
           <div className={s.results_date}>
-            <p> спустя 5 дней, 13 июня 2021г.</p>
+            <p>
+              {moment(new Date(createdAt), 'YYYYMMDD').fromNow()},{' '}
+              {moment(createdAt).format('Do MMMM YYYY г.')}
+            </p>
           </div>
         </div>
       </div>

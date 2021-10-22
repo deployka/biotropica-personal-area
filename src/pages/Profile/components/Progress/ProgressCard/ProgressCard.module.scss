@@ -1,9 +1,10 @@
-@import "../../../../../styles/mixins.scss";
-@import "../../../../../styles/variables.scss";
+@import '../../../../../styles/mixins.scss';
+@import '../../../../../styles/variables.scss';
 .progress__card {
   padding: 30px;
   border: 1px solid $color-secondary;
   border-radius: 15px;
+
   margin-bottom: 21px;
   &:last-of-type {
     margin-bottom: 0;
@@ -13,10 +14,13 @@
 .card {
   &__imges {
     width: 100%;
+
     @include flex($justify: space-between);
     margin-bottom: 10px;
   }
   &__img {
+    cursor: pointer;
+
     img {
       height: 100%;
     }
