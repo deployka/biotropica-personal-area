@@ -45,11 +45,6 @@ interface Props {
   setNext: Dispatch<SetStateAction<boolean>>;
 }
 
-interface Options {
-  value: Partial<GoalUnits>;
-  label: string;
-}
-
 export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -216,7 +211,9 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="Желаемый результат"
+                  placeholder={`Желаемый результат (${
+                    values['units'][0].label || 'не выбрано'
+                  })`}
                   name="end_result"
                   value={values.end_result}
                   type="text"
@@ -231,7 +228,9 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="Текущий результат"
+                  placeholder={`Текущий результат (${
+                    values['units'][0].label || 'не выбрано'
+                  })`}
                   name="start_result"
                   value={values.start_result}
                   type="text"

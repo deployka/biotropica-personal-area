@@ -1,11 +1,17 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { fetchGoalData } from '../../../store/ducks/goal/actionCreators';
+import { notification } from '../../../config/notification/notificationForm';
+import {
+  fetchGoalData,
+  setGoalResponse,
+} from '../../../store/ducks/goal/actionCreators';
 import { Goal } from '../../../store/ducks/goal/contracts/state';
 import {
   selectGoalData,
+  selectGoalResponse,
   selectGoalStatus,
 } from '../../../store/ducks/goal/selectors';
 import {
@@ -32,6 +38,7 @@ export const Goals = (props: Props) => {
   const goals: Goal[] = useSelector(selectGoalsData) || [];
   const loading = useSelector(selectGoalsStatus);
   const loadingGoal = useSelector(selectGoalStatus);
+  const response = useSelector(selectGoalResponse);
   const dispatch = useDispatch();
 
   const activeGoalId: number = parseInt(location.pathname.split('/')[2]);
@@ -44,6 +51,18 @@ export const Goals = (props: Props) => {
       dispatch(fetchGoalData(activeGoalId));
     }
   }, [activeGoalId]);
+
+  useEffect(() => {
+    if (loadingGoal === LoadingStatus.ERROR && goals.length) {
+      store.addNotification({
+        ...notification,
+        title: 'Произошла ошибка!',
+        message: response?.message || 'Произошла непредвиденная ошибка',
+        type: 'danger',
+      });
+      dispatch(setGoalResponse(undefined));
+    }
+  }, [loadingGoal, goal]);
 
   useEffect(() => {
     if (

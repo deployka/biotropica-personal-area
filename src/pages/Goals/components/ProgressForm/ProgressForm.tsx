@@ -10,13 +10,18 @@ import { Button } from '../../../../shared/Form/Button/Button';
 import { DatePickerCustom } from '../../../../shared/Form/DatePicker/DatePickerCustom';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
-import { Calendar } from '../../../../shared/Global/Calendar/Calendar';
 import {
   deleteGoalData,
   setGoalResponse,
   updateGoalData,
 } from '../../../../store/ducks/goal/actionCreators';
-import { Goal, GoalValue } from '../../../../store/ducks/goal/contracts/state';
+import {
+  Goal,
+  GoalType,
+  GoalUnits,
+  GoalValue,
+  RunUnits,
+} from '../../../../store/ducks/goal/contracts/state';
 import {
   selectGoalData,
   selectGoalLoadingStatus,
@@ -30,6 +35,8 @@ import ru from 'date-fns/locale/ru';
 import { validationSchema } from './validationSchema';
 import s from './ProgressForm.module.scss';
 import { fetchGoalsData } from '../../../../store/ducks/goals/actionCreators';
+import { ISelect } from '../../../../shared/Form/Select/SelectCustom';
+import { selectGoalsLoadingStatus } from '../../../../store/ducks/goals/selectors';
 
 registerLocale('ru', ru);
 
@@ -50,12 +57,14 @@ export const ProgressForm = ({}: Props) => {
 
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectGoalLoadingStatus);
+  const goalsLoadingStatus = useSelector(selectGoalsLoadingStatus);
   const response = useSelector(selectGoalResponse);
   const history = useHistory();
 
   const [name, setName] = useState<string>('');
   const [deleted, setDeleted] = useState<boolean>(false);
   const [update, setUpdate] = useState<boolean>(false);
+  const [completed, setCompleted] = useState<boolean>(false);
   const [visibleDeleteNot, setVisibleDeleteNot] = useState<boolean>(false);
 
   const [loader, setLoader] = useState<boolean>(false);
@@ -63,26 +72,22 @@ export const ProgressForm = ({}: Props) => {
 
   useEffect(() => {
     if (progressBarOptions.progressValue >= 100) {
-      console.log('test');
-
+      setName(goal?.name || '');
+      setCompleted(true);
       dispatch(updateGoalData({ id: goal?.id, completed: true }));
-      store.addNotification({
-        ...notification,
-        title: `Цель ${goal?.name} успешно завершена!`,
-        message: 'Поздравляем с завершением цели!',
-        type: 'success',
-      });
     }
+  }, [progressBarOptions.progressValue]);
 
+  useEffect(() => {
     if (goal) {
       const max: number = parseInt(goal.end_result);
-      const min: number = parseInt(goal.start_result);
-      const progressValue =
-        parseInt(goal?.values?.[goal?.values?.length - 1]?.value) || min;
-
+      const value = Math.floor(
+        (getProgressValueByTypeAndUnit(goal.type, goal.units) * 100) / max
+      );
+      const progressValue: number = value <= 100 ? value : 100;
       setProgressBarOptions({
         ...progressBarOptions,
-        progressValue: Math.floor((progressValue * 100) / max),
+        progressValue,
       });
     }
   }, [goal]);
@@ -143,10 +148,36 @@ export const ProgressForm = ({}: Props) => {
           onScreen: true,
         },
       });
-      history.push('/goals');
-      setDeleted(false);
     }
   }, [goal, deleted, loadingStatus]);
+
+  useEffect(() => {
+    if (completed && loadingStatus === LoadingStatus.SUCCESS) {
+      dispatch(fetchGoalsData());
+      store.addNotification({
+        ...notification,
+        title: `Цель ${name} успешно завершена!`,
+        message: 'Поздравляем с завершением цели!',
+        type: 'success',
+        dismiss: {
+          duration: 10000,
+          pauseOnHover: true,
+          onScreen: true,
+        },
+      });
+    }
+  }, [goal, completed, loadingStatus]);
+
+  useEffect(() => {
+    if (
+      goalsLoadingStatus === LoadingStatus.SUCCESS &&
+      (completed || deleted)
+    ) {
+      setCompleted(false);
+      setDeleted(false);
+      history.push('/goals');
+    }
+  }, [goalsLoadingStatus]);
 
   async function onSubmit(values: GoalValue, options: any) {
     refResetForm.current = options.resetForm;
@@ -227,11 +258,39 @@ export const ProgressForm = ({}: Props) => {
     });
   }
 
+  function getProgressValueByTypeAndUnit(
+    type: GoalType,
+    units: ISelect<Partial<GoalUnits> | null>[]
+  ): number {
+    switch (type) {
+      case GoalType.RUN:
+        switch (units[0].value) {
+          case RunUnits.KILOMETER:
+          case RunUnits.MINUTES:
+          case RunUnits.MINUTES_KILOMETER:
+            return getMaxValueFromGoalValues();
+        }
+        break;
+      case GoalType.WEIGHT:
+        return parseInt(goal?.values?.[0]?.value || goal?.start_result || '');
+      case GoalType.FORCE:
+        return getMaxValueFromGoalValues();
+      default:
+        break;
+    }
+    return 0;
+  }
+
+  function getMaxValueFromGoalValues(): number {
+    const values = goal?.values?.map(value => parseInt(value?.value)) || [];
+    values.push(parseInt(goal?.start_result || '', 10));
+    return Math.max.apply(Math, values);
+  }
+
   return (
     <>
       <div className={s.progress__form}>
         <ProgressBar options={progressBarOptions} />
-        {/* <Calendar options={calendar} /> */}
         <div className={s.edit__goal}>
           <GlobalSvgSelector id="edit" />
           <Link to={`/goals/edit/${goal?.id}`}>
@@ -273,7 +332,7 @@ export const ProgressForm = ({}: Props) => {
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="Текущий результат"
+                  placeholder={`Результат (${goal?.units[0].label})`}
                   name="value"
                   value={values?.value}
                   type="text"

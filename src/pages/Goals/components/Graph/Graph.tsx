@@ -70,6 +70,11 @@ export const Graph = ({ startDate, endDate }: Props) => {
         while (currentDate.add(1, 'months').diff(endDate) <= 0) {
           values.push(currentDate.format('MMMM'));
         }
+      } else if (dayLength > 366) {
+        currentDate.subtract(1, 'years');
+        while (currentDate.add(1, 'years').diff(endDate) <= 0) {
+          values.push(currentDate.format('YYYY'));
+        }
       }
 
       myChart.current.data.labels = values;
@@ -89,12 +94,11 @@ export const Graph = ({ startDate, endDate }: Props) => {
       return;
     }
 
-    return [
-      goal.start_result,
-      ...(goal?.values
+    return (
+      goal?.values
         ?.filter(el => moment(el?.createdAt).isBetween(startDate, endDate))
-        ?.map(el => el?.value) || []),
-    ];
+        ?.map(el => el?.value) || []
+    );
   }
   return (
     <div className={s.container}>
