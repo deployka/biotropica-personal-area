@@ -16,6 +16,7 @@ interface Props {
   setActiveTab: Dispatch<SetStateAction<string>>;
 }
 
+
 export interface CalendarDates {
   startDate: Moment | null;
   endDate: Moment | null;
@@ -44,11 +45,11 @@ export const Calendar = ({
   return (
     <div className={s.calendar}>
       <DateRangePicker
-        startDatePlaceholderText={'Начало'}
-        endDatePlaceholderText={'Конец'}
+        startDatePlaceholderText={"Начало"}
+        endDatePlaceholderText={"Конец"}
         hideKeyboardShortcutsPanel
         customInputIcon={<GlobalSvgSelector id="calendar" />}
-        inputIconPosition={'after'}
+        inputIconPosition={"after"}
         numberOfMonths={1}
         displayFormat={'DD.MM.YY'}
         isOutsideRange={() => false}

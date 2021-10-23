@@ -1,5 +1,5 @@
-@import '../../../styles/mixins.scss';
-@import '../../../styles/variables.scss';
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
 .calendar {
   border-radius: 40px;
   border: 1px solid #9e97be;
@@ -9,6 +9,11 @@
   padding-top: 3px;
   display: flex;
   align-items: center;
+}
+
+.react-datepicker {
+  width: 400px;
+  background-color: #000;
 }
 
 .icon {
