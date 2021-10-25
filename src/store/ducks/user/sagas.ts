@@ -21,15 +21,17 @@ import {
 export function* fetchSigninRequest({
   payload,
 }: FetchSigninActionInterface): any {
-  yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-  const { data, status } = yield call(AuthService.signin, payload);
-  yield put(setUserResponse(data));
-  if (status === 200) {
-    window.localStorage.setItem('token', data.accessToken);
-    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
-  } else {
-    yield put(setUserLoadingStatus(LoadingStatus.ERROR));
-  }
+  try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
+    const { data, status } = yield call(AuthService.signin, payload);
+    yield put(setUserResponse(data));
+    if (status === 200) {
+      window.localStorage.setItem('token', data.accessToken);
+      yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
+    } else {
+      yield put(setUserLoadingStatus(LoadingStatus.ERROR));
+    }
+  } catch (error) {}
 }
 
 export function* fetchSignupRequest({

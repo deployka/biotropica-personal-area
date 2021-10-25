@@ -50,13 +50,14 @@ import { selectGoalLoadingStatus } from './store/ducks/goal/selectors';
 import { store } from 'react-notifications-component';
 
 import { Modals } from './modals/Modals';
-
+import { selectProgressLoadingStatus } from './store/ducks/progress/selectors';
 
 function App() {
   const isAuth = useSelector(selectIsAuth);
   const loadingUser = useSelector(selectUserLoadingStatus);
   const loadingGoals = useSelector(selectGoalsLoadingStatus);
   const loadingGoal = useSelector(selectGoalLoadingStatus);
+  const loadingProgress = useSelector(selectProgressLoadingStatus);
 
   const history = useHistory();
   const location = useLocation();
@@ -96,7 +97,8 @@ function App() {
       loadingUser === LoadingStatus.LOADING ||
       loadingUser === LoadingStatus.NEVER ||
       loadingGoals === LoadingStatus.LOADING ||
-      loadingGoal === LoadingStatus.LOADING
+      loadingGoal === LoadingStatus.LOADING ||
+      loadingProgress === LoadingStatus.LOADING
     );
   }
 

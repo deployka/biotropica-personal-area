@@ -9,6 +9,12 @@ interface Props {
 
 export const useModal = () => {
   const { modals, setModals } = useContext<Props>(ModalContext);
+  function closeModal(name: ModalName) {
+    setModals({
+      ...modals,
+      [name]: { open: false, props: null },
+    });
+  }
   return {
     modals,
     openModal<N extends ModalName, P extends Modals[N]['props']>(
@@ -17,15 +23,10 @@ export const useModal = () => {
     ) {
       setModals({ ...modals, [name]: { open: true, props } });
     },
-    closeModal(name: ModalName) {
-      setModals({
-        ...modals,
-        [name]: { open: false, props: null },
-      });
-    },
+    closeModal,
     closeAllModals() {
       Object.keys(modals).forEach((modal: string) =>
-        this.closeModal(modal as ModalName)
+        closeModal(modal as ModalName)
       );
     },
   };

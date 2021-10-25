@@ -1,46 +1,43 @@
+import moment from 'moment';
 import { useModal } from '../../../../../hooks/UseModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
-import { Photo } from '../PhotoSliderModal/PhotoSliderModal';
+import {
+  Photo,
+  Progress,
+} from '../../../../../store/ducks/progress/contracts/state';
 import s from './ProgressCard.module.scss';
 
 interface Props {
-  options: any;
+  card: Progress;
 }
 
-export const ProgressCard = ({ options }: Props) => {
+export const ProgressCard = ({ card }: Props) => {
   const { openModal } = useModal();
 
-  const photos: Photo[] = [
-    {
-      src: 'https://i.ibb.co/nbcXV9h/photo-1589883661923-6476cb0ae9f2.jpg',
-      title: 'cat1',
-    },
-    {
-      src: 'https://i.ibb.co/tPX4dc1/tran-mau-tri-tam-Fbh-Nd-D1ow2g-unsplash.jpg',
-      title: 'cat2',
-    },
-    {
-      src: 'https://i.ibb.co/7CmKS27/kristina-yadykina-21-NRDb-MJF94-unsplash.jpg',
-      title: 'cat3',
-    },
-  ];
+  const photos: Photo[] = card.photos;
 
   return (
-    <div
-      className={s.progress__card}
-      onClick={() =>
-        openModal(ModalName.MODAL_PROGRESS_PHOTO_SLIDER, { photos })
-      }
-    >
+    <div className={s.progress__card}>
       <div className={s.card__imges}>
-        {options.images.map((image: any) => (
-          <div key={image} className={s.card__img__wrapper}>
-            <img src={image} className={s.card__img} />
+        {card.photos.map((image: Photo, i: number) => (
+          <div key={image.filename} className={s.card__img__wrapper}>
+            <img
+              onClick={() =>
+                openModal(ModalName.MODAL_PROGRESS_PHOTO_SLIDER, {
+                  photos,
+                  createdAt: card.createdAt,
+                  i,
+                })
+              }
+              src={process.env.REACT_APP_BACKEND_URL + '/' + image.filename}
+              className={s.card__img}
+            />
           </div>
         ))}
       </div>
       <div className={s.card__date}>
-        Спустя{'  '} {options.date}
+        {moment(new Date(card.createdAt), 'YYYYMMDD').fromNow()},{' '}
+        {moment(card.createdAt).format('Do MMMM YYYY г.')}
       </div>
     </div>
   );
