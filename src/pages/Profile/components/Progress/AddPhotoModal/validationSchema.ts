@@ -5,7 +5,6 @@ export const validationSchema = yup.object().shape({
     .mixed()
     .required('Фото обязательно')
     .test('fileFormat', 'Только jpg gif png', value => {
-      console.log(value);
       return (
         value && ['image/gif', 'image/png', 'image/jpeg'].includes(value.type)
       );
@@ -14,7 +13,6 @@ export const validationSchema = yup.object().shape({
     .mixed()
     .required('Фото обязательно')
     .test('fileFormat', 'Только jpg gif png', value => {
-      console.log(value);
       return (
         value && ['image/gif', 'image/png', 'image/jpeg'].includes(value.type)
       );
@@ -23,7 +21,6 @@ export const validationSchema = yup.object().shape({
     .mixed()
     .required('Фото обязательно')
     .test('fileFormat', 'Только jpg gif png', value => {
-      console.log(value);
       return (
         value && ['image/gif', 'image/png', 'image/jpeg'].includes(value.type)
       );

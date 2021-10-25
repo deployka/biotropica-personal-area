@@ -112,13 +112,20 @@ export const AddPhotoModal = ({}: Props) => {
       ]);
 
       const data: CreateProgressData = {
-        photos: new Array(files.length)
-          .fill('')
-          .map((_, i) => Object.keys(TypePhoto)[i])
-          .map((type, i) => ({
-            filename: files[i].name,
-            type: type as TypePhoto,
-          })),
+        photos: [
+          {
+            filename: files[0].name,
+            type: TypePhoto.BACK,
+          },
+          {
+            filename: files[1].name,
+            type: TypePhoto.FRONT,
+          },
+          {
+            filename: files[2].name,
+            type: TypePhoto.SIDE,
+          },
+        ],
       };
       dispatch(createProgressData(data));
     } catch (error) {}
