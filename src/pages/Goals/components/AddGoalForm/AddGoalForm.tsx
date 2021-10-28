@@ -15,9 +15,7 @@ import { Loader } from '../../../../shared/Form/Loader/Loader';
 import {
   CreateGoalData,
   Goal,
-  GoalSubtype,
   GoalType,
-  GoalUnits,
   RunUnits,
   WeightUnits,
 } from '../../../../store/ducks/goal/contracts/state';
@@ -155,7 +153,7 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
           onSubmit={(values: CreateGoalData, options) =>
             onSubmit(values, options)
           }
-          validationSchema={validationSchema}
+          validationSchema={validationSchema(goalTemplate.type)}
         >
           {({
             values,

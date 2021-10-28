@@ -332,7 +332,7 @@ export const ProgressForm = ({}: Props) => {
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder={`Результат (${goal?.units[0].label})`}
+                  placeholder={`Результат (${goal?.units?.[0]?.label})`}
                   name="value"
                   value={values?.value}
                   type="text"
