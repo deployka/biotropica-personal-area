@@ -56,24 +56,25 @@ export const Graph = ({ startDate, endDate }: Props) => {
       let currentDate = moment(startDate);
       const dayLength = moment(endDate).diff(startDate, 'days');
 
-      currentDate.subtract(1, 'days');
       if (dayLength <= 7) {
-        while (currentDate.add(1, 'days').diff(endDate) <= 0) {
+        while (currentDate.diff(endDate) <= 0) {
           values.push(currentDate.format('dddd'));
+          currentDate.add(1, 'days');
         }
       } else if (dayLength > 7 && dayLength <= 31) {
-        while (currentDate.add(1, 'days').diff(endDate) <= 0) {
+        while (currentDate.diff(endDate) <= 0) {
           values.push(currentDate.format('DD'));
+          currentDate.add(1, 'days');
         }
       } else if (dayLength > 30 && dayLength <= 366) {
-        currentDate.subtract(1, 'months');
-        while (currentDate.add(1, 'months').diff(endDate) <= 0) {
+        while (currentDate.diff(endDate) <= 0) {
           values.push(currentDate.format('MMMM'));
+          currentDate.add(1, 'months');
         }
       } else if (dayLength > 366) {
-        currentDate.subtract(1, 'years');
-        while (currentDate.add(1, 'years').diff(endDate) <= 0) {
+        while (currentDate.diff(endDate) <= 0) {
           values.push(currentDate.format('YYYY'));
+          currentDate.add(1, 'years');
         }
       }
 
