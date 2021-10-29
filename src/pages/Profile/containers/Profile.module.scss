@@ -1,8 +1,13 @@
-@import '../../../styles/mixins.scss';
-@import '../../../styles/variables.scss';
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
 .profile {
   width: 100%;
   display: flex;
+
+  .content {
+    width: 892px;
+  }
+
   .tabs__container {
     margin-bottom: 30px;
   }
