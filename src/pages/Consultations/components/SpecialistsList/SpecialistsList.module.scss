@@ -1,0 +1,52 @@
+.specialistList {
+    margin: 40px 0 0 0;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .titleName {
+        width: 40%;
+    }
+
+    .titleSpecialiaztion {
+        width: 200px;
+    }
+
+    .titlePrice {
+        display: flex;
+        justify-content: center;
+        width: 150px;
+    }
+
+    .titleAppointment {
+        width: 200px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    p {
+        font-weight: 500;
+        font-size: 18px;
+
+        color: #1e174d;
+    }
+}
+
+.list {
+    padding: 40px 0;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+}

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Redirect,
   Route,
   Switch,
   useHistory,
   useLocation,
+
 } from 'react-router-dom';
 import { ErrorPage } from './pages/404/containers/404';
 import { Goals } from './pages/Goals/containers/Goals';
@@ -21,31 +22,32 @@ import {
 import { ForgotForm } from './pages/Auth/components/ForgotForm/ForgotForm';
 
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   selectIsAuth,
   selectUserLoadingStatus,
-} from './store/ducks/user/selectors';
-import { SigninForm } from './pages/Auth/components/SigninForm/SigninForm';
-import { SignupForm } from './pages/Auth/components/SignupForm/SignupForm';
+} from "./store/ducks/user/selectors";
+import { SigninForm } from "./pages/Auth/components/SigninForm/SigninForm";
+import { SignupForm } from "./pages/Auth/components/SignupForm/SignupForm";
 import {
   fetchUserData,
   setUserLoadingStatus,
   setUserResponse,
-} from './store/ducks/user/actionCreators';
-import { LoadingStatus } from './store/types';
+} from "./store/ducks/user/actionCreators";
+import { LoadingStatus } from "./store/types";
 
-import { Loader } from './shared/Global/Loader/Loader';
-import { Header } from './shared/Global/Header/Header';
-import { Sidebar } from './shared/Global/Sidebar/Sidebar';
+import { Loader } from "./shared/Global/Loader/Loader";
+import { Header } from "./shared/Global/Header/Header";
+import { Sidebar } from "./shared/Global/Sidebar/Sidebar";
 
-import './styles/global.scss';
-import { SidebarChat } from './shared/Global/SidebarChat/SidebarChat';
-import { SidebarNotifications } from './shared/Global/SidebarNotifications/SidebarNotifications';
-import { AddGoal } from './pages/Goals/components/AddGoal/AddGoal';
-import { fetchGoalsData } from './store/ducks/goals/actionCreators';
-import { EditGoalForm } from './pages/Goals/components/EditGoalForm/EditGoalForm';
-import { selectGoalsLoadingStatus } from './store/ducks/goals/selectors';
-import { selectGoalLoadingStatus } from './store/ducks/goal/selectors';
+import "./styles/global.scss";
+import { SidebarChat } from "./shared/Global/SidebarChat/SidebarChat";
+import { SidebarNotifications } from "./shared/Global/SidebarNotifications/SidebarNotifications";
+import { AddGoal } from "./pages/Goals/components/AddGoal/AddGoal";
+import { fetchGoalsData } from "./store/ducks/goals/actionCreators";
+import { EditGoalForm } from "./pages/Goals/components/EditGoalForm/EditGoalForm";
+import { selectGoalsLoadingStatus } from "./store/ducks/goals/selectors";
+import { selectGoalLoadingStatus } from "./store/ducks/goal/selectors";
 
 import { store } from 'react-notifications-component';
 
@@ -63,13 +65,15 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
 
+
   const [page, setPage] = useState<string>('Главная');
+
   const [sidebarNotificationsOpen, setSidebarNotificationsOpen] =
     useState<boolean>(false);
   const [chatNotificationsOpen, setSidebarChatOpen] = useState<boolean>(false);
 
   const currentPath = location.pathname;
-  const authPaths = ['/signin', '/signup'];
+  const authPaths = ["/signin", "/signup"];
 
   useEffect(() => {
     dispatch(fetchUserData());
@@ -86,8 +90,10 @@ function App() {
 
   useEffect(() => {
     if (isAuth && authPaths.includes(currentPath)) {
+
       history.push('/');
     } else if (loadingUser === LoadingStatus.SUCCESS && isAuth) {
+
       history.push(currentPath);
     }
   }, [isAuth, loadingUser]);
@@ -166,6 +172,8 @@ function App() {
             <Route exact path="/questionnaire" component={Questionnaire} />
 
             <Route exact path="/profile" component={Profile} />
+
+            <Route exact path="/video" component={Consultations} />
 
             <Route exact path="/profile/edit" component={Edit} />
 

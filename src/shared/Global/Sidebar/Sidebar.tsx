@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import classNames from "classnames";
 import React, {
   Dispatch,
   memo,
@@ -7,17 +7,17 @@ import React, {
   SetStateAction,
   useEffect,
   useState,
-} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
-import { fetchSignout } from '../../../store/ducks/user/actionCreators';
-import { selectUserData } from '../../../store/ducks/user/selectors';
+} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { fetchSignout } from "../../../store/ducks/user/actionCreators";
+import { selectUserData } from "../../../store/ducks/user/selectors";
 
-import s from './Sidebar.module.scss';
+import s from "./Sidebar.module.scss";
 
-import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
-import { SidebarSvgSelector } from '../../../assets/icons/sidebar/SIdebarSvgSelector';
-import { GlobalSvgSelector } from '../../../assets/icons/global/GlobalSvgSelector';
+import defaultAvatar from "../../../assets/images/profile/default_avatar.png";
+import { SidebarSvgSelector } from "../../../assets/icons/sidebar/SIdebarSvgSelector";
+import { GlobalSvgSelector } from "../../../assets/icons/global/GlobalSvgSelector";
 
 interface Props {
   setPage: Dispatch<SetStateAction<string>>;
@@ -77,12 +77,14 @@ export const Sidebar = memo(
       },
     ];
 
+
     const dispatch = useDispatch();
     const location = useLocation();
 
     const user = useSelector(selectUserData);
 
     const [close, setClose] = useState<boolean>(false);
+
 
     useEffect(() => {
       pages.forEach(value => {
@@ -178,6 +180,7 @@ export const Sidebar = memo(
               <SidebarSvgSelector id="chat" />
               <div className={s.sidebar__prompt}>
                 <p>{'Чат поддержка'}</p>
+
               </div>
             </a>
             <div className={s.sidebar__divider}></div>
