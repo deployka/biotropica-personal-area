@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Redirect,
   Route,
   Switch,
   useHistory,
   useLocation,
-
 } from 'react-router-dom';
 import { ErrorPage } from './pages/ErrorPage/containers/ErrorPage';
 import { Goals } from './pages/Goals/containers/Goals';
@@ -18,44 +17,43 @@ import { Services } from './pages/Services/containers/Services';
 import {
   RestoreForm,
   Type,
-} from "./pages/Auth/components/RestoreForm/RestoreForm";
-import { ForgotForm } from "./pages/Auth/components/ForgotForm/ForgotForm";
-
+} from './pages/Auth/components/RestoreForm/RestoreForm';
+import { ForgotForm } from './pages/Auth/components/ForgotForm/ForgotForm';
 
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
   selectIsAuth,
   selectUserLoadingStatus,
-} from "./store/ducks/user/selectors";
-import { SigninForm } from "./pages/Auth/components/SigninForm/SigninForm";
-import { SignupForm } from "./pages/Auth/components/SignupForm/SignupForm";
+} from './store/ducks/user/selectors';
+import { SigninForm } from './pages/Auth/components/SigninForm/SigninForm';
+import { SignupForm } from './pages/Auth/components/SignupForm/SignupForm';
 import {
   fetchUserData,
   setUserLoadingStatus,
   setUserResponse,
-} from "./store/ducks/user/actionCreators";
-import { LoadingStatus } from "./store/types";
+} from './store/ducks/user/actionCreators';
+import { LoadingStatus } from './store/types';
 
-import { Loader } from "./shared/Global/Loader/Loader";
-import { Header } from "./shared/Global/Header/Header";
-import { Sidebar } from "./shared/Global/Sidebar/Sidebar";
+import { Loader } from './shared/Global/Loader/Loader';
+import { Header } from './shared/Global/Header/Header';
+import { Sidebar } from './shared/Global/Sidebar/Sidebar';
 
-import "./styles/global.scss";
-import { SidebarChat } from "./shared/Global/SidebarChat/SidebarChat";
-import { SidebarNotifications } from "./shared/Global/SidebarNotifications/SidebarNotifications";
-import { AddGoal } from "./pages/Goals/components/AddGoal/AddGoal";
-import { fetchGoalsData } from "./store/ducks/goals/actionCreators";
-import { EditGoalForm } from "./pages/Goals/components/EditGoalForm/EditGoalForm";
-import { selectGoalsLoadingStatus } from "./store/ducks/goals/selectors";
-import { selectGoalLoadingStatus } from "./store/ducks/goal/selectors";
-
+import './styles/global.scss';
+import { SidebarChat } from './shared/Global/SidebarChat/SidebarChat';
+import { SidebarNotifications } from './shared/Global/SidebarNotifications/SidebarNotifications';
+import { AddGoal } from './pages/Goals/components/AddGoal/AddGoal';
+import { fetchGoalsData } from './store/ducks/goals/actionCreators';
+import { EditGoalForm } from './pages/Goals/components/EditGoalForm/EditGoalForm';
+import { selectGoalsLoadingStatus } from './store/ducks/goals/selectors';
+import { selectGoalLoadingStatus } from './store/ducks/goal/selectors';
 
 import { store } from 'react-notifications-component';
 
 import { Modals } from './modals/Modals';
 import { selectProgressLoadingStatus } from './store/ducks/progress/selectors';
 import { Consultations } from './pages/Consultations/containers/Consultations';
+import { Policy } from './pages/Policy/containers/Policy';
 
 function App() {
   const isAuth = useSelector(selectIsAuth);
@@ -75,7 +73,7 @@ function App() {
   const [chatNotificationsOpen, setSidebarChatOpen] = useState<boolean>(false);
 
   const currentPath = location.pathname;
-  const authPaths = ["/signin", "/signup"];
+  const authPaths = ['/signin', '/signup'];
 
   useEffect(() => {
     dispatch(fetchUserData());
@@ -87,12 +85,12 @@ function App() {
   useEffect(() => {
     dispatch(setUserLoadingStatus(LoadingStatus.LOADED));
     dispatch(setUserResponse(undefined));
-    store.removeNotification("delete-notification");
+    store.removeNotification('delete-notification');
   }, [location.pathname]);
 
   useEffect(() => {
     if (isAuth && authPaths.includes(currentPath)) {
-      history.push("/");
+      history.push('/');
     } else if (loadingUser === LoadingStatus.SUCCESS && isAuth) {
       history.push(currentPath);
     }
@@ -121,9 +119,8 @@ function App() {
             <Route exact path="/signup">
               <SignupForm />
             </Route>
-            <div className="policyContainer">
-              <Route exact path="/policy" component={Policy} />
-            </div>
+
+            <Route exact path="/policy" component={Policy} />
 
             <Route exact path="/forgot-password">
               <ForgotForm />

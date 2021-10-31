@@ -1,4 +1,3 @@
-
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { DateRangePicker, FocusedInputShape } from 'react-dates';
 import { GlobalSvgSelector } from '../../../assets/icons/global/GlobalSvgSelector';
@@ -16,7 +15,6 @@ interface Props {
   setGraphDates: Dispatch<SetStateAction<Dates>>;
   setActiveTab: Dispatch<SetStateAction<string>>;
 }
-
 
 export interface CalendarDates {
   startDate: Moment | null;
@@ -46,11 +44,11 @@ export const Calendar = ({
   return (
     <div className={s.calendar}>
       <DateRangePicker
-        startDatePlaceholderText={"Начало"}
-        endDatePlaceholderText={"Конец"}
+        startDatePlaceholderText={'Начало'}
+        endDatePlaceholderText={'Конец'}
         hideKeyboardShortcutsPanel
         customInputIcon={<GlobalSvgSelector id="calendar" />}
-        inputIconPosition={"after"}
+        inputIconPosition={'after'}
         numberOfMonths={1}
         displayFormat={'DD.MM.YY'}
         isOutsideRange={() => false}
