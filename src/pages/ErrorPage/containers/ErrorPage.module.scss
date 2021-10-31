@@ -1,0 +1,41 @@
+@import "./../../../styles/global.scss";
+
+.errorPage {
+    padding: 100px 0 0 0;
+
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .content {
+        width: 560px;
+    }
+
+    .title {
+        h2 {
+            font-size: 64px;
+
+            background: linear-gradient(81.27deg, #c77edf 17.42%, #6f61d0 65.53%);
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            color: $color-primary;
+        }
+    }
+
+    .text {
+        margin: 30px 0 0 0;
+
+        p {
+            color: $color-secondary;
+        }
+
+        a {
+            color: $color-primary;
+            text-decoration: none;
+        }
+    }
+}
