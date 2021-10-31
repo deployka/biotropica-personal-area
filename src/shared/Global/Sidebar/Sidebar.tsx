@@ -182,12 +182,12 @@ export const Sidebar = memo(
             </a>
             <div className={s.sidebar__divider}></div>
             <div className={s.sidebar__logout}>
-              <a href="#" onClick={logout} className={s.logout__svg}>
+              <button onClick={logout} className={s.logout__svg}>
                 <SidebarSvgSelector id="logout" />
                 <div className={s.sidebar__prompt}>
                   <p>{'Выйти'}</p>
                 </div>
-              </a>
+              </button>
             </div>
           </div>
         </div>
