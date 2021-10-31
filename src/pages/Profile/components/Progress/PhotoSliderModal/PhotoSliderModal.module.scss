@@ -97,14 +97,17 @@
     position: relative;
     margin-top: 20px;
 
+    border-radius: 15px;
+    overflow: hidden;
+
     &_item {
+      height: 100%;
       display: flex;
       justify-content: center;
-      img {
-        width: 585px;
-        height: 391px;
 
-        border-radius: 15px;
+      img {
+        object-fit: cover;
+        width: 100%;
       }
     }
   }

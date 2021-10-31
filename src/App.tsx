@@ -20,7 +20,9 @@ import {
 } from "./pages/Auth/components/RestoreForm/RestoreForm";
 import { ForgotForm } from "./pages/Auth/components/ForgotForm/ForgotForm";
 
-import { useDispatch, useSelector } from "react-redux";
+
+import { useDispatch, useSelector } from 'react-redux';
+
 import {
   selectIsAuth,
   selectUserLoadingStatus,
@@ -47,21 +49,27 @@ import { EditGoalForm } from "./pages/Goals/components/EditGoalForm/EditGoalForm
 import { selectGoalsLoadingStatus } from "./store/ducks/goals/selectors";
 import { selectGoalLoadingStatus } from "./store/ducks/goal/selectors";
 
-import { store } from "react-notifications-component";
 
-import { Modals } from "./modals/Modals";
+import { store } from 'react-notifications-component';
+
+import { Modals } from './modals/Modals';
+import { selectProgressLoadingStatus } from './store/ducks/progress/selectors';
+import { Consultations } from './pages/Consultations/containers/Consultations';
 
 function App() {
   const isAuth = useSelector(selectIsAuth);
   const loadingUser = useSelector(selectUserLoadingStatus);
   const loadingGoals = useSelector(selectGoalsLoadingStatus);
   const loadingGoal = useSelector(selectGoalLoadingStatus);
+  const loadingProgress = useSelector(selectProgressLoadingStatus);
 
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const [page, setPage] = useState<string>("Главная");
+
+  const [page, setPage] = useState<string>('Главная');
+
   const [sidebarNotificationsOpen, setSidebarNotificationsOpen] =
     useState<boolean>(false);
   const [chatNotificationsOpen, setSidebarChatOpen] = useState<boolean>(false);
@@ -95,7 +103,8 @@ function App() {
       loadingUser === LoadingStatus.LOADING ||
       loadingUser === LoadingStatus.NEVER ||
       loadingGoals === LoadingStatus.LOADING ||
-      loadingGoal === LoadingStatus.LOADING
+      loadingGoal === LoadingStatus.LOADING ||
+      loadingProgress === LoadingStatus.LOADING
     );
   }
 
@@ -163,6 +172,8 @@ function App() {
             <Route exact path="/questionnaire" component={Questionnaire} />
 
             <Route exact path="/profile" component={Profile} />
+
+            <Route exact path="/video" component={Consultations} />
 
             <Route exact path="/profile/edit" component={Edit} />
 

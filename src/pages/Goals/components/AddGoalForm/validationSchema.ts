@@ -18,13 +18,19 @@ export const validationSchema = yup.object().shape({
   ),
   end_result: yup
     .number()
+    .positive()
     .typeError('Должен быть числом')
     .required('Введите желаемый результат')
     .min(1, 'Минимальный результат: 1')
-    .max(1000, 'Максимальный результат: 1000'),
+    .max(1000, 'Максимальный результат: 1000')
+    .moreThan(
+      yup.ref('start_result'),
+      'Не может быть меньше стартового результата'
+    ),
   start_result: yup
     .number()
     .typeError('Должен быть числом')
     .required('Введите текущий результат')
-    .max(999, 'Максимальный результат: 999'),
+    .max(999, 'Максимальный результат: 999')
+    .positive(),
 });

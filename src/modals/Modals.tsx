@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useModal } from '../hooks/UseModal';
 import { AddPhotoModal } from '../pages/Profile/components/Progress/AddPhotoModal/AddPhotoModal';
 import { PhotoSliderModal } from '../pages/Profile/components/Progress/PhotoSliderModal/PhotoSliderModal';
@@ -7,11 +7,24 @@ import { ModalName } from '../providers/ModalProvider';
 interface Props {}
 
 export const Modals = ({}: Props) => {
-  const { modals } = useModal();
+  const { modals, closeAllModals } = useModal();
 
   useEffect(() => {
     setElements(getElements());
   }, [modals]);
+
+  const escFunction = useCallback(event => {
+    if (event.keyCode === 27) {
+      closeAllModals();
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('keydown', escFunction, false);
+    return () => {
+      document.removeEventListener('keydown', escFunction, false);
+    };
+  }, []);
 
   const [elements, setElements] = useState<React.ReactNode[]>(getElements());
 

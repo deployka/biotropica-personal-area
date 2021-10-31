@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ModalContext } from '../context/ModalContext';
-import { Photo } from '../pages/Profile/components/Progress/PhotoSliderModal/PhotoSliderModal';
+import { Photo } from '../store/ducks/progress/contracts/state';
 
 interface Props {
   children: React.ReactNode;
@@ -20,6 +20,8 @@ export type Modals = {
   [ModalName.MODAL_ADD_PROGRESS_PHOTO]: Modal<{}>;
   [ModalName.MODAL_PROGRESS_PHOTO_SLIDER]: Modal<{
     photos: Photo[];
+    createdAt: Date;
+    i?: number;
   }>;
 };
 

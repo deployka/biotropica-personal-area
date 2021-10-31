@@ -41,6 +41,8 @@
     }
   }
   &__items {
+    position: relative;
+
     max-width: 570px;
     width: 100%;
 
@@ -48,20 +50,47 @@
     justify-content: space-between;
     align-items: center;
   }
-  &_card {
+
+  &__input__container {
+    position: relative;
     width: 170px;
     height: 246px;
     padding: 15px;
+  }
+
+  &__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    display: none;
+  }
+
+  &__label {
+    position: relative;
+
+    width: 170px;
+    height: 246px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     background: #f7f6fb;
     border-radius: 15px;
     border: none;
 
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    position: relative;
-    & p {
+    cursor: pointer;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    p {
+      position: absolute;
+      bottom: 15px;
       font-weight: 500;
       font-size: 14px;
 
@@ -71,16 +100,14 @@
       color: #736f8b;
       margin-bottom: 0;
     }
-    &:hover {
-      cursor: pointer;
-    }
 
-    &::after {
-      content: url('../../../../../assets/icons/profile/camera.svg');
-      position: absolute;
-      align-self: center;
+    transition: all 0.15s ease;
+
+    &:hover {
+      box-shadow: 0px 0px 6px rgba(210, 204, 233, 0.5);
     }
   }
+
   &__buttons {
     width: 216px;
 
@@ -88,4 +115,16 @@
     align-items: center;
     justify-content: space-between;
   }
+}
+
+.error__input {
+  border: 2px solid tomato;
+}
+
+.success__input {
+  border: 2px solid green;
+}
+
+.error {
+  position: absolute;
 }

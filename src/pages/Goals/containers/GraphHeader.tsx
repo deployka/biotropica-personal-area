@@ -8,23 +8,23 @@ import React, {
   useState,
 } from 'react';
 import { useSelector } from 'react-redux';
-import { GlobalSvgSelector } from '../../../assets/icons/global/GlobalSvgSelector';
-import { DateContext } from '../../../context/DatesContext';
-import { Calendar, Dates } from '../../../shared/Global/Calendar/Calendar';
+import { Calendar } from '../../../shared/Global/Calendar/Calendar';
 import { Goal } from '../../../store/ducks/goal/contracts/state';
 import { selectGoalData } from '../../../store/ducks/goal/selectors';
-import { compareDate } from '../../../utils/compareDate';
 import { Tabs } from '../../Profile/components/Tabs/Tabs';
 import { Tab } from '../../Profile/pages/Edit/container/Edit';
+import { Dates } from './Goals';
 
 import s from './Goals.module.scss';
 
-interface Props {}
+interface Props {
+  setDates: Dispatch<SetStateAction<Dates>>;
+  setGraphDates: Dispatch<SetStateAction<Dates>>;
+  dates: Dates;
+}
 
-export const GraphHeader = ({}: Props) => {
+export const GraphHeader = ({ setDates, dates, setGraphDates }: Props) => {
   const goal: Goal | undefined = useSelector(selectGoalData);
-  const { setDates, dates } = useContext(DateContext);
-
   const tabs: Tab[] = [
     {
       key: 'week',
@@ -40,20 +40,20 @@ export const GraphHeader = ({}: Props) => {
     },
   ];
 
-  function getEndDate() {
+  function getStartDate() {
     const currentDate = new Date();
     switch (activeTab) {
-      case 'month':
-        currentDate.setDate(currentDate.getDate() + 30);
-        break;
       case 'week':
-        currentDate.setDate(currentDate.getDate() + 7);
+        currentDate.setDate(new Date().getDate() - 7);
+        break;
+      case 'month':
+        currentDate.setDate(new Date().getDate() - 30);
         break;
       case 'year':
-        currentDate.setDate(currentDate.getDate() + 360);
+        currentDate.setDate(new Date().getDate() - 360);
         break;
       default:
-        currentDate.setDate(currentDate.getDate() + 7);
+        currentDate.setDate(new Date().getDate() - 7);
         break;
     }
     return currentDate;
@@ -62,7 +62,10 @@ export const GraphHeader = ({}: Props) => {
   const [activeTab, setActiveTab] = useState<string>(tabs[0].key);
 
   useEffect(() => {
-    setDates({ startDate: new Date(), endDate: getEndDate() });
+    if (activeTab === 'off') {
+      return;
+    }
+    setDates({ startDate: getStartDate(), endDate: new Date() });
   }, [activeTab]);
 
   return (
@@ -82,7 +85,12 @@ export const GraphHeader = ({}: Props) => {
               tabs={tabs}
             />
             <div className={s.btn__calendar}>
-              <Calendar />
+              <Calendar
+                setActiveTab={setActiveTab}
+                setGraphDates={setGraphDates}
+                startDate={dates.startDate}
+                endDate={dates.endDate}
+              />
             </div>
           </div>
         </div>
