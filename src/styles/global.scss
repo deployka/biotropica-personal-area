@@ -3,6 +3,7 @@
 @import "~normalize.css";
 @import "variables.scss";
 @import "mixins.scss";
+@import "rangepicker.scss";
 @import "datepicker.scss";
 
 * {
@@ -48,7 +49,6 @@ button {
   height: 100vh;
 }
 
-//date-picker
 .react-datepicker-popper {
   z-index: 60;
 }

@@ -5,23 +5,25 @@ import {
   Switch,
   useHistory,
   useLocation,
-} from "react-router-dom";
-import { ErrorPage } from "./pages/404/containers/404";
-import { Goals } from "./pages/Goals/containers/Goals";
-import { Home } from "./pages/Home/containers/Home";
-import { Profile } from "./pages/Profile/containers/Profile";
-import { Questionnaire } from "./pages/Questionnaire/containers/Questionnaire";
-import { Edit } from "./pages/Profile/pages/Edit/container/Edit";
-import { Tariffs } from "./pages/Tariffs/containers/Tariffs";
-import { Services } from "./pages/Services/containers/Services";
-import { Policy } from "./pages/Policy/containers/Policy";
+
+} from 'react-router-dom';
+import { ErrorPage } from './pages/ErrorPage/containers/ErrorPage';
+import { Goals } from './pages/Goals/containers/Goals';
+import { Home } from './pages/Home/containers/Home';
+import { Profile } from './pages/Profile/containers/Profile';
+import { Questionnaire } from './pages/Questionnaire/containers/Questionnaire';
+import { Edit } from './pages/Profile/pages/Edit/container/Edit';
+import { Tariffs } from './pages/Tariffs/containers/Tariffs';
+import { Services } from './pages/Services/containers/Services';
 import {
   RestoreForm,
   Type,
 } from "./pages/Auth/components/RestoreForm/RestoreForm";
 import { ForgotForm } from "./pages/Auth/components/ForgotForm/ForgotForm";
 
-import { useDispatch, useSelector } from "react-redux";
+
+import { useDispatch, useSelector } from 'react-redux';
+
 import {
   selectIsAuth,
   selectUserLoadingStatus,
@@ -48,21 +50,26 @@ import { EditGoalForm } from "./pages/Goals/components/EditGoalForm/EditGoalForm
 import { selectGoalsLoadingStatus } from "./store/ducks/goals/selectors";
 import { selectGoalLoadingStatus } from "./store/ducks/goal/selectors";
 
-import { store } from "react-notifications-component";
 
-import { Modals } from "./modals/Modals";
+import { store } from 'react-notifications-component';
+
+import { Modals } from './modals/Modals';
+import { selectProgressLoadingStatus } from './store/ducks/progress/selectors';
+import { Consultations } from './pages/Consultations/containers/Consultations';
 
 function App() {
   const isAuth = useSelector(selectIsAuth);
   const loadingUser = useSelector(selectUserLoadingStatus);
   const loadingGoals = useSelector(selectGoalsLoadingStatus);
   const loadingGoal = useSelector(selectGoalLoadingStatus);
+  const loadingProgress = useSelector(selectProgressLoadingStatus);
 
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const [page, setPage] = useState<string>("Главная");
+  const [page, setPage] = useState<string>('Главная');
+
   const [sidebarNotificationsOpen, setSidebarNotificationsOpen] =
     useState<boolean>(false);
   const [chatNotificationsOpen, setSidebarChatOpen] = useState<boolean>(false);
@@ -96,7 +103,8 @@ function App() {
       loadingUser === LoadingStatus.LOADING ||
       loadingUser === LoadingStatus.NEVER ||
       loadingGoals === LoadingStatus.LOADING ||
-      loadingGoal === LoadingStatus.LOADING
+      loadingGoal === LoadingStatus.LOADING ||
+      loadingProgress === LoadingStatus.LOADING
     );
   }
 
@@ -167,6 +175,8 @@ function App() {
             <Route exact path="/questionnaire" component={Questionnaire} />
 
             <Route exact path="/profile" component={Profile} />
+
+            <Route exact path="/video" component={Consultations} />
 
             <Route exact path="/profile/edit" component={Edit} />
 

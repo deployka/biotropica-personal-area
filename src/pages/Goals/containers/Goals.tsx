@@ -1,13 +1,17 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { DateContext } from '../../../context/DatesContext';
-import { Dates } from '../../../shared/Global/Calendar/Calendar';
-import { fetchGoalData } from '../../../store/ducks/goal/actionCreators';
+import { notification } from '../../../config/notification/notificationForm';
+import {
+  fetchGoalData,
+  setGoalResponse,
+} from '../../../store/ducks/goal/actionCreators';
 import { Goal } from '../../../store/ducks/goal/contracts/state';
 import {
   selectGoalData,
+  selectGoalResponse,
   selectGoalStatus,
 } from '../../../store/ducks/goal/selectors';
 import {
@@ -23,12 +27,18 @@ import { Header } from './Header';
 
 interface Props {}
 
+export interface Dates {
+  startDate: Date;
+  endDate: Date;
+}
+
 export const Goals = (props: Props) => {
   const history = useHistory();
   const location = useLocation();
   const goals: Goal[] = useSelector(selectGoalsData) || [];
   const loading = useSelector(selectGoalsStatus);
   const loadingGoal = useSelector(selectGoalStatus);
+  const response = useSelector(selectGoalResponse);
   const dispatch = useDispatch();
 
   const activeGoalId: number = parseInt(location.pathname.split('/')[2]);
@@ -41,6 +51,18 @@ export const Goals = (props: Props) => {
       dispatch(fetchGoalData(activeGoalId));
     }
   }, [activeGoalId]);
+
+  useEffect(() => {
+    if (loadingGoal === LoadingStatus.ERROR && goals.length) {
+      store.addNotification({
+        ...notification,
+        title: 'Произошла ошибка!',
+        message: response?.message || 'Произошла непредвиденная ошибка',
+        type: 'danger',
+      });
+      dispatch(setGoalResponse(undefined));
+    }
+  }, [loadingGoal, goal]);
 
   useEffect(() => {
     if (
@@ -62,27 +84,32 @@ export const Goals = (props: Props) => {
     endDate: new Date(),
   });
 
+  const [graphDates, setGraphDates] = useState<Dates>({
+    startDate: new Date(),
+    endDate: new Date(),
+  });
+
   return (
-    <DateContext.Provider
-      value={{
-        dates,
-        setDates,
-      }}
-    >
-      <div className={s.goals}>
-        <Header
-          active={activeGoalId ? activeGoalId : goals[goals.length - 1]?.id}
-        />
-        <div className={s.goal__content}>
-          <div className={s.goal__content__graph}>
-            <GraphHeader />
-            <Graph dates={dates} />
-          </div>
-          <div className={s.goal__content__edit}>
-            <ProgressForm />
-          </div>
+    <div className={s.goals}>
+      <Header
+        active={activeGoalId ? activeGoalId : goals[goals.length - 1]?.id}
+      />
+      <div className={s.goal__content}>
+        <div className={s.goal__content__graph}>
+          <GraphHeader
+            setDates={setDates}
+            setGraphDates={setGraphDates}
+            dates={dates}
+          />
+          <Graph
+            startDate={graphDates.startDate}
+            endDate={graphDates.endDate}
+          />
+        </div>
+        <div className={s.goal__content__edit}>
+          <ProgressForm />
         </div>
       </div>
-    </DateContext.Provider>
+    </div>
   );
 };

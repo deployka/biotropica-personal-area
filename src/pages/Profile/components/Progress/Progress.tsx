@@ -4,44 +4,32 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import { ProgressCard } from './ProgressCard/ProgressCard';
 
 import s from './Progress.module.scss';
-// import testImg from '../../../../assets/images/test-progress/progress.jpg';
-// import testImg2 from '../../../../assets/images/test-progress/progress2.jpg';
-import testImg3 from '../../../../assets/images/test-progress/progress3.jpg';
-import testImg4 from '../../../../assets/images/test-progress/progress4.jpg';
-import testImg5 from '../../../../assets/images/test-progress/progress5.jpg';
-import testImg6 from '../../../../assets/images/test-progress/progress6.jpg';
-import testImg7 from '../../../../assets/images/test-progress/progress7.jpg';
-import testImg8 from '../../../../assets/images/test-progress/progress8.jpg';
-import testImg9 from '../../../../assets/images/test-progress/progress9.jpg';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectProgressData } from '../../../../store/ducks/progress/selectors';
+import { Progress as IProgress } from '../../../../store/ducks/progress/contracts/state';
+import { useEffect } from 'react';
+import { fetchProgressData } from '../../../../store/ducks/progress/actionCreators';
 
-import { User } from '../../../../store/ducks/user/contracts/state';
+interface Props {}
 
-interface Props {
-  user: User;
-}
+export const Progress = ({}: Props) => {
+  const dispatch = useDispatch();
 
-export const Progress = ({ user }: Props) => {
-  const progress = [
-    {
-      images: [testImg3, testImg8, testImg4],
-      date: '5 дней, 13 июня 2021г.',
-    },
-    {
-      images: [testImg9, testImg7, testImg6],
-      date: '12 дней, 1 августа 1993г.',
-    },
-    {
-      images: [testImg5, testImg9, testImg7],
-      date: '1 день, 23 августа 2025г.',
-    },
-  ];
+  const progress: IProgress[] = useSelector(selectProgressData) || [];
+  useEffect(() => {
+    dispatch(fetchProgressData());
+  }, []);
   return (
     <>
       <PerfectScrollbar>
         <div className={s.progress}>
-          {progress.map(card => (
-            <ProgressCard key={card.date} options={card} />
-          ))}
+          {!!progress.length &&
+            progress.map((card: IProgress) => (
+              <ProgressCard key={card.id} card={card} />
+            ))}
+          {!progress.length && (
+            <div className={s.progress__info}>Вы еще не добавляи свои фото</div>
+          )}
         </div>
       </PerfectScrollbar>
     </>
