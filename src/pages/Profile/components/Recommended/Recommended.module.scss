@@ -1,8 +1,15 @@
-@import "../../../../styles/mixins.scss";
-@import "../../../../styles/variables.scss";
+@import '../../../../styles/mixins.scss';
+@import '../../../../styles/variables.scss';
 .recommended {
   @include flex($justify: flex-start, $align: flex-start);
   &__cards {
     margin-right: 29px;
   }
+  .recommendations__wrapper {
+    max-height: 40vh;
+    padding-bottom: 5px;
+  }
+}
+.recommended__card__content {
+  width: 100%;
 }

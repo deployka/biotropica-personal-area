@@ -2,31 +2,44 @@ import s from './RecommendedCard.module.scss';
 import { GlobalSvgSelector } from '../../../../../assets/icons/global/GlobalSvgSelector';
 import { Dispatch, SetStateAction } from 'react';
 import classNames from 'classnames';
+import { RecommendationType } from '../../../../../store/ducks/recommendation/contracts/state';
 
 interface Props {
-  options: any;
-  setActive: Dispatch<SetStateAction<number>>;
-  active: number;
-  i: number;
+  type: RecommendationType;
+  setActiveType: Dispatch<SetStateAction<RecommendationType>>;
+  activeType: RecommendationType;
+  amount: number;
+  options: Options;
 }
 
-export const RecommendedCard = ({ options, setActive, active, i }: Props) => {
+export interface Options {
+  color: string;
+  name: string;
+}
+
+export const RecommendedCard = ({
+  type,
+  setActiveType,
+  activeType,
+  amount,
+  options,
+}: Props) => {
   function onClick() {
-    setActive(i);
+    setActiveType(type);
   }
+
   return (
     <div
       onClick={onClick}
-      className={classNames({
-        [s.recommended__card]: true,
-        [s.active]: active === i,
+      className={classNames(s.recommended__card, {
+        [s.active]: activeType === type,
       })}
     >
-      <div className={s.card__title}>{options.title}</div>
+      <div className={s.card__title}>{options.name}</div>
       <div className={s.card__recommendations}>
-        <span className={s.recommendations__amount}>{options.amount}</span>
-        {'  '}
-        рекомендации
+        <span className={s.recommendations__amount}>
+          рекомендаций: {amount}
+        </span>
       </div>
       <button className={s.btn__expand}>
         <GlobalSvgSelector id="next-rounded" />

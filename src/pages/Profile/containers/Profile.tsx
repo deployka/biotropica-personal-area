@@ -60,7 +60,7 @@ export const Profile = (props: Props) => {
               setActiveTab={setActiveTab}
             />
           </div>
-          {activeTab === tabs[0].key && user && <Recommended user={user} />}
+          {activeTab === tabs[0].key && user && <Recommended />}
           {activeTab === tabs[1].key && user && <TestsAndAnalyze user={user} />}
           {activeTab === tabs[2].key && user && <Progress />}
           {activeTab === tabs[2].key && (
