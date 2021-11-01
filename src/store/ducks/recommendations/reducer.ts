@@ -5,7 +5,7 @@ import { RecommendationsActionsType } from './contracts/actionTypes';
 import { RecommendationsState } from './contracts/state';
 
 const initialRecommendationsState: RecommendationsState = {
-  recommendations: undefined,
+  recommendations: [],
   response: undefined,
   status: LoadingStatus.NEVER,
 };
@@ -14,7 +14,7 @@ export const recommendationsReducer = produce(
   (draft: Draft<RecommendationsState>, action: RecommendationsActions) => {
     switch (action.type) {
       case RecommendationsActionsType.SET_RECOMMENDATIONS_DATA:
-        draft.recommendations = action.payload;
+        draft.recommendations = action.payload || [];
         draft.status = LoadingStatus.SUCCESS;
         break;
 

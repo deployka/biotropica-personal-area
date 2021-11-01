@@ -74,9 +74,10 @@ export const AddPhotoModal = ({}: Props) => {
     if (loadingStatus === LoadingStatus.ERROR && refSetFieldValue.current) {
       store.addNotification({
         ...notification,
-        title: "Произошла ошибка!",
-        message: response?.message,
-        type: "danger",
+
+        title: 'Произошла ошибка!',
+        message: response?.message || 'Произошла непредвиденная ошибка!',
+        type: 'danger',
       });
     }
     if (

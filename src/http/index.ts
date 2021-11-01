@@ -45,6 +45,7 @@ $api.interceptors.response.use(
         return error?.response;
       }
     }
+    return error?.response;
   }
 );
 

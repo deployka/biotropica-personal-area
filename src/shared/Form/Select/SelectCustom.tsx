@@ -49,6 +49,7 @@ export const SelectCustom = (props: Props) => {
       border: null,
       boxShadow: '0px 1px 10px rgba(30, 23, 77, 0.05);',
       zIndex: '45',
+      overflow: 'hidden',
     }),
     menuList: (styles: any) => ({
       ...styles,

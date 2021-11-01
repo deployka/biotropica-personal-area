@@ -4,16 +4,16 @@ import { Chart, registerables } from 'chart.js';
 import s from './Graph.module.scss';
 import { useSelector } from 'react-redux';
 import { selectGoalData } from '../../../../store/ducks/goal/selectors';
-import { Dates } from '../../../../shared/Global/Calendar/Calendar';
 import moment, { Moment } from 'moment';
 
 Chart.register(...registerables);
 
 interface Props {
-  dates: Dates;
+  startDate: Date;
+  endDate: Date;
 }
 
-export const Graph = ({ dates }: Props) => {
+export const Graph = ({ startDate, endDate }: Props) => {
   const goal = useSelector(selectGoalData);
   const ctx = useRef<any>(null);
   const myChart = useRef<any>(null);
@@ -52,48 +52,55 @@ export const Graph = ({ dates }: Props) => {
   }, []);
 
   useEffect(() => {
-    const datesTemp: Moment[] = [];
+    if (endDate && startDate) {
+      let currentDate = moment(startDate);
+      const dayLength = moment(endDate).diff(startDate, 'days');
 
-    if (dates.endDate && dates.startDate) {
-      const startDate = moment(dates?.startDate);
-      const endDate = moment(dates?.endDate);
-      let currentDate = startDate;
-      while (currentDate.add(1, 'days').diff(endDate) <= 0) {
-        datesTemp.push(currentDate);
+      if (dayLength <= 7) {
+        while (currentDate.diff(endDate) <= 0) {
+          values.push(currentDate.format('dddd'));
+          currentDate.add(1, 'days');
+        }
+      } else if (dayLength > 7 && dayLength <= 31) {
+        while (currentDate.diff(endDate) <= 0) {
+          values.push(currentDate.format('DD'));
+          currentDate.add(1, 'days');
+        }
+      } else if (dayLength > 30 && dayLength <= 366) {
+        while (currentDate.diff(endDate) <= 0) {
+          values.push(currentDate.format('MMMM'));
+          currentDate.add(1, 'months');
+        }
+      } else if (dayLength > 366) {
+        while (currentDate.diff(endDate) <= 0) {
+          values.push(currentDate.format('YYYY'));
+          currentDate.add(1, 'years');
+        }
       }
 
-      switch (datesTemp.length) {
-        case 7:
-          values.push(...formatArrayDates(datesTemp, 'dddd'));
-          break;
-        case 30:
-          values.push(...formatArrayDates(datesTemp, 'DD'));
-          break;
-        case 360:
-          values.push(...formatArrayDates(datesTemp, 'MMMM'));
-          break;
-        default:
-          break;
-      }
       myChart.current.data.labels = values;
       myChart.current.update();
     }
-  }, [dates, myChart, values, goal]);
+  }, [startDate, endDate, myChart, values, goal]);
 
   useEffect(() => {
     if (goal?.values?.length || goal?.start_result) {
-      myChart.current.data.datasets[0]['data'] = [
-        goal.start_result,
-        ...(goal?.values?.map(el => el?.value) || []),
-      ];
+      myChart.current.data.datasets[0]['data'] = filterValues();
       myChart.current.update();
     }
-  }, [goal]);
+  }, [goal, startDate, endDate]);
 
-  function formatArrayDates(array: Array<Moment>, format: string) {
-    return array.map((date: Moment) => date.format(format));
+  function filterValues() {
+    if (!goal) {
+      return;
+    }
+
+    return (
+      goal?.values
+        ?.filter(el => moment(el?.createdAt).isBetween(startDate, endDate))
+        ?.map(el => el?.value) || []
+    );
   }
-
   return (
     <div className={s.container}>
       <div className={s.graph}>

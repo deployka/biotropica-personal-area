@@ -85,12 +85,15 @@ export const Sidebar = memo(
     const [close, setClose] = useState<boolean>(false);
 
     useEffect(() => {
-      pages.forEach(value => {
+      for (const value of pages) {
         const currentPath = location.pathname.split('/');
         if ('/' + currentPath[1] === value.link) {
           setPage(value.page);
+          break;
+        } else {
+          setPage('Страница 404');
         }
-      });
+      }
     }, [location.pathname]);
 
     function openSidebar() {
@@ -182,12 +185,12 @@ export const Sidebar = memo(
             </a>
             <div className={s.sidebar__divider}></div>
             <div className={s.sidebar__logout}>
-              <a href="#" onClick={logout} className={s.logout__svg}>
+              <button onClick={logout} className={s.logout__svg}>
                 <SidebarSvgSelector id="logout" />
                 <div className={s.sidebar__prompt}>
                   <p>{'Выйти'}</p>
                 </div>
-              </a>
+              </button>
             </div>
           </div>
         </div>

@@ -15,9 +15,7 @@ import { Loader } from '../../../../shared/Form/Loader/Loader';
 import {
   CreateGoalData,
   Goal,
-  GoalSubtype,
   GoalType,
-  GoalUnits,
   RunUnits,
   WeightUnits,
 } from '../../../../store/ducks/goal/contracts/state';
@@ -45,11 +43,6 @@ interface Props {
   setNext: Dispatch<SetStateAction<boolean>>;
 }
 
-interface Options {
-  value: Partial<GoalUnits>;
-  label: string;
-}
-
 export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -57,12 +50,12 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
   const loadingStatus = useSelector(selectGoalLoadingStatus);
   const response = useSelector(selectGoalResponse);
 
-  const goals: Goal[] = useSelector(selectGoalsData) || [];
+  const goals: Goal[] = useSelector(selectGoalsData);
   const goal: Goal | undefined = useSelector(selectGoalData);
 
   const [name, setName] = useState<string>('');
 
-  const [loader, setLoader] = useState<boolean>(false);
+  const loader = loadingStatus === LoadingStatus.LOADING;
   const refResetForm = useRef<any>(null);
 
   function getOptions() {
@@ -94,41 +87,38 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
   }, [goals, history]);
 
   useEffect(() => {
-    if (loadingStatus === LoadingStatus.LOADING) {
-      setLoader(true);
-    }
-    if (loadingStatus === LoadingStatus.ERROR && refResetForm.current) {
-      store.addNotification({
-        ...notification,
-        title: 'Произошла ошибка!',
-        message: response?.message || 'Произошла непредвиденная ошибка',
-        type: 'danger',
-      });
-    }
-    if (
-      loadingStatus === LoadingStatus.SUCCESS ||
-      loadingStatus === LoadingStatus.ERROR
-    ) {
-      setLoader(false);
-    }
-    if (loadingStatus === LoadingStatus.SUCCESS && refResetForm.current) {
-      store.addNotification({
-        ...notification,
-        title: `Цель «${name}» успешно создана!`,
-        message:
-          'Не забывайте регулярно отмечать свой прогресс в достижении цели',
-        type: 'success',
-        dismiss: {
-          onScreen: true,
-          duration: 7000,
-          pauseOnHover: true,
-        },
-      });
-      dispatch(setGoalResponse(undefined));
-      if (goal && goals) {
-        dispatch(setGoalsData([...goals, goal]));
-      }
-      refResetForm.current();
+    switch (loadingStatus) {
+      case LoadingStatus.ERROR:
+        if (!refResetForm.current) return;
+        store.addNotification({
+          ...notification,
+          title: 'Произошла ошибка!',
+          message: response?.message || 'Произошла непредвиденная ошибка',
+          type: 'danger',
+        });
+        break;
+      case LoadingStatus.SUCCESS:
+        if (!refResetForm.current) return;
+        store.addNotification({
+          ...notification,
+          title: `Цель «${name}» успешно создана!`,
+          message:
+            'Не забывайте регулярно отмечать свой прогресс в достижении цели',
+          type: 'success',
+          dismiss: {
+            onScreen: true,
+            duration: 7000,
+            pauseOnHover: true,
+          },
+        });
+        dispatch(setGoalResponse(undefined));
+        if (goal && goals) {
+          dispatch(setGoalsData([...goals, goal]));
+        }
+        refResetForm.current();
+        break;
+      default:
+        break;
     }
   }, [loadingStatus]);
 
@@ -160,7 +150,7 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
           onSubmit={(values: CreateGoalData, options) =>
             onSubmit(values, options)
           }
-          validationSchema={validationSchema}
+          validationSchema={validationSchema(goalTemplate.type)}
         >
           {({
             values,
@@ -216,7 +206,9 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="Желаемый результат"
+                  placeholder={`Желаемый результат (${
+                    values['units'][0].label || 'не выбрано'
+                  })`}
                   name="end_result"
                   value={values.end_result}
                   type="text"
@@ -231,7 +223,9 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="Текущий результат"
+                  placeholder={`Текущий результат (${
+                    values['units'][0].label || 'не выбрано'
+                  })`}
                   name="start_result"
                   value={values.start_result}
                   type="text"

@@ -5,7 +5,7 @@ import { GoalsActionsType } from './contracts/actionTypes';
 import { GoalsState } from './contracts/state';
 
 const initialGoalsState: GoalsState = {
-  goals: undefined,
+  goals: [],
   response: undefined,
   status: LoadingStatus.NEVER,
 };
@@ -14,7 +14,7 @@ export const goalsReducer = produce(
   (draft: Draft<GoalsState>, action: GoalsActions) => {
     switch (action.type) {
       case GoalsActionsType.SET_GOALS_DATA:
-        draft.goals = action.payload;
+        draft.goals = action.payload || [];
         draft.status = LoadingStatus.SUCCESS;
         break;
 

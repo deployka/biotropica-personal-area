@@ -49,7 +49,7 @@ export const ForgotForm = ({}: Props) => {
       store.addNotification({
         ...notification,
         title: 'Произошла ошибка!',
-        message: response?.message,
+        message: response?.message || 'Произошла непредвиденная ошибка!',
         type: 'danger',
       });
     }
@@ -58,7 +58,7 @@ export const ForgotForm = ({}: Props) => {
       store.addNotification({
         ...notification,
         title: 'Успешно!',
-        message: response?.message,
+        message: response?.message || 'Успешно!',
         type: 'success',
       });
       history.push('/signin');
