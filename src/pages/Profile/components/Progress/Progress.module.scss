@@ -1,6 +1,7 @@
-@import '../../../../styles/mixins.scss';
-@import '../../../../styles/variables.scss';
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
 .progress {
+  width: 100%;
   @include flex(column, flex-start, flex-start, nowrap);
   max-height: 58vh;
 }
