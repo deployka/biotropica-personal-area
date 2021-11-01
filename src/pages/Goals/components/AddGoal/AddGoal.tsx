@@ -9,9 +9,7 @@ import { AddGoalSelect } from '../AddGoalSelect/AddGoalSelect';
 
 import s from './AddGoal.module.scss';
 
-interface Props {}
-
-export const AddGoal = ({}: Props) => {
+export const AddGoal = () => {
   const [goal, setGoal] = useState<CreateGoalData>({
     type: GoalType.WEIGHT,
     units: [{ label: '', value: null }],
