@@ -1,9 +1,16 @@
+@import "./../../../../styles/mixins.scss";
+
 .form__wrapper {
   display: flex;
   justify-content: center;
   margin: 0 auto;
   flex-wrap: wrap;
   max-width: 500px;
+
+  @include for-phone {
+    margin: 0;
+    width: 100%;
+  }
 }
 
 .title,
@@ -14,9 +21,15 @@
 
 .title {
   margin-bottom: 10px;
-  margin-bottom: 10px;
   color: #1e174d;
   font-size: 36px;
+
+  @include for-phone {
+    margin: auto;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
 }
 
 .subtitle {
@@ -24,6 +37,11 @@
   color: #736f8b;
   font-weight: normal;
   font-size: 15px;
+
+  @include for-phone {
+    margin: 0 0 20px 0;
+    color: #1e174d;
+  }
 }
 
 .form {
@@ -95,5 +113,10 @@
   margin: 0 auto;
   &:hover {
     color: #a59ce2;
+  }
+
+  @include for-phone {
+    width: 100%;
+    text-align: center;
   }
 }
