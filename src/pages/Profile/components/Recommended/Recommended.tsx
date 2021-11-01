@@ -1,5 +1,4 @@
-
-import { IInfoBar, InfoBar } from "../../../../shared/Global/InfoBar/InfoBar";
+import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import s from './Recommended.module.scss';
 import { Options, RecommendedCard } from './RecommendedCard/RecommendedCard';
@@ -20,18 +19,17 @@ export const Recommended = () => {
   useEffect(() => {
     dispatch(fetchRecommendationsData());
   }, []);
-  
-   const infoBar: IInfoBar = {
-    title: "У вас нет рекомендаций",
-    text: "Для появлений рекомендаций проведите встречу со сппециалистом.",
-    bottomLink: "Записаться на видеоконсультацию",
-    href: "/video",
+
+  const infoBar: IInfoBar = {
+    title: 'У вас нет рекомендаций',
+    text: 'Чтобы получить рекомендации, пройдите видеоконсультацию.',
+    bottomLink: 'Записаться на видеоконсультацию',
+    href: '/video',
   };
 
   const recommendations: IRecommendation[] = useSelector(
     selectRecommendationsData
   );
-
 
   const [activeType, setActiveType] = useState<RecommendationType>(
     RecommendationType.NUTRITION
@@ -46,9 +44,6 @@ export const Recommended = () => {
     );
   }
 
-export const Recommended = ({ user }: Props) => {
-
- 
   function getCardTypesFromRecommendations() {
     if (!recommendations.length) {
       return [];
@@ -107,7 +102,11 @@ export const Recommended = ({ user }: Props) => {
         };
     }
   }
-  
+
+  if (!recommendations.length) {
+    return <InfoBar infoBar={infoBar} />;
+  }
+
   return (
     <div className={s.recommended}>
       <div className={s.recommended__cards}>
@@ -146,6 +145,6 @@ export const Recommended = ({ user }: Props) => {
           )
         )}
       </div>
-    </>
+    </div>
   );
 };
