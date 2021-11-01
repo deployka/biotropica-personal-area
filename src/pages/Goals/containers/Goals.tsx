@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { notification } from '../../../config/notification/notificationForm';
 import {
   fetchGoalData,
@@ -32,16 +32,20 @@ export interface Dates {
   endDate: Date;
 }
 
+interface Params {
+  id: string;
+}
+
 export const Goals = (props: Props) => {
   const history = useHistory();
-  const location = useLocation();
   const goals: Goal[] = useSelector(selectGoalsData) || [];
   const loading = useSelector(selectGoalsStatus);
   const loadingGoal = useSelector(selectGoalStatus);
   const response = useSelector(selectGoalResponse);
   const dispatch = useDispatch();
 
-  const activeGoalId: number = parseInt(location.pathname.split('/')[2]);
+  const { id } = useParams<Params>();
+  const activeGoalId: number = parseInt(id, 10);
   const goal = useSelector(selectGoalData);
 
   const activeGoalTemplate = activeGoalId ? goal : goals[0];
@@ -69,7 +73,7 @@ export const Goals = (props: Props) => {
       (!activeGoalId && loading === LoadingStatus.SUCCESS && goals.length) ||
       (!activeGoalTemplate && loading === LoadingStatus.SUCCESS)
     ) {
-      history.push(`/goals/${goals[0]?.id}`);
+      history.push(`/goals/${goals?.[0]?.id || 'add'}`);
     }
   }, [goals, loading, loadingGoal, activeGoalId]);
 
