@@ -17,17 +17,15 @@ import {
 export function* fetchGoalDataRequest({
   payload,
 }: FetchGoalDataActionInterface): any {
-  try {
-    yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
-    const { data, status } = yield call(GoalService.getOne, payload);
-    if (status === 200) {
-      yield put(setGoalData(data));
-      yield put(setGoalLoadingStatus(LoadingStatus.SUCCESS));
-    } else {
-      yield put(setGoalResponse({ statusCode: status, message: data.message }));
-      yield put(setGoalLoadingStatus(LoadingStatus.ERROR));
-    }
-  } catch (error) {}
+  yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
+  const { data, status } = yield call(GoalService.getOne, payload);
+  if (status === 200) {
+    yield put(setGoalData(data));
+    yield put(setGoalLoadingStatus(LoadingStatus.SUCCESS));
+  } else {
+    yield put(setGoalResponse({ statusCode: status, message: data.message }));
+    yield put(setGoalLoadingStatus(LoadingStatus.ERROR));
+  }
 }
 
 export function* createGoalDataRequest({

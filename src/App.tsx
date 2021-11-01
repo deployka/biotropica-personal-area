@@ -6,7 +6,7 @@ import {
   useHistory,
   useLocation,
 } from 'react-router-dom';
-import { ErrorPage } from './pages/404/containers/404';
+import { ErrorPage } from './pages/ErrorPage/containers/ErrorPage';
 import { Goals } from './pages/Goals/containers/Goals';
 import { Home } from './pages/Home/containers/Home';
 import { Profile } from './pages/Profile/containers/Profile';
@@ -21,6 +21,7 @@ import {
 import { ForgotForm } from './pages/Auth/components/ForgotForm/ForgotForm';
 
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   selectIsAuth,
   selectUserLoadingStatus,
@@ -51,6 +52,8 @@ import { store } from 'react-notifications-component';
 
 import { Modals } from './modals/Modals';
 import { selectProgressLoadingStatus } from './store/ducks/progress/selectors';
+import { Consultations } from './pages/Consultations/containers/Consultations';
+import { Policy } from './pages/Policy/containers/Policy';
 
 function App() {
   const isAuth = useSelector(selectIsAuth);
@@ -64,6 +67,7 @@ function App() {
   const dispatch = useDispatch();
 
   const [page, setPage] = useState<string>('Главная');
+
   const [sidebarNotificationsOpen, setSidebarNotificationsOpen] =
     useState<boolean>(false);
   const [chatNotificationsOpen, setSidebarChatOpen] = useState<boolean>(false);
@@ -116,6 +120,8 @@ function App() {
               <SignupForm />
             </Route>
 
+            <Route exact path="/policy" component={Policy} />
+
             <Route exact path="/forgot-password">
               <ForgotForm />
             </Route>
@@ -166,6 +172,8 @@ function App() {
             <Route exact path="/questionnaire" component={Questionnaire} />
 
             <Route exact path="/profile" component={Profile} />
+
+            <Route exact path="/video" component={Consultations} />
 
             <Route exact path="/profile/edit" component={Edit} />
 
