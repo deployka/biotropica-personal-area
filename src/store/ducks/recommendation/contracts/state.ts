@@ -27,12 +27,6 @@ export type SpecialistProfile = {
   profile_photo: string;
 };
 
-export type RecommendationItem = {
-  id: number;
-  specialist_profile: SpecialistProfile;
-  content: string;
-};
-
 export interface UpdateRecommendationData extends Partial<Recommendation> {}
 export interface CreateRecommendationData
   extends Omit<Recommendation, 'id' | 'createdAt'> {}

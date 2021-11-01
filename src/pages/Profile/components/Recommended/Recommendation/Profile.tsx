@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import { SpecialistProfile } from '../../../../../store/ducks/recommendation/contracts/state';
 import s from './Recommendation.module.scss';
 
@@ -18,9 +19,12 @@ export const Profile = ({ children, profile }: Props) => {
           <div className={s.profile__name}>{profile.name}</div>
           <div className={s.profile__post}>{profile.position}</div>
         </div>
-        <a href={'/profiles/' + profile.id} className={s.profile__btn__wrapper}>
-          <button className={s.profile__btn}>перейти в профиль</button>
-        </a>
+        <Link
+          to={'/profiles/' + profile.id}
+          className={s.profile__btn__wrapper}
+        >
+          <div className={s.profile__btn}>перейти в профиль</div>
+        </Link>
       </div>
       {children}
     </div>

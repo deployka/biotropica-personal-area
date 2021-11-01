@@ -7,12 +7,11 @@ interface Props {
 }
 
 export const Recommendation = ({ recommendation }: Props) => {
+  const createdAt = moment(recommendation.createdAt, 'YYYYMMDD');
   return (
     <div className={s.recommendation}>
       <div className={s.card__date}>
-        Создано:{' '}
-        {moment(new Date(recommendation.createdAt), 'YYYYMMDD').fromNow()},{' '}
-        {moment(recommendation.createdAt).format('Do MMMM YYYY г.')}
+        Создано: {createdAt.fromNow()}, {createdAt.format('Do MMMM YYYY г.')}
       </div>
       <div className={s.recommended__card__content}>
         <div className={s.card__post}>{recommendation.content}</div>

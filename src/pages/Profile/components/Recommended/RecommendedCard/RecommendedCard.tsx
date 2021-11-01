@@ -9,9 +9,10 @@ interface Props {
   setActiveType: Dispatch<SetStateAction<RecommendationType>>;
   activeType: RecommendationType;
   amount: number;
+  options: Options;
 }
 
-interface Options {
+export interface Options {
   color: string;
   name: string;
 }
@@ -21,30 +22,12 @@ export const RecommendedCard = ({
   setActiveType,
   activeType,
   amount,
+  options,
 }: Props) => {
   function onClick() {
     setActiveType(type);
   }
 
-  function getOptionsByType(type: RecommendationType): Options {
-    switch (type) {
-      case RecommendationType.NUTRITION:
-        return {
-          name: 'Питание',
-          color: 'yellow',
-        };
-      case RecommendationType.WORKOUT:
-        return {
-          name: 'Тренировки',
-          color: 'green',
-        };
-      default:
-        return {
-          name: 'Неизвестно',
-          color: 'black',
-        };
-    }
-  }
   return (
     <div
       onClick={onClick}
@@ -52,7 +35,7 @@ export const RecommendedCard = ({
         [s.active]: activeType === type,
       })}
     >
-      <div className={s.card__title}>{getOptionsByType(type).name}</div>
+      <div className={s.card__title}>{options.name}</div>
       <div className={s.card__recommendations}>
         <span className={s.recommendations__amount}>
           рекомендаций: {amount}
@@ -62,7 +45,7 @@ export const RecommendedCard = ({
         <GlobalSvgSelector id="next-rounded" />
       </button>
       <div
-        style={{ background: getOptionsByType(type).color }}
+        style={{ background: options.color }}
         className={s.card__status}
       ></div>
     </div>

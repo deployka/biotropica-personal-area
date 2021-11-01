@@ -1,12 +1,7 @@
-import { User } from '../../../../store/ducks/user/contracts/state';
-
-import testAvatar from '../../../../assets/images/test-avatars/avatar-3.jpg';
-import testAvatar2 from '../../../../assets/images/test-avatars/avatar-2.jpg';
-
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
 import s from './Recommended.module.scss';
-import { RecommendedCard } from './RecommendedCard/RecommendedCard';
+import { Options, RecommendedCard } from './RecommendedCard/RecommendedCard';
 import { Recommendation } from './Recommendation/Recommendation';
 import { useEffect, useState } from 'react';
 import {
@@ -19,9 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectRecommendationsData } from '../../../../store/ducks/recommendations/selectors';
 import { fetchRecommendationsData } from '../../../../store/ducks/recommendations/actionCreators';
 
-interface Props {}
-
-export const Recommended = ({}: Props) => {
+export const Recommended = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchRecommendationsData());
@@ -35,16 +28,6 @@ export const Recommended = ({}: Props) => {
     RecommendationType.NUTRITION
   );
 
-  function filterRecommendationsByTypeAndSpecialistId(
-    type: RecommendationType,
-    specialistId: number,
-    recommendations: IRecommendation[]
-  ) {
-    return filterRecommendationsBySpecialistId(
-      filterRecommendationsByType(recommendations, type),
-      specialistId
-    );
-  }
   function filterRecommendationsByType(
     recommendations: IRecommendation[],
     type: RecommendationType
@@ -54,55 +37,74 @@ export const Recommended = ({}: Props) => {
     );
   }
 
-  function filterRecommendationsBySpecialistId(
-    recommendations: IRecommendation[],
-    id: number
-  ) {
-    return recommendations.filter(
-      (recommendation: IRecommendation) =>
-        recommendation.specialist_profile.id === id
-    );
-  }
-
   function getCardTypesFromRecommendations() {
-    const recommendationTypes = recommendations.map(
-      (recommendation: IRecommendation) => recommendation.type
-    );
-    return Array.from(new Set(recommendationTypes));
-  }
-
-  function getProfilesIdFromRecommendationsByType(type: RecommendationType) {
-    const profiles = filterRecommendationsByType(recommendations, type).map(
-      (recommendation: IRecommendation) => recommendation.specialist_profile.id
-    );
-    return Array.from(new Set(profiles));
-  }
-
-  function getProfileById(id: number) {
-    return recommendations.reduce(
-      (
-        acc: SpecialistProfile | null,
-        recommendation: IRecommendation,
-        i: number
-      ) => {
-        if ((acc && acc.id !== id) || i === 0) {
-          acc = recommendation.specialist_profile;
+    if (!recommendations.length) {
+      return [];
+    }
+    const recommendationTypes = recommendations.reduce(
+      (acc: RecommendationType[], recommendation: IRecommendation) => {
+        if (!acc.includes(recommendation.type)) {
+          acc.push(recommendation.type);
         }
         return acc;
       },
-      null
+      [recommendations[0].type]
     );
+    return recommendationTypes;
   }
 
+  function getProfilesIdFromRecommendationsByType(type: RecommendationType) {
+    if (!recommendations.length) {
+      return [];
+    }
+    const profiles = filterRecommendationsByType(recommendations, type).reduce(
+      (acc: number[], recommendation: IRecommendation) => {
+        if (!acc.includes(recommendation.specialist_profile.id)) {
+          acc.push(recommendation.specialist_profile.id);
+        }
+        return acc;
+      },
+      [recommendations[0].specialist_profile.id]
+    );
+    return profiles || [];
+  }
+
+  function getProfileById(id: number) {
+    return recommendations.find(
+      (recommendation: IRecommendation) =>
+        recommendation.specialist_profile.id === id
+    )?.specialist_profile;
+  }
+
+  function getOptionsByType(type: RecommendationType): Options {
+    switch (type) {
+      case RecommendationType.NUTRITION:
+        return {
+          name: 'Питание',
+          color: 'yellow',
+        };
+      case RecommendationType.WORKOUT:
+        return {
+          name: 'Тренировки',
+          color: 'green',
+        };
+      default:
+        return {
+          name: 'Неизвестно',
+          color: 'black',
+        };
+    }
+  }
   return (
     <div className={s.recommended}>
       <div className={s.recommended__cards}>
-        {getCardTypesFromRecommendations().map(type => (
+        {getCardTypesFromRecommendations()?.map(type => (
           <RecommendedCard
             setActiveType={setActiveType}
             activeType={activeType}
             key={type}
             type={type}
+            options={getOptionsByType(type)}
             amount={filterRecommendationsByType(recommendations, type).length}
           />
         ))}
@@ -113,13 +115,18 @@ export const Recommended = ({}: Props) => {
             <Profile key={id} profile={getProfileById(id) as SpecialistProfile}>
               <PerfectScrollbar>
                 <div className={s.recommendations__wrapper}>
-                  {filterRecommendationsByTypeAndSpecialistId(
-                    activeType,
-                    id,
-                    recommendations
-                  ).map((recommendation: IRecommendation) => (
-                    <Recommendation recommendation={recommendation} />
-                  ))}
+                  {recommendations
+                    .filter(
+                      it =>
+                        it.type === activeType &&
+                        it.specialist_profile.id === id
+                    )
+                    .map((recommendation: IRecommendation) => (
+                      <Recommendation
+                        key={recommendation.id}
+                        recommendation={recommendation}
+                      />
+                    ))}
                 </div>
               </PerfectScrollbar>
             </Profile>
