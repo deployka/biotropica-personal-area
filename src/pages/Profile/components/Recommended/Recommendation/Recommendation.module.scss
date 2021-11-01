@@ -1,5 +1,5 @@
-@import "../../../../../styles/mixins.scss";
-@import "../../../../../styles/variables.scss";
+@import '../../../../../styles/mixins.scss';
+@import '../../../../../styles/variables.scss';
 .recommendation {
   width: 95%;
   padding: 10px 15px;
@@ -16,9 +16,10 @@
   }
   &__date {
     margin-bottom: 10px;
-  &__post {
-    padding: 20px 10px 20px 0;
-    max-height: 58vh;
+    &__post {
+      padding: 20px 10px 20px 0;
+      max-height: 58vh;
+    }
   }
 }
 .post {
