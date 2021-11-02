@@ -46,14 +46,15 @@ export const Profile = (props: Props) => {
   return (
     <>
       <div className={s.profile}>
-        <div className={s.profile__info}>
+        <div className={s.info}>
           {user && <Card user={user} />}
-          <Goals />
-          <Tariff Tariff={TariffData} />
+          <div className={s.userInfo}>
+            <Goals />
+            <Tariff Tariff={TariffData} />
+          </div>
         </div>
         <div className={s.content}>
           <div className={s.tabs__container}>
-            {" "}
             <Tabs
               tabs={tabs}
               activeTab={activeTab}
