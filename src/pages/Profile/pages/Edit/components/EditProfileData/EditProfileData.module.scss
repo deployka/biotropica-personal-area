@@ -1,3 +1,5 @@
+@import "./../../../../../../styles/mixins.scss";
+
 .form {
   display: flex;
   flex-wrap: wrap;
@@ -5,11 +7,18 @@
   width: 780px;
   margin-top: 34px;
 
+  @include for-phone {
+    padding: 0 0 100px 0;
+    width: 100%;
+    flex-direction: column;
+  }
+
   button {
     margin-right: 20px;
   }
 
   .text__inputs__wrapper {
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 5px;
@@ -37,7 +46,7 @@
       border: 3px solid #d06361;
     }
     &:after {
-      content: '';
+      content: "";
       position: absolute;
 
       width: 100%;
@@ -70,6 +79,11 @@
     flex-direction: column;
     width: 47.4%;
     margin-bottom: 15px;
+
+    @include for-phone {
+      width: 100%;
+    }
+
     .forgot {
       position: absolute;
       top: 19px;
@@ -88,12 +102,27 @@
   .button__wrapper {
     display: flex;
     width: 47.4%;
+
+    @include for-phone {
+      width: 100%;
+
+      button {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+    }
   }
 
   .small__input__wrapper {
     width: 47.5%;
     display: flex;
     justify-content: space-between;
+
+    @include for-phone {
+      width: 100%;
+      display: flex;
+      flex-direction: column-reverse;
+    }
   }
 
   .error__server,
