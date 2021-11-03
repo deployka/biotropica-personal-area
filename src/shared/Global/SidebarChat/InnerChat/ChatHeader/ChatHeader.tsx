@@ -4,6 +4,7 @@ import { BtnBack } from '../../../../buttons/BtnBack/BtnBack';
 import { User } from '../../../../../store/ducks/user/contracts/state';
 
 import defaultAvatar from '../../../../../assets/images/profile/default_avatar.png';
+import { getMediaLink } from '../../../../../utils/mediaHelper';
 interface Props {
   user: User;
   onClose: () => void;
@@ -19,8 +20,7 @@ export function ChatHeader({ user, onClose }: Props) {
         <div className={s.profile__avatar__wrapper}>
           <img
             src={
-              (user.profile_photo &&
-                process.env.REACT_APP_BACKEND_URL + '/' + user.profile_photo) ||
+              (user.profile_photo && getMediaLink(user.profile_photo)) ||
               defaultAvatar
             }
             className={s.profile__avatar}

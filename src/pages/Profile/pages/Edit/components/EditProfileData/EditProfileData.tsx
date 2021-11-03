@@ -40,6 +40,7 @@ import { store } from 'react-notifications-component';
 import { notification } from '../../../../../../config/notification/notificationForm';
 import { FormsSvgSelector } from '../../../../../../assets/icons/forms/FormsSvgSelector';
 import ru from 'date-fns/locale/ru';
+import { getMediaLink } from '../../../../../../utils/mediaHelper';
 registerLocale('ru', ru);
 
 interface Props {
@@ -58,9 +59,7 @@ export const EditProfileData = ({ user }: Props) => {
   const history = useHistory();
   const refSetFieldValue = useRef<any>(null);
 
-  const userImage =
-    user?.profile_photo &&
-    process.env.REACT_APP_BACKEND_URL + '/' + user?.profile_photo;
+  const userImage = user?.profile_photo && getMediaLink(user?.profile_photo);
 
   const [loader, setLoader] = useState<boolean>(false);
   const [image, setImage] = useState<string | ArrayBuffer | null>(

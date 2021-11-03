@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import s from './DialogList.module.scss';
 import defaultAvatar from '../../../../assets/images/profile/default_avatar.png';
+import { getMediaLink } from '../../../../utils/mediaHelper';
 interface Props {
   options: any;
   onClick: () => void;
@@ -11,11 +12,7 @@ export const DialogItem = ({ options, onClick }: Props) => {
     <div className={s.message} onClick={() => onClick()}>
       <div className={s.message__avatar__wrapper}>
         <img
-          src={
-            (options.image &&
-              process.env.REACT_APP_BACKEND_URL + '/' + options.image) ||
-            defaultAvatar
-          }
+          src={(options.image && getMediaLink(options.image)) || defaultAvatar}
           className={s.message__avatar}
         />
       </div>
