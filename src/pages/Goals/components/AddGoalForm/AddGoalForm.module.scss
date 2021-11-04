@@ -1,16 +1,26 @@
-@import '../../../../styles/mixins.scss';
-@import '../../../../styles/variables.scss';
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
+
 .add__goals__form {
-  box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
-  background: $color-white;
-  border-radius: 30px;
-  @include flex();
-  padding: 50px;
+  padding: 30px 0;
   margin: 0 auto;
+
   max-width: 840px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: $color-white;
+  box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+  border-radius: 30px;
+
   &__wrapper {
-    @include flex(column, flex-start);
+    padding: 0;
     max-width: 370px;
+
+    display: flex;
+    flex-direction: column;
   }
 
   textarea {
@@ -18,55 +28,84 @@
     min-height: 80px;
   }
 
-  .form {
-    width: 370px;
+  @include for-phone {
+    width: 100%;
+    max-width: unset;
+
+    background-color: #ffffff00;
+    box-shadow: none;
   }
 }
 .form {
-  &__title {
-    text-align: center;
-    margin-bottom: 30px;
-    max-width: 100%;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 120%;
-    color: $color-grey-3;
-  }
-}
-.radio__wrapper {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  input {
-    margin-right: 5px;
-  }
-  label {
-    position: static;
-    margin-bottom: 0;
-    margin-right: 20px;
-  }
-}
-.buttons {
-  button {
-    margin-right: 20px;
-  }
-  @include flex();
-}
+  width: 370px;
 
-.input__wrapper {
-  position: relative;
   display: flex;
   flex-direction: column;
-  margin-bottom: 15px;
-}
+  align-items: center;
 
-.small__input__wrapper {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  input {
+  row-gap: 10px;
+
+  @include for-phone {
     width: 100%;
-    max-width: 230px;
+  }
+
+  &__title {
+    margin: 0 0 30px 0;
+    max-width: 100%;
+
+    font-weight: 600;
+    font-size: 18px;
+
+    line-height: 120%;
+
+    text-align: center;
+
+    color: $color-grey-3;
+  }
+
+  .input__wrapper {
+    width: 100%;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .small__input__wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    input {
+      width: 100%;
+      max-width: 230px;
+    }
+  }
+
+  .radio__wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    input {
+      margin-right: 5px;
+    }
+    label {
+      position: static;
+      margin-bottom: 0;
+      margin-right: 20px;
+    }
+  }
+
+  .buttons {
+    margin: 50px 0 0 0;
+
+    display: flex;
+    align-items: center;
+
+    column-gap: 20px;
+
+    @include for-phone {
+      margin: 30px 0 0 0;
+    }
   }
 }
