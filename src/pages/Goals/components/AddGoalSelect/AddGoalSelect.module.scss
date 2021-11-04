@@ -1,7 +1,7 @@
 @import "../../../../styles/mixins.scss";
 @import "../../../../styles/variables.scss";
 
-.add__goals__select {
+.addGoals {
   padding: 50px 0;
   margin: 0 auto;
 
@@ -27,7 +27,7 @@
     box-shadow: none;
   }
 
-  &__title {
+  .title {
     margin: 0 0 35px 0;
     max-width: 100%;
 
@@ -44,7 +44,8 @@
       line-height: 130%;
     }
   }
-  &__wrapper {
+
+  .wrapper {
     max-width: 358px;
 
     display: flex;
@@ -53,7 +54,7 @@
     justify-content: center;
   }
 
-  &__buttons {
+  .buttons {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -73,96 +74,6 @@
       margin: 0 0 30px 0;
 
       row-gap: 10px;
-    }
-  }
-}
-
-.selector {
-  padding: 1px;
-
-  width: 390px;
-  height: 83px;
-
-  border-radius: 15px;
-  background: linear-gradient(to right, #c77edf 0%, #6f61d0 73.44%);
-
-  cursor: pointer;
-
-  @include for-phone {
-    width: 100%;
-    height: unset;
-  }
-
-  &.active {
-    background: $color-primary;
-    .selector {
-      &__content {
-        background: $color-primary;
-        color: $color-white;
-      }
-      &__description {
-        color: rgba($color-white, 0.7);
-      }
-    }
-    &:hover {
-      background: $color-primary;
-    }
-  }
-
-  &__content {
-    position: relative;
-
-    padding: 20px 28px;
-
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-    background: $color-white;
-
-    border-radius: 15px;
-    border: 1px solid transparent;
-
-    z-index: 3;
-
-    transition: all 0.2s ease;
-
-    @include for-phone {
-      padding: 20px;
-    }
-  }
-  &__title {
-    margin-bottom: 5px;
-    font-weight: 500;
-    font-size: 16px;
-
-    letter-spacing: 0.0075em;
-  }
-  &__description {
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 120%;
-    color: $color-secondary;
-
-    @include for-phone {
-      font-size: 15px;
-      line-height: 130%;
-    }
-  }
-
-  &:hover {
-    background: $color-primary;
-    .selector {
-      &__content {
-        background: $color-primary;
-        color: $color-white;
-      }
-      &__description {
-        color: rgba($color-white, 0.7);
-      }
     }
   }
 }

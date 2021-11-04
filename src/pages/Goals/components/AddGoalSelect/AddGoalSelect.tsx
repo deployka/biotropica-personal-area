@@ -49,9 +49,9 @@ export const AddGoalSelect = ({ goal, setGoal, setNext }: Props) => {
   }
 
   return (
-    <div className={s.add__goals__select}>
-      <div className={s.add__goals__select__wrapper}>
-        <h2 className={s.add__goals__select__title}>
+    <div className={s.addGoals}>
+      <div className={s.wrapper}>
+        <h2 className={s.title}>
           Выберите направление, в котором хотите добиться успеха
         </h2>
         <div className={s.selectorsContainer}>
@@ -65,7 +65,7 @@ export const AddGoalSelect = ({ goal, setGoal, setNext }: Props) => {
             />
           ))}
         </div>
-        <div className={s.add__goals__select__buttons}>
+        <div className={s.buttons}>
           <Button
             options={{
               width: "100px",

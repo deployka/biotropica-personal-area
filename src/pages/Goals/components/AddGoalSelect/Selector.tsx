@@ -5,7 +5,7 @@ import {
   GoalType,
 } from "../../../../store/ducks/goal/contracts/state";
 
-import s from "./AddGoalSelect.module.scss";
+import s from "./Selector.module.scss";
 
 export interface Selector {
   title: string;
@@ -28,9 +28,9 @@ export const SelectorItem = ({ item, type, setGoal, goal }: Props) => {
       })}
       onClick={() => setGoal({ ...goal, type: item.type })}
     >
-      <div className={s.selector__content}>
-        <div className={s.selector__title}>{item.title}</div>
-        <div className={s.selector__description}>{item.desc}</div>
+      <div className={s.wrapper}>
+        <div className={s.title}>{item.title}</div>
+        <div className={s.description}>{item.desc}</div>
       </div>
     </div>
   );
