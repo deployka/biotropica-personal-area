@@ -1,4 +1,7 @@
+@import "./../../../../styles/mixins.scss";
+
 .form {
+  padding: 50px 0;
   display: flex;
   margin: 0 auto;
   flex-wrap: wrap;
@@ -6,6 +9,11 @@
 
   button {
     font-size: 16px;
+  }
+
+  @include for-phone {
+    margin: 0;
+    width: 100%;
   }
 
   .title,
@@ -16,6 +24,11 @@
     margin-bottom: 10px;
     color: #1e174d;
     font-size: 36px;
+
+    @include for-phone {
+      font-size: 24px;
+      margin: 0 0 20px 0;
+    }
   }
   .subtitle {
     margin-bottom: 30px;
@@ -31,8 +44,8 @@
     margin-bottom: 13px;
   }
 
-  .input[name='name'],
-  .input[name='lastname'] {
+  .input[name="name"],
+  .input[name="lastname"] {
     width: 100%;
   }
 
@@ -44,10 +57,17 @@
 
     width: 48.65%;
     margin-bottom: 15px;
+
+    @include for-phone {
+      width: 100%;
+    }
   }
 
   .input__wrapper_name {
     margin-right: 10px;
+    @include for-phone {
+      margin-right: 0;
+    }
   }
 
   .signin {
@@ -78,7 +98,7 @@
       transition: 0.2s;
     }
     input:checked ~ label {
-      background: url('../../../../assets/icons/forms/check.svg');
+      background: url("../../../../assets/icons/forms/check.svg");
       background-repeat: no-repeat;
       background-position: center;
     }
