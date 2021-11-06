@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { ModalContext } from '../context/ModalContext';
-import { Photo } from '../store/ducks/progress/contracts/state';
+import React, { useState } from "react";
+import { ModalContext } from "../context/ModalContext";
+import { Photo } from "../store/ducks/progress/contracts/state";
 
 interface Props {
   children: React.ReactNode;
 }
 
 export enum ModalName {
-  MODAL_ADD_PROGRESS_PHOTO = 'MODAL_ADD_PROGRESS_PHOTO',
-  MODAL_PROGRESS_PHOTO_SLIDER = 'MODAL_PROGRESS_PHOTO_SLIDER',
+  MODAL_ADD_PROGRESS_PHOTO = "MODAL_ADD_PROGRESS_PHOTO",
+  MODAL_PROGRESS_PHOTO_SLIDER = "MODAL_PROGRESS_PHOTO_SLIDER",
+  MODAL_ADD_ANALYZ_FILE = "MODAL_ADD_ANALYZ_FILE",
 }
 
 export type Modal<props> = {
@@ -18,6 +19,7 @@ export type Modal<props> = {
 
 export type Modals = {
   [ModalName.MODAL_ADD_PROGRESS_PHOTO]: Modal<{}>;
+  [ModalName.MODAL_ADD_ANALYZ_FILE]: Modal<{}>;
   [ModalName.MODAL_PROGRESS_PHOTO_SLIDER]: Modal<{
     photos: Photo[];
     createdAt: Date;

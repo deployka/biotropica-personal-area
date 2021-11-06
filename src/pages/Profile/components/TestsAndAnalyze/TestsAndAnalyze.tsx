@@ -3,6 +3,9 @@ import { TestsCard } from "./TestsCard/TestsCard";
 import s from "./TestsAndAnalyze.module.scss";
 import { AnalyzesCard } from "./AnalyzesCard/AnalyzesCard";
 import { IInfoBar, InfoBar } from "../../../../shared/Global/InfoBar/InfoBar";
+import { AddAnalyzeModal } from "./AddAnalyzeModal/AddAnalyzeModal";
+import { ModalName } from "../../../../providers/ModalProvider";
+import { useModal } from "../../../../hooks/UseModal";
 
 interface Props {
   user: User;
@@ -23,6 +26,8 @@ export interface Tests {
 }
 
 export const TestsAndAnalyze = ({ user }: Props) => {
+  const { openModal } = useModal();
+
   const tests = {
     age: "20",
     plans: "бегу, плаванию",
@@ -55,8 +60,10 @@ export const TestsAndAnalyze = ({ user }: Props) => {
   const analyzesInfoBar: IInfoBar = {
     title: "Вы не добавляли анализы",
     text: "У вас нет загруженных анилизов.",
-
     bottomLink: "Загрузить анализы",
+    onClick: () => {
+      openModal(ModalName.MODAL_ADD_ANALYZ_FILE);
+    },
   };
 
   return (
