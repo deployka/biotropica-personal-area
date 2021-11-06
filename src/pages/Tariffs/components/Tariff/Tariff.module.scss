@@ -1,41 +1,45 @@
-.rate {
-  width: 100%;
+@import "./../../../../styles/mixins.scss";
+
+.card {
+  padding: 30px 0;
+  width: 384px;
+  height: 534px;
+
+  background: #ffffff;
+  box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+  border-radius: 15px;
 
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
 
-  &__card {
-    width: 384px;
-    height: 534px;
+  @include for-phone {
+    padding: 20px;
+    margin: 10px 0 0 0;
 
-    background: #ffffff;
-    box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
-    border-radius: 15px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    width: 100%;
+    height: unset;
   }
 
-  &__top {
-    margin: 30px 0 0 0;
+  .top {
   }
 
   // .rate__price
 
-  &__price {
+  .price {
     display: flex;
-  }
-  &__prise__text {
-    p {
-      font-weight: 500;
-      font-size: 18px;
-      color: #6f61d0;
+
+    .text {
+      p {
+        font-weight: 500;
+        font-size: 18px;
+        color: #6f61d0;
+      }
     }
   }
 
-  &__prise__sub {
+  .subText {
     margin: 0 0 0 10px;
 
     p {
@@ -47,7 +51,7 @@
 
   // .rate__headline
 
-  &__headline {
+  .title {
     margin: 20px 0 0 0;
 
     h3 {
@@ -61,14 +65,19 @@
 
   // .rate__list
 
-  &__list {
+  .list {
     width: 324px;
     line-height: 120%;
+
+    @include for-phone {
+      width: 100%;
+      margin: 10px 0 0 0;
+    }
   }
 
   // .rate__list-elem
 
-  &__list__elem {
+  .listEl {
     margin: 20px 0 0 0;
 
     width: 100%;
@@ -82,14 +91,16 @@
 
   // .rate__bottom
 
-  &__bottom {
-    margin: 0 0 30px 0;
-
+  .bottom {
     display: flex;
     justify-content: flex-start;
+
+    @include for-phone {
+      margin: 30px 0 0 0;
+    }
   }
 
-  &__btn {
+  .button {
     width: 324px;
 
     display: flex;
