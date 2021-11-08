@@ -1,6 +1,6 @@
-@import '../../../styles/variables.scss';
-@import '../../../styles/mixins.scss';
-@import '../../../styles/typography.scss';
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+@import "../../../styles/typography.scss";
 
 .header {
   width: 100%;
@@ -9,6 +9,11 @@
   align-items: center;
   border-bottom: 2px solid #f7f6fb;
   margin-bottom: 40px;
+
+  @include for-phone {
+    margin: 0 0 20px 0;
+  }
+
   &__wrapper {
     width: 100%;
     height: 100%;

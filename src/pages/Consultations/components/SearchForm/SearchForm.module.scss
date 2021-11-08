@@ -1,8 +1,12 @@
+@import "./../../../../styles/mixins.scss";
+
 .search {
     position: relative;
     width: 100%;
 
     display: flex;
+
+    flex-wrap: wrap;
 
     .searchLabel {
         padding: 0 30px;
@@ -39,6 +43,9 @@
     }
 
     .button {
+        @include for-phone {
+            display: none;
+        }
         margin: 0 0 0 15px;
         padding: 10px 50px;
 
