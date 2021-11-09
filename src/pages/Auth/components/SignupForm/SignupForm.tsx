@@ -1,73 +1,90 @@
-import classNames from "classnames";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import classNames from 'classnames';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import {
   fetchSignup,
   setUserResponse,
-} from "../../../../store/ducks/user/actionCreators";
-import { SignupData } from "../../../../store/ducks/user/contracts/state";
-import { LoadingStatus } from "../../../../store/types";
-import { Formik } from "formik";
+} from '../../../../store/ducks/user/actionCreators';
+import { SignupData } from '../../../../store/ducks/user/contracts/state';
+import { LoadingStatus } from '../../../../store/types';
+import { Formik, FormikHelpers } from 'formik';
 
-import s from "./SignupForm.module.scss";
+import s from './SignupForm.module.scss';
 import {
   onPhoneInput,
   onPhoneKeyDown,
   onPhonePaste,
-} from "../../../../utils/phoneValidator";
-import { validationSchema } from "./validationSchema";
-import { Loader } from "../../../../shared/Form/Loader/Loader";
+} from '../../../../utils/phoneValidator';
+import { validationSchema } from './validationSchema';
+import { Loader } from '../../../../shared/Form/Loader/Loader';
 import {
   selectUserLoadingStatus,
   selectUserResponse,
-} from "../../../../store/ducks/user/selectors";
-import { Input } from "../../../../shared/Form/Input/Input";
-import { Button } from "../../../../shared/Form/Button/Button";
-import { notification } from "../../../../config/notification/notificationForm";
-import { store } from "react-notifications-component";
+} from '../../../../store/ducks/user/selectors';
+import { Input } from '../../../../shared/Form/Input/Input';
+import { Button } from '../../../../shared/Form/Button/Button';
+import { notification } from '../../../../config/notification/notificationForm';
+import { store } from 'react-notifications-component';
 interface Props {}
 
 export const SignupForm = ({}: Props) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const res = useSelector(selectUserResponse);
   const loadingStatus = useSelector(selectUserLoadingStatus);
 
-  const [errorValue, errorText] = res?.message?.split(":") || [];
+  const [errorValue, errorText] = res?.message?.split(':') || [];
 
-  const [loader, setLoader] = useState<boolean>(false);
+  const loader = LoadingStatus.LOADING === loadingStatus;
   const [checked, setChecked] = useState<boolean>(false);
   const refSetFieldValue = useRef<any>(null);
+  const refResetForm = useRef<any>(null);
 
   useEffect(() => {
-    if (loadingStatus === LoadingStatus.LOADING) {
-      setLoader(true);
-    }
-    if (
-      loadingStatus === LoadingStatus.SUCCESS ||
-      loadingStatus === LoadingStatus.ERROR
-    ) {
-      setLoader(false);
-    }
-    if (loadingStatus === LoadingStatus.ERROR && refSetFieldValue.current) {
-      store.addNotification({
-        ...notification,
-        title: "Произошла ошибка!",
-        message: errorText || "Произошла непредвиденная ошибка",
-        type: "danger",
-      });
-      errorValue && refSetFieldValue.current(errorValue, "");
-    }
-    if (loadingStatus === LoadingStatus.SUCCESS) {
-      dispatch(setUserResponse(undefined));
+    switch (loadingStatus) {
+      case LoadingStatus.ERROR:
+        if (!refSetFieldValue.current) return;
+        store.addNotification({
+          ...notification,
+          title: 'Произошла ошибка!',
+          message:
+            errorText || res?.message || 'Произошла непредвиденная ошибка',
+          type: 'danger',
+        });
+        errorValue && refSetFieldValue.current(errorValue, '');
+        break;
+      case LoadingStatus.SUCCESS:
+        if (!refResetForm.current) return;
+        store.addNotification({
+          ...notification,
+          title: `Успешно!`,
+          message: res.message,
+          type: 'success',
+          dismiss: {
+            onScreen: true,
+            duration: 7000,
+            pauseOnHover: true,
+          },
+        });
+        dispatch(setUserResponse(undefined));
+        refResetForm.current();
+        history.push('/signin');
+        break;
+      default:
+        break;
     }
   }, [loadingStatus]);
 
-  async function onSubmit(values: SignupData, options: any) {
+  async function onSubmit(
+    values: SignupData,
+    options: FormikHelpers<SignupData>
+  ) {
     if (!checked) {
       return;
     }
     refSetFieldValue.current = options.setFieldValue;
+    refResetForm.current = options.resetForm;
     try {
       dispatch(fetchSignup(values));
     } catch (error) {}
@@ -81,15 +98,17 @@ export const SignupForm = ({}: Props) => {
     <>
       <Formik
         initialValues={{
-          email: "",
-          password: "",
-          verification_password: "",
-          name: "",
-          lastname: "",
-          phone: "",
+          email: '',
+          password: '',
+          verification_password: '',
+          name: '',
+          lastname: '',
+          phone: '',
         }}
         validateOnBlur
-        onSubmit={(values: SignupData, options) => onSubmit(values, options)}
+        onSubmit={(values: SignupData, options: FormikHelpers<SignupData>) =>
+          onSubmit(values, options)
+        }
         validationSchema={validationSchema}
       >
         {({
@@ -189,10 +208,10 @@ export const SignupForm = ({}: Props) => {
               type="submit"
               onClick={() => handleSubmit()}
               options={{
-                content: loader ? <Loader /> : "Зарегистрироваться",
+                content: loader ? <Loader /> : 'Зарегистрироваться',
                 setDisabledStyle: isDisabled(isValid, dirty),
-                width: "100%",
-                height: "50px",
+                width: '100%',
+                height: '50px',
               }}
             />
 
@@ -211,7 +230,7 @@ export const SignupForm = ({}: Props) => {
                 })}
               ></label>
               <span>
-                Нажимая кнопку «Зарегистрироваться», вы принимаете{" "}
+                Нажимая кнопку «Зарегистрироваться», вы принимаете{' '}
                 <a href="/policy">условия пользовательского соглашения</a>
               </span>
             </div>

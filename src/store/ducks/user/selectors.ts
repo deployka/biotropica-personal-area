@@ -9,8 +9,9 @@ export const selectUserData = (state: RootState): UserState['user'] =>
 export const selectUserResponse = (state: RootState): UserState['response'] =>
   selectUserState(state).response;
 
-export const selectIsAuth = (state: RootState): boolean =>
-  !!window.localStorage.getItem('token');
+export const selectIsAuth = (state: RootState): boolean => {
+  return !!window.localStorage.getItem('token');
+};
 
 export const selectUserStatus = (state: RootState): UserState['status'] =>
   selectUserState(state).status;

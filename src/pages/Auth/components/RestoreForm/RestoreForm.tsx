@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
@@ -8,7 +7,7 @@ import {
 } from '../../../../store/ducks/user/actionCreators';
 import { RestorePasswordData } from '../../../../store/ducks/user/contracts/state';
 import { LoadingStatus } from '../../../../store/types';
-import { Formik } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 
 import s from './RestoreForm.module.scss';
 import { validationSchema } from './validationSchema';
@@ -71,7 +70,10 @@ export const RestoreForm = ({ type }: Props) => {
     }
   }, [loadingStatus]);
 
-  async function onSubmit(values: RestorePasswordData, options: any) {
+  async function onSubmit(
+    values: RestorePasswordData,
+    options: FormikHelpers<RestorePasswordData>
+  ) {
     refSetFieldValue.current = options.setFieldValue;
     try {
       if (type === Type.CHANGE) {
@@ -95,9 +97,10 @@ export const RestoreForm = ({ type }: Props) => {
           restoreToken: token,
         }}
         validateOnBlur
-        onSubmit={(values: RestorePasswordData, options) =>
-          onSubmit(values, options)
-        }
+        onSubmit={(
+          values: RestorePasswordData,
+          options: FormikHelpers<RestorePasswordData>
+        ) => onSubmit(values, options)}
         validationSchema={validationSchema}
       >
         {({

@@ -1,42 +1,42 @@
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from 'formik';
 import React, {
   Dispatch,
   SetStateAction,
   useEffect,
   useRef,
   useState,
-} from "react";
-import { store } from "react-notifications-component";
-import { useDispatch, useSelector } from "react-redux";
-import { notification } from "../../../../config/notification/notificationForm";
-import { Button } from "../../../../shared/Form/Button/Button";
-import { Input } from "../../../../shared/Form/Input/Input";
-import { Loader } from "../../../../shared/Form/Loader/Loader";
+} from 'react';
+import { store } from 'react-notifications-component';
+import { useDispatch, useSelector } from 'react-redux';
+import { notification } from '../../../../config/notification/notificationForm';
+import { Button } from '../../../../shared/Form/Button/Button';
+import { Input } from '../../../../shared/Form/Input/Input';
+import { Loader } from '../../../../shared/Form/Loader/Loader';
 import {
   CreateGoalData,
   Goal,
   GoalType,
   RunUnits,
   WeightUnits,
-} from "../../../../store/ducks/goal/contracts/state";
+} from '../../../../store/ducks/goal/contracts/state';
 import {
   createGoalData,
   setGoalResponse,
-} from "../../../../store/ducks/goal/actionCreators";
+} from '../../../../store/ducks/goal/actionCreators';
 import {
   selectGoalData,
   selectGoalLoadingStatus,
   selectGoalResponse,
-} from "../../../../store/ducks/goal/selectors";
-import { LoadingStatus } from "../../../../store/types";
+} from '../../../../store/ducks/goal/selectors';
+import { LoadingStatus } from '../../../../store/types';
 
-import s from "./AddGoalForm.module.scss";
-import { validationSchema } from "./validationSchema";
-import { Textarea } from "../../../../shared/Form/Textarea/Textarea";
-import { useHistory } from "react-router-dom";
-import { setGoalsData } from "../../../../store/ducks/goals/actionCreators";
-import { selectGoalsData } from "../../../../store/ducks/goals/selectors";
-import { SelectCustom } from "../../../../shared/Form/Select/SelectCustom";
+import s from './AddGoalForm.module.scss';
+import { validationSchema } from './validationSchema';
+import { Textarea } from '../../../../shared/Form/Textarea/Textarea';
+import { useHistory } from 'react-router-dom';
+import { setGoalsData } from '../../../../store/ducks/goals/actionCreators';
+import { selectGoalsData } from '../../../../store/ducks/goals/selectors';
+import { SelectCustom } from '../../../../shared/Form/Select/SelectCustom';
 
 interface Props {
   goalTemplate: CreateGoalData;
@@ -53,7 +53,7 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
   const goals: Goal[] = useSelector(selectGoalsData);
   const goal: Goal | undefined = useSelector(selectGoalData);
 
-  const [name, setName] = useState<string>("");
+  const [name, setName] = useState<string>('');
 
   const loader = loadingStatus === LoadingStatus.LOADING;
   const refResetForm = useRef<any>(null);
@@ -62,19 +62,19 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
     switch (goalTemplate.type) {
       case GoalType.RUN:
         return [
-          { value: RunUnits.KILOMETER, label: "Километры" },
-          { value: RunUnits.MINUTES, label: "Минуты" },
-          { value: RunUnits.MINUTES_KILOMETER, label: "Км/м" },
+          { value: RunUnits.KILOMETER, label: 'Километры' },
+          { value: RunUnits.MINUTES, label: 'Минуты' },
+          { value: RunUnits.MINUTES_KILOMETER, label: 'Км/м' },
         ];
       case GoalType.WEIGHT:
         return [
-          { value: WeightUnits.GRAM, label: "Граммы" },
-          { value: WeightUnits.KILOGRAM, label: "Килограммы" },
-          { value: WeightUnits.PERCENT, label: "Проценты" },
-          { value: WeightUnits.CENTIMETERS, label: "Сантиметры" },
+          { value: WeightUnits.GRAM, label: 'Граммы' },
+          { value: WeightUnits.KILOGRAM, label: 'Килограммы' },
+          { value: WeightUnits.PERCENT, label: 'Проценты' },
+          { value: WeightUnits.CENTIMETERS, label: 'Сантиметры' },
         ];
       case GoalType.FORCE:
-        return [{ value: WeightUnits.KILOGRAM, label: "Килограммы" }];
+        return [{ value: WeightUnits.KILOGRAM, label: 'Килограммы' }];
       default:
         return null;
     }
@@ -92,9 +92,9 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
         if (!refResetForm.current) return;
         store.addNotification({
           ...notification,
-          title: "Произошла ошибка!",
-          message: response?.message || "Произошла непредвиденная ошибка",
-          type: "danger",
+          title: 'Произошла ошибка!',
+          message: response?.message || 'Произошла непредвиденная ошибка',
+          type: 'danger',
         });
         break;
       case LoadingStatus.SUCCESS:
@@ -103,8 +103,8 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
           ...notification,
           title: `Цель «${name}» успешно создана!`,
           message:
-            "Не забывайте регулярно отмечать свой прогресс в достижении цели",
-          type: "success",
+            'Не забывайте регулярно отмечать свой прогресс в достижении цели',
+          type: 'success',
           dismiss: {
             onScreen: true,
             duration: 7000,
@@ -122,7 +122,10 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
     }
   }, [loadingStatus]);
 
-  async function onSubmit(values: CreateGoalData, options: any) {
+  async function onSubmit(
+    values: CreateGoalData,
+    options: FormikHelpers<CreateGoalData>
+  ) {
     refResetForm.current = options.resetForm;
     setName(values.name);
     try {
@@ -191,7 +194,7 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
               <div className={s.input__wrapper}>
                 <SelectCustom
                   onChange={(e: any) => {
-                    setFieldValue("units", [e]);
+                    setFieldValue('units', [e]);
                   }}
                   placeholder="Единицы измерения"
                   onBlur={handleBlur}
@@ -235,10 +238,10 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
               <div className={s.buttons}>
                 <Button
                   options={{
-                    width: "100px",
-                    height: "30px",
+                    width: '100px',
+                    height: '30px',
                     classes: { discard: true },
-                    content: "Назад",
+                    content: 'Назад',
                   }}
                   onClick={() => setNext(false)}
                 />
@@ -248,10 +251,10 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
                   type="submit"
                   onClick={() => handleSubmit()}
                   options={{
-                    content: loader ? <Loader /> : "Сохранить",
+                    content: loader ? <Loader /> : 'Сохранить',
                     setDisabledStyle: isDisabled(isValid, dirty),
-                    width: "100px",
-                    height: "30px",
+                    width: '100px',
+                    height: '30px',
                   }}
                 />
               </div>

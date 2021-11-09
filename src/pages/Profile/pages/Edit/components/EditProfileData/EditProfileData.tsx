@@ -10,6 +10,7 @@ import {
 } from '../../../../../../store/ducks/user/actionCreators';
 import {
   UpdateUserData,
+  UpdateUserFormData,
   User,
 } from '../../../../../../store/ducks/user/contracts/state';
 import {
@@ -41,6 +42,7 @@ import { notification } from '../../../../../../config/notification/notification
 import { FormsSvgSelector } from '../../../../../../assets/icons/forms/FormsSvgSelector';
 import ru from 'date-fns/locale/ru';
 import { getMediaLink } from '../../../../../../utils/mediaHelper';
+import UserService from '../../../../../../services/UserService';
 registerLocale('ru', ru);
 
 interface Props {
@@ -61,50 +63,60 @@ export const EditProfileData = ({ user }: Props) => {
 
   const userImage = user?.profile_photo && getMediaLink(user?.profile_photo);
 
-  const [loader, setLoader] = useState<boolean>(false);
+  const loader = LoadingStatus.LOADING === loadingStatus;
   const [image, setImage] = useState<string | ArrayBuffer | null>(
     userImage || ''
   );
 
   useEffect(() => {
-    if (loadingStatus === LoadingStatus.LOADING) {
-      setLoader(true);
-    }
-
-    if (loadingStatus === LoadingStatus.ERROR && response) {
-      store.addNotification({
-        ...notification,
-        title: 'Произошла ошибка!',
-        message: response?.message || 'Произошла непредвиденная ошибка!',
-        type: 'danger',
-      });
-      setLoader(false);
-    }
-    if (loadingStatus === LoadingStatus.SUCCESS && response) {
-      store.addNotification({
-        ...notification,
-        title: 'Успешно!',
-        message: response?.message,
-        type: 'success',
-      });
-      setLoader(false);
-      dispatch(setUserResponse(undefined));
-      history.push('/profile');
+    if (!response) return;
+    switch (loadingStatus) {
+      case LoadingStatus.ERROR:
+        store.addNotification({
+          ...notification,
+          title: 'Произошла ошибка!',
+          message: response?.message || 'Произошла непредвиденная ошибка!',
+          type: 'danger',
+        });
+        break;
+      case LoadingStatus.SUCCESS:
+        store.addNotification({
+          ...notification,
+          title: 'Успешно!',
+          message: response?.message,
+          type: 'success',
+        });
+        dispatch(setUserResponse(undefined));
+        history.push('/profile');
+        break;
+      default:
+        break;
     }
   }, [loadingStatus, response]);
 
   async function onSubmit(values: UpdateUserData) {
     try {
-      const data: any = {
-        ...values,
-        gender: values?.gender?.[0].label,
-        dob: values?.dob?.toString().split('+')[0]?.trim(),
-      };
-      const formData = new FormData();
-      for (let value in data) {
-        formData.append(value, data[value]);
+      if (values.email && user?.email !== values.email) {
+        const res = await UserService.updateEmail({ email: values.email });
+        store.addNotification({
+          ...notification,
+          title: 'Внимание!',
+          message: res?.data.message,
+          type: 'info',
+          dismiss: {
+            pauseOnHover: true,
+            onScreen: true,
+            duration: 10000,
+          },
+        });
       }
-      dispatch(fetchUpdateUser(formData));
+
+      const data: UpdateUserFormData = {
+        ...values,
+        gender: values?.gender?.[0].label || '',
+        dob: values?.dob?.toString().split('+')[0]?.trim() || '',
+      };
+      dispatch(fetchUpdateUser(data));
     } catch (error) {}
   }
 
@@ -161,7 +173,7 @@ export const EditProfileData = ({ user }: Props) => {
           id: user?.id,
         }}
         validateOnBlur
-        onSubmit={(values: UpdateUserData, options) => onSubmit(values)}
+        onSubmit={(values: UpdateUserData) => onSubmit(values)}
         validationSchema={validationSchema}
       >
         {({

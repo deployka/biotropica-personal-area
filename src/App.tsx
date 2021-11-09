@@ -54,6 +54,7 @@ import { Modals } from './modals/Modals';
 import { selectProgressLoadingStatus } from './store/ducks/progress/selectors';
 import { Consultations } from './pages/Consultations/containers/Consultations';
 import { Policy } from './pages/Policy/containers/Policy';
+import { notification } from './config/notification/notificationForm';
 
 function App() {
   const isAuth = useSelector(selectIsAuth);
@@ -87,6 +88,20 @@ function App() {
     dispatch(setUserResponse(undefined));
     store.removeNotification('delete-notification');
   }, [location.pathname]);
+
+  useEffect(() => {
+    const type = location.search.split('=')[0];
+    const message = location.search.split('=')[1];
+    if (type === '?message' && message) {
+      store.addNotification({
+        ...notification,
+        title: 'Внимание!',
+        message: decodeURI(message),
+        type: 'info',
+      });
+    }
+    history.push(location.pathname);
+  }, [location.search]);
 
   useEffect(() => {
     if (isAuth && authPaths.includes(currentPath)) {

@@ -41,7 +41,6 @@ export function* fetchSignupRequest({
   const { data, status } = yield call(AuthService.signup, payload);
   yield put(setUserResponse(data));
   if (status === 200) {
-    window.localStorage.setItem('token', data.accessToken);
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } else {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));

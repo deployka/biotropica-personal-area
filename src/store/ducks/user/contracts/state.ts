@@ -43,20 +43,16 @@ export interface SigninData {
   password: string;
 }
 
-export interface UpdateUserData {
-  id?: number;
-  email?: string;
-  password?: string;
-  profile_photo?: string;
-  name?: string;
-  lastname?: string;
-  patronymic?: string;
-  dob?: Date | null;
-  phone?: string;
+export interface UpdateUserData extends Partial<Omit<User, 'gender' | 'dob'>> {
   gender?: ISelect<string>[];
-  before_photos?: JSON;
-  after_photos?: JSON;
-  paid?: boolean;
+  dob?: Date | null;
+}
+
+export interface UpdateUserFormData
+  extends Omit<UpdateUserData, 'email' | 'gender' | 'dob'> {
+  [key: string]: any;
+  gender: string;
+  dob: string;
 }
 
 export interface ForgotPasswordData {
@@ -71,5 +67,5 @@ export interface ChangePasswordData {
 export interface RestorePasswordData {
   password: string;
   verification_password: string;
-  restoreToken?: string;
+  restoreToken: string;
 }

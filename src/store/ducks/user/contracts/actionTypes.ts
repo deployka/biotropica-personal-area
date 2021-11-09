@@ -7,6 +7,7 @@ import {
   SigninData,
   SignupData,
   UpdateUserData,
+  UpdateUserFormData,
   User,
   UserState,
 } from './state';
@@ -67,7 +68,7 @@ export interface FetchCreatePasswordActionInterface
 export interface FetchUpdateUserActionInterface
   extends Action<UserActionsType> {
   type: UserActionsType.FETCH_UPDATE_USER;
-  payload: FormData;
+  payload: UpdateUserFormData;
 }
 
 export interface FetchUserDataActionInterface extends Action<UserActionsType> {

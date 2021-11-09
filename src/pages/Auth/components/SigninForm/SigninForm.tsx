@@ -7,7 +7,7 @@ import {
 } from '../../../../store/ducks/user/actionCreators';
 import { SigninData } from '../../../../store/ducks/user/contracts/state';
 import { LoadingStatus } from '../../../../store/types';
-import { Formik } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 
 import s from './SigninForm.module.scss';
 import { validationSchema } from './validationSchema';
@@ -55,7 +55,10 @@ export const SigninForm = ({}: Props) => {
     }
   }, [loadingStatus]);
 
-  async function onSubmit(values: SigninData, options: any) {
+  async function onSubmit(
+    values: SigninData,
+    options: FormikHelpers<SigninData>
+  ) {
     refSetFieldValue.current = options.setFieldValue;
     try {
       dispatch(fetchSignin(values));
@@ -74,7 +77,9 @@ export const SigninForm = ({}: Props) => {
           password: '',
         }}
         validateOnBlur
-        onSubmit={(values: SigninData, options) => onSubmit(values, options)}
+        onSubmit={(values: SigninData, options: FormikHelpers<SigninData>) =>
+          onSubmit(values, options)
+        }
         validationSchema={validationSchema}
       >
         {({

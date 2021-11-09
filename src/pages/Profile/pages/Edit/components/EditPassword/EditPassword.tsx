@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { Formik } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -67,7 +67,10 @@ export const EditPassword = ({}: Props) => {
     dispatch(setUserResponse(undefined));
   }, [loadingStatus]);
 
-  async function onSubmit(values: ChangePasswordData, options: any) {
+  async function onSubmit(
+    values: ChangePasswordData,
+    options: FormikHelpers<ChangePasswordData>
+  ) {
     refSetFieldValue.current = options.setFieldValue;
     refResetForm.current = options.resetForm;
     try {
@@ -92,9 +95,10 @@ export const EditPassword = ({}: Props) => {
           verification_password: '',
         }}
         validateOnBlur
-        onSubmit={(values: ChangePasswordData, options) =>
-          onSubmit(values, options)
-        }
+        onSubmit={(
+          values: ChangePasswordData,
+          options: FormikHelpers<ChangePasswordData>
+        ) => onSubmit(values, options)}
         validationSchema={validationSchema}
       >
         {({

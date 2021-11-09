@@ -1,35 +1,35 @@
-import { Formik } from "formik";
-import { useEffect, useRef, useState } from "react";
-import { store } from "react-notifications-component";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { GlobalSvgSelector } from "../../../../../assets/icons/global/GlobalSvgSelector";
-import { notification } from "../../../../../config/notification/notificationForm";
-import { useModal } from "../../../../../hooks/UseModal";
-import { ModalName } from "../../../../../providers/ModalProvider";
-import classNames from "classnames";
-import FileService, { IFile } from "../../../../../services/FileService";
-import { Button } from "../../../../../shared/Form/Button/Button";
-import { Loader } from "../../../../../shared/Form/Loader/Loader";
-import { PopupBackground } from "../../../../../shared/Global/PopupBackground/PopupBackground";
+import { Formik, FormikHelpers } from 'formik';
+import { useEffect, useRef, useState } from 'react';
+import { store } from 'react-notifications-component';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { GlobalSvgSelector } from '../../../../../assets/icons/global/GlobalSvgSelector';
+import { notification } from '../../../../../config/notification/notificationForm';
+import { useModal } from '../../../../../hooks/UseModal';
+import { ModalName } from '../../../../../providers/ModalProvider';
+import classNames from 'classnames';
+import FileService, { IFile } from '../../../../../services/FileService';
+import { Button } from '../../../../../shared/Form/Button/Button';
+import { Loader } from '../../../../../shared/Form/Loader/Loader';
+import { PopupBackground } from '../../../../../shared/Global/PopupBackground/PopupBackground';
 import {
   createProgressData,
   fetchProgressData,
   setProgressResponse,
-} from "../../../../../store/ducks/progress/actionCreators";
+} from '../../../../../store/ducks/progress/actionCreators';
 import {
   CreateProgressData,
   TypePhoto,
-} from "../../../../../store/ducks/progress/contracts/state";
+} from '../../../../../store/ducks/progress/contracts/state';
 import {
   selectProgressLoadingStatus,
   selectProgressResponse,
-} from "../../../../../store/ducks/progress/selectors";
-import { LoadingStatus } from "../../../../../store/types";
-import s from "./AddPhotoModal.module.scss";
-import { validationSchema } from "./validationSchema";
-import { ErrorMessage } from "../../../../../shared/Form/ErrorMessage/ErrorMessage";
-import { ProfileSvgSelector } from "../../../../../assets/icons/profile/ProfileSvgSelector";
+} from '../../../../../store/ducks/progress/selectors';
+import { LoadingStatus } from '../../../../../store/types';
+import s from './AddPhotoModal.module.scss';
+import { validationSchema } from './validationSchema';
+import { ErrorMessage } from '../../../../../shared/Form/ErrorMessage/ErrorMessage';
+import { ProfileSvgSelector } from '../../../../../assets/icons/profile/ProfileSvgSelector';
 
 interface PhotoInput {
   src: string;
@@ -48,13 +48,13 @@ interface Props {}
 export const AddPhotoModal = ({}: Props) => {
   const [inputs, setInputs] = useState<Inputs>({
     [TypePhoto.SIDE]: {
-      src: "",
+      src: '',
     },
     [TypePhoto.FRONT]: {
-      src: "",
+      src: '',
     },
     [TypePhoto.BACK]: {
-      src: "",
+      src: '',
     },
   });
 
@@ -89,9 +89,9 @@ export const AddPhotoModal = ({}: Props) => {
     if (loadingStatus === LoadingStatus.SUCCESS && refResetForm.current) {
       store.addNotification({
         ...notification,
-        title: "Успешно!",
-        message: "Фотографии успешно загружены!",
-        type: "success",
+        title: 'Успешно!',
+        message: 'Фотографии успешно загружены!',
+        type: 'success',
       });
       refResetForm.current();
       closeModal(ModalName.MODAL_ADD_PROGRESS_PHOTO);
@@ -100,7 +100,7 @@ export const AddPhotoModal = ({}: Props) => {
     dispatch(setProgressResponse(undefined));
   }, [loadingStatus]);
 
-  async function onSubmit(values: Files, options: any) {
+  async function onSubmit(values: Files, options: FormikHelpers<Files>) {
     if (!values.BACK || !values.SIDE || !values.FRONT) {
       return;
     }
@@ -144,14 +144,14 @@ export const AddPhotoModal = ({}: Props) => {
   ) {
     const tgt = e.target;
     const files = tgt.files;
-    const permittedPaths = ["image/png", "image/jpeg", "image/gif"];
+    const permittedPaths = ['image/png', 'image/jpeg', 'image/gif'];
     if (
       FileReader &&
       files &&
       files.length &&
       permittedPaths.includes(files?.[0]?.type)
     ) {
-      store.removeNotification("avatar_type_error");
+      store.removeNotification('avatar_type_error');
       const fr = new FileReader();
       fr.onload = function () {
         setInputs({
@@ -166,10 +166,10 @@ export const AddPhotoModal = ({}: Props) => {
     } else {
       store.addNotification({
         ...notification,
-        title: "Фото профиля не обновлено!",
-        message: "Допустимые типы изображения: png, jpg, gif",
-        type: "danger",
-        id: "avatar_type_error",
+        title: 'Фото профиля не обновлено!',
+        message: 'Допустимые типы изображения: png, jpg, gif',
+        type: 'danger',
+        id: 'avatar_type_error',
         dismiss: {
           duration: 7000,
           onScreen: true,
@@ -181,11 +181,11 @@ export const AddPhotoModal = ({}: Props) => {
   function getInputNameByType(type: TypePhoto): string {
     switch (type) {
       case TypePhoto.BACK:
-        return "Вид сзади";
+        return 'Вид сзади';
       case TypePhoto.FRONT:
-        return "Вид спереди";
+        return 'Вид спереди';
       case TypePhoto.SIDE:
-        return "Вид сбоку";
+        return 'Вид сбоку';
     }
   }
 
@@ -227,7 +227,7 @@ export const AddPhotoModal = ({}: Props) => {
                       className={s.pd__input}
                       id={`pd_input-${i}`}
                       onBlur={handleBlur}
-                      onChange={(e) => {
+                      onChange={e => {
                         loadFile(e, type, setFieldValue);
                       }}
                     />
@@ -245,13 +245,13 @@ export const AddPhotoModal = ({}: Props) => {
                     >
                       {!inputs[type].src && (
                         <>
-                          <ProfileSvgSelector id={"camera"} />
+                          <ProfileSvgSelector id={'camera'} />
                           <p>{getInputNameByType(type)}</p>
                         </>
                       )}
                     </label>
                     <div className={s.error}>
-                      <ErrorMessage message={errors[type] || ""} />
+                      <ErrorMessage message={errors[type] || ''} />
                     </div>
                   </div>
                 );
@@ -262,10 +262,10 @@ export const AddPhotoModal = ({}: Props) => {
               <Button
                 onClick={() => closeModal(ModalName.MODAL_ADD_PROGRESS_PHOTO)}
                 options={{
-                  width: "90px",
-                  height: "32px",
+                  width: '90px',
+                  height: '32px',
                   classes: { discard: true },
-                  content: "Отмена",
+                  content: 'Отмена',
                 }}
               />
 
@@ -274,9 +274,9 @@ export const AddPhotoModal = ({}: Props) => {
                 type="submit"
                 onClick={() => handleSubmit()}
                 options={{
-                  width: "109px",
-                  height: "32px",
-                  content: loader ? <Loader /> : "Сохранить",
+                  width: '109px',
+                  height: '32px',
+                  content: loader ? <Loader /> : 'Сохранить',
                   setDisabledStyle: isDisabled(isValid, dirty),
                 }}
               />

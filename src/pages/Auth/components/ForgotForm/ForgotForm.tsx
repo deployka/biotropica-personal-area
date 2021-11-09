@@ -5,7 +5,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import { fetchForgotPassword } from '../../../../store/ducks/user/actionCreators';
 import { ForgotPasswordData } from '../../../../store/ducks/user/contracts/state';
 import { LoadingStatus } from '../../../../store/types';
-import { Formik } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 
 import { validationSchema } from './validationSchema';
 import {
@@ -65,7 +65,10 @@ export const ForgotForm = ({}: Props) => {
     }
   }, [loadingStatus]);
 
-  async function onSubmit(values: ForgotPasswordData, options: any) {
+  async function onSubmit(
+    values: ForgotPasswordData,
+    options: FormikHelpers<ForgotPasswordData>
+  ) {
     refSetFieldValue.current = options.setFieldValue;
     try {
       dispatch(fetchForgotPassword(values));
@@ -83,9 +86,10 @@ export const ForgotForm = ({}: Props) => {
           email: email,
         }}
         validateOnBlur
-        onSubmit={(values: ForgotPasswordData, options) =>
-          onSubmit(values, options)
-        }
+        onSubmit={(
+          values: ForgotPasswordData,
+          options: FormikHelpers<ForgotPasswordData>
+        ) => onSubmit(values, options)}
         validationSchema={validationSchema}
       >
         {({
