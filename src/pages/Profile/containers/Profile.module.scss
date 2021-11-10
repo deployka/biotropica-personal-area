@@ -21,6 +21,10 @@
 
   .tabs__container {
     margin: 0 0 30px 0;
+
+    @include for-phone {
+      margin: 15px 10px 15px 0;
+    }
   }
 
   .info {
@@ -68,5 +72,24 @@
       border: 1px solid $color-secondary;
       color: $color-secondary;
     }
+  }
+}
+
+.horizontalScroll {
+  @include for-phone {
+    position: relative;
+    padding: 0 10px;
+    left: -10px;
+
+    width: calc(100% + 20px);
+    overflow-x: scroll;
+    overflow-y: visible;
+
+    &::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
