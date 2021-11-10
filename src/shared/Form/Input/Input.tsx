@@ -31,7 +31,7 @@ export const Input = (props: Props) => {
   return (
     <>
       <input
-        onKeyUp={e => {
+        onKeyUp={(e) => {
           const target = e.target as HTMLInputElement;
         }}
         className={classNames({

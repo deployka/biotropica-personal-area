@@ -1,10 +1,13 @@
-import React from "react";
-import { ProfileSvgSelector } from "../../../../../assets/icons/profile/ProfileSvgSelector";
-import { useModal } from "../../../../../hooks/UseModal";
-import { ModalName } from "../../../../../providers/ModalProvider";
-import { PopupBackground } from "../../../../../shared/Global/PopupBackground/PopupBackground";
+import React from 'react';
 
-import s from "./AddAnalyzeModal.module.scss";
+import { ProfileSvgSelector } from '../../../../../assets/icons/profile/ProfileSvgSelector';
+import { useModal } from '../../../../../hooks/UseModal';
+import { ModalName } from '../../../../../providers/ModalProvider';
+import { PopupBackground } from '../../../../../shared/Global/PopupBackground/PopupBackground';
+
+import { Input } from './../../../../../shared/Form/Input/Input';
+
+import s from './AddAnalyzeModal.module.scss';
 
 interface Props {}
 
@@ -25,6 +28,17 @@ export const AddAnalyzeModal = ({}: Props) => {
             <ProfileSvgSelector id="document" />
             <p>Загрузить анализы</p>
           </label>
+        </div>
+        <div className={s.textInput}>
+          <Input
+            onChange={() => {}}
+            onBlur={''}
+            placeholder={'Введите название'}
+            name={'fileName'}
+            value={''}
+            type={'input'}
+            options={{ touched: '', errors: '' }}
+          />
         </div>
         <div className={s.buttons}>
           <button className={s.cansel}>Отмена</button>
