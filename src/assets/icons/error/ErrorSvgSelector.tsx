@@ -7,8 +7,6 @@ export const ErrorSvgSelector = ({ id }: Props) => {
     case "illustration":
       return (
         <svg
-          width="554"
-          height="512"
           viewBox="0 0 554 512"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
