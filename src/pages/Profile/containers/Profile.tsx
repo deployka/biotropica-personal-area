@@ -6,7 +6,9 @@ import { Tariff } from '../components/Tariff/Tariff';
 import { Goals } from '../components/Goals/Goals';
 import { Progress } from '../components/Progress/Progress';
 import { Recommended } from '../components/Recommended/Recommended';
-import { Tabs } from '../components/Tabs/Tabs';
+
+import { Tabs } from '../../../shared/Global/Tabs/Tabs';
+
 import { TestsAndAnalyze } from '../components/TestsAndAnalyze/TestsAndAnalyze';
 import { Tab } from '../pages/Edit/container/Edit';
 
@@ -55,11 +57,14 @@ export const Profile = (props: Props) => {
         </div>
         <div className={s.content}>
           <div className={s.tabs__container}>
-            <Tabs
-              tabs={tabs}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
+            <div className={s.horizontalScroll}>
+              <Tabs
+                tabs={tabs}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                spaceBetween={50}
+              />
+            </div>
           </div>
           {activeTab === tabs[0].key && user && <Recommended />}
           {activeTab === tabs[1].key && user && <TestsAndAnalyze user={user} />}

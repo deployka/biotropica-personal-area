@@ -1,9 +1,16 @@
+@import "./../../../../styles/mixins.scss";
+
 .specialistList {
     margin: 40px 0 0 0;
     width: 100%;
 
     display: flex;
     flex-direction: column;
+
+    @include for-phone {
+        padding: 0 0 60px 0;
+        align-items: center;
+    }
 }
 
 .title {
@@ -13,22 +20,29 @@
     align-items: center;
     justify-content: space-between;
 
-    .titleName {
-        width: 40%;
+    @include for-phone {
+        display: none;
     }
 
-    .titleSpecialiaztion {
-        width: 200px;
+    .name {
+        width: 410px;
     }
 
-    .titlePrice {
+    .specialization {
+        width: 270px;
+
         display: flex;
         justify-content: center;
-        width: 150px;
     }
 
-    .titleAppointment {
-        width: 200px;
+    .price {
+        width: 270px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .appointment {
+        width: 250px;
 
         display: flex;
         align-items: center;
@@ -49,4 +63,8 @@
 
     display: flex;
     flex-direction: column;
+
+    @include for-phone {
+        padding: 0;
+    }
 }

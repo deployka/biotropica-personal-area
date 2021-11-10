@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+
 import { useHistory, useLocation } from 'react-router-dom';
 import { EditPassword } from '../components/EditPassword/EditPassword';
 import { EditProfileData } from '../components/EditProfileData/EditProfileData';
-import { Tabs } from '../../../components/Tabs/Tabs';
+import { Tabs } from '../../../../../shared/Global/Tabs/Tabs';
 
 import s from './Edit.module.scss';
 import { useSelector } from 'react-redux';
@@ -40,7 +42,9 @@ export const Edit = ({}: Props) => {
 
   return (
     <div className={s.edit__profile}>
-      <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+      <div className={s.horizontalScroll}>
+        <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+      </div>
       {activeTab === tabs[0].key && user && <EditProfileData user={user} />}
       {activeTab === tabs[1].key && <EditPassword />}
     </div>

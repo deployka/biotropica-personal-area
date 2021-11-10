@@ -1,3 +1,20 @@
 .edit {
   background: #fff;
 }
+
+.horizontalScroll {
+  position: relative;
+  padding: 0 10px;
+  left: -10px;
+
+  width: calc(100% + 20px);
+  overflow-x: scroll;
+  overflow-y: hidden;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

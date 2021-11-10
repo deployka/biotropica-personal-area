@@ -4,11 +4,9 @@ interface Props {
 
 export const ErrorSvgSelector = ({ id }: Props) => {
   switch (id) {
-    case "illustration":
+    case 'illustration':
       return (
         <svg
-          width="554"
-          height="512"
           viewBox="0 0 554 512"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -1046,8 +1044,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="291.574"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="1" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="1" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint1_linear"
@@ -1057,8 +1055,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="282.819"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.986904" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.986904" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint2_linear"
@@ -1068,8 +1066,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="318.625"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint3_linear"
@@ -1079,8 +1077,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="144.126"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint4_linear"
@@ -1090,8 +1088,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="121.115"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint5_linear"
@@ -1101,8 +1099,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="-3.29627"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint6_linear"
@@ -1112,8 +1110,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="49.4304"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint7_linear"
@@ -1123,8 +1121,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="18.4313"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint8_linear"
@@ -1134,8 +1132,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="32.3976"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint9_linear"
@@ -1145,8 +1143,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="13.4644"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint10_linear"
@@ -1156,8 +1154,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="24.6188"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint11_linear"
@@ -1167,8 +1165,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="13.4644"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint12_linear"
@@ -1178,8 +1176,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="13.9834"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint13_linear"
@@ -1189,8 +1187,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="127.112"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint14_linear"
@@ -1200,8 +1198,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="110.097"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint15_linear"
@@ -1211,8 +1209,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="151.936"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint16_linear"
@@ -1222,8 +1220,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="184.665"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <clipPath id="clip0">
               <rect

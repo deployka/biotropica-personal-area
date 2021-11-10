@@ -21,6 +21,7 @@ export const selectRecommendationsData = (
 
 export const selectSortedData = (state: RootState) => {
   const recommendations = Array.from(selectRecommendationsData(state));
+
   const rec = recommendations.reduce((acc, rec: Recommendation) => {
     if (!acc[rec.type]) {
       acc[rec.type] = {};

@@ -12,16 +12,16 @@ export const SpecialistsList = ({ specialists }: Props) => {
   return (
     <div className={s.specialistList}>
       <div className={s.title}>
-        <div className={s.titleName}>
+        <div className={s.name}>
           <p>ФИО специалиста</p>
         </div>
-        <div className={s.titleSpecialization}>
+        <div className={s.specialization}>
           <p>Специализация</p>
         </div>
-        <div className={s.titlePrice}>
+        <div className={s.price}>
           <p>Стоимость</p>
         </div>
-        <div className={s.titleAppointment}>
+        <div className={s.appointment}>
           <p>Запись</p>
         </div>
       </div>

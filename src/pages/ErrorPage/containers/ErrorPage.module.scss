@@ -1,4 +1,5 @@
-@import './../../../styles/global.scss';
+@import "./../../../styles/global.scss";
+@import "./../../../styles/mixins.scss";
 
 .errorPage {
   width: 100%;
@@ -6,8 +7,17 @@
   align-items: center;
   justify-content: space-between;
 
+  @include for-phone {
+    padding: 0 0 60px 0;
+    flex-direction: column-reverse;
+  }
+
   .content {
     width: 560px;
+
+    @include for-phone {
+      width: 100%;
+    }
   }
 
   .title {
@@ -20,11 +30,19 @@
       -webkit-text-fill-color: transparent;
 
       color: $color-primary;
+
+      @include for-phone {
+        font-size: 32px;
+      }
     }
   }
 
   .text {
     margin: 30px 0 0 0;
+
+    @include for-phone {
+      margin: 20px 0 0 0;
+    }
 
     p {
       color: $color-secondary;
@@ -33,6 +51,21 @@
     a {
       color: $color-primary;
       text-decoration: none;
+    }
+  }
+
+  .img {
+    svg {
+      width: 554px;
+    }
+    @include for-phone {
+      margin: 30px 0 0 0;
+
+      width: 100%;
+
+      svg {
+        width: 100%;
+      }
     }
   }
 }
