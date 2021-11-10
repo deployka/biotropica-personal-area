@@ -1,22 +1,32 @@
-import classNames from 'classnames';
 import React, { Dispatch, SetStateAction } from 'react';
-import { Tab } from '../../pages/Edit/container/Edit';
+import classNames from 'classnames';
 
 import s from './Tabs.module.scss';
+
+interface Tab {
+  key: string;
+  value: string;
+}
 
 interface Props {
   tabs: Tab[];
   activeTab: string;
   setActiveTab: Dispatch<SetStateAction<string>>;
+  spaceBetween?: number;
 }
 
-export const Tabs = ({ tabs, activeTab, setActiveTab }: Props) => {
+export const Tabs = ({
+  tabs,
+  activeTab,
+  setActiveTab,
+  spaceBetween,
+}: Props) => {
   function handleClick(tab: Tab) {
     setActiveTab(tab.key);
   }
 
   return (
-    <div className={s.tabs}>
+    <div className={s.tabs} style={{ columnGap: spaceBetween || 40 }}>
       {tabs.map((tab: Tab) => (
         <div
           onClick={() => handleClick(tab)}
@@ -26,7 +36,7 @@ export const Tabs = ({ tabs, activeTab, setActiveTab }: Props) => {
             [s.active]: activeTab === tab.key,
           })}
         >
-          {tab.value}
+          <p>{tab.value}</p>
         </div>
       ))}
     </div>

@@ -17,10 +17,10 @@ export const ProgressCard = ({ card }: Props) => {
   const photos: Photo[] = card.photos;
 
   return (
-    <div className={s.progress__card}>
-      <div className={s.card__imges}>
+    <div className={s.card}>
+      <div className={s.imagesWrapper}>
         {card.photos.map((image: Photo, i: number) => (
-          <div key={image.filename} className={s.card__img__wrapper}>
+          <div key={image.filename} className={s.img}>
             <img
               onClick={() =>
                 openModal(ModalName.MODAL_PROGRESS_PHOTO_SLIDER, {
@@ -30,14 +30,15 @@ export const ProgressCard = ({ card }: Props) => {
                 })
               }
               src={process.env.REACT_APP_BACKEND_URL + '/' + image.filename}
-              className={s.card__img}
             />
           </div>
         ))}
       </div>
-      <div className={s.card__date}>
-        {moment(new Date(card.createdAt), 'YYYYMMDD').fromNow()},{' '}
-        {moment(card.createdAt).format('Do MMMM YYYY г.')}
+      <div className={s.date}>
+        <p>
+          {moment(new Date(card.createdAt), 'YYYYMMDD').fromNow()},{' '}
+          {moment(card.createdAt).format('Do MMMM YYYY г.')}
+        </p>
       </div>
     </div>
   );

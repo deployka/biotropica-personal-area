@@ -1,8 +1,19 @@
+@import "./../../../../styles/mixins.scss";
+
 .search {
     position: relative;
     width: 100%;
 
     display: flex;
+    align-items: center;
+    column-gap: 20px;
+
+    @include for-phone {
+        column-gap: 0;
+        row-gap: 15px;
+    }
+
+    flex-wrap: wrap;
 
     .searchLabel {
         padding: 0 30px;
@@ -17,10 +28,29 @@
         align-items: center;
 
         cursor: pointer;
+
+        @include for-phone {
+            padding: 0 10px;
+            height: 38px;
+            width: calc(100% - 44px);
+            justify-content: center;
+        }
+
+        .icon {
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            @include for-phone {
+                display: none;
+            }
+        }
     }
 
     .searchInput {
         width: 225px;
+
         left: 60px;
         top: 50%;
         transform: translateY(-50%);
@@ -28,6 +58,14 @@
         border: none;
 
         font-size: 16px;
+
+        @include for-phone {
+            width: 100%;
+            position: static;
+            transform: translate(0);
+
+            font-size: 14px;
+        }
 
         &:focus {
             outline: none;
@@ -39,7 +77,6 @@
     }
 
     .button {
-        margin: 0 0 0 15px;
         padding: 10px 50px;
 
         border: 1px solid #6f61d0;
@@ -51,6 +88,8 @@
 
         color: #6f61d0;
 
+        transition: all 0.15s ease;
+
         &:hover {
             border: 1px solid #a59ce2;
             color: #a59ce2;
@@ -60,6 +99,47 @@
             transform: scale(0.95);
         }
 
-        transition: all 0.15s ease;
+        .icon {
+            width: 36px;
+            height: 36px;
+            display: none;
+        }
+
+        @include for-phone {
+            margin: 0 0 0 8px;
+            padding: 0;
+            width: 36px;
+            height: 36px;
+
+            background-color: #6f61d0;
+
+            .icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                svg {
+                    position: relative;
+                    top: -1px;
+                    path {
+                        stroke: #fff;
+                    }
+                }
+            }
+
+            .hideableText {
+                display: none;
+            }
+        }
+    }
+
+    .select {
+        width: 195px;
+        height: 40px;
+
+        @include for-phone {
+            width: 100%;
+            height: 36px;
+        }
     }
 }
