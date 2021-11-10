@@ -24,22 +24,25 @@
         display: none;
     }
 
-    .titleName {
-        width: 40%;
+    .name {
+        width: 410px;
     }
 
-    .titleSpecialiaztion {
-        width: 200px;
-    }
+    .specialization {
+        width: 270px;
 
-    .titlePrice {
         display: flex;
         justify-content: center;
-        width: 150px;
     }
 
-    .titleAppointment {
-        width: 200px;
+    .price {
+        width: 270px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .appointment {
+        width: 250px;
 
         display: flex;
         align-items: center;

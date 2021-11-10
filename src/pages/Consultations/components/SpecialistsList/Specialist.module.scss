@@ -14,7 +14,7 @@
     }
 
     .wrapper {
-        width: calc(100% - 72px);
+        width: calc(100% - 70px);
 
         display: flex;
         align-items: center;
@@ -28,7 +28,7 @@
     }
 
     .info {
-        width: calc(40% - 52px);
+        width: 340px;
 
         display: flex;
         align-items: flex-start;
@@ -77,7 +77,7 @@
     }
 
     .specialiaztion {
-        width: 200px;
+        width: 270px;
 
         display: flex;
         justify-content: center;
@@ -97,7 +97,7 @@
     }
 
     .price {
-        width: 150px;
+        width: 270px;
 
         display: flex;
         justify-content: center;
@@ -116,7 +116,7 @@
     }
 
     .appointment {
-        width: 200px;
+        width: 250px;
 
         @include for-phone {
             margin: 25px 0 0 0;
@@ -126,7 +126,7 @@
         }
 
         button {
-            width: 100%;
+            width: 200px;
             height: 40px;
 
             border: 1px solid #9e97be;
