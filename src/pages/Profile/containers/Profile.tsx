@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { selectUserData } from "../../../store/ducks/user/selectors";
-import { Card } from "../components/Card/Card";
-import { Tariff } from "../components/Tariff/Tariff";
-import { Goals } from "../components/Goals/Goals";
-import { Progress } from "../components/Progress/Progress";
-import { Recommended } from "../components/Recommended/Recommended";
-import { Tabs } from "../components/Tabs/Tabs";
-import { TestsAndAnalyze } from "../components/TestsAndAnalyze/TestsAndAnalyze";
-import { Tab } from "../pages/Edit/container/Edit";
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectUserData } from '../../../store/ducks/user/selectors';
+import { Card } from '../components/Card/Card';
+import { Tariff } from '../components/Tariff/Tariff';
+import { Goals } from '../components/Goals/Goals';
+import { Progress } from '../components/Progress/Progress';
+import { Recommended } from '../components/Recommended/Recommended';
+import { Tabs } from '../../../shared/Global/Tabs/Tabs';
+import { TestsAndAnalyze } from '../components/TestsAndAnalyze/TestsAndAnalyze';
+import { Tab } from '../pages/Edit/container/Edit';
 
-import s from "./Profile.module.scss";
-import { useModal } from "../../../hooks/UseModal";
-import { ModalName } from "../../../providers/ModalProvider";
+import s from './Profile.module.scss';
+import { useModal } from '../../../hooks/UseModal';
+import { ModalName } from '../../../providers/ModalProvider';
 
 interface Props {}
 
@@ -21,16 +21,16 @@ export const Profile = (props: Props) => {
 
   const tabs: Tab[] = [
     {
-      key: "recommended",
-      value: "Рекомендации",
+      key: 'recommended',
+      value: 'Рекомендации',
     },
     {
-      key: "test",
-      value: "Тестирование и Анализы",
+      key: 'test',
+      value: 'Тестирование и Анализы',
     },
     {
-      key: "progress",
-      value: "Прогресс",
+      key: 'progress',
+      value: 'Прогресс',
     },
   ];
 
@@ -39,8 +39,8 @@ export const Profile = (props: Props) => {
   const [activeTab, setActiveTab] = useState<string>(tabs[0].key);
 
   const TariffData = {
-    name: "стандарт",
-    expires: "9 июля 2021",
+    name: 'стандарт',
+    expires: '9 июля 2021',
   };
 
   return (
@@ -55,11 +55,14 @@ export const Profile = (props: Props) => {
         </div>
         <div className={s.content}>
           <div className={s.tabs__container}>
-            <Tabs
-              tabs={tabs}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
+            <div className={s.horizontalScroll}>
+              <Tabs
+                tabs={tabs}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                spaceBetween={50}
+              />
+            </div>
           </div>
           {activeTab === tabs[0].key && user && <Recommended />}
           {activeTab === tabs[1].key && user && <TestsAndAnalyze user={user} />}
