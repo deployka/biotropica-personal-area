@@ -1,84 +1,31 @@
-import classNames from 'classnames';
-import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
-import { fetchForgotPassword } from '../../../../store/ducks/user/actionCreators';
+import { Link } from 'react-router-dom';
 import { ForgotPasswordData } from '../../../../store/ducks/user/contracts/state';
-import { LoadingStatus } from '../../../../store/types';
 import { Formik, FormikHelpers } from 'formik';
 
-import { validationSchema } from './validationSchema';
-import {
-  selectUserLoadingStatus,
-  selectUserResponse,
-} from '../../../../store/ducks/user/selectors';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
-import { notification } from '../../../../config/notification/notificationForm';
-import { store } from 'react-notifications-component';
 
 import s from './ForgotForm.module.scss';
-interface Props {}
-
-export const ForgotForm = ({}: Props) => {
-  const dispatch = useDispatch();
-  const response = useSelector(selectUserResponse);
-  const location = useLocation();
-  const history = useHistory();
-
-  const loadingStatus = useSelector(selectUserLoadingStatus);
-  const email = location.search.split('=')[1];
-
-  const [loader, setLoader] = useState<boolean>(false);
-  const refSetFieldValue = useRef<any>(null);
-
-  useEffect(() => {
-    if (loadingStatus === LoadingStatus.LOADING) {
-      setLoader(true);
-    }
-    if (
-      loadingStatus === LoadingStatus.SUCCESS ||
-      loadingStatus === LoadingStatus.ERROR
-    ) {
-      setLoader(false);
-    }
-
-    if (loadingStatus === LoadingStatus.ERROR && refSetFieldValue.current) {
-      refSetFieldValue.current?.('email', '');
-      store.addNotification({
-        ...notification,
-        title: 'Произошла ошибка!',
-        message: response?.message || 'Произошла непредвиденная ошибка!',
-        type: 'danger',
-      });
-    }
-
-    if (loadingStatus === LoadingStatus.SUCCESS && refSetFieldValue.current) {
-      store.addNotification({
-        ...notification,
-        title: 'Успешно!',
-        message: response?.message || 'Успешно!',
-        type: 'success',
-      });
-      history.push('/signin');
-    }
-  }, [loadingStatus]);
-
-  async function onSubmit(
+interface Props {
+  onSubmit: (
     values: ForgotPasswordData,
     options: FormikHelpers<ForgotPasswordData>
-  ) {
-    refSetFieldValue.current = options.setFieldValue;
-    try {
-      dispatch(fetchForgotPassword(values));
-    } catch (error) {}
-  }
+  ) => void;
+  loader: boolean;
+  validationSchema: any;
+  email: string;
+}
 
+export const ForgotForm = ({
+  loader,
+  onSubmit,
+  validationSchema,
+  email,
+}: Props) => {
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || loader;
   }
-
   return (
     <>
       <Formik

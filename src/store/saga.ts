@@ -7,12 +7,14 @@ import { goalSaga } from './ducks/goal/sagas';
 import { progressSaga } from './ducks/progress/sagas';
 import { recommendationSaga } from './ducks/recommendation/sagas';
 import { recommendationsSaga } from './ducks/recommendations/sagas';
+import { analyzeSaga } from './ducks/analyzes/sagas';
 
 export default function* rootSaga(): any {
   yield all([
     chatSaga(),
     userSaga(),
     goalSaga(),
+    analyzeSaga(),
     goalsSaga(),
     progressSaga(),
     notificationSaga(),

@@ -5,7 +5,7 @@ import { AnalyzesCard } from "./AnalyzesCard/AnalyzesCard";
 import { IInfoBar, InfoBar } from "../../../../shared/Global/InfoBar/InfoBar";
 import { AddAnalyzeModal } from "./AddAnalyzeModal/AddAnalyzeModal";
 import { ModalName } from "../../../../providers/ModalProvider";
-import { useModal } from "../../../../hooks/UseModal";
+import { useModal } from "../../../../hooks/useModal";
 
 interface Props {
   user: User;

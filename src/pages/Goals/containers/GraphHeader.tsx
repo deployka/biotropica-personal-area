@@ -11,8 +11,7 @@ import { useSelector } from 'react-redux';
 import { Calendar } from '../../../shared/Global/Calendar/Calendar';
 import { Goal } from '../../../store/ducks/goal/contracts/state';
 import { selectGoalData } from '../../../store/ducks/goal/selectors';
-import { Tabs } from '../../Profile/components/Tabs/Tabs';
-import { Tab } from '../../Profile/pages/Edit/container/Edit';
+import { Tab, Tabs } from '../../Profile/components/Tabs/Tabs';
 import { Dates } from './Goals';
 
 import s from './Goals.module.scss';

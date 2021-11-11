@@ -1,163 +1,57 @@
+import React, { useRef } from 'react';
 import classNames from 'classnames';
 import { Formik } from 'formik';
-import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import { Loader } from '../../../../../../shared/Form/Loader/Loader';
-import {
-  fetchUpdateUser,
-  setUserResponse,
-} from '../../../../../../store/ducks/user/actionCreators';
+import { Link } from 'react-router-dom';
+import { Loader } from '../../../../shared/Form/Loader/Loader';
 import {
   UpdateUserData,
-  UpdateUserFormData,
   User,
-} from '../../../../../../store/ducks/user/contracts/state';
-import {
-  selectUserLoadingStatus,
-  selectUserResponse,
-} from '../../../../../../store/ducks/user/selectors';
-import { LoadingStatus } from '../../../../../../store/types';
+} from '../../../../store/ducks/user/contracts/state';
 import {
   onPhoneInput,
   onPhoneKeyDown,
   onPhonePaste,
-} from '../../../../../../utils/phoneValidator';
-
+} from '../../../../utils/phoneValidator';
 import s from './EditProfileData.module.scss';
 import { validationSchema } from './validationSchema';
-
 import { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
 import MaskedInput from 'react-maskedinput';
-
-import { Input } from '../../../../../../shared/Form/Input/Input';
-import { DatePickerCustom } from '../../../../../../shared/Form/DatePicker/DatePickerCustom';
-import { Button } from '../../../../../../shared/Form/Button/Button';
-import { SelectCustom } from '../../../../../../shared/Form/Select/SelectCustom';
-
-import { store } from 'react-notifications-component';
-import { notification } from '../../../../../../config/notification/notificationForm';
-import { FormsSvgSelector } from '../../../../../../assets/icons/forms/FormsSvgSelector';
+import { Input } from '../../../../shared/Form/Input/Input';
+import { DatePickerCustom } from '../../../../shared/Form/DatePicker/DatePickerCustom';
+import { Button } from '../../../../shared/Form/Button/Button';
+import {
+  ISelect,
+  SelectCustom,
+} from '../../../../shared/Form/Select/SelectCustom';
+import { FormsSvgSelector } from '../../../../assets/icons/forms/FormsSvgSelector';
 import ru from 'date-fns/locale/ru';
-import { getMediaLink } from '../../../../../../utils/mediaHelper';
-import UserService from '../../../../../../services/UserService';
+
 registerLocale('ru', ru);
 
 interface Props {
   user: User | undefined;
+  loader: boolean;
+  image: string | ArrayBuffer | null;
+  options: ISelect<string>[];
+  loadAvatar: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setFieldValue: (field: string, value: any) => void
+  ) => void;
+  onSubmit: (values: UpdateUserData) => void;
 }
 
-export const EditProfileData = ({ user }: Props) => {
-  const options = [
-    { value: 'Мужской', label: 'Мужской' },
-    { value: 'Женский', label: 'Женский' },
-  ];
-
-  const dispatch = useDispatch();
-  const loadingStatus = useSelector(selectUserLoadingStatus);
-  const response = useSelector(selectUserResponse);
-  const history = useHistory();
-  const refSetFieldValue = useRef<any>(null);
-
-  const userImage = user?.profile_photo && getMediaLink(user?.profile_photo);
-
-  const loader = LoadingStatus.LOADING === loadingStatus;
-  const [image, setImage] = useState<string | ArrayBuffer | null>(
-    userImage || ''
-  );
-
-  useEffect(() => {
-    if (!response) return;
-    switch (loadingStatus) {
-      case LoadingStatus.ERROR:
-        store.addNotification({
-          ...notification,
-          title: 'Произошла ошибка!',
-          message: response?.message || 'Произошла непредвиденная ошибка!',
-          type: 'danger',
-        });
-        break;
-      case LoadingStatus.SUCCESS:
-        store.addNotification({
-          ...notification,
-          title: 'Успешно!',
-          message: response?.message,
-          type: 'success',
-        });
-        dispatch(setUserResponse(undefined));
-        history.push('/profile');
-        break;
-      default:
-        break;
-    }
-  }, [loadingStatus, response]);
-
-  async function onSubmit(values: UpdateUserData) {
-    try {
-      if (values.email && user?.email !== values.email) {
-        const res = await UserService.updateEmail({ email: values.email });
-        store.addNotification({
-          ...notification,
-          title: 'Внимание!',
-          message: res?.data.message,
-          type: 'info',
-          dismiss: {
-            pauseOnHover: true,
-            onScreen: true,
-            duration: 10000,
-          },
-        });
-      }
-
-      const data: UpdateUserFormData = {
-        ...values,
-        gender: values?.gender?.[0].label || '',
-        dob: values?.dob?.toString().split('+')[0]?.trim() || '',
-      };
-      dispatch(fetchUpdateUser(data));
-    } catch (error) {}
-  }
-
-  function loadAvatar(e: React.ChangeEvent<HTMLInputElement>) {
-    const tgt = e.target;
-    const files = tgt.files;
-    const permittedPaths = ['image/png', 'image/jpeg', 'image/gif'];
-
-    if (
-      FileReader &&
-      files &&
-      files.length &&
-      permittedPaths.includes(files?.[0]?.type)
-    ) {
-      store.removeNotification('avatar_type_error');
-      const fr = new FileReader();
-      fr.onload = function () {
-        setImage(fr.result);
-
-        refSetFieldValue.current('profile_photo', files[0]);
-      };
-      fr.readAsDataURL(files[0]);
-    } else {
-      store.addNotification({
-        ...notification,
-        title: 'Фото профиля не обновлено!',
-        message: 'Допустимые типы изображения: png, jpg, gif',
-        type: 'danger',
-        id: 'avatar_type_error',
-        dismiss: {
-          duration: 7000,
-          onScreen: true,
-        },
-      });
-    }
-  }
-
+export const EditProfileData = ({
+  user,
+  loader,
+  image,
+  options,
+  loadAvatar,
+  onSubmit,
+}: Props) => {
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || loader;
   }
-
   return (
     <div className={s.edit__password}>
       <Formik
@@ -207,8 +101,7 @@ export const EditProfileData = ({ user }: Props) => {
                 name="profile_photo"
                 accept=".png, .jpg, .jpeg, .gif"
                 onChange={e => {
-                  refSetFieldValue.current = setFieldValue;
-                  loadAvatar(e);
+                  loadAvatar(e, setFieldValue);
                 }}
               />
               <FormsSvgSelector id="camera" />

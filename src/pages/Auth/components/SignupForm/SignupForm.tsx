@@ -1,13 +1,7 @@
 import classNames from 'classnames';
-import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import {
-  fetchSignup,
-  setUserResponse,
-} from '../../../../store/ducks/user/actionCreators';
+import { Link } from 'react-router-dom';
+
 import { SignupData } from '../../../../store/ducks/user/contracts/state';
-import { LoadingStatus } from '../../../../store/types';
 import { Formik, FormikHelpers } from 'formik';
 
 import s from './SignupForm.module.scss';
@@ -16,84 +10,30 @@ import {
   onPhoneKeyDown,
   onPhonePaste,
 } from '../../../../utils/phoneValidator';
-import { validationSchema } from './validationSchema';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
-import {
-  selectUserLoadingStatus,
-  selectUserResponse,
-} from '../../../../store/ducks/user/selectors';
+
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
-import { notification } from '../../../../config/notification/notificationForm';
-import { store } from 'react-notifications-component';
-interface Props {}
+import { Dispatch, SetStateAction } from 'react';
 
-export const SignupForm = ({}: Props) => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const res = useSelector(selectUserResponse);
-  const loadingStatus = useSelector(selectUserLoadingStatus);
+interface Props {
+  onSubmit: (values: SignupData, options: FormikHelpers<SignupData>) => void;
+  loader: boolean;
+  checked: boolean;
+  setChecked: Dispatch<SetStateAction<boolean>>;
+  validationSchema: any;
+}
 
-  const [errorValue, errorText] = res?.message?.split(':') || [];
-
-  const loader = LoadingStatus.LOADING === loadingStatus;
-  const [checked, setChecked] = useState<boolean>(false);
-  const refSetFieldValue = useRef<any>(null);
-  const refResetForm = useRef<any>(null);
-
-  useEffect(() => {
-    switch (loadingStatus) {
-      case LoadingStatus.ERROR:
-        if (!refSetFieldValue.current) return;
-        store.addNotification({
-          ...notification,
-          title: 'Произошла ошибка!',
-          message:
-            errorText || res?.message || 'Произошла непредвиденная ошибка',
-          type: 'danger',
-        });
-        errorValue && refSetFieldValue.current(errorValue, '');
-        break;
-      case LoadingStatus.SUCCESS:
-        if (!refResetForm.current) return;
-        store.addNotification({
-          ...notification,
-          title: `Успешно!`,
-          message: res.message,
-          type: 'success',
-          dismiss: {
-            onScreen: true,
-            duration: 7000,
-            pauseOnHover: true,
-          },
-        });
-        dispatch(setUserResponse(undefined));
-        refResetForm.current();
-        history.push('/signin');
-        break;
-      default:
-        break;
-    }
-  }, [loadingStatus]);
-
-  async function onSubmit(
-    values: SignupData,
-    options: FormikHelpers<SignupData>
-  ) {
-    if (!checked) {
-      return;
-    }
-    refSetFieldValue.current = options.setFieldValue;
-    refResetForm.current = options.resetForm;
-    try {
-      dispatch(fetchSignup(values));
-    } catch (error) {}
-  }
-
+export const SignupForm = ({
+  onSubmit,
+  loader,
+  validationSchema,
+  checked,
+  setChecked,
+}: Props) => {
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || !checked || loader;
   }
-
   return (
     <>
       <Formik

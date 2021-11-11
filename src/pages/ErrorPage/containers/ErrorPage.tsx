@@ -1,17 +1,15 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-import s from "./ErrorPage.module.scss";
+import s from './ErrorPage.module.scss';
 
-import { ErrorSvgSelector } from "./../../../assets/icons/error/ErrorSvgSelector";
+import { ErrorSvgSelector } from './../../../assets/icons/error/ErrorSvgSelector';
 
-interface Props {}
-
-export const ErrorPage = (props: Props) => {
+const ErrorPage = () => {
   return (
     <div className={s.errorPage}>
       <div className={s.img}>
-        <ErrorSvgSelector id={"illustration"}></ErrorSvgSelector>
+        <ErrorSvgSelector id={'illustration'}></ErrorSvgSelector>
       </div>
       <div className={s.content}>
         <div className={s.title}>
@@ -27,3 +25,5 @@ export const ErrorPage = (props: Props) => {
     </div>
   );
 };
+
+export default ErrorPage;

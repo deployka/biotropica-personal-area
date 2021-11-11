@@ -26,8 +26,10 @@ export function* fetchSigninRequest({
     const { data, status } = yield call(AuthService.signin, payload);
     yield put(setUserResponse(data));
     if (status === 200) {
-      window.localStorage.setItem('token', data.accessToken);
       yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
+      window.localStorage.setItem('token', data.accessToken);
+      yield put(setUserLoadingStatus(LoadingStatus.LOADED));
+      yield put(setUserResponse(undefined));
     } else {
       yield put(setUserLoadingStatus(LoadingStatus.ERROR));
     }
@@ -117,6 +119,7 @@ export function* fetchUserDataRequest({}: FetchUserDataActionInterface): any {
     if (status === 200) {
       yield put(setUserData(data));
       yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
+      yield put(setUserLoadingStatus(LoadingStatus.LOADED));
     } else {
       yield put(setUserLoadingStatus(LoadingStatus.ERROR));
     }

@@ -33,7 +33,7 @@ import { setGoalsData } from '../../../../store/ducks/goals/actionCreators';
 
 interface Props {}
 
-export const EditGoalForm = ({}: Props) => {
+const EditGoalForm = ({}: Props) => {
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectGoalLoadingStatus);
   const response = useSelector(selectGoalResponse);
@@ -223,3 +223,5 @@ export const EditGoalForm = ({}: Props) => {
     </div>
   );
 };
+
+export default EditGoalForm;

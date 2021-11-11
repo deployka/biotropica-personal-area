@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { useModal } from '../../../../../hooks/UseModal';
+import { useModal } from '../../../../../hooks/useModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
 import {
   Photo,

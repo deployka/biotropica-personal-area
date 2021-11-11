@@ -1,74 +1,23 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import {
-  fetchSignin,
-  setUserResponse,
-} from '../../../../store/ducks/user/actionCreators';
-import { SigninData } from '../../../../store/ducks/user/contracts/state';
-import { LoadingStatus } from '../../../../store/types';
 import { Formik, FormikHelpers } from 'formik';
 
 import s from './SigninForm.module.scss';
-import { validationSchema } from './validationSchema';
-import {
-  selectUserLoadingStatus,
-  selectUserResponse,
-} from '../../../../store/ducks/user/selectors';
+
 import { Loader } from '../../../../shared/Form/Loader/Loader';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
+import { SigninData } from '../../../../store/ducks/user/contracts/state';
+import { Link } from 'react-router-dom';
 
-import { store } from 'react-notifications-component';
-import { notification } from '../../../../config/notification/notificationForm';
-interface Props {}
+interface Props {
+  onSubmit: (values: SigninData, options: FormikHelpers<SigninData>) => void;
+  loader: boolean;
+  validationSchema: any;
+}
 
-export const SigninForm = ({}: Props) => {
-  const dispatch = useDispatch();
-  const loadingStatus = useSelector(selectUserLoadingStatus);
-  const response = useSelector(selectUserResponse);
-
-  const [loader, setLoader] = useState<boolean>(false);
-  const refSetFieldValue = useRef<any>(null);
-
-  useEffect(() => {
-    if (loadingStatus === LoadingStatus.LOADING) {
-      setLoader(true);
-    }
-    if (loadingStatus === LoadingStatus.ERROR && refSetFieldValue.current) {
-      store.addNotification({
-        ...notification,
-        title: 'Произошла ошибка!',
-        message: response?.message || 'Произошла непредвиденная ошибка!',
-        type: 'danger',
-      });
-      refSetFieldValue.current('password', '');
-    }
-    if (
-      loadingStatus === LoadingStatus.SUCCESS ||
-      loadingStatus === LoadingStatus.ERROR
-    ) {
-      setLoader(false);
-    }
-    if (loadingStatus === LoadingStatus.SUCCESS) {
-      dispatch(setUserResponse(undefined));
-    }
-  }, [loadingStatus]);
-
-  async function onSubmit(
-    values: SigninData,
-    options: FormikHelpers<SigninData>
-  ) {
-    refSetFieldValue.current = options.setFieldValue;
-    try {
-      dispatch(fetchSignin(values));
-    } catch (error) {}
-  }
-
+export const SigninForm = ({ onSubmit, loader, validationSchema }: Props) => {
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || loader;
   }
-
   return (
     <>
       <Formik

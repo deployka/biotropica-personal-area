@@ -1,7 +1,6 @@
 import React from 'react';
 
-interface Props {}
-
-export const Home = (props: Props) => {
+const Home: React.FC = () => {
   return <div>Home</div>;
 };
+export default Home;

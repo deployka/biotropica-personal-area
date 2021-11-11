@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 import { fetchProgressData } from '../../../../store/ducks/progress/actionCreators';
 import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
 import { ModalName } from '../../../../providers/ModalProvider';
-import { useModal } from '../../../../hooks/UseModal';
+import { useModal } from '../../../../hooks/useModal';
 import { LoadingStatus } from '../../../../store/types';
 
 interface Props {}
