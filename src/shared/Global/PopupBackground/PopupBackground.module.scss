@@ -1,3 +1,5 @@
+@import "./../../../styles/mixins.scss";
+
 .back {
   position: absolute;
   height: 100vh;
@@ -10,4 +12,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @include for-phone {
+    background: rgba(0, 0, 0, 0.8);
+  }
 }
