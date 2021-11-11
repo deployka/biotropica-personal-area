@@ -1,3 +1,4 @@
+
 import { Formik, FormikHelpers } from 'formik';
 import { useEffect, useRef, useState } from 'react';
 import { store } from 'react-notifications-component';
@@ -208,18 +209,18 @@ export const AddPhotoModal = ({}: Props) => {
           setFieldValue,
           dirty,
         }) => (
-          <div className={s.pd__container}>
-            <div className={s.pd__title}>
+          <div className={s.modal}>
+            <div className={s.title}>
               <p>Добавление фото</p>
             </div>
-            <div className={s.pd__items}>
+            <div className={s.items}>
               {Object.keys(inputs).map((typeStr: string, i) => {
                 const type = typeStr as TypePhoto;
                 return (
                   <div key={type}>
                     <input
                       type="file"
-                      className={s.pd__input}
+                      className={s.input}
                       id={`pd_input-${i}`}
                       onBlur={handleBlur}
                       onChange={e => {
@@ -227,7 +228,7 @@ export const AddPhotoModal = ({}: Props) => {
                       }}
                     />
                     <label
-                      className={classNames(s.pd__label, {
+                      className={classNames(s.label, {
                         [s.success__input]: touched[type] && !errors[type],
                         [s.error__input]: touched[type] && errors[type],
                       })}
@@ -253,7 +254,7 @@ export const AddPhotoModal = ({}: Props) => {
               })}
             </div>
 
-            <div className={s.pd__buttons}>
+            <div className={s.buttons}>
               <Button
                 onClick={() => closeModal(ModalName.MODAL_ADD_PROGRESS_PHOTO)}
                 options={{

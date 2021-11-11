@@ -1,5 +1,5 @@
-@import '../../../styles/mixins.scss';
-@import '../../../styles/variables.scss';
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
 .goals {
   width: 100%;
 
@@ -41,7 +41,7 @@
   &__container {
     position: relative;
     max-width: 905px;
-    @include flex($justify: 'flex-start');
+    @include flex($justify: "flex-start");
   }
 }
 .goal {
@@ -93,6 +93,10 @@
   &__period {
     &__selectors {
       @include flex(row, space-between, center, nowrap);
+
+      .tabs {
+        margin: 0 30px 0 0;
+      }
     }
     &__selector {
       cursor: pointer;

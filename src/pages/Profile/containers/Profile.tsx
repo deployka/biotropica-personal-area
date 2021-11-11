@@ -6,7 +6,6 @@ import { Tariff } from '../components/Tariff/Tariff';
 import { Goals } from '../components/Goals/Goals';
 import { Progress } from '../components/Progress/Progress';
 import { Recommended } from '../components/Recommended/Recommended';
-import { getTabByKey, Tab, Tabs } from '../components/Tabs/Tabs';
 import { TestsAndAnalyze } from '../components/TestsAndAnalyze/TestsAndAnalyze';
 
 import s from './Profile.module.scss';
@@ -14,6 +13,7 @@ import { useModal } from '../../../hooks/useModal';
 import { ModalName } from '../../../providers/ModalProvider';
 import { useHistory, useParams } from 'react-router';
 import { Param } from './Edit';
+import { getTabByKey, Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 
 const Profile = () => {
   const { openModal } = useModal();
@@ -25,6 +25,7 @@ const Profile = () => {
     },
     {
       key: 'test-analyzes',
+
       value: 'Тестирование и Анализы',
     },
     {
@@ -63,11 +64,14 @@ const Profile = () => {
         </div>
         <div className={s.content}>
           <div className={s.tabs__container}>
-            <Tabs
-              tabs={tabs}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
+            <div className={s.horizontalScroll}>
+              <Tabs
+                tabs={tabs}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                spaceBetween={50}
+              />
+            </div>
           </div>
           {active === tabs[0].key && user && <Recommended />}
           {active === tabs[1].key && user && <TestsAndAnalyze user={user} />}

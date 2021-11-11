@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 
 import s from './Profile.module.scss';
 import { selectUserData } from '../../../store/ducks/user/selectors';
-import { getTabByKey, Tab, Tabs } from '../components/Tabs/Tabs';
 import EditProfile from './EditProfile';
 import { Security } from './Security';
+import { getTabByKey, Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 
 export interface Param {
   active: string;

@@ -1,0 +1,80 @@
+@import "./../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+
+.tabs {
+  width: auto;
+
+  display: flex;
+
+  @include for-phone {
+    column-gap: 10px !important;
+  }
+
+  .tab {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    p {
+      font-size: 18px;
+      font-weight: 600;
+
+      color: #736f8b;
+    }
+
+    @include for-phone {
+      padding: 7px 15px;
+
+      background-color: #f7f6fb;
+
+      p {
+        color: #736f8b;
+
+        white-space: nowrap;
+        font-weight: 400;
+        font-size: 16px;
+      }
+    }
+
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+
+      width: 0px;
+      height: 2px;
+
+      border-radius: 2px;
+
+      background: rgba(111, 97, 208, 0.5);
+
+      transition: all 0.2s ease;
+
+      @include for-phone {
+        display: none;
+      }
+    }
+    &.active {
+      &:after {
+        width: 100%;
+      }
+      p {
+        color: #6f61d0;
+      }
+
+      @include for-phone {
+        background-color: #a59ce2;
+        p {
+          color: #fff;
+        }
+      }
+    }
+  }
+}
