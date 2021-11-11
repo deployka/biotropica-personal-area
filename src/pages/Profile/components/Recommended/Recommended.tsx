@@ -1,20 +1,22 @@
+import React, { useEffect, useState } from 'react';
+
 import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import s from './Recommended.module.scss';
 import { RecommendedCard } from './RecommendedCard/RecommendedCard';
-import { Recommendation } from './Recommendation/Recommendation';
-import { useEffect, useState } from 'react';
+
 import {
   Recommendation as IRecommendation,
   RecommendationType,
 } from '../../../../store/ducks/recommendation/contracts/state';
-import { SpecialistProfile } from './Recommendation/SpecialistProfile';
+
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectSortedData,
   SortedRecommendations,
 } from '../../../../store/ducks/recommendations/selectors';
 import { fetchRecommendationsData } from '../../../../store/ducks/recommendations/actionCreators';
+
+import s from './Recommended.module.scss';
+import { Recommendation } from './Recommendation/Recommendation';
 
 export const Recommended = () => {
   const dispatch = useDispatch();
@@ -60,9 +62,9 @@ export const Recommended = () => {
   }
 
   return (
-    <div className={s.recommended}>
-      <div className={s.recommended__cards}>
-        {recTypes.map(type => (
+    <div className={s.recommendations}>
+      <div className={s.cards}>
+        {recTypes.map((type) => (
           <RecommendedCard
             setActiveType={setActiveType}
             activeType={activeType}
@@ -73,23 +75,13 @@ export const Recommended = () => {
           />
         ))}
       </div>
-      <div className={s.recommended__card__content}>
-        {Object.keys(activeProfiles).map(id => (
-          <div key={id}>
-            <SpecialistProfile
-              profile={activeProfiles[id][0].specialist_profile}
-            />
-            <PerfectScrollbar>
-              <div className={s.recommendations__wrapper}>
-                {activeProfiles[id].map((recommendation: IRecommendation) => (
-                  <Recommendation
-                    key={recommendation.id}
-                    recommendation={recommendation}
-                  />
-                ))}
-              </div>
-            </PerfectScrollbar>
-          </div>
+      <div className={s.content}>
+        {Object.keys(activeProfiles).map((id, i) => (
+          <Recommendation
+            key={`${id}_${i}`}
+            id={id}
+            activeProfiles={activeProfiles}
+          />
         ))}
       </div>
     </div>
