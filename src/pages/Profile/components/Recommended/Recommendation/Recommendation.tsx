@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 
-import 'react-perfect-scrollbar/dist/css/styles.css';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-
 import { Header } from './Header';
 import { Content } from './Content';
 import { Info } from './Info';
@@ -22,17 +19,14 @@ export const Recommendation = ({ id, activeProfiles }: Props) => {
   return (
     <div className={s.recommendation}>
       <Header profile={activeProfiles[id][0].specialist_profile} />
-
-      <PerfectScrollbar>
-        <div className={s.postsWrapper} style={hidden ? { height: 0 } : {}}>
-          {activeProfiles[id].map((recommendation: IRecommendation, i) => (
-            <Content
-              key={`${recommendation.id}_${i}`}
-              recommendation={recommendation}
-            />
-          ))}
-        </div>
-      </PerfectScrollbar>
+      <div className={s.postsWrapper} style={hidden ? { height: 0 } : {}}>
+        {activeProfiles[id].map((recommendation: IRecommendation, i) => (
+          <Content
+            key={`${recommendation.id}_${i}`}
+            recommendation={recommendation}
+          />
+        ))}
+      </div>
 
       <Info hidden={hidden} setHidden={setHidden} />
     </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import PerfectScrollbar from 'react-perfect-scrollbar';
 import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
 import { RecommendedCard } from './RecommendedCard/RecommendedCard';
 
@@ -14,6 +14,8 @@ import {
   SortedRecommendations,
 } from '../../../../store/ducks/recommendations/selectors';
 import { fetchRecommendationsData } from '../../../../store/ducks/recommendations/actionCreators';
+
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 import s from './Recommended.module.scss';
 import { Recommendation } from './Recommendation/Recommendation';
@@ -75,15 +77,18 @@ export const Recommended = () => {
           />
         ))}
       </div>
-      <div className={s.content}>
-        {Object.keys(activeProfiles).map((id, i) => (
-          <Recommendation
-            key={`${id}_${i}`}
-            id={id}
-            activeProfiles={activeProfiles}
-          />
-        ))}
-      </div>
+
+      <PerfectScrollbar>
+        <div className={s.content}>
+          {Object.keys(activeProfiles).map((id, i) => (
+            <Recommendation
+              key={`${id}_${i}`}
+              id={id}
+              activeProfiles={activeProfiles}
+            />
+          ))}
+        </div>
+      </PerfectScrollbar>
     </div>
   );
 };

@@ -20,7 +20,7 @@ export const Content = ({ recommendation }: Props) => {
       <div className={s.content} style={hidden ? { height: '20px' } : {}}>
         {recommendation.content}
       </div>
-      <div className={s.info}>
+      <div className={s.infoBar}>
         <div className={s.date}>
           <p>Создано: {createdAt.format('Do MMMM YYYY г.')}</p>
         </div>
