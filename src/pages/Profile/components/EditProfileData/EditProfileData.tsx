@@ -34,7 +34,7 @@ interface Props {
   loader: boolean;
   image: string | ArrayBuffer | null;
   options: ISelect<string>[];
-  loadAvatar: (
+  onAvatarLoaded: (
     e: React.ChangeEvent<HTMLInputElement>,
     setFieldValue: (field: string, value: any) => void
   ) => void;
@@ -46,7 +46,7 @@ export const EditProfileData = ({
   loader,
   image,
   options,
-  loadAvatar,
+  onAvatarLoaded,
   onSubmit,
 }: Props) => {
   function isDisabled(isValid: boolean, dirty: boolean) {
@@ -56,14 +56,19 @@ export const EditProfileData = ({
     <div className={s.edit__password}>
       <Formik
         initialValues={{
-          profile_photo: '',
+          profile_photo: user?.profile_photo || null,
           lastname: user?.lastname || '',
           name: user?.name || '',
           email: user?.email || '',
-          gender: [{ value: user?.gender || '', label: user?.gender || '' }],
+          gender: [
+            {
+              value: user?.gender?.[0].value || '',
+              label: user?.gender?.[0].label || '',
+            },
+          ],
           patronymic: user?.patronymic || '',
           phone: user?.phone || '',
-          dob: !user?.dob ? null : new Date(user?.dob || ''),
+          dob: user?.dob,
           id: user?.id,
         }}
         validateOnBlur
@@ -101,7 +106,7 @@ export const EditProfileData = ({
                 name="profile_photo"
                 accept=".png, .jpg, .jpeg, .gif"
                 onChange={e => {
-                  loadAvatar(e, setFieldValue);
+                  onAvatarLoaded(e, setFieldValue);
                 }}
               />
               <FormsSvgSelector id="camera" />
@@ -166,7 +171,7 @@ export const EditProfileData = ({
                   onBlur={handleBlur}
                   name="dob"
                   locale={ru}
-                  selected={values.dob}
+                  selected={(values?.dob && new Date(values?.dob)) || null}
                   showYearDropdown
                   scrollableYearDropdown
                   maxDate={new Date()}

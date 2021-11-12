@@ -73,7 +73,7 @@ export const GraphHeader = ({ setDates, dates, setGraphDates }: Props) => {
             <div className={s.tabs}>
               <Tabs
                 activeTab={activeTab}
-                setActiveTab={setActiveTab}
+                onActiveTabChanged={setActiveTab}
                 tabs={tabs}
                 spaceBetween={30}
               />

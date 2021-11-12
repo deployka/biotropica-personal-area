@@ -13,7 +13,8 @@ import { useModal } from '../../../hooks/useModal';
 import { ModalName } from '../../../providers/ModalProvider';
 import { useHistory, useParams } from 'react-router';
 import { Param } from './Edit';
-import { getTabByKey, Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
+import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
+import { getTabByKey } from '../../../utils/tabsHelper';
 
 const Profile = () => {
   const { openModal } = useModal();
@@ -68,7 +69,7 @@ const Profile = () => {
               <Tabs
                 tabs={tabs}
                 activeTab={activeTab}
-                setActiveTab={setActiveTab}
+                onActiveTabChanged={setActiveTab}
                 spaceBetween={50}
               />
             </div>

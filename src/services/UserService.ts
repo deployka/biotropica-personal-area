@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import $api from '../http';
-import { UpdateUserFormData, User } from '../store/ducks/user/contracts/state';
+import { UpdateUserData, User } from '../store/ducks/user/contracts/state';
 
 interface Response {
   status: string;
@@ -20,22 +20,9 @@ export default class UserService {
   }
 
   static async update(
-    payload: UpdateUserFormData
+    payload: UpdateUserData
   ): Promise<AxiosResponse<Response>> {
-    const formData = new FormData();
-    for (let value in payload) {
-      if (value === 'email') continue;
-      formData.append(value, payload[value]);
-    }
-    return await $api.patch<Response>(
-      `/${UserService.route}/update`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data; boundary',
-        },
-      }
-    );
+    return await $api.patch<Response>(`/${UserService.route}/update`, payload);
   }
 
   static async updateEmail(
