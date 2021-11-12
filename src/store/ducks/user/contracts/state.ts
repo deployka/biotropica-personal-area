@@ -9,9 +9,9 @@ export interface User {
   name: string;
   lastname: string;
   patronymic: string;
-  dob?: string;
+  dob: Date;
   phone: string;
-  gender: string;
+  gender: ISelect<string>[];
   before_photos: JSON;
   after_photos: JSON;
   paid: boolean;
@@ -43,16 +43,8 @@ export interface SigninData {
   password: string;
 }
 
-export interface UpdateUserData extends Partial<Omit<User, 'gender' | 'dob'>> {
-  gender?: ISelect<string>[];
-  dob?: Date | null;
-}
-
-export interface UpdateUserFormData
-  extends Omit<UpdateUserData, 'email' | 'gender' | 'dob'> {
-  [key: string]: any;
-  gender: string;
-  dob: string;
+export interface UpdateUserData extends Partial<Omit<User, 'profile_photo'>> {
+  profile_photo: File | null | string;
 }
 
 export interface ForgotPasswordData {

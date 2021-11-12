@@ -18,7 +18,8 @@ const GlobalNotifications = () => {
         message: decodeURI(message),
         type: 'info',
       });
-      history.push(location.pathname);
+      query.delete('message');
+      history.push(location.pathname + '?' + query.toString());
     }
   }, [location.search]);
 

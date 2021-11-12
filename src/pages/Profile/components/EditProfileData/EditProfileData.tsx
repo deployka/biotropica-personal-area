@@ -56,14 +56,19 @@ export const EditProfileData = ({
     <div className={s.edit__password}>
       <Formik
         initialValues={{
-          profile_photo: '',
+          profile_photo: user?.profile_photo || null,
           lastname: user?.lastname || '',
           name: user?.name || '',
           email: user?.email || '',
-          gender: [{ value: user?.gender || '', label: user?.gender || '' }],
+          gender: [
+            {
+              value: user?.gender?.[0].value || '',
+              label: user?.gender?.[0].label || '',
+            },
+          ],
           patronymic: user?.patronymic || '',
           phone: user?.phone || '',
-          dob: !user?.dob ? null : new Date(user?.dob || ''),
+          dob: user?.dob,
           id: user?.id,
         }}
         validateOnBlur
@@ -166,7 +171,7 @@ export const EditProfileData = ({
                   onBlur={handleBlur}
                   name="dob"
                   locale={ru}
-                  selected={values.dob}
+                  selected={(values?.dob && new Date(values?.dob)) || null}
                   showYearDropdown
                   scrollableYearDropdown
                   maxDate={new Date()}

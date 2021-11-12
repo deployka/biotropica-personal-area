@@ -1,5 +1,5 @@
 import { FormikHelpers } from 'formik';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -27,7 +27,6 @@ const Signup = () => {
   const [errorValue, errorText] = res?.message?.split(':') || [];
 
   const loader = LoadingStatus.LOADING === loadingStatus;
-  const [checked, setChecked] = useState<boolean>(false);
   const refSetFieldValue = useRef<any>(null);
   const refResetForm = useRef<any>(null);
 
@@ -70,9 +69,6 @@ const Signup = () => {
     values: SignupData,
     options: FormikHelpers<SignupData>
   ) {
-    if (!checked) {
-      return;
-    }
     refSetFieldValue.current = options.setFieldValue;
     refResetForm.current = options.resetForm;
     try {
@@ -84,8 +80,6 @@ const Signup = () => {
       <SignupForm
         onSubmit={onSubmit}
         loader={loader}
-        setChecked={setChecked}
-        checked={checked}
         validationSchema={validationSchema}
       />
     </div>

@@ -7,9 +7,7 @@ import {
   SigninData,
   SignupData,
   UpdateUserData,
-  UpdateUserFormData,
   User,
-  UserState,
 } from './state';
 
 export enum UserActionsType {
@@ -68,7 +66,7 @@ export interface FetchCreatePasswordActionInterface
 export interface FetchUpdateUserActionInterface
   extends Action<UserActionsType> {
   type: UserActionsType.FETCH_UPDATE_USER;
-  payload: UpdateUserFormData;
+  payload: UpdateUserData;
 }
 
 export interface FetchUserDataActionInterface extends Action<UserActionsType> {

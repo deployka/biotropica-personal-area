@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { notification } from '../../../config/notification/notificationForm';
+import FileService from '../../../services/FileService';
 import UserService from '../../../services/UserService';
 import {
   fetchUpdateUser,
@@ -10,7 +11,7 @@ import {
 } from '../../../store/ducks/user/actionCreators';
 import {
   UpdateUserData,
-  UpdateUserFormData,
+  User,
 } from '../../../store/ducks/user/contracts/state';
 import {
   selectUserData,
@@ -32,7 +33,7 @@ const EditProfile = () => {
   const response = useSelector(selectUserResponse);
   const history = useHistory();
 
-  const user = useSelector(selectUserData);
+  const user: User | undefined = useSelector(selectUserData);
   const userImage = user?.profile_photo && getMediaLink(user?.profile_photo);
 
   const loader = LoadingStatus.LOADING === loadingStatus;
@@ -82,13 +83,26 @@ const EditProfile = () => {
           },
         });
       }
-      const data: UpdateUserFormData = {
+      if (values.profile_photo instanceof File) {
+        const res = await FileService.upload(values.profile_photo);
+        values.profile_photo = res.data.name;
+      }
+      const data: UpdateUserData = {
         ...values,
-        gender: values?.gender?.[0].label || '',
-        dob: values?.dob?.toString().split('+')[0]?.trim() || '',
+        email: user?.email,
       };
       dispatch(fetchUpdateUser(data));
-    } catch (error) {}
+    } catch (error) {
+      store.addNotification({
+        ...notification,
+        title: 'Ошибка!',
+        message: 'Произошла непредвиденная ошибка!',
+        type: 'danger',
+        dismiss: {
+          onScreen: true,
+        },
+      });
+    }
   }
 
   function loadAvatar(
@@ -127,14 +141,18 @@ const EditProfile = () => {
     }
   }
   return (
-    <EditProfileData
-      options={options}
-      image={image}
-      onSubmit={onSubmit}
-      loader={loader}
-      loadAvatar={loadAvatar}
-      user={user}
-    />
+    <>
+      {user && (
+        <EditProfileData
+          options={options}
+          image={image}
+          onSubmit={onSubmit}
+          loader={loader}
+          loadAvatar={loadAvatar}
+          user={user}
+        />
+      )}
+    </>
   );
 };
 

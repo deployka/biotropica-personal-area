@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 
 import classNames from 'classnames';
 
@@ -11,22 +11,18 @@ export interface Tab {
 interface Props {
   tabs: Tab[];
   activeTab: string;
-  setActiveTab: Dispatch<SetStateAction<string>>;
+  onActiveTabChanged: (activeTab: string) => void;
   spaceBetween?: number;
-}
-
-export function getTabByKey(key: string, tabs: Tab[]) {
-  return tabs.find(tab => tab.key === key);
 }
 
 export const Tabs = ({
   tabs,
   activeTab,
-  setActiveTab,
+  onActiveTabChanged,
   spaceBetween,
 }: Props) => {
   function handleClick(tab: Tab) {
-    setActiveTab(tab.key);
+    onActiveTabChanged(tab.key);
   }
   return (
     <div className={s.tabs} style={{ columnGap: spaceBetween || 40 }}>
@@ -34,8 +30,7 @@ export const Tabs = ({
         <div
           onClick={() => handleClick(tab)}
           key={tab.key}
-          className={classNames({
-            [s.tab]: true,
+          className={classNames(s.tab, {
             [s.active]: activeTab === tab.key,
           })}
         >

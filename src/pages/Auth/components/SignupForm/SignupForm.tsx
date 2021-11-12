@@ -14,23 +14,16 @@ import { Loader } from '../../../../shared/Form/Loader/Loader';
 
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
-import { Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
 
 interface Props {
   onSubmit: (values: SignupData, options: FormikHelpers<SignupData>) => void;
   loader: boolean;
-  checked: boolean;
-  setChecked: Dispatch<SetStateAction<boolean>>;
   validationSchema: any;
 }
 
-export const SignupForm = ({
-  onSubmit,
-  loader,
-  validationSchema,
-  checked,
-  setChecked,
-}: Props) => {
+export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
+  const [checked, setChecked] = useState<boolean>(false);
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || !checked || loader;
   }
@@ -46,9 +39,10 @@ export const SignupForm = ({
           phone: '',
         }}
         validateOnBlur
-        onSubmit={(values: SignupData, options: FormikHelpers<SignupData>) =>
-          onSubmit(values, options)
-        }
+        onSubmit={(values: SignupData, options: FormikHelpers<SignupData>) => {
+          if (!checked) return;
+          onSubmit(values, options);
+        }}
         validationSchema={validationSchema}
       >
         {({

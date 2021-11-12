@@ -7,7 +7,8 @@ import s from './Profile.module.scss';
 import { selectUserData } from '../../../store/ducks/user/selectors';
 import EditProfile from './EditProfile';
 import { Security } from './Security';
-import { getTabByKey, Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
+import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
+import { getTabByKey } from '../../../utils/tabsHelper';
 
 export interface Param {
   active: string;
@@ -38,7 +39,11 @@ const Edit = () => {
 
   return (
     <div className={s.edit__profile}>
-      <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Tabs
+        tabs={tabs}
+        activeTab={activeTab}
+        onActiveTabChanged={setActiveTab}
+      />
       {active === tabs[0].key && user && <EditProfile />}
       {active === tabs[1].key && user && <Security />}
     </div>
