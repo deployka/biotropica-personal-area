@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import { Tariff } from "../components/Tariff/Tariff";
-import { TariffMobile } from "../components/TariffMobile/TariffMobile";
+import { Tariff } from '../components/Tariff/Tariff';
+import { TariffMobile } from '../components/TariffMobile/TariffMobile';
 
-import s from "./Tariffs.module.scss";
-
-interface Props {}
+import s from './Tariffs.module.scss';
 
 export interface Tariff {
   price: string;
@@ -14,44 +12,44 @@ export interface Tariff {
   prolongLink: string;
 }
 
-export const Tariffs = () => {
+const Tariffs = () => {
   const tariffsTest: Tariff[] = [
     {
-      price: "15 999",
-      name: "Базовый пакет",
+      price: '15 999',
+      name: 'Базовый пакет',
       features: [
-        "Интерпретация результатов анализов",
-        "Рекомендации тренера",
-        "Рекомендации диетолога",
-        "Рекомендации нутрициолога",
+        'Интерпретация результатов анализов',
+        'Рекомендации тренера',
+        'Рекомендации диетолога',
+        'Рекомендации нутрициолога',
       ],
-      prolongLink: "bibi",
+      prolongLink: 'bibi',
     },
     {
-      price: "25 999",
-      name: "Расширенный пакет",
+      price: '25 999',
+      name: 'Расширенный пакет',
       features: [
-        "Интерпретация результатов анализов",
-        "Рекомендации тренера",
-        "Рекомендации диетолога",
-        "Рекомендации нутрициолога",
-        "Рекомендации психолога",
-        "Рекомендации эндокринолога",
+        'Интерпретация результатов анализов',
+        'Рекомендации тренера',
+        'Рекомендации диетолога',
+        'Рекомендации нутрициолога',
+        'Рекомендации психолога',
+        'Рекомендации эндокринолога',
       ],
-      prolongLink: "bibi",
+      prolongLink: 'bibi',
     },
     {
-      price: "35 999",
-      name: "Индивидуальный пакет",
+      price: '35 999',
+      name: 'Индивидуальный пакет',
       features: [
-        "Интерпретация результатов анализов",
-        "Консультации тренера по видеосвязи",
-        "Консультации диетолога по видеосвязи",
-        "Консультации нутрициолога по видеосвязи",
-        "Консультации психолога по видеосвязи",
-        "Консультации эндокринолога по видеосвязи",
+        'Интерпретация результатов анализов',
+        'Консультации тренера по видеосвязи',
+        'Консультации диетолога по видеосвязи',
+        'Консультации нутрициолога по видеосвязи',
+        'Консультации психолога по видеосвязи',
+        'Консультации эндокринолога по видеосвязи',
       ],
-      prolongLink: "bibi",
+      prolongLink: 'bibi',
     },
   ];
 
@@ -84,3 +82,5 @@ export const Tariffs = () => {
     </div>
   );
 };
+
+export default Tariffs;

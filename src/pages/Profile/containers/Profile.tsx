@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectUserData } from '../../../store/ducks/user/selectors';
 import { Card } from '../components/Card/Card';
@@ -6,19 +6,18 @@ import { Tariff } from '../components/Tariff/Tariff';
 import { Goals } from '../components/Goals/Goals';
 import { Progress } from '../components/Progress/Progress';
 import { Recommended } from '../components/Recommended/Recommended';
-
 import { Tabs } from '../../../shared/Global/Tabs/Tabs';
-
 import { TestsAndAnalyze } from '../components/TestsAndAnalyze/TestsAndAnalyze';
-import { Tab } from '../pages/Edit/container/Edit';
 
 import s from './Profile.module.scss';
-import { useModal } from '../../../hooks/UseModal';
+import { useModal } from '../../../hooks/useModal';
 import { ModalName } from '../../../providers/ModalProvider';
+import { useHistory, useParams } from 'react-router';
+import { Param } from './Edit';
+import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
+import { getTabByKey } from '../../../utils/tabsHelper';
 
-interface Props {}
-
-export const Profile = (props: Props) => {
+const Profile = () => {
   const { openModal } = useModal();
 
   const tabs: Tab[] = [
@@ -27,7 +26,8 @@ export const Profile = (props: Props) => {
       value: 'Рекомендации',
     },
     {
-      key: 'test',
+      key: 'test-analyzes',
+
       value: 'Тестирование и Анализы',
     },
     {
@@ -38,12 +38,21 @@ export const Profile = (props: Props) => {
 
   const user = useSelector(selectUserData);
 
-  const [activeTab, setActiveTab] = useState<string>(tabs[0].key);
+  const { active } = useParams<Param>();
+  const history = useHistory();
+
+  const [activeTab, setActiveTab] = useState<string>(
+    getTabByKey(active, tabs)?.key || tabs[0].key
+  );
 
   const TariffData = {
     name: 'стандарт',
     expires: '9 июля 2021',
   };
+
+  useEffect(() => {
+    history.push(`/profile/tabs/${activeTab}`);
+  }, [activeTab]);
 
   return (
     <>
@@ -61,7 +70,7 @@ export const Profile = (props: Props) => {
               <Tabs
                 tabs={tabs}
                 activeTab={activeTab}
-                setActiveTab={setActiveTab}
+                onActiveTabChanged={setActiveTab}
                 spaceBetween={50}
               />
             </div>
@@ -82,3 +91,5 @@ export const Profile = (props: Props) => {
     </>
   );
 };
+
+export default Profile;

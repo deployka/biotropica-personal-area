@@ -35,14 +35,14 @@
   }
 
   .fileInput {
-    margin: 50px 0;
+    margin: 50px 0 20px 0;
     input {
       display: none;
     }
 
     label {
       display: block;
-      width: 210px;
+      width: 370px;
       height: 110px;
 
       display: flex;
@@ -65,6 +65,16 @@
       line-height: 130%;
 
       color: #736f8b;
+    }
+  }
+
+  .textInput {
+    width: 370px;
+    margin: 0 0 50px 0;
+    position: relative;
+
+    input {
+      width: 100%;
     }
   }
 

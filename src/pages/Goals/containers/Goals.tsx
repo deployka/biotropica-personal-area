@@ -36,7 +36,7 @@ interface Params {
   id: string;
 }
 
-export const Goals = (props: Props) => {
+const Goals = (props: Props) => {
   const history = useHistory();
   const goals: Goal[] = useSelector(selectGoalsData) || [];
   const loading = useSelector(selectGoalsStatus);
@@ -117,3 +117,4 @@ export const Goals = (props: Props) => {
     </div>
   );
 };
+export default Goals;

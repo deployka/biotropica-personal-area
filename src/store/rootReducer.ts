@@ -6,6 +6,7 @@ import { goalsReducer } from './ducks/goals/reducer';
 import { progressReducer } from './ducks/progress/reducer';
 import { recommendationsReducer } from './ducks/recommendations/reducer';
 import { recommendationReducer } from './ducks/recommendation/reducer';
+import { analyzeReducer } from './ducks/analyzes/reducer';
 
 export const rootReducer = combineReducers({
   user: userReducer,
@@ -15,4 +16,5 @@ export const rootReducer = combineReducers({
   progress: progressReducer,
   recommendations: recommendationsReducer,
   recommendation: recommendationReducer,
+  analyze: analyzeReducer,
 });

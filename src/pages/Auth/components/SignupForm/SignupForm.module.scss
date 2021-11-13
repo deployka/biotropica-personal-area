@@ -1,9 +1,7 @@
-@import "./../../../../styles/mixins.scss";
+@import './../../../../styles/mixins.scss';
 
 .form {
-  padding: 50px 0;
   display: flex;
-  margin: 0 auto;
   flex-wrap: wrap;
   max-width: 370px;
 
@@ -44,8 +42,8 @@
     margin-bottom: 13px;
   }
 
-  .input[name="name"],
-  .input[name="lastname"] {
+  .input[name='name'],
+  .input[name='lastname'] {
     width: 100%;
   }
 
@@ -98,7 +96,7 @@
       transition: 0.2s;
     }
     input:checked ~ label {
-      background: url("../../../../assets/icons/forms/check.svg");
+      background: url('../../../../assets/icons/forms/check.svg');
       background-repeat: no-repeat;
       background-position: center;
     }
