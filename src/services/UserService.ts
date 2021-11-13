@@ -5,6 +5,11 @@ import { UpdateUserData, User } from '../store/ducks/user/contracts/state';
 interface Response {
   status: string;
   data: User;
+  message: string;
+}
+
+interface UpdateEmailData {
+  email: string;
 }
 
 export default class UserService {
@@ -14,11 +19,18 @@ export default class UserService {
     return await $api.get<Response>(`/${UserService.route}/me`);
   }
 
-  static async update(payload: FormData): Promise<AxiosResponse<Response>> {
-    return await $api.patch<Response>(`/${UserService.route}/update`, payload, {
-      headers: {
-        'Content-Type': 'multipart/form-data; boundary',
-      },
-    });
+  static async update(
+    payload: UpdateUserData
+  ): Promise<AxiosResponse<Response>> {
+    return await $api.patch<Response>(`/${UserService.route}/update`, payload);
+  }
+
+  static async updateEmail(
+    payload: UpdateEmailData
+  ): Promise<AxiosResponse<Response>> {
+    return await $api.patch<Response>(
+      `/${UserService.route}/update-email`,
+      payload
+    );
   }
 }

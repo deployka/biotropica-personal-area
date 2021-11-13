@@ -1,4 +1,4 @@
-import { Formik } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import MaskedInput from 'react-maskedinput';
 import { store } from 'react-notifications-component';
@@ -179,7 +179,10 @@ export const ProgressForm = ({}: Props) => {
     }
   }, [goalsLoadingStatus]);
 
-  async function onSubmit(values: GoalValue, options: any) {
+  async function onSubmit(
+    values: GoalValue,
+    options: FormikHelpers<GoalValue>
+  ) {
     refResetForm.current = options.resetForm;
     setName(goal?.name || '');
     setUpdate(true);
@@ -313,7 +316,9 @@ export const ProgressForm = ({}: Props) => {
             createdAt: new Date(),
           }}
           validateOnBlur
-          onSubmit={(values: GoalValue, options) => onSubmit(values, options)}
+          onSubmit={(values: GoalValue, options: FormikHelpers<GoalValue>) =>
+            onSubmit(values, options)
+          }
           validationSchema={validationSchema}
         >
           {({

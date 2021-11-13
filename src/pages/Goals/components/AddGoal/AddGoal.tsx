@@ -9,7 +9,7 @@ import { AddGoalSelect } from '../AddGoalSelect/AddGoalSelect';
 
 import s from './AddGoal.module.scss';
 
-export const AddGoal = () => {
+const AddGoal = () => {
   const [goal, setGoal] = useState<CreateGoalData>({
     type: GoalType.WEIGHT,
     units: [{ label: '', value: null }],
@@ -30,3 +30,5 @@ export const AddGoal = () => {
     </div>
   );
 };
+
+export default AddGoal;

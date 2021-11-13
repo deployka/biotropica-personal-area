@@ -1,131 +1,131 @@
 .react-datepicker {
-    width: 330px;
+  width: 330px;
 
-    box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
-    border-radius: 15px;
+  box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+  border-radius: 15px;
 
+  border: none;
+
+  &__triangle {
+    display: none;
+  }
+
+  &__month-container {
+    width: 100%;
+  }
+
+  &__header {
+    padding: 0;
     border: none;
+    background-color: #fff;
+  }
 
-    &__triangle {
-        display: none;
+  &__month {
+    margin: 0 30px 30px 30px;
+  }
+
+  &__week {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__day-names {
+    margin: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__current-month {
+    margin: 30px 0 0 0;
+  }
+
+  &__header__dropdown {
+    margin: 0 0 30px 0;
+  }
+
+  &__day-name {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+
+    color: #1e174d;
+    text-transform: capitalize;
+  }
+
+  &__day {
+    width: 32px;
+    height: 32px;
+    font-weight: 400;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+
+    color: #1e174d;
+
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-radius: 50px;
+      background-color: #a59ce2;
     }
+  }
 
-    &__month-container {
-        width: 100%;
+  &__day--disabled {
+    color: #c8c8c8;
+  }
+
+  &__day--today {
+    font-weight: 600;
+  }
+
+  // &__day--outside-month {
+  //   color: #c8c8c8;
+  // }
+
+  &__day--selected {
+    color: #fff;
+    background: #6f61d0;
+    border-radius: 50px;
+
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-radius: 50px;
+      background-color: #6255b8;
     }
+  }
 
-    &__header {
-        padding: 0;
-        border: none;
-        background-color: #fff;
-    }
+  &__current-month {
+    color: #6f61d0;
+    text-transform: capitalize;
+    font-size: 18px;
+  }
 
-    &__month {
-        margin: 0 30px 30px 30px;
-    }
+  &__day--keyboard-selected {
+    color: #fff;
+    background: #6f61d0;
+    border-radius: 50px;
+  }
 
-    &__week {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+  &__header__dropdown {
+    margin: 10px 0;
+  }
 
-    &__day-names {
-        margin: 0 30px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    &__current-month {
-        margin: 30px 0 0 0;
-    }
-
-    &__header__dropdown {
-        margin: 0 0 30px 0;
-    }
-
-    &__day-name {
-        width: 32px;
-        height: 32px;
-        font-size: 16px;
-
-        color: #1e174d;
-        text-transform: capitalize;
-    }
-
-    &__day {
-        width: 32px;
-        height: 32px;
-        font-weight: 400;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-
-        color: #1e174d;
-
+  &__navigation {
+    margin: 0 !important;
+    top: 25px;
+    span {
+      &:before {
+        border-color: #cccccc;
         transition: all 0.2s ease;
-
         &:hover {
-            border-radius: 50px;
-            background-color: #a59ce2;
+          border-color: #c8c8c8;
         }
+      }
     }
-
-    &__day--disabled {
-        color: #c8c8c8;
-    }
-
-    &__day--today {
-        font-weight: 600;
-    }
-
-    // &__day--outside-month {
-    //   color: #c8c8c8;
-    // }
-
-    &__day--selected {
-        color: #fff;
-        background: #6f61d0;
-        border-radius: 50px;
-
-        transition: all 0.2s ease;
-
-        &:hover {
-            border-radius: 50px;
-            background-color: #6255b8;
-        }
-    }
-
-    &__current-month {
-        color: #6f61d0;
-        text-transform: capitalize;
-        font-size: 18px;
-    }
-
-    &__day--keyboard-selected {
-        color: #fff;
-        background: #6f61d0;
-        border-radius: 50px;
-    }
-
-    &__header__dropdown {
-        margin: 10px 0;
-    }
-
-    &__navigation {
-        margin: 0 !important;
-        top: 25px;
-        span {
-            &:before {
-                border-color: #cccccc;
-                transition: all 0.2s ease;
-                &:hover {
-                    border-color: #c8c8c8;
-                }
-            }
-        }
-    }
+  }
 }

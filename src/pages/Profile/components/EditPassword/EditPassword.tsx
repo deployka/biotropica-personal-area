@@ -1,88 +1,31 @@
-import classNames from 'classnames';
-import { Formik } from 'formik';
-import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { Formik, FormikHelpers } from 'formik';
 import { Link } from 'react-router-dom';
-import { notification } from '../../../../../../config/notification/notificationForm';
-import { Button } from '../../../../../../shared/Form/Button/Button';
-import { Input } from '../../../../../../shared/Form/Input/Input';
-import { Loader } from '../../../../../../shared/Form/Loader/Loader';
+import { Button } from '../../../../shared/Form/Button/Button';
+import { Input } from '../../../../shared/Form/Input/Input';
+import { Loader } from '../../../../shared/Form/Loader/Loader';
 import {
-  fetchChangePassword,
-  fetchSignout,
-  setUserResponse,
-} from '../../../../../../store/ducks/user/actionCreators';
-import { ChangePasswordData } from '../../../../../../store/ducks/user/contracts/state';
-import {
-  selectUserData,
-  selectUserLoadingStatus,
-  selectUserResponse,
-} from '../../../../../../store/ducks/user/selectors';
-import { LoadingStatus } from '../../../../../../store/types';
+  ChangePasswordData,
+  User,
+} from '../../../../store/ducks/user/contracts/state';
 
 import s from './EditPassword.module.scss';
 import { validationSchema } from './validationSchema';
 
-import { store } from 'react-notifications-component';
+interface Props {
+  user: User | undefined;
+  loader: boolean;
+  logout: () => void;
+  onSubmit: (
+    values: ChangePasswordData,
+    options: FormikHelpers<ChangePasswordData>
+  ) => void;
+}
 
-interface Props {}
-
-export const EditPassword = ({}: Props) => {
-  const dispatch = useDispatch();
-  const loadingStatus = useSelector(selectUserLoadingStatus);
-  const response = useSelector(selectUserResponse);
-  const user = useSelector(selectUserData);
-  const refSetFieldValue = useRef<any>(null);
-  const refResetForm = useRef<any>(null);
-
-  const [loader, setLoader] = useState<boolean>(false);
-  useEffect(() => {
-    if (loadingStatus === LoadingStatus.LOADING) {
-      setLoader(true);
-    }
-    if (loadingStatus === LoadingStatus.ERROR && refSetFieldValue.current) {
-      store.addNotification({
-        ...notification,
-        title: 'Произошла ошибка!',
-        message: response?.message || 'Произошла непредвиденная ошибка!',
-        type: 'danger',
-      });
-      refSetFieldValue.current('current_password', '');
-    }
-    if (
-      loadingStatus === LoadingStatus.SUCCESS ||
-      loadingStatus === LoadingStatus.ERROR
-    ) {
-      setLoader(false);
-    }
-    if (loadingStatus === LoadingStatus.SUCCESS && refResetForm.current) {
-      store.addNotification({
-        ...notification,
-        title: 'Успешно!',
-        message: response?.message,
-        type: 'success',
-      });
-      refResetForm.current();
-    }
-    dispatch(setUserResponse(undefined));
-  }, [loadingStatus]);
-
-  async function onSubmit(values: ChangePasswordData, options: any) {
-    refSetFieldValue.current = options.setFieldValue;
-    refResetForm.current = options.resetForm;
-    try {
-      dispatch(fetchChangePassword(values));
-    } catch (error) {}
-  }
-
-  async function logout() {
-    dispatch(fetchSignout());
-  }
-
+export const EditPassword = ({ loader, onSubmit, user, logout }: Props) => {
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || loader;
   }
-
   return (
     <div className={s.edit__password}>
       <Formik
@@ -92,9 +35,10 @@ export const EditPassword = ({}: Props) => {
           verification_password: '',
         }}
         validateOnBlur
-        onSubmit={(values: ChangePasswordData, options) =>
-          onSubmit(values, options)
-        }
+        onSubmit={(
+          values: ChangePasswordData,
+          options: FormikHelpers<ChangePasswordData>
+        ) => onSubmit(values, options)}
         validationSchema={validationSchema}
       >
         {({

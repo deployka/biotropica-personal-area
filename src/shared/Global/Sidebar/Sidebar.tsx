@@ -10,7 +10,10 @@ import React, {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { fetchSignout } from '../../../store/ducks/user/actionCreators';
+import {
+  fetchSignout,
+  setUserData,
+} from '../../../store/ducks/user/actionCreators';
 import { selectUserData } from '../../../store/ducks/user/selectors';
 
 import s from './Sidebar.module.scss';
@@ -112,6 +115,7 @@ export const Sidebar = memo(
 
     async function logout() {
       dispatch(fetchSignout());
+      dispatch(setUserData(undefined));
     }
 
     return (

@@ -1,4 +1,4 @@
-@import "./../../../../../../styles/mixins.scss";
+@import '../../../../styles/mixins.scss';
 
 .form {
   display: flex;
@@ -46,7 +46,7 @@
       border: 3px solid #d06361;
     }
     &:after {
-      content: "";
+      content: '';
       position: absolute;
 
       width: 100%;

@@ -1,11 +1,10 @@
-import { Formik } from 'formik';
+
+import { Formik, FormikHelpers } from 'formik';
 import { useEffect, useRef, useState } from 'react';
 import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { GlobalSvgSelector } from '../../../../../assets/icons/global/GlobalSvgSelector';
 import { notification } from '../../../../../config/notification/notificationForm';
-import { useModal } from '../../../../../hooks/UseModal';
+import { useModal } from '../../../../../hooks/useModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
 import classNames from 'classnames';
 import FileService, { IFile } from '../../../../../services/FileService';
@@ -15,6 +14,7 @@ import { PopupBackground } from '../../../../../shared/Global/PopupBackground/Po
 import {
   createProgressData,
   fetchProgressData,
+  setProgressLoadingStatus,
   setProgressResponse,
 } from '../../../../../store/ducks/progress/actionCreators';
 import {
@@ -65,54 +65,50 @@ export const AddPhotoModal = ({}: Props) => {
   const refResetForm = useRef<any>(null);
 
   const { closeModal, modals } = useModal();
+  const loader = loadingStatus === LoadingStatus.LOADING;
 
-  const [loader, setLoader] = useState<boolean>(false);
   useEffect(() => {
-    if (loadingStatus === LoadingStatus.LOADING) {
-      setLoader(true);
-    }
-    if (loadingStatus === LoadingStatus.ERROR && refSetFieldValue.current) {
-      store.addNotification({
-        ...notification,
-
-        title: 'Произошла ошибка!',
-        message: response?.message || 'Произошла непредвиденная ошибка!',
-        type: 'danger',
-      });
-    }
-    if (
-      loadingStatus === LoadingStatus.SUCCESS ||
-      loadingStatus === LoadingStatus.ERROR
-    ) {
-      setLoader(false);
-    }
-    if (loadingStatus === LoadingStatus.SUCCESS && refResetForm.current) {
-      store.addNotification({
-        ...notification,
-        title: 'Успешно!',
-        message: 'Фотографии успешно загружены!',
-        type: 'success',
-      });
-      refResetForm.current();
-      closeModal(ModalName.MODAL_ADD_PROGRESS_PHOTO);
-      dispatch(fetchProgressData());
+    switch (loadingStatus) {
+      case LoadingStatus.ERROR:
+        if (!refSetFieldValue.current) return;
+        store.addNotification({
+          ...notification,
+          title: 'Произошла ошибка!',
+          message: response?.message || 'Произошла непредвиденная ошибка!',
+          type: 'danger',
+        });
+        break;
+      case LoadingStatus.SUCCESS:
+        if (!refResetForm.current) return;
+        store.addNotification({
+          ...notification,
+          title: 'Успешно!',
+          message: 'Фотографии успешно загружены!',
+          type: 'success',
+        });
+        refResetForm.current();
+        closeModal(ModalName.MODAL_ADD_PROGRESS_PHOTO);
+        dispatch(fetchProgressData());
+        break;
+      default:
+        break;
     }
     dispatch(setProgressResponse(undefined));
   }, [loadingStatus]);
 
-  async function onSubmit(values: Files, options: any) {
+  async function onSubmit(values: Files, options: FormikHelpers<Files>) {
     if (!values.BACK || !values.SIDE || !values.FRONT) {
       return;
     }
     refResetForm.current = options.resetForm;
     try {
-      setLoader(true);
+      dispatch(setProgressLoadingStatus(LoadingStatus.LOADING));
       const { data: files } = await FileService.uploadFiles([
         values.BACK,
         values.FRONT,
         values.SIDE,
       ]);
-
+      dispatch(setProgressLoadingStatus(LoadingStatus.LOADED));
       const data: CreateProgressData = {
         photos: [
           {
@@ -227,7 +223,7 @@ export const AddPhotoModal = ({}: Props) => {
                       className={s.input}
                       id={`pd_input-${i}`}
                       onBlur={handleBlur}
-                      onChange={(e) => {
+                      onChange={e => {
                         loadFile(e, type, setFieldValue);
                       }}
                     />

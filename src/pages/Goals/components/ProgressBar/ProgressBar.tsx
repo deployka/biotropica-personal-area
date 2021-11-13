@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import s from './ProgressBar.module.scss';
 interface ProgressBar {
-  options: any;
+  options: any; //FIXME:
 }
 
 export const ProgressBar = ({ options }: ProgressBar) => {

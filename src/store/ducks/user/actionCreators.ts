@@ -19,6 +19,7 @@ import {
   RestorePasswordData,
   SigninData,
   SignupData,
+  UpdateUserData,
   UserState,
 } from './contracts/state';
 
@@ -45,7 +46,7 @@ export const fetchSignup = (
 });
 
 export const fetchUpdateUser = (
-  payload: FormData
+  payload: UpdateUserData
 ): FetchUpdateUserActionInterface => ({
   type: UserActionsType.FETCH_UPDATE_USER,
   payload,

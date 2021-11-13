@@ -4,9 +4,7 @@ import { Welcome } from '../components/Welcome/Welcome';
 
 import s from './Questionnaire.module.scss';
 
-interface Props {}
-
-export const Questionnaire = (props: Props) => {
+const Questionnaire = () => {
   return (
     <div className={s.questionnaire}>
       <Welcome />
@@ -14,3 +12,4 @@ export const Questionnaire = (props: Props) => {
     </div>
   );
 };
+export default Questionnaire;

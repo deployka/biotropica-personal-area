@@ -8,15 +8,13 @@ export const validationSchema = yup.object().shape({
     .string()
     .typeError('Должно быть строкой')
     .required('Введите фамилию'),
-  patronymic: yup
-    .string()
-    .typeError('Должно быть строкой')
-    .required('Введите отчество'),
-  dob: yup
-    .date()
-    .typeError('Должно быть датой')
-    .required('Выберите дату рождения'),
-  gender: yup.array().required('Выберите гендер'),
+  patronymic: yup.string().typeError('Должно быть строкой'),
+  dob: yup.mixed<Date | null>().typeError('Должно быть датой'),
+  gender: yup.array().of(
+    yup.object().shape({
+      value: yup.mixed<Partial<string>>().typeError('Выберите гендер'),
+    })
+  ),
   phone: yup
     .string()
     .typeError('Должно быть строкой')
