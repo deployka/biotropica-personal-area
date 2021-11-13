@@ -40,8 +40,17 @@ const Signup = () => {
           message:
             errorText || res?.message || 'Произошла непредвиденная ошибка',
           type: 'danger',
+          dismiss: {
+            onScreen: true,
+            duration: 10000,
+            pauseOnHover: true,
+          },
         });
-        errorValue && refSetFieldValue.current(errorValue, '');
+
+        console.log(errorValue);
+        refSetFieldValue.current(errorValue, '');
+        refSetFieldValue.current('verification_password', '');
+
         break;
       case LoadingStatus.SUCCESS:
         if (!refResetForm.current) return;

@@ -7,6 +7,7 @@ import FileService from '../../../services/FileService';
 import UserService from '../../../services/UserService';
 import {
   fetchUpdateUser,
+  setUserLoadingStatus,
   setUserResponse,
 } from '../../../store/ducks/user/actionCreators';
 import {
@@ -69,17 +70,19 @@ const EditProfile = () => {
 
   async function onSubmit(values: UpdateUserData) {
     try {
+      dispatch(setUserLoadingStatus(LoadingStatus.LOADING));
       if (values.email && user?.email !== values.email) {
         const res = await UserService.updateEmail({ email: values.email });
         store.addNotification({
           ...notification,
           title: 'Внимание!',
           message: res?.data.message || '',
-          type: 'info',
+          type: res.status === 200 ? 'info' : 'danger',
+
           dismiss: {
             pauseOnHover: true,
             onScreen: true,
-            duration: 10000,
+            duration: 15000,
           },
         });
       }
