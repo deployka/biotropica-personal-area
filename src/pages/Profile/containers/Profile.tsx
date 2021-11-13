@@ -6,6 +6,7 @@ import { Tariff } from '../components/Tariff/Tariff';
 import { Goals } from '../components/Goals/Goals';
 import { Progress } from '../components/Progress/Progress';
 import { Recommended } from '../components/Recommended/Recommended';
+import { Tabs } from '../../../shared/Global/Tabs/Tabs';
 import { TestsAndAnalyze } from '../components/TestsAndAnalyze/TestsAndAnalyze';
 
 import s from './Profile.module.scss';
@@ -74,10 +75,9 @@ const Profile = () => {
               />
             </div>
           </div>
-          {active === tabs[0].key && user && <Recommended />}
-          {active === tabs[1].key && user && <TestsAndAnalyze user={user} />}
-          {active === tabs[2].key && user && <Progress />}
-          {active === tabs[2].key && (
+          {activeTab === tabs[0].key && user && <Recommended />}
+          {activeTab === tabs[1].key && user && <TestsAndAnalyze user={user} />}
+          {activeTab === tabs[2].key && (
             <button
               onClick={() => openModal(ModalName.MODAL_ADD_PROGRESS_PHOTO)}
               className={s.btn__add__photo}
@@ -85,6 +85,7 @@ const Profile = () => {
               добавить фото
             </button>
           )}
+          {activeTab === tabs[2].key && user && <Progress />}
         </div>
       </div>
     </>
