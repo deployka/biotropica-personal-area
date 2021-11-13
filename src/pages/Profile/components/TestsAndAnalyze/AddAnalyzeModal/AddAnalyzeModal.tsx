@@ -1,6 +1,6 @@
 import React from 'react';
 import { ProfileSvgSelector } from '../../../../../assets/icons/profile/ProfileSvgSelector';
-import { useModal } from '../../../../../hooks/UseModal';
+import { useModal } from '../../../../../hooks/useModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
 import { PopupBackground } from '../../../../../shared/Global/PopupBackground/PopupBackground';
 

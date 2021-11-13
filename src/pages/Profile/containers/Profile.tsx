@@ -6,7 +6,6 @@ import { Tariff } from '../components/Tariff/Tariff';
 import { Goals } from '../components/Goals/Goals';
 import { Progress } from '../components/Progress/Progress';
 import { Recommended } from '../components/Recommended/Recommended';
-import { Tabs } from '../../../shared/Global/Tabs/Tabs';
 import { TestsAndAnalyze } from '../components/TestsAndAnalyze/TestsAndAnalyze';
 
 import s from './Profile.module.scss';
