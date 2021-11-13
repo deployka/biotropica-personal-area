@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { ProfileSvgSelector } from '../../../../../assets/icons/profile/ProfileSvgSelector';
 import { useModal } from '../../../../../hooks/UseModal';
 import { ModalName } from '../../../../../providers/ModalProvider';

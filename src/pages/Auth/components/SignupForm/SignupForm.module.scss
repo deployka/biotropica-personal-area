@@ -1,11 +1,17 @@
+@import './../../../../styles/mixins.scss';
+
 .form {
   display: flex;
-  margin: 0 auto;
   flex-wrap: wrap;
   max-width: 370px;
 
   button {
     font-size: 16px;
+  }
+
+  @include for-phone {
+    margin: 0;
+    width: 100%;
   }
 
   .title,
@@ -16,6 +22,11 @@
     margin-bottom: 10px;
     color: #1e174d;
     font-size: 36px;
+
+    @include for-phone {
+      font-size: 24px;
+      margin: 0 0 20px 0;
+    }
   }
   .subtitle {
     margin-bottom: 30px;
@@ -44,10 +55,17 @@
 
     width: 48.65%;
     margin-bottom: 15px;
+
+    @include for-phone {
+      width: 100%;
+    }
   }
 
   .input__wrapper_name {
     margin-right: 10px;
+    @include for-phone {
+      margin-right: 0;
+    }
   }
 
   .signin {

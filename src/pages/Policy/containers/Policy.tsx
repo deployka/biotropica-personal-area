@@ -5,7 +5,7 @@ import s from './Policy.module.scss';
 
 interface Props {}
 
-export const Policy = ({}: Props) => {
+const Policy = ({}: Props) => {
   return (
     <div className={s.policy__container}>
       <div className={s.policy}>
@@ -159,3 +159,5 @@ export const Policy = ({}: Props) => {
     </div>
   );
 };
+
+export default Policy;

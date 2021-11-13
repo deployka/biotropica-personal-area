@@ -8,6 +8,7 @@ import edit from '../../../../assets/icons/profile/edit.svg';
 import moment from 'moment';
 import 'moment/locale/ru';
 import classNames from 'classnames';
+import { getMediaLink } from '../../../../utils/mediaHelper';
 moment.locale('ru');
 interface Props {
   user: User;
@@ -25,8 +26,7 @@ export const Card = ({ user }: Props) => {
         <img
           className={s.profile__avatar}
           src={
-            (user?.profile_photo &&
-              process.env.REACT_APP_BACKEND_URL + '/' + user?.profile_photo) ||
+            (user?.profile_photo && getMediaLink(user.profile_photo)) ||
             defaultAvatar
           }
           alt=""

@@ -1,4 +1,4 @@
-import { Formik } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 import { Link, useLocation } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import { store } from 'react-notifications-component';
@@ -33,7 +33,7 @@ import { setGoalsData } from '../../../../store/ducks/goals/actionCreators';
 
 interface Props {}
 
-export const EditGoalForm = ({}: Props) => {
+const EditGoalForm = ({}: Props) => {
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectGoalLoadingStatus);
   const response = useSelector(selectGoalResponse);
@@ -108,7 +108,10 @@ export const EditGoalForm = ({}: Props) => {
     }
   }, [loadingStatus]);
 
-  async function onSubmit(values: UpdateGoalData, options: any) {
+  async function onSubmit(
+    values: UpdateGoalData,
+    options: FormikHelpers<UpdateGoalData>
+  ) {
     refResetForm.current = options.resetForm;
     setName(values?.name || '');
 
@@ -220,3 +223,5 @@ export const EditGoalForm = ({}: Props) => {
     </div>
   );
 };
+
+export default EditGoalForm;

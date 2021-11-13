@@ -10,10 +10,11 @@ import classNames from 'classnames';
 import { ProfileSvgSelector } from '../../../../../assets/icons/profile/ProfileSvgSelector';
 import { GlobalSvgSelector } from '../../../../../assets/icons/global/GlobalSvgSelector';
 import { PopupBackground } from '../../../../../shared/Global/PopupBackground/PopupBackground';
-import { useModal } from '../../../../../hooks/UseModal';
+import { useModal } from '../../../../../hooks/useModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
 import { Photo } from '../../../../../store/ducks/progress/contracts/state';
 import moment from 'moment';
+import { getMediaLink } from '../../../../../utils/mediaHelper';
 
 SwiperCore.use([Navigation]);
 
@@ -57,11 +58,7 @@ export const PhotoSliderModal = ({ photos, createdAt, i }: Props) => {
                   className={s.results_slider_item}
                   key={i + photo.filename}
                 >
-                  <img
-                    src={
-                      process.env.REACT_APP_BACKEND_URL + '/' + photo.filename
-                    }
-                  />
+                  <img src={getMediaLink(photo.filename)} />
                 </SwiperSlide>
               );
             })}

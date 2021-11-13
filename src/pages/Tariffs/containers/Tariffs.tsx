@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { Tariff } from '../Tariff/Tariff';
+import { Tariff } from '../components/Tariff/Tariff';
+import { TariffMobile } from '../components/TariffMobile/TariffMobile';
+
 import s from './Tariffs.module.scss';
-interface Props {}
+
 export interface Tariff {
   price: string;
   name: string;
@@ -10,7 +12,7 @@ export interface Tariff {
   prolongLink: string;
 }
 
-export const Tariffs = () => {
+const Tariffs = () => {
   const tariffsTest: Tariff[] = [
     {
       price: '15 999',
@@ -50,14 +52,35 @@ export const Tariffs = () => {
       prolongLink: 'bibi',
     },
   ];
+
+  const [mobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    if (document.documentElement.clientWidth <= 500) {
+      setMobile(true);
+    }
+  }, []);
+
   return (
     <div className={s.tariffs}>
-      {tariffsTest.map((currentTariff: Tariff, i) => (
-        <Tariff
-          key={`${currentTariff.name}_${currentTariff.price}_${i}`}
-          tariff={currentTariff}
-        />
-      ))}
+      {tariffsTest.map((currentTariff: Tariff, i) => {
+        if (mobile) {
+          return (
+            <TariffMobile
+              key={`${currentTariff.name}_${currentTariff.price}_${i}`}
+              tariff={currentTariff}
+            />
+          );
+        }
+        return (
+          <Tariff
+            key={`${currentTariff.name}_${currentTariff.price}_${i}`}
+            tariff={currentTariff}
+          />
+        );
+      })}
     </div>
   );
 };
+
+export default Tariffs;

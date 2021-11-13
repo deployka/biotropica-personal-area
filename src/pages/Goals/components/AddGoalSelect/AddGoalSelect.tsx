@@ -1,16 +1,16 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { Button } from '../../../../shared/Form/Button/Button';
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { Button } from "../../../../shared/Form/Button/Button";
 import {
   CreateGoalData,
   Goal,
   GoalType,
-} from '../../../../store/ducks/goal/contracts/state';
-import { selectGoalsData } from '../../../../store/ducks/goals/selectors';
+} from "../../../../store/ducks/goal/contracts/state";
+import { selectGoalsData } from "../../../../store/ducks/goals/selectors";
 
-import s from './AddGoalSelect.module.scss';
-import { Selector, SelectorItem } from './Selector';
+import s from "./AddGoalSelect.module.scss";
+import { Selector, SelectorItem } from "./Selector";
 
 interface Props {
   goal: CreateGoalData;
@@ -25,57 +25,59 @@ export const AddGoalSelect = ({ goal, setGoal, setNext }: Props) => {
   const selectors: Selector[] = [
     {
       type: GoalType.WEIGHT,
-      title: 'Изменение веса',
-      desc: 'Сбросить вес или набрать вес',
+      title: "Изменение веса",
+      desc: "Сбросить вес или набрать вес",
     },
     {
       type: GoalType.RUN,
-      title: 'Бег',
-      desc: 'Пробежать определённую дистанцию',
+      title: "Бег",
+      desc: "Пробежать определённую дистанцию",
     },
     {
       type: GoalType.FORCE,
-      title: 'Силовые показатели',
-      desc: '  Поднимать определенные веса',
+      title: "Силовые показатели",
+      desc: "  Поднимать определенные веса",
     },
   ];
 
   function discard() {
     if (!goals.length) {
-      history.push('/');
+      history.push("/");
       return;
     }
-    history.push('/goals');
+    history.push("/goals");
   }
 
   return (
-    <div className={s.add__goals__select}>
-      <div className={s.add__goals__select__wrapper}>
-        <h2 className={s.add__goals__select__title}>
+    <div className={s.addGoals}>
+      <div className={s.wrapper}>
+        <h2 className={s.title}>
           Выберите направление, в котором хотите добиться успеха
         </h2>
-        {selectors.map((item: Selector) => (
-          <SelectorItem
-            key={item.type}
-            item={item}
-            type={item.type}
-            setGoal={setGoal}
-            goal={goal}
-          />
-        ))}
-        <div className={s.select__buttons}>
+        <div className={s.selectorsContainer}>
+          {selectors.map((item: Selector) => (
+            <SelectorItem
+              key={item.type}
+              item={item}
+              type={item.type}
+              setGoal={setGoal}
+              goal={goal}
+            />
+          ))}
+        </div>
+        <div className={s.buttons}>
           <Button
             options={{
-              width: '100px',
-              height: '30px',
+              width: "100px",
+              height: "30px",
               classes: { discard: true },
-              content: 'Отмена',
+              content: "Отмена",
             }}
             onClick={discard}
           />
           <Button
             onClick={() => setNext(true)}
-            options={{ content: 'Далее', width: '100px', height: '30px' }}
+            options={{ content: "Далее", width: "100px", height: "30px" }}
           />
         </div>
       </div>

@@ -1,7 +1,7 @@
 import s from './Progress.module.scss';
 
 interface Progress {
-  options: any;
+  options: any; //!FIXME:
 }
 export const Progress = ({ options }: Progress) => {
   const { current, of } = options;

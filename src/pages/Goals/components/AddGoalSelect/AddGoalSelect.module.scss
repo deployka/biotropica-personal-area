@@ -1,106 +1,83 @@
-@import '../../../../styles/mixins.scss';
-@import '../../../../styles/variables.scss';
-.add__goals__select {
-  box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
-  background: $color-white;
-  border-radius: 30px;
-  @include flex();
-  padding: 50px;
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
+
+.addGoals {
+  padding: 50px 0;
   margin: 0 auto;
+
   max-width: 840px;
-  button {
-    margin-right: 20px;
-  }
-}
-.selector {
-  margin-bottom: 15px;
 
-  &:last-of-type {
-    margin-bottom: 48px;
-  }
-  background: linear-gradient(to right, #c77edf 0%, #6f61d0 73.44%);
-  padding: 1px;
-  @include wh(390px, 83px);
-  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  cursor: pointer;
+  background: $color-white;
 
-  &.active {
-    background: $color-primary;
-    .selector {
-      &__content {
-        background: $color-primary;
-        color: $color-white;
-      }
-      &__description {
-        color: rgba($color-white, 0.7);
-      }
-    }
-    &:hover {
-      background: $color-primary;
-    }
-  }
-  &__content {
-    transition: 0.3s;
+  border-radius: 30px;
 
-    border-radius: 15px;
-    background: $color-white;
-    padding: 20px 28px;
-    position: relative;
-    border: 1px solid transparent;
-    z-index: 3;
-    @include flex(column, flex-start, flex-start, nowrap);
-    @include wh(100%, 100%);
+  box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+
+  @include for-phone {
+    padding: 0 0 60px 0;
+    margin: 0;
+
+    width: 100%;
+
+    background-color: #ffffff00;
+    box-shadow: none;
   }
-  &__title {
-    margin-bottom: 5px;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 120%;
-    letter-spacing: 0.0075em;
-  }
-  &__description {
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 120%;
-    color: $color-secondary;
-  }
-  @media (min-width: $sze-laptop-sm) {
-    transition: 0.3s;
-    &:hover {
-      background: $color-primary;
-      .selector {
-        &__content {
-          background: $color-primary;
-          color: $color-white;
-        }
-        &__description {
-          color: rgba($color-white, 0.7);
-        }
-      }
-    }
-  }
-}
-.add__goals__select {
-  &__title {
-    margin-bottom: 35px;
-    text-align: center;
+
+  .title {
+    margin: 0 0 35px 0;
     max-width: 100%;
-    font-weight: 600;
+
     font-size: 18px;
+    font-weight: 600;
     line-height: 120%;
+    text-align: center;
+
     color: $color-grey-3;
+
+    @include for-phone {
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 130%;
+    }
   }
-  &__wrapper {
-    @include flex(column, flex-start, center, nowrap);
+
+  .wrapper {
     max-width: 358px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .selectorsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    row-gap: 15px;
+
+    @include for-phone {
+      margin: 0 0 30px 0;
+
+      row-gap: 10px;
+    }
+  }
+
+  .buttons {
+    margin: 30px 0 0 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 20px;
   }
 }
-.select {
-  &__buttons {
-    @include flex();
-  }
-}
+
 .btn {
   &__next,
   &__discard {

@@ -1,44 +1,61 @@
-@import '../../../../../styles/mixins.scss';
-@import '../../../../../styles/variables.scss';
-.progress__card {
+@import "../../../../../styles/mixins.scss";
+@import "../../../../../styles/variables.scss";
+
+.card {
   padding: 30px;
+
+  width: 100%;
+
   border: 1px solid $color-secondary;
   border-radius: 15px;
 
-  margin-bottom: 21px;
-  &:last-of-type {
-    margin-bottom: 0;
+  @include for-phone {
+    padding: 30px 20px;
   }
-  @include wh(892px, 427px);
-}
-.card {
-  &__imges {
+
+  .imagesWrapper {
+    margin: 0 0 10px 0;
     width: 100%;
 
-    @include flex($justify: space-between);
-    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
-  &__img {
+
+  .img {
+    width: 237px;
+    height: 338px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+    box-shadow: 0px 0px 4px rgba(111, 97, 208, 0.14);
+    border: 4px solid $color-divider;
+
+    overflow: hidden;
+
     cursor: pointer;
 
-    img {
-      height: 100%;
+    @include for-phone {
+      width: 80px;
+      height: 114px;
     }
-    object-fit: cover;
-    @include minwh(237px, 338px);
-    &__wrapper {
-      @include flex();
-      @include wh(237px, 338px);
-      overflow: hidden;
-      border-radius: 15px;
-      box-shadow: 0px 0px 4px rgba(111, 97, 208, 0.14);
-      border: 4px solid $color-divider;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
-  &__date {
-    color: $color-grey-2;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 120%;
+
+  .date {
+    p {
+      color: $color-grey-2;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 120%;
+    }
   }
 }

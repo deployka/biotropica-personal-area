@@ -1,4 +1,4 @@
-import { Formik } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 import React, {
   Dispatch,
   SetStateAction,
@@ -122,7 +122,10 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
     }
   }, [loadingStatus]);
 
-  async function onSubmit(values: CreateGoalData, options: any) {
+  async function onSubmit(
+    values: CreateGoalData,
+    options: FormikHelpers<CreateGoalData>
+  ) {
     refResetForm.current = options.resetForm;
     setName(values.name);
     try {
@@ -206,9 +209,7 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder={`Желаемый результат (${
-                    values['units'][0].label || 'не выбрано'
-                  })`}
+                  placeholder={`Желаемый результат`}
                   name="end_result"
                   value={values.end_result}
                   type="text"
@@ -223,9 +224,7 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder={`Текущий результат (${
-                    values['units'][0].label || 'не выбрано'
-                  })`}
+                  placeholder={`Текущий результат`}
                   name="start_result"
                   value={values.start_result}
                   type="text"

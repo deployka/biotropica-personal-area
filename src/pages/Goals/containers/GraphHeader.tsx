@@ -1,18 +1,9 @@
-import classNames from 'classnames';
-import moment from 'moment';
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Calendar } from '../../../shared/Global/Calendar/Calendar';
 import { Goal } from '../../../store/ducks/goal/contracts/state';
 import { selectGoalData } from '../../../store/ducks/goal/selectors';
-import { Tabs } from '../../Profile/components/Tabs/Tabs';
-import { Tab } from '../../Profile/pages/Edit/container/Edit';
+import { Tab, Tabs } from './../../../shared/Global/Tabs/Tabs';
 import { Dates } from './Goals';
 
 import s from './Goals.module.scss';
@@ -79,11 +70,14 @@ export const GraphHeader = ({ setDates, dates, setGraphDates }: Props) => {
             </div>
           </div>
           <div className={s.graph__period__selectors}>
-            <Tabs
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-              tabs={tabs}
-            />
+            <div className={s.tabs}>
+              <Tabs
+                activeTab={activeTab}
+                onActiveTabChanged={setActiveTab}
+                tabs={tabs}
+                spaceBetween={30}
+              />
+            </div>
             <div className={s.btn__calendar}>
               <Calendar
                 setActiveTab={setActiveTab}

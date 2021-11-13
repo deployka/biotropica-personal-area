@@ -4,11 +4,9 @@ interface Props {
 
 export const ErrorSvgSelector = ({ id }: Props) => {
   switch (id) {
-    case "illustration":
+    case 'illustration':
       return (
         <svg
-          width="554"
-          height="512"
           viewBox="0 0 554 512"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -300,7 +298,7 @@ export const ErrorSvgSelector = ({ id }: Props) => {
             d="M487.247 340.265L480.641 339.682C479.759 339.607 479.101 338.815 479.176 337.933C479.25 337.051 480.043 336.394 480.925 336.468L487.531 337.051C488.413 337.126 489.071 337.918 488.996 338.8C488.921 339.682 488.144 340.34 487.247 340.265Z"
             fill="white"
           />
-          <g clip-path="url(#clip0)">
+          <g clipPath="url(#clip0)">
             <path
               d="M429.86 85.6818C395.829 84.3155 299.677 83.1695 300.296 43.7811C300.915 4.39275 344.85 41.5333 344.85 41.5333C344.85 41.5333 362.152 -5.52413 387.428 0.543531C412.705 6.6112 418.688 46.8958 418.688 46.8958C418.688 46.8958 430.892 2.65913 460.692 20.3332C482.932 33.5264 474.871 66.6414 474.871 66.6414C474.871 66.6414 507.133 55.1378 509.343 72.9001C511.569 90.6476 449.978 86.4899 429.86 85.6818Z"
               fill="#F7F6FB"
@@ -543,7 +541,7 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               />
             </g>
           </g>
-          <g clip-path="url(#clip1)">
+          <g clipPath="url(#clip1)">
             <path
               d="M426.427 462.956H468.472C469.23 462.956 469.974 462.606 470.44 462.007C480.211 449.295 471.345 440.981 464.84 441.04C463.294 441.054 462.055 439.856 462.142 438.307C463.003 424.456 457.884 418.655 453.421 421.11C451.934 421.928 450.053 421.008 449.79 419.328C448.434 410.283 444.263 406.265 440.952 407.58C438.867 408.413 436.49 407.142 435.644 405.053C433.267 399.267 428.79 396.14 425.946 398.273C424.152 399.617 421.629 399.427 419.937 397.952C413.2 392.107 406.054 395.409 411.289 403.796C412.616 405.929 412.091 408.705 410.239 410.4C407.425 412.986 409.335 417.589 416.408 421.738C417.969 422.659 418.129 424.894 416.642 425.932C412.164 429.044 411.348 433.047 420.156 438.264C421.877 439.272 421.717 441.799 419.923 442.676C414.527 445.335 413.112 451.413 424.677 462.27C425.173 462.708 425.8 462.956 426.427 462.956Z"
               fill="#A59CE2"
@@ -581,7 +579,7 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               fill="#9E97BE"
             />
           </g>
-          <g clip-path="url(#clip2)">
+          <g clipPath="url(#clip2)">
             <path
               d="M67.7745 458.564C64.5875 455.821 61.0204 455.091 60.9766 455.091L61.1374 454.23C61.2982 454.259 64.9676 454.989 68.33 457.893L67.7745 458.564Z"
               fill="#9E97BE"
@@ -1046,8 +1044,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="291.574"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="1" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="1" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint1_linear"
@@ -1057,8 +1055,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="282.819"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.986904" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.986904" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint2_linear"
@@ -1068,8 +1066,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="318.625"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint3_linear"
@@ -1079,8 +1077,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="144.126"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint4_linear"
@@ -1090,8 +1088,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="121.115"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint5_linear"
@@ -1101,8 +1099,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="-3.29627"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint6_linear"
@@ -1112,8 +1110,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="49.4304"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint7_linear"
@@ -1123,8 +1121,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="18.4313"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint8_linear"
@@ -1134,8 +1132,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="32.3976"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint9_linear"
@@ -1145,8 +1143,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="13.4644"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint10_linear"
@@ -1156,8 +1154,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="24.6188"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint11_linear"
@@ -1167,8 +1165,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="13.4644"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint12_linear"
@@ -1178,8 +1176,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="13.9834"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint13_linear"
@@ -1189,8 +1187,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="127.112"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint14_linear"
@@ -1200,8 +1198,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="110.097"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint15_linear"
@@ -1211,8 +1209,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="151.936"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <linearGradient
               id="paint16_linear"
@@ -1222,8 +1220,8 @@ export const ErrorSvgSelector = ({ id }: Props) => {
               y2="184.665"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#C77EDF" />
-              <stop offset="0.734375" stop-color="#6F61D0" />
+              <stop stopColor="#C77EDF" />
+              <stop offset="0.734375" stopColor="#6F61D0" />
             </linearGradient>
             <clipPath id="clip0">
               <rect

@@ -17,11 +17,11 @@ interface Props {
 export const Specialist = ({ specialist }: Props) => {
   return (
     <div className={s.specialist}>
-      <div className={s.info}>
-        <div className={s.photo}>
-          <img src={`${specialist.photoLink}`} alt="" />
-        </div>
-        <div className={s.container}>
+      <div className={s.photo}>
+        <img src={`${specialist.photoLink}`} alt="" />
+      </div>
+      <div className={s.wrapper}>
+        <div className={s.info}>
           <div className={s.name}>
             <p>{specialist.name}</p>
           </div>
@@ -29,16 +29,16 @@ export const Specialist = ({ specialist }: Props) => {
             <p>стаж {specialist.expierence}</p>
           </div>
         </div>
-      </div>
 
-      <div className={s.specialiaztion}>
-        <p>{specialist.specialiaztion}</p>
-      </div>
-      <div className={s.price}>
-        <p>{specialist.price} ₽</p>
-      </div>
-      <div className={s.appointment}>
-        <button>Записаться</button>
+        <div className={s.specialiaztion}>
+          <p>{specialist.specialiaztion}</p>
+        </div>
+        <div className={s.price}>
+          <p>{specialist.price} ₽</p>
+        </div>
+        <div className={s.appointment}>
+          <button>Записаться</button>
+        </div>
       </div>
     </div>
   );
