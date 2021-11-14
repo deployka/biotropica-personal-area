@@ -20,9 +20,9 @@ export const Recommendation = ({ id, activeProfiles }: Props) => {
     <div className={s.recommendation}>
       <Header profile={activeProfiles[id][0].specialist_profile} />
       <div className={s.postsWrapper} style={hidden ? { height: 0 } : {}}>
-        {activeProfiles[id].map((recommendation: IRecommendation, i) => (
+        {activeProfiles[id].map((recommendation: IRecommendation) => (
           <Content
-            key={`${recommendation.id}_${i}`}
+            key={`${recommendation.id}`}
             recommendation={recommendation}
           />
         ))}

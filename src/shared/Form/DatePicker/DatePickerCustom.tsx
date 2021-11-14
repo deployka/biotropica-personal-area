@@ -36,6 +36,7 @@ export const DatePickerCustom = (props: Props) => {
     <>
       <Label active={true} value={label} />
       <DatePicker
+        
         className={classNames({
           [s.input]: true,
           [s.success__input]: touched.dob && !errors.dob,

@@ -19,4 +19,15 @@
     align-items: center;
     row-gap: 60px;
   }
+
+  .mobile {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    .content {
+      width: 100%;
+    }
+  }
 }

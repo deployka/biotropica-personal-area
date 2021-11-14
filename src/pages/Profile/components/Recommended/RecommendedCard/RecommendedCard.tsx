@@ -6,8 +6,8 @@ import { RecommendationType } from '../../../../../store/ducks/recommendation/co
 
 interface Props {
   type: RecommendationType;
-  setActiveType: Dispatch<SetStateAction<RecommendationType>>;
-  activeType: RecommendationType;
+  setActiveType: Dispatch<SetStateAction<RecommendationType | null>>;
+  activeType: RecommendationType | null;
   amount: number;
   options: Options;
 }

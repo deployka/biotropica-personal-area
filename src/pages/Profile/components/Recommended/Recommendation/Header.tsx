@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SpecialistProfile as ISpecialistProfile } from '../../../../../store/ducks/recommendation/contracts/state';
 import { getMediaLink } from '../../../../../utils/mediaHelper';
@@ -10,6 +10,14 @@ interface Props {
 }
 
 export const Header = ({ profile }: Props) => {
+  const [mobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    if (document.documentElement.clientWidth <= 500) {
+      setMobile(true);
+    }
+  }, []);
+
   const photoLink = getMediaLink(profile.profile_photo);
   return (
     <div className={s.header}>
@@ -27,7 +35,7 @@ export const Header = ({ profile }: Props) => {
         </div>
       </div>
       <Link to={'/profiles/' + profile.id} className={s.button}>
-        <p>перейти в профиль</p>
+        <p>{mobile ? 'профиль' : 'перейти в профиль'}</p>
       </Link>
     </div>
   );

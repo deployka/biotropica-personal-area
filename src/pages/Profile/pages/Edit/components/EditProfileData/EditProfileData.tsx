@@ -177,7 +177,7 @@ export const EditProfileData = ({ user }: Props) => {
         }) => (
           <form
             name="user_data"
-            onSubmit={e => e.preventDefault()}
+            onSubmit={(e) => e.preventDefault()}
             className={s.form}
           >
             <div
@@ -194,7 +194,7 @@ export const EditProfileData = ({ user }: Props) => {
                 type="file"
                 name="profile_photo"
                 accept=".png, .jpg, .jpeg, .gif"
-                onChange={e => {
+                onChange={(e) => {
                   refSetFieldValue.current = setFieldValue;
                   loadAvatar(e);
                 }}

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
-import { RecommendedCard } from './RecommendedCard/RecommendedCard';
 
 import {
   Recommendation as IRecommendation,
@@ -18,12 +16,22 @@ import { fetchRecommendationsData } from '../../../../store/ducks/recommendation
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 import s from './Recommended.module.scss';
-import { Recommendation } from './Recommendation/Recommendation';
+import { MobileRecommended } from './MobileRecomended';
+import { DesktopRecommended } from './DesktopRecomended';
 
 export const Recommended = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchRecommendationsData());
+  }, []);
+
+  const [mobile, setMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (document.documentElement.clientWidth <= 500) {
+      setMobile(true);
+      setActiveType(null);
+    }
   }, []);
 
   const infoBar: IInfoBar = {
@@ -38,9 +46,12 @@ export const Recommended = () => {
     recommendations
   ) as RecommendationType[];
 
-  const [activeType, setActiveType] = useState<RecommendationType>(recTypes[0]);
+  const [activeType, setActiveType] = useState<RecommendationType | null>(
+    recTypes[0]
+  );
 
-  const activeProfiles = recommendations[activeType];
+  const activeProfiles =
+    recommendations[activeType || RecommendationType.WORKOUT];
 
   const optionsByType = {
     [RecommendationType.NUTRITION]: {
@@ -52,6 +63,10 @@ export const Recommended = () => {
       color: 'green',
     },
   };
+
+  function getProfilesByType(type: RecommendationType) {
+    return recommendations[type];
+  }
 
   function getAmountByType(type: RecommendationType): number {
     return Object.keys(recommendations[type]).reduce((acc, id) => {
@@ -65,30 +80,25 @@ export const Recommended = () => {
 
   return (
     <div className={s.recommendations}>
-      <div className={s.cards}>
-        {recTypes.map((type) => (
-          <RecommendedCard
-            setActiveType={setActiveType}
-            activeType={activeType}
-            key={type}
-            type={type}
-            options={optionsByType[type]}
-            amount={getAmountByType(type)}
-          />
-        ))}
-      </div>
-
-      <PerfectScrollbar>
-        <div className={s.content}>
-          {Object.keys(activeProfiles).map((id, i) => (
-            <Recommendation
-              key={`${id}_${i}`}
-              id={id}
-              activeProfiles={activeProfiles}
-            />
-          ))}
-        </div>
-      </PerfectScrollbar>
+      {mobile ? (
+        <MobileRecommended
+          recTypes={recTypes}
+          activeType={activeType}
+          setActiveType={setActiveType}
+          optionsByType={optionsByType}
+          getAmountByType={getAmountByType}
+          getProfilesByType={getProfilesByType}
+        />
+      ) : (
+        <DesktopRecommended
+          recTypes={recTypes}
+          activeType={activeType}
+          setActiveType={setActiveType}
+          optionsByType={optionsByType}
+          getAmountByType={getAmountByType}
+          activeProfiles={activeProfiles}
+        />
+      )}
     </div>
   );
 };
