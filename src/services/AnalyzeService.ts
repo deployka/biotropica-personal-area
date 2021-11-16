@@ -1,14 +1,15 @@
 import { AxiosResponse } from 'axios';
 import $api from '../http';
 import {
-  CreateAnalyzeData,
+  CreateAnalyzeAnswerData,
+  UpdateAnalyzeAnswerData,
+  AnalyzeAnswer,
   Analyze,
-  UpdateAnalyzeData,
-} from '../store/ducks/analyzes/contracts/state';
+} from '../store/ducks/analyze/contracts/state';
 
 interface Response {
   status: string;
-  data: Analyze | Analyze[];
+  data: AnalyzeAnswer[];
 }
 
 export default class AnalyzeService {
@@ -18,18 +19,27 @@ export default class AnalyzeService {
     return await $api.get<Response>(`/${AnalyzeService.route}/${payload}`);
   }
 
-  static async geAll(): Promise<AxiosResponse<Response>> {
-    return await $api.get<Response>(`/${AnalyzeService.route}/`);
+  static async geAll(payload: number): Promise<AxiosResponse<Response>> {
+    return await $api.get<Response>(
+      `/${AnalyzeService.route}/answers?limit=${payload}`
+    );
+  }
+
+  static async geAllTypes(): Promise<AxiosResponse<Analyze[]>> {
+    return await $api.get<Analyze[]>(`/${AnalyzeService.route}/`);
   }
 
   static async create(
-    payload: CreateAnalyzeData
+    payload: CreateAnalyzeAnswerData
   ): Promise<AxiosResponse<Response>> {
-    return await $api.post<Response>(`/${AnalyzeService.route}/`, payload);
+    return await $api.post<Response>(
+      `/${AnalyzeService.route}/answer`,
+      payload
+    );
   }
 
   static async update(
-    payload: UpdateAnalyzeData
+    payload: UpdateAnalyzeAnswerData
   ): Promise<AxiosResponse<Response>> {
     return await $api.patch<Response>(
       `/${AnalyzeService.route}/update/${payload.id}`,

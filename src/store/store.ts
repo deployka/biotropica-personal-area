@@ -12,7 +12,8 @@ import { GoalsState } from './ducks/goals/contracts/state';
 import { ProgressState } from './ducks/progress/contracts/state';
 import { RecommendationState } from './ducks/recommendation/contracts/state';
 import { RecommendationsState } from './ducks/recommendations/contracts/state';
-import { AnalyzeState } from './ducks/analyzes/contracts/state';
+import { AnalyzeAnswerState } from './ducks/analyze/contracts/state';
+import { AnalyzesState } from './ducks/analyzes/contracts/state';
 
 declare global {
   interface Window {
@@ -34,7 +35,8 @@ export interface RootState {
   progress: ProgressState;
   recommendation: RecommendationState;
   recommendations: RecommendationsState;
-  analyze: AnalyzeState;
+  analyze: AnalyzeAnswerState;
+  analyzes: AnalyzesState;
   notification: NotificationState;
   chat: ChatState;
 }

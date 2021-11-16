@@ -1,69 +1,42 @@
 import {
-  FetchAnalyzeDataActionInterface,
-  SetAnalyzeDataActionInterface,
-  SetAnalyzeLoadingStatusActionInterface,
-  SetAnalyzeResponseActionInterface,
-  AnalyzeActionsType,
-  CreateAnalyzeDataActionInterface,
-  UpdateAnalyzeActionInterface,
-  DeleteAnalyzeActionInterface,
+  FetchAnalyzesDataActionInterface,
+  SetAnalyzesDataActionInterface,
+  SetAnalyzesLoadingStatusActionInterface,
+  SetAnalyzesResponseActionInterface,
+  AnalyzesActionsType,
 } from './contracts/actionTypes';
-import {
-  CreateAnalyzeData,
-  AnalyzeState,
-  UpdateAnalyzeData,
-} from './contracts/state';
+import { AnalyzesState } from './contracts/state';
 
-export const fetchAnalyzeData = (
-  payload: number
-): FetchAnalyzeDataActionInterface => ({
-  type: AnalyzeActionsType.FETCH_ANALYZE_DATA,
+export const fetchAnalyzesData = (
+  limit: number
+): FetchAnalyzesDataActionInterface => ({
+  type: AnalyzesActionsType.FETCH_ANALYZES_DATA,
+  payload: limit,
+});
+
+export const setAnalyzesLoadingStatus = (
+  payload: AnalyzesState['status']
+): SetAnalyzesLoadingStatusActionInterface => ({
+  type: AnalyzesActionsType.SET_LOADING_STATE,
   payload,
 });
 
-export const createAnalyzeData = (
-  payload: CreateAnalyzeData
-): CreateAnalyzeDataActionInterface => ({
-  type: AnalyzeActionsType.CREATE_ANALYZE_DATA,
+export const setAnalyzesData = (
+  payload: AnalyzesState['analyzes']
+): SetAnalyzesDataActionInterface => ({
+  type: AnalyzesActionsType.SET_ANALYZES_DATA,
   payload,
 });
 
-export const updateAnalyzeData = (
-  payload: UpdateAnalyzeData
-): UpdateAnalyzeActionInterface => ({
-  type: AnalyzeActionsType.FETCH_UPDATE_ANALYZE,
+export const setAnalyzesResponse = (
+  payload: AnalyzesState['response']
+): SetAnalyzesResponseActionInterface => ({
+  type: AnalyzesActionsType.SET_ANALYZES_RESPONSE,
   payload,
 });
 
-export const deleteAnalyzeData = (
-  payload: number
-): DeleteAnalyzeActionInterface => ({
-  type: AnalyzeActionsType.FETCH_DELETE_ANALYZE,
-  payload,
-});
-
-export const setAnalyzeLoadingStatus = (
-  payload: AnalyzeState['status']
-): SetAnalyzeLoadingStatusActionInterface => ({
-  type: AnalyzeActionsType.SET_LOADING_STATE,
-  payload,
-});
-
-export const setAnalyzeData = (
-  payload: AnalyzeState['analyze']
-): SetAnalyzeDataActionInterface => ({
-  type: AnalyzeActionsType.SET_ANALYZE_DATA,
-  payload,
-});
-
-export const setAnalyzeResponse = (
-  payload: AnalyzeState['response']
-): SetAnalyzeResponseActionInterface => ({
-  type: AnalyzeActionsType.SET_ANALYZE_RESPONSE,
-  payload,
-});
-
-export type AnalyzeActions =
-  | SetAnalyzeDataActionInterface
-  | SetAnalyzeLoadingStatusActionInterface
-  | SetAnalyzeResponseActionInterface;
+export type AnalyzesActions =
+  | SetAnalyzesDataActionInterface
+  | SetAnalyzesLoadingStatusActionInterface
+  | SetAnalyzesResponseActionInterface
+  | SetAnalyzesDataActionInterface;

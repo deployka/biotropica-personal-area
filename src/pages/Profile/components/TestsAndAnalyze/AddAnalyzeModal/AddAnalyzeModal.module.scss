@@ -22,20 +22,18 @@
 
     display: flex;
     justify-content: center;
-
     border-bottom: 1px solid #f7f6fb;
 
     h2 {
       font-weight: 600;
       font-size: 24px;
       letter-spacing: 0.0075em;
-
       color: #000000;
     }
   }
 
   .fileInput {
-    margin: 50px 0 20px 0;
+    margin: 20px 0 20px 0;
     input {
       display: none;
     }
@@ -44,6 +42,8 @@
       display: block;
       width: 370px;
       height: 110px;
+
+      cursor: pointer;
 
       display: flex;
       flex-direction: column;
@@ -70,7 +70,7 @@
 
   .textInput {
     width: 370px;
-    margin: 0 0 50px 0;
+    margin: 0 0 25px 0;
     position: relative;
 
     input {
@@ -88,16 +88,15 @@
     button {
       padding: 7px 15px;
       border-radius: 50px;
+      height: 35px;
 
       font-weight: 500;
       font-size: 14px;
 
-      color: #ffffff;
-
       cursor: pointer;
     }
 
-    .cansel {
+    .cancel {
       border: 1px solid #6f61d0;
       color: #6f61d0;
     }
@@ -107,4 +106,12 @@
       background-color: #6f61d0;
     }
   }
+}
+
+.error__input {
+  border: 1px solid tomato;
+}
+
+.success__input {
+  border: 1px solid green;
 }
