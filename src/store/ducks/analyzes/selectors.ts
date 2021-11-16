@@ -1,18 +1,20 @@
 import { RootState } from '../../store';
-import { AnalyzeState } from './contracts/state';
+import { AnalyzesState } from './contracts/state';
 
-export const selectAnalyzeState = (state: RootState): AnalyzeState =>
-  state.analyze;
+export const selectAnalyzesState = (state: RootState): AnalyzesState =>
+  state.analyzes;
 
-export const selectAnalyzeData = (state: RootState): AnalyzeState['analyze'] =>
-  selectAnalyzeState(state).analyze;
-
-export const selectAnalyzeResponse = (
+export const selectAnalyzesData = (
   state: RootState
-): AnalyzeState['response'] => selectAnalyzeState(state).response;
+): AnalyzesState['analyzes'] => selectAnalyzesState(state).analyzes;
 
-export const selectAnalyzeStatus = (state: RootState): AnalyzeState['status'] =>
-  selectAnalyzeState(state).status;
+export const selectAnalyzesResponse = (
+  state: RootState
+): AnalyzesState['response'] => selectAnalyzesState(state).response;
 
-export const selectAnalyzeLoadingStatus = (state: RootState): string =>
-  selectAnalyzeState(state).status;
+export const selectAnalyzesStatus = (
+  state: RootState
+): AnalyzesState['status'] => selectAnalyzesState(state).status;
+
+export const selectAnalyzesLoadingStatus = (state: RootState): string =>
+  selectAnalyzesState(state).status;

@@ -46,8 +46,6 @@ const Signup = () => {
             pauseOnHover: true,
           },
         });
-
-        console.log(errorValue);
         refSetFieldValue.current(errorValue, '');
         refSetFieldValue.current('verification_password', '');
 
