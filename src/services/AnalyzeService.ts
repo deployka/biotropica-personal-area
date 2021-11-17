@@ -1,45 +1,53 @@
 import { AxiosResponse } from 'axios';
 import $api from '../http';
 import {
-  CreateAnalyzeData,
+  CreateAnalyzeAnswerData,
+  UpdateAnalyzeAnswerData,
+  AnalyzeAnswer,
   Analyze,
-  UpdateAnalyzeData,
-} from '../store/ducks/analyzes/contracts/state';
+} from '../store/ducks/analyze/contracts/state';
 
 interface Response {
   status: string;
-  data: Analyze | Analyze[];
+  data: AnalyzeAnswer[];
 }
 
 export default class AnalyzeService {
   static route: string = 'analyzes';
 
-  static async getOne(payload: number): Promise<AxiosResponse<Response>> {
-    return await $api.get<Response>(`/${AnalyzeService.route}/${payload}`);
+  static async getOne(id: number): Promise<AxiosResponse<Response>> {
+    return await $api.get<Response>(`/${AnalyzeService.route}/${id}`);
   }
 
-  static async geAll(): Promise<AxiosResponse<Response>> {
-    return await $api.get<Response>(`/${AnalyzeService.route}/`);
+  static async geAll(
+    offset: number = 0,
+    limit: number = 2
+  ): Promise<AxiosResponse<Response>> {
+    return await $api.get<Response>(
+      `/${AnalyzeService.route}/answers?offset=${offset}&limit=${limit}`
+    );
+  }
+
+  static async geAllTypes(): Promise<AxiosResponse<Analyze[]>> {
+    return await $api.get<Analyze[]>(`/${AnalyzeService.route}/`);
   }
 
   static async create(
-    payload: CreateAnalyzeData
+    data: CreateAnalyzeAnswerData
   ): Promise<AxiosResponse<Response>> {
-    return await $api.post<Response>(`/${AnalyzeService.route}/`, payload);
+    return await $api.post<Response>(`/${AnalyzeService.route}/answer`, data);
   }
 
   static async update(
-    payload: UpdateAnalyzeData
+    data: UpdateAnalyzeAnswerData
   ): Promise<AxiosResponse<Response>> {
     return await $api.patch<Response>(
-      `/${AnalyzeService.route}/update/${payload.id}`,
-      payload
+      `/${AnalyzeService.route}/update/${data.id}`,
+      data
     );
   }
 
-  static async delete(payload: number): Promise<AxiosResponse<Response>> {
-    return await $api.delete<Response>(
-      `/${AnalyzeService.route}/delete/${payload}`
-    );
+  static async delete(id: number): Promise<AxiosResponse<Response>> {
+    return await $api.delete<Response>(`/${AnalyzeService.route}/delete/${id}`);
   }
 }

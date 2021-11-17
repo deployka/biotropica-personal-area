@@ -1,17 +1,25 @@
-@import "../../../../../styles/mixins.scss";
-@import "../../../../../styles/variables.scss";
+@import '../../../../../styles/mixins.scss';
+@import '../../../../../styles/variables.scss';
 .analyzes__card {
-  @include flex(column, flex-start, flex-start);
+  overflow-y: auto;
   width: 892px;
+  max-height: 325px;
   border: 1px solid $color-secondary;
   border-radius: 15px;
   padding: 30px;
+  padding-top: 0;
 }
 .card {
   &__header {
     @include flex($justify: space-between);
     margin-bottom: 20px;
     width: 100%;
+    background-color: #fff;
+    position: sticky;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    top: 0px;
   }
   &__title {
     font-weight: 600;

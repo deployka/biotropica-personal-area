@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useModal } from "../hooks/useModal";
-import { AddPhotoModal } from "../pages/Profile/components/Progress/AddPhotoModal/AddPhotoModal";
-import { PhotoSliderModal } from "../pages/Profile/components/Progress/PhotoSliderModal/PhotoSliderModal";
-import { AddAnalyzeModal } from "../pages/Profile/components/TestsAndAnalyze/AddAnalyzeModal/AddAnalyzeModal";
-import { ModalName } from "../providers/ModalProvider";
+import React, { useCallback, useEffect, useState } from 'react';
+import { useModal } from '../hooks/useModal';
+import { AddPhotoModal } from '../pages/Profile/components/Progress/AddPhotoModal/AddPhotoModal';
+import { PhotoSliderModal } from '../pages/Profile/components/Progress/PhotoSliderModal/PhotoSliderModal';
+import { AddAnalyzeModal } from '../pages/Profile/components/TestsAndAnalyze/AddAnalyzeModal/AddAnalyzeModal';
+import { ModalName } from '../providers/ModalProvider';
 
 interface Props {}
 
@@ -14,16 +14,16 @@ export const Modals = ({}: Props) => {
     setElements(getElements());
   }, [modals]);
 
-  const escFunction = useCallback((event) => {
+  const escFunction = useCallback(event => {
     if (event.keyCode === 27) {
       closeAllModals();
     }
   }, []);
 
   useEffect(() => {
-    document.addEventListener("keydown", escFunction, false);
+    document.addEventListener('keydown', escFunction, false);
     return () => {
-      document.removeEventListener("keydown", escFunction, false);
+      document.removeEventListener('keydown', escFunction, false);
     };
   }, []);
 
