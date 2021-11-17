@@ -14,26 +14,53 @@ import { Input } from './../../../../../shared/Form/Input/Input';
 import s from './AddAnalyzeModal.module.scss';
 
 interface Props {
-  onFileLoaded: (
-    e: React.ChangeEvent<HTMLInputElement>,
-    setFieldValue: (field: string, value: any) => void
-  ) => File | null;
   onSubmit: (values: CreateAnalyzeAnswerData) => void;
   validationSchema: any;
+  onErrorFileLoaded: () => void;
+  onSuccessFileLoaded: () => void;
 }
 
 export const AddAnalyzeModal = ({
-  onFileLoaded,
   onSubmit,
   validationSchema,
+  onSuccessFileLoaded,
+  onErrorFileLoaded,
 }: Props) => {
   const { closeModal, modals } = useModal();
   const [loading, setLoading] = useState(false);
+
+  const [fileName, setFileName] = useState('');
+
+  function onFileLoaded(
+    e: React.ChangeEvent<HTMLInputElement>,
+    setFieldValue: (field: string, value: any) => void
+  ) {
+    const tgt = e.target;
+    const files = tgt.files;
+    const permittedPaths = ['application/pdf'];
+
+    if (
+      FileReader &&
+      files &&
+      files.length &&
+      permittedPaths.includes(files?.[0]?.type)
+    ) {
+      onSuccessFileLoaded();
+      const fr = new FileReader();
+      fr.onload = function () {
+        setFieldValue('filePath', files[0]);
+        setFileName(files[0].name);
+      };
+      fr.readAsDataURL(files[0]);
+    } else {
+      onErrorFileLoaded();
+    }
+  }
+
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || loading;
   }
 
-  const [file, setFile] = useState<File | null>(null);
   return (
     <>
       <div onClick={() => closeModal(ModalName.MODAL_ADD_ANALYZ_FILE)}>
@@ -75,9 +102,7 @@ export const AddAnalyzeModal = ({
               <input
                 type="file"
                 name="filePath"
-                onChange={e => {
-                  setFile(onFileLoaded(e, setFieldValue));
-                }}
+                onChange={e => onFileLoaded(e, setFieldValue)}
                 id="modalFileInput"
               />
               <label
@@ -89,7 +114,7 @@ export const AddAnalyzeModal = ({
                 htmlFor="modalFileInput"
               >
                 <ProfileSvgSelector id="document" />
-                <p>{file ? file.name : 'Загрузить анализы'}</p>
+                <p>{fileName ? fileName : 'Загрузить анализы'}</p>
               </label>
             </div>
             <div className={s.textInput}>

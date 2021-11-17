@@ -15,13 +15,16 @@ interface Response {
 export default class AnalyzeService {
   static route: string = 'analyzes';
 
-  static async getOne(payload: number): Promise<AxiosResponse<Response>> {
-    return await $api.get<Response>(`/${AnalyzeService.route}/${payload}`);
+  static async getOne(id: number): Promise<AxiosResponse<Response>> {
+    return await $api.get<Response>(`/${AnalyzeService.route}/${id}`);
   }
 
-  static async geAll(payload: number): Promise<AxiosResponse<Response>> {
+  static async geAll(
+    offset: number = 0,
+    limit: number = 2
+  ): Promise<AxiosResponse<Response>> {
     return await $api.get<Response>(
-      `/${AnalyzeService.route}/answers?limit=${payload}`
+      `/${AnalyzeService.route}/answers?offset=${offset}&limit=${limit}`
     );
   }
 
@@ -30,26 +33,21 @@ export default class AnalyzeService {
   }
 
   static async create(
-    payload: CreateAnalyzeAnswerData
+    data: CreateAnalyzeAnswerData
   ): Promise<AxiosResponse<Response>> {
-    return await $api.post<Response>(
-      `/${AnalyzeService.route}/answer`,
-      payload
-    );
+    return await $api.post<Response>(`/${AnalyzeService.route}/answer`, data);
   }
 
   static async update(
-    payload: UpdateAnalyzeAnswerData
+    data: UpdateAnalyzeAnswerData
   ): Promise<AxiosResponse<Response>> {
     return await $api.patch<Response>(
-      `/${AnalyzeService.route}/update/${payload.id}`,
-      payload
+      `/${AnalyzeService.route}/update/${data.id}`,
+      data
     );
   }
 
-  static async delete(payload: number): Promise<AxiosResponse<Response>> {
-    return await $api.delete<Response>(
-      `/${AnalyzeService.route}/delete/${payload}`
-    );
+  static async delete(id: number): Promise<AxiosResponse<Response>> {
+    return await $api.delete<Response>(`/${AnalyzeService.route}/delete/${id}`);
   }
 }

@@ -1,20 +1,16 @@
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import s from './AnalyzesCard.module.scss';
 import {
   Analyze,
   AnalyzeAnswer,
 } from '../../../../../store/ducks/analyze/contracts/state';
-import { Dispatch, SetStateAction, useState } from 'react';
 import { AnalyzeTypes } from './AnalyzeTypes';
 import { Analyzes } from './Analyzes';
 interface Props {
   analyzes: AnalyzeAnswer[];
   onAddAnalyzeClick: () => void;
-  onShowMoreClick: (
-    setShowMore: Dispatch<SetStateAction<boolean>>,
-    showMore: boolean
-  ) => void;
+  onShowMoreClick: () => void;
   analyzeTypes: Analyze[];
+  isShowMore: boolean;
 }
 
 export const AnalyzesCard = ({
@@ -22,8 +18,8 @@ export const AnalyzesCard = ({
   onAddAnalyzeClick,
   analyzeTypes,
   onShowMoreClick,
+  isShowMore,
 }: Props) => {
-  const [showMore, setShowMore] = useState(false);
   return (
     <div className={s.analyzes__card}>
       <div className={s.card__header}>
@@ -34,11 +30,8 @@ export const AnalyzesCard = ({
       </div>
       <AnalyzeTypes analyzeTypes={analyzeTypes} />
       <Analyzes analyzes={analyzes} />
-      <button
-        onClick={() => onShowMoreClick(setShowMore, showMore)}
-        className={s.card__more__btn}
-      >
-        {!showMore ? 'загрузить еще' : 'скрыть'}
+      <button onClick={onShowMoreClick} className={s.card__more__btn}>
+        {isShowMore ? 'загрузить еще' : 'скрыть'}
       </button>
     </div>
   );

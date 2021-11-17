@@ -10,7 +10,7 @@ import {
   selectAnalyzeLoadingStatus,
   selectAnalyzeResponse,
 } from '../../../../store/ducks/analyze/selectors';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LoadingStatus } from '../../../../store/types';
 import { store } from 'react-notifications-component';
 import { notification } from '../../../../config/notification/notificationForm';
@@ -26,9 +26,16 @@ import {
 } from '../../../../store/ducks/analyze/contracts/state';
 import FileService from '../../../../services/FileService';
 import { validationSchema } from './validationSchema';
-import { selectAnalyzesData } from '../../../../store/ducks/analyzes/selectors';
-import { fetchAnalyzesData } from '../../../../store/ducks/analyzes/actionCreators';
+import {
+  selectAnalyzesData,
+  selectAnalyzesResponse,
+} from '../../../../store/ducks/analyzes/selectors';
+import {
+  fetchAnalyzesData,
+  setAnalyzesData,
+} from '../../../../store/ducks/analyzes/actionCreators';
 import AnalyzeService from '../../../../services/AnalyzeService';
+import { NEXT_FETCH_LIMIT, MIN_LIMIT } from '../../../../constants/analyzes';
 
 interface Props {
   user: User;
@@ -55,21 +62,31 @@ export const TestsAndAnalyze = ({}: Props) => {
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectAnalyzeLoadingStatus);
   const response = useSelector(selectAnalyzeResponse);
+  const offsetData = useSelector(selectAnalyzesResponse);
 
-  const [file, setFile] = useState<ArrayBuffer | string | null>(null);
   const [analyzeTypes, setAnalyzeTypes] = useState<Analyze[]>([]);
+  const [isShowMore, setIsShowMore] = useState(true);
 
-  const analyzes: AnalyzeAnswer[] | [] = useSelector(selectAnalyzesData);
-  const [limit, setLimit] = useState(2);
+  const analyzes: AnalyzeAnswer[] = useSelector(selectAnalyzesData);
+  const offset: number = analyzes.length;
+
+  function fetchAnalyzesByLimitAndOffset(offset: number, limit?: number) {
+    dispatch(fetchAnalyzesData(offset, limit));
+  }
 
   useEffect(() => {
-    dispatch(fetchAnalyzesData(limit));
-  }, [limit]);
+    dispatch(fetchAnalyzesData());
+  }, []);
 
   useEffect(() => {
-    async function fetchAllTypes() {
-      const { data } = await AnalyzeService.geAllTypes();
-      setAnalyzeTypes(data);
+    if (analyzes.length && !offsetData && isShowMore) {
+      setIsShowMore(false);
+    }
+  }, [offsetData]);
+
+  useEffect(() => {
+    function fetchAllTypes() {
+      AnalyzeService.geAllTypes().then(({ data }) => setAnalyzeTypes(data));
     }
     fetchAllTypes();
   }, []);
@@ -93,7 +110,7 @@ export const TestsAndAnalyze = ({}: Props) => {
           type: 'success',
         });
         closeModal(ModalName.MODAL_ADD_ANALYZ_FILE);
-        dispatch(fetchAnalyzesData(limit));
+        dispatch(fetchAnalyzesData());
         dispatch(setAnalyzeResponse(undefined));
         break;
       default:
@@ -122,50 +139,24 @@ export const TestsAndAnalyze = ({}: Props) => {
     }
   }
 
-  function onFileLoaded(
-    e: React.ChangeEvent<HTMLInputElement>,
-    setFieldValue: (field: string, value: any) => void
-  ): File | null {
-    const tgt = e.target;
-    const files = tgt.files;
-    const permittedPaths = ['application/pdf'];
-
-    if (
-      FileReader &&
-      files &&
-      files.length &&
-      permittedPaths.includes(files?.[0]?.type)
-    ) {
-      store.removeNotification('file_type_error');
-      const fr = new FileReader();
-      fr.onload = function () {
-        setFieldValue('filePath', files[0]);
-        setFile(fr.result);
-      };
-      fr.readAsDataURL(files[0]);
-      return files[0];
-    } else {
-      store.addNotification({
-        ...notification,
-        title: 'Файл не был загружен!',
-        message: 'Допустимые типы анализов: pdf',
-        type: 'danger',
-        id: 'file_type_error',
-        dismiss: {
-          duration: 7000,
-          onScreen: true,
-        },
-      });
-    }
-    return null;
-  }
-
   function addAnalyzeOpen() {
     return openModal(ModalName.MODAL_ADD_ANALYZ_FILE, {
       onSubmit,
-      onFileLoaded,
       validationSchema,
-      file,
+      onErrorFileLoaded: () => {
+        store.addNotification({
+          ...notification,
+          title: 'Файл не был загружен!',
+          message: 'Допустимые типы анализов: pdf',
+          type: 'danger',
+          id: 'file_type_error',
+          dismiss: {
+            duration: 7000,
+            onScreen: true,
+          },
+        });
+      },
+      onSuccessFileLoaded: () => store.removeNotification('file_type_error'),
     });
   }
 
@@ -185,23 +176,13 @@ export const TestsAndAnalyze = ({}: Props) => {
     },
   };
 
-  function getShowMore() {
-    if (analyzes.length === limit) {
-      return false;
+  function onShowMoreClick() {
+    if (!offsetData && !isShowMore) {
+      dispatch(setAnalyzesData(analyzes.filter((_, i) => i < MIN_LIMIT)));
+      setIsShowMore(true);
+    } else {
+      fetchAnalyzesByLimitAndOffset(offset, NEXT_FETCH_LIMIT);
     }
-    return true;
-  }
-
-  function onShowMoreClick(
-    setShowMore: Dispatch<SetStateAction<boolean>>,
-    showMore: boolean
-  ) {
-    setShowMore(getShowMore());
-    if (showMore) {
-      setShowMore(false);
-      return setLimit(2);
-    }
-    setLimit(limit + 3);
   }
 
   return (
@@ -218,6 +199,7 @@ export const TestsAndAnalyze = ({}: Props) => {
           onAddAnalyzeClick={addAnalyzeOpen}
           analyzes={analyzes}
           onShowMoreClick={onShowMoreClick}
+          isShowMore={isShowMore}
         />
       ) : (
         <InfoBar infoBar={analyzesInfoBar} />

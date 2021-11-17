@@ -9,10 +9,14 @@ export enum AnalyzesActionsType {
   FETCH_ANALYZES_DATA = 'analyzes/FETCH_ANALYZES_DATA',
 }
 
+interface Options {
+  limit?: number;
+  offset?: number;
+}
 export interface FetchAnalyzesDataActionInterface
   extends Action<AnalyzesActionsType> {
   type: AnalyzesActionsType.FETCH_ANALYZES_DATA;
-  payload: number;
+  payload: Options;
 }
 
 export interface SetAnalyzesResponseActionInterface

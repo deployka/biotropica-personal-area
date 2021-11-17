@@ -21,13 +21,10 @@ export type Modal<props> = {
 export type Modals = {
   [ModalName.MODAL_ADD_PROGRESS_PHOTO]: Modal<{}>;
   [ModalName.MODAL_ADD_ANALYZ_FILE]: Modal<{
-    onFileLoaded: (
-      e: React.ChangeEvent<HTMLInputElement>,
-      setFieldValue: (field: string, value: any) => void
-    ) => File | null;
     onSubmit: (values: CreateAnalyzeAnswerData) => void;
     validationSchema: any;
-    file: ArrayBuffer | null | string;
+    onErrorFileLoaded: () => void;
+    onSuccessFileLoaded: () => void;
   }>;
   [ModalName.MODAL_PROGRESS_PHOTO_SLIDER]: Modal<{
     photos: Photo[];

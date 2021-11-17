@@ -8,10 +8,14 @@ import {
 import { AnalyzesState } from './contracts/state';
 
 export const fetchAnalyzesData = (
-  limit: number
+  offset?: number,
+  limit?: number
 ): FetchAnalyzesDataActionInterface => ({
   type: AnalyzesActionsType.FETCH_ANALYZES_DATA,
-  payload: limit,
+  payload: {
+    offset,
+    limit,
+  },
 });
 
 export const setAnalyzesLoadingStatus = (
