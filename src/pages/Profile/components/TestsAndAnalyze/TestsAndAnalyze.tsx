@@ -111,6 +111,7 @@ export const TestsAndAnalyze = ({}: Props) => {
         });
         closeModal(ModalName.MODAL_ADD_ANALYZ_FILE);
         dispatch(fetchAnalyzesData());
+        setIsShowMore(true);
         dispatch(setAnalyzeResponse(undefined));
         break;
       default:
