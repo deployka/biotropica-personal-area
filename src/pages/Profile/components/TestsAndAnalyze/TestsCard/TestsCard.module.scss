@@ -1,60 +1,91 @@
 @import "../../../../../styles/mixins.scss";
 @import "../../../../../styles/variables.scss";
-.tests__card {
-  @include flex(column, flex-start, flex-start);
-  width: 892px;
+
+.testCard {
+  padding: 30px;
+
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
   border: 1px solid $color-secondary;
   border-radius: 15px;
-  padding: 30px;
-  margin-bottom: 32px;
-}
-.card {
-  &__header {
+
+  .header {
     @include flex($justify: space-between);
     margin-bottom: 20px;
     width: 100%;
-  }
-  &__title {
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 120%;
-    color: $color-black;
-  }
-  &__update {
-    display: inline-block;
-    cursor: pointer;
-    font-size: 16px;
-    line-height: 120%;
-    color: $color-grey-2;
-    padding-bottom: 2px;
-    border-bottom: 1px solid $color-grey-2;
-    text-decoration: none;
-  }
-  &__tests {
-    &__list {
-      @include flex(column, flex-start, flex-start, nowrap);
-      margin-bottom: 20px;
-    }
-    &__item {
-      color: $color-secondary;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 120%;
-      margin-bottom: 10px;
-      &:last-of-type {
-        margin-bottom: 0;
-      }
-      &__answer {
-        color: $color-grey-3;
+
+    .title {
+      p {
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 120%;
+
+        color: $color-black;
       }
     }
+    .updateBtn {
+      padding: 0 0 2px 0;
+
+      border-bottom: 1px solid $color-grey-2;
+
+      @include for-phone {
+        border: none;
+      }
+
+      a {
+        font-size: 16px;
+        line-height: 120%;
+        text-decoration: none;
+
+        color: $color-grey-2;
+
+        .icon {
+          display: none;
+        }
+
+        @include for-phone {
+          .text {
+            display: none;
+          }
+          .icon {
+            display: block;
+
+            img {
+              width: 24px;
+              height: 24px;
+            }
+          }
+        }
+      }
+    }
   }
-  &__more__btn {
-    cursor: pointer;
-    color: $color-primary;
+
+  .list {
+    margin: 0 0 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 10px;
+
+    .item {
+      p {
+        color: $color-secondary;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 120%;
+      }
+    }
+    .answer {
+      color: $color-grey-3;
+    }
+  }
+
+  .moreBtn {
+    padding: 0 0 2px 0;
     border-bottom: 1px solid $color-primary;
-    font-size: 16px;
-    line-height: 120%;
-    padding-bottom: 2px;
   }
 }

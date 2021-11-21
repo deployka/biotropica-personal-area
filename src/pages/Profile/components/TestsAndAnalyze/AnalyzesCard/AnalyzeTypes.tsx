@@ -9,10 +9,12 @@ interface Props {
 
 export const AnalyzeTypes = ({ analyzeTypes }: Props) => {
   return (
-    <div className={s.card__analyzes__text__list}>
+    <div className={s.analyzesTypes}>
       {analyzeTypes.map((analyze: Analyze) => (
-        <div key={analyze.id} className={s.card__analyzes__text}>
-          • <span className={s.card__tests__item__answer}>{analyze.title}</span>
+        <div key={analyze.id} className={s.text}>
+          <p>
+            • <span className={s.answer}>{analyze.title}</span>
+          </p>
         </div>
       ))}
     </div>

@@ -5,6 +5,9 @@ import {
 } from '../../../../../store/ducks/analyze/contracts/state';
 import { AnalyzeTypes } from './AnalyzeTypes';
 import { Analyzes } from './Analyzes';
+
+import editSvg from '../../../../../assets/icons/profile/edit.svg';
+
 interface Props {
   analyzes: AnalyzeAnswer[];
   onAddAnalyzeClick: () => void;
@@ -21,16 +24,19 @@ export const AnalyzesCard = ({
   isShowMore,
 }: Props) => {
   return (
-    <div className={s.analyzes__card}>
-      <div className={s.card__header}>
-        <div className={s.card__title}>Анализы</div>
-        <button onClick={onAddAnalyzeClick} className={s.card__update}>
-          загрузить новые
+    <div className={s.analyzesCard}>
+      <div className={s.header}>
+        <div className={s.title}>
+          <p>Анализы</p>
+        </div>
+        <button onClick={onAddAnalyzeClick} className={s.updateBtn}>
+          <p>загрузить новые</p>
+          <img src={editSvg} alt="" />
         </button>
       </div>
       <AnalyzeTypes analyzeTypes={analyzeTypes} />
       <Analyzes analyzes={analyzes} />
-      <button onClick={onShowMoreClick} className={s.card__more__btn}>
+      <button onClick={onShowMoreClick} className={s.moreBtn}>
         {isShowMore ? 'загрузить еще' : 'скрыть'}
       </button>
     </div>
