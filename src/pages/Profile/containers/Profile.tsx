@@ -1,37 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectUserData } from '../../../store/ducks/user/selectors';
-import { Card } from '../components/Card/Card';
-import { Tariff } from '../components/Tariff/Tariff';
-import { Goals } from '../components/Goals/Goals';
-import { Progress } from '../components/Progress/Progress';
-import { Recommended } from '../components/Recommended/Recommended';
-import { TestsAndAnalyze } from '../components/TestsAndAnalyze/TestsAndAnalyze';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectUserData } from "../../../store/ducks/user/selectors";
+import { Card } from "../components/Card/Card";
+import { Tariff } from "../components/Tariff/Tariff";
+import { Goals } from "../components/Goals/Goals";
+import { Progress } from "../components/Progress/Progress";
+import { Recommended } from "../components/Recommended/Recommended";
+import { TestsAndAnalyze } from "../components/TestsAndAnalyze/TestsAndAnalyze";
 
-import s from './Profile.module.scss';
-import { useModal } from '../../../hooks/useModal';
-import { ModalName } from '../../../providers/ModalProvider';
-import { useHistory, useParams } from 'react-router';
-import { Param } from './Edit';
-import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
-import { getTabByKey } from '../../../utils/tabsHelper';
+import s from "./Profile.module.scss";
+import { useModal } from "../../../hooks/useModal";
+import { ModalName } from "../../../providers/ModalProvider";
+import { useHistory, useParams } from "react-router";
+import { Param } from "./Edit";
+import { Tab, Tabs } from "../../../shared/Global/Tabs/Tabs";
+import { getTabByKey } from "../../../utils/tabsHelper";
 
 const Profile = () => {
   const { openModal } = useModal();
 
   const tabs: Tab[] = [
     {
-      key: 'recommended',
-      value: 'Рекомендации',
+      key: "recommended",
+      value: "Рекомендации",
     },
     {
-      key: 'test-analyzes',
+      key: "test-analyzes",
 
-      value: 'Тестирование и Анализы',
+      value: "Тестирование и Анализы",
     },
     {
-      key: 'progress',
-      value: 'Прогресс',
+      key: "progress",
+      value: "Прогресс",
     },
   ];
 
@@ -45,8 +45,8 @@ const Profile = () => {
   );
 
   const TariffData = {
-    name: 'стандарт',
-    expires: '9 июля 2021',
+    name: "стандарт",
+    expires: "9 июля 2021",
   };
 
   useEffect(() => {
