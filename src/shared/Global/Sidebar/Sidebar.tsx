@@ -85,8 +85,6 @@ export const Sidebar = memo(
 
     const user = useSelector(selectUserData);
 
-    const [close, setClose] = useState<boolean>(false);
-
     useEffect(() => {
       for (const value of pages) {
         const currentPath = location.pathname.split('/');
@@ -99,13 +97,8 @@ export const Sidebar = memo(
       }
     }, [location.pathname]);
 
-    function openSidebar() {
-      setClose(false);
-    }
-
     function toggleSidebar(e: MouseEvent<HTMLElement>) {
       e.stopPropagation();
-      setClose(!close);
     }
 
     function openChat() {
@@ -119,25 +112,18 @@ export const Sidebar = memo(
     }
 
     return (
-      <div
-        onClick={openSidebar}
-        className={classNames(s.sidebar, {
-          [s.open]: close,
-        })}
-      >
+      <div className={s.sidebar}>
         <div className={s.wrapper}>
-          <div className={s.close} onClick={toggleSidebar}>
+          {/* <div className={s.close} onClick={toggleSidebar}>
             <GlobalSvgSelector id="next-rounded" />
-          </div>
-          <div className={s.sidebar__prompt}>
-            <p>{'Свернуть'}</p>
-          </div>
-          <div className={s.sidebar__top}>
+          </div> */}
+
+          <div className={s.top}>
             <Link
               to="/profile"
               className={classNames({
-                [s.sidebar__avatar]: true,
-                [s.active__profile_paid]:
+                [s.avatar]: true,
+                [s.active]:
                   pages[0].link === '/' + location.pathname.split('/')[1],
               })}
               onClick={() => setPage('Профиль')}
@@ -155,47 +141,50 @@ export const Sidebar = memo(
                 }}
               ></div>
             </Link>
-            <div className={s.sidebar__divider}></div>
-            <nav className={s.sidebar__nav}>
+            <div className={s.divider}></div>
+            <nav className={s.nav}>
               {nav.map((item: Nav) => (
                 <Link
                   key={item.page + item.link}
                   onClick={() => setPage(item.page)}
                   to={item.link}
-                  className={
+                  className={classNames(
                     item.link === '/' + location.pathname.split('/')[1]
-                      ? s.active__nav
-                      : s.nav__link
-                  }
+                      ? s.active
+                      : '',
+                    s.link
+                  )}
                 >
-                  <div className={s.sidebar__link}>{item.svg}</div>
-                  <div className={s.sidebar__prompt}>
+                  <div className={s.icon}>{item.svg}</div>
+                  <div className={s.prompt}>
                     <p>{item.page}</p>
                   </div>
                 </Link>
               ))}
             </nav>
           </div>
-          <div className={s.sidebar__bottom}>
-            <a
-              href="#"
+
+          <div className={s.bottom}>
+            <div
               onClick={openChat}
-              className={chatNotificationsOpen ? s.active__chat : s.chat__icon}
+              className={classNames(
+                s.chat,
+                chatNotificationsOpen ? s.active : ''
+              )}
             >
               <SidebarSvgSelector id="chat" />
-              <div className={s.sidebar__prompt}>
+              <div className={s.prompt}>
                 <p>{'Чат поддержка'}</p>
               </div>
-            </a>
-            <div className={s.sidebar__divider}></div>
-            <div className={s.sidebar__logout}>
-              <button onClick={logout} className={s.logout__svg}>
-                <SidebarSvgSelector id="logout" />
-                <div className={s.sidebar__prompt}>
-                  <p>{'Выйти'}</p>
-                </div>
-              </button>
             </div>
+            <div className={s.divider}></div>
+
+            <button onClick={logout} className={s.logout}>
+              <SidebarSvgSelector id="logout" />
+              <div className={s.prompt}>
+                <p>{'Выйти'}</p>
+              </div>
+            </button>
           </div>
         </div>
       </div>
