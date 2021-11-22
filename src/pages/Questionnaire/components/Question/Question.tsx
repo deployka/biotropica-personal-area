@@ -3,9 +3,20 @@ import { QuestionnaireSvgSelector } from '../../../../assets/icons/questionnaire
 import { Progress } from './Progress/Progress';
 import s from './Question.module.scss';
 
-interface Props {
-  type: string;
+type Props = ({
+  type: 'text'|'number'
+} | {
+  type: 'select'|'multiselect'
+  options: {
+    value: string;
+    label: string;
+  }[]
+}) & {
+  onChange(val: string|number): void;
+  onNext(): void;
+  onPrev(): void;
 }
+
 export const Question = ({ type }: Props) => {
   const progressTest = {
     current: 56,
@@ -22,7 +33,8 @@ export const Question = ({ type }: Props) => {
 
   return (
     <div className={s.question}>
-      {/* <Progress options={progressTest} /> */}
+       <Progress options={progressTest} />
+
       {/* <div className={s.question__body}>
         <div className={s.question__number}>1 вопрос</div>
         <h2 className={s.question__title}>Укажите ваш пол</h2>
@@ -47,7 +59,8 @@ export const Question = ({ type }: Props) => {
           </button>
         </div>
       </div> */}
-      {/* <div className={s.question__body}>
+
+      {/*<div className={s.question__body}>
         <div className={s.question__number}>2 вопрос</div>
         <h2 className={s.question__title}>
           Вы хотели бы получить план
@@ -74,8 +87,8 @@ export const Question = ({ type }: Props) => {
             </div>
           </button>
         </div>
-      </div> */}
-      {/* <div className={s.question__body}>
+      </div>*/}
+      {/*<div className={s.question__body}>
         <div className={s.question__number}>3 вопрос</div>
         <h2 className={s.question__title}>Какой срок?</h2>
         <input
@@ -97,8 +110,8 @@ export const Question = ({ type }: Props) => {
             </div>
           </button>
         </div>
-      </div> */}
-      {/* <div className={s.question__body}>
+      </div>*/}
+      {/*<div className={s.question__body}>
         <div className={s.question__number}>4 вопрос</div>
         <h2 className={s.question__title}>
           Укажите Ваше артериальное давление
@@ -128,8 +141,8 @@ export const Question = ({ type }: Props) => {
             </div>
           </button>
         </div>
-      </div> */}
-      {/* <div className={s.question__body}>
+      </div>*/}
+      {/*<div className={s.question__body}>
         <div className={s.question__number}>5 вопрос</div>
         <h2 className={s.question__title}>
           Есть ли у Вас диагностированные / ранее перенесенные или хронические
@@ -162,7 +175,7 @@ export const Question = ({ type }: Props) => {
             </div>
           </button>
         </div>
-      </div> */}
+      </div>*/}
     </div>
   );
 };
