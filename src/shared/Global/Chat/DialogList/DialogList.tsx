@@ -1,18 +1,22 @@
-import s from '../SidebarChat.module.scss';
+import s from '../Chat.module.scss';
 import { BtnClose } from '../../../buttons/BtnClose/BtnClose';
 import { DialogItem } from './DialogItem';
 import { getOpponent } from '../../../../utils/dialogHelper';
 import React from 'react';
-import { Dialog, MessageType } from '../../../../services/ChatService';
-import { User } from '../../../../store/ducks/user/contracts/state';
 
 type Props = {
   dialogs: Dialog[];
-  currentUser: User;
-
+  currentUser: ChatUser;
   onClose: () => void;
   onOpenDialog: (dialog: Dialog) => void;
 };
+
+enum MessageType {
+    TEXT = 'TEXT',
+    IMAGE = 'IMAGE',
+    DOCUMENT = 'DOCUMENT',
+}
+
 
 export function DialogList({
   dialogs,

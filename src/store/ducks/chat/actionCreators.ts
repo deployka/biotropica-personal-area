@@ -3,7 +3,7 @@ import {
   ChatActionsType, FetchDialogActionInterface, FetchDialogsActionInterface,
   SetDialogActionInterface, SetSelectedDialogActionInterface, UpdateMessageActionInterface,
 } from './contracts/actionTypes';
-import {Dialog, Message} from "../../../services/ChatService";
+import {Message} from "../../../services/ChatService";
 
 export const setDialogs = (
   payload: Dialog[]

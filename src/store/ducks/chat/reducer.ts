@@ -20,10 +20,13 @@ export const chatReducer = produce(
             }
             case ChatActionsType.ADD_MESSAGE: {
                 const {dialogId, message} = action.payload;
+
+                console.log('ADD_MESSAGE', dialogId, message, draft.currentDialog);
                 if(draft.currentDialog?.id === dialogId) {
                     const messages = draft.currentDialog.messages.slice();
                     const index = messages.findIndex(it => it.uuid === message.uuid);
                     if(index === -1) {
+                        console.log('PUSH');
                         messages.push(message);
                     } else {
                         messages.splice(index, 1, message);
