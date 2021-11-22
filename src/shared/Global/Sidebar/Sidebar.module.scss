@@ -244,6 +244,9 @@
     border-radius: 15px;
     transition: all 0.2s ease;
 
+    user-select: none;
+    pointer-events: none;
+
     p {
       color: #6f61d0;
       white-space: nowrap;
