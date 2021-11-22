@@ -1,6 +1,5 @@
 import { AxiosResponse } from 'axios';
 import $api from '../http';
-import { User } from '../store/ducks/user/contracts/state';
 import { IFile } from './FileService';
 
 type DateTime = string;
@@ -10,14 +9,6 @@ export type Reading = {
   userId: number;
   dialogId: number;
   readAt: DateTime;
-}
-
-export type Dialog = {
-  id: number;
-  createdAt: DateTime;
-  participants: User[];
-  messages: Message[];
-  opponentReading: Reading
 }
 
 export enum MessageType {

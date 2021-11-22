@@ -1,5 +1,5 @@
 import {Action} from "redux";
-import {Dialog, Message} from "../../../../services/ChatService";
+import {Message} from "../../../../services/ChatService";
 
 export enum ChatActionsType {
     SET_DIALOGS = 'chat/SET_DIALOGS',

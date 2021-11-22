@@ -3,7 +3,6 @@ import s from './Message.module.scss';
 import classNames from "classnames";
 import {Message as IMessage, MessageType} from "../../../../../services/ChatService";
 import format from 'date-fns/format';
-import {User} from "../../../../../store/ducks/user/contracts/state";
 import {ChatSvgSelector} from "../../../../../assets/icons/chat/ChatSvgSelector";
 import {GlobalSvgSelector} from "../../../../../assets/icons/global/GlobalSvgSelector";
 import {getMediaLink} from "../../../../../utils/mediaHelper";
@@ -11,12 +10,12 @@ import {MessageText} from "./MessageText";
 
 interface Props {
     message: IMessage;
-    currentUser: User;
+    currentUser: ChatUser;
     read: boolean;
 }
 
 
-function returnMsg(message: IMessage, currentUser: User, read: boolean) {
+function returnMsg(message: IMessage, currentUser: ChatUser, read: boolean) {
     const time = format(new Date(message.createdAt), 'HH:mm')
     const itIsCurrentUser = currentUser.id === message.authorId;
     const readSentIcon = message.id ? <ChatSvgSelector id="sent"/> : ''
