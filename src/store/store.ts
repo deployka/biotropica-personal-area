@@ -14,6 +14,9 @@ import { RecommendationState } from './ducks/recommendation/contracts/state';
 import { RecommendationsState } from './ducks/recommendations/contracts/state';
 import { AnalyzeAnswerState } from './ducks/analyze/contracts/state';
 import { AnalyzesState } from './ducks/analyzes/contracts/state';
+import { SpecialistState } from './ducks/specialist/contracts/state';
+import { SpecialistsState } from './ducks/specialists/contracts/state';
+import { ConsultationState } from './ducks/consultation/contracts/state';
 
 declare global {
   interface Window {
@@ -30,6 +33,9 @@ const sagaMiddleware = createSagaMiddleware();
 
 export interface RootState {
   user: UserState;
+  specialist: SpecialistState;
+  specialists: SpecialistsState;
+  consultation: ConsultationState;
   goals: GoalsState;
   goal: GoalState;
   progress: ProgressState;

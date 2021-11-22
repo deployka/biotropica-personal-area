@@ -19,7 +19,7 @@ import RestorePassword from './pages/Auth/containers/RestorePassword';
 import CreatePassword from './pages/Auth/containers/CreatePassword';
 import ForgotPassword from './pages/Auth/containers/ForgotPassword';
 import GlobalNotifications from './components/GlobalNotifications/GlobalNotifications';
-import { selectGlobalLoadingStatus } from './store/ducks/selectors';
+import { selectGlobalLoadingStatus } from './store/selectors';
 
 function App() {
   const dispatch = useDispatch();

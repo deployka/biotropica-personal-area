@@ -1,43 +1,98 @@
-import React from "react";
-
-import s from "./Specialist.module.scss";
-
-export interface SpecialistInfo {
-  photoLink: string;
-  name: string;
-  expierence: string;
-  specialiaztion: string;
-  price: number;
-}
+import React, { useCallback, useEffect, useState } from 'react';
+import { Specialist as ISpecialist } from '../../../../store/ducks/specialist/contracts/state';
+import { getMediaLink } from '../../../../utils/mediaHelper';
+import defaultAvatar from '../../../../assets/images/profile/default_avatar.png';
+import s from './Specialist.module.scss';
+import { Button } from '../../../../shared/Form/Button/Button';
+import { Loader } from '../../../../shared/Form/Loader/Loader';
 
 interface Props {
-  specialist: SpecialistInfo;
+  specialist: ISpecialist;
+  searchQuery: string;
+  isLoadingSignUp: boolean;
+  onSignUpClick: (specialistId: number, userId: number) => void;
 }
 
-export const Specialist = ({ specialist }: Props) => {
+export const Specialist = ({
+  specialist,
+  searchQuery,
+  onSignUpClick,
+  isLoadingSignUp,
+}: Props) => {
+  const {
+    experience,
+    specializations,
+    price,
+    name,
+    profile_photo,
+    id,
+    userId,
+  } = specialist;
+
+  const [click, setClick] = useState(false);
+
+  function getMarkStringByValue(value: string | number) {
+    value = String(value);
+    const query: string = searchQuery.toLowerCase();
+    const pos: number = value.toLowerCase().search(query);
+    const length: number = query.length;
+
+    if (pos === -1) return value;
+    return (
+      <>
+        {value.slice(0, pos)}
+        <mark>{value.slice(pos, pos + length)}</mark>
+        {value.slice(pos + length)}
+      </>
+    );
+  }
+  const signUpClick = useCallback(() => {
+    onSignUpClick(id, userId);
+    setClick(true);
+  }, [id, userId, click]);
+
+  useEffect(() => {
+    if (!isLoadingSignUp) {
+      setClick(false);
+    }
+  }, [isLoadingSignUp]);
+
   return (
     <div className={s.specialist}>
-      <div className={s.photo}>
-        <img src={`${specialist.photoLink}`} alt="" />
-      </div>
+      <div
+        className={s.photo}
+        style={{
+          backgroundImage: `url(${
+            getMediaLink(profile_photo) || defaultAvatar
+          })`,
+        }}
+      ></div>
       <div className={s.wrapper}>
         <div className={s.info}>
           <div className={s.name}>
-            <p>{specialist.name}</p>
+            <p> {getMarkStringByValue(name)}</p>
           </div>
-          <div className={s.expierence}>
-            <p>стаж {specialist.expierence}</p>
+          <div className={s.experience}>
+            <p>стаж {getMarkStringByValue(experience)}</p>
           </div>
         </div>
 
-        <div className={s.specialiaztion}>
-          <p>{specialist.specialiaztion}</p>
+        <div className={s.specialization}>
+          <p>{getMarkStringByValue(specializations)}</p>
         </div>
         <div className={s.price}>
-          <p>{specialist.price} ₽</p>
+          <p>{getMarkStringByValue(price)} ₽</p>
         </div>
         <div className={s.appointment}>
-          <button>Записаться</button>
+          <Button
+            disabled={isLoadingSignUp}
+            type="submit"
+            onClick={signUpClick}
+            options={{
+              content: isLoadingSignUp && click ? <Loader /> : 'Записаться',
+              setDisabledStyle: isLoadingSignUp,
+            }}
+          />
         </div>
       </div>
     </div>

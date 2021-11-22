@@ -1,14 +1,22 @@
-import React from "react";
-
-import s from "./SpecialistsList.module.scss";
-
-import { Specialist, SpecialistInfo } from "./Specialist";
+import React from 'react';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import s from './SpecialistsList.module.scss';
+import { Specialist as ISpecialist } from '../../../../store/ducks/specialist/contracts/state';
+import { Specialist } from './Specialist';
 
 interface Props {
-  specialists: SpecialistInfo[];
+  specialists: ISpecialist[];
+  searchQuery: string;
+  onSignUpClick: (specialistId: number, userId: number) => void;
+  isLoadingSignUp: boolean;
 }
 
-export const SpecialistsList = ({ specialists }: Props) => {
+export const SpecialistsList = ({
+  specialists,
+  searchQuery,
+  onSignUpClick,
+  isLoadingSignUp,
+}: Props) => {
   return (
     <div className={s.specialistList}>
       <div className={s.title}>
@@ -26,9 +34,19 @@ export const SpecialistsList = ({ specialists }: Props) => {
         </div>
       </div>
       <div className={s.list}>
-        {specialists.map((specialist, i) => (
-          <Specialist specialist={specialist} />
-        ))}
+        <PerfectScrollbar>
+          {!!specialists.length &&
+            specialists.map(specialist => (
+              <Specialist
+                isLoadingSignUp={isLoadingSignUp}
+                onSignUpClick={onSignUpClick}
+                key={specialist.id}
+                specialist={specialist}
+                searchQuery={searchQuery}
+              />
+            ))}
+        </PerfectScrollbar>
+        {!specialists.length && <p>Специалисты не найдены</p>}
       </div>
     </div>
   );

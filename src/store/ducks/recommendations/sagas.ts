@@ -20,7 +20,9 @@ export function* fetchRecommendationsDataRequest({}: FetchRecommendationsDataAct
     } else {
       yield put(setRecommendationsLoadingStatus(LoadingStatus.ERROR));
     }
-  } catch (error) {}
+  } catch (error) {
+    yield put(setRecommendationsLoadingStatus(LoadingStatus.ERROR));
+  }
 }
 
 export function* recommendationsSaga(): any {

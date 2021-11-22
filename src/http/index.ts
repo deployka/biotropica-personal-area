@@ -1,5 +1,7 @@
 import axios from 'axios';
 import AuthService from '../services/AuthService';
+import { eventBus, EventTypes } from '../services/EventBus';
+import { HTTP_SUCCESS, HTTP_UNAUTHORIZED } from './httpConstants';
 
 const $api = axios.create({
   withCredentials: true,
@@ -13,39 +15,48 @@ $api.interceptors.request.use(config => {
 
 let isRetrying: Promise<void> | undefined = undefined;
 
+const exceptions = ['/auth/refresh', 'auth/signin'];
+
 $api.interceptors.response.use(
   config => {
     return config;
   },
   async error => {
     const originalRequest = error.config;
-    if (
-      error?.response?.status === 401 &&
-      !isRetrying &&
-      originalRequest // TODO: глянуть доку axios
-    ) {
-      isRetrying = new Promise(async (resolve, reject) => {
-        try {
-          const { data, status } = await AuthService.refresh();
-          if (status === 200) {
-            window.localStorage.setItem('token', data.accessToken);
-            resolve();
-          } else {
-            reject();
-          }
-        } catch (error) {
-          reject(error);
-        }
-      });
-      try {
-        await isRetrying;
-        isRetrying = undefined;
-        return $api.request(originalRequest);
-      } catch (e) {
-        return error?.response;
-      }
+    if (!originalRequest || error?.response?.status !== HTTP_UNAUTHORIZED) {
+      throw error;
     }
-    return error?.response;
+
+    if (exceptions.includes(originalRequest.url)) {
+      throw error;
+    }
+
+    if (isRetrying) {
+      await isRetrying;
+      return $api.request(originalRequest);
+    }
+    isRetrying = new Promise(async (resolve, reject) => {
+      try {
+        const { data, status } = await AuthService.refresh();
+        if (status === HTTP_SUCCESS) {
+          window.localStorage.setItem('token', data.accessToken);
+          resolve();
+        } else {
+          reject();
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
+    try {
+      await isRetrying;
+      isRetrying = undefined;
+      return await $api.request(originalRequest);
+    } catch (e) {
+      isRetrying = undefined;
+      eventBus.emit(EventTypes.routerPush, '/signin');
+      throw e;
+    }
   }
 );
 

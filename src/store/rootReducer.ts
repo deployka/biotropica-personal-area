@@ -8,9 +8,15 @@ import { recommendationsReducer } from './ducks/recommendations/reducer';
 import { recommendationReducer } from './ducks/recommendation/reducer';
 import { analyzesReducer } from './ducks/analyzes/reducer';
 import { analyzeReducer } from './ducks/analyze/reducer';
+import { specialistReducer } from './ducks/specialist/reducer';
+import { specialistsReducer } from './ducks/specialists/reducer';
+import { consultationReducer } from './ducks/consultation/reducer';
 
 export const rootReducer = combineReducers({
   user: userReducer,
+  specialist: specialistReducer,
+  specialists: specialistsReducer,
+  consultation: consultationReducer,
   chat: chatReducer,
   goal: goalReducer,
   goals: goalsReducer,

@@ -5,3 +5,8 @@ export enum LoadingStatus {
   NEVER = 'NEVER',
   SUCCESS = 'SUCCESS',
 }
+
+export interface Response {
+  statusCode: number;
+  message: string;
+}

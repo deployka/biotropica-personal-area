@@ -1,147 +1,146 @@
-@import "./../../../../styles/mixins.scss";
+@import './../../../../styles/mixins.scss';
 
 .specialist {
-    padding: 10px 0;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f7f6fb;
+
+  @include for-phone {
+    margin: 7px 0 0 0;
+    padding: 0 0 20px 0;
+    align-items: flex-start;
+  }
+
+  .wrapper {
+    width: calc(100% - 70px);
+
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #f7f6fb;
 
     @include for-phone {
-        margin: 7px 0 0 0;
-        padding: 0 0 20px 0;
-        align-items: flex-start;
+      width: calc(100% - 68px);
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .info {
+    width: 340px;
+
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+
+    @include for-phone {
+      width: 100%;
+    }
+  }
+
+  .photo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    border: 3px solid #f7f6fb;
+    filter: drop-shadow(0px 0px 4px rgba(126, 134, 239, 0.15));
+
+    overflow: hidden;
+  }
+
+  .name {
+    p {
+      font-weight: 500;
+      font-size: 17px;
+
+      color: #1e174d;
+
+      @include for-phone {
+        font-size: 16px;
+      }
+    }
+  }
+
+  .experience {
+    margin: 5px 0 0 0;
+    p {
+      font-size: 15px;
+
+      color: #9e97be;
+    }
+  }
+
+  .specialization {
+    width: 275px;
+
+    display: flex;
+
+    @include for-phone {
+      margin: 5px 0 0 0;
+      width: 100%;
+      justify-content: flex-start;
     }
 
-    .wrapper {
-        width: calc(100% - 70px);
+    p {
+      font-size: 16px;
 
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+      color: #9e97be;
+    }
+  }
 
-        @include for-phone {
-            width: calc(100% - 68px);
-            flex-direction: column;
-            align-items: flex-start;
-        }
+  .price {
+    width: 270px;
+
+    display: flex;
+    justify-content: center;
+
+    @include for-phone {
+      margin: 5px 0 0 0;
+      width: 100%;
+      justify-content: flex-start;
     }
 
-    .info {
-        width: 340px;
+    p {
+      font-size: 16px;
 
-        display: flex;
-        align-items: flex-start;
-        flex-direction: column;
+      color: #6f61d0;
+    }
+  }
 
-        @include for-phone {
-            width: 100%;
-        }
+  .appointment {
+    width: 250px;
+    padding-left: 48px;
+    @include for-phone {
+      margin: 25px 0 0 0;
+      width: 100%;
+      max-width: 250px;
+      padding-left: 0;
+      justify-content: flex-start;
     }
 
-    .photo {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
+    button {
+      width: 200px;
+      height: 40px;
 
-        border: 3px solid #f7f6fb;
-        filter: drop-shadow(0px 0px 4px rgba(126, 134, 239, 0.15));
+      border: 1px solid #9e97be;
+      box-sizing: border-box;
+      border-radius: 50px;
+      background: #fff;
 
-        overflow: hidden;
+      color: #9e97be;
 
-        img {
-            height: 100%;
-        }
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #6f61d0;
+        border-color: #6f61d0;
+        color: #fff;
+      }
     }
-
-    .name {
-        p {
-            font-weight: 500;
-            font-size: 17px;
-
-            color: #1e174d;
-
-            @include for-phone {
-                font-size: 16px;
-            }
-        }
-    }
-
-    .expierence {
-        margin: 5px 0 0 0;
-        p {
-            font-size: 15px;
-
-            color: #9e97be;
-        }
-    }
-
-    .specialiaztion {
-        width: 270px;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        @include for-phone {
-            margin: 5px 0 0 0;
-            width: 100%;
-            justify-content: flex-start;
-        }
-
-        p {
-            font-size: 16px;
-
-            color: #9e97be;
-        }
-    }
-
-    .price {
-        width: 270px;
-
-        display: flex;
-        justify-content: center;
-
-        @include for-phone {
-            margin: 5px 0 0 0;
-            width: 100%;
-            justify-content: flex-start;
-        }
-
-        p {
-            font-size: 16px;
-
-            color: #6f61d0;
-        }
-    }
-
-    .appointment {
-        width: 250px;
-
-        @include for-phone {
-            margin: 25px 0 0 0;
-            width: 100%;
-            max-width: 250px;
-            justify-content: flex-start;
-        }
-
-        button {
-            width: 200px;
-            height: 40px;
-
-            border: 1px solid #9e97be;
-            box-sizing: border-box;
-            border-radius: 50px;
-
-            color: #9e97be;
-
-            transition: all 0.2s ease;
-
-            &:hover {
-                background-color: #6f61d0;
-                border-color: #6f61d0;
-                color: #fff;
-            }
-        }
-    }
+  }
 }
