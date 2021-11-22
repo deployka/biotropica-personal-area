@@ -45,13 +45,34 @@
 
     border-radius: 50%;
 
-    border: 3px solid #6f61d0;
-
     overflow: hidden;
 
     display: flex;
     align-items: center;
     justify-content: center;
+
+    border: 2px solid #9e97be;
+
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: #ffffff;
+    }
+
+    &:after {
+      content: "";
+      width: 36px;
+      height: 36px;
+
+      border-radius: 50%;
+      z-index: 1;
+      position: absolute;
+      opacity: 0;
+      transition: 0.5s;
+      background-image: linear-gradient(to right top, #ff642e, #ff4163, #eb3994, #bb4dbb, #6f61d0);
+      animation: rotate 2s infinite;
+      border: 2px;
+    }
 
     .img {
       width: 100%;
@@ -60,10 +81,14 @@
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
+
+      z-index: 2;
     }
 
     &.active {
-      border-color: #ffffff;
+      &::after {
+        opacity: 1;
+      }
     }
   }
 
