@@ -1,21 +1,34 @@
-import s from './Recommendation.module.scss';
-import 'react-perfect-scrollbar/dist/css/styles.css';
+import React, { useState } from 'react';
+
+import { Header } from './Header';
+import { Content } from './Content';
+import { Info } from './Info';
+
 import { Recommendation as IRecommendation } from '../../../../../store/ducks/recommendation/contracts/state';
-import moment from 'moment';
+
+import s from './Recommendation.module.scss';
+
 interface Props {
-  recommendation: IRecommendation;
+  id: string;
+  activeProfiles: Record<string, IRecommendation[]>;
 }
 
-export const Recommendation = ({ recommendation }: Props) => {
-  const createdAt = moment(recommendation.createdAt, 'YYYYMMDD');
+export const Recommendation = ({ id, activeProfiles }: Props) => {
+  const [hidden, setHidden] = useState(true);
+
   return (
     <div className={s.recommendation}>
-      <div className={s.card__date}>
-        Создано: {createdAt.fromNow()}, {createdAt.format('Do MMMM YYYY г.')}
+      <Header profile={activeProfiles[id][0].specialist_profile} />
+      <div className={s.postsWrapper} style={hidden ? { height: 0 } : {}}>
+        {activeProfiles[id].map((recommendation: IRecommendation) => (
+          <Content
+            key={`${recommendation.id}`}
+            recommendation={recommendation}
+          />
+        ))}
       </div>
-      <div className={s.recommended__card__content}>
-        <div className={s.card__post}>{recommendation.content}</div>
-      </div>
+
+      <Info hidden={hidden} setHidden={setHidden} />
     </div>
   );
 };

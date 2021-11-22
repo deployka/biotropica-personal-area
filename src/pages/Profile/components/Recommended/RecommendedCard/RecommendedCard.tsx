@@ -6,8 +6,8 @@ import { RecommendationType } from '../../../../../store/ducks/recommendation/co
 
 interface Props {
   type: RecommendationType;
-  setActiveType: Dispatch<SetStateAction<RecommendationType>>;
-  activeType: RecommendationType;
+  setActiveType: Dispatch<SetStateAction<RecommendationType | null>>;
+  activeType: RecommendationType | null;
   amount: number;
   options: Options;
 }
@@ -31,23 +31,20 @@ export const RecommendedCard = ({
   return (
     <div
       onClick={onClick}
-      className={classNames(s.recommended__card, {
+      className={classNames(s.card, {
         [s.active]: activeType === type,
       })}
     >
-      <div className={s.card__title}>{options.name}</div>
-      <div className={s.card__recommendations}>
-        <span className={s.recommendations__amount}>
-          рекомендаций: {amount}
-        </span>
+      <div className={s.title}>
+        <p>{options.name}</p>
       </div>
-      <button className={s.btn__expand}>
+      <div className={s.recommendations}>
+        <p>рекомендаций: {amount}</p>
+      </div>
+      <div className={s.expand}>
         <GlobalSvgSelector id="next-rounded" />
-      </button>
-      <div
-        style={{ background: options.color }}
-        className={s.card__status}
-      ></div>
+      </div>
+      <div style={{ background: options.color }} className={s.status}></div>
     </div>
   );
 };

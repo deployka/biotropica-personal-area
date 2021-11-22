@@ -1,14 +1,11 @@
+import React, { useEffect, useState } from 'react';
 import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import s from './Recommended.module.scss';
-import { RecommendedCard } from './RecommendedCard/RecommendedCard';
-import { Recommendation } from './Recommendation/Recommendation';
-import { useEffect, useState } from 'react';
+
 import {
   Recommendation as IRecommendation,
   RecommendationType,
 } from '../../../../store/ducks/recommendation/contracts/state';
-import { SpecialistProfile } from './Recommendation/SpecialistProfile';
+
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectSortedData,
@@ -16,10 +13,25 @@ import {
 } from '../../../../store/ducks/recommendations/selectors';
 import { fetchRecommendationsData } from '../../../../store/ducks/recommendations/actionCreators';
 
+import 'react-perfect-scrollbar/dist/css/styles.css';
+
+import s from './Recommended.module.scss';
+import { MobileRecommended } from './MobileRecomended';
+import { DesktopRecommended } from './DesktopRecomended';
+
 export const Recommended = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchRecommendationsData());
+  }, []);
+
+  const [mobile, setMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (document.documentElement.clientWidth <= 500) {
+      setMobile(true);
+      setActiveType(null);
+    }
   }, []);
 
   const infoBar: IInfoBar = {
@@ -34,9 +46,12 @@ export const Recommended = () => {
     recommendations
   ) as RecommendationType[];
 
-  const [activeType, setActiveType] = useState<RecommendationType>(recTypes[0]);
+  const [activeType, setActiveType] = useState<RecommendationType | null>(
+    recTypes[0]
+  );
 
-  const activeProfiles = recommendations[activeType];
+  const activeProfiles =
+    recommendations[activeType || RecommendationType.WORKOUT];
 
   const optionsByType = {
     [RecommendationType.NUTRITION]: {
@@ -49,6 +64,10 @@ export const Recommended = () => {
     },
   };
 
+  function getProfilesByType(type: RecommendationType) {
+    return recommendations[type];
+  }
+
   function getAmountByType(type: RecommendationType): number {
     return Object.keys(recommendations[type]).reduce((acc, id) => {
       return (acc += recommendations[type][id].length);
@@ -60,38 +79,26 @@ export const Recommended = () => {
   }
 
   return (
-    <div className={s.recommended}>
-      <div className={s.recommended__cards}>
-        {recTypes.map(type => (
-          <RecommendedCard
-            setActiveType={setActiveType}
-            activeType={activeType}
-            key={type}
-            type={type}
-            options={optionsByType[type]}
-            amount={getAmountByType(type)}
-          />
-        ))}
-      </div>
-      <div className={s.recommended__card__content}>
-        {Object.keys(activeProfiles).map(id => (
-          <div key={id}>
-            <SpecialistProfile
-              profile={activeProfiles[id][0].specialist_profile}
-            />
-            <PerfectScrollbar>
-              <div className={s.recommendations__wrapper}>
-                {activeProfiles[id].map((recommendation: IRecommendation) => (
-                  <Recommendation
-                    key={recommendation.id}
-                    recommendation={recommendation}
-                  />
-                ))}
-              </div>
-            </PerfectScrollbar>
-          </div>
-        ))}
-      </div>
+    <div className={s.recommendations}>
+      {mobile ? (
+        <MobileRecommended
+          recTypes={recTypes}
+          activeType={activeType}
+          setActiveType={setActiveType}
+          optionsByType={optionsByType}
+          getAmountByType={getAmountByType}
+          getProfilesByType={getProfilesByType}
+        />
+      ) : (
+        <DesktopRecommended
+          recTypes={recTypes}
+          activeType={activeType}
+          setActiveType={setActiveType}
+          optionsByType={optionsByType}
+          getAmountByType={getAmountByType}
+          activeProfiles={activeProfiles}
+        />
+      )}
     </div>
   );
 };
