@@ -15,10 +15,12 @@
   }
 
   &.disabled {
-    background: #bbbbbb;
+    background: #bbbbbb !important;
     cursor: default;
+    color: #fff !important;
     &:hover {
-      background: #bbbbbb;
+      color: #fff !important;
+      background: #bbbbbb !important;
     }
   }
 

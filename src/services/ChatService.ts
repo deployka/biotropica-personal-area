@@ -10,15 +10,15 @@ export type Reading = {
   userId: number;
   dialogId: number;
   readAt: DateTime;
-}
+};
 
 export type Dialog = {
   id: number;
   createdAt: DateTime;
   participants: User[];
   messages: Message[];
-  opponentReading: Reading
-}
+  opponentReading: Reading;
+};
 
 export enum MessageType {
   TEXT = 'TEXT',
@@ -27,17 +27,17 @@ export enum MessageType {
 }
 
 export type Message = {
-  authorId: number
-  createdAt: DateTime
-  dialogId: number
-  id: number
-  text?: string
-  updatedAt: DateTime
-  uuid: string
+  authorId: number;
+  createdAt: DateTime;
+  dialogId: number;
+  id: number;
+  text?: string;
+  updatedAt: DateTime;
+  uuid: string;
   fileId?: number;
   file?: IFile;
   type: MessageType;
-}
+};
 
 export default class ChatService {
   static route: string = 'dialogs';
@@ -48,5 +48,9 @@ export default class ChatService {
 
   static async getDialog(id: number): Promise<AxiosResponse<Dialog>> {
     return await $api.get(`/${ChatService.route}/${id}`);
+  }
+
+  static async createDialog(userId: number): Promise<AxiosResponse<Dialog>> {
+    return await $api.post(`/${ChatService.route}/`, { userId });
   }
 }

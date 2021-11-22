@@ -47,7 +47,6 @@ const Signup = () => {
           },
         });
 
-        console.log(errorValue);
         refSetFieldValue.current(errorValue, '');
         refSetFieldValue.current('verification_password', '');
 

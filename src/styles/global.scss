@@ -45,7 +45,6 @@ button {
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
-
   @include for-phone {
     width: calc(100% - 20px);
   }

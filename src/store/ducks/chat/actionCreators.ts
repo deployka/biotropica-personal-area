@@ -1,13 +1,16 @@
 import {
   AddMessageActionInterface,
-  ChatActionsType, FetchDialogActionInterface, FetchDialogsActionInterface,
-  SetDialogActionInterface, SetSelectedDialogActionInterface, UpdateMessageActionInterface,
+  ChatActionsType,
+  CreateDialogActionInterface,
+  FetchDialogActionInterface,
+  FetchDialogsActionInterface,
+  SetDialogActionInterface,
+  SetSelectedDialogActionInterface,
+  UpdateMessageActionInterface,
 } from './contracts/actionTypes';
-import {Dialog, Message} from "../../../services/ChatService";
+import { Dialog, Message } from '../../../services/ChatService';
 
-export const setDialogs = (
-  payload: Dialog[]
-): SetDialogActionInterface => ({
+export const setDialogs = (payload: Dialog[]): SetDialogActionInterface => ({
   type: ChatActionsType.SET_DIALOGS,
   payload,
 });
@@ -26,7 +29,7 @@ export const addMessage = (
   type: ChatActionsType.ADD_MESSAGE,
   payload: {
     dialogId,
-    message
+    message,
   },
 });
 
@@ -37,7 +40,7 @@ export const updateMessage = (
   type: ChatActionsType.UPDATE_MESSAGE,
   payload: {
     dialogId,
-    message
+    message,
   },
 });
 
@@ -45,9 +48,14 @@ export const fetchDialogs = (): FetchDialogsActionInterface => ({
   type: ChatActionsType.FETCH_DIALOGS,
 });
 
+export const CreateDialog = (payload: number): CreateDialogActionInterface => ({
+  type: ChatActionsType.CREATE_DIALOG,
+  payload,
+});
+
 export const fetchDialog = (id: number): FetchDialogActionInterface => ({
   type: ChatActionsType.FETCH_DIALOG,
   payload: {
-    id
-  }
+    id,
+  },
 });

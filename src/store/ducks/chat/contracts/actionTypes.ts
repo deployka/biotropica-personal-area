@@ -1,53 +1,58 @@
-import {Action} from "redux";
-import {Dialog, Message} from "../../../../services/ChatService";
+import { Action } from 'redux';
+import { Dialog, Message } from '../../../../services/ChatService';
 
 export enum ChatActionsType {
-    SET_DIALOGS = 'chat/SET_DIALOGS',
-    SET_SELECTED_DIALOG = 'chat/SET_SELECTED_DIALOG',
-    ADD_MESSAGE = 'chat/ADD_MESSAGE',
-    UPDATE_MESSAGE = 'chat/UPDATE_MESSAGE',
-    FETCH_DIALOGS = 'chat/FETCH_DIALOGS',
-    FETCH_DIALOG = 'chat/FETCH_DIALOG',
+  SET_DIALOGS = 'chat/SET_DIALOGS',
+  SET_SELECTED_DIALOG = 'chat/SET_SELECTED_DIALOG',
+  ADD_MESSAGE = 'chat/ADD_MESSAGE',
+  UPDATE_MESSAGE = 'chat/UPDATE_MESSAGE',
+  FETCH_DIALOGS = 'chat/FETCH_DIALOGS',
+  CREATE_DIALOG = 'chat/CREATE_DIALOG',
+  FETCH_DIALOG = 'chat/FETCH_DIALOG',
 }
 
 export interface SetDialogActionInterface extends Action<ChatActionsType> {
-    type: ChatActionsType.SET_DIALOGS;
-    payload: Dialog[];
+  type: ChatActionsType.SET_DIALOGS;
+  payload: Dialog[];
 }
 
 export interface FetchDialogsActionInterface extends Action<ChatActionsType> {
-    type: ChatActionsType.FETCH_DIALOGS;
+  type: ChatActionsType.FETCH_DIALOGS;
+}
+export interface CreateDialogActionInterface extends Action<ChatActionsType> {
+  type: ChatActionsType.CREATE_DIALOG;
+  payload: number;
 }
 
 export interface FetchDialogActionInterface extends Action<ChatActionsType> {
-    type: ChatActionsType.FETCH_DIALOG;
-    payload: { id: number }
+  type: ChatActionsType.FETCH_DIALOG;
+  payload: { id: number };
 }
 
-export interface SetSelectedDialogActionInterface extends Action<ChatActionsType> {
-    type: ChatActionsType.SET_SELECTED_DIALOG;
-    payload?: Dialog;
+export interface SetSelectedDialogActionInterface
+  extends Action<ChatActionsType> {
+  type: ChatActionsType.SET_SELECTED_DIALOG;
+  payload?: Dialog;
 }
-
 
 export interface AddMessageActionInterface extends Action<ChatActionsType> {
-    type: ChatActionsType.ADD_MESSAGE;
-    payload: {
-        message: Message;
-        dialogId: number;
-    }
+  type: ChatActionsType.ADD_MESSAGE;
+  payload: {
+    message: Message;
+    dialogId: number;
+  };
 }
 
 export interface UpdateMessageActionInterface extends Action<ChatActionsType> {
-    type: ChatActionsType.UPDATE_MESSAGE;
-    payload: {
-        message: Message;
-        dialogId: number;
-    }
+  type: ChatActionsType.UPDATE_MESSAGE;
+  payload: {
+    message: Message;
+    dialogId: number;
+  };
 }
 
 export type ChatActions =
-    SetDialogActionInterface
-    | SetSelectedDialogActionInterface
-    | AddMessageActionInterface
-    | UpdateMessageActionInterface
+  | SetDialogActionInterface
+  | SetSelectedDialogActionInterface
+  | AddMessageActionInterface
+  | UpdateMessageActionInterface;

@@ -1,20 +1,21 @@
-import React from "react";
-import Select from "react-select";
-import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
-import { Label } from "../Label/Label";
+import React, { ChangeEvent } from 'react';
+import Select from 'react-select';
+import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
+import { Label } from '../Label/Label';
 
-import s from "./SelectCustom.module.scss";
+import s from './SelectCustom.module.scss';
 
 interface Props {
   hideLabel?: boolean;
-  onChange: any;
+  onChange?: (e: ISelect<any>) => void;
   Styles?: any;
-  onBlur: any;
+  onBlur?: (e: ChangeEvent) => void;
   options: any;
+  isClearable?: boolean;
   value: any;
   name: string;
   placeholder: string;
-  settings: {
+  settings?: {
     classes?: any;
     touched: any;
     errors: any;
@@ -32,26 +33,26 @@ export const SelectCustom = (props: Props) => {
       ...styles,
       borderRadius: 15,
       height: 50,
-      border: "1px solid #9895a7",
+      border: '1px solid #9895a7',
       paddingLeft: 5,
       marginBottom: 5,
     }),
 
     option: (styles: any, { isSelected }: any) => ({
       ...styles,
-      background: isSelected ? "#F7F6FB" : null,
-      color: "#1E174D",
+      background: isSelected ? '#F7F6FB' : null,
+      color: '#1E174D',
       height: 45,
       fontWeight: 500,
-      padding: "14px 12px",
+      padding: '14px 12px',
     }),
     menu: (styles: any) => ({
       ...styles,
       borderRadius: 15,
       border: null,
-      boxShadow: "0px 1px 10px rgba(30, 23, 77, 0.05);",
-      zIndex: "45",
-      overflow: "hidden",
+      boxShadow: '0px 1px 10px rgba(30, 23, 77, 0.05);',
+      zIndex: '45',
+      overflow: 'hidden',
     }),
     menuList: (styles: any) => ({
       ...styles,
@@ -61,7 +62,7 @@ export const SelectCustom = (props: Props) => {
   };
 
   const { settings, ...selectProps } = props;
-  const { touched, errors } = settings;
+  const { touched, errors } = settings || { touched: '', errors: '' };
   return (
     <>
       {props.hideLabel || <Label active={true} value={props.placeholder} />}
