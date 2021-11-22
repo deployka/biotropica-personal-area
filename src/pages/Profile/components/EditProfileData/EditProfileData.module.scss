@@ -1,16 +1,20 @@
-@import '../../../../styles/mixins.scss';
+@import "../../../../styles/mixins.scss";
 
 .form {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  width: 780px;
+  width: 100%;
+  max-width: 780px;
   margin-top: 34px;
+
+  @include for-tablet {
+    flex-direction: column;
+  }
 
   @include for-phone {
     padding: 0 0 100px 0;
     width: 100%;
-    flex-direction: column;
   }
 
   button {
@@ -23,6 +27,11 @@
     flex-wrap: wrap;
     margin-bottom: 5px;
     justify-content: space-between;
+
+    @include for-tablet {
+      flex-direction: column;
+      justify-content: flex-start;
+    }
   }
 
   .image__loader__wrapper {
@@ -46,7 +55,7 @@
       border: 3px solid #d06361;
     }
     &:after {
-      content: '';
+      content: "";
       position: absolute;
 
       width: 100%;

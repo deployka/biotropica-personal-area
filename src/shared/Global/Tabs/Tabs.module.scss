@@ -28,6 +28,12 @@
       color: #736f8b;
     }
 
+    @include for-tablet {
+      p {
+        white-space: nowrap;
+      }
+    }
+
     @include for-phone {
       padding: 7px 15px;
 

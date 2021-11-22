@@ -77,8 +77,19 @@
   overflow-y: auto;
 }
 
+@mixin for-laptop {
+  @media (max-width: 1180px) {
+    @content;
+  }
+}
+@mixin for-tablet {
+  @media (max-width: 860px) {
+    @content;
+  }
+}
+
 @mixin for-phone {
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
     @content;
   }
 }

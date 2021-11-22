@@ -23,7 +23,7 @@
   }
 
   .img {
-    width: 237px;
+    width: 30%;
     height: 338px;
 
     display: flex;
@@ -37,6 +37,14 @@
     overflow: hidden;
 
     cursor: pointer;
+
+    @include for-laptop {
+      height: 260px;
+    }
+
+    @include for-tablet {
+      height: 140px;
+    }
 
     @include for-phone {
       width: 80px;

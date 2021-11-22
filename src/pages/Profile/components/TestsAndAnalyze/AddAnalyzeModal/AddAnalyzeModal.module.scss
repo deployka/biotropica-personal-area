@@ -5,7 +5,8 @@
 
   transform: translate(-50%, -50%);
 
-  width: 840px;
+  max-width: 840px;
+  width: calc(100% - 60px);
 
   display: flex;
   flex-direction: column;
