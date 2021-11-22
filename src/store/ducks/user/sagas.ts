@@ -123,7 +123,9 @@ export function* fetchUserDataRequest({}: FetchUserDataActionInterface): any {
     } else {
       yield put(setUserLoadingStatus(LoadingStatus.ERROR));
     }
-  } catch (error) {}
+  } catch (error) {
+    yield put(setUserLoadingStatus(LoadingStatus.ERROR));
+  }
 }
 
 export function* fetchUpdateUserRequest({
