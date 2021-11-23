@@ -26,6 +26,7 @@ import {
 } from '../../../../shared/Form/Select/SelectCustom';
 import { FormsSvgSelector } from '../../../../assets/icons/forms/FormsSvgSelector';
 import ru from 'date-fns/locale/ru';
+import { useMobile } from '../../../../hooks/useMobile';
 
 registerLocale('ru', ru);
 
@@ -52,6 +53,9 @@ export const EditProfileData = ({
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || loader;
   }
+
+  const isMobile = useMobile();
+  console.log(isMobile);
   return (
     <div className={s.edit__password}>
       <Formik
@@ -88,7 +92,7 @@ export const EditProfileData = ({
         }) => (
           <form
             name="user_data"
-            onSubmit={e => e.preventDefault()}
+            onSubmit={(e) => e.preventDefault()}
             className={s.form}
           >
             <div
@@ -105,7 +109,7 @@ export const EditProfileData = ({
                 type="file"
                 name="profile_photo"
                 accept=".png, .jpg, .jpeg, .gif"
-                onChange={e => {
+                onChange={(e) => {
                   onAvatarLoaded(e, setFieldValue);
                 }}
               />
@@ -171,6 +175,7 @@ export const EditProfileData = ({
                   onBlur={handleBlur}
                   name="dob"
                   locale={ru}
+                  withPortal={isMobile}
                   selected={(values?.dob && new Date(values?.dob)) || null}
                   showYearDropdown
                   scrollableYearDropdown

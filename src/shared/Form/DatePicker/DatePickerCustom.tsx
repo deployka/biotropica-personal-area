@@ -18,6 +18,7 @@ interface Props {
   locale: any;
   showYearDropdown: any;
   selected: any;
+  withPortal?: boolean;
   options: {
     classes?: any;
     touched: any;
@@ -36,7 +37,6 @@ export const DatePickerCustom = (props: Props) => {
     <>
       <Label active={true} value={label} />
       <DatePicker
-        
         className={classNames({
           [s.input]: true,
           [s.success__input]: touched.dob && !errors.dob,
@@ -44,6 +44,7 @@ export const DatePickerCustom = (props: Props) => {
         })}
         {...inputProps}
         showYearDropdown
+        showMonthDropdown
         onBlur={props.onBlur}
         onChange={props.onChange}
         yearDropdownItemNumber={yearDropdownItemNumber}

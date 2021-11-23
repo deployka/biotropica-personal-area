@@ -1,4 +1,5 @@
 .react-datepicker {
+  padding: 30px 0 0 0;
   width: 330px;
 
   box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
@@ -39,10 +40,19 @@
 
   &__current-month {
     margin: 30px 0 0 0;
+    display: none;
   }
 
   &__header__dropdown {
-    margin: 0 0 30px 0;
+    position: relative;
+    top: -10px;
+
+    span {
+      color: #6f61d0;
+      text-transform: capitalize;
+      font-size: 18px;
+      font-weight: 600;
+    }
   }
 
   &__day-name {
@@ -127,5 +137,22 @@
         }
       }
     }
+  }
+}
+
+.react-datepicker__month-read-view {
+  visibility: visible !important;
+  &--down-arrow {
+    display: none;
+  }
+}
+
+.react-datepicker__year-read-view {
+  &--down-arrow {
+    display: none;
+  }
+
+  &--selected-year {
+    visibility: visible !important;
   }
 }
