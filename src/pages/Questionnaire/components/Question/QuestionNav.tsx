@@ -3,21 +3,32 @@ import { QuestionnaireSvgSelector } from "../../../../assets/icons/questionnaire
 import s from "./Question.module.scss";
 
 type Props = {
+  progress: {
+    current: number;
+    of: number;
+  };
   onNext(): void;
   onPrev(): void;
 };
 
-export const QuestionNav = ({ onNext, onPrev }: Props) => {
+export const QuestionNav = ({ onNext, onPrev, progress }: Props) => {
   return (
     <div className={s.nav__btns}>
-      <button className={s.btn__prev} onClick={onPrev}>
-        <div className={s.btn__prev__icon}>
-          <QuestionnaireSvgSelector id="arrow" />
-        </div>
-        <div className={s.btn__prev__text}>назад</div>
-      </button>
+      {progress.current !== 1 ? (
+        <button className={s.btn__prev} onClick={onPrev}>
+          <div className={s.btn__prev__icon}>
+            <QuestionnaireSvgSelector id="arrow" />
+          </div>
+          <div className={s.btn__prev__text}>назад</div>
+        </button>
+      ) : (
+        <div></div>
+      )}
+
       <button className={s.btn__next} onClick={onNext}>
-        <div className={s.btn__next__text}>далее</div>
+        <div className={s.btn__next__text}>
+          {progress.current !== progress.of ? "далее" : "завершить"}
+        </div>
         <div className={s.btn__next__icon}>
           <QuestionnaireSvgSelector id="arrow" />
         </div>
