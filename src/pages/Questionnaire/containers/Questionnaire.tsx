@@ -39,32 +39,39 @@ const Questionnaire = () => {
       title: "Укажите ваш пол",
       type: "select",
       options: [
-        { value: "1", label: "Мужчина" },
-        { value: "2", label: "Женщина" },
+        { value: "man", label: "Мужчина" },
+        { value: "woman", label: "Женщина" },
       ],
     },
     {
       title: "Вы бы хотели получить план тренировок по: ",
       type: "select",
       options: [
-        { value: "1", label: "Бегу" },
-        { value: "2", label: "Велоспорту" },
-        { value: "3", label: "Силовым видам спорта" },
+        { value: "running", label: "Бегу" },
+        { value: "cycling", label: "Велоспорту" },
+        { value: "strength", label: "Силовым видам спорта" },
       ],
     },
     {
       title: "Какой срок?",
       type: "number",
     },
+    {
+      title:
+        "Есть ли у Вас диагностированные / ранее перенесенные или хронические заболевания из списка ниже:",
+      type: "multiselect",
+      options: [
+        { value: "1", label: "Астма" },
+        { value: "2", label: "Диабет" },
+        { value: "3", label: "Заболевания щитовидной железы" },
+        {
+          value: "4",
+          label: "ОНМК (Острые Нарушения Мозгового Кровообращения)",
+        },
+        { value: "5", label: "ОИМ (Острый Инфаркт Миакарда)" },
+      ],
+    },
   ];
-
-  // const multiSelectQuestions = [
-  //   "Астма",
-  //   "Диабет",
-  //   "Заболевания щитовидной железы",
-  //   "ОНМК (Острые Нарушения Мозгового Кровообращения)",
-  //   "ОИМ (Острый Инфаркт Миакарда)",
-  // ];
 
   const [progress, setProgress] = useState({
     current: 1,
@@ -80,8 +87,9 @@ const Questionnaire = () => {
         title={questions[progress.current - 1].title}
         type={questions[progress.current - 1].type as Question["type"]}
         options={questions[progress.current - 1].options}
-        onChange={() => console.log("onChange")}
+        onChange={(answer) => console.log(answer)}
         onNext={() => {
+          if (progress.current === progress.of) return;
           setProgress({ ...progress, current: progress.current + 1 });
         }}
         onPrev={() => {

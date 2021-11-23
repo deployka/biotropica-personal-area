@@ -21,26 +21,36 @@ type Props = {
     label: string;
   }[];
   title: string;
-  onChange(val: string | number): void;
+  onChange(val: string | number | string[] | number[]): void;
   onNext(): void;
   onPrev(): void;
 };
 
 export const Question = (props: Props) => {
   const [answer, setAnswer] = useState<string | number>(0);
+  const [multiAnswer, setMultiAnswer] = useState<number[] | string[]>([]);
 
   const variations = {
     number: <NumberQuestion onAnswer={setAnswer} />,
     text: <TextQuestion onAnswer={setAnswer} />,
     select: <SelectQuestion onAnswer={setAnswer} options={props.options} />,
-    multiselect: <MultiSelectQuestion />,
+    multiselect: (
+      <MultiSelectQuestion onAnswer={setMultiAnswer} options={props.options} />
+    ),
   };
 
   const onNext = () => {
-    if (!answer) return;
-    props.onChange(answer);
-    setAnswer(0);
-    props.onNext();
+    if (["select", "number", "text"].includes(props.type) && answer) {
+      props.onChange(answer);
+      setAnswer(0);
+      props.onNext();
+    }
+
+    if (props.type === "multiselect" && multiAnswer) {
+      props.onChange(multiAnswer);
+      setMultiAnswer([]);
+      props.onNext();
+    }
   };
 
   return (

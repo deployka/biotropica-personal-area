@@ -4,16 +4,16 @@ import s from "../Question.module.scss";
 
 type Props = {
   options?: {
-    value: string;
+    value: string | number;
     label: string;
   }[];
 
-  onAnswer(val: string): void;
+  onAnswer(val: string | number): void;
 };
 
 export const SelectQuestion = ({ options, onAnswer }: Props) => {
   const isBig = options && options.length <= 2;
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState<string | number>("");
 
   return (
     <div className={isBig ? s.big__buttons__select : s.small__buttons__select}>
