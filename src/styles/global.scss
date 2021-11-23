@@ -55,7 +55,7 @@ button {
 
   @include for-phone {
     margin: 0 auto;
-    width: calc(100% - 20px);
+    width: calc(100vw - 20px);
   }
 }
 

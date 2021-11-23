@@ -1,3 +1,5 @@
+@import "./../../../../../styles/mixins.scss";
+
 .analyzeModal {
   position: absolute;
   top: 50%;
@@ -17,6 +19,21 @@
 
   z-index: 500;
 
+  @include for-phone {
+    left: 0;
+    top: unset;
+    bottom: 0;
+
+    padding: 0 10px;
+
+    width: 100%;
+    height: calc(100vh - 60px);
+
+    border-radius: 20px 20px 0 0;
+
+    transform: none;
+  }
+
   .title {
     padding: 20px 0;
     width: 100%;
@@ -30,18 +47,27 @@
       font-size: 24px;
       letter-spacing: 0.0075em;
       color: #000000;
+
+      @include for-phone {
+        font-size: 18px;
+      }
     }
   }
 
   .fileInput {
     margin: 20px 0 20px 0;
+
+    width: 100%;
+    max-width: 370px;
+
     input {
       display: none;
     }
 
     label {
       display: block;
-      width: 370px;
+      max-width: 370px;
+      width: 100%;
       height: 110px;
 
       cursor: pointer;
@@ -70,7 +96,8 @@
   }
 
   .textInput {
-    width: 370px;
+    width: 100%;
+    max-width: 370px;
     margin: 0 0 25px 0;
     position: relative;
 

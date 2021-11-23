@@ -1,9 +1,9 @@
-@import '../../../styles/mixins.scss';
-@import '../../../styles/variables.scss';
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
 .sidebar {
   &__chat__wrapper {
     position: absolute;
-    right: -100vw;
+    left: 100vw;
     top: 0;
     transition: 0.4s;
     display: flex;
@@ -44,7 +44,7 @@
   }
 }
 .open {
-  right: 0;
+  transform: translateX(-100%);
 }
 .messages {
   @include flex(column, flex-start, flex-start, nowrap);

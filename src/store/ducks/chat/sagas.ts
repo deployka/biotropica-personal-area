@@ -1,25 +1,42 @@
-import {call, put, takeLatest} from "redux-saga/effects";
-import DialogService from "../../../services/ChatService";
-import {setCurrentDialog, setDialogs} from "./actionCreators";
-import {ChatActionsType, FetchDialogActionInterface, FetchDialogsActionInterface} from "./contracts/actionTypes";
+import { call, put, takeLatest } from 'redux-saga/effects';
+import DialogService from '../../../services/ChatService';
+import { setCurrentDialog, setDialogs } from './actionCreators';
+import {
+  ChatActionsType,
+  CreateDialogActionInterface,
+  FetchDialogActionInterface,
+  FetchDialogsActionInterface,
+} from './contracts/actionTypes';
 
 export function* fetchDialogs({}: FetchDialogsActionInterface): any {
-    try {
-    const {data, status} = yield call(DialogService.getAll);
-        if(status === 200) {
-            yield put(setDialogs(data));
-        }
-    } catch (e) {
-        yield put(setDialogs([]))
+  try {
+    const { data, status } = yield call(DialogService.getAll);
+    if (status === 200) {
+      yield put(setDialogs(data));
     }
+  } catch (e) {
+    yield put(setDialogs([]));
+  }
 }
 
-export function* fetchDialog({payload: { id } }: FetchDialogActionInterface): any {
-    const {data} = yield call(DialogService.getDialog, id);
+export function* fetchDialog({
+  payload: { id },
+}: FetchDialogActionInterface): any {
+  const { data } = yield call(DialogService.getDialog, id);
+  yield put(setCurrentDialog(data));
+}
+
+export function* createDialog({ payload }: CreateDialogActionInterface): any {
+  try {
+    const { data } = yield call(DialogService.createDialog, payload);
     yield put(setCurrentDialog(data));
+  } catch (error) {
+    yield put(setCurrentDialog(undefined));
+  }
 }
 
 export function* chatSaga(): any {
-    yield takeLatest(ChatActionsType.FETCH_DIALOGS, fetchDialogs);
-    yield takeLatest(ChatActionsType.FETCH_DIALOG, fetchDialog);
+  yield takeLatest(ChatActionsType.FETCH_DIALOGS, fetchDialogs);
+  yield takeLatest(ChatActionsType.FETCH_DIALOG, fetchDialog);
+  yield takeLatest(ChatActionsType.CREATE_DIALOG, createDialog);
 }
