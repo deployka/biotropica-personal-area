@@ -11,12 +11,15 @@ import s from "./Question.module.scss";
 import { useState } from "react";
 
 type Props = {
+  progress: {
+    current: number;
+    of: number;
+  };
   type: "select" | "multiselect" | "text" | "number";
   options?: {
     value: string;
     label: string;
   }[];
-  qId: number;
   title: string;
   onChange(val: string | number): void;
   onNext(): void;
@@ -26,19 +29,6 @@ type Props = {
 export const Question = (props: Props) => {
   const [answer, setAnswer] = useState<string | number>(0);
 
-  const progressTest = {
-    current: 56,
-    of: 56,
-  };
-
-  const testQuestions = [
-    "Астма",
-    "Диабет",
-    "Заболевания щитовидной железы",
-    "ОНМК (Острые Нарушения Мозгового Кровообращения)",
-    "ОИМ (Острый Инфаркт Миакарда)",
-  ];
-
   const variations = {
     number: <NumberQuestion onAnswer={setAnswer} />,
     text: <TextQuestion onAnswer={setAnswer} />,
@@ -47,22 +37,25 @@ export const Question = (props: Props) => {
   };
 
   const onNext = () => {
-    console.log(answer);
+    if (!answer) return;
     props.onChange(answer);
+    setAnswer(0);
     props.onNext();
   };
 
   return (
     <div className={s.question}>
-      <Progress options={progressTest} />
+      <Progress options={props.progress} />
 
       <div className={s.question__body}>
-        <div className={s.question__number}>{props.qId} вопрос</div>
+        <div className={s.question__number}>
+          {props.progress.current} вопрос
+        </div>
         <h2 className={s.question__title}>{props.title}</h2>
         {variations[props.type]}
       </div>
 
-      <Nav onNext={onNext} onPrev={props.onPrev} />
+      <Nav progress={props.progress} onNext={onNext} onPrev={props.onPrev} />
 
       {/* <div className={s.question__body}>
         <div className={s.question__number}>4 вопрос</div>
