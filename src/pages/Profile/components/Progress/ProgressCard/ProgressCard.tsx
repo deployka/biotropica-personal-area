@@ -1,11 +1,11 @@
-import moment from "moment";
-import { useModal } from "../../../../../hooks/useModal";
-import { ModalName } from "../../../../../providers/ModalProvider";
+import moment from 'moment';
+import { useModal } from '../../../../../hooks/useModal';
+import { ModalName } from '../../../../../providers/ModalProvider';
 import {
   Photo,
   Progress,
-} from "../../../../../store/ducks/progress/contracts/state";
-import s from "./ProgressCard.module.scss";
+} from '../../../../../store/ducks/progress/contracts/state';
+import s from './ProgressCard.module.scss';
 
 interface Props {
   card: Progress;
@@ -29,15 +29,15 @@ export const ProgressCard = ({ card }: Props) => {
                   i,
                 })
               }
-              src={process.env.REACT_APP_BACKEND_URL + "/" + image.filename}
+              src={process.env.REACT_APP_BACKEND_URL + '/' + image.filename}
             />
           </div>
         ))}
       </div>
       <div className={s.date}>
         <p>
-          {moment(new Date(card.createdAt), "YYYYMMDD").fromNow()},{" "}
-          {moment(card.createdAt).format("Do MMMM YYYY г.")}
+          {moment(new Date(card.createdAt), 'YYYYMMDD').fromNow()},{' '}
+          {moment(card.createdAt).format('Do MMMM YYYY г.')}
         </p>
       </div>
     </div>

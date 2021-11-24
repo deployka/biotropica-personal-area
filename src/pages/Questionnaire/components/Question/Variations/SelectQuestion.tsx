@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import s from "../Question.module.scss";
+import s from '../Question.module.scss';
 
 type Props = {
   options?: {
@@ -13,7 +13,7 @@ type Props = {
 
 export const SelectQuestion = ({ options, onAnswer }: Props) => {
   const isBig = options && options.length <= 2;
-  const [selected, setSelected] = useState<string | number>("");
+  const [selected, setSelected] = useState<string | number>('');
 
   return (
     <div className={isBig ? s.big__buttons__select : s.small__buttons__select}>
@@ -24,7 +24,7 @@ export const SelectQuestion = ({ options, onAnswer }: Props) => {
               option.value === selected && s.selected
             }`}
             onClick={() => {
-              const answer = selected !== option.value ? option.value : "";
+              const answer = selected !== option.value ? option.value : '';
               setSelected(answer);
               onAnswer(answer);
             }}

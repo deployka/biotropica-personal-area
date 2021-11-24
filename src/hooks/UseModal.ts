@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction, useContext } from "react";
-import { ModalContext } from "../context/ModalContext";
-import { ModalName, Modals } from "../providers/ModalProvider";
+import { Dispatch, SetStateAction, useContext } from 'react';
+import { ModalContext } from '../context/ModalContext';
+import { ModalName, Modals } from '../providers/ModalProvider';
 
 interface Props {
   modals: Modals;
@@ -17,7 +17,7 @@ export const useModal = () => {
   }
   return {
     modals,
-    openModal<N extends ModalName, P extends Modals[N]["props"]>(
+    openModal<N extends ModalName, P extends Modals[N]['props']>(
       name: N,
       props?: P
     ) {

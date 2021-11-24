@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import classNames from "classnames";
+import React, { useState } from 'react';
+import classNames from 'classnames';
 
-import s from "../Question.module.scss";
+import s from '../Question.module.scss';
 
 type Props = {
   onAnswer(val: number): void;
@@ -12,9 +12,9 @@ export const NumberQuestion = ({ onAnswer }: Props) => {
   return (
     <input
       className={classNames(s.question__input, s.without__arrows)}
-      type="number"
+      type='number'
       value={value.toString()}
-      placeholder="Введите ответ"
+      placeholder='Введите ответ'
       onBlur={() => onAnswer(value)}
       onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
         setValue(Number(e.target.value))

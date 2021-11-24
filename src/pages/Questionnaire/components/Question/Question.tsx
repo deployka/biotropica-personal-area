@@ -1,21 +1,21 @@
-import React from "react";
-import { Progress } from "./Progress/Progress";
+import React from 'react';
+import { Progress } from './Progress/Progress';
 import {
   NumberQuestion,
   TextQuestion,
   SelectQuestion,
   MultiSelectQuestion,
-} from "./Variations";
-import { QuestionNav as Nav } from "./QuestionNav";
-import s from "./Question.module.scss";
-import { useState } from "react";
+} from './Variations';
+import { QuestionNav as Nav } from './QuestionNav';
+import s from './Question.module.scss';
+import { useState } from 'react';
 
 type Props = {
   progress: {
     current: number;
     of: number;
   };
-  type: "select" | "multiselect" | "text" | "number";
+  type: 'select' | 'multiselect' | 'text' | 'number';
   options?: {
     value: string;
     label: string;
@@ -40,13 +40,13 @@ export const Question = (props: Props) => {
   };
 
   const onNext = () => {
-    if (["select", "number", "text"].includes(props.type) && answer) {
+    if (['select', 'number', 'text'].includes(props.type) && answer) {
       props.onChange(answer);
       setAnswer(0);
       props.onNext();
     }
 
-    if (props.type === "multiselect" && multiAnswer) {
+    if (props.type === 'multiselect' && multiAnswer) {
       props.onChange(multiAnswer);
       setMultiAnswer([]);
       props.onNext();

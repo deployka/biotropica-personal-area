@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-import s from "../Question.module.scss";
+import s from '../Question.module.scss';
 
 type Props = {
   options?: {
