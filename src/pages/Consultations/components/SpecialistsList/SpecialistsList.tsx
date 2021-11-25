@@ -33,10 +33,11 @@ export const SpecialistsList = ({
           <p>Запись</p>
         </div>
       </div>
-      <PerfectScrollbar>
-        <div className={s.list}>
+
+      <div className={s.list}>
+        <PerfectScrollbar>
           {!!specialists.length &&
-            specialists.map((specialist) => (
+            specialists.map(specialist => (
               <Specialist
                 isLoadingSignUp={isLoadingSignUp}
                 onSignUpClick={onSignUpClick}
@@ -48,6 +49,7 @@ export const SpecialistsList = ({
           {!specialists.length && <p>Специалисты не найдены</p>}
         </div>
       </PerfectScrollbar>
+
     </div>
   );
 };

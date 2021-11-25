@@ -46,19 +46,18 @@ button {
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
-
   @media (max-width: 1400px) {
     margin: 0 0 0 110px;
 
     width: calc(100% - 140px);
   }
 
+
   @include for-phone {
     margin: 0 auto;
     width: calc(100vw - 20px);
   }
 }
-
 .auth__container {
   display: flex;
   justify-content: center;
