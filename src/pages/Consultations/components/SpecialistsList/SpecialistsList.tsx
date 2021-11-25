@@ -47,9 +47,8 @@ export const SpecialistsList = ({
               />
             ))}
           {!specialists.length && <p>Специалисты не найдены</p>}
-        </div>
-      </PerfectScrollbar>
-
+        </PerfectScrollbar>
+      </div>
     </div>
   );
 };
