@@ -59,15 +59,17 @@ export const Specialist = ({
 
   return (
     <div className={s.specialist}>
-      <div
-        className={s.photo}
-        style={{
-          backgroundImage: `url(${
-            getMediaLink(profile_photo) || defaultAvatar
-          })`,
-        }}
-      ></div>
-      <div className={s.wrapper}>
+      <div className={s.specialistInfo}>
+        <div
+          className={s.photo}
+          style={{
+            backgroundImage: `url(${
+              getMediaLink(profile_photo) || defaultAvatar
+            })`,
+          }}
+        ></div>
+
+
         <div className={s.info}>
           <div className={s.name}>
             <p> {getMarkStringByValue(name)}</p>
@@ -76,24 +78,27 @@ export const Specialist = ({
             <p>стаж {getMarkStringByValue(experience)}</p>
           </div>
         </div>
+      </div>
 
-        <div className={s.specialization}>
-          <p>{getMarkStringByValue(specializations)}</p>
-        </div>
-        <div className={s.price}>
-          <p>{getMarkStringByValue(price)} ₽</p>
-        </div>
-        <div className={s.appointment}>
-          <Button
-            disabled={isLoadingSignUp}
-            type="submit"
-            onClick={signUpClick}
-            options={{
-              content: isLoadingSignUp && click ? <Loader /> : 'Записаться',
-              setDisabledStyle: isLoadingSignUp,
-            }}
-          />
-        </div>
+      <div className={s.specialization}>
+        <p>{getMarkStringByValue(specializations)}</p>
+      </div>
+
+      <div className={s.price}>
+        <p>{getMarkStringByValue(price)} ₽</p>
+      </div>
+
+      <div className={s.appointment}>
+        <Button
+          disabled={isLoadingSignUp}
+          type="submit"
+          onClick={signUpClick}
+          options={{
+            content: isLoadingSignUp && click ? <Loader /> : 'Записаться',
+            setDisabledStyle: isLoadingSignUp,
+          }}
+        />
+
       </div>
     </div>
   );

@@ -33,6 +33,7 @@ export const SpecialistsList = ({
           <p>Запись</p>
         </div>
       </div>
+
       <div className={s.list}>
         <PerfectScrollbar>
           {!!specialists.length &&
@@ -45,9 +46,10 @@ export const SpecialistsList = ({
                 searchQuery={searchQuery}
               />
             ))}
-        </PerfectScrollbar>
-        {!specialists.length && <p>Специалисты не найдены</p>}
-      </div>
+          {!specialists.length && <p>Специалисты не найдены</p>}
+        </div>
+      </PerfectScrollbar>
+
     </div>
   );
 };

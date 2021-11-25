@@ -3,17 +3,23 @@
 
 .errorPage {
   width: 100%;
+  height: calc(100vh - 260px);
   display: flex;
   align-items: center;
   justify-content: space-between;
 
+  @include for-laptop {
+    height: unset;
+    flex-direction: column-reverse;
+  }
+
   @include for-phone {
-    padding: 0 0 60px 0;
     flex-direction: column-reverse;
   }
 
   .content {
-    width: 560px;
+    width: calc(100% - 20px);
+    max-width: 560px;
 
     @include for-phone {
       width: 100%;
@@ -30,6 +36,10 @@
       -webkit-text-fill-color: transparent;
 
       color: $color-primary;
+
+      @include for-laptop {
+        font-size: 38px;
+      }
 
       @include for-phone {
         font-size: 32px;
@@ -55,8 +65,10 @@
   }
 
   .img {
+    width: calc(100% - 60px);
+    max-width: 550px;
     svg {
-      width: 554px;
+      width: 100%;
     }
     @include for-phone {
       margin: 30px 0 0 0;

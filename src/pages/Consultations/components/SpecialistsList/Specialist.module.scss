@@ -1,38 +1,39 @@
 @import './../../../../styles/mixins.scss';
 
 .specialist {
+
+  position: relative;
+
   padding: 10px 0;
+
+  width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   border-bottom: 1px solid #f7f6fb;
+
+  @include for-tablet {
+    padding: 10px 0 50px 0;
+  }
 
   @include for-phone {
     margin: 7px 0 0 0;
     padding: 0 0 20px 0;
-    align-items: flex-start;
+    align-items: flex-end;
+    flex-direction: column;
   }
 
-  .wrapper {
-    width: calc(100% - 70px);
+  .specialistInfo {
+    width: 35%;
 
     display: flex;
     align-items: center;
-    justify-content: space-between;
 
-    @include for-phone {
-      width: calc(100% - 68px);
-      flex-direction: column;
-      align-items: flex-start;
+    @include for-tablet {
+      width: 50%;
     }
-  }
-
-  .info {
-    width: 340px;
-
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
 
     @include for-phone {
       width: 100%;
@@ -40,6 +41,7 @@
   }
 
   .photo {
+    margin: 0 20px 0 0;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -51,9 +53,27 @@
     filter: drop-shadow(0px 0px 4px rgba(126, 134, 239, 0.15));
 
     overflow: hidden;
+
+    @include for-phone {
+      margin: 0 15px 0 0;
+
+    }
+  }
+
+  .info {
+    width: calc(100% - 70px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    @include for-phone {
+      width: calc(100% - 65px);
+    }
   }
 
   .name {
+    width: 100%;
     p {
       font-weight: 500;
       font-size: 17px;
@@ -68,6 +88,9 @@
 
   .experience {
     margin: 5px 0 0 0;
+
+    width: 100%;
+
     p {
       font-size: 15px;
 
@@ -76,15 +99,21 @@
   }
 
   .specialization {
-    width: 275px;
+    width: 22%;
 
     display: flex;
 
+    @include for-tablet {
+      width: 25%;
+    }
+
     @include for-phone {
       margin: 5px 0 0 0;
-      width: 100%;
+      width: calc(100% - 65px);
       justify-content: flex-start;
+
     }
+  }
 
     p {
       font-size: 16px;
@@ -94,14 +123,20 @@
   }
 
   .price {
-    width: 270px;
+    width: 22%;
 
     display: flex;
     justify-content: center;
 
+    @include for-tablet {
+      width: 25%;
+
+    }
+  }
+
     @include for-phone {
       margin: 5px 0 0 0;
-      width: 100%;
+      width: calc(100% - 65px);
       justify-content: flex-start;
     }
 
@@ -113,18 +148,36 @@
   }
 
   .appointment {
-    width: 250px;
-    padding-left: 48px;
+    width: 21%;
+
+    display: flex;
+    justify-content: flex-end;
+
+    @include for-tablet {
+      width: 25%;
+      position: absolute;
+      bottom: -10px;
+      right: 0;
+      width: 25%;
+
+    }
+  }
+
     @include for-phone {
+      position: static;
+
       margin: 25px 0 0 0;
-      width: 100%;
+
+      width: calc(100% - 65px);
       max-width: 250px;
-      padding-left: 0;
+
       justify-content: flex-start;
     }
 
     button {
-      width: 200px;
+      max-width: 200px;
+      width: 100%;
+
       height: 40px;
 
       border: 1px solid #9e97be;

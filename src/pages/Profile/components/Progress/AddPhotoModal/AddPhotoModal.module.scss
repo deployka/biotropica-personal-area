@@ -10,7 +10,8 @@
 
   padding: 21px 0px 30px;
 
-  width: 840px;
+  width: calc(100% - 60px);
+  max-width: 840px;
   height: 481px;
 
   display: flex;

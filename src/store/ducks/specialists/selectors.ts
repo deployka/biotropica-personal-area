@@ -24,6 +24,7 @@ export const selectFilteredSpecialistsData = (state: RootState) => {
         user.patronymic || ''
       }`,
       ...res,
+
       specializations:
         formatSpecializationsToString(res.specializations) ||
         'Нет специализаций',

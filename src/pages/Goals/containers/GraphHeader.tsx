@@ -62,14 +62,16 @@ export const GraphHeader = ({ setDates, dates, setGraphDates }: Props) => {
   return (
     <>
       {goal && (
-        <div className={s.graph__header}>
-          <div className={s.goal__info}>
-            <div className={s.goal__title}>{goal.name}</div>
-            <div className={s.goal__description}>
-              {goal.description || <br />}
+        <div className={s.helper}>
+          <div className={s.info}>
+            <div className={s.title}>
+              <p>{goal.name}</p>
+            </div>
+            <div className={s.description}>
+              <p>{goal.description || <br />}</p>
             </div>
           </div>
-          <div className={s.graph__period__selectors}>
+          <div className={s.selectors}>
             <div className={s.tabs}>
               <Tabs
                 activeTab={activeTab}

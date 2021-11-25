@@ -292,99 +292,106 @@ export const ProgressForm = ({}: Props) => {
 
   return (
     <>
-      <div className={s.progress__form}>
-        <ProgressBar options={progressBarOptions} />
-        <div className={s.edit__goal}>
-          <GlobalSvgSelector id="edit" />
-          <Link to={`/goals/edit/${goal?.id}`}>
-            <div className={s.edit__goal__text}>редактировать цель</div>
-          </Link>
-        </div>
+      <div className={s.goalPanel}>
+        <div className={s.top}>
+          <ProgressBar options={progressBarOptions} />
+          <div className={s.goalActions}>
+            <Link to={`/goals/edit/${goal?.id}`} className={s.action}>
+              <GlobalSvgSelector id="edit" />
+              <p>редактировать цель</p>
+            </Link>
 
-        <div className={s.edit__goal} onClick={deleteGoal}>
-          <GlobalSvgSelector id="delete-card" />
-          <div className={s.edit__goal__text}>Удалить цель</div>
-        </div>
-
-        <div className={s.progress__form__title}>
-          Сообщите нам о вашем прогрессе
-        </div>
-
-        <Formik
-          initialValues={{
-            value: '',
-            createdAt: new Date(),
-          }}
-          validateOnBlur
-          onSubmit={(values: GoalValue, options: FormikHelpers<GoalValue>) =>
-            onSubmit(values, options)
-          }
-          validationSchema={validationSchema}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            setFieldValue,
-            isValid,
-            handleSubmit,
-            dirty,
-          }) => (
-            <div className={s.form}>
-              <div className={s.input__wrapper}>
-                <Input
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  placeholder={`Результат (${goal?.units?.[0]?.label})`}
-                  name="value"
-                  value={values?.value}
-                  type="text"
-                  options={{ touched, errors }}
-                />
-              </div>
-
-              <div className={s.input__wrapper}>
-                <DatePickerCustom
-                  onChange={(date: Date) => setFieldValue('createdAt', date)}
-                  onSelect={(date: Date) => setFieldValue('createdAt', date)}
-                  onBlur={handleBlur}
-                  name="createdAt"
-                  locale={ru}
-                  selected={values?.createdAt}
-                  showYearDropdown
-                  scrollableYearDropdown
-                  maxDate={new Date()}
-                  dateFormat={'P'}
-                  options={{
-                    touched,
-                    errors,
-                    label: 'Введите дату',
-                    yearDropdownItemNumber: 150,
-                    customInput: (
-                      <MaskedInput mask="11.11.1111" placeholder="dd.mm.yyyy" />
-                    ),
-                  }}
-                />
-              </div>
-
-              <div className={s.buttons}>
-                <Button
-                  disabled={isDisabled(isValid, dirty)}
-                  type="submit"
-                  onClick={() => handleSubmit()}
-                  options={{
-                    content: loader ? <Loader /> : 'Добавить',
-                    setDisabledStyle: isDisabled(isValid, dirty),
-                    width: '100%',
-                    height: '49px',
-                  }}
-                />
-              </div>
+            <div className={s.action} onClick={deleteGoal}>
+              <GlobalSvgSelector id="delete-card" />
+              <p>Удалить цель</p>
             </div>
-          )}
-        </Formik>
+          </div>
+        </div>
+
+        <div className={s.bottom}>
+          <div className={s.title}>
+            <p>Сообщите нам о вашем прогрессе</p>
+          </div>
+
+          <Formik
+            initialValues={{
+              value: '',
+              createdAt: new Date(),
+            }}
+            validateOnBlur
+            onSubmit={(values: GoalValue, options: FormikHelpers<GoalValue>) =>
+              onSubmit(values, options)
+            }
+            validationSchema={validationSchema}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              setFieldValue,
+              isValid,
+              handleSubmit,
+              dirty,
+            }) => (
+              <div className={s.form}>
+                <div className={s.input__wrapper}>
+                  <Input
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder={`Результат (${goal?.units?.[0]?.label})`}
+                    name="value"
+                    value={values?.value}
+                    type="text"
+                    options={{ touched, errors }}
+                  />
+                </div>
+
+                <div className={s.input__wrapper}>
+                  <DatePickerCustom
+                    onChange={(date: Date) => setFieldValue('createdAt', date)}
+                    onSelect={(date: Date) => setFieldValue('createdAt', date)}
+                    onBlur={handleBlur}
+                    name="createdAt"
+                    locale={ru}
+                    selected={values?.createdAt}
+                    showYearDropdown
+                    scrollableYearDropdown
+                    maxDate={new Date()}
+                    dateFormat={'P'}
+                    options={{
+                      touched,
+                      errors,
+                      label: 'Введите дату',
+                      yearDropdownItemNumber: 150,
+                      customInput: (
+                        <MaskedInput
+                          mask="11.11.1111"
+                          placeholder="dd.mm.yyyy"
+                        />
+                      ),
+                    }}
+                  />
+                </div>
+
+                <div className={s.buttons}>
+                  <Button
+                    disabled={isDisabled(isValid, dirty)}
+                    type="submit"
+                    onClick={() => handleSubmit()}
+                    options={{
+                      content: loader ? <Loader /> : 'Добавить',
+                      setDisabledStyle: isDisabled(isValid, dirty),
+                      width: '100%',
+                      height: '49px',
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+          </Formik>
+        </div>
       </div>
     </>
   );

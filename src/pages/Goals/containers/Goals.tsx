@@ -98,8 +98,8 @@ const Goals = (props: Props) => {
       <Header
         active={activeGoalId ? activeGoalId : goals[goals.length - 1]?.id}
       />
-      <div className={s.goal__content}>
-        <div className={s.goal__content__graph}>
+      <div className={s.content}>
+        <div className={s.graph}>
           <GraphHeader
             setDates={setDates}
             setGraphDates={setGraphDates}
@@ -110,7 +110,7 @@ const Goals = (props: Props) => {
             endDate={graphDates.endDate}
           />
         </div>
-        <div className={s.goal__content__edit}>
+        <div className={s.edit}>
           <ProgressForm />
         </div>
       </div>
