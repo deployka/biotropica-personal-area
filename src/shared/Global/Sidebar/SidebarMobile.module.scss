@@ -1,0 +1,213 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+
+    width: 100vw;
+    height: 54px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+
+    box-shadow: 0px 0px 15px rgba(111, 97, 208, 0.17);
+
+    z-index: 499;
+
+    .wrapper {
+        width: calc(100% - 40px);
+        height: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .menu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        p {
+            font-size: 11px;
+            color: #9e97be;
+
+            opacity: 0.9;
+        }
+    }
+
+    .homeLink {
+        width: 42px;
+        height: 42px;
+
+        background: #6f61d0;
+        border-radius: 15px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+        -webkit-tap-highlight-color: transparent;
+
+        transition: all 0.2s ease;
+
+        .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        svg {
+            path {
+                stroke: #ffffff;
+            }
+        }
+
+        &.active {
+            box-shadow: 0px 0px 15px rgb(112, 97, 208);
+        }
+    }
+
+    .chatButton {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        p {
+            font-size: 11px;
+            color: #9e97be;
+
+            opacity: 0.9;
+        }
+    }
+
+    .avatar {
+        margin: 0 0 20px 0;
+
+        width: 36px;
+        height: 36px;
+
+        border-radius: 50%;
+
+        overflow: hidden;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: 2px solid #9e97be;
+
+        transition: all 0.2s ease;
+
+        &:hover {
+            border-color: #ffffff;
+        }
+
+        &:after {
+            content: "";
+            width: 36px;
+            height: 36px;
+
+            border-radius: 50%;
+            z-index: 1;
+            position: absolute;
+            opacity: 0;
+            transition: 0.5s;
+            background-image: linear-gradient(to right top, #ff642e, #ff4163, #eb3994, #bb4dbb, #6f61d0);
+            animation: rotate 2s infinite;
+            border: 2px;
+        }
+
+        .img {
+            width: 100%;
+            height: 100%;
+
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+
+            z-index: 2;
+        }
+
+        &.active {
+            &::after {
+                opacity: 1;
+            }
+        }
+    }
+
+    .chat {
+        width: 72px;
+        height: 72px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        cursor: pointer;
+
+        .prompt {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        &.active {
+            svg {
+                path {
+                    fill: #ffffff;
+                }
+            }
+        }
+
+        &:hover {
+            .prompt {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    }
+
+    .logout {
+        margin: 25px 0 0 0;
+
+        width: 50px;
+        height: 50px;
+
+        border-radius: 50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        transition: all 0.2s;
+
+        &:hover {
+            background-color: #6f61d0;
+
+            svg {
+                path {
+                    stroke: #ffffff;
+                }
+            }
+        }
+
+        .prompt {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        &:hover {
+            .prompt {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    }
+}

@@ -1,123 +1,42 @@
 import classNames from 'classnames';
-import React, {
-  Dispatch,
-  memo,
-  MouseEvent,
-  ReactElement,
-  SetStateAction,
-  useEffect,
-  useState,
-} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
-import {
-  fetchSignout,
-  setUserData,
-} from '../../../store/ducks/user/actionCreators';
-import { selectUserData } from '../../../store/ducks/user/selectors';
+import React, { Dispatch, memo, SetStateAction } from 'react';
+import { Link } from 'react-router-dom';
 
-import s from './Sidebar.module.scss';
+import s from './SidebarDesktop.module.scss';
 
 import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 import { SidebarSvgSelector } from '../../../assets/icons/sidebar/SIdebarSvgSelector';
-import { GlobalSvgSelector } from '../../../assets/icons/global/GlobalSvgSelector';
+import { Nav, Pages } from '../../../layouts/SidebarLayout';
 
 interface Props {
   setPage: Dispatch<SetStateAction<string>>;
   setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
   setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
   chatNotificationsOpen: boolean;
+  openChat: () => void;
+  logout: () => void;
+  pages: Pages[];
+  nav: Nav[];
+  user: User | undefined;
+  location: any;
 }
 
-interface Pages {
-  page: string;
-  link: string;
-}
-interface Nav extends Pages {
-  svg: ReactElement;
-}
-
-export const Sidebar = memo(
+export const SidebarDesktop = memo(
   ({
     setPage,
     setSidebarChatOpen,
     setSidebarNotificationsOpen,
     chatNotificationsOpen,
+    pages,
+    nav,
+    openChat,
+    logout,
+    user,
+    location,
   }: Props) => {
-    const pages = [
-      { page: 'Профиль', link: '/profile' },
-      { page: 'Главная', link: '/' },
-      { page: 'Цели', link: '/goals' },
-      { page: 'Тарифы', link: '/tariffs' },
-      { page: 'Видео', link: '/video' },
-      { page: 'Блог', link: '/blog' },
-      { page: 'Дополнительные услуги', link: '/services' },
-    ];
-    const nav: Nav[] = [
-      {
-        ...pages[1],
-        svg: <SidebarSvgSelector id="home" />,
-      },
-      {
-        ...pages[2],
-        svg: <SidebarSvgSelector id="goals" />,
-      },
-      {
-        ...pages[3],
-        svg: <SidebarSvgSelector id="tariffs" />,
-      },
-      {
-        ...pages[4],
-        svg: <SidebarSvgSelector id="video" />,
-      },
-      {
-        ...pages[5],
-        svg: <SidebarSvgSelector id="edit-square" />,
-      },
-      {
-        ...pages[6],
-        svg: <SidebarSvgSelector id="services" />,
-      },
-    ];
-
-    const dispatch = useDispatch();
-    const location = useLocation();
-
-    const user = useSelector(selectUserData);
-
-    useEffect(() => {
-      for (const value of pages) {
-        const currentPath = location.pathname.split('/');
-        if ('/' + currentPath[1] === value.link) {
-          setPage(value.page);
-          break;
-        } else {
-          setPage('Страница 404');
-        }
-      }
-    }, [location.pathname]);
-
-    function toggleSidebar(e: MouseEvent<HTMLElement>) {
-      e.stopPropagation();
-    }
-
-    function openChat() {
-      setSidebarNotificationsOpen(false);
-      setSidebarChatOpen(!chatNotificationsOpen);
-    }
-
-    async function logout() {
-      dispatch(fetchSignout());
-      dispatch(setUserData(undefined));
-    }
-
     return (
       <div className={s.sidebar}>
         <div className={s.wrapper}>
-          {/* <div className={s.close} onClick={toggleSidebar}>
-            <GlobalSvgSelector id="next-rounded" />
-          </div> */}
-
           <div className={s.top}>
             <Link
               to="/profile"
@@ -172,7 +91,7 @@ export const Sidebar = memo(
                 chatNotificationsOpen ? s.active : ''
               )}
             >
-              <SidebarSvgSelector id="chat" />
+              <SidebarSvgSelector id="support" />
               <div className={s.prompt}>
                 <p>{'Чат поддержка'}</p>
               </div>

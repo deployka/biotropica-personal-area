@@ -4,6 +4,8 @@ import { AddPhotoModal } from '../pages/Profile/components/Progress/AddPhotoModa
 import { PhotoSliderModal } from '../pages/Profile/components/Progress/PhotoSliderModal/PhotoSliderModal';
 import { AddAnalyzeModal } from '../pages/Profile/components/TestsAndAnalyze/AddAnalyzeModal/AddAnalyzeModal';
 import { ModalName } from '../providers/ModalProvider';
+import { SidebarMenuPopup } from '../shared/Global/Sidebar/SidebarMenuPopup/SidebarMenuPopup';
+import { SidebarNotificationsPopup } from '../shared/Global/Sidebar/SidebarNotificationsPopup/SidebarNotificationsPopup';
 
 interface Props {}
 
@@ -37,11 +39,14 @@ export const Modals = ({}: Props) => {
       switch (modal) {
         case ModalName.MODAL_ADD_PROGRESS_PHOTO:
           return <AddPhotoModal {...modals[modal].props} />;
-
         case ModalName.MODAL_PROGRESS_PHOTO_SLIDER:
           return <PhotoSliderModal {...modals[modal].props} />;
         case ModalName.MODAL_ADD_ANALYZ_FILE:
           return <AddAnalyzeModal {...modals[modal].props} />;
+        case ModalName.MODAL_SIDEBAR_MENU:
+          return <SidebarMenuPopup {...modals[modal].props} />;
+        case ModalName.MODAL_NOTIFICATIONS_MENU:
+          return <SidebarNotificationsPopup {...modals[modal].props} />;
         default:
           return null;
       }
