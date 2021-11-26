@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import s from '../Question.module.scss';
 
 type Props = {
+  value: string;
   options?: {
-    value: string | number;
+    value: string;
     label: string;
   }[];
-
-  onAnswer(val: string | number): void;
+  onChange(val: string): void;
 };
 
-export const SelectQuestion = ({ options, onAnswer }: Props) => {
-  const isBig = options && options.length <= 2;
-  const [selected, setSelected] = useState<string | number>('');
+export const SelectQuestion = ({ value, options, onChange }: Props) => {
+  const isBig = options && options.length < 3;
 
   return (
     <div className={isBig ? s.big__buttons__select : s.small__buttons__select}>
@@ -21,12 +20,11 @@ export const SelectQuestion = ({ options, onAnswer }: Props) => {
         options.map((option) => (
           <button
             className={`${isBig ? s.big__button : s.small__button} ${
-              option.value === selected && s.selected
+              option.value === value && s.selected
             }`}
             onClick={() => {
-              const answer = selected !== option.value ? option.value : '';
-              setSelected(answer);
-              onAnswer(answer);
+              if (value === option.value) return;
+              onChange(option.value);
             }}
           >
             {option.label}

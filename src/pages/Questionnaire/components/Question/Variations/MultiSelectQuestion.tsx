@@ -1,35 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import s from '../Question.module.scss';
 
 type Props = {
+  value: string[];
   options?: {
     value: string;
     label: string;
   }[];
-
-  onAnswer(val: string[]): void;
+  onChange(val: string[]): void;
 };
 
-export const MultiSelectQuestion = ({ options, onAnswer }: Props) => {
-  const [selected, setSelected] = useState<string[]>([]);
-
-  useEffect(() => onAnswer(selected), [selected]);
-
-  const onYes = (val: string) => {
-    if (selected.includes(val)) return;
-    setSelected([...selected, val]);
-  };
-
-  const onNo = (val: string) => {
-    if (!selected.includes(val)) return;
-    setSelected(
-      selected.filter((it) => {
-        return it !== val;
-      })
-    );
-  };
-
+export const MultiSelectQuestion = ({ value, options, onChange }: Props) => {
   return (
     <div className={s.question__answer__selectors}>
       {options &&
@@ -39,17 +21,27 @@ export const MultiSelectQuestion = ({ options, onAnswer }: Props) => {
             <div className={s.selector__btns}>
               <button
                 className={`${s.selector__btn} ${
-                  selected.includes(option.value) && s.selected
+                  value.includes(option.value) && s.selected
                 }`}
-                onClick={() => onYes(option.value)}
+                onClick={() => {
+                  if (value.includes(option.value)) return;
+                  onChange([...value, option.value]);
+                }}
               >
                 да
               </button>
               <button
                 className={`${s.selector__btn} ${
-                  !selected.includes(option.value) && s.selected
+                  !value.includes(option.value) && s.selected
                 }`}
-                onClick={() => onNo(option.value)}
+                onClick={() => {
+                  if (!value.includes(option.value)) return;
+                  onChange(
+                    value.filter((it) => {
+                      return it !== option.value;
+                    })
+                  );
+                }}
               >
                 нет
               </button>

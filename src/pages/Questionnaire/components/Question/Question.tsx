@@ -12,8 +12,8 @@ import { useState } from 'react';
 
 type Props = {
   progress: {
-    current: number;
-    of: number;
+    currentId: number;
+    total: number;
   };
   type: 'select' | 'multiselect' | 'text' | 'number';
   options?: {
@@ -31,11 +31,17 @@ export const Question = (props: Props) => {
   const [multiAnswer, setMultiAnswer] = useState<number[] | string[]>([]);
 
   const variations = {
-    number: <NumberQuestion onAnswer={setAnswer} />,
-    text: <TextQuestion onAnswer={setAnswer} />,
-    select: <SelectQuestion onAnswer={setAnswer} options={props.options} />,
+    number: <NumberQuestion value={0} onChange={setAnswer} />,
+    text: <TextQuestion value={''} onChange={setAnswer} />,
+    select: (
+      <SelectQuestion value={''} onChange={setAnswer} options={props.options} />
+    ),
     multiselect: (
-      <MultiSelectQuestion onAnswer={setMultiAnswer} options={props.options} />
+      <MultiSelectQuestion
+        value={[]}
+        onChange={setMultiAnswer}
+        options={props.options}
+      />
     ),
   };
 
@@ -59,7 +65,7 @@ export const Question = (props: Props) => {
 
       <div className={s.question__body}>
         <div className={s.question__number}>
-          {props.progress.current} вопрос
+          {props.progress.currentId} вопрос
         </div>
         <h2 className={s.question__title}>{props.title}</h2>
         {variations[props.type]}

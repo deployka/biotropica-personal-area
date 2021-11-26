@@ -74,8 +74,8 @@ const Questionnaire = () => {
   ];
 
   const [progress, setProgress] = useState({
-    current: 1,
-    of: questions.length,
+    currentId: 1,
+    total: questions.length,
   });
 
   return (
@@ -84,16 +84,16 @@ const Questionnaire = () => {
 
       <QuestionComponent
         progress={progress}
-        title={questions[progress.current - 1].title}
-        type={questions[progress.current - 1].type as Question['type']}
-        options={questions[progress.current - 1].options}
+        title={questions[progress.currentId - 1].title}
+        type={questions[progress.currentId - 1].type as Question['type']}
+        options={questions[progress.currentId - 1].options}
         onChange={(answer) => console.log(answer)}
         onNext={() => {
-          if (progress.current === progress.of) return;
-          setProgress({ ...progress, current: progress.current + 1 });
+          if (progress.currentId === progress.total) return;
+          setProgress({ ...progress, currentId: progress.currentId + 1 });
         }}
         onPrev={() => {
-          setProgress({ ...progress, current: progress.current - 1 });
+          setProgress({ ...progress, currentId: progress.currentId - 1 });
         }}
       />
     </div>
