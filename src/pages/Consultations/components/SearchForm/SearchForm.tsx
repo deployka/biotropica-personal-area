@@ -77,17 +77,10 @@ export const SearchForm = (props: Props) => {
         <SelectCustom
           Styles={selectStyles}
           hideLabel={true}
-          onChange={(e: any) => {
-            console.log('change');
-          }}
           placeholder="Специалист"
-          onBlur={() => {
-            console.log('blur');
-          }}
           name="specialist"
           value={null}
           options={options}
-          settings={{ touched: '', errors: '' }}
         />
       </div>
     </form>

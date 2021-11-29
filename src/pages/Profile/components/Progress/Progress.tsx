@@ -26,7 +26,7 @@ export const Progress = ({}: Props) => {
 
   const infoBar: IInfoBar = {
     title: 'У вас нет загруженного прогресса',
-    text: 'Вы еще не загружили фото прогресса. Сделайте это нажав на ссылку ниже',
+    text: 'Вы еще не загрузили фото прогресса. Сделайте это нажав на ссылку ниже',
     bottomLink: 'Загрузить фото',
     onClick: () => {
       openModal(ModalName.MODAL_ADD_PROGRESS_PHOTO);

@@ -37,7 +37,7 @@ export const AnalyzesCard = ({
       <AnalyzeTypes analyzeTypes={analyzeTypes} />
       <Analyzes analyzes={analyzes} />
       <button onClick={onShowMoreClick} className={s.moreBtn}>
-        {isShowMore ? 'загрузить еще' : 'скрыть'}
+        {isShowMore ? 'показать еще' : 'скрыть'}
       </button>
     </div>
   );

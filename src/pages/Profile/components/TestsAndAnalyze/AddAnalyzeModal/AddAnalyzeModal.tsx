@@ -1,13 +1,21 @@
 import classNames from 'classnames';
 import { Formik } from 'formik';
 import React, { useState } from 'react';
+
 import { ProfileSvgSelector } from '../../../../../assets/icons/profile/ProfileSvgSelector';
+
+import { MAX_IMAGE_SIZE } from '../../../../../constants/files';
 import { useModal } from '../../../../../hooks/useModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
 import { Button } from '../../../../../shared/Form/Button/Button';
 import { Loader } from '../../../../../shared/Form/Loader/Loader';
 import { PopupBackground } from '../../../../../shared/Global/PopupBackground/PopupBackground';
 import { CreateAnalyzeAnswerData } from '../../../../../store/ducks/analyze/contracts/state';
+import {
+  checkFileSize,
+  checkFileType,
+  FileType,
+} from '../../../../../utils/filesHelper';
 
 import { Input } from './../../../../../shared/Form/Input/Input';
 
@@ -31,28 +39,22 @@ export const AddAnalyzeModal = ({
 
   const [fileName, setFileName] = useState('');
 
-  function onFileLoaded(
+  async function onFileLoaded(
     e: React.ChangeEvent<HTMLInputElement>,
     setFieldValue: (field: string, value: any) => void
   ) {
-    const tgt = e.target;
-    const files = tgt.files;
-    const permittedPaths = ['application/pdf'];
+    try {
+      const files = e.target.files || null;
+      const paths = [FileType.PDF];
 
-    if (
-      FileReader &&
-      files &&
-      files.length &&
-      permittedPaths.includes(files?.[0]?.type)
-    ) {
+      if (!files) return;
+      if (checkFileSize(files[0], MAX_IMAGE_SIZE)) throw new Error();
+      if (!checkFileType(files[0], paths)) throw new Error();
+
+      setFileName(files[0].name);
+      setFieldValue('filePath', files[0]);
       onSuccessFileLoaded();
-      const fr = new FileReader();
-      fr.onload = function () {
-        setFieldValue('filePath', files[0]);
-        setFileName(files[0].name);
-      };
-      fr.readAsDataURL(files[0]);
-    } else {
+    } catch (error) {
       onErrorFileLoaded();
     }
   }
@@ -100,6 +102,7 @@ export const AddAnalyzeModal = ({
             </div>
             <div className={s.fileInput}>
               <input
+                accept=".pdf"
                 type="file"
                 name="filePath"
                 onChange={e => onFileLoaded(e, setFieldValue)}

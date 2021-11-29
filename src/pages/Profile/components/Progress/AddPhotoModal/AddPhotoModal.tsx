@@ -29,6 +29,13 @@ import s from './AddPhotoModal.module.scss';
 import { validationSchema } from './validationSchema';
 import { ErrorMessage } from '../../../../../shared/Form/ErrorMessage/ErrorMessage';
 import { ProfileSvgSelector } from '../../../../../assets/icons/profile/ProfileSvgSelector';
+import {
+  checkFileSize,
+  checkFileType,
+  FileType,
+  uploadFiles,
+} from '../../../../../utils/filesHelper';
+import { MAX_IMAGE_SIZE } from '../../../../../constants/files';
 
 interface PhotoInput {
   src: string;
@@ -132,39 +139,35 @@ export const AddPhotoModal = ({}: Props) => {
     return (!isValid && !dirty) || loader;
   }
 
-  function loadFile(
+  async function loadFile(
     e: React.ChangeEvent<HTMLInputElement>,
     type: TypePhoto,
     setFieldValue: any
   ) {
-    const tgt = e.target;
-    const files = tgt.files;
-    const permittedPaths = ['image/png', 'image/jpeg', 'image/gif'];
-    if (
-      FileReader &&
-      files &&
-      files.length &&
-      permittedPaths.includes(files?.[0]?.type)
-    ) {
-      store.removeNotification('avatar_type_error');
-      const fr = new FileReader();
-      fr.onload = function () {
-        setInputs({
-          ...inputs,
-          [type]: {
-            src: fr.result,
-          },
-        });
-        setFieldValue(type, files[0]);
-      };
-      fr.readAsDataURL(files[0]);
-    } else {
+    try {
+      const files = e.target.files || null;
+      const paths = [FileType.PNG, FileType.JPEG, FileType.GIF];
+
+      if (!files) return;
+      if (checkFileSize(files[0], MAX_IMAGE_SIZE)) throw new Error();
+      if (!checkFileType(files[0], paths)) throw new Error();
+
+      const fr = await uploadFiles(files);
+      setInputs({
+        ...inputs,
+        [type]: {
+          src: fr.result,
+        },
+      });
+      setFieldValue(type, files[0]);
+    } catch (error) {
       store.addNotification({
         ...notification,
-        title: 'Фото профиля не обновлено!',
-        message: 'Допустимые типы изображения: png, jpg, gif',
+        title: 'Фото не добавлено!',
+        message: `Допустимые типы: png, jpg, gif
+        Максимальный размер: ${MAX_IMAGE_SIZE} мб`,
         type: 'danger',
-        id: 'avatar_type_error',
+        id: 'file_type_error',
         dismiss: {
           duration: 7000,
           onScreen: true,
@@ -219,6 +222,7 @@ export const AddPhotoModal = ({}: Props) => {
                   <div key={type}>
                     <input
                       type="file"
+                      accept=".jpeg, .png, .gif"
                       className={s.input}
                       id={`pd_input-${i}`}
                       onBlur={handleBlur}

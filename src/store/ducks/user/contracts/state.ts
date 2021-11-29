@@ -12,14 +12,11 @@ export interface User {
   dob: Date;
   phone: string;
   gender: ISelect<string>[];
-  before_photos: JSON;
-  after_photos: JSON;
   paid: boolean;
   isOnline: boolean;
   banned: boolean;
   banReason: string;
   confirmed: boolean;
-  confirmed_hash: string;
   refreshToken: string;
 }
 
