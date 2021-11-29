@@ -11,36 +11,52 @@ import s from './Question.module.scss';
 import { useState } from 'react';
 
 type Props = {
+  title: string;
+  type: 'select' | 'multiselect' | 'text' | 'number';
   progress: {
-    currentId: number;
+    currentIndex: number;
     total: number;
   };
-  type: 'select' | 'multiselect' | 'text' | 'number';
+  placeholder?: string;
   options?: {
     value: string;
     label: string;
   }[];
-  title: string;
-  onChange(val: string | number | string[] | number[]): void;
+  onChange(val: string | number | string[]): void;
   onNext(): void;
   onPrev(): void;
 };
 
 export const Question = (props: Props) => {
   const [answer, setAnswer] = useState<string | number>(0);
-  const [multiAnswer, setMultiAnswer] = useState<number[] | string[]>([]);
+  const [multiAnswer, setMultiAnswer] = useState<string[]>([]);
+
+  const placeholder = props.placeholder || 'Введите ответ';
+  const options = props.options || [];
 
   const variations = {
-    number: <NumberQuestion value={0} onChange={setAnswer} />,
-    text: <TextQuestion value={''} onChange={setAnswer} />,
+    number: (
+      <NumberQuestion
+        value={Number(answer)}
+        placeholder={placeholder}
+        onChange={setAnswer}
+      />
+    ),
+    text: (
+      <TextQuestion
+        value={String(answer)}
+        placeholder={placeholder}
+        onChange={setAnswer}
+      />
+    ),
     select: (
-      <SelectQuestion value={''} onChange={setAnswer} options={props.options} />
+      <SelectQuestion value={answer} onChange={setAnswer} options={options} />
     ),
     multiselect: (
       <MultiSelectQuestion
-        value={[]}
+        value={multiAnswer}
         onChange={setMultiAnswer}
-        options={props.options}
+        options={options}
       />
     ),
   };
@@ -65,7 +81,7 @@ export const Question = (props: Props) => {
 
       <div className={s.question__body}>
         <div className={s.question__number}>
-          {props.progress.currentId} вопрос
+          {props.progress.currentIndex} вопрос
         </div>
         <h2 className={s.question__title}>{props.title}</h2>
         {variations[props.type]}

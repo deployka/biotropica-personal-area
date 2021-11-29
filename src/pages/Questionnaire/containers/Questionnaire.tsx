@@ -11,6 +11,7 @@ import { progressSaga } from '../../../store/ducks/progress/sagas';
 type Question = {
   title: string;
   type: 'select' | 'multiselect' | 'text' | 'number';
+  placeholder?: string;
   options?: {
     value: string;
     label: string;
@@ -71,10 +72,10 @@ const Questionnaire = () => {
         { value: '5', label: 'ОИМ (Острый Инфаркт Миакарда)' },
       ],
     },
-  ];
+  ] as Question[];
 
   const [progress, setProgress] = useState({
-    currentId: 1,
+    currentIndex: 1,
     total: questions.length,
   });
 
@@ -83,17 +84,18 @@ const Questionnaire = () => {
       {/*<Welcome />*/}
 
       <QuestionComponent
+        title={questions[progress.currentIndex - 1].title}
+        type={questions[progress.currentIndex - 1].type}
         progress={progress}
-        title={questions[progress.currentId - 1].title}
-        type={questions[progress.currentId - 1].type as Question['type']}
-        options={questions[progress.currentId - 1].options}
+        placeholder={questions[progress.currentIndex - 1].placeholder}
+        options={questions[progress.currentIndex - 1].options}
         onChange={(answer) => console.log(answer)}
         onNext={() => {
-          if (progress.currentId === progress.total) return;
-          setProgress({ ...progress, currentId: progress.currentId + 1 });
+          if (progress.currentIndex === progress.total) return;
+          setProgress({ ...progress, currentIndex: progress.currentIndex + 1 });
         }}
         onPrev={() => {
-          setProgress({ ...progress, currentId: progress.currentId - 1 });
+          setProgress({ ...progress, currentIndex: progress.currentIndex - 1 });
         }}
       />
     </div>

@@ -3,12 +3,12 @@ import React from 'react';
 import s from '../Question.module.scss';
 
 type Props = {
-  value: string;
-  options?: {
-    value: string;
+  value: string | number;
+  options: {
+    value: string | number;
     label: string;
   }[];
-  onChange(val: string): void;
+  onChange(val: string | number): void;
 };
 
 export const SelectQuestion = ({ value, options, onChange }: Props) => {

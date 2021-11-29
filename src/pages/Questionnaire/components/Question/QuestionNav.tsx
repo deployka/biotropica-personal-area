@@ -4,7 +4,7 @@ import s from './Question.module.scss';
 
 type Props = {
   progress: {
-    currentId: number;
+    currentIndex: number;
     total: number;
   };
   onNext(): void;
@@ -14,7 +14,7 @@ type Props = {
 export const QuestionNav = ({ onNext, onPrev, progress }: Props) => {
   return (
     <div className={s.nav__btns}>
-      {progress.currentId !== 1 ? (
+      {progress.currentIndex !== 1 ? (
         <button className={s.btn__prev} onClick={onPrev}>
           <div className={s.btn__prev__icon}>
             <QuestionnaireSvgSelector id='arrow' />
@@ -27,7 +27,7 @@ export const QuestionNav = ({ onNext, onPrev, progress }: Props) => {
 
       <button className={s.btn__next} onClick={onNext}>
         <div className={s.btn__next__text}>
-          {progress.currentId !== progress.total ? 'далее' : 'завершить'}
+          {progress.currentIndex !== progress.total ? 'далее' : 'завершить'}
         </div>
         <div className={s.btn__next__icon}>
           <QuestionnaireSvgSelector id='arrow' />

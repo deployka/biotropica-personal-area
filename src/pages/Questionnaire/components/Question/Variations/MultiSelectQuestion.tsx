@@ -4,7 +4,7 @@ import s from '../Question.module.scss';
 
 type Props = {
   value: string[];
-  options?: {
+  options: {
     value: string;
     label: string;
   }[];
