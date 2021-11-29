@@ -4,11 +4,10 @@ import { Link } from 'react-router-dom';
 
 import s from './SidebarMobile.module.scss';
 
-import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 import { useModal } from '../../../hooks/useModal';
 import { SidebarSvgSelector } from '../../../assets/icons/sidebar/SIdebarSvgSelector';
 import { ModalName } from '../../../providers/ModalProvider';
-import { Nav, Pages } from '../../../layouts/SidebarLayout';
+import { Nav, Pages } from '../../../layouts/PrivateLayout';
 
 interface Props {
   setPage: Dispatch<SetStateAction<string>>;
@@ -28,7 +27,6 @@ export const SidebarMobile = memo(
     setPage,
     setSidebarChatOpen,
     setSidebarNotificationsOpen,
-    chatNotificationsOpen,
     pages,
     nav,
     openChat,

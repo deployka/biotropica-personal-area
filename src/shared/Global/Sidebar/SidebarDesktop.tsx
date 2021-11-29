@@ -6,7 +6,7 @@ import s from './SidebarDesktop.module.scss';
 
 import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 import { SidebarSvgSelector } from '../../../assets/icons/sidebar/SIdebarSvgSelector';
-import { Nav, Pages } from '../../../layouts/SidebarLayout';
+import { Nav, Pages } from '../../../layouts/PrivateLayout';
 
 interface Props {
   setPage: Dispatch<SetStateAction<string>>;
@@ -24,8 +24,6 @@ interface Props {
 export const SidebarDesktop = memo(
   ({
     setPage,
-    setSidebarChatOpen,
-    setSidebarNotificationsOpen,
     chatNotificationsOpen,
     pages,
     nav,

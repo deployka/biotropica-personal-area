@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { HeaderSvgSelector } from '../../../../assets/icons/header/HeaderSvgSelector';
 import { useModal } from '../../../../hooks/useModal';
-import { Pages } from '../../../../layouts/SidebarLayout';
+import { Pages } from '../../../../layouts/PrivateLayout';
 import { ModalName } from '../../../../providers/ModalProvider';
 import { PopupBackground } from '../../PopupBackground/PopupBackground';
 

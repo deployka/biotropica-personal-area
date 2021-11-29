@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { ModalContext } from '../context/ModalContext';
-import { Nav, Pages } from '../layouts/SidebarLayout';
+import { Nav, Pages } from '../layouts/PrivateLayout';
 
 import { CreateAnalyzeAnswerData } from '../store/ducks/analyze/contracts/state';
 import { Photo } from '../store/ducks/progress/contracts/state';
