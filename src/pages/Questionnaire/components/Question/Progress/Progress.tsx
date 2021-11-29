@@ -5,12 +5,12 @@ interface Progress {
 }
 export const Progress = ({ options }: Progress) => {
   const { currentIndex, total } = options;
-  const percantage = Math.round(((currentIndex - 1) / total) * 100);
+  const percantage = Math.round(((currentIndex) / total) * 100);
   return (
     <div className={s.progress}>
       <div className={s.progress__info}>
         <div className={s.progress__number}>
-          <span className={s.progress__number__current}>{currentIndex}</span>
+          <span className={s.progress__number__current}>{currentIndex + 1}</span>
           {'  '}/{'  '}
           <span className={s.progress__number__of}>{total}</span>
         </div>
