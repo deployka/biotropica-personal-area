@@ -3,6 +3,7 @@ import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { notification } from '../../../config/notification/notificationForm';
+import { MAX_IMAGE_SIZE } from '../../../constants/files';
 import FileService from '../../../services/FileService';
 import UserService from '../../../services/UserService';
 import {
@@ -20,6 +21,12 @@ import {
   selectUserResponse,
 } from '../../../store/ducks/user/selectors';
 import { LoadingStatus } from '../../../store/types';
+import {
+  checkFileSize,
+  checkFileType,
+  FileType,
+  uploadFiles,
+} from '../../../utils/filesHelper';
 import { getMediaLink } from '../../../utils/mediaHelper';
 import { EditProfileData } from '../components/EditProfileData/EditProfileData';
 
@@ -108,34 +115,30 @@ const EditProfile = () => {
     }
   }
 
-  function onAvatarLoaded(
+  async function onAvatarLoaded(
     e: React.ChangeEvent<HTMLInputElement>,
     setFieldValue: (field: string, value: any) => void
   ) {
-    const tgt = e.target;
-    const files = tgt.files;
-    const permittedPaths = ['image/png', 'image/jpeg', 'image/gif'];
-
-    if (
-      FileReader &&
-      files &&
-      files.length &&
-      permittedPaths.includes(files?.[0]?.type)
-    ) {
+    try {
       store.removeNotification('avatar_type_error');
-      const fr = new FileReader();
-      fr.onload = function () {
-        setImage(fr.result);
-        setFieldValue('profile_photo', files[0]);
-      };
-      fr.readAsDataURL(files[0]);
-    } else {
+      const files = e.target.files || null;
+      const paths = [FileType.PNG, FileType.JPEG, FileType.GIF];
+
+      if (!files) return;
+      if (checkFileSize(files[0], MAX_IMAGE_SIZE)) throw new Error();
+      if (!checkFileType(files[0], paths)) throw new Error();
+
+      const fr = await uploadFiles(files);
+      setImage(fr.result);
+      setFieldValue('profile_photo', files[0]);
+    } catch (error) {
       store.addNotification({
         ...notification,
-        title: 'Фото профиля не обновлено!',
-        message: 'Допустимые типы изображения: png, jpg, gif',
+        title: 'Фото не добавлено!',
+        message: `Допустимые типы: png, jpg, gif
+                  Максимальный размер: ${MAX_IMAGE_SIZE} мб`,
         type: 'danger',
-        id: 'avatar_type_error',
+        id: 'file_type_error',
         dismiss: {
           duration: 7000,
           onScreen: true,

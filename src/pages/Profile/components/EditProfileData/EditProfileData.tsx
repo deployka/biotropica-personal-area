@@ -55,7 +55,6 @@ export const EditProfileData = ({
   }
 
   const isMobile = useMobile();
-  console.log(isMobile);
   return (
     <div className={s.edit__password}>
       <Formik
@@ -92,7 +91,7 @@ export const EditProfileData = ({
         }) => (
           <form
             name="user_data"
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={e => e.preventDefault()}
             className={s.form}
           >
             <div
@@ -109,7 +108,7 @@ export const EditProfileData = ({
                 type="file"
                 name="profile_photo"
                 accept=".png, .jpg, .jpeg, .gif"
-                onChange={(e) => {
+                onChange={e => {
                   onAvatarLoaded(e, setFieldValue);
                 }}
               />

@@ -36,6 +36,7 @@ import {
 } from '../../../../store/ducks/analyzes/actionCreators';
 import AnalyzeService from '../../../../services/AnalyzeService';
 import { NEXT_FETCH_LIMIT, MIN_LIMIT } from '../../../../constants/analyzes';
+import { MAX_PDF_SIZE } from '../../../../constants/files';
 
 interface Props {
   user: User;
@@ -148,7 +149,7 @@ export const TestsAndAnalyze = ({}: Props) => {
         store.addNotification({
           ...notification,
           title: 'Файл не был загружен!',
-          message: 'Допустимые типы анализов: pdf',
+          message: `Допустимые типы анализов: pdf Максимальный размер файла: ${MAX_PDF_SIZE} мб`,
           type: 'danger',
           id: 'file_type_error',
           dismiss: {
