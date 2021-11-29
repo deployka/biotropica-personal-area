@@ -16,7 +16,6 @@ export const NumberQuestion = ({ value, placeholder, onChange }: Props) => {
       type='number'
       value={value.toString()}
       placeholder={placeholder}
-      onBlur={() => onChange(value)}
       onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
         onChange(Number(e.target.value))
       }

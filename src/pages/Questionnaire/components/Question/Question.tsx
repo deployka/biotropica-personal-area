@@ -22,13 +22,12 @@ type Props = {
     value: string;
     label: string;
   }[];
-  onChange(val: string | number | string[]): void;
-  onNext(): void;
+  onNext(val: string): void;
   onPrev(): void;
 };
 
 export const Question = (props: Props) => {
-  const [answer, setAnswer] = useState<string | number>(0);
+  const [answer, setAnswer] = useState<string>('');
   const [multiAnswer, setMultiAnswer] = useState<string[]>([]);
 
   const placeholder = props.placeholder || 'Введите ответ';
@@ -39,7 +38,7 @@ export const Question = (props: Props) => {
       <NumberQuestion
         value={Number(answer)}
         placeholder={placeholder}
-        onChange={setAnswer}
+        onChange={val => setAnswer(String(val))}
       />
     ),
     text: (
@@ -63,15 +62,13 @@ export const Question = (props: Props) => {
 
   const onNext = () => {
     if (['select', 'number', 'text'].includes(props.type) && answer) {
-      props.onChange(answer);
-      setAnswer(0);
-      props.onNext();
+      setAnswer('');
+      props.onNext(answer);
     }
 
     if (props.type === 'multiselect' && multiAnswer) {
-      props.onChange(multiAnswer);
       setMultiAnswer([]);
-      props.onNext();
+      props.onNext(JSON.stringify(multiAnswer));
     }
   };
 
