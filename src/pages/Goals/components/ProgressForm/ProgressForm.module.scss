@@ -1,88 +1,119 @@
-@import '../../../../styles/mixins.scss';
-@import '../../../../styles/variables.scss';
-.progress__form {
-  @include flex(column, flex-start, flex-start);
-
-  &__title {
-    font-weight: 500;
-    font-size: 16px;
-    margin-bottom: 20px;
-    line-height: 120%;
-  }
-}
-.form {
-  &__submit__btn {
-    @include flex();
-    @include wh(100%, 49px);
-    border: 1px solid $color-primary;
-    color: $color-primary;
-    font-weight: 500;
-    border-radius: 50px;
-    font-size: 16px;
-    line-height: 120%;
-  }
-  &__wrapper {
-    @include flex(column, flex-start, flex-start);
-  }
-  &__input {
-    @include wh(100%, 49px);
-    padding: 15px 20px;
-    color: $color-secondary;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 120%;
-    cursor: text;
-    border-radius: 50px;
-    border: 1px solid $color-secondary;
-    margin-bottom: 12px;
-    &:last-of-type {
-      margin-bottom: 22px;
-    }
-    &::-webkit-datetime-edit-fields-wrapper {
-      opacity: 1 !important;
-      color: #cfcbdf;
-    }
-    &::placeholder {
-      opacity: 0.5;
-    }
-    &__title {
-      margin-bottom: 12px;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 100%;
-      letter-spacing: 0.25px;
-      color: $color-secondary;
-    }
-  }
-}
-
-.edit__goal {
-  cursor: pointer;
-  @include flex($justify: flex-start);
-  margin-bottom: 14px;
-  a {
-    text-decoration: none;
-  }
-  &__text {
-    color: $color-primary;
-    margin-left: 10px;
-    padding-bottom: 2px;
-    border-bottom: 1px solid rgba(111, 97, 208, 0.5);
-  }
-}
-
-.input__wrapper {
-  position: relative;
-  margin-bottom: 15px;
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
+.goalPanel {
   width: 100%;
-  input {
-    width: 265px;
-  }
-}
 
-button[name='discard'] {
-  &:hover {
-    background: #fff;
-    color: #000 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include for-laptop {
+    margin: 60px 0 0 0;
+    flex-direction: row;
+  }
+
+  @include for-tablet {
+    margin: 50px 0 0 0;
+    width: 100%;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  @include for-phone {
+    margin: 30px 0 0 0;
+    flex-direction: column;
+  }
+
+  .title {
+    margin: 20px 0 10px 0;
+    p {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 120%;
+
+      color: #736f8b;
+    }
+
+    @include for-laptop {
+      margin: 0 0 20px 0;
+    }
+  }
+
+  .top {
+    @include for-phone {
+      width: 100%;
+
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .bottom {
+    @include for-laptop {
+      margin: 0 0 0 50px;
+    }
+
+    @include for-phone {
+      margin: 0;
+      width: 100%;
+    }
+  }
+
+  .goalActions {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    row-gap: 10px;
+
+    .action {
+      width: 100%;
+      display: flex;
+
+      cursor: pointer;
+      text-decoration: none;
+
+      p {
+        margin: 0 0 0 10px;
+        font-size: 16px;
+        line-height: 120%;
+
+        color: #6f61d0;
+      }
+    }
+  }
+
+  .form {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    row-gap: 15px;
+
+    .input__wrapper {
+      position: relative;
+
+      width: 100%;
+
+      input {
+        width: 100%;
+
+        @include for-laptop {
+          border-radius: 50px;
+        }
+      }
+    }
+
+    .buttons {
+      width: 100%;
+    }
   }
 }

@@ -69,6 +69,7 @@ export const Specialist = ({
           }}
         ></div>
 
+
         <div className={s.info}>
           <div className={s.name}>
             <p> {getMarkStringByValue(name)}</p>
@@ -97,6 +98,7 @@ export const Specialist = ({
             setDisabledStyle: isLoadingSignUp,
           }}
         />
+
       </div>
     </div>
   );

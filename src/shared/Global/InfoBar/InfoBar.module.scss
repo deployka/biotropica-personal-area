@@ -1,10 +1,9 @@
-@import "./../../../styles/mixins.scss";
+@import './../../../styles/mixins.scss';
 
 .infoBar {
   margin: 0 0 30px 0;
   width: 100%;
   padding: 30px;
-
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -37,64 +36,69 @@
     p {
       color: #736f8b;
     }
-
-    @include for-phone {
-      flex-direction: column;
-      justify-content: flex-start;
-    }
   }
 
-  .link {
-    padding: 0 0 0 50px;
-    min-width: 200px;
+  @include for-phone {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
 
-    @include for-phone {
-      padding: 0;
-      margin: 5px 0 0 0;
+.link {
+  padding: 0 0 0 50px;
+  min-width: 200px;
 
-      min-width: unset;
-    }
+  @include for-phone {
+    padding: 0;
+    margin: 5px 0 0 0;
 
-    a {
-      position: relative;
-      font-size: 16px;
-      line-height: 120%;
-      /* or 19px */
+    min-width: unset;
+  }
+}
 
-      display: flex;
-      align-items: center;
+.link {
+  padding: 0 0 0 50px;
+  min-width: 200px;
 
-      /* Primary */
+  a {
+    position: relative;
+    font-size: 16px;
+    line-height: 120%;
+    /* or 19px */
 
-      color: #6f61d0;
+    display: flex;
+    align-items: center;
 
-      text-decoration: none;
+    /* Primary */
 
-      &::after {
-        content: "";
-        width: 100%;
-        height: 1px;
+    color: #6f61d0;
 
-        background: rgba(111, 97, 208, 0.5);
-        border-radius: 5px;
+    text-decoration: none;
 
-        position: absolute;
-        bottom: -2px;
-      }
+    &::after {
+      content: '';
+      width: 100%;
+      height: 1px;
+
+      background: rgba(111, 97, 208, 0.5);
+      border-radius: 5px;
+
+      position: absolute;
+      bottom: -2px;
     }
   }
+}
 
-  .bottomLink {
-    margin: 15px 0 0 0;
+.bottomLink {
+  margin: 15px 0 0 0;
 
-    a {
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 120%;
+  a {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 120%;
 
-      text-decoration: none;
+    text-decoration: none;
 
-      color: #6f61d0;
-    }
+    color: #6f61d0;
   }
 }

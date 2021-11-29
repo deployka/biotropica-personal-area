@@ -22,7 +22,9 @@ export const Goal = ({ goal, active }: Props) => {
             [s.active]: goal.id === active,
           })}
         >
-          <div className={s.goal__title}>{goal.name}</div>
+          <div className={s.title}>
+            <p>{goal.name}</p>
+          </div>
         </div>
       )}
     </>
