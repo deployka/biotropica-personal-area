@@ -4,8 +4,12 @@ import $api from '../http';
 export default class QuestionService {
     static route: string = 'questions';
 
-    static async getNextQuestion(): Promise<AxiosResponse<Question>> {
-        return $api.get(`/${QuestionService.route}/next`);
+    static async getCurrentQuestion(): Promise<AxiosResponse<{
+        question: Question;
+        index: number;
+        total: number;
+    }>> {
+        return $api.get(`/${QuestionService.route}/current`);
     }
 
     static async answer(answer: CreateAnswerDto): Promise<AxiosResponse<Answer>> {

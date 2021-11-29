@@ -113,6 +113,7 @@
 .btn__next {
   @include flex(row, flex-start);
   padding: 0 20px 0 15px;
+  margin-left: auto;
   &__text {
     color: $color-primary;
     font-weight: 500;

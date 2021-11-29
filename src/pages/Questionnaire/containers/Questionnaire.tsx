@@ -7,6 +7,8 @@ import $api from '../../../http';
 import {AxiosResponse} from 'axios';
 import QuestionService from '../../../services/QuestionService';
 import {progressSaga} from '../../../store/ducks/progress/sagas';
+import {useLocation} from "react-router-dom";
+import {useHistory} from "react-router";
 
 type Question = {
     title: string;
@@ -17,10 +19,9 @@ type Question = {
 
 const Questionnaire = () => {
     const [question, setQuestion] = useState<null | Question>(null);
-    const [progress, setProgress] = useState({
-        currentIndex: 1,
-        total: 30,
-    });
+    const [index, setIndex] = useState(0);
+    const [total, setTotal] = useState(0);
+    const history = useHistory();
 
     useEffect(() => {
         fetchQuestion();
@@ -31,11 +32,22 @@ const Questionnaire = () => {
     }
 
     async function fetchQuestion() {
-        const {data: question} = await QuestionService.getNextQuestion();
+        const {data: {
+            question,
+            index,
+            total,
+        }} = await QuestionService.getCurrentQuestion();
         setQuestion(question);
+        setIndex(index);
+        setTotal(total);
     }
 
     async function giveAnswer(answer: CreateAnswerDto) {
+        console.log('giveAnswer', index);
+        if(index === total) {
+            console.log('index');
+            return history.push('/');
+        }
         await QuestionService.answer(answer);
         await fetchQuestion();
     }
@@ -48,10 +60,11 @@ const Questionnaire = () => {
 
     return (
         <div className={s.questionnaire}>
-            {/*<Welcome />*/}
-
             <QuestionComponent
-                progress={progress}
+                progress={{
+                    currentIndex: index,
+                    total
+                }}
                 title={question.title}
                 type={question.type as Question['type']}
                 options={options}
@@ -62,7 +75,7 @@ const Questionnaire = () => {
                     })
                 }}
                 onPrev={() => {
-                    setProgress({...progress, currentIndex: progress.currentIndex - 1});
+                    // setProgress({...progress, currentIndex: progress.currentIndex - 1});
                 }}
             />
         </div>
