@@ -1,7 +1,9 @@
-@import '../../../styles/mixins.scss';
-@import '../../../styles/variables.scss';
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
 .questionnaire {
-  padding-bottom: 53px;
   width: 100%;
-  @include flex();
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

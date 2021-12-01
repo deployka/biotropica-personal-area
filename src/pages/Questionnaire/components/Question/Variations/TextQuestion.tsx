@@ -11,8 +11,8 @@ type Props = {
 export const TextQuestion = ({ value, placeholder, onChange }: Props) => {
   return (
     <input
-      className={s.question__input}
-      type='text'
+      className={s.textInput}
+      type="text"
       value={value}
       placeholder={placeholder}
       onBlur={() => onChange(value)}
