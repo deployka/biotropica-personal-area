@@ -77,9 +77,11 @@ export const Question = (props: Props) => {
       <Progress options={props.progress} />
 
       <div className={s.body}>
-        <div className={s.number}>{props.progress.currentIndex + 1} вопрос</div>
+        <div className={s.number}>
+          <p>{props.progress.currentIndex + 1} вопрос</p>
+        </div>
         <div className={s.title}>
-          <h2>{props.title}</h2>
+          <p>{props.title}</p>
         </div>
         {variations[props.type]}
       </div>
