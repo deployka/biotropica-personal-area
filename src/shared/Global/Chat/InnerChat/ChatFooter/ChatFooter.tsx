@@ -1,10 +1,11 @@
-import s from './ChatFooter.module.scss';
 import React, { RefObject, useState } from 'react';
 import { GlobalSvgSelector } from '../../../../../assets/icons/global/GlobalSvgSelector';
 import { Message, MessageType } from '../../../../../services/ChatService';
 import FileService from '../../../../../services/FileService';
 import { ChatFooterAttachPopup } from './ChatFooterAttachPopup';
 import { Textarea } from './Textarea';
+
+import s from './ChatFooter.module.scss';
 
 type Props = {
   onSubmit: (payload: Pick<Message, 'type' | 'text' | 'fileId'>) => void;
@@ -49,22 +50,8 @@ export function ChatFooter({ onSubmit, onFocus, onBlur }: Props) {
   }
 
   return (
-    <form
-      action="#"
-      className={s.chat__footer__form}
-      onSubmit={onSubmitHandler}
-    >
-      {popup ? (
-        <ChatFooterAttachPopup
-          onClickOutside={() => setPopup(false)}
-          onImageLoaded={onImageLoadedHandler}
-          onDocumentLoaded={onDocumentLoadedHandler}
-        />
-      ) : (
-        ''
-      )}
-
-      <div className={s.form__text__wrapper}>
+    <form action="#" className={s.footer} onSubmit={onSubmitHandler}>
+      <div className={s.wrapper}>
         <Textarea
           value={message}
           minRows={1}
@@ -81,15 +68,24 @@ export function ChatFooter({ onSubmit, onFocus, onBlur }: Props) {
         {/*</div>*/}
         <div
           ref={refBtn}
-          className={s.form__attach__btn}
+          className={s.attachBtn}
           onClick={() => setPopup(true)}
         >
-          <div className={s.form__submit__btn__img}>
-            <GlobalSvgSelector id="attach" />
-          </div>
+          <GlobalSvgSelector id="attach" />
         </div>
       </div>
-      <button type="submit" className={s.form__submit__btn}>
+
+      {popup ? (
+        <ChatFooterAttachPopup
+          onClickOutside={() => setPopup(false)}
+          onImageLoaded={onImageLoadedHandler}
+          onDocumentLoaded={onDocumentLoadedHandler}
+        />
+      ) : (
+        ''
+      )}
+
+      <button className={s.submitBtn} type="submit">
         <div className={s.form__submit__btn__img}>
           <GlobalSvgSelector id="send" />
         </div>

@@ -108,28 +108,28 @@ export const SidebarNotifications = ({ open, setOpen }: Props) => {
       </div>
       <div
         className={classNames({
-          [s.sidebar__notifications__wrapper]: true,
+          [s.sidebarNotifications]: true,
           [s.open]: open,
         })}
       >
-        <div className={s.sidebar__notifications}>
-          <div className={s.sidebar__header}>
-            <div className={s.sidebar__header__title}>Уведомления</div>
-            <BtnClose setOpen={setOpen} />
+        <div className={s.header}>
+          <div className={s.title}>
+            <p>Уведомления</p>
           </div>
-          <PerfectScrollbar>
-            <div className={s.notifications}>
-              {notifications.map((notification: INotification, i: number) => {
-                return (
-                  <Notification
-                    key={i + notification.taskLink}
-                    notification={notification}
-                  />
-                );
-              })}
-            </div>
-          </PerfectScrollbar>
+          <BtnClose setOpen={setOpen} />
         </div>
+        <PerfectScrollbar>
+          <div className={s.notifications}>
+            {notifications.map((notification: INotification, i: number) => {
+              return (
+                <Notification
+                  key={i + notification.taskLink}
+                  notification={notification}
+                />
+              );
+            })}
+          </div>
+        </PerfectScrollbar>
       </div>
     </>
   );
