@@ -32,6 +32,3 @@
 .open {
   transform: translateX(-100%);
 }
-.messages {
-  @include flex(column, flex-start, flex-start, nowrap);
-}
