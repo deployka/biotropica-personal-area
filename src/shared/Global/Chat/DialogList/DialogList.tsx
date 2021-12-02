@@ -1,8 +1,9 @@
-import s from '../Chat.module.scss';
 import { BtnClose } from '../../../buttons/BtnClose/BtnClose';
 import { DialogItem } from './DialogItem';
 import { getOpponent } from '../../../../utils/dialogHelper';
 import React from 'react';
+
+import s from './DialogList.module.scss';
 
 type Props = {
   dialogs: Dialog[];
@@ -12,11 +13,10 @@ type Props = {
 };
 
 enum MessageType {
-    TEXT = 'TEXT',
-    IMAGE = 'IMAGE',
-    DOCUMENT = 'DOCUMENT',
+  TEXT = 'TEXT',
+  IMAGE = 'IMAGE',
+  DOCUMENT = 'DOCUMENT',
 }
-
 
 export function DialogList({
   dialogs,
@@ -26,11 +26,13 @@ export function DialogList({
 }: Props) {
   return (
     <div>
-      <div className={s.sidebar__header}>
-        <div className={s.sidebar__header__title}>Сообщения</div>
-        <BtnClose setOpen={onClose} />
+      <div className={s.header}>
+        <div className={s.title}>Сообщения</div>
+        <div className={s.closeBtn}>
+          <BtnClose setOpen={onClose} />
+        </div>
       </div>
-      <div className={s.sidebar__messages}>
+      <div className={s.messages}>
         {(dialogs || []).map((dialog, index) => {
           const opponent = getOpponent(dialog, currentUser);
           const textMessages = dialog.messages

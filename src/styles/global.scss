@@ -52,7 +52,6 @@ button {
     width: calc(100% - 140px);
   }
 
-
   @include for-phone {
     margin: 0 auto;
     width: calc(100vw - 20px);
@@ -82,4 +81,8 @@ button {
   .notification__item {
     border-radius: 10px;
   }
+}
+
+.scrollbar-container {
+  width: 100%;
 }

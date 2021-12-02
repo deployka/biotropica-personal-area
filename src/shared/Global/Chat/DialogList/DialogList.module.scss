@@ -1,50 +1,69 @@
-@import '../../../../styles/mixins.scss';
-@import '../../../../styles/variables.scss';
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
 
 .message {
-  @include flex(row, flex-start, center, nowrap);
   padding: 10px 30px;
 
   width: 100%;
-  cursor: pointer;
-  @media (min-width: 1200px) {
-    &:hover {
-      background: $color-grey;
-    }
-  }
-  &__status {
-    background: transparent;
-    @include allwh(8px, 8px);
-    border-radius: 50%;
-    margin-left: auto;
-  }
-  &__avatar {
-    object-fit: cover;
-    @include minwh(50px, 50px);
-    pointer-events: none;
 
-    &__wrapper {
-      margin-right: 10px;
-      border-radius: 50%;
-      filter: drop-shadow(0px 0px 4px rgba(126, 134, 239, 0.15));
-      border: 2px solid $color-white;
-      @include flex();
-      overflow: hidden;
-      @include wh(50px, 50px);
+  display: flex;
+  align-items: center;
+
+  background-color: #ffffff;
+
+  cursor: pointer;
+
+  @include for-phone {
+    padding: 10px 20px;
+  }
+
+  &:hover {
+    background: $color-grey;
+  }
+
+  .avatar {
+    margin: 0 10px 0 0;
+
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    border: 2px solid $color-white;
+    filter: drop-shadow(0px 0px 4px rgba(126, 134, 239, 0.15));
+
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+      pointer-events: none;
     }
   }
-  &__info {
+
+  .info {
     max-width: 275px;
   }
-  &__username {
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 120%;
-    letter-spacing: 0.0075em;
-    margin-bottom: 5px;
-    color: $color-black;
+
+  .username {
+    margin: 0 0 5px 0;
+
+    p {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 120%;
+      letter-spacing: 0.0075em;
+
+      color: $color-black;
+    }
   }
-  &__content {
+
+  .content {
     font-weight: 500;
     font-size: 14px;
     line-height: 130%;
@@ -62,7 +81,48 @@
     display: box;
     box-orient: vertical;
   }
+
+  .status {
+    margin-left: auto;
+
+    width: 8px;
+    height: 8px;
+
+    background: transparent;
+
+    border-radius: 50%;
+
+    &.new {
+      background: $color-green-2;
+    }
+  }
 }
-.new {
-  background: $color-green-2;
+
+.header {
+  padding: 30px 30px;
+
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-bottom: 2px solid $color-divider;
+
+  @include for-phone {
+    padding: 30px 20px;
+  }
+
+  .title {
+    color: $color-black;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 120%;
+  }
+  .closeBtn {
+    widows: 18px;
+    height: 18px;
+
+    cursor: pointer;
+  }
 }
