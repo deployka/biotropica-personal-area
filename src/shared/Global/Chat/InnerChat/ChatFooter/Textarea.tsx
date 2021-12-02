@@ -14,6 +14,7 @@ type Props = {
   onChange: (val: string) => void;
   onFocus: () => void;
   onBlur: () => void;
+  onEnter?: () => void;
 };
 
 export function Textarea(props: Props) {
@@ -45,6 +46,12 @@ export function Textarea(props: Props) {
       onChange={e => props.onChange(e.target.value)}
       onFocus={props.onFocus}
       onBlur={props.onBlur}
+      onKeyPress={(e) => {
+        if(e.key === "Enter") {
+          props.onEnter && props.onEnter()
+          e.preventDefault();
+        }
+      }}
     />
   );
 }

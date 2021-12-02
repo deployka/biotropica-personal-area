@@ -16,8 +16,10 @@ interface Props {
   isAuth: boolean;
   token: string;
   currentUser: ChatUser;
+  isUnread: boolean;
 
   onClose(): void;
+  onChangeReading(isUnread: boolean): void;
 }
 
 enum MessageType {
@@ -29,6 +31,26 @@ enum MessageType {
 export const Chat = (props: Props) => {
   const [dialogs, setDialogs] = useState<Dialog[]>([]);
   const [selectedDialog, setSelectedDialog] = useState<Dialog | null>(null);
+  const [unreadDialogs, setUnreadDialogs] = useState<Dialog['id'][]>([]);
+
+  useEffect(() => {
+    const unread = dialogs.reduce((acc, dialog) => {
+      const currentUserReading = dialog.dialogReadings.find(r => r.userId === props.currentUser.id);
+      if (!currentUserReading) return acc;
+
+      if(dialog.messages.filter(m => m.updatedAt > currentUserReading.readAt).length) {
+        acc.push(dialog.id)
+      }
+      return acc;
+    }, [] as number[]);
+    setUnreadDialogs(unread);
+  }, [dialogs])
+
+
+
+  if(!!unreadDialogs.length !== props.isUnread) {
+    props.onChangeReading(!!unreadDialogs.length)
+  }
 
   function closeDialog() {
     setSelectedDialog(null);
@@ -37,7 +59,10 @@ export const Chat = (props: Props) => {
   function openDialog(dialogId: Dialog['id']) {
     chatApi
       .fetchDialog(dialogId)
-      .then((dialog: Dialog) => setSelectedDialog(dialog));
+      .then((dialog: Dialog) => {
+        setSelectedDialog(dialog);
+        setUnreadDialogs(unreadDialogs.filter(it => it !== dialog.id))
+      });
   }
 
   useEffect(() => {
@@ -229,6 +254,7 @@ export const Chat = (props: Props) => {
           ) : (
             <DialogList
               dialogs={dialogs}
+              unread={unreadDialogs}
               currentUser={props.currentUser}
               onClose={() => props.onClose()}
               onOpenDialog={dialog => openDialog(dialog.id)}

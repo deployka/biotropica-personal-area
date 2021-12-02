@@ -8,7 +8,7 @@ export const chatApi = {
         this.token = token;
     },
     async fetchDialog(dialogId: number): Promise<Dialog> {
-        const rawDialog = await fetch(chatUrl + '/api/dialogs/' + dialogId, {
+        const rawDialog = await fetch(chatUrl + '/dialogs/' + dialogId, {
             headers: {
                 Authorization: `Bearer ${this.token}`,
             }
@@ -16,7 +16,7 @@ export const chatApi = {
         return rawDialog.json();
     },
     async fetchDialogs(): Promise<Dialog[]> {
-        const rawDialogs = await fetch(chatUrl + '/api/dialogs/', {
+        const rawDialogs = await fetch(chatUrl + '/dialogs/', {
             headers: {
                 Authorization: `Bearer ${this.token}`,
             }

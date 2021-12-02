@@ -13,6 +13,7 @@ interface Dialog {
     createdAt: DateTime;
     participants: ChatUser[];
     messages: Message[];
+    dialogReadings: Reading[];
     opponentReading: Reading;
     opponentWriting?: boolean;
 }

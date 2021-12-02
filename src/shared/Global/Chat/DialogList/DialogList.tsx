@@ -8,6 +8,7 @@ import s from './DialogList.module.scss';
 type Props = {
   dialogs: Dialog[];
   currentUser: ChatUser;
+  unread: number[];
   onClose: () => void;
   onOpenDialog: (dialog: Dialog) => void;
 };
@@ -21,6 +22,7 @@ enum MessageType {
 export function DialogList({
   dialogs,
   currentUser,
+  unread,
   onClose,
   onOpenDialog,
 }: Props) {
@@ -48,7 +50,7 @@ export function DialogList({
                 image: opponent?.profile_photo,
                 name: currentUser ? opponent?.email : '',
                 content,
-                status: opponent?.isOnline,
+                status: unread.includes(dialog.id),
               }}
               onClick={() => onOpenDialog(dialog)}
             />

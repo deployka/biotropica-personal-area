@@ -31,7 +31,6 @@ import s from './Consultations.module.scss';
 import { LoadingStatus, Response } from '../../../store/types';
 import { store } from 'react-notifications-component';
 import { notification } from '../../../config/notification/notificationForm';
-import { CreateDialog } from '../../../store/ducks/chat/actionCreators';
 
 const Consultations = () => {
   const dispatch = useDispatch();

@@ -19,7 +19,7 @@ export function ChatFooter({ onSubmit, onFocus, onBlur }: Props) {
 
   const refBtn = React.createRef() as RefObject<HTMLDivElement>;
 
-  async function onSubmitHandler(event: any) {
+  async function onSubmitHandler(event?: any) {
     if (!message) {
       return;
     }
@@ -28,7 +28,7 @@ export function ChatFooter({ onSubmit, onFocus, onBlur }: Props) {
       type: MessageType.TEXT,
     });
     setMessage('');
-    event.preventDefault();
+    event && event.preventDefault();
   }
 
   async function onImageLoadedHandler(file: File) {
@@ -60,6 +60,7 @@ export function ChatFooter({ onSubmit, onFocus, onBlur }: Props) {
           onChange={setMessage}
           onFocus={onFocus}
           onBlur={onBlur}
+          onEnter={() => onSubmitHandler()}
         />
         {/*<div className={s.form__smile__btn}>*/}
         {/*    <div className={s.form__submit__btn__img}>*/}
