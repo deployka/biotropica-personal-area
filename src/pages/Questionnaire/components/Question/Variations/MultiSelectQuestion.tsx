@@ -13,14 +13,16 @@ type Props = {
 
 export const MultiSelectQuestion = ({ value, options, onChange }: Props) => {
   return (
-    <div className={s.question__answer__selectors}>
+    <div className={s.multiSelect}>
       {options &&
-        options.map((option) => (
+        options.map(option => (
           <div className={s.selector}>
-            <div className={s.selector__title}>{option.label} </div>
-            <div className={s.selector__btns}>
+            <div className={s.title}>
+              <p>{option.label}</p>
+            </div>
+            <div className={s.btnsBlock}>
               <button
-                className={`${s.selector__btn} ${
+                className={`${s.btn} ${
                   value.includes(option.value) && s.selected
                 }`}
                 onClick={() => {
@@ -28,22 +30,22 @@ export const MultiSelectQuestion = ({ value, options, onChange }: Props) => {
                   onChange([...value, option.value]);
                 }}
               >
-                да
+                <p>да</p>
               </button>
               <button
-                className={`${s.selector__btn} ${
+                className={`${s.btn} ${
                   !value.includes(option.value) && s.selected
                 }`}
                 onClick={() => {
                   if (!value.includes(option.value)) return;
                   onChange(
-                    value.filter((it) => {
+                    value.filter(it => {
                       return it !== option.value;
                     })
                   );
                 }}
               >
-                нет
+                <p>нет</p>
               </button>
             </div>
           </div>

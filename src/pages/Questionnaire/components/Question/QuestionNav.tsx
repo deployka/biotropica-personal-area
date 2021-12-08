@@ -13,7 +13,7 @@ type Props = {
 
 export const QuestionNav = ({ onNext, onPrev, progress }: Props) => {
   return (
-    <div className={s.nav__btns}>
+    <div className={s.nav}>
       {/*{progress.currentIndex !== 1 ? (*/}
       {/*  <button className={s.btn__prev} onClick={onPrev}>*/}
       {/*    <div className={s.btn__prev__icon}>*/}
@@ -25,12 +25,14 @@ export const QuestionNav = ({ onNext, onPrev, progress }: Props) => {
       {/*  <div></div>*/}
       {/*)}*/}
 
-      <button className={s.btn__next} onClick={onNext}>
-        <div className={s.btn__next__text}>
-          {progress.currentIndex !== progress.total ? 'далее' : 'завершить'}
+      <button className={s.nextBtn} onClick={onNext}>
+        <div className={s.text}>
+          <p>
+            {progress.currentIndex !== progress.total ? 'далее' : 'завершить'}
+          </p>
         </div>
-        <div className={s.btn__next__icon}>
-          <QuestionnaireSvgSelector id='arrow' />
+        <div className={s.icon}>
+          <QuestionnaireSvgSelector id="arrow" />
         </div>
       </button>
     </div>

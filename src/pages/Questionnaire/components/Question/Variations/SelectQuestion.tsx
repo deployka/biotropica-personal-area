@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import s from '../Question.module.scss';
@@ -15,19 +16,20 @@ export const SelectQuestion = ({ value, options, onChange }: Props) => {
   const isBig = options && options.length < 3;
 
   return (
-    <div className={isBig ? s.big__buttons__select : s.small__buttons__select}>
+    <div className={classNames(s.select, isBig ? s.big : s.small)}>
       {options &&
-        options.map((option) => (
+        options.map(option => (
           <button
-            className={`${isBig ? s.big__button : s.small__button} ${
-              option.value === value && s.selected
-            }`}
+            className={classNames(
+              s.button,
+              option.value === value ? s.selected : ''
+            )}
             onClick={() => {
               if (value === option.value) return;
               onChange(option.value);
             }}
           >
-            {option.label}
+            <p>{option.label}</p>
           </button>
         ))}
     </div>
