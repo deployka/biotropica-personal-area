@@ -1,6 +1,5 @@
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { Notification as INotification } from '../../../../store/ducks/notification/contracts/state';
 import s from './Notification.module.scss';
 
 interface Props {
@@ -8,13 +7,13 @@ interface Props {
 }
 
 export const Notification = ({ notification }: Props) => {
-  const { text, date, taskLink, createdAt } = notification;
+  const { message, link, createdAt } = notification;
   return (
     <div className={s.notification}>
       <div className={s.info}>
         <div className={s.text}>
           <p>
-            {text} {moment(date).format('Do MMMM')}
+            {message}
           </p>
         </div>
         <div className={s.date}>
@@ -22,8 +21,8 @@ export const Notification = ({ notification }: Props) => {
         </div>
       </div>
       <div className={s.actions}>
-        <Link to={taskLink} className={s.link}>
-          перейти к заданию
+        <Link to={link} className={s.link}>
+          перейти
         </Link>
         <div className={s.delete}>
           <p>удалить</p>
