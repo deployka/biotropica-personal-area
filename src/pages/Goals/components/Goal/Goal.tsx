@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
 import { Goal as IGoal } from '../../../../store/ducks/goal/contracts/state';
 

@@ -8,6 +8,7 @@ import {
   FetchSignupActionInterface,
   FetchUpdateUserActionInterface,
   FetchUserDataActionInterface,
+  FetchUpdateUserEmailActionInterface,
   SetUserDataActionInterface,
   SetUserLoadingStatusActionInterface,
   SetUserResponseActionInterface,
@@ -19,6 +20,7 @@ import {
   RestorePasswordData,
   SigninData,
   SignupData,
+  UpdateEmailData,
   UpdateUserData,
   UserState,
 } from './contracts/state';
@@ -31,6 +33,13 @@ export const fetchSignin = (
   payload: SigninData
 ): FetchSigninActionInterface => ({
   type: UserActionsType.FETCH_SIGN_IN,
+  payload,
+});
+
+export const fetchUpdateUserEmail = (
+  payload: UpdateEmailData
+): FetchUpdateUserEmailActionInterface => ({
+  type: UserActionsType.FETCH_UPDATE_USER_EMAIL,
   payload,
 });
 

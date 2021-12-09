@@ -18,8 +18,10 @@ import Signup from './pages/Auth/containers/Signup';
 import RestorePassword from './pages/Auth/containers/RestorePassword';
 import CreatePassword from './pages/Auth/containers/CreatePassword';
 import ForgotPassword from './pages/Auth/containers/ForgotPassword';
+
 import GlobalNotifications from './components/GlobalNotifications/GlobalNotifications';
 import { selectGlobalLoadingStatus } from './store/selectors';
+import Policy from './pages/Policy/containers/Policy';
 
 function App() {
   const dispatch = useDispatch();
@@ -53,6 +55,9 @@ function App() {
         </PublicRoute>
         <PublicRoute path="/create-password" isAuth={isAuth}>
           <CreatePassword />
+        </PublicRoute>
+        <PublicRoute path="/policy" isAuth={isAuth}>
+          <Policy />
         </PublicRoute>
 
         <PrivateRoute path="/" isAuth={isAuth}>

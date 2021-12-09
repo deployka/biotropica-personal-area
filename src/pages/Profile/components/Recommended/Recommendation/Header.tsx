@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { SpecialistProfile as ISpecialistProfile } from '../../../../../store/ducks/recommendation/contracts/state';
 import { getMediaLink } from '../../../../../utils/mediaHelper';
 
+import defaultAvatar from '../../../../../assets/images/profile/default_avatar.png';
+
 import s from './Recommendation.module.scss';
 
 interface Props {
@@ -23,7 +25,7 @@ export const Header = ({ profile }: Props) => {
     <div className={s.header}>
       <div className={s.specialist}>
         <div className={s.avatar}>
-          <img src={photoLink}></img>
+          <img src={photoLink || defaultAvatar}></img>
         </div>
         <div className={s.specialistInfo}>
           <div className={s.name}>

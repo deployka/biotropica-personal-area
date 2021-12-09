@@ -37,6 +37,8 @@ import {
 import AnalyzeService from '../../../../services/AnalyzeService';
 import { NEXT_FETCH_LIMIT, MIN_LIMIT } from '../../../../constants/analyzes';
 import { MAX_PDF_SIZE } from '../../../../constants/files';
+import { eventBus, EventTypes } from '../../../../services/EventBus';
+import { NotificationType } from '../../../../components/GlobalNotifications/GlobalNotifications';
 
 interface Props {
   user: User;
@@ -96,19 +98,12 @@ export const TestsAndAnalyze = ({}: Props) => {
     if (!response) return;
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
-        store.addNotification({
-          ...notification,
-          title: 'Произошла ошибка!',
-          message: response?.message || 'Произошла непредвиденная ошибка!',
-          type: 'danger',
-        });
         break;
       case LoadingStatus.SUCCESS:
-        store.addNotification({
-          ...notification,
+        eventBus.emit(EventTypes.notification, {
           title: 'Успешно!',
           message: response?.message || 'Анализ успешно загружен!',
-          type: 'success',
+          type: NotificationType.SUCCESS,
         });
         closeModal(ModalName.MODAL_ADD_ANALYZ_FILE);
         dispatch(fetchAnalyzesData());
@@ -129,11 +124,10 @@ export const TestsAndAnalyze = ({}: Props) => {
       }
       dispatch(createAnalyzeAnswerData(values));
     } catch (error) {
-      store.addNotification({
-        ...notification,
+      eventBus.emit(EventTypes.notification, {
         title: 'Ошибка!',
         message: 'Произошла непредвиденная ошибка!',
-        type: 'danger',
+        type: NotificationType.DANGER,
         dismiss: {
           onScreen: true,
         },
@@ -146,11 +140,10 @@ export const TestsAndAnalyze = ({}: Props) => {
       onSubmit,
       validationSchema,
       onErrorFileLoaded: () => {
-        store.addNotification({
-          ...notification,
+        eventBus.emit(EventTypes.notification, {
           title: 'Файл не был загружен!',
           message: `Допустимые типы анализов: pdf Максимальный размер файла: ${MAX_PDF_SIZE} мб`,
-          type: 'danger',
+          type: NotificationType.DANGER,
           id: 'file_type_error',
           dismiss: {
             duration: 7000,

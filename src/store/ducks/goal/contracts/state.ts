@@ -38,9 +38,9 @@ export enum ForceUnits {
 }
 
 export type GoalUnits = {
-  [GoalType.RUN]: Partial<RunUnits>;
-  [GoalType.WEIGHT]: Partial<WeightUnits>;
-  [GoalType.FORCE]: Partial<ForceUnits>;
+  [GoalType.RUN]: RunUnits;
+  [GoalType.WEIGHT]: WeightUnits;
+  [GoalType.FORCE]: ForceUnits;
 };
 
 export interface GoalValue {

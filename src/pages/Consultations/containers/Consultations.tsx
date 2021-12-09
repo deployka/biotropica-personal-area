@@ -29,8 +29,11 @@ import { useHistory, useLocation } from 'react-router';
 
 import s from './Consultations.module.scss';
 import { LoadingStatus, Response } from '../../../store/types';
-import { store } from 'react-notifications-component';
 import { notification } from '../../../config/notification/notificationForm';
+
+import { eventBus, EventTypes } from '../../../services/EventBus';
+import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
+
 
 const Consultations = () => {
   const dispatch = useDispatch();
@@ -63,22 +66,15 @@ const Consultations = () => {
   );
 
   function onSuccessCreateNotification() {
-    store.addNotification({
-      ...notification,
+    eventBus.emit(EventTypes.notification, {
       title: 'Успешно!',
       message: response?.message || 'Успешно!',
-      type: 'success',
+      type: NotificationType.SUCCESS,
     });
     dispatch(setConsultationResponse(undefined));
   }
 
   function onErrorCreateNotification() {
-    store.addNotification({
-      ...notification,
-      title: 'Произошла ошибка!',
-      message: response?.message || 'Произошла непредвиденная ошибка!',
-      type: 'danger',
-    });
     dispatch(setConsultationResponse(undefined));
   }
 

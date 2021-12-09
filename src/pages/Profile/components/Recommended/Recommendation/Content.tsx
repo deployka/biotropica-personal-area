@@ -18,7 +18,10 @@ export const Content = ({ recommendation }: Props) => {
   return (
     <div className={s.recommendationPost}>
       <div className={s.content} style={hidden ? { height: '20px' } : {}}>
-        {recommendation.content}
+        <h2 className={s.title}>{recommendation.title}</h2>
+        <p className={s.content}>
+          {recommendation.description || 'Нет описания'}
+        </p>
       </div>
       <div className={s.infoBar}>
         <div className={s.date}>

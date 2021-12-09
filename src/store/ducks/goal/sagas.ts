@@ -19,14 +19,10 @@ export function* fetchGoalDataRequest({
 }: FetchGoalDataActionInterface): any {
   try {
     yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
-    const { data, status } = yield call(GoalService.getOne, payload);
-    if (status === 200) {
-      yield put(setGoalData(data));
-      yield put(setGoalLoadingStatus(LoadingStatus.SUCCESS));
-    } else {
-      yield put(setGoalResponse({ statusCode: status, message: data.message }));
-      yield put(setGoalLoadingStatus(LoadingStatus.ERROR));
-    }
+    const { data } = yield call(GoalService.getOne, payload);
+    yield put(setGoalData(data));
+    yield put(setGoalLoadingStatus(LoadingStatus.SUCCESS));
+    yield put(setGoalLoadingStatus(LoadingStatus.LOADED));
   } catch (error) {
     yield put(setGoalLoadingStatus(LoadingStatus.ERROR));
   }
@@ -35,12 +31,13 @@ export function* fetchGoalDataRequest({
 export function* createGoalDataRequest({
   payload,
 }: CreateGoalDataActionInterface): any {
-  yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
-  const { data, status } = yield call(GoalService.create, payload);
-  if (status === 201) {
+  try {
+    yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
+    const { data } = yield call(GoalService.create, payload);
     yield put(setGoalData(data));
     yield put(setGoalLoadingStatus(LoadingStatus.SUCCESS));
-  } else {
+    yield put(setGoalLoadingStatus(LoadingStatus.LOADED));
+  } catch (error) {
     yield put(setGoalLoadingStatus(LoadingStatus.ERROR));
   }
 }
@@ -48,16 +45,16 @@ export function* createGoalDataRequest({
 export function* fetchUpdateGoalRequest({
   payload,
 }: UpdateGoalActionInterface): any {
-  yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
-  const { data, status } = yield call(GoalService.update, payload);
-  if (status === 200) {
+  try {
+    yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
+    const { data, status } = yield call(GoalService.update, payload);
     yield put(setGoalData(data));
     yield put(
       setGoalResponse({ statusCode: status, message: 'Данные обновлены' })
     );
     yield put(setGoalLoadingStatus(LoadingStatus.SUCCESS));
-  } else {
-    yield put(setGoalResponse(data));
+    yield put(setGoalLoadingStatus(LoadingStatus.LOADED));
+  } catch (error) {
     yield put(setGoalLoadingStatus(LoadingStatus.ERROR));
   }
 }
@@ -71,6 +68,7 @@ export function* fetchDeleteGoalRequest({
     yield put(setGoalData(undefined));
     yield put(setGoalResponse({ statusCode: status, message: data.message }));
     yield put(setGoalLoadingStatus(LoadingStatus.SUCCESS));
+    yield put(setGoalLoadingStatus(LoadingStatus.LOADED));
   } else {
     yield put(setGoalResponse(data));
     yield put(setGoalLoadingStatus(LoadingStatus.ERROR));

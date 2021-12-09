@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { notification } from '../../../config/notification/notificationForm';
+import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { MAX_IMAGE_SIZE } from '../../../constants/files';
+import { eventBus, EventTypes } from '../../../services/EventBus';
 import FileService from '../../../services/FileService';
-import UserService from '../../../services/UserService';
 import {
   fetchUpdateUser,
-  setUserLoadingStatus,
+  fetchUpdateUserEmail,
   setUserResponse,
 } from '../../../store/ducks/user/actionCreators';
 import {
@@ -53,19 +53,12 @@ const EditProfile = () => {
     if (!response) return;
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
-        store.addNotification({
-          ...notification,
-          title: 'Произошла ошибка!',
-          message: response?.message || 'Произошла непредвиденная ошибка!',
-          type: 'danger',
-        });
         break;
       case LoadingStatus.SUCCESS:
-        store.addNotification({
-          ...notification,
+        eventBus.emit(EventTypes.notification, {
           title: 'Успешно!',
-          message: response?.message || 'Успешно!',
-          type: 'success',
+          message: response.message,
+          type: NotificationType.SUCCESS,
         });
         dispatch(setUserResponse(undefined));
         history.push('/profile');
@@ -76,43 +69,18 @@ const EditProfile = () => {
   }, [loadingStatus, response]);
 
   async function onSubmit(values: UpdateUserData) {
-    try {
-      dispatch(setUserLoadingStatus(LoadingStatus.LOADING));
-      if (values.email && user?.email !== values.email) {
-        const res = await UserService.updateEmail({ email: values.email });
-        store.addNotification({
-          ...notification,
-          title: 'Внимание!',
-          message: res?.data.message || '',
-          type: res.status === 200 ? 'info' : 'danger',
-
-          dismiss: {
-            pauseOnHover: true,
-            onScreen: true,
-            duration: 15000,
-          },
-        });
-      }
-      if (values.profile_photo instanceof File) {
-        const res = await FileService.upload(values.profile_photo);
-        values.profile_photo = res.data.name;
-      }
-      const data: UpdateUserData = {
-        ...values,
-        email: user?.email,
-      };
-      dispatch(fetchUpdateUser(data));
-    } catch (error) {
-      store.addNotification({
-        ...notification,
-        title: 'Ошибка!',
-        message: 'Произошла непредвиденная ошибка!',
-        type: 'danger',
-        dismiss: {
-          onScreen: true,
-        },
-      });
+    if (values.email && user?.email !== values.email) {
+      dispatch(fetchUpdateUserEmail({ email: values.email }));
     }
+    if (values.profile_photo instanceof File) {
+      const res = await FileService.upload(values.profile_photo);
+      values.profile_photo = res.data.name;
+    }
+    const data: UpdateUserData = {
+      ...values,
+      email: user?.email,
+    };
+    dispatch(fetchUpdateUser(data));
   }
 
   async function onAvatarLoaded(
@@ -132,12 +100,11 @@ const EditProfile = () => {
       setImage(fr.result);
       setFieldValue('profile_photo', files[0]);
     } catch (error) {
-      store.addNotification({
-        ...notification,
+      eventBus.emit(EventTypes.notification, {
         title: 'Фото не добавлено!',
         message: `Допустимые типы: png, jpg, gif
-                  Максимальный размер: ${MAX_IMAGE_SIZE} мб`,
-        type: 'danger',
+                Максимальный размер: ${MAX_IMAGE_SIZE} мб`,
+        type: NotificationType.DANGER,
         id: 'file_type_error',
         dismiss: {
           duration: 7000,

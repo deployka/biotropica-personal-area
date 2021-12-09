@@ -1,11 +1,10 @@
-import { Formik, FormikHelpers } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
+import { Formik, FormikHelpers } from 'formik';
 import MaskedInput from 'react-maskedinput';
 import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { GlobalSvgSelector } from '../../../../assets/icons/global/GlobalSvgSelector';
-import { notification } from '../../../../config/notification/notificationForm';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { DatePickerCustom } from '../../../../shared/Form/DatePicker/DatePickerCustom';
 import { Input } from '../../../../shared/Form/Input/Input';
@@ -25,7 +24,6 @@ import {
 import {
   selectGoalData,
   selectGoalLoadingStatus,
-  selectGoalResponse,
 } from '../../../../store/ducks/goal/selectors';
 import { LoadingStatus } from '../../../../store/types';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
@@ -36,7 +34,8 @@ import { validationSchema } from './validationSchema';
 import s from './ProgressForm.module.scss';
 import { fetchGoalsData } from '../../../../store/ducks/goals/actionCreators';
 import { ISelect } from '../../../../shared/Form/Select/SelectCustom';
-import { selectGoalsLoadingStatus } from '../../../../store/ducks/goals/selectors';
+import { eventBus, EventTypes } from '../../../../services/EventBus';
+import { NotificationType } from '../../../../components/GlobalNotifications/GlobalNotifications';
 
 registerLocale('ru', ru);
 
@@ -57,28 +56,26 @@ export const ProgressForm = ({}: Props) => {
 
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectGoalLoadingStatus);
-  const goalsLoadingStatus = useSelector(selectGoalsLoadingStatus);
-  const response = useSelector(selectGoalResponse);
   const history = useHistory();
 
   const [name, setName] = useState<string>('');
   const [deleted, setDeleted] = useState<boolean>(false);
   const [update, setUpdate] = useState<boolean>(false);
-  const [completed, setCompleted] = useState<boolean>(false);
   const [visibleDeleteNot, setVisibleDeleteNot] = useState<boolean>(false);
 
   const [loader, setLoader] = useState<boolean>(false);
   const refResetForm = useRef<any>(null);
 
   useEffect(() => {
-    if (progressBarOptions.progressValue >= 100) {
+    if (progressBarOptions.progressValue >= 100 && !goal?.completed) {
       setName(goal?.name || '');
-      setCompleted(true);
       dispatch(updateGoalData({ id: goal?.id, completed: true }));
     }
   }, [progressBarOptions.progressValue]);
 
   useEffect(() => {
+    setVisibleDeleteNot(false);
+    store.removeNotification('delete-notification');
     if (goal) {
       const max: number = parseInt(goal.end_result);
       const value = Math.floor(
@@ -93,21 +90,8 @@ export const ProgressForm = ({}: Props) => {
   }, [goal]);
 
   useEffect(() => {
-    setVisibleDeleteNot(false);
-    store.removeNotification('delete-notification');
-  }, [goal]);
-
-  useEffect(() => {
     if (loadingStatus === LoadingStatus.LOADING) {
       setLoader(true);
-    }
-    if (loadingStatus === LoadingStatus.ERROR && refResetForm.current) {
-      store.addNotification({
-        ...notification,
-        title: 'Произошла ошибка!',
-        message: response?.message || 'Произошла непредвиденная ошибка',
-        type: 'danger',
-      });
     }
     if (
       loadingStatus === LoadingStatus.SUCCESS ||
@@ -116,12 +100,11 @@ export const ProgressForm = ({}: Props) => {
       setLoader(false);
     }
     if (loadingStatus === LoadingStatus.SUCCESS && update) {
-      store.addNotification({
-        ...notification,
+      eventBus.emit(EventTypes.notification, {
         title: `Цель «${name}» успешно обновлена!`,
         message:
           'Не забывайте регулярно отмечать свой прогресс в достижении цели',
-        type: 'info',
+        type: NotificationType.INFO,
         dismiss: {
           duration: 5000,
           pauseOnHover: true,
@@ -135,49 +118,44 @@ export const ProgressForm = ({}: Props) => {
   }, [loadingStatus, update]);
 
   useEffect(() => {
-    if (deleted && loadingStatus === LoadingStatus.SUCCESS) {
+    if (deleted && loadingStatus === LoadingStatus.LOADED) {
       dispatch(fetchGoalsData());
-      store.addNotification({
-        ...notification,
+      eventBus.emit(EventTypes.notification, {
         title: `Цель «${name}» успешно удалена!`,
         message: 'Чтобы закрыть это уведомление, нажмите на него',
-        type: 'success',
+        type: NotificationType.SUCCESS,
         dismiss: {
           duration: 5000,
           pauseOnHover: true,
           onScreen: true,
         },
       });
+      setDeleted(false);
+      history.push('/goals');
     }
   }, [goal, deleted, loadingStatus]);
 
   useEffect(() => {
-    if (completed && loadingStatus === LoadingStatus.SUCCESS) {
+    if (
+      goal?.completed &&
+      loadingStatus === LoadingStatus.LOADED &&
+      progressBarOptions.progressValue >= 100
+    ) {
       dispatch(fetchGoalsData());
-      store.addNotification({
-        ...notification,
+      eventBus.emit(EventTypes.notification, {
         title: `Цель ${name} успешно завершена!`,
         message: 'Поздравляем с завершением цели!',
-        type: 'success',
+        type: NotificationType.SUCCESS,
         dismiss: {
           duration: 10000,
           pauseOnHover: true,
           onScreen: true,
         },
       });
-    }
-  }, [goal, completed, loadingStatus]);
-
-  useEffect(() => {
-    if (
-      goalsLoadingStatus === LoadingStatus.SUCCESS &&
-      (completed || deleted)
-    ) {
-      setCompleted(false);
-      setDeleted(false);
+      setProgressBarOptions({ ...progressBarOptions, progressValue: 0 });
       history.push('/goals');
     }
-  }, [goalsLoadingStatus]);
+  }, [loadingStatus]);
 
   async function onSubmit(
     values: GoalValue,
@@ -186,14 +164,12 @@ export const ProgressForm = ({}: Props) => {
     refResetForm.current = options.resetForm;
     setName(goal?.name || '');
     setUpdate(true);
-    try {
-      dispatch(
-        updateGoalData({
-          id: goal?.id,
-          values: [values],
-        })
-      );
-    } catch (error) {}
+    dispatch(
+      updateGoalData({
+        id: goal?.id,
+        values: [values],
+      })
+    );
   }
 
   function isDisabled(isValid: boolean, dirty: boolean) {
@@ -207,8 +183,7 @@ export const ProgressForm = ({}: Props) => {
       return;
     }
     setVisibleDeleteNot(true);
-    store.addNotification({
-      ...notification,
+    eventBus.emit(EventTypes.notification, {
       title: `Удалить цель «${goal?.name}»?`,
       message: (
         <>
@@ -252,8 +227,8 @@ export const ProgressForm = ({}: Props) => {
           />
         </>
       ),
-      type: 'danger',
-      dismiss: false,
+      type: NotificationType.DANGER,
+      dismiss: undefined,
       id: 'delete-notification',
       onRemoval: () => {
         setVisibleDeleteNot(false);

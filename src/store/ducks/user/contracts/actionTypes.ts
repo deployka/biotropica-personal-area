@@ -6,6 +6,7 @@ import {
   RestorePasswordData,
   SigninData,
   SignupData,
+  UpdateEmailData,
   UpdateUserData,
   User,
 } from './state';
@@ -24,11 +25,17 @@ export enum UserActionsType {
   FETCH_RESTORE_PASSWORD = 'user/FETCH_RESTORE_PASSWORD',
   FETCH_UPDATE_USER = 'user/FETCH_UPDATE_USER',
   FETCH_CREATE_PASSWORD = 'user/FETCH_CREATE_PASSWORD',
+  FETCH_UPDATE_USER_EMAIL = 'user/FETCH_UPDATE_USER_EMAIL',
 }
 
 export interface FetchSigninActionInterface extends Action<UserActionsType> {
   type: UserActionsType.FETCH_SIGN_IN;
   payload: SigninData;
+}
+export interface FetchUpdateUserEmailActionInterface
+  extends Action<UserActionsType> {
+  type: UserActionsType.FETCH_UPDATE_USER_EMAIL;
+  payload: UpdateEmailData;
 }
 
 export interface FetchSignupActionInterface extends Action<UserActionsType> {

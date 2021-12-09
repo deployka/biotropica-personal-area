@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
@@ -52,6 +52,12 @@ export const EditProfileData = ({
 }: Props) => {
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || loader;
+  }
+
+  function getDateByUTC(date: Date) {
+    return new Date(
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+    );
   }
 
   const isMobile = useMobile();
@@ -169,8 +175,12 @@ export const EditProfileData = ({
 
               <div className={s.input__wrapper}>
                 <DatePickerCustom
-                  onChange={(date: Date) => setFieldValue('dob', date)}
-                  onSelect={(date: Date) => setFieldValue('dob', date)}
+                  onChange={(date: Date) =>
+                    setFieldValue('dob', date ? getDateByUTC(date) : null)
+                  }
+                  onSelect={(date: Date) =>
+                    setFieldValue('dob', date ? getDateByUTC(date) : null)
+                  }
                   onBlur={handleBlur}
                   name="dob"
                   locale={ru}

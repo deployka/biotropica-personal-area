@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { RecommendedCard } from './RecommendedCard/RecommendedCard';
 
@@ -6,12 +6,6 @@ import {
   Recommendation as IRecommendation,
   RecommendationType,
 } from '../../../../store/ducks/recommendation/contracts/state';
-
-import {
-  selectSortedData,
-  SortedRecommendations,
-} from '../../../../store/ducks/recommendations/selectors';
-import { fetchRecommendationsData } from '../../../../store/ducks/recommendations/actionCreators';
 
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
@@ -38,7 +32,7 @@ export const DesktopRecommended = ({
   return (
     <>
       <div className={s.cards}>
-        {recTypes.map((type) => (
+        {recTypes.map(type => (
           <RecommendedCard
             setActiveType={setActiveType}
             activeType={activeType}
@@ -52,7 +46,7 @@ export const DesktopRecommended = ({
 
       <PerfectScrollbar>
         <div className={s.content}>
-          {Object.keys(activeProfiles).map((id) => (
+          {Object.keys(activeProfiles).map(id => (
             <Recommendation
               key={`${id}`}
               id={id}

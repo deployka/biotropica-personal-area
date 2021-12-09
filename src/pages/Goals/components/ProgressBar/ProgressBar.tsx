@@ -44,12 +44,7 @@ export const ProgressBar = ({ options }: ProgressBar) => {
     <div className={s.progress__bar__wrapper}>
       <div className={s.progress__bar__number}>{progress}%</div>
       <div className={s.progress__bar__svg__wrapper}>
-        <svg
-          viewBox={`${width} ${height}`}
-          height={height}
-          width={width}
-          className={s.progress__bar}
-        >
+        <svg height={height} width={width} className={s.progress__bar}>
           <circle
             fill="none"
             strokeWidth={circleWidth}

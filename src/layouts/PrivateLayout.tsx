@@ -1,7 +1,7 @@
 import { Modals } from '../modals/Modals';
 import { SidebarNotifications } from '../shared/Global/SidebarNotifications/SidebarNotifications';
 import { Header } from '../shared/Global/Header/Header';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 import { selectIsAuth, selectUserData } from '../store/ducks/user/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { User } from '../store/ducks/user/contracts/state';
@@ -48,6 +48,7 @@ export function PrivateLayout(props: Props) {
     { page: 'Видео', link: '/video' },
     { page: 'Блог', link: '/blog' },
     { page: 'Дополнительные услуги', link: '/services' },
+    { page: 'Анкета', link: '/questionnaire' },
   ];
 
   const nav: Nav[] = [
@@ -80,26 +81,29 @@ export function PrivateLayout(props: Props) {
   const user = useSelector(selectUserData);
 
   useEffect(() => {
-    for (const value of pages) {
-      const currentPath = location.pathname.split('/');
-      if ('/' + currentPath[1] === value.link) {
-        setPage(value.page);
-        break;
-      } else {
-        setPage('Страница 404');
+    function setPageName() {
+      for (const value of pages) {
+        const currentPath = location.pathname.split('/');
+        if ('/' + currentPath[1] === value.link) {
+          setPage(value.page);
+          break;
+        } else {
+          setPage('Страница 404');
+        }
       }
     }
+    setPageName();
   }, [location.pathname]);
 
-  function openChat() {
+  const openChat = useCallback(() => {
     setSidebarNotificationsOpen(false);
     setSidebarChatOpen(!chatNotificationsOpen);
-  }
+  }, [chatNotificationsOpen]);
 
-  async function logout() {
+  const logout = useCallback(() => {
     dispatch(fetchSignout());
     dispatch(setUserData(undefined));
-  }
+  }, []);
 
   return (
     <div className="global__container">

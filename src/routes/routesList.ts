@@ -66,7 +66,6 @@ const routes = [
     component: EditGoalForm,
     exact: true,
   },
-
   {
     path: 'policy',
     component: Policy,

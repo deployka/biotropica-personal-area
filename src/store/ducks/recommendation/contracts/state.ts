@@ -1,12 +1,12 @@
-import { ReactNode } from 'react';
 import { LoadingStatus } from '../../../types';
 
 export interface Recommendation {
   id: number;
   type: RecommendationType;
   specialist_profile: SpecialistProfile;
-  content: ReactNode;
   createdAt: string;
+  title: string;
+  description: string;
 }
 
 export interface RecommendationState {

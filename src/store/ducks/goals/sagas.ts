@@ -1,11 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import GoalService from '../../../services/GoalService';
 import { LoadingStatus } from '../../types';
-import {
-  setGoalsData,
-  setGoalsLoadingStatus,
-  setGoalsResponse,
-} from './actionCreators';
+import { setGoalsData, setGoalsLoadingStatus } from './actionCreators';
 import {
   FetchGoalsDataActionInterface,
   GoalsActionsType,
@@ -14,14 +10,13 @@ import {
 export function* fetchGoalsDataRequest({}: FetchGoalsDataActionInterface): any {
   try {
     yield put(setGoalsLoadingStatus(LoadingStatus.LOADING));
-    const { data, status } = yield call(GoalService.geAll);
-    if (status === 200) {
-      yield put(setGoalsData(data));
-      yield put(setGoalsLoadingStatus(LoadingStatus.SUCCESS));
-    } else {
-      yield put(setGoalsLoadingStatus(LoadingStatus.ERROR));
-    }
-  } catch (error) {}
+    const { data } = yield call(GoalService.geAll);
+    yield put(setGoalsData(data));
+    yield put(setGoalsLoadingStatus(LoadingStatus.SUCCESS));
+    yield put(setGoalsLoadingStatus(LoadingStatus.LOADED));
+  } catch (error) {
+    yield put(setGoalsLoadingStatus(LoadingStatus.ERROR));
+  }
 }
 
 export function* goalsSaga(): any {

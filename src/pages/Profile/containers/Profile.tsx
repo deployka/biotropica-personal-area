@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectUserData } from '../../../store/ducks/user/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectUserData,
+  selectUserLoadingStatus,
+  selectUserResponse,
+} from '../../../store/ducks/user/selectors';
 import { Card } from '../components/Card/Card';
 import { Tariff } from '../components/Tariff/Tariff';
 import { Goals } from '../components/Goals/Goals';
@@ -15,6 +19,11 @@ import { useHistory, useParams } from 'react-router';
 import { Param } from './Edit';
 import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 import { getTabByKey } from '../../../utils/tabsHelper';
+import { LoadingStatus } from '../../../store/types';
+import { eventBus, EventTypes } from '../../../services/EventBus';
+import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
+import { setUserResponse } from '../../../store/ducks/user/actionCreators';
+import { fetchRecommendationsData } from '../../../store/ducks/recommendations/actionCreators';
 
 const Profile = () => {
   const { openModal } = useModal();
@@ -35,7 +44,10 @@ const Profile = () => {
     },
   ];
 
+  const dispatch = useDispatch();
   const user = useSelector(selectUserData);
+  const response = useSelector(selectUserResponse);
+  const loadingStatus = useSelector(selectUserLoadingStatus);
 
   const { active } = useParams<Param>();
   const history = useHistory();
@@ -50,8 +62,24 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    history.push(`/profile/tabs/${activeTab}`);
-  }, [activeTab]);
+    if (loadingStatus === LoadingStatus.SUCCESS && response) {
+      eventBus.emit(EventTypes.notification, {
+        title: 'Внимание!',
+        message: response.message,
+        type: NotificationType.INFO,
+        dismiss: {
+          duration: 10000,
+          onScreen: true,
+          pauseOnHover: true,
+        },
+      });
+      dispatch(setUserResponse(undefined));
+    }
+  }, [response]);
+
+  function onTabClick(tab: Tab) {
+    history.push(`/profile/tabs/${tab.key}`);
+  }
 
   return (
     <>
@@ -71,6 +99,7 @@ const Profile = () => {
                 activeTab={activeTab}
                 onActiveTabChanged={setActiveTab}
                 spaceBetween={50}
+                onTabClick={onTabClick}
               />
             </div>
           </div>

@@ -23,6 +23,9 @@ export const AnalyzesCard = ({
   onShowMoreClick,
   isShowMore,
 }: Props) => {
+  const ShowMore = () => {
+    return <div>{isShowMore ? 'показать еще' : 'скрыть'}</div>;
+  };
   return (
     <div className={s.analyzesCard}>
       <div className={s.header}>
@@ -37,7 +40,7 @@ export const AnalyzesCard = ({
       <AnalyzeTypes analyzeTypes={analyzeTypes} />
       <Analyzes analyzes={analyzes} />
       <button onClick={onShowMoreClick} className={s.moreBtn}>
-        {isShowMore ? 'показать еще' : 'скрыть'}
+        {analyzes.length >= 2 ? <ShowMore /> : ''}
       </button>
     </div>
   );
