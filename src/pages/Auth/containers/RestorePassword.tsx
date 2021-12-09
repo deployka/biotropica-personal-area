@@ -1,10 +1,11 @@
 import { FormikHelpers } from 'formik';
 import React, { useEffect, useRef } from 'react';
-import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { notification } from '../../../config/notification/notificationForm';
 import { useQuery } from '../../../hooks/useQuery';
+import { eventBus, EventTypes } from '../../../services/EventBus';
 import { fetchRestorePassword } from '../../../store/ducks/user/actionCreators';
 import { RestorePasswordData } from '../../../store/ducks/user/contracts/state';
 
@@ -32,22 +33,15 @@ const RestorePassword = () => {
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
         if (!refSetFieldValue.current) return;
-        store.addNotification({
-          ...notification,
-          title: 'Произошла ошибка!',
-          message: response?.message || 'Произошла непредвиденная ошибка!',
-          type: 'danger',
-        });
         refSetFieldValue.current('password', '');
         refSetFieldValue.current('verification_password', '');
         history.push('/signin');
         break;
       case LoadingStatus.SUCCESS:
-        store.addNotification({
-          ...notification,
+        eventBus.emit(EventTypes.notification, {
           title: 'Успешно!',
           message: response?.message || 'Успешно!',
-          type: 'success',
+          type: NotificationType.SUCCESS,
         });
         history.push('/signin');
         break;

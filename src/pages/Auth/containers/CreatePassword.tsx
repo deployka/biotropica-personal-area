@@ -1,10 +1,10 @@
-import { FormikHelpers } from 'formik';
 import React, { useEffect, useRef } from 'react';
-import { store } from 'react-notifications-component';
+import { FormikHelpers } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { notification } from '../../../config/notification/notificationForm';
 import { useQuery } from '../../../hooks/useQuery';
+import { eventBus, EventTypes } from '../../../services/EventBus';
 import { fetchCreatePassword } from '../../../store/ducks/user/actionCreators';
 import { RestorePasswordData } from '../../../store/ducks/user/contracts/state';
 
@@ -15,6 +15,7 @@ import {
 import { LoadingStatus } from '../../../store/types';
 import { RestoreForm, Type } from '../components/RestoreForm/RestoreForm';
 import { validationSchema } from '../components/RestoreForm/validationSchema';
+import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 
 const CreatePassword = () => {
   const dispatch = useDispatch();
@@ -32,21 +33,14 @@ const CreatePassword = () => {
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
         if (!refResetForm.current) return;
-        store.addNotification({
-          ...notification,
-          title: 'Произошла ошибка!',
-          message: response?.message || 'Произошла непредвиденная ошибка!',
-          type: 'danger',
-        });
         refResetForm.current();
         history.push('/signin');
         break;
       case LoadingStatus.SUCCESS:
-        store.addNotification({
-          ...notification,
+        eventBus.emit(EventTypes.notification, {
           title: 'Успешно!',
           message: response?.message || 'Успешно!',
-          type: 'success',
+          type: NotificationType.SUCCESS,
         });
         history.push('/signin');
         break;

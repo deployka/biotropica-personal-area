@@ -12,7 +12,6 @@ import {
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 import s from './Recommended.module.scss';
-import { SortedRecommendations } from '../../../../store/ducks/recommendations/selectors';
 
 interface Props {
   recTypes: RecommendationType[];
@@ -35,7 +34,7 @@ export const MobileRecommended = ({
 }: Props) => {
   return (
     <div className={s.mobile}>
-      {recTypes.map((type) => (
+      {recTypes.map(type => (
         <div key={type}>
           <RecommendedCard
             setActiveType={setActiveType}
@@ -48,7 +47,7 @@ export const MobileRecommended = ({
           <PerfectScrollbar>
             <div className={s.content}>
               {activeType === type &&
-                Object.keys(getProfilesByType(type)).map((id) => (
+                Object.keys(getProfilesByType(type)).map(id => (
                   <Recommendation
                     key={`${id}`}
                     id={id}

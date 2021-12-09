@@ -1,1 +1,0 @@
-export const ERROR_SERVER_CODES = [400, 401, 403, 404, 405, 406, 415, 500, 501];

@@ -1,11 +1,16 @@
+import { Notification } from '../components/GlobalNotifications/GlobalNotifications';
+
 export enum EventTypes {
   routerPush = 'router.push',
+  notification = 'notification',
 }
 type EventArguments = {
   [EventTypes.routerPush]: string;
+  [EventTypes.notification]: Notification;
 };
 const listeners: Record<EventTypes, EventListenerCallback<EventTypes>[]> = {
   [EventTypes.routerPush]: [],
+  [EventTypes.notification]: [],
 };
 type EventListenerCallback<T extends EventTypes> = (
   payload: EventArguments[T]

@@ -6,7 +6,7 @@ import { notification } from '../../../../../config/notification/notificationFor
 import { useModal } from '../../../../../hooks/useModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
 import classNames from 'classnames';
-import FileService, { IFile } from '../../../../../services/FileService';
+import FileService from '../../../../../services/FileService';
 import { Button } from '../../../../../shared/Form/Button/Button';
 import { Loader } from '../../../../../shared/Form/Loader/Loader';
 import { PopupBackground } from '../../../../../shared/Global/PopupBackground/PopupBackground';
@@ -20,10 +20,7 @@ import {
   CreateProgressData,
   TypePhoto,
 } from '../../../../../store/ducks/progress/contracts/state';
-import {
-  selectProgressLoadingStatus,
-  selectProgressResponse,
-} from '../../../../../store/ducks/progress/selectors';
+import { selectProgressLoadingStatus } from '../../../../../store/ducks/progress/selectors';
 import { LoadingStatus } from '../../../../../store/types';
 import s from './AddPhotoModal.module.scss';
 import { validationSchema } from './validationSchema';
@@ -36,6 +33,8 @@ import {
   uploadFiles,
 } from '../../../../../utils/filesHelper';
 import { MAX_IMAGE_SIZE } from '../../../../../constants/files';
+import { eventBus, EventTypes } from '../../../../../services/EventBus';
+import { NotificationType } from '../../../../../components/GlobalNotifications/GlobalNotifications';
 
 interface PhotoInput {
   src: string;
@@ -66,8 +65,6 @@ export const AddPhotoModal = ({}: Props) => {
 
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectProgressLoadingStatus);
-  const response = useSelector(selectProgressResponse);
-  const refSetFieldValue = useRef<any>(null);
   const refResetForm = useRef<any>(null);
 
   const { closeModal, modals } = useModal();
@@ -76,21 +73,13 @@ export const AddPhotoModal = ({}: Props) => {
   useEffect(() => {
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
-        if (!refSetFieldValue.current) return;
-        store.addNotification({
-          ...notification,
-          title: 'Произошла ошибка!',
-          message: response?.message || 'Произошла непредвиденная ошибка!',
-          type: 'danger',
-        });
         break;
       case LoadingStatus.SUCCESS:
         if (!refResetForm.current) return;
-        store.addNotification({
-          ...notification,
+        eventBus.emit(EventTypes.notification, {
           title: 'Успешно!',
           message: 'Фотографии успешно загружены!',
-          type: 'success',
+          type: NotificationType.SUCCESS,
         });
         refResetForm.current();
         closeModal(ModalName.MODAL_ADD_PROGRESS_PHOTO);
@@ -161,12 +150,11 @@ export const AddPhotoModal = ({}: Props) => {
       });
       setFieldValue(type, files[0]);
     } catch (error) {
-      store.addNotification({
-        ...notification,
+      eventBus.emit(EventTypes.notification, {
         title: 'Фото не добавлено!',
         message: `Допустимые типы: png, jpg, gif
         Максимальный размер: ${MAX_IMAGE_SIZE} мб`,
-        type: 'danger',
+        type: NotificationType.DANGER,
         id: 'file_type_error',
         dismiss: {
           duration: 7000,

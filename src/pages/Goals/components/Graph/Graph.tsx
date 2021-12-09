@@ -4,7 +4,7 @@ import { Chart, registerables } from 'chart.js';
 import s from './Graph.module.scss';
 import { useSelector } from 'react-redux';
 import { selectGoalData } from '../../../../store/ducks/goal/selectors';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 
 Chart.register(...registerables);
 

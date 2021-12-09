@@ -1,5 +1,5 @@
-@import "../../../styles/mixins.scss";
-@import "../../../styles/variables.scss";
+@import '../../../styles/mixins.scss';
+@import '../../../styles/variables.scss';
 
 .goals {
   width: 100%;
@@ -200,5 +200,9 @@
     .tabs {
       margin: 0 30px 0 0;
     }
+  }
+  .goalsContainer {
+    display: flex;
+    width: 100%;
   }
 }

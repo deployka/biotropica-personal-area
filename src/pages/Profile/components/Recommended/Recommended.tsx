@@ -1,31 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
 
-import {
-  Recommendation as IRecommendation,
-  RecommendationType,
-} from '../../../../store/ducks/recommendation/contracts/state';
+import { RecommendationType } from '../../../../store/ducks/recommendation/contracts/state';
 
-import { useDispatch, useSelector } from 'react-redux';
 import {
-  selectSortedData,
+  selectSortedRecommendationsData,
   SortedRecommendations,
 } from '../../../../store/ducks/recommendations/selectors';
-import { fetchRecommendationsData } from '../../../../store/ducks/recommendations/actionCreators';
 
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 import s from './Recommended.module.scss';
-import { MobileRecommended } from './MobileRecomended';
-import { DesktopRecommended } from './DesktopRecomended';
+import { MobileRecommended } from './MobileRecommended';
+import { DesktopRecommended } from './DesktopRecommended';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchRecommendationsData } from '../../../../store/ducks/recommendations/actionCreators';
 
-export const Recommended = () => {
+export const Recommended = ({}) => {
   const dispatch = useDispatch();
+  const [mobile, setMobile] = useState<boolean>(false);
+
   useEffect(() => {
     dispatch(fetchRecommendationsData());
   }, []);
-
-  const [mobile, setMobile] = useState<boolean>(false);
 
   useEffect(() => {
     if (document.documentElement.clientWidth <= 500) {
@@ -41,7 +38,9 @@ export const Recommended = () => {
     href: '/video',
   };
 
-  const recommendations: SortedRecommendations = useSelector(selectSortedData);
+  const recommendations: SortedRecommendations = useSelector(
+    selectSortedRecommendationsData
+  );
   const recTypes: RecommendationType[] = Object.keys(
     recommendations
   ) as RecommendationType[];

@@ -39,6 +39,9 @@ export interface SigninData {
   email: string;
   password: string;
 }
+export interface UpdateEmailData {
+  email: string;
+}
 
 export interface UpdateUserData extends Partial<Omit<User, 'profile_photo'>> {
   profile_photo: File | null | string;

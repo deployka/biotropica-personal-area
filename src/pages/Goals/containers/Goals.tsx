@@ -1,9 +1,6 @@
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
-import { notification } from '../../../config/notification/notificationForm';
+import { useHistory, useParams } from 'react-router-dom';
 import {
   fetchGoalData,
   setGoalResponse,
@@ -11,7 +8,6 @@ import {
 import { Goal } from '../../../store/ducks/goal/contracts/state';
 import {
   selectGoalData,
-  selectGoalResponse,
   selectGoalStatus,
 } from '../../../store/ducks/goal/selectors';
 import {
@@ -25,8 +21,6 @@ import s from './Goals.module.scss';
 import { GraphHeader } from './GraphHeader';
 import { Header } from './Header';
 
-interface Props {}
-
 export interface Dates {
   startDate: Date;
   endDate: Date;
@@ -36,49 +30,43 @@ interface Params {
   id: string;
 }
 
-const Goals = (props: Props) => {
+const Goals = () => {
   const history = useHistory();
   const goals: Goal[] = useSelector(selectGoalsData) || [];
+
+  const goal = useSelector(selectGoalData);
   const loading = useSelector(selectGoalsStatus);
   const loadingGoal = useSelector(selectGoalStatus);
-  const response = useSelector(selectGoalResponse);
   const dispatch = useDispatch();
 
   const { id } = useParams<Params>();
   const activeGoalId: number = parseInt(id, 10);
-  const goal = useSelector(selectGoalData);
 
   const activeGoalTemplate = activeGoalId ? goal : goals[0];
 
   useEffect(() => {
-    if (activeGoalId) {
+    if (activeGoalId && activeGoalId !== goal?.id) {
       dispatch(fetchGoalData(activeGoalId));
     }
-  }, [activeGoalId]);
+  }, [activeGoalId, goal?.id]);
 
   useEffect(() => {
     if (loadingGoal === LoadingStatus.ERROR && goals.length) {
-      store.addNotification({
-        ...notification,
-        title: 'Произошла ошибка!',
-        message: response?.message || 'Произошла непредвиденная ошибка',
-        type: 'danger',
-      });
       dispatch(setGoalResponse(undefined));
     }
   }, [loadingGoal, goal]);
 
   useEffect(() => {
     if (
-      (!activeGoalId && loading === LoadingStatus.SUCCESS && goals.length) ||
-      (!activeGoalTemplate && loading === LoadingStatus.SUCCESS)
+      (!activeGoalId && loading === LoadingStatus.LOADED && goals.length) ||
+      (!activeGoalTemplate && loading === LoadingStatus.LOADED)
     ) {
       history.push(`/goals/${goals?.[0]?.id || 'add'}`);
     }
   }, [goals, loading, loadingGoal, activeGoalId]);
 
   useEffect(() => {
-    if (loading === LoadingStatus.SUCCESS && !goals.length) {
+    if (loading === LoadingStatus.LOADED && !goals.length) {
       history.push('/goals/add');
     }
   }, [loading, goals]);
@@ -96,6 +84,7 @@ const Goals = (props: Props) => {
   return (
     <div className={s.goals}>
       <Header
+        goals={goals.sort((a, b) => b.id - a.id)}
         active={activeGoalId ? activeGoalId : goals[goals.length - 1]?.id}
       />
       <div className={s.content}>

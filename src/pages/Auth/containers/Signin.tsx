@@ -1,26 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FormikHelpers } from 'formik';
-import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
-import { notification } from '../../../config/notification/notificationForm';
-import {
-  fetchSignin,
-  setUserResponse,
-} from '../../../store/ducks/user/actionCreators';
+import { fetchSignin } from '../../../store/ducks/user/actionCreators';
 import { SigninData } from '../../../store/ducks/user/contracts/state';
 
-import {
-  selectUserLoadingStatus,
-  selectUserResponse,
-} from '../../../store/ducks/user/selectors';
+import { selectUserLoadingStatus } from '../../../store/ducks/user/selectors';
 import { LoadingStatus } from '../../../store/types';
 import { SigninForm } from '../components/SigninForm/SigninForm';
 import { validationSchema } from '../components/SigninForm/validationSchema';
+import { eventBus, EventTypes } from '../../../services/EventBus';
+import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 
 const Signin = () => {
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectUserLoadingStatus);
-  const response = useSelector(selectUserResponse);
 
   const loader = loadingStatus === LoadingStatus.LOADING;
   const refSetFieldValue = useRef<any>(null);
@@ -29,20 +22,12 @@ const Signin = () => {
     if (!refSetFieldValue.current) return;
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
-        store.addNotification({
-          ...notification,
-          title: 'Произошла ошибка!',
-          message: response?.message || 'Произошла непредвиденная ошибка!',
-          type: 'danger',
-        });
         refSetFieldValue.current('password', '');
         break;
       case LoadingStatus.SUCCESS:
-        store.addNotification({
-          ...notification,
-          title: 'Успешно!',
+        eventBus.emit(EventTypes.notification, {
           message: 'Вход выполнен!',
-          type: 'success',
+          type: NotificationType.SUCCESS,
         });
         break;
       default:
@@ -50,14 +35,9 @@ const Signin = () => {
     }
   }, [loadingStatus]);
 
-  async function onSubmit(
-    values: SigninData,
-    options: FormikHelpers<SigninData>
-  ) {
+  function onSubmit(values: SigninData, options: FormikHelpers<SigninData>) {
     refSetFieldValue.current = options.setFieldValue;
-    try {
-      dispatch(fetchSignin(values));
-    } catch (error) {}
+    dispatch(fetchSignin(values));
   }
 
   return (

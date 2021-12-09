@@ -1,7 +1,13 @@
 import axios from 'axios';
+import { NotificationType } from '../components/GlobalNotifications/GlobalNotifications';
 import AuthService from '../services/AuthService';
 import { eventBus, EventTypes } from '../services/EventBus';
-import { HTTP_SUCCESS, HTTP_UNAUTHORIZED } from './httpConstants';
+import {
+  HTTP_BAD_REQUEST,
+  HTTP_INTERNAL_SERVER_ERROR,
+  HTTP_SUCCESS,
+  HTTP_UNAUTHORIZED,
+} from './httpConstants';
 
 const $api = axios.create({
   withCredentials: true,
@@ -22,6 +28,24 @@ $api.interceptors.response.use(
     return config;
   },
   async error => {
+    const message = error?.response?.data?.message;
+    const statusCode = error?.response?.data?.statusCode;
+    if (message && statusCode === HTTP_BAD_REQUEST) {
+      const type = NotificationType.DANGER;
+      eventBus.emit(EventTypes.notification, {
+        type,
+        message,
+      });
+    }
+
+    if (message && statusCode === HTTP_INTERNAL_SERVER_ERROR) {
+      const type = NotificationType.DANGER;
+      eventBus.emit(EventTypes.notification, {
+        type,
+        message: 'Произошла непредвиденная ошибка',
+      });
+    }
+
     const originalRequest = error.config;
     if (!originalRequest || error?.response?.status !== HTTP_UNAUTHORIZED) {
       throw error;
@@ -54,6 +78,7 @@ $api.interceptors.response.use(
       return await $api.request(originalRequest);
     } catch (e) {
       isRetrying = undefined;
+      await AuthService.signout();
       eventBus.emit(EventTypes.routerPush, '/signin');
       throw e;
     }

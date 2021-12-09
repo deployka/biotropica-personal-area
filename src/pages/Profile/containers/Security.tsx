@@ -1,8 +1,8 @@
-import { FormikHelpers } from 'formik';
 import React, { useEffect, useRef } from 'react';
-import { store } from 'react-notifications-component';
+import { FormikHelpers } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { notification } from '../../../config/notification/notificationForm';
+import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
+import { eventBus, EventTypes } from '../../../services/EventBus';
 import {
   fetchChangePassword,
   fetchSignout,
@@ -30,21 +30,14 @@ export const Security = () => {
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
         if (!refSetFieldValue.current) return;
-        store.addNotification({
-          ...notification,
-          title: 'Произошла ошибка!',
-          message: response?.message || 'Произошла непредвиденная ошибка!',
-          type: 'danger',
-        });
         refSetFieldValue.current('current_password', '');
         break;
       case LoadingStatus.SUCCESS:
         if (!refResetForm.current) return;
-        store.addNotification({
-          ...notification,
+        eventBus.emit(EventTypes.notification, {
           title: 'Успешно!',
           message: response?.message,
-          type: 'success',
+          type: NotificationType.SUCCESS,
         });
         refResetForm.current();
         break;
@@ -60,9 +53,7 @@ export const Security = () => {
   ) {
     refSetFieldValue.current = options.setFieldValue;
     refResetForm.current = options.resetForm;
-    try {
-      dispatch(fetchChangePassword(values));
-    } catch (error) {}
+    dispatch(fetchChangePassword(values));
   }
 
   async function logout() {

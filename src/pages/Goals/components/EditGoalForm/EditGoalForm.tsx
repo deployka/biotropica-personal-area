@@ -1,9 +1,7 @@
 import { Formik, FormikHelpers } from 'formik';
 import { Link, useLocation } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
-import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
-import { notification } from '../../../../config/notification/notificationForm';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
@@ -30,13 +28,14 @@ import { Textarea } from '../../../../shared/Form/Textarea/Textarea';
 import { useHistory } from 'react-router-dom';
 import { selectGoalsData } from '../../../../store/ducks/goals/selectors';
 import { setGoalsData } from '../../../../store/ducks/goals/actionCreators';
+import { eventBus, EventTypes } from '../../../../services/EventBus';
+import { NotificationType } from '../../../../components/GlobalNotifications/GlobalNotifications';
 
 interface Props {}
 
 const EditGoalForm = ({}: Props) => {
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectGoalLoadingStatus);
-  const response = useSelector(selectGoalResponse);
   const history = useHistory();
   const location = useLocation();
 
@@ -56,12 +55,6 @@ const EditGoalForm = ({}: Props) => {
 
   useEffect(() => {
     if (!goal && loadingStatus === LoadingStatus.ERROR) {
-      store.addNotification({
-        ...notification,
-        title: 'Произошла ошибка!',
-        message: response?.message || 'Произошла непредвиденная ошибка',
-        type: 'danger',
-      });
       history.push(`/goals`);
     }
   }, [goal, loadingStatus]);
@@ -70,14 +63,7 @@ const EditGoalForm = ({}: Props) => {
     if (loadingStatus === LoadingStatus.LOADING) {
       setLoader(true);
     }
-    if (loadingStatus === LoadingStatus.ERROR && refResetForm.current) {
-      store.addNotification({
-        ...notification,
-        title: 'Произошла ошибка!',
-        message: response?.message || 'Произошла непредвиденная ошибка',
-        type: 'danger',
-      });
-    }
+
     if (
       loadingStatus === LoadingStatus.SUCCESS ||
       loadingStatus === LoadingStatus.ERROR
@@ -85,12 +71,11 @@ const EditGoalForm = ({}: Props) => {
       setLoader(false);
     }
     if (loadingStatus === LoadingStatus.SUCCESS && refResetForm.current) {
-      store.addNotification({
-        ...notification,
+      eventBus.emit(EventTypes.notification, {
         title: `Цель «${name}» успешно обновлена!`,
         message:
           'Не забывайте регулярно отмечать свой прогресс в достижении цели',
-        type: 'info',
+        type: NotificationType.INFO,
         dismiss: {
           onScreen: true,
           duration: 5000,
@@ -114,10 +99,7 @@ const EditGoalForm = ({}: Props) => {
   ) {
     refResetForm.current = options.resetForm;
     setName(values?.name || '');
-
-    try {
-      dispatch(updateGoalData(values));
-    } catch (error) {}
+    dispatch(updateGoalData(values));
   }
 
   function isDisabled(isValid: boolean, dirty: boolean) {

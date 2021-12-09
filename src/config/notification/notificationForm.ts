@@ -5,7 +5,7 @@ export const notification: any = {
   animationOut: ['animate__animated', 'animate__fadeOutRight'],
   dismiss: {
     pauseOnHover: true,
-    duration: 3000,
+    duration: 5000,
     onScreen: true,
   },
 };

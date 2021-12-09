@@ -13,6 +13,7 @@ interface Props {
   activeTab: string;
   onActiveTabChanged: (activeTab: string) => void;
   spaceBetween?: number;
+  onTabClick?: (tab: Tab) => void;
 }
 
 export const Tabs = ({
@@ -20,8 +21,10 @@ export const Tabs = ({
   activeTab,
   onActiveTabChanged,
   spaceBetween,
+  onTabClick,
 }: Props) => {
   function handleClick(tab: Tab) {
+    onTabClick && onTabClick(tab);
     onActiveTabChanged(tab.key);
   }
   return (

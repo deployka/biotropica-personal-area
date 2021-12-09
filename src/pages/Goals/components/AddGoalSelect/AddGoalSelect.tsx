@@ -1,53 +1,25 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { Button } from "../../../../shared/Form/Button/Button";
-import {
-  CreateGoalData,
-  Goal,
-  GoalType,
-} from "../../../../store/ducks/goal/contracts/state";
-import { selectGoalsData } from "../../../../store/ducks/goals/selectors";
+import React, { Dispatch, SetStateAction } from 'react';
+import { Button } from '../../../../shared/Form/Button/Button';
+import { CreateGoalData } from '../../../../store/ducks/goal/contracts/state';
 
-import s from "./AddGoalSelect.module.scss";
-import { Selector, SelectorItem } from "./Selector";
+import s from './AddGoalSelect.module.scss';
+import { Selector, SelectorItem } from './Selector';
 
 interface Props {
   goal: CreateGoalData;
   setGoal: Dispatch<SetStateAction<CreateGoalData>>;
   setNext: Dispatch<SetStateAction<boolean>>;
+  selectors: Selector[];
+  onDiscard: () => void;
 }
 
-export const AddGoalSelect = ({ goal, setGoal, setNext }: Props) => {
-  const goals: Goal[] = useSelector(selectGoalsData) || [];
-  const history = useHistory();
-
-  const selectors: Selector[] = [
-    {
-      type: GoalType.WEIGHT,
-      title: "Изменение веса",
-      desc: "Сбросить вес или набрать вес",
-    },
-    {
-      type: GoalType.RUN,
-      title: "Бег",
-      desc: "Пробежать определённую дистанцию",
-    },
-    {
-      type: GoalType.FORCE,
-      title: "Силовые показатели",
-      desc: "  Поднимать определенные веса",
-    },
-  ];
-
-  function discard() {
-    if (!goals.length) {
-      history.push("/");
-      return;
-    }
-    history.push("/goals");
-  }
-
+export const AddGoalSelect = ({
+  goal,
+  setGoal,
+  setNext,
+  onDiscard,
+  selectors,
+}: Props) => {
   return (
     <div className={s.addGoals}>
       <div className={s.wrapper}>
@@ -68,16 +40,16 @@ export const AddGoalSelect = ({ goal, setGoal, setNext }: Props) => {
         <div className={s.buttons}>
           <Button
             options={{
-              width: "100px",
-              height: "30px",
+              width: '100px',
+              height: '30px',
               classes: { discard: true },
-              content: "Отмена",
+              content: 'Отмена',
             }}
-            onClick={discard}
+            onClick={onDiscard}
           />
           <Button
             onClick={() => setNext(true)}
-            options={{ content: "Далее", width: "100px", height: "30px" }}
+            options={{ content: 'Далее', width: '100px', height: '30px' }}
           />
         </div>
       </div>

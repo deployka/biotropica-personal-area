@@ -1,140 +1,38 @@
 import { Formik, FormikHelpers } from 'formik';
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { store } from 'react-notifications-component';
-import { useDispatch, useSelector } from 'react-redux';
-import { notification } from '../../../../config/notification/notificationForm';
+import React, { Dispatch, SetStateAction } from 'react';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
-import {
-  CreateGoalData,
-  Goal,
-  GoalType,
-  RunUnits,
-  WeightUnits,
-} from '../../../../store/ducks/goal/contracts/state';
-import {
-  createGoalData,
-  setGoalResponse,
-} from '../../../../store/ducks/goal/actionCreators';
-import {
-  selectGoalData,
-  selectGoalLoadingStatus,
-  selectGoalResponse,
-} from '../../../../store/ducks/goal/selectors';
-import { LoadingStatus } from '../../../../store/types';
+import { CreateGoalData } from '../../../../store/ducks/goal/contracts/state';
 
 import s from './AddGoalForm.module.scss';
 import { validationSchema } from './validationSchema';
 import { Textarea } from '../../../../shared/Form/Textarea/Textarea';
-import { useHistory } from 'react-router-dom';
-import { setGoalsData } from '../../../../store/ducks/goals/actionCreators';
-import { selectGoalsData } from '../../../../store/ducks/goals/selectors';
-import { SelectCustom } from '../../../../shared/Form/Select/SelectCustom';
+import {
+  ISelect,
+  SelectCustom,
+} from '../../../../shared/Form/Select/SelectCustom';
 
 interface Props {
   goalTemplate: CreateGoalData;
   setNext: Dispatch<SetStateAction<boolean>>;
-}
-
-export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-
-  const loadingStatus = useSelector(selectGoalLoadingStatus);
-  const response = useSelector(selectGoalResponse);
-
-  const goals: Goal[] = useSelector(selectGoalsData);
-  const goal: Goal | undefined = useSelector(selectGoalData);
-
-  const [name, setName] = useState<string>('');
-
-  const loader = loadingStatus === LoadingStatus.LOADING;
-  const refResetForm = useRef<any>(null);
-
-  function getOptions() {
-    switch (goalTemplate.type) {
-      case GoalType.RUN:
-        return [
-          { value: RunUnits.KILOMETER, label: 'Километры' },
-          { value: RunUnits.MINUTES, label: 'Минуты' },
-          { value: RunUnits.MINUTES_KILOMETER, label: 'Км/м' },
-        ];
-      case GoalType.WEIGHT:
-        return [
-          { value: WeightUnits.GRAM, label: 'Граммы' },
-          { value: WeightUnits.KILOGRAM, label: 'Килограммы' },
-          { value: WeightUnits.PERCENT, label: 'Проценты' },
-          { value: WeightUnits.CENTIMETERS, label: 'Сантиметры' },
-        ];
-      case GoalType.FORCE:
-        return [{ value: WeightUnits.KILOGRAM, label: 'Килограммы' }];
-      default:
-        return null;
-    }
-  }
-
-  useEffect(() => {
-    if (refResetForm.current) {
-      history.push(`/goals/${goal?.id}`);
-    }
-  }, [goals, history]);
-
-  useEffect(() => {
-    switch (loadingStatus) {
-      case LoadingStatus.ERROR:
-        if (!refResetForm.current) return;
-        store.addNotification({
-          ...notification,
-          title: 'Произошла ошибка!',
-          message: response?.message || 'Произошла непредвиденная ошибка',
-          type: 'danger',
-        });
-        break;
-      case LoadingStatus.SUCCESS:
-        if (!refResetForm.current) return;
-        store.addNotification({
-          ...notification,
-          title: `Цель «${name}» успешно создана!`,
-          message:
-            'Не забывайте регулярно отмечать свой прогресс в достижении цели',
-          type: 'success',
-          dismiss: {
-            onScreen: true,
-            duration: 7000,
-            pauseOnHover: true,
-          },
-        });
-        dispatch(setGoalResponse(undefined));
-        if (goal && goals) {
-          dispatch(setGoalsData([...goals, goal]));
-        }
-        refResetForm.current();
-        break;
-      default:
-        break;
-    }
-  }, [loadingStatus]);
-
-  async function onSubmit(
+  onSubmit: (
     values: CreateGoalData,
     options: FormikHelpers<CreateGoalData>
-  ) {
-    refResetForm.current = options.resetForm;
-    setName(values.name);
-    try {
-      dispatch(createGoalData(values));
-    } catch (error) {}
-  }
+  ) => void;
+  isLoading: boolean;
+  options: ISelect<string>[] | null;
+}
 
+export const AddGoalForm = ({
+  goalTemplate,
+  setNext,
+  isLoading,
+  onSubmit,
+  options,
+}: Props) => {
   function isDisabled(isValid: boolean, dirty: boolean) {
-    return (!isValid && !dirty) || loader;
+    return (!isValid && !dirty) || isLoading;
   }
 
   return (
@@ -200,7 +98,7 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
                   onBlur={handleBlur}
                   name="units"
                   value={(values.units[0].label && values.units) || null}
-                  options={getOptions()}
+                  options={options}
                   settings={{ touched, errors }}
                 />
               </div>
@@ -251,7 +149,7 @@ export const AddGoalForm = ({ goalTemplate, setNext }: Props) => {
                   type="submit"
                   onClick={() => handleSubmit()}
                   options={{
-                    content: loader ? <Loader /> : 'Сохранить',
+                    content: isLoading ? <Loader /> : 'Сохранить',
                     setDisabledStyle: isDisabled(isValid, dirty),
                     width: '100px',
                     height: '30px',

@@ -1,10 +1,11 @@
 import { FormikHelpers } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
-import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { notification } from '../../../config/notification/notificationForm';
 import { useQuery } from '../../../hooks/useQuery';
+import { eventBus, EventTypes } from '../../../services/EventBus';
 import { fetchForgotPassword } from '../../../store/ducks/user/actionCreators';
 import { ForgotPasswordData } from '../../../store/ducks/user/contracts/state';
 
@@ -33,19 +34,12 @@ const ForgotPassword = () => {
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
         refSetFieldValue.current('email', '');
-        store.addNotification({
-          ...notification,
-          title: 'Произошла ошибка!',
-          message: response?.message || 'Произошла непредвиденная ошибка!',
-          type: 'danger',
-        });
         break;
       case LoadingStatus.SUCCESS:
-        store.addNotification({
-          ...notification,
+        eventBus.emit(EventTypes.notification, {
           title: 'Успешно!',
           message: response?.message || 'Успешно!',
-          type: 'success',
+          type: NotificationType.SUCCESS,
         });
         history.push('/signin');
         break;
@@ -59,9 +53,7 @@ const ForgotPassword = () => {
     options: FormikHelpers<ForgotPasswordData>
   ) {
     refSetFieldValue.current = options.setFieldValue;
-    try {
-      dispatch(fetchForgotPassword(values));
-    } catch (error) {}
+    dispatch(fetchForgotPassword(values));
   }
   return (
     <div className="formContainer">

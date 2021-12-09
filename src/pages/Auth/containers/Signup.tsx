@@ -17,14 +17,16 @@ import {
 import { LoadingStatus } from '../../../store/types';
 import { validationSchema } from '../components/SignupForm/validationSchema';
 import { SignupForm } from '../components/SignupForm/SignupForm';
+import { eventBus, EventTypes } from '../../../services/EventBus';
+import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 
 const Signup = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const res = useSelector(selectUserResponse);
   const loadingStatus = useSelector(selectUserLoadingStatus);
-
-  const [errorValue, errorText] = res?.message?.split(':') || [];
+  //TODO: реализовать функционал удаления поля при ошибке email || phone
+  // const [errorValue, errorText] = res?.message?.split(':') || [];
 
   const loader = LoadingStatus.LOADING === loadingStatus;
   const refSetFieldValue = useRef<any>(null);
@@ -34,30 +36,14 @@ const Signup = () => {
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
         if (!refSetFieldValue.current) return;
-        store.addNotification({
-          ...notification,
-          title: 'Произошла ошибка!',
-          message:
-            errorText || res?.message || 'Произошла непредвиденная ошибка',
-          type: 'danger',
-          dismiss: {
-            onScreen: true,
-            duration: 10000,
-            pauseOnHover: true,
-          },
-        });
-
-        refSetFieldValue.current(errorValue, '');
+        //TODO: refSetFieldValue.current(errorValue, '');
         refSetFieldValue.current('verification_password', '');
-
         break;
       case LoadingStatus.SUCCESS:
         if (!refResetForm.current) return;
-        store.addNotification({
-          ...notification,
-          title: `Успешно!`,
+        eventBus.emit(EventTypes.notification, {
           message: res.message,
-          type: 'success',
+          type: NotificationType.SUCCESS,
           dismiss: {
             onScreen: true,
             duration: 7000,
