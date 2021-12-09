@@ -4,12 +4,13 @@ import { HeaderSvgSelector } from '../../../assets/icons/header/HeaderSvgSelecto
 import s from './Header.module.scss';
 interface Props {
   page: string;
+  isChatUnread: boolean;
   setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
   setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export const Header = memo(
-  ({ page, setSidebarNotificationsOpen, setSidebarChatOpen }: Props) => {
+  ({ page, setSidebarNotificationsOpen, setSidebarChatOpen, isChatUnread }: Props) => {
     const notifications = [1];
 
     return (
@@ -33,7 +34,8 @@ export const Header = memo(
               onClick={() => setSidebarChatOpen(true)}
               className={s.header__link}
             >
-              <HeaderSvgSelector id="chat" />
+                {isChatUnread ? <HeaderSvgSelector id="chat-active" /> :
+              <HeaderSvgSelector id="chat" /> }
             </div>
           </div>
         </div>

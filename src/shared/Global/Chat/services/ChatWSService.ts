@@ -21,6 +21,13 @@ export class ChatWSService {
             this.ws.onopen = () => {
                 resolve();
             }
+
+            this.ws.onclose = () => {
+                this.connect();
+            }
+            this.ws.onerror = () => {
+                this.connect();
+            }
         })
 
     }

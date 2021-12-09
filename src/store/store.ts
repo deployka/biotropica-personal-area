@@ -6,7 +6,6 @@ import { UserState } from './ducks/user/contracts/state';
 import { rootReducer } from './rootReducer';
 
 import rootSaga from './saga';
-import { ChatState } from './ducks/chat/contracts/state';
 import { GoalState } from './ducks/goal/contracts/state';
 import { GoalsState } from './ducks/goals/contracts/state';
 import { ProgressState } from './ducks/progress/contracts/state';
@@ -44,7 +43,6 @@ export interface RootState {
   analyze: AnalyzeAnswerState;
   analyzes: AnalyzesState;
   notification: NotificationState;
-  chat: ChatState;
 }
 
 export const store = createStore(

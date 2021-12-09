@@ -34,6 +34,7 @@ export function PrivateLayout(props: Props) {
 
   const isMobile = useMobile();
   const [page, setPage] = useState<string>('Главная');
+  const [isUnread, setIsUnread] = useState(false);
 
   const [sidebarNotificationsOpen, setSidebarNotificationsOpen] =
     useState<boolean>(false);
@@ -141,6 +142,8 @@ export function PrivateLayout(props: Props) {
         isAuth={isAuth}
         token={localStorage.getItem('token') as string}
         currentUser={currentUser}
+        isUnread={isUnread}
+        onChangeReading={setIsUnread}
         onClose={() => setSidebarChatOpen(false)}
       />
       <SidebarNotifications
@@ -149,6 +152,7 @@ export function PrivateLayout(props: Props) {
       />
       <div className="container">
         <Header
+            isChatUnread={isUnread}
           setSidebarChatOpen={setSidebarChatOpen}
           setSidebarNotificationsOpen={setSidebarNotificationsOpen}
           page={page}

@@ -8,10 +8,8 @@ interface Props {
 
 export const BtnClose = ({ setOpen }: Props) => {
   return (
-    <div onClick={() => setOpen(false)} className={s.btn__close}>
-      <div className={s.btn__close__img}>
-        <GlobalSvgSelector id="close-cross" />
-      </div>
+    <div onClick={() => setOpen(false)} className={s.BtnClose}>
+      <GlobalSvgSelector id="close-cross" />
     </div>
   );
 };

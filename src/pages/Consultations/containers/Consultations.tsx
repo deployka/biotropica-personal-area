@@ -30,8 +30,10 @@ import { useHistory, useLocation } from 'react-router';
 import s from './Consultations.module.scss';
 import { LoadingStatus, Response } from '../../../store/types';
 import { notification } from '../../../config/notification/notificationForm';
+
 import { eventBus, EventTypes } from '../../../services/EventBus';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
+
 
 const Consultations = () => {
   const dispatch = useDispatch();

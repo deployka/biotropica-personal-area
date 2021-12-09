@@ -10,18 +10,19 @@ interface Props {
 export const DialogItem = ({ options, onClick }: Props) => {
   return (
     <div className={s.message} onClick={() => onClick()}>
-      <div className={s.message__avatar__wrapper}>
+      <div className={s.avatar}>
         <img
           src={(options.image && getMediaLink(options.image)) || defaultAvatar}
-          className={s.message__avatar}
         />
       </div>
-      <div className={s.message__info}>
-        <div className={s.message__username}>{options.name}</div>
-        <div className={s.message__content}>{options.content}</div>
+      <div className={s.info}>
+        <div className={s.username}>
+          <p>{options.name}</p>
+        </div>
+        <div className={s.content}>{options.content}</div>
       </div>
       <div
-        className={classNames(s.message__status, {
+        className={classNames(s.status, {
           [s.new]: options.status,
         })}
       ></div>

@@ -4,22 +4,26 @@ interface Progress {
   options: any; //!FIXME:
 }
 export const Progress = ({ options }: Progress) => {
-  const { current, of } = options;
-  const percantage = Math.round(((current - 1) / of) * 100);
+  const { currentIndex, total } = options;
+  const percantage = Math.round((currentIndex / total) * 100);
   return (
     <div className={s.progress}>
-      <div className={s.progress__info}>
-        <div className={s.progress__number}>
-          <span className={s.progress__number__current}>{current}</span>
-          {'  '}/{'  '}
-          <span className={s.progress__number__of}>{of}</span>
+      <div className={s.info}>
+        <div className={s.counter}>
+          <p>
+            <span className={s.current}>{currentIndex + 1}</span>
+            {'  '}/{'  '}
+            <span className={s.sum}>{total}</span>
+          </p>
         </div>
-        <div className={s.progress__percentage}>{percantage}%</div>
+        <div className={s.percentage}>
+          <p>{percantage}%</p>
+        </div>
       </div>
       <progress
         value={percantage}
         max="100"
-        className={s.progress__bar}
+        className={s.progressBar}
       ></progress>
     </div>
   );

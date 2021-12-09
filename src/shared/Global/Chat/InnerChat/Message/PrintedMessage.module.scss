@@ -8,15 +8,18 @@
   margin-bottom: 7px;
   max-width: 309px;
   position: relative;
-  &__type {
-    &__typing {
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 130%;
-      letter-spacing: 0.25px;
-      color: $color-grey-2;
-      padding: 12px 20px;
-      @include flex();
-    }
+
+  &.typing {
+    padding: 12px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    letter-spacing: 0.25px;
+    color: $color-grey-2;
   }
 }

@@ -1,124 +1,172 @@
-@import 'src/styles/mixins';
-@import 'src/styles/variables';
+@import "src/styles/mixins";
+@import "src/styles/variables";
 
-.chat__footer__form {
+.footer {
   position: relative;
-  @include flex($justify: space-between);
-  margin-top: auto;
+
+  padding: 15px 30px;
+
   width: 100%;
-  padding: 0 30px;
-}
-.form {
-  &__attach__btn {
-    cursor: pointer;
-    @include wh(29px, 29px);
-    svg {
-      @include wh(29px, 29px);
-    }
+
+  background-color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @include for-phone {
+    padding: 7px 10px;
   }
-  &__smile__btn {
-    cursor: pointer;
-    margin-right: 15px;
-    @include wh(24px, 24px);
-    svg {
-      @include wh(24px, 24px);
-    }
-  }
-  &__text {
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 130%;
-    letter-spacing: 0.25px;
-    @include wh(242px, auto);
-    resize: none;
-    border: none;
-    scrollbar-width: none;
-    outline: none;
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    &::placeholder {
-      color: #9895A7;
-    }
-    -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none;
-    margin-right: 15px;
-    &__wrapper {
-      @include flex($justify: flex-start);
-      border-radius: 15px;
-      border: 1px solid $color-primary;
-      @include wh(329px, auto);
-      padding: 8px 22px 8px 20px;
-    }
-  }
-  &__submit__btn {
-    cursor: pointer;
-    @include wh(29px, 29px);
-    padding: 0;
-    border: 0;
-    background: transparent;
-    margin: 0;
-    @include flex();
-    svg {
-      @include wh(29px, 29px);
-    }
-  }
-}
-//popup
-.attach__popup {
-  z-index: 9;
-  cursor: pointer;
-  background: $color-white;
-  position: absolute;
-  top: -109px;
-  right: 0;
-  @include wh(218px, 96px);
-  box-shadow: 0px 1px 10px rgba(30, 23, 77, 0.05);
-  border-radius: 15px;
-  @include flex(column, flex-start, flex-start);
-  * {
-    cursor: pointer;
-  }
-  &__media,
-  &__documents {
-    cursor: pointer;
+
+  .wrapper {
+    padding: 8px 20px;
+
+    max-width: 330px;
     width: 100%;
-    position: relative;
-    @include flex(row, flex-start, center);
-    padding: 12px 20px;
-    transition: 0.1s;
-    border-radius: 15px 15px 0 0;
-    @media (min-width: 1200px) {
-      &:hover {
-        background: $color-grey;
+    height: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-radius: 15px;
+    border: 1px solid $color-primary;
+
+    @include for-phone {
+      max-width: unset;
+
+      padding: 5px 20px;
+
+      background: #f7f6fb;
+      border-radius: 40px;
+      border: none;
+    }
+
+    .text {
+      width: 242px;
+      height: auto;
+
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 130%;
+      letter-spacing: 0.25px;
+
+      resize: none;
+      border: none;
+      scrollbar-width: none;
+      outline: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      &::placeholder {
+        color: #9895a7;
+      }
+
+      @include for-phone {
+        background: #f7f6fb;
+      }
+
+      overflow: hidden;
+    }
+
+    .attachBtn {
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+
+      svg {
+        widows: 100%;
+        height: 100%;
       }
     }
   }
-  &__documents {
-    border-radius: 0 0 15px 15px;
-  }
-}
-.popup {
-  &__text {
-    pointer-events: none;
-    cursor: pointer;
-  }
-  &__icon {
-    pointer-events: none;
+
+  .submitBtn {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     cursor: pointer;
 
-    margin-right: 15px;
-    @include wh(24px, 24px);
     svg {
-      @include wh(24px, 24px);
+      width: 100%;
+      height: 100%;
+    }
+
+    @include for-phone {
+      display: none;
     }
   }
-  &__input {
-    opacity: 0;
+}
+
+.popupAttach {
+  position: absolute;
+  top: -110px;
+  right: 0;
+
+  width: 220px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background: $color-white;
+
+  border-radius: 15px;
+  box-shadow: 0px 1px 10px rgba(30, 23, 77, 0.15);
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  z-index: 9;
+}
+
+.listEl {
+  position: relative;
+
+  padding: 12px 20px;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: $color-grey;
+  }
+  .text {
+    pointer-events: none;
     cursor: pointer;
+  }
+  .icon {
+    margin: 0 15px 0 0;
+    width: 24px;
+    height: 24px;
+
+    pointer-events: none;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .input {
     position: absolute;
     left: 0;
     top: 0;
-    @include allwh(100%, 100%);
+
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
   }
 }
