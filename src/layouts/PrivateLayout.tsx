@@ -27,7 +27,7 @@ export interface Nav extends Pages {
 
 export function PrivateLayout(props: Props) {
   const isAuth = useSelector(selectIsAuth);
-  const currentUser = useSelector(selectUserData) as User;
+  const currentUser = useSelector(selectUserData);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -137,7 +137,7 @@ export function PrivateLayout(props: Props) {
         />
       )}
 
-      <Chat
+      {currentUser ? <Chat
         isOpened={chatNotificationsOpen}
         isAuth={isAuth}
         token={localStorage.getItem('token') as string}
@@ -145,7 +145,7 @@ export function PrivateLayout(props: Props) {
         isUnread={isUnread}
         onChangeReading={setIsUnread}
         onClose={() => setSidebarChatOpen(false)}
-      />
+      /> : <div/>}
       <SidebarNotifications
         open={sidebarNotificationsOpen}
         setOpen={setSidebarNotificationsOpen}

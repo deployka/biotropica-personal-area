@@ -82,13 +82,14 @@ export const Chat = (props: Props) => {
     }
   }, [props.isAuth]);
 
+
   function dispatchAddMessage(newMessage: Message) {
     const dialogId = newMessage.dialogId;
     const dialog = dialogs.find(it => it.id === dialogId);
     if (dialog) {
       const messages = dialog.messages.slice();
       const messagesIndex = messages.findIndex(
-        it => it.uuid === newMessage.uuid
+          it => it.uuid === newMessage.uuid
       );
       if (messagesIndex === -1) {
         messages.push(newMessage);
@@ -96,12 +97,16 @@ export const Chat = (props: Props) => {
         messages.splice(messagesIndex, 1, newMessage);
       }
       const index = dialogs.indexOf(dialog);
-      setDialogs(
-        dialogs.slice().splice(index, 1, {
-          ...dialog,
-          messages,
-        })
-      );
+      const updated = dialogs.slice();
+      updated.splice(index, 1, {
+        ...dialog,
+        messages,
+      })
+      const foundReading = dialog.dialogReadings.find(it => it.id === props.currentUser.id)
+      if(foundReading) {
+        foundReading.readAt = (new Date()).toISOString()
+      }
+      setDialogs(updated);
     }
 
     if (selectedDialog?.id === dialogId) {

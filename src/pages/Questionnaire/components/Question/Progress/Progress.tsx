@@ -11,9 +11,9 @@ export const Progress = ({ options }: Progress) => {
       <div className={s.info}>
         <div className={s.counter}>
           <p>
-            <span className={s.current}>{currentIndex + 1}</span>
-            {'  '}/{'  '}
-            <span className={s.sum}>{total}</span>
+            {/*<span className={s.current}>{currentIndex + 1}</span>*/}
+            {/*{'  '}/{'  '}*/}
+            {/*<span className={s.sum}>{total}</span>*/}
           </p>
         </div>
         <div className={s.percentage}>
