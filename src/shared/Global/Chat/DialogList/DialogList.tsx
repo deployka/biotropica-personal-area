@@ -48,7 +48,7 @@ export function DialogList({
               key={index}
               options={{
                 image: opponent?.profile_photo,
-                name: currentUser ? opponent?.email : '',
+                name: opponent ? opponent.name + ' ' + opponent.lastname : '',
                 content,
                 status: unread.includes(dialog.id),
               }}

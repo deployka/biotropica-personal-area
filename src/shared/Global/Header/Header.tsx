@@ -5,13 +5,19 @@ import s from './Header.module.scss';
 interface Props {
   page: string;
   isChatUnread: boolean;
+  isNotificationsUnread: boolean;
   setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
   setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export const Header = memo(
-  ({ page, setSidebarNotificationsOpen, setSidebarChatOpen, isChatUnread }: Props) => {
-    const notifications = [1];
+  ({
+       page,
+       setSidebarNotificationsOpen,
+       setSidebarChatOpen,
+       isChatUnread,
+       isNotificationsUnread
+  }: Props) => {
 
     return (
       <header className={s.header}>
@@ -24,7 +30,7 @@ export const Header = memo(
               onClick={() => setSidebarNotificationsOpen(true)}
               className={s.header__link}
             >
-              {notifications.length ? (
+              {isNotificationsUnread ? (
                 <HeaderSvgSelector id="notification-active" />
               ) : (
                 <HeaderSvgSelector id="notification" />

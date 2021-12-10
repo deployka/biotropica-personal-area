@@ -5,6 +5,8 @@ import { notification } from '../../config/notification/notificationForm';
 import { useQuery } from '../../hooks/useQuery';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import NotificationService from '../../services/NotificationService';
+import {useSelector} from "react-redux";
+import {selectIsAuth} from "../../store/ducks/user/selectors";
 
 export enum NotificationType {
   DANGER = 'danger',
@@ -23,6 +25,7 @@ const GlobalNotifications = () => {
   const query = useQuery();
   const history = useHistory();
   const location = useLocation();
+  const isAuth = useSelector(selectIsAuth);
 
   useEffect(() => {
     const message = query.get('message');
@@ -59,6 +62,9 @@ const GlobalNotifications = () => {
   }, []);
 
   useEffect(() => {
+    if(!isAuth) {
+      return;
+    }
     NotificationService.getNow().then(nowNotifications => {
       console.log(nowNotifications);
       nowNotifications.forEach(notification => {
@@ -79,7 +85,7 @@ const GlobalNotifications = () => {
         });
       });
     });
-  }, []);
+  }, [isAuth]);
 
   return <></>;
 };

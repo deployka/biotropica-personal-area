@@ -1,6 +1,7 @@
 interface ChatUser {
     id: number;
     name: string;
+    lastname: string;
     email: string;
     profile_photo: string;
     isOnline: boolean;

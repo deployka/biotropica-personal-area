@@ -12,6 +12,7 @@ import { useLocation } from 'react-router';
 import { fetchSignout, setUserData } from '../store/ducks/user/actionCreators';
 import { SidebarDesktop } from '../shared/Global/Sidebar/SidebarDesktop';
 import { SidebarMobile } from '../shared/Global/Sidebar/SidebarMobile';
+import NotificationService from "../services/NotificationService";
 
 interface Props {
   children: React.ReactNode;
@@ -35,10 +36,19 @@ export function PrivateLayout(props: Props) {
   const isMobile = useMobile();
   const [page, setPage] = useState<string>('Главная');
   const [isUnread, setIsUnread] = useState(false);
+  const [isNotificationsUnread, setIsNotificationsUnread] = useState(false);
 
   const [sidebarNotificationsOpen, setSidebarNotificationsOpen] =
     useState<boolean>(false);
   const [chatNotificationsOpen, setSidebarChatOpen] = useState<boolean>(false);
+
+  // useEffect(() => {
+  //   NotificationService
+  //       .getAll()
+  //       .then(res =>{
+  //         if(res.filter(it => it.))
+  //       })
+  // }, [])
 
   const pages = [
     { page: 'Профиль', link: '/profile' },
@@ -153,6 +163,7 @@ export function PrivateLayout(props: Props) {
       <div className="container">
         <Header
             isChatUnread={isUnread}
+            isNotificationsUnread={isNotificationsUnread}
           setSidebarChatOpen={setSidebarChatOpen}
           setSidebarNotificationsOpen={setSidebarNotificationsOpen}
           page={page}

@@ -14,5 +14,12 @@ export const chatApi = {
     async fetchDialogs(): Promise<Dialog[]> {
         const {data} = await $api.get('/dialogs/');
         return data;
+    },
+    async create(userId: number): Promise<Dialog> {
+        const result = await $api.post('/dialogs', {
+            userId
+        })
+
+        return result.data
     }
 }

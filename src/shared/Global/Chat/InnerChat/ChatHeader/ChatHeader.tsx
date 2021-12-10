@@ -28,7 +28,7 @@ export function ChatHeader({ user, onClose }: Props) {
         </div>
         <div className={s.info}>
           <div className={s.name}>
-            <p>{user.email}</p>
+            <p>{user.name + ' ' + user.lastname}</p>
           </div>
           <div className={s.post}>
             <p>Фитнес инструктор</p>

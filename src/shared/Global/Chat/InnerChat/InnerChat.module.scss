@@ -17,6 +17,7 @@
   overflow-y: auto;
   scrollbar-width: none;
   outline: none;
+  height: inherit;
 
   &::-webkit-scrollbar {
     display: none;
