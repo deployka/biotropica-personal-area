@@ -1,7 +1,7 @@
 @import "../../../../styles/mixins.scss";
 @import "../../../../styles/variables.scss";
 .progress {
-  width: 100%;
+  width: calc(100% - 10px);
   max-height: 58vh;
 
   display: flex;
@@ -10,8 +10,6 @@
   row-gap: 20px;
 
   @include for-phone {
-    padding: 0 0 80px 0;
-
     max-height: unset;
 
     row-gap: 10px;

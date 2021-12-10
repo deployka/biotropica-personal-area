@@ -1,4 +1,4 @@
-@import './../../../../styles/mixins.scss';
+@import "./../../../../styles/mixins.scss";
 
 .specialist {
   position: relative;
@@ -19,7 +19,7 @@
 
   @include for-phone {
     margin: 7px 0 0 0;
-    padding: 0 0 20px 0;
+    padding: 10px 0 20px 0;
     align-items: flex-end;
     flex-direction: column;
   }

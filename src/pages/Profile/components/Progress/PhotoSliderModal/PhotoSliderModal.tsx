@@ -40,29 +40,31 @@ export const PhotoSliderModal = ({ photos, createdAt, i }: Props) => {
               <ProfileSvgSelector id="close" />
             </button>
           </div>
-          <Swiper
-            initialSlide={i}
-            slidesPerView={1}
-            spaceBetween={50}
-            navigation={{
-              prevEl: '.left',
-              nextEl: '.right',
-            }}
-            pagination={{ clickable: true }}
-            scrollbar={{ draggable: true }}
-            className={s.results_slider}
-          >
-            {photos?.map((photo: Photo, i: number) => {
-              return (
-                <SwiperSlide
-                  className={s.results_slider_item}
-                  key={i + photo.filename}
-                >
-                  <img src={getMediaLink(photo.filename)} />
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
+          <div className={s.slider}>
+            <Swiper
+              initialSlide={i}
+              slidesPerView={1}
+              spaceBetween={50}
+              navigation={{
+                prevEl: '.left',
+                nextEl: '.right',
+              }}
+              pagination={{ clickable: true }}
+              scrollbar={{ draggable: true }}
+              className={s.results_slider}
+            >
+              {photos?.map((photo: Photo, i: number) => {
+                return (
+                  <SwiperSlide
+                    className={s.results_slider_item}
+                    key={i + photo.filename}
+                  >
+                    <img src={getMediaLink(photo.filename)} />
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+          </div>
           <div className={classNames(s.right, 'right')}>
             <GlobalSvgSelector id="slider-right" />
           </div>

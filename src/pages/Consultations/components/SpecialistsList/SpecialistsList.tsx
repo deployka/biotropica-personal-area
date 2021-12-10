@@ -34,8 +34,8 @@ export const SpecialistsList = ({
         </div>
       </div>
 
-      <div className={s.list}>
-        <PerfectScrollbar>
+      <PerfectScrollbar>
+        <div className={s.list}>
           {!!specialists.length &&
             specialists.map(specialist => (
               <Specialist
@@ -47,8 +47,8 @@ export const SpecialistsList = ({
               />
             ))}
           {!specialists.length && <p>Специалисты не найдены</p>}
-        </PerfectScrollbar>
-      </div>
+        </div>
+      </PerfectScrollbar>
     </div>
   );
 };

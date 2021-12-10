@@ -122,9 +122,28 @@
     }
   }
 
-  &_slider {
+  .slider {
     max-width: 585px;
     width: calc(100% - 150px);
+
+    height: 390px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include for-tablet {
+      width: calc(100% - 80px);
+    }
+
+    @include for-phone {
+      width: calc(100% - 40px);
+    }
+  }
+
+  &_slider {
+    width: 100%;
+    height: 100%;
 
     display: flex !important;
     justify-content: center !important;
@@ -134,14 +153,6 @@
 
     border-radius: 15px;
     overflow: hidden;
-
-    @include for-tablet {
-      width: calc(100% - 80px);
-    }
-
-    @include for-phone {
-      width: calc(100% - 40px);
-    }
 
     &_item {
       user-select: none;

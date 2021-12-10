@@ -9,6 +9,10 @@
   border: 1px solid $color-secondary;
   border-radius: 15px;
 
+  @include for-phone {
+    max-height: unset;
+  }
+
   .header {
     position: sticky;
     top: 0px;
