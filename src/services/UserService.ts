@@ -19,6 +19,10 @@ export default class UserService {
     return await $api.get<Response>(`/${UserService.route}/me`);
   }
 
+  static async answers(userId: number): Promise<AxiosResponse<Answer[]>> {
+    return $api.get(`/${UserService.route}/${userId}/answers`);
+  }
+
   static async update(
     payload: UpdateUserData
   ): Promise<AxiosResponse<Response>> {

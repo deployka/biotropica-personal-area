@@ -1,5 +1,3 @@
-import { User } from '../../../../store/ducks/user/contracts/state';
-import { TestsCard } from './TestsCard/TestsCard';
 import s from './TestsAndAnalyze.module.scss';
 import { AnalyzesCard } from './AnalyzesCard/AnalyzesCard';
 import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
@@ -13,7 +11,6 @@ import {
 import { useEffect, useState } from 'react';
 import { LoadingStatus } from '../../../../store/types';
 import { store } from 'react-notifications-component';
-import { notification } from '../../../../config/notification/notificationForm';
 import {
   createAnalyzeAnswerData,
   setAnalyzeLoadingStatus,
@@ -39,28 +36,16 @@ import { NEXT_FETCH_LIMIT, MIN_LIMIT } from '../../../../constants/analyzes';
 import { MAX_PDF_SIZE } from '../../../../constants/files';
 import { eventBus, EventTypes } from '../../../../services/EventBus';
 import { NotificationType } from '../../../../components/GlobalNotifications/GlobalNotifications';
+import { Questionnaire } from './Questionnaire/Questionnaire';
+import UserService from '../../../../services/UserService';
 
 interface Props {
-  user: User;
+  userId: number;
 }
 
-export interface Tests {
-  info: string;
-  fileName: string;
-  link: string;
-  createdAt: string;
-}
-
-export const TestsAndAnalyze = ({}: Props) => {
+export const TestsAndAnalyze = ({ userId }: Props) => {
   const { openModal, closeModal } = useModal();
-
-  const tests = {
-    age: '20',
-    plans: 'бегу, плаванию',
-    asthma: 'нет',
-    diabetes: 'нет',
-    updateUrl: 'upd8271389',
-  };
+  const [answers, setAnswers] = useState<Answer[]>([]);
 
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectAnalyzeLoadingStatus);
@@ -79,6 +64,14 @@ export const TestsAndAnalyze = ({}: Props) => {
 
   useEffect(() => {
     dispatch(fetchAnalyzesData());
+    const fetchAnswers = () => {
+      UserService.answers(userId).then(({ data }) => setAnswers(data));
+    };
+    function fetchAllTypes() {
+      AnalyzeService.geAllTypes().then(({ data }) => setAnalyzeTypes(data));
+    }
+    fetchAllTypes();
+    fetchAnswers();
   }, []);
 
   useEffect(() => {
@@ -86,13 +79,6 @@ export const TestsAndAnalyze = ({}: Props) => {
       setIsShowMore(false);
     }
   }, [offsetData]);
-
-  useEffect(() => {
-    function fetchAllTypes() {
-      AnalyzeService.geAllTypes().then(({ data }) => setAnalyzeTypes(data));
-    }
-    fetchAllTypes();
-  }, []);
 
   useEffect(() => {
     if (!response) return;
@@ -158,7 +144,7 @@ export const TestsAndAnalyze = ({}: Props) => {
   const testInfoBar: IInfoBar = {
     title: 'Вы не заполняли анкету',
     text: 'Пожалуйста, заполните анкету',
-    href: 'test',
+    href: '/questionnaire',
     bottomLink: 'Заполнить анкету',
   };
 
@@ -182,9 +168,10 @@ export const TestsAndAnalyze = ({}: Props) => {
 
   return (
     <div className={s.tests__and__analyze}>
-      {/* TODO: оставлено для задачи с анкетой */}
-      {tests.age ? (
-        <TestsCard tests={tests} />
+      {answers.length ? (
+        <Questionnaire
+          answers={answers.sort((a, b) => a.question.order - b.question.order)}
+        />
       ) : (
         <InfoBar infoBar={testInfoBar} />
       )}

@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Question as QuestionComponent } from '../components/Question/Question';
-import { Welcome } from '../components/Welcome/Welcome';
 
 import s from './Questionnaire.module.scss';
-import $api from '../../../http';
-import { AxiosResponse } from 'axios';
 import QuestionService from '../../../services/QuestionService';
-import { progressSaga } from '../../../store/ducks/progress/sagas';
-import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router';
 
 type Question = {
@@ -41,7 +36,6 @@ const Questionnaire = () => {
   }
 
   async function giveAnswer(answer: CreateAnswerDto) {
-    console.log('giveAnswer', index);
     if (index === total) {
       console.log('index');
       return history.push('/');
