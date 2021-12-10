@@ -38,14 +38,6 @@ $api.interceptors.response.use(
       });
     }
 
-    if (message && statusCode === HTTP_INTERNAL_SERVER_ERROR) {
-      const type = NotificationType.DANGER;
-      eventBus.emit(EventTypes.notification, {
-        type,
-        message: 'Произошла непредвиденная ошибка',
-      });
-    }
-
     const originalRequest = error.config;
     if (!originalRequest || error?.response?.status !== HTTP_UNAUTHORIZED) {
       throw error;

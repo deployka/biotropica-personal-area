@@ -1,8 +1,6 @@
 import { AxiosResponse } from 'axios';
 import $api from '../http';
-import {
-  UpdateNotificationData,
-} from '../store/ducks/notification/contracts/state';
+import { UpdateNotificationData } from '../store/ducks/notification/contracts/state';
 
 interface Response {
   status: string;

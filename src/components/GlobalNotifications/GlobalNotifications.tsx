@@ -4,8 +4,7 @@ import { useHistory, useLocation } from 'react-router';
 import { notification } from '../../config/notification/notificationForm';
 import { useQuery } from '../../hooks/useQuery';
 import { eventBus, EventTypes } from '../../services/EventBus';
-import NotificationService from "../../services/NotificationService";
-        
+import NotificationService from '../../services/NotificationService';
 
 export enum NotificationType {
   DANGER = 'danger',
@@ -20,12 +19,10 @@ export interface Notification extends Partial<ReactNotificationOptions> {
   title?: string;
 }
 
-
 const GlobalNotifications = () => {
-    const query = useQuery();
-    const history = useHistory();
-    const location = useLocation();
-
+  const query = useQuery();
+  const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     const message = query.get('message');
@@ -60,28 +57,29 @@ const GlobalNotifications = () => {
       });
     });
   }, []);
-    
-      useEffect(() => {
-        NotificationService.getNow().then(
-            (nowNotifications) => {
-                console.log(nowNotifications);
-                nowNotifications.forEach(notification => {
-                    store.addNotification({
-                        container: 'top-right',
-                        message: <div>{notification.message}
-                            <button
-                                style={{marginLeft: '10px'}}
-                                onClick={() => history.push(notification.link)}
-                            >
-                                перейти
-                            </button>
-                        </div>,
-                        type: 'default',
-                    });
-                })
-            }
-        )
-    }, [])
+
+  useEffect(() => {
+    NotificationService.getNow().then(nowNotifications => {
+      console.log(nowNotifications);
+      nowNotifications.forEach(notification => {
+        eventBus.emit(EventTypes.notification, {
+          container: 'top-right',
+          message: (
+            <div>
+              {notification.message}
+              <button
+                style={{ marginLeft: '10px' }}
+                onClick={() => history.push(notification.link)}
+              >
+                перейти
+              </button>
+            </div>
+          ),
+          type: NotificationType.DEFAULT,
+        });
+      });
+    });
+  }, []);
 
   return <></>;
 };
