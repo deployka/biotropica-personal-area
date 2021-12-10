@@ -23,7 +23,6 @@ import { LoadingStatus } from '../../../store/types';
 import { eventBus, EventTypes } from '../../../services/EventBus';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { setUserResponse } from '../../../store/ducks/user/actionCreators';
-import { fetchRecommendationsData } from '../../../store/ducks/recommendations/actionCreators';
 
 const Profile = () => {
   const { openModal } = useModal();
@@ -81,6 +80,14 @@ const Profile = () => {
     history.push(`/profile/tabs/${tab.key}`);
   }
 
+  useEffect(() => {
+    if (active) {
+      setActiveTab(getTabByKey(active, tabs)?.key || activeTab);
+      history.push(
+        `/profile/tabs/${getTabByKey(active, tabs)?.key || activeTab}`
+      );
+    }
+  }, [active]);
   return (
     <>
       <div className={s.profile}>
@@ -104,7 +111,9 @@ const Profile = () => {
             </div>
           </div>
           {activeTab === tabs[0].key && user && <Recommended />}
-          {activeTab === tabs[1].key && user && <TestsAndAnalyze user={user} />}
+          {activeTab === tabs[1].key && user && (
+            <TestsAndAnalyze userId={user.id} />
+          )}
           {activeTab === tabs[2].key && (
             <button
               onClick={() => openModal(ModalName.MODAL_ADD_PROGRESS_PHOTO)}

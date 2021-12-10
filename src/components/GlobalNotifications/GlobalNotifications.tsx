@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode, useCallback, useEffect } from 'react';
 import { ReactNotificationOptions, store } from 'react-notifications-component';
 import { useHistory, useLocation } from 'react-router';
 import { notification } from '../../config/notification/notificationForm';
@@ -43,15 +43,25 @@ const GlobalNotifications = () => {
   }, [location.pathname]);
 
   useEffect(() => {
+    const getNotificationTitle = (type: NotificationType) => {
+      switch (type) {
+        case NotificationType.DANGER:
+          return 'Произошла ошибка!';
+        case NotificationType.SUCCESS:
+          return 'Успешно!';
+        case NotificationType.DEFAULT:
+        case NotificationType.INFO:
+        case NotificationType.WARNING:
+          return 'Внимание!';
+        default:
+          break;
+      }
+    };
     eventBus.on(EventTypes.notification, res => {
       store.addNotification({
         ...notification,
         ...res,
-        title: res.title
-          ? res.title
-          : res.type === NotificationType.SUCCESS
-          ? 'Успешно!'
-          : 'Произошла ошибка!',
+        title: res.title ? res.title : getNotificationTitle(res.type),
         message: res?.message || 'Нет сообщения',
         type: res.type,
       });

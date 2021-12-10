@@ -4,7 +4,6 @@ import AuthService from '../services/AuthService';
 import { eventBus, EventTypes } from '../services/EventBus';
 import {
   HTTP_BAD_REQUEST,
-  HTTP_INTERNAL_SERVER_ERROR,
   HTTP_SUCCESS,
   HTTP_UNAUTHORIZED,
 } from './httpConstants';

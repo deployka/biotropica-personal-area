@@ -1,5 +1,5 @@
-@import "../../../../../styles/mixins.scss";
-@import "../../../../../styles/variables.scss";
+@import '../../../../../styles/mixins.scss';
+@import '../../../../../styles/variables.scss';
 
 .analyzesCard {
   overflow-y: auto;
@@ -12,7 +12,7 @@
   .header {
     position: sticky;
     top: 0px;
-
+    opacity: 0.7;
     padding: 30px 0 20px 0;
 
     width: 100%;
