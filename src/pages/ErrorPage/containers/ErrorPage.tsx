@@ -18,7 +18,7 @@ const ErrorPage = () => {
         <div className={s.text}>
           <p>
             Вы зашли на несуществующую страницу.
-            <br /> Вернитесь на <Link to="/">главную</Link>
+            <br /> Вернитесь <Link to="/">на главную страницу</Link>
           </p>
         </div>
       </div>

@@ -10,12 +10,20 @@
   display: flex;
 
   flex-wrap: wrap;
+  justify-content: space-between;
 
-  row-gap: 30px;
   column-gap: 30px;
+  row-gap: 30px;
+
+  @media (max-width: 1250px) {
+    justify-content: flex-start;
+  }
+
+  @include for-tablet {
+    column-gap: 20px;
+  }
 
   @include for-phone {
-    padding: 0 0 65px 0;
     flex-direction: column;
     align-items: center;
     justify-content: unset;
