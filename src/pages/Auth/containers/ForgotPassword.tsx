@@ -1,9 +1,8 @@
+import React, { useEffect, useRef } from 'react';
 import { FormikHelpers } from 'formik';
-import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
-import { notification } from '../../../config/notification/notificationForm';
 import { useQuery } from '../../../hooks/useQuery';
 import { eventBus, EventTypes } from '../../../services/EventBus';
 import { fetchForgotPassword } from '../../../store/ducks/user/actionCreators';
@@ -34,11 +33,14 @@ const ForgotPassword = () => {
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
         refSetFieldValue.current('email', '');
+        eventBus.emit(EventTypes.notification, {
+          message: response?.message,
+          type: NotificationType.DANGER,
+        });
         break;
       case LoadingStatus.SUCCESS:
         eventBus.emit(EventTypes.notification, {
-          title: 'Успешно!',
-          message: response?.message || 'Успешно!',
+          message: response?.message,
           type: NotificationType.SUCCESS,
         });
         history.push('/signin');

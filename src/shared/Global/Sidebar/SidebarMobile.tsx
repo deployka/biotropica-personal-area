@@ -10,7 +10,7 @@ import { ModalName } from '../../../providers/ModalProvider';
 import { Nav, Pages } from '../../../layouts/PrivateLayout';
 
 interface Props {
-  setPage: Dispatch<SetStateAction<string>>;
+  onNavClick: (nav: Partial<Nav>) => void;
   setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
   setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
   chatNotificationsOpen: boolean;
@@ -24,7 +24,7 @@ interface Props {
 
 export const SidebarMobile = memo(
   ({
-    setPage,
+    onNavClick,
     setSidebarChatOpen,
     setSidebarNotificationsOpen,
     pages,
@@ -43,10 +43,10 @@ export const SidebarMobile = memo(
             className={s.menu}
             onClick={() =>
               openModal(ModalName.MODAL_SIDEBAR_MENU, {
-                nav: nav,
-                setPage: setPage,
-                openChat: openChat,
-                logout: logout,
+                nav,
+                onNavClick,
+                openChat,
+                logout,
                 user,
                 pages,
                 location,
@@ -61,7 +61,7 @@ export const SidebarMobile = memo(
 
           <Link
             key={nav[0].page}
-            onClick={() => setPage(nav[0].page)}
+            onClick={() => onNavClick(nav[0])}
             to={nav[0].link}
             className={classNames(
               s.homeLink,
@@ -79,7 +79,7 @@ export const SidebarMobile = memo(
               openModal(ModalName.MODAL_NOTIFICATIONS_MENU, {
                 setSidebarChatOpen: setSidebarChatOpen,
                 setSidebarNotificationsOpen: setSidebarNotificationsOpen,
-                setPage,
+                onNavClick,
                 pages,
                 user,
                 location,

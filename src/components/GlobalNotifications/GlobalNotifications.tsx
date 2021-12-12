@@ -5,8 +5,8 @@ import { notification } from '../../config/notification/notificationForm';
 import { useQuery } from '../../hooks/useQuery';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import NotificationService from '../../services/NotificationService';
-import {useSelector} from "react-redux";
-import {selectIsAuth} from "../../store/ducks/user/selectors";
+import { useSelector } from 'react-redux';
+import { selectIsAuth } from '../../store/ducks/user/selectors';
 
 export enum NotificationType {
   DANGER = 'danger',
@@ -69,10 +69,14 @@ const GlobalNotifications = () => {
         type: res.type,
       });
     });
+
+    eventBus.on(EventTypes.removeNotification, (id: string) => {
+      store.removeNotification(id);
+    });
   }, []);
 
   useEffect(() => {
-    if(!isAuth) {
+    if (!isAuth) {
       return;
     }
     NotificationService.getNow().then(nowNotifications => {

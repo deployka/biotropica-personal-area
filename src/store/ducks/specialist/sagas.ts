@@ -17,15 +17,13 @@ export function* fetchSpecialistDataRequest({
 }: FetchSpecialistDataActionInterface): any {
   try {
     yield put(setSpecialistLoadingStatus(LoadingStatus.LOADING));
-    const { data, status } = yield call(SpecialistService.getOne, payload);
-    if (status === 200) {
-      yield put(setSpecialistData(data));
-      yield put(setSpecialistLoadingStatus(LoadingStatus.SUCCESS));
-      yield put(setSpecialistLoadingStatus(LoadingStatus.LOADED));
-    } else {
-      yield put(setSpecialistLoadingStatus(LoadingStatus.ERROR));
-    }
-  } catch (error) {}
+    const { data } = yield call(SpecialistService.getOne, payload);
+    yield put(setSpecialistData(data));
+    yield put(setSpecialistLoadingStatus(LoadingStatus.SUCCESS));
+    yield put(setSpecialistLoadingStatus(LoadingStatus.LOADED));
+  } catch (error) {
+    yield put(setSpecialistLoadingStatus(LoadingStatus.ERROR));
+  }
 }
 
 export function* specialistSaga(): any {

@@ -21,8 +21,8 @@ export default class ConsultationService {
     return await $api.get<Response>(`/${ConsultationService.route}/closest`);
   }
 
-  static async geAll(): Promise<AxiosResponse<Response>> {
-    return await $api.get<Response>(`/${ConsultationService.route}/`);
+  static async geAll(): Promise<AxiosResponse<Consultation[]>> {
+    return await $api.get<Consultation[]>(`/${ConsultationService.route}/`);
   }
 
   static async create(

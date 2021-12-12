@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import AuthService from '../../../services/AuthService';
 import UserService from '../../../services/UserService';
@@ -67,7 +68,8 @@ export function* fetchForgotPasswordRequest({
     const { data } = yield call(AuthService.forgotPassword, payload);
     yield put(setUserResponse(data));
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
-  } catch (error) {
+  } catch (error: any) {
+    yield put(setUserResponse(error?.response?.data));
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
 }

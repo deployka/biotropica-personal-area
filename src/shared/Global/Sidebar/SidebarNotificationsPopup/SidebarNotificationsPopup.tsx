@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { HeaderSvgSelector } from '../../../../assets/icons/header/HeaderSvgSelector';
 import { useModal } from '../../../../hooks/useModal';
-import { Pages } from '../../../../layouts/PrivateLayout';
+import { Nav, Pages } from '../../../../layouts/PrivateLayout';
 import { ModalName } from '../../../../providers/ModalProvider';
 import { PopupBackground } from '../../PopupBackground/PopupBackground';
 
@@ -14,7 +14,7 @@ import s from './SidebarNotificationsPopup.module.scss';
 interface Props {
   setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
   setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
-  setPage: Dispatch<SetStateAction<string>>;
+  onNavClick: (nav: Partial<Nav>) => void;
   user: User | undefined;
   pages: Pages[];
   location: any;
@@ -23,7 +23,7 @@ interface Props {
 export const SidebarNotificationsPopup = ({
   setSidebarChatOpen,
   setSidebarNotificationsOpen,
-  setPage,
+  onNavClick,
   user,
   pages,
   location,
@@ -53,7 +53,7 @@ export const SidebarNotificationsPopup = ({
                 [s.active]:
                   pages[0].link === '/' + location.pathname.split('/')[1],
               })}
-              onClick={() => setPage('Профиль')}
+              onClick={() => onNavClick({ ...pages[0] })}
             >
               <div
                 className={s.img}
