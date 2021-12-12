@@ -1,5 +1,5 @@
-@import '../../../../styles/mixins.scss';
-@import '../../../../styles/variables.scss';
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
 .progress__bar {
   @include flex();
   padding: 0;
@@ -9,6 +9,10 @@
     position: relative;
     @include minwh(120px, 120px);
     margin-bottom: 30px;
+
+    @include for-tablet {
+      margin: 0;
+    }
   }
   &__svg__wrapper {
     pointer-events: none;
