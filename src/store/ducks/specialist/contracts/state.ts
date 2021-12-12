@@ -1,11 +1,10 @@
-import { ISelect } from '../../../../shared/Form/Select/SelectCustom';
 import { LoadingStatus } from '../../../types';
 import { User } from '../../user/contracts/state';
 
 export interface SpecialistUser {
   id: number;
   price: number;
-  specializations: ISelect<string>[];
+  specializations: Array<keyof typeof SpecializationName>;
   experience: string;
   education: string;
   user: User;

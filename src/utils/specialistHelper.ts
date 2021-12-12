@@ -1,8 +1,8 @@
-import { ISelect } from '../shared/Form/Select/SelectCustom';
+import { SpecializationName } from '../store/ducks/specialist/contracts/state';
 
 export function formatSpecializationsToString(
-  specializations: ISelect<string>[]): string {
+  specializations: Array<keyof typeof SpecializationName>
+): string {
   if (specializations === null) return '';
-  const str = specializations.reduce((acc, s) => (acc += `${s.label}, `), '');
-  return str.trim().slice(0, str.length - 2);
+  return specializations.map(s => SpecializationName[s]).join(', ');
 }

@@ -9,7 +9,7 @@ import { SidebarSvgSelector } from '../../../assets/icons/sidebar/SIdebarSvgSele
 import { Nav, Pages } from '../../../layouts/PrivateLayout';
 
 interface Props {
-  setPage: Dispatch<SetStateAction<string>>;
+  onNavClick: (nav: Partial<Nav>) => void;
   setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
   setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
   chatNotificationsOpen: boolean;
@@ -23,7 +23,7 @@ interface Props {
 
 export const SidebarDesktop = memo(
   ({
-    setPage,
+    onNavClick,
     chatNotificationsOpen,
     pages,
     nav,
@@ -43,7 +43,7 @@ export const SidebarDesktop = memo(
                 [s.active]:
                   pages[0].link === '/' + location.pathname.split('/')[1],
               })}
-              onClick={() => setPage('Профиль')}
+              onClick={() => onNavClick(pages[0])}
             >
               <div
                 className={s.img}
@@ -63,7 +63,7 @@ export const SidebarDesktop = memo(
               {nav.map((item: Nav) => (
                 <Link
                   key={item.page + item.link}
-                  onClick={() => setPage(item.page)}
+                  onClick={() => onNavClick(item)}
                   to={item.link}
                   className={classNames(
                     item.link === '/' + location.pathname.split('/')[1]

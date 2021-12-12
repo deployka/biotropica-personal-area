@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { SpecialistsList } from './../components/SpecialistsList/SpecialistsList';
 import { SearchForm } from '../components/SearchForm/SortForm';
 
@@ -29,11 +29,12 @@ import { useHistory, useLocation } from 'react-router';
 
 import s from './Consultations.module.scss';
 import { LoadingStatus, Response } from '../../../store/types';
-import { notification } from '../../../config/notification/notificationForm';
 
 import { eventBus, EventTypes } from '../../../services/EventBus';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
-
+import ConsultationService from '../../../services/ConsultationService';
+import { Button } from '../../../shared/Form/Button/Button';
+import { FREE_CONSULTATIONS_COUNT } from '../../../constants/consultations';
 
 const Consultations = () => {
   const dispatch = useDispatch();
@@ -42,14 +43,19 @@ const Consultations = () => {
   const location = useLocation();
   const sort = queryParam.get('sort');
 
+  const [consultationsCount, setConsultationsCount] = useState(0);
+  const [notificationId, setNotificationId] = useState('');
+
   useEffect(() => {
     dispatch(fetchSpecialistsData());
     dispatch(fetchClosestConsultationData());
   }, []);
 
   useEffect(() => {
-    dispatch(fetchClosestConsultationData());
-  }, []);
+    return () => {
+      eventBus.emit(EventTypes.removeNotification, notificationId);
+    };
+  }, [notificationId]);
 
   const loadingStatus = useSelector(selectConsultationLoadingStatus);
   const isLoading = loadingStatus === LoadingStatus.LOADING;
@@ -64,6 +70,15 @@ const Consultations = () => {
   const LastAddedConsultation: Consultation | undefined = useSelector(
     selectConsultationData
   );
+
+  useEffect(() => {
+    function getAllConsultations() {
+      ConsultationService.geAll().then(({ data }) => {
+        setConsultationsCount(data.length);
+      });
+    }
+    getAllConsultations();
+  }, [closestConsultation, LastAddedConsultation]);
 
   function onSuccessCreateNotification() {
     eventBus.emit(EventTypes.notification, {
@@ -127,15 +142,23 @@ const Consultations = () => {
     );
   }
 
+  const getFreeConsultationsCount = useCallback(() => {
+    if (FREE_CONSULTATIONS_COUNT - consultationsCount > 0) {
+      return FREE_CONSULTATIONS_COUNT - consultationsCount;
+    }
+    return 0;
+  }, [consultationsCount, FREE_CONSULTATIONS_COUNT]);
+
   const InfoBarClosestConsultationOptions = {
     title: 'Ближайшая запись',
     text: `Ваша ближайшая запись на персональную консультацию у ${
       specialists.find(s => s.id === closestConsultation?.specialistId)?.name
     } ${moment(closestConsultation?.createdAt).format('Do MMMM в h:mm')}`,
     textLink: 'перейти в диалог',
-    bottomLink: 'Осталось 3 из 3 бесплатные консультации ',
+    bottomLink: `Остаток бесплатных консультаций: ${getFreeConsultationsCount()}  из ${FREE_CONSULTATIONS_COUNT}`,
     href: '',
     onClick: () => {
+      //TODO:
       console.log('dialog');
     },
   };
@@ -146,9 +169,10 @@ const Consultations = () => {
       specialists.find(s => s.id === LastAddedConsultation?.specialistId)?.name
     }, пожалуйста, обсудите удобное время и дату консультацию в чате.`,
     textLink: 'перейти в диалог',
-    bottomLink: 'Осталось 3 из 3 бесплатные консультации ',
+    bottomLink: `Остаток бесплатных консультаций: ${getFreeConsultationsCount()} из ${FREE_CONSULTATIONS_COUNT}`,
     href: '',
     onClick: () => {
+      //TODO:
       console.log('dialog');
     },
   };
@@ -163,10 +187,74 @@ const Consultations = () => {
     setSearchQuery(query);
   }
 
-  function onSignUpClick(specialistId: number, userId: number) {
-    dispatch(createConsultationData({ specialistId }));
-    //TODO: dispatch(CreateDialog(userId));
-  }
+  const onSignUpClick = (
+    specialistId: number,
+    userId: number,
+    setClick: (click: boolean) => void
+  ) => {
+    eventBus.emit(EventTypes.notification, {
+      title: `Записаться к ${
+        specialists.find(s => s.id === specialistId)?.name
+      }?`,
+      message: (
+        <>
+          <Button
+            style={{
+              marginRight: '20px',
+              marginBottom: '5px',
+              marginTop: '5px',
+              background: '#fff',
+              color: '#000',
+            }}
+            onClick={() => {
+              ConsultationService.geAll().then(({ data }) => {
+                if (data.length < FREE_CONSULTATIONS_COUNT) {
+                  dispatch(createConsultationData({ specialistId }));
+                  //TODO: dispatch(CreateDialog(userId));
+                } else {
+                  console.log('pay');
+                  //TODO: перенаправление на оплату
+                }
+              });
+            }}
+            options={{
+              content: 'Записаться',
+              width: '100px',
+              height: '30px',
+            }}
+          />
+          <Button
+            style={{
+              color: '#fff',
+              marginBottom: '5px',
+              marginTop: '5px',
+              border: '1px solid #fff',
+            }}
+            name="discard"
+            onClick={() => {}}
+            options={{
+              content: 'Отмена',
+              width: '100px',
+              height: '30px',
+              classes: { discard: true },
+            }}
+          />
+        </>
+      ),
+      type: NotificationType.INFO,
+      dismiss: undefined,
+      id: specialistId.toString(),
+      onRemoval: () => {
+        setClick(false);
+      },
+    });
+    setNotificationId((prevId: string) => {
+      if (prevId !== specialistId.toString()) {
+        eventBus.emit(EventTypes.removeNotification, prevId);
+      }
+      return specialistId.toString();
+    });
+  };
 
   return (
     <div className={s.consultations}>
@@ -183,6 +271,7 @@ const Consultations = () => {
         searchValue={searchQuery}
       />
       <SpecialistsList
+        consultationsCount={consultationsCount}
         isLoadingSignUp={isLoading}
         onSignUpClick={onSignUpClick}
         searchQuery={searchQuery}

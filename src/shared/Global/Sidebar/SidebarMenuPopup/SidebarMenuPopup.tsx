@@ -13,7 +13,7 @@ import s from './SidebarMenuPopup.module.scss';
 
 interface Props {
   nav: Nav[];
-  setPage: Dispatch<SetStateAction<string>>;
+  onNavClick: (nav: Partial<Nav>) => void;
   openChat: () => void;
   logout: () => void;
   user: User | undefined;
@@ -23,7 +23,7 @@ interface Props {
 
 export const SidebarMenuPopup = ({
   nav,
-  setPage,
+  onNavClick,
   openChat,
   logout,
   user,
@@ -52,7 +52,7 @@ export const SidebarMenuPopup = ({
                 [s.active]:
                   pages[0].link === '/' + location.pathname.split('/')[1],
               })}
-              onClick={() => setPage('Профиль')}
+              onClick={() => onNavClick({ ...pages[0] })}
             >
               <div
                 className={s.img}
@@ -76,7 +76,7 @@ export const SidebarMenuPopup = ({
               <Link
                 key={item.page + item.link}
                 onClick={() => {
-                  setPage(item.page);
+                  onNavClick(item);
                   closeModal(ModalName.MODAL_SIDEBAR_MENU);
                 }}
                 to={item.link}
