@@ -1,5 +1,5 @@
-@import '../../../../styles/mixins.scss';
-@import '../../../../styles/variables.scss';
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
 .add__goals__form {
   box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
   background: $color-white;
@@ -11,6 +11,10 @@
   &__wrapper {
     @include flex(column, flex-start);
     max-width: 370px;
+
+    @include for-phone {
+      width: 100%;
+    }
   }
 
   textarea {
@@ -18,8 +22,23 @@
     min-height: 80px;
   }
 
+  @include for-tablet {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    box-shadow: none;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .form {
     width: 370px;
+
+    @include for-phone {
+      width: 100%;
+    }
   }
 }
 .form {
@@ -46,6 +65,10 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
+
+  @include for-phone {
+    width: 100%;
+  }
 }
 
 .small__input__wrapper {
