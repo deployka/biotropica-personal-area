@@ -124,4 +124,8 @@ button {
 
 .scrollbar-container {
   width: calc(100% + 10px);
+
+  @include for-tablet {
+    width: 100%;
+  }
 }
