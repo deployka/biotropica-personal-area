@@ -26,6 +26,7 @@ export enum UserActionsType {
   FETCH_UPDATE_USER = 'user/FETCH_UPDATE_USER',
   FETCH_CREATE_PASSWORD = 'user/FETCH_CREATE_PASSWORD',
   FETCH_UPDATE_USER_EMAIL = 'user/FETCH_UPDATE_USER_EMAIL',
+  FETCH_USER_DATA_BY_ID = 'user/FETCH_USER_DATA_BY_ID',
 }
 
 export interface FetchSigninActionInterface extends Action<UserActionsType> {
@@ -89,6 +90,11 @@ export interface SetUserResponseActionInterface
 export interface SetUserDataActionInterface extends Action<UserActionsType> {
   type: UserActionsType.SET_USER_DATA;
   payload: User | undefined;
+}
+export interface FetchUserDataByIdActionInterface
+  extends Action<UserActionsType> {
+  type: UserActionsType.FETCH_USER_DATA_BY_ID;
+  payload: number;
 }
 
 export interface SetUserLoadingStatusActionInterface

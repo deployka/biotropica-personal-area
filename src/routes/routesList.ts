@@ -8,6 +8,7 @@ import Policy from '../pages/Policy/containers/Policy';
 import Edit from '../pages/Profile/containers/Edit';
 import Profile from '../pages/Profile/containers/Profile';
 import Questionnaire from '../pages/Questionnaire/containers/Questionnaire';
+import User from '../pages/User/containers/User';
 import Tariffs from '../pages/Tariffs/containers/Tariffs';
 
 const routes = [
@@ -74,6 +75,11 @@ const routes = [
   {
     path: 'questionnaire',
     component: Questionnaire,
+    exact: true,
+  },
+  {
+    path: 'users/:id',
+    component: User,
     exact: true,
   },
   {

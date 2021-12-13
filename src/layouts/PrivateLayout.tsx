@@ -12,7 +12,7 @@ import { useLocation } from 'react-router';
 import { fetchSignout, setUserData } from '../store/ducks/user/actionCreators';
 import { SidebarDesktop } from '../shared/Global/Sidebar/SidebarDesktop';
 import { SidebarMobile } from '../shared/Global/Sidebar/SidebarMobile';
-import NotificationService from "../services/NotificationService";
+import NotificationService from '../services/NotificationService';
 
 interface Props {
   children: React.ReactNode;
@@ -59,6 +59,7 @@ export function PrivateLayout(props: Props) {
     { page: 'Блог', link: '/blog' },
     { page: 'Дополнительные услуги', link: '/services' },
     { page: 'Анкета', link: '/questionnaire' },
+    { page: 'Профиль специалиста', link: '/specialists' },
   ];
 
   const nav: Nav[] = [
@@ -147,23 +148,27 @@ export function PrivateLayout(props: Props) {
         />
       )}
 
-      {currentUser ? <Chat
-        isOpened={chatNotificationsOpen}
-        isAuth={isAuth}
-        token={localStorage.getItem('token') as string}
-        currentUser={currentUser}
-        isUnread={isUnread}
-        onChangeReading={setIsUnread}
-        onClose={() => setSidebarChatOpen(false)}
-      /> : <div/>}
+      {currentUser ? (
+        <Chat
+          isOpened={chatNotificationsOpen}
+          isAuth={isAuth}
+          token={localStorage.getItem('token') as string}
+          currentUser={currentUser}
+          isUnread={isUnread}
+          onChangeReading={setIsUnread}
+          onClose={() => setSidebarChatOpen(false)}
+        />
+      ) : (
+        <div />
+      )}
       <SidebarNotifications
         open={sidebarNotificationsOpen}
         setOpen={setSidebarNotificationsOpen}
       />
       <div className="container">
         <Header
-            isChatUnread={isUnread}
-            isNotificationsUnread={isNotificationsUnread}
+          isChatUnread={isUnread}
+          isNotificationsUnread={isNotificationsUnread}
           setSidebarChatOpen={setSidebarChatOpen}
           setSidebarNotificationsOpen={setSidebarNotificationsOpen}
           page={page}

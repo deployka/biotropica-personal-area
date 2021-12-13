@@ -25,7 +25,7 @@ export const Recommended = ({}) => {
   }, []);
 
   useEffect(() => {
-    if (document.documentElement.clientWidth <= 500) {
+    if (document.documentElement.clientWidth <= 800) {
       setMobile(true);
       setActiveType(null);
     }

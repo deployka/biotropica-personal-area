@@ -15,6 +15,7 @@ import {
   FetchSignupActionInterface,
   FetchUpdateUserActionInterface,
   FetchUserDataActionInterface,
+  FetchUserDataByIdActionInterface,
   FetchUpdateUserEmailActionInterface,
   UserActionsType,
 } from './contracts/actionTypes';
@@ -123,6 +124,20 @@ export function* fetchUserDataRequest({}: FetchUserDataActionInterface): any {
   }
 }
 
+export function* fetchUserDataByIdRequest({
+  payload,
+}: FetchUserDataByIdActionInterface): any {
+  try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
+    const { data } = yield call(UserService.getOne, payload);
+    yield put(setUserData(data));
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
+    yield put(setUserLoadingStatus(LoadingStatus.LOADED));
+  } catch (error) {
+    yield put(setUserLoadingStatus(LoadingStatus.ERROR));
+  }
+}
+
 export function* fetchUpdateUserEmailRequest({
   payload,
 }: FetchUpdateUserEmailActionInterface): any {
@@ -179,5 +194,9 @@ export function* userSaga(): any {
   yield takeLatest(
     UserActionsType.FETCH_CREATE_PASSWORD,
     fetchCreatePasswordRequest
+  );
+  yield takeLatest(
+    UserActionsType.FETCH_USER_DATA_BY_ID,
+    fetchUserDataByIdRequest
   );
 }
