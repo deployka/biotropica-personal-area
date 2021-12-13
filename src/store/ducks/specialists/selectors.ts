@@ -14,7 +14,9 @@ export const selectSpecialistsResponse = (
   state: RootState
 ): SpecialistsState['response'] => selectSpecialistsState(state).response;
 
-export const selectFilteredSpecialistsData = (state: RootState) => {
+export const selectFilteredSpecialistsData = (
+  state: RootState
+): Specialist[] => {
   const specialists = Array.from(selectSpecialistsData(state));
   return specialists.reduce((acc: Specialist[], spec: SpecialistUser) => {
     const { user, ...res } = spec;

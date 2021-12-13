@@ -1,16 +1,22 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 import { Specialist as ISpecialist } from '../../../../store/ducks/specialist/contracts/state';
 import { getMediaLink } from '../../../../utils/mediaHelper';
 import defaultAvatar from '../../../../assets/images/profile/default_avatar.png';
 import s from './Specialist.module.scss';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
+import { FREE_CONSULTATIONS_COUNT } from '../../../../constants/consultations';
 
 interface Props {
   specialist: ISpecialist;
   searchQuery: string;
   isLoadingSignUp: boolean;
-  onSignUpClick: (specialistId: number, userId: number) => void;
+  onSignUpClick: (
+    specialistId: number,
+    userId: number,
+    setClick: (click: boolean) => void
+  ) => void;
+  consultationsCount: number;
 }
 
 export const Specialist = ({
@@ -18,6 +24,7 @@ export const Specialist = ({
   searchQuery,
   onSignUpClick,
   isLoadingSignUp,
+  consultationsCount,
 }: Props) => {
   const {
     experience,
@@ -31,13 +38,13 @@ export const Specialist = ({
 
   const [click, setClick] = useState(false);
 
-  function getMarkStringByValue(value: string | number) {
+  function getMarkStringByValue(value: string | number): ReactElement {
     value = String(value);
     const query: string = searchQuery.toLowerCase();
     const pos: number = value.toLowerCase().search(query);
     const length: number = query.length;
 
-    if (pos === -1) return value;
+    if (pos === -1) return <>{value}</>;
     return (
       <>
         {value.slice(0, pos)}
@@ -47,7 +54,9 @@ export const Specialist = ({
     );
   }
   const signUpClick = useCallback(() => {
-    onSignUpClick(id, userId);
+    onSignUpClick(id, userId, (click: boolean) => {
+      setClick(click);
+    });
     setClick(true);
   }, [id, userId, click]);
 
@@ -56,6 +65,13 @@ export const Specialist = ({
       setClick(false);
     }
   }, [isLoadingSignUp]);
+
+  const Price = useCallback(() => {
+    if (consultationsCount >= FREE_CONSULTATIONS_COUNT) {
+      return <>{getMarkStringByValue(price)} ₽</>;
+    }
+    return <>Бесплатно</>;
+  }, [price, consultationsCount, FREE_CONSULTATIONS_COUNT]);
 
   return (
     <div className={s.specialist}>
@@ -68,7 +84,6 @@ export const Specialist = ({
             })`,
           }}
         ></div>
-
 
         <div className={s.info}>
           <div className={s.name}>
@@ -85,20 +100,19 @@ export const Specialist = ({
       </div>
 
       <div className={s.price}>
-        <p>{getMarkStringByValue(price)} ₽</p>
+        <p>{<Price />}</p>
       </div>
 
       <div className={s.appointment}>
         <Button
-          disabled={isLoadingSignUp}
+          disabled={isLoadingSignUp || click}
           type="submit"
           onClick={signUpClick}
           options={{
             content: isLoadingSignUp && click ? <Loader /> : 'Записаться',
-            setDisabledStyle: isLoadingSignUp,
+            setDisabledStyle: isLoadingSignUp || click,
           }}
         />
-
       </div>
     </div>
   );

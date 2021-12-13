@@ -1,5 +1,5 @@
-@import '../../../../../styles/mixins.scss';
-@import '../../../../../styles/variables.scss';
+@import "../../../../../styles/mixins.scss";
+@import "../../../../../styles/variables.scss";
 
 .recommendation {
   width: 100%;
@@ -37,8 +37,8 @@
     align-items: center;
     column-gap: 25px;
 
-    @include for-phone {
-      column-gap: 15px;
+    @include for-tablet {
+      column-gap: 10px;
     }
   }
 
@@ -207,7 +207,7 @@
 
   border-bottom: 1px solid #e6e2f9;
 
-  @include for-phone {
+  @include for-tablet {
     flex-direction: column;
     align-items: flex-start;
     justify-content: unset;
@@ -222,7 +222,7 @@
   }
 
   .hideButton {
-    @include for-phone {
+    @include for-tablet {
       margin: 10px 0 0 0;
     }
 
@@ -236,7 +236,7 @@
     }
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       bottom: -3px;
 

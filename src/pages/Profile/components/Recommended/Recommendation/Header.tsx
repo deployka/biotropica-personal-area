@@ -15,7 +15,7 @@ export const Header = ({ profile }: Props) => {
   const [mobile, setMobile] = useState(false);
 
   useEffect(() => {
-    if (document.documentElement.clientWidth <= 500) {
+    if (document.documentElement.clientWidth <= 800) {
       setMobile(true);
     }
   }, []);

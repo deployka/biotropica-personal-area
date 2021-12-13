@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import s from "./TariffMobile.module.scss";
-import checkbox from "./../../../../assets/icons/tariffs/checkbox.svg";
-import arrow from "./../../../../assets/icons/tariffs/arrow.svg";
+import React, { useState } from 'react';
+import s from './TariffMobile.module.scss';
+import checkbox from './../../../../assets/icons/tariffs/checkbox.svg';
+import arrow from './../../../../assets/icons/tariffs/arrow.svg';
 
-import { Tariff as ITariff } from "../../containers/Tariffs";
+import { Tariff as ITariff } from '../../containers/Tariffs';
 
 interface Props {
   tariff: any;
@@ -50,9 +50,9 @@ export const TariffMobile = ({ tariff }: Props) => {
             setHidden(!hidden);
           }}
         >
-          {hidden ? "подробнее" : "скрыть"}
+          {hidden ? 'подробнее' : 'скрыть'}
           <img
-            style={hidden ? { transform: "rotate(180deg)", top: "3px" } : {}}
+            style={hidden ? { transform: 'rotate(0)', top: 0 } : {}}
             src={arrow}
             alt=""
           />

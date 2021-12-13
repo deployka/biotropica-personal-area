@@ -1,8 +1,8 @@
-import React from "react";
-import s from "./Tariff.module.scss";
-import checkbox from "./../../../../assets/icons/tariffs/checkbox.svg";
+import React from 'react';
+import s from './Tariff.module.scss';
+import checkbox from './../../../../assets/icons/tariffs/checkbox.svg';
 
-import { Tariff as ITariff } from "../../containers/Tariffs";
+import { Tariff as ITariff } from '../../containers/Tariffs';
 
 interface Props {
   tariff: any;

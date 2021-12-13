@@ -1,8 +1,8 @@
-@import '../../../../styles/mixins.scss';
-@import '../../../../styles/variables.scss';
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
 .profile {
   &__card {
-    padding: 30px 50px;
+    padding: 30px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,21 +37,14 @@
 
       &.paid {
         &:after {
-          content: '';
+          content: "";
           width: 111px;
           height: 111px;
           border-radius: 50%;
           position: absolute;
           z-index: -1;
           transition: 0.5s;
-          background-image: linear-gradient(
-            to right top,
-            #ff642e,
-            #ff4163,
-            #eb3994,
-            #bb4dbb,
-            #6f61d0
-          );
+          background-image: linear-gradient(to right top, #ff642e, #ff4163, #eb3994, #bb4dbb, #6f61d0);
           animation: rotate 2s infinite;
           border: 2px;
         }
@@ -125,7 +118,7 @@
       color: #6f61d0;
 
       &::after {
-        content: '';
+        content: "";
 
         display: block;
         width: 100%;

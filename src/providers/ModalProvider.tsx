@@ -37,7 +37,7 @@ export type Modals = {
   }>;
   [ModalName.MODAL_SIDEBAR_MENU]: Modal<{
     nav: Nav[];
-    setPage: Dispatch<SetStateAction<string>>;
+    onNavClick: (nav: Partial<Nav>) => void;
     openChat: () => void;
     logout: () => void;
     user: User | undefined;
@@ -47,7 +47,7 @@ export type Modals = {
   [ModalName.MODAL_NOTIFICATIONS_MENU]: Modal<{
     setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
     setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
-    setPage: Dispatch<SetStateAction<string>>;
+    onNavClick: (nav: Partial<Nav>) => void;
     user: User | undefined;
     pages: Pages[];
     location: any;

@@ -7,8 +7,13 @@ import { Specialist } from './Specialist';
 interface Props {
   specialists: ISpecialist[];
   searchQuery: string;
-  onSignUpClick: (specialistId: number, userId: number) => void;
+  onSignUpClick: (
+    specialistId: number,
+    userId: number,
+    setClick: (click: boolean) => void
+  ) => void;
   isLoadingSignUp: boolean;
+  consultationsCount: number;
 }
 
 export const SpecialistsList = ({
@@ -16,6 +21,7 @@ export const SpecialistsList = ({
   searchQuery,
   onSignUpClick,
   isLoadingSignUp,
+  consultationsCount,
 }: Props) => {
   return (
     <div className={s.specialistList}>
@@ -34,11 +40,12 @@ export const SpecialistsList = ({
         </div>
       </div>
 
-      <div className={s.list}>
-        <PerfectScrollbar>
+      <PerfectScrollbar>
+        <div className={s.list}>
           {!!specialists.length &&
             specialists.map(specialist => (
               <Specialist
+                consultationsCount={consultationsCount}
                 isLoadingSignUp={isLoadingSignUp}
                 onSignUpClick={onSignUpClick}
                 key={specialist.id}
@@ -47,8 +54,8 @@ export const SpecialistsList = ({
               />
             ))}
           {!specialists.length && <p>Специалисты не найдены</p>}
-        </PerfectScrollbar>
-      </div>
+        </div>
+      </PerfectScrollbar>
     </div>
   );
 };

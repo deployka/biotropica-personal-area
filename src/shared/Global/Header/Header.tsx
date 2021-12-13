@@ -12,13 +12,12 @@ interface Props {
 
 export const Header = memo(
   ({
-       page,
-       setSidebarNotificationsOpen,
-       setSidebarChatOpen,
-       isChatUnread,
-       isNotificationsUnread
+    page,
+    setSidebarNotificationsOpen,
+    setSidebarChatOpen,
+    isChatUnread,
+    isNotificationsUnread,
   }: Props) => {
-
     return (
       <header className={s.header}>
         <div className={s.header__wrapper}>
@@ -40,8 +39,11 @@ export const Header = memo(
               onClick={() => setSidebarChatOpen(true)}
               className={s.header__link}
             >
-                {isChatUnread ? <HeaderSvgSelector id="chat-active" /> :
-              <HeaderSvgSelector id="chat" /> }
+              {isChatUnread ? (
+                <HeaderSvgSelector id="chat-active" />
+              ) : (
+                <HeaderSvgSelector id="chat" />
+              )}
             </div>
           </div>
         </div>

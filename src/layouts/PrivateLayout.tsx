@@ -21,6 +21,7 @@ interface Props {
 export interface Pages {
   page: string;
   link: string;
+  redirect?: string;
 }
 export interface Nav extends Pages {
   svg: ReactElement;
@@ -56,8 +57,12 @@ export function PrivateLayout(props: Props) {
     { page: 'Цели', link: '/goals' },
     { page: 'Тарифы', link: '/tariffs' },
     { page: 'Видео', link: '/video' },
-    { page: 'Блог', link: '/blog' },
-    { page: 'Дополнительные услуги', link: '/services' },
+    { page: 'Блог', link: '', redirect: 'https://biotropika.ru/blog/' },
+    {
+      page: 'Дополнительные услуги',
+      link: '',
+      redirect: 'https://biotropika.ru/shop/',
+    },
     { page: 'Анкета', link: '/questionnaire' },
     { page: 'Профиль пользователя', link: '/users' },
   ];
@@ -116,13 +121,25 @@ export function PrivateLayout(props: Props) {
     dispatch(setUserData(undefined));
   }, []);
 
+  const onNavClick = useCallback(
+    (nav: Partial<Nav>) => {
+      if (nav.link) {
+        setPage(nav?.page || '');
+      }
+      if (nav.redirect) {
+        return window.open(nav.redirect);
+      }
+    },
+    [window]
+  );
+
   return (
     <div className="global__container">
       <Modals />
 
       {!isMobile ? (
         <SidebarDesktop
-          setPage={setPage}
+          onNavClick={onNavClick}
           setSidebarChatOpen={setSidebarChatOpen}
           setSidebarNotificationsOpen={setSidebarNotificationsOpen}
           chatNotificationsOpen={chatNotificationsOpen}
@@ -135,7 +152,7 @@ export function PrivateLayout(props: Props) {
         />
       ) : (
         <SidebarMobile
-          setPage={setPage}
+          onNavClick={onNavClick}
           setSidebarChatOpen={setSidebarChatOpen}
           setSidebarNotificationsOpen={setSidebarNotificationsOpen}
           chatNotificationsOpen={chatNotificationsOpen}
