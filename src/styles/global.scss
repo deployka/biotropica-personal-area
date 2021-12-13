@@ -39,6 +39,10 @@ button {
   position: relative;
   overflow: hidden;
   min-height: 100vh;
+
+  @include for-tablet {
+    min-height: unset;
+  }
 }
 
 .container {
@@ -124,4 +128,8 @@ button {
 
 .scrollbar-container {
   width: calc(100% + 10px);
+
+  @include for-tablet {
+    width: 100%;
+  }
 }
