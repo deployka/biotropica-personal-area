@@ -53,8 +53,8 @@
   }
 
   .info {
+    padding: 0 0 30px 0;
     width: 280px;
-    height: 100px;
 
     @include for-tablet {
       width: 244px;

@@ -72,13 +72,10 @@ export const Header = ({ active, goals }: Props) => {
           <div className={classNames(s.left, 'leftArrow')}>
             <GlobalSvgSelector id="slider-left" />
           </div>
-          <div
-            className={classNames(
-              s.pagination,
-              'swiper-pagination-goals-header'
-            )}
-          ></div>
         </div>
+        <div
+          className={classNames(s.pagination, 'swiper-pagination-goals-header')}
+        ></div>
       </div>
       <ButtonAddGoal />
     </div>

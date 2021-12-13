@@ -37,8 +37,8 @@
     align-items: center;
     column-gap: 25px;
 
-    @include for-phone {
-      column-gap: 15px;
+    @include for-tablet {
+      column-gap: 10px;
     }
   }
 
