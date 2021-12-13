@@ -22,6 +22,7 @@ import ForgotPassword from './pages/Auth/containers/ForgotPassword';
 import GlobalNotifications from './components/GlobalNotifications/GlobalNotifications';
 import { selectGlobalLoadingStatus } from './store/selectors';
 import Policy from './pages/Policy/containers/Policy';
+import { ProfileLayout } from './layouts/ProfileLayout';
 
 function App() {
   const dispatch = useDispatch();
@@ -58,6 +59,12 @@ function App() {
         </PublicRoute>
         <PublicRoute path="/policy" isAuth={isAuth}>
           <Policy />
+        </PublicRoute>
+        <PublicRoute path="/users/:id" isAuth={isAuth}>
+          <ProfileLayout isAuth={isAuth} />
+        </PublicRoute>
+        <PublicRoute path="/users/:id/tabs/:active" isAuth={isAuth}>
+          <ProfileLayout isAuth={isAuth} />
         </PublicRoute>
 
         <PrivateRoute path="/" isAuth={isAuth}>

@@ -12,9 +12,10 @@ import { getMediaLink } from '../../../../utils/mediaHelper';
 moment.locale('ru');
 interface Props {
   user: User;
+  isPublic?: boolean;
 }
 
-export const Card = ({ user }: Props) => {
+export const Card = ({ user, isPublic }: Props) => {
   return (
     <div className={s.profile__card}>
       <div
@@ -48,12 +49,14 @@ export const Card = ({ user }: Props) => {
       <div className={s.profile__birth}>
         <p>{user?.dob && moment(new Date(user?.dob || '')).format('LL')}</p>
       </div>
-      <Link to="/profile/edit" className={s.profile__edit}>
-        <div className={s.profile__editIcon}>
-          <img src={edit} alt="редактировать" />
-        </div>
-        <span>редактировать</span>
-      </Link>
+      {isPublic && (
+        <Link to="/profile/edit" className={s.profile__edit}>
+          <div className={s.profile__editIcon}>
+            <img src={edit} alt="редактировать" />
+          </div>
+          <span>редактировать</span>
+        </Link>
+      )}
     </div>
   );
 };

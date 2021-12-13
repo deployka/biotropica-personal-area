@@ -6,9 +6,8 @@ import Goals from '../pages/Goals/containers/Goals';
 import Home from '../pages/Home/containers/Home';
 import Policy from '../pages/Policy/containers/Policy';
 import Edit from '../pages/Profile/containers/Edit';
-import Profile from '../pages/Profile/containers/Profile';
+import { ProfileLayout } from '../layouts/ProfileLayout';
 import Questionnaire from '../pages/Questionnaire/containers/Questionnaire';
-import User from '../pages/User/containers/User';
 import Tariffs from '../pages/Tariffs/containers/Tariffs';
 
 const routes = [
@@ -24,7 +23,7 @@ const routes = [
   },
   {
     path: 'profile',
-    component: Profile,
+    component: ProfileLayout,
     exact: true,
   },
   {
@@ -39,7 +38,7 @@ const routes = [
   },
   {
     path: 'profile/tabs/:active',
-    component: Profile,
+    component: ProfileLayout,
     exact: true,
   },
   {
@@ -77,11 +76,7 @@ const routes = [
     component: Questionnaire,
     exact: true,
   },
-  {
-    path: 'users/:id',
-    component: User,
-    exact: true,
-  },
+
   {
     path: '*',
     component: ErrorPage,

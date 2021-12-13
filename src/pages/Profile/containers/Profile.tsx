@@ -24,7 +24,12 @@ import { eventBus, EventTypes } from '../../../services/EventBus';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { setUserResponse } from '../../../store/ducks/user/actionCreators';
 
-const Profile = () => {
+interface Props {
+  isPublic?: boolean;
+  user: User | undefined;
+}
+
+const Profile = ({ isPublic, user }: Props) => {
   const { openModal } = useModal();
 
   const tabs: Tab[] = [
@@ -44,7 +49,7 @@ const Profile = () => {
   ];
 
   const dispatch = useDispatch();
-  const user = useSelector(selectUserData);
+
   const response = useSelector(selectUserResponse);
   const loadingStatus = useSelector(selectUserLoadingStatus);
 
@@ -93,10 +98,12 @@ const Profile = () => {
       <div className={s.profile}>
         <div className={s.info}>
           {user && <Card user={user} />}
-          <div className={s.userInfo}>
-            <Goals />
-            <Tariff Tariff={TariffData} />
-          </div>
+          {isPublic && (
+            <div className={s.userInfo}>
+              <Goals />
+              <Tariff Tariff={TariffData} />
+            </div>
+          )}
         </div>
         <div className={s.content}>
           <div className={s.tabs__container}>

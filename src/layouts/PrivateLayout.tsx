@@ -59,7 +59,7 @@ export function PrivateLayout(props: Props) {
     { page: 'Блог', link: '/blog' },
     { page: 'Дополнительные услуги', link: '/services' },
     { page: 'Анкета', link: '/questionnaire' },
-    { page: 'Профиль специалиста', link: '/specialists' },
+    { page: 'Профиль пользователя', link: '/users' },
   ];
 
   const nav: Nav[] = [

@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 
 interface Props {
   answers: Answer[];
+  isPublic?: boolean;
 }
 
-export const Questionnaire = ({ answers }: Props) => {
+export const Questionnaire = ({ answers, isPublic }: Props) => {
   function getCurrentAnswer(answer: Answer) {
     try {
       return JSON.parse(answer.text)?.join(', ');
@@ -22,12 +23,14 @@ export const Questionnaire = ({ answers }: Props) => {
           <p>Тестирование</p>
         </div>
         <div className={s.updateBtn}>
-          <Link to={'/questionnaire'}>
-            <div className={s.icon}>
-              <img src={editSvg} alt="" />
-            </div>
-            <p className={s.text}>редактировать</p>
-          </Link>
+          {isPublic && (
+            <Link to={'/questionnaire'}>
+              <div className={s.icon}>
+                <img src={editSvg} alt="" />
+              </div>
+              <p className={s.text}>редактировать</p>
+            </Link>
+          )}
         </div>
       </div>
       <div className={s.list}>
