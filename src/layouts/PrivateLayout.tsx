@@ -59,9 +59,9 @@ export function PrivateLayout(props: Props) {
   //       })
   // }, [])
 
+  //TODO: реакторинг (очень неочевидно, что данный массив способен поблиять на ссылки в меню сайдбара)
   const pages = [
     { page: 'Профиль', link: '/profile' },
-    { page: 'Специалист', link: '/specialists' },
     { page: 'Главная', link: '/' },
     { page: 'Цели', link: '/goals' },
     { page: 'Тарифы', link: '/tariffs' },
@@ -73,6 +73,7 @@ export function PrivateLayout(props: Props) {
       redirect: 'https://biotropika.ru/shop/',
     },
     { page: 'Анкета', link: '/questionnaire' },
+    { page: 'Специалист', link: '/specialists' },
   ];
 
   const nav: Nav[] = [
