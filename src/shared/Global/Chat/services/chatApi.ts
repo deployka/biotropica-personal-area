@@ -1,4 +1,5 @@
 import $api from "../../../../http";
+import axios from "axios";
 
 const chatUrl = process.env.REACT_APP_CHAT_URL;
 
@@ -16,8 +17,12 @@ export const chatApi = {
         return data;
     },
     async create(userId: number): Promise<Dialog> {
-        const result = await $api.post('/dialogs', {
+        const result = await axios.post(chatUrl + '/dialogs', {
             userId
+        }, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
         })
 
         return result.data

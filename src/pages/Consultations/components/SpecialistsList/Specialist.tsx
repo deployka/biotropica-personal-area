@@ -6,6 +6,7 @@ import s from './Specialist.module.scss';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
 import { FREE_CONSULTATIONS_COUNT } from '../../../../constants/consultations';
+import {useHistory, useLocation} from "react-router";
 
 interface Props {
   specialist: ISpecialist;
@@ -37,6 +38,11 @@ export const Specialist = ({
   } = specialist;
 
   const [click, setClick] = useState(false);
+  const history = useHistory();
+
+  function moveToSpecialist() {
+    history.push('/specialists/' + userId);
+  }
 
   function getMarkStringByValue(value: string | number): ReactElement {
     value = String(value);
@@ -86,7 +92,7 @@ export const Specialist = ({
         ></div>
 
         <div className={s.info}>
-          <div className={s.name}>
+          <div className={s.name} onClick={moveToSpecialist}>
             <p> {getMarkStringByValue(name)}</p>
           </div>
           <div className={s.experience}>
