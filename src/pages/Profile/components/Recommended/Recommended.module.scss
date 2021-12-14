@@ -19,7 +19,8 @@
     align-items: center;
     row-gap: 60px;
 
-    @include for-phone {
+    @include for-tablet {
+      width: 100%;
       max-height: unset;
     }
   }
