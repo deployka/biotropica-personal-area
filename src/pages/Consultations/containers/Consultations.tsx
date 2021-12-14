@@ -153,7 +153,7 @@ const Consultations = () => {
     title: 'Ближайшая запись',
     text: `Ваша ближайшая запись на персональную консультацию у ${
       specialists.find(s => s.id === closestConsultation?.specialistId)?.name
-    } ${moment(closestConsultation?.createdAt).format('Do MMMM в h:mm')}`,
+    } ${moment(closestConsultation?.date).format('Do MMMM в h:mm')}`,
     textLink: 'перейти в диалог',
     bottomLink: `Остаток бесплатных консультаций: ${getFreeConsultationsCount()}  из ${FREE_CONSULTATIONS_COUNT}`,
     href: '',
