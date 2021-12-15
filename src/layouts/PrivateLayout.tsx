@@ -73,7 +73,9 @@ export function PrivateLayout(props: Props) {
       redirect: 'https://biotropika.ru/shop/',
     },
     { page: 'Анкета', link: '/questionnaire' },
+    { page: 'Профиль пользователя', link: '/users' },
     { page: 'Специалист', link: '/specialists' },
+
   ];
 
   const nav: Nav[] = [

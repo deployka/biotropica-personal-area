@@ -36,7 +36,7 @@ export const Header = ({ profile }: Props) => {
           </div>
         </div>
       </div>
-      <Link to={'/profiles/' + profile.id} className={s.button}>
+      <Link to={'/specialists/' + profile.id} className={s.button}>
         <p>{mobile ? 'профиль' : 'перейти в профиль'}</p>
       </Link>
     </div>

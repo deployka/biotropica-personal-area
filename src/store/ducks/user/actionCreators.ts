@@ -13,6 +13,7 @@ import {
   SetUserLoadingStatusActionInterface,
   SetUserResponseActionInterface,
   UserActionsType,
+  FetchUserDataByIdActionInterface,
 } from './contracts/actionTypes';
 import {
   ChangePasswordData,
@@ -27,6 +28,13 @@ import {
 
 export const fetchUserData = (): FetchUserDataActionInterface => ({
   type: UserActionsType.FETCH_USER_DATA,
+});
+
+export const fetchUserDataById = (
+  payload: number
+): FetchUserDataByIdActionInterface => ({
+  type: UserActionsType.FETCH_USER_DATA_BY_ID,
+  payload,
 });
 
 export const fetchSignin = (

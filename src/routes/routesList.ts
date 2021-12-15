@@ -6,7 +6,7 @@ import Goals from '../pages/Goals/containers/Goals';
 import Home from '../pages/Home/containers/Home';
 import Policy from '../pages/Policy/containers/Policy';
 import Edit from '../pages/Profile/containers/Edit';
-import Profile from '../pages/Profile/containers/Profile';
+import { ProfileLayout } from '../layouts/ProfileLayout';
 import Questionnaire from '../pages/Questionnaire/containers/Questionnaire';
 import Tariffs from '../pages/Tariffs/containers/Tariffs';
 import {Specialist} from "../pages/Specialist/Specialist";
@@ -24,7 +24,7 @@ const routes = [
   },
   {
     path: 'profile',
-    component: Profile,
+    component: ProfileLayout,
     exact: true,
   },
   {
@@ -43,7 +43,7 @@ const routes = [
   },
   {
     path: 'profile/tabs/:active',
-    component: Profile,
+    component: ProfileLayout,
     exact: true,
   },
   {
@@ -81,6 +81,7 @@ const routes = [
     component: Questionnaire,
     exact: true,
   },
+
   {
     path: '*',
     component: ErrorPage,

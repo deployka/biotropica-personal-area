@@ -41,6 +41,7 @@ import UserService from '../../../../services/UserService';
 
 interface Props {
   userId: number;
+  isPublic?: boolean;
 }
 
 export const TestsAndAnalyze = ({ userId }: Props) => {
