@@ -21,12 +21,12 @@ export function AppModule(props: AppModuleProps) {
 
     function handleEvent(event: {
         data: {
-            message: string;
+            event: string;
             value: any;
         }
     }) {
         for(const key in props.events) {
-            if(key === event.data.message) {
+            if(key === event.data.event) {
                 props.events[key](event.data.value);
             }
         }
