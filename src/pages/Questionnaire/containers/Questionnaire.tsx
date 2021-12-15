@@ -30,6 +30,9 @@ const Questionnaire = () => {
     const {
       data: { question, index, total },
     } = await QuestionService.getCurrentQuestion();
+    if(!question) {
+      return history.push('/');
+    }
     setQuestion(question);
     setIndex(index);
     setTotal(total);

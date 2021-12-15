@@ -81,7 +81,7 @@ export const SidebarNotificationsPopup = ({
                 <div className={s.icon}>
                   <HeaderSvgSelector id="notification" />
                 </div>
-                <p>Сообщения</p>
+                <p>Уведомления</p>
               </div>
               <div className={s.counter}>
                 <p>{messages.length}</p>
@@ -92,7 +92,7 @@ export const SidebarNotificationsPopup = ({
                 <div className={s.icon}>
                   <HeaderSvgSelector id="chat" />
                 </div>
-                <p>Уведомления</p>
+                <p>Сообщения</p>
               </div>
               <div className={s.counter}>
                 <p>{notifications.length}</p>

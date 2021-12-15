@@ -2,16 +2,19 @@ import { Notification } from '../components/GlobalNotifications/GlobalNotificati
 
 export enum EventTypes {
   routerPush = 'router.push',
+  chatOpen = 'chatOpen',
   notification = 'notification',
   removeNotification = 'removeNotification',
 }
 type EventArguments = {
   [EventTypes.routerPush]: string;
+  [EventTypes.chatOpen]: number;
   [EventTypes.notification]: Notification;
   [EventTypes.removeNotification]: string;
 };
 const listeners: Record<EventTypes, EventListenerCallback<EventTypes>[]> = {
   [EventTypes.routerPush]: [],
+  [EventTypes.chatOpen]: [],
   [EventTypes.notification]: [],
   [EventTypes.removeNotification]: [],
 };

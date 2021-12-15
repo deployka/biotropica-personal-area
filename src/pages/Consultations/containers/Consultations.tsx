@@ -35,6 +35,12 @@ import { NotificationType } from '../../../components/GlobalNotifications/Global
 import ConsultationService from '../../../services/ConsultationService';
 import { Button } from '../../../shared/Form/Button/Button';
 import { FREE_CONSULTATIONS_COUNT } from '../../../constants/consultations';
+import {chatApi} from "../../../shared/Global/Chat/services/chatApi";
+
+async function sendMessage(userId: number) {
+  const dialog = await chatApi.create(userId);
+  eventBus.emit(EventTypes.chatOpen, dialog.id);
+}
 
 const Consultations = () => {
   const dispatch = useDispatch();
@@ -153,13 +159,16 @@ const Consultations = () => {
     title: 'Ближайшая запись',
     text: `Ваша ближайшая запись на персональную консультацию у ${
       specialists.find(s => s.id === closestConsultation?.specialistId)?.name
-    } ${moment(closestConsultation?.createdAt).format('Do MMMM в h:mm')}`,
+    } ${moment(closestConsultation?.date).format('Do MMMM в h:mm')}`,
     textLink: 'перейти в диалог',
     bottomLink: `Остаток бесплатных консультаций: ${getFreeConsultationsCount()}  из ${FREE_CONSULTATIONS_COUNT}`,
     href: '',
     onClick: () => {
-      //TODO:
-      console.log('dialog');
+      const specialist = specialists.find(s => s.id === closestConsultation?.specialistId);
+      if(!specialist) {
+        return;
+      }
+      return sendMessage(specialist.userId)
     },
   };
 
@@ -172,8 +181,11 @@ const Consultations = () => {
     bottomLink: `Остаток бесплатных консультаций: ${getFreeConsultationsCount()} из ${FREE_CONSULTATIONS_COUNT}`,
     href: '',
     onClick: () => {
-      //TODO:
-      console.log('dialog');
+      const specialist = specialists.find(s => s.id === LastAddedConsultation?.specialistId);
+      if(!specialist) {
+        return;
+      }
+      return sendMessage(specialist.userId)
     },
   };
 

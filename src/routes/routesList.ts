@@ -9,6 +9,7 @@ import Edit from '../pages/Profile/containers/Edit';
 import { ProfileLayout } from '../layouts/ProfileLayout';
 import Questionnaire from '../pages/Questionnaire/containers/Questionnaire';
 import Tariffs from '../pages/Tariffs/containers/Tariffs';
+import {Specialist} from "../pages/Specialist/Specialist";
 
 const routes = [
   {
@@ -25,6 +26,10 @@ const routes = [
     path: 'profile',
     component: ProfileLayout,
     exact: true,
+  },
+  {
+    path: 'specialists/:id',
+    component: Specialist,
   },
   {
     path: 'profile/edit',

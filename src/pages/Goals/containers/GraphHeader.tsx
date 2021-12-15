@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Calendar } from '../../../shared/Global/Calendar/Calendar';
@@ -38,10 +39,14 @@ export const GraphHeader = ({ setDates, dates, setGraphDates }: Props) => {
         currentDate.setDate(new Date().getDate() - 7);
         break;
       case 'month':
-        currentDate.setDate(new Date().getDate() - 30);
+        currentDate.setDate(
+          new Date().getDate() - moment(currentDate).daysInMonth() + 1
+        );
         break;
       case 'year':
-        currentDate.setDate(new Date().getDate() - 360);
+        currentDate.setDate(
+          new Date().getDate() - moment(currentDate).daysInMonth() * 12
+        );
         break;
       default:
         currentDate.setDate(new Date().getDate() - 7);
