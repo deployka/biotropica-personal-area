@@ -37,13 +37,13 @@ export const Header = ({ profile }: Props) => {
           </div>
         </div>
       </div>
-      <Link
-          to={'/specialists/' + profile.id}
-          className={s.button}
-          onKeyDown={() => emitAppModuleEvent('onClickSpecialist', profile.id)}
-      >
-        <p>{mobile ? 'профиль' : 'перейти в профиль'}</p>
-      </Link>
+        {/*TODO: вернуть ссылку*/}
+        {/*<Link*/}
+        {/*    to={'/specialists/' + profile.id}*/}
+        {/*    className={s.button}*/}
+        {/*>*/}
+        {/*  <p>{mobile ? 'профиль' : 'перейти в профиль'}</p>*/}
+        {/*</Link>*/}
     </div>
   );
 };
