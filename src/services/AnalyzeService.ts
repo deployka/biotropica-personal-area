@@ -20,11 +20,12 @@ export default class AnalyzeService {
   }
 
   static async geAll(
+    id: number,
     offset: number = 0,
     limit: number = 2
   ): Promise<AxiosResponse<Response>> {
     return await $api.get<Response>(
-      `/${AnalyzeService.route}/answers?offset=${offset}&limit=${limit}`
+      `/${AnalyzeService.route}/answers/${id}/?offset=${offset}&limit=${limit}`
     );
   }
 

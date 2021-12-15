@@ -14,6 +14,7 @@ export enum ProgressActionsType {
 export interface FetchProgressDataActionInterface
   extends Action<ProgressActionsType> {
   type: ProgressActionsType.FETCH_PROGRESS_DATA;
+  payload: number;
 }
 
 export interface CreateProgressDataActionInterface

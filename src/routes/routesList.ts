@@ -9,7 +9,7 @@ import Edit from '../pages/Profile/containers/Edit';
 import { ProfileLayout } from '../layouts/ProfileLayout';
 import Questionnaire from '../pages/Questionnaire/containers/Questionnaire';
 import Tariffs from '../pages/Tariffs/containers/Tariffs';
-import {Specialist} from "../pages/Specialist/Specialist";
+import { Specialist } from '../pages/Specialist/Specialist';
 
 const routes = [
   {
@@ -28,16 +28,12 @@ const routes = [
     exact: true,
   },
   {
-    path: 'specialists/:id',
-    component: Specialist,
-  },
-  {
-    path: 'profile/edit',
+    path: 'profile/edit/:active',
     component: Edit,
     exact: true,
   },
   {
-    path: 'profile/edit/:active',
+    path: 'profile/edit',
     component: Edit,
     exact: true,
   },
@@ -46,6 +42,11 @@ const routes = [
     component: ProfileLayout,
     exact: true,
   },
+  {
+    path: 'specialists/:id',
+    component: Specialist,
+  },
+
   {
     path: 'tariffs',
     component: Tariffs,

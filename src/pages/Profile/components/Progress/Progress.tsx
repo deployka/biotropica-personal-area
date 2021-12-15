@@ -17,19 +17,26 @@ import { ModalName } from '../../../../providers/ModalProvider';
 import { useModal } from '../../../../hooks/useModal';
 import { LoadingStatus } from '../../../../store/types';
 
-interface Props {}
+interface Props {
+  isPublic?: boolean;
+  user: User;
+}
 
-export const Progress = ({}: Props) => {
+export const Progress = ({ isPublic, user }: Props) => {
   const dispatch = useDispatch();
 
   const { openModal } = useModal();
 
   const infoBar: IInfoBar = {
-    title: 'У вас нет загруженного прогресса',
-    text: 'Вы еще не загрузили фото прогресса. Сделайте это нажав на ссылку ниже',
-    bottomLink: 'Загрузить фото',
+    title: !isPublic
+      ? 'Пользователь не загружал прогресс'
+      : 'У вас нет загруженного прогресса',
+    text: !isPublic
+      ? ''
+      : 'Вы еще не загрузили фото прогресса. Сделайте это нажав на ссылку ниже',
+    bottomLink: !isPublic ? '' : 'Загрузить фото',
     onClick: () => {
-      openModal(ModalName.MODAL_ADD_PROGRESS_PHOTO);
+      openModal(ModalName.MODAL_ADD_PROGRESS_PHOTO, { user });
     },
   };
 
@@ -37,7 +44,7 @@ export const Progress = ({}: Props) => {
   const loadingStatus = useSelector(selectProgressLoadingStatus);
   const isLoading = loadingStatus === LoadingStatus.LOADING;
   useEffect(() => {
-    dispatch(fetchProgressData());
+    dispatch(fetchProgressData(user.id));
   }, []);
 
   if (!progress.length && !isLoading) {

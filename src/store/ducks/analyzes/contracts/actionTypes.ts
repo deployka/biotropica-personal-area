@@ -10,6 +10,7 @@ export enum AnalyzesActionsType {
 }
 
 interface Options {
+  id: number;
   limit?: number;
   offset?: number;
 }

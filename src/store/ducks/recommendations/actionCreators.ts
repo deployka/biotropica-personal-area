@@ -7,10 +7,12 @@ import {
 } from './contracts/actionTypes';
 import { RecommendationsState } from './contracts/state';
 
-export const fetchRecommendationsData =
-  (): FetchRecommendationsDataActionInterface => ({
-    type: RecommendationsActionsType.FETCH_RECOMMENDATIONS_DATA,
-  });
+export const fetchRecommendationsData = (
+  payload: number
+): FetchRecommendationsDataActionInterface => ({
+  type: RecommendationsActionsType.FETCH_RECOMMENDATIONS_DATA,
+  payload,
+});
 
 export const setRecommendationsLoadingStatus = (
   payload: RecommendationsState['status']

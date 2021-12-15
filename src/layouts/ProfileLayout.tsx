@@ -16,7 +16,7 @@ interface Props {
   isAuth?: boolean;
 }
 
-export const ProfileLayout = ({ isAuth }: Props) => {
+export const ProfileLayout = ({ isAuth = true }: Props) => {
   const dispatch = useDispatch();
 
   const user = useSelector(selectUserData);

@@ -39,7 +39,6 @@ const Profile = ({ isPublic, user }: Props) => {
     },
     {
       key: 'test-analyzes',
-
       value: 'Тестирование и Анализы',
     },
     {
@@ -54,6 +53,7 @@ const Profile = ({ isPublic, user }: Props) => {
   const loadingStatus = useSelector(selectUserLoadingStatus);
 
   const { active } = useParams<Param>();
+
   const history = useHistory();
 
   const [activeTab, setActiveTab] = useState<string>(
@@ -82,10 +82,13 @@ const Profile = ({ isPublic, user }: Props) => {
   }, [response]);
 
   function onTabClick(tab: Tab) {
-    history.push(`/profile/tabs/${tab.key}`);
+    history.push(
+      `/${isPublic ? 'profile' : `users/${user?.id}`}/tabs/${tab.key}`
+    );
   }
 
   useEffect(() => {
+    console.log(active);
     if (active) {
       setActiveTab(getTabByKey(active, tabs)?.key || activeTab);
       history.push(
@@ -97,7 +100,7 @@ const Profile = ({ isPublic, user }: Props) => {
     <>
       <div className={s.profile}>
         <div className={s.info}>
-          {user && <Card user={user} />}
+          {user && <Card isPublic={isPublic} user={user} />}
           {isPublic && (
             <div className={s.userInfo}>
               <Goals />
@@ -117,19 +120,23 @@ const Profile = ({ isPublic, user }: Props) => {
               />
             </div>
           </div>
-          {activeTab === tabs[0].key && user && <Recommended />}
-          {activeTab === tabs[1].key && user && (
-            <TestsAndAnalyze userId={user.id} />
+          {activeTab === tabs[0].key && user && (
+            <Recommended user={user} isPublic={isPublic} />
           )}
-          {activeTab === tabs[2].key && (
+          {activeTab === tabs[1].key && user && (
+            <TestsAndAnalyze user={user} isPublic={isPublic} />
+          )}
+          {activeTab === tabs[2].key && isPublic && (
             <button
-              onClick={() => openModal(ModalName.MODAL_ADD_PROGRESS_PHOTO)}
+              onClick={() =>
+                user && openModal(ModalName.MODAL_ADD_PROGRESS_PHOTO, { user })
+              }
               className={s.btn__add__photo}
             >
               добавить фото
             </button>
           )}
-          {activeTab === tabs[2].key && user && <Progress />}
+          {activeTab === tabs[2].key && user && <Progress user={user} />}
         </div>
       </div>
     </>

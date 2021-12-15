@@ -8,8 +8,11 @@ import {
 } from './contracts/actionTypes';
 import { CreateProgressData, ProgressState } from './contracts/state';
 
-export const fetchProgressData = (): FetchProgressDataActionInterface => ({
+export const fetchProgressData = (
+  payload: number
+): FetchProgressDataActionInterface => ({
   type: ProgressActionsType.FETCH_PROGRESS_DATA,
+  payload,
 });
 
 export const createProgressData = (

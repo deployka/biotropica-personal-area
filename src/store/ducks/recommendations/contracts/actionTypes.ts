@@ -12,6 +12,7 @@ export enum RecommendationsActionsType {
 export interface FetchRecommendationsDataActionInterface
   extends Action<RecommendationsActionsType> {
   type: RecommendationsActionsType.FETCH_RECOMMENDATIONS_DATA;
+  payload: number;
 }
 
 export interface SetRecommendationsResponseActionInterface

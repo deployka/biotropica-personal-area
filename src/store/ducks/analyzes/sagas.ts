@@ -20,6 +20,7 @@ export function* fetchAnalyzesDataRequest({
 
     const { data, status } = yield call(
       AnalyzeService.geAll,
+      payload.id,
       payload.offset,
       payload.limit
     );

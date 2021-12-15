@@ -12,16 +12,15 @@ import {
   CreateProgressDataActionInterface,
 } from './contracts/actionTypes';
 
-export function* fetchProgressDataRequest({}: FetchProgressDataActionInterface): any {
-  yield put(setProgressLoadingStatus(LoadingStatus.LOADING));
-  const { data, status } = yield call(ProgressService.getAll);
-  if (status === 200) {
+export function* fetchProgressDataRequest({
+  payload,
+}: FetchProgressDataActionInterface): any {
+  try {
+    yield put(setProgressLoadingStatus(LoadingStatus.LOADING));
+    const { data } = yield call(ProgressService.getAll, payload);
     yield put(setProgressData(data));
     yield put(setProgressLoadingStatus(LoadingStatus.SUCCESS));
-  } else {
-    yield put(
-      setProgressResponse({ statusCode: status, message: data.message })
-    );
+  } catch (error) {
     yield put(setProgressLoadingStatus(LoadingStatus.ERROR));
   }
 }

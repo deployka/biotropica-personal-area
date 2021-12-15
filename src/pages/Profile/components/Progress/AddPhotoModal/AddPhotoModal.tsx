@@ -1,8 +1,6 @@
 import { Formik, FormikHelpers } from 'formik';
 import { useEffect, useRef, useState } from 'react';
-import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
-import { notification } from '../../../../../config/notification/notificationForm';
 import { useModal } from '../../../../../hooks/useModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
 import classNames from 'classnames';
@@ -48,9 +46,11 @@ type Files = {
   [key in TypePhoto]: File | null;
 };
 
-interface Props {}
+interface Props {
+  user: User;
+}
 
-export const AddPhotoModal = ({}: Props) => {
+export const AddPhotoModal = ({ user }: Props) => {
   const [inputs, setInputs] = useState<Inputs>({
     [TypePhoto.SIDE]: {
       src: '',
@@ -83,7 +83,7 @@ export const AddPhotoModal = ({}: Props) => {
         });
         refResetForm.current();
         closeModal(ModalName.MODAL_ADD_PROGRESS_PHOTO);
-        dispatch(fetchProgressData());
+        dispatch(fetchProgressData(user.id));
         break;
       default:
         break;

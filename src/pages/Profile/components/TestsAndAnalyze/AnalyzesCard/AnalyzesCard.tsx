@@ -34,10 +34,14 @@ export const AnalyzesCard = ({
         <div className={s.title}>
           <p>Анализы</p>
         </div>
-        <button onClick={onAddAnalyzeClick} className={s.updateBtn}>
-          <p>загрузить новые</p>
-          <img src={editSvg} alt="" />
-        </button>
+        {!isPublic ? (
+          <button onClick={onAddAnalyzeClick} className={s.updateBtn}>
+            <p>загрузить новые</p>
+            <img src={editSvg} alt="" />
+          </button>
+        ) : (
+          ''
+        )}
       </div>
       <AnalyzeTypes analyzeTypes={analyzeTypes} />
       <Analyzes analyzes={analyzes} />

@@ -23,7 +23,9 @@ export type Modal<props> = {
 };
 
 export type Modals = {
-  [ModalName.MODAL_ADD_PROGRESS_PHOTO]: Modal<{}>;
+  [ModalName.MODAL_ADD_PROGRESS_PHOTO]: Modal<{
+    user: User;
+  }>;
   [ModalName.MODAL_ADD_ANALYZ_FILE]: Modal<{
     onSubmit: (values: CreateAnalyzeAnswerData) => void;
     validationSchema: any;

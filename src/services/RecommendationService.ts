@@ -20,8 +20,8 @@ export default class RecommendationService {
     );
   }
 
-  static async geAll(): Promise<AxiosResponse<Response>> {
-    return await $api.get<Response>(`/${RecommendationService.route}/`);
+  static async geAll(id: number): Promise<AxiosResponse<Response>> {
+    return await $api.get<Response>(`/${RecommendationService.route}/${id}`);
   }
 
   static async create(

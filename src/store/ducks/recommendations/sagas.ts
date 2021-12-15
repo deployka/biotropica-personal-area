@@ -10,10 +10,12 @@ import {
   RecommendationsActionsType,
 } from './contracts/actionTypes';
 
-export function* fetchRecommendationsDataRequest({}: FetchRecommendationsDataActionInterface): any {
+export function* fetchRecommendationsDataRequest({
+  payload,
+}: FetchRecommendationsDataActionInterface): any {
   try {
     yield put(setRecommendationsLoadingStatus(LoadingStatus.LOADING));
-    const { data, status } = yield call(RecommendationService.geAll);
+    const { data, status } = yield call(RecommendationService.geAll, payload);
     if (status === 200) {
       yield put(setRecommendationsData(data));
       yield put(setRecommendationsLoadingStatus(LoadingStatus.SUCCESS));

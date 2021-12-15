@@ -16,12 +16,17 @@ import { DesktopRecommended } from './DesktopRecommended';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRecommendationsData } from '../../../../store/ducks/recommendations/actionCreators';
 
-export const Recommended = ({}) => {
+interface Props {
+  isPublic?: boolean;
+  user: User;
+}
+
+export const Recommended = ({ isPublic, user }: Props) => {
   const dispatch = useDispatch();
   const [mobile, setMobile] = useState<boolean>(false);
 
   useEffect(() => {
-    dispatch(fetchRecommendationsData());
+    dispatch(fetchRecommendationsData(user.id));
   }, []);
 
   useEffect(() => {
@@ -32,9 +37,13 @@ export const Recommended = ({}) => {
   }, []);
 
   const infoBar: IInfoBar = {
-    title: 'У вас нет рекомендаций',
-    text: 'Чтобы получить рекомендации, пройдите видеоконсультацию.',
-    bottomLink: 'Записаться на видеоконсультацию',
+    title: isPublic
+      ? 'Пользователь не добавлял рекомендации'
+      : 'У вас нет рекомендаций',
+    text: isPublic
+      ? ''
+      : 'Чтобы получить рекомендации, пройдите видеоконсультацию.',
+    bottomLink: isPublic ? '' : 'Записаться на видеоконсультацию',
     href: '/video',
   };
 

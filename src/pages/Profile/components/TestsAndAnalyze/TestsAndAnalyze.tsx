@@ -40,11 +40,11 @@ import { Questionnaire } from './Questionnaire/Questionnaire';
 import UserService from '../../../../services/UserService';
 
 interface Props {
-  userId: number;
+  user: User;
   isPublic?: boolean;
 }
 
-export const TestsAndAnalyze = ({ userId }: Props) => {
+export const TestsAndAnalyze = ({ user, isPublic }: Props) => {
   const { openModal, closeModal } = useModal();
   const [answers, setAnswers] = useState<Answer[]>([]);
 
@@ -60,13 +60,13 @@ export const TestsAndAnalyze = ({ userId }: Props) => {
   const offset: number = analyzes.length;
 
   function fetchAnalyzesByLimitAndOffset(offset: number, limit?: number) {
-    dispatch(fetchAnalyzesData(offset, limit));
+    dispatch(fetchAnalyzesData(user.id, offset, limit));
   }
 
   useEffect(() => {
-    dispatch(fetchAnalyzesData());
+    dispatch(fetchAnalyzesData(user.id));
     const fetchAnswers = () => {
-      UserService.answers(userId).then(({ data }) => setAnswers(data));
+      UserService.answers(user.id).then(({ data }) => setAnswers(data));
     };
     function fetchAllTypes() {
       AnalyzeService.geAllTypes().then(({ data }) => setAnalyzeTypes(data));
@@ -93,7 +93,7 @@ export const TestsAndAnalyze = ({ userId }: Props) => {
           type: NotificationType.SUCCESS,
         });
         closeModal(ModalName.MODAL_ADD_ANALYZ_FILE);
-        dispatch(fetchAnalyzesData());
+        dispatch(fetchAnalyzesData(user.id));
         setIsShowMore(true);
         dispatch(setAnalyzeResponse(undefined));
         break;
@@ -143,16 +143,20 @@ export const TestsAndAnalyze = ({ userId }: Props) => {
   }
 
   const testInfoBar: IInfoBar = {
-    title: 'Вы не заполняли анкету',
-    text: 'Пожалуйста, заполните анкету',
+    title: !isPublic
+      ? 'Пользователь не заполнял анкету'
+      : 'Вы не заполняли анкету',
+    text: !isPublic ? '' : 'Пожалуйста, заполните анкету',
     href: '/questionnaire',
-    bottomLink: 'Заполнить анкету',
+    bottomLink: !isPublic ? '' : 'Заполнить анкету',
   };
 
   const analyzesInfoBar: IInfoBar = {
-    title: 'Вы не добавляли анализы',
-    text: 'У вас нет загруженных анализов.',
-    bottomLink: 'Загрузить анализы',
+    title: !isPublic
+      ? 'Пользователь не добавлял анализы'
+      : 'Вы не добавляли анализы',
+    text: !isPublic ? '' : 'У вас нет загруженных анализов.',
+    bottomLink: !isPublic ? '' : 'Загрузить анализы',
     onClick: () => {
       addAnalyzeOpen();
     },
