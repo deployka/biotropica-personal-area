@@ -6,7 +6,7 @@ import s from './Specialist.module.scss';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
 import { FREE_CONSULTATIONS_COUNT } from '../../../../constants/consultations';
-import {useHistory, useLocation} from "react-router";
+import { useHistory } from 'react-router';
 
 interface Props {
   specialist: ISpecialist;
@@ -83,6 +83,7 @@ export const Specialist = ({
     <div className={s.specialist}>
       <div className={s.specialistInfo}>
         <div
+          onClick={moveToSpecialist}
           className={s.photo}
           style={{
             backgroundImage: `url(${

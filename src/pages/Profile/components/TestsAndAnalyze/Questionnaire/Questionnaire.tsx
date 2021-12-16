@@ -23,7 +23,7 @@ export const Questionnaire = ({ answers, isPublic }: Props) => {
           <p>Тестирование</p>
         </div>
         <div className={s.updateBtn}>
-          {isPublic && (
+          {!isPublic && (
             <Link to={'/questionnaire'}>
               <div className={s.icon}>
                 <img src={editSvg} alt="" />
