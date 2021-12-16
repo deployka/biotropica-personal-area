@@ -136,7 +136,9 @@ const Profile = ({ isPublic, user }: Props) => {
               добавить фото
             </button>
           )}
-          {activeTab === tabs[2].key && user && <Progress user={user} />}
+          {activeTab === tabs[2].key && user && (
+            <Progress isPublic={isPublic} user={user} />
+          )}
         </div>
       </div>
     </>
