@@ -1,5 +1,5 @@
-@import "../../../../../styles/mixins.scss";
-@import "../../../../../styles/variables.scss";
+@import '../../../../../styles/mixins.scss';
+@import '../../../../../styles/variables.scss';
 
 .recommendation {
   width: 100%;
@@ -71,7 +71,7 @@
   }
 
   .specialistInfo {
-    max-width: 180px;
+    max-width: 250px;
 
     display: flex;
     flex-direction: column;
@@ -99,8 +99,6 @@
       font-weight: 500;
       font-size: 16px;
       line-height: 120%;
-
-      text-transform: lowercase;
     }
   }
 
@@ -236,7 +234,7 @@
     }
 
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       bottom: -3px;
 

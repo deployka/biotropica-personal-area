@@ -3,6 +3,7 @@ import {
   Recommendation,
   RecommendationType,
 } from '../recommendation/contracts/state';
+import { SpecializationName } from '../specialist/contracts/state';
 import { RecommendationsState } from './contracts/state';
 
 export type SortedRecommendations = Record<
@@ -27,11 +28,11 @@ export const selectSortedRecommendationsData = (state: RootState) => {
       type: RecommendationType.WORKOUT,
       specialist_profile: {
         id: 124,
-        name: 'Татьяна Татьяновна',
-        position: 'ТРЕНИРОВКИ',
+        name: 'Татьяна Алексеевна',
+        position: SpecializationName.PHYSICIAN,
         profile_photo: '',
       },
-      title: 'Отожмитесь 5000 раз',
+      title: 'Делать зарядку',
       description: '',
       createdAt: '2021-04-07',
     },
@@ -40,15 +41,15 @@ export const selectSortedRecommendationsData = (state: RootState) => {
       type: RecommendationType.WORKOUT,
       specialist_profile: {
         id: 124,
-        name: 'Татьяна Татьяновна',
-        position: 'ТРЕНИРОВКИ',
+        name: 'Татьяна Алексеевна',
+        position: SpecializationName.PHYSICIAN,
         profile_photo: '',
       },
-      title: 'Отожмитесь 5000 раз',
-      description: `Сегодня с 23:00 до 05:00 со спутника лазером будут замерять
-      температуру у населения(ректально). Просьба высунуть жопу в открытое
-      окно по направлению к звёздам. в правой руке держать открытый
-      паспорт.`,
+      title: 'Отжиматься',
+      description: `Займите исходное положение на полу: плечи, спина, ягодицы, живот и ноги должны составлять одну линию.
+      При выполнении упражнения необходимо двигаться из стороны в сторону.
+      Руки необходимо расставить намного шире, чем при выполнении классических отжиманий.
+      Перекатывайтесь на одну руку, выпрямив другую, и наоборот.`,
       createdAt: '2021-04-07',
     },
     {
@@ -56,15 +57,12 @@ export const selectSortedRecommendationsData = (state: RootState) => {
       type: RecommendationType.WORKOUT,
       specialist_profile: {
         id: 124,
-        name: 'Татьяна Татьяновна',
-        position: 'ТРЕНИРОВКИ',
+        name: 'Татьяна Алексеевна',
+        position: SpecializationName.PHYSICIAN,
         profile_photo: '',
       },
-      title: 'Отожмитесь 5000 раз',
-      description: `Сегодня с 23:00 до 05:00 со спутника лазером будут замерять
-      температуру у населения(ректально). Просьба высунуть жопу в открытое
-      окно по направлению к звёздам. в правой руке держать открытый
-      паспорт.`,
+      title: 'Подтягиваться',
+      description: `Подтянитесь сколько сможете`,
       createdAt: '2021-04-07',
     },
     {
@@ -72,15 +70,12 @@ export const selectSortedRecommendationsData = (state: RootState) => {
       type: RecommendationType.NUTRITION,
       specialist_profile: {
         id: 124,
-        name: 'Татьяна Татьяновна',
-        position: 'ПИТАНИЕ',
+        name: 'Татьяна Алексеевна',
+        position: SpecializationName.NUTRITIONIST,
         profile_photo: '',
       },
-      title: 'супер пупер',
-      description: `Сегодня с 23:00 до 05:00 со спутника лазером будут замерять
-      температуру у населения(ректально). Просьба высунуть жопу в открытое
-      окно по направлению к звёздам. в правой руке держать открытый
-      паспорт.`,
+      title: 'Кушайте кашу',
+      description: `Чтобы набраться сил кушайте геркулес 2`,
       createdAt: '2021-01-10',
     },
     {
@@ -88,32 +83,13 @@ export const selectSortedRecommendationsData = (state: RootState) => {
       type: RecommendationType.NUTRITION,
       specialist_profile: {
         id: 124,
-        name: 'Татьяна Татьяновна',
-        position: 'ПИТАНИЕ',
+        name: 'Татьяна Алексеевна',
+        position: SpecializationName.NUTRITIONIST,
         profile_photo: '',
       },
-      title: 'Сегодня с 23:00 до 05:00',
-      description: `Сегодня с 23:00 до 05:00 со спутника лазером будут замерять
-      температуру у населения(ректально). Просьба высунуть жопу в открытое
-      окно по направлению к звёздам. в правой руке держать открытый
-      паспорт.`,
+      title: 'Ешьте орехи',
+      description: `Чтобы вырос большой мозг, нужно есть грецкий орех! (2 раза в день)`,
       createdAt: '2021-02-10',
-    },
-    {
-      id: 6,
-      type: RecommendationType.NUTRITION,
-      specialist_profile: {
-        id: 124,
-        name: 'Татьяна Татьяновна',
-        position: 'ПИТАНИЕ',
-        profile_photo: '',
-      },
-      title: 'Сегодня с 23:00 до 05:00',
-      description: `Сегодня с 23:00 до 05:00 со спутника лазером будут замерять
-      температуру у населения(ректально). Просьба высунуть жопу в открытое
-      окно по направлению к звёздам. в правой руке держать открытый
-      паспорт.`,
-      createdAt: '2021-04-10',
     },
     {
       id: 7,
@@ -121,14 +97,11 @@ export const selectSortedRecommendationsData = (state: RootState) => {
       specialist_profile: {
         id: 4364,
         name: 'Владилен Минин',
-        position: 'ПИТАНИЕ',
+        position: SpecializationName.NUTRITSIOLOG,
         profile_photo: '',
       },
-      title: 'пропитание',
-      description: `Сегодня с 23:00 до 05:00 со спутника лазером будут замерять
-      температуру у населения(ректально). Просьба высунуть жопу в открытое
-      окно по направлению к звёздам. в правой руке держать открытый
-      паспорт.`,
+      title: 'Придерживайтесь диеты',
+      description: `Чтобы сбросить вес кушайте по чуть-чуть 5 раз в день`,
       createdAt: '2018-06-01',
     },
     {
@@ -137,27 +110,11 @@ export const selectSortedRecommendationsData = (state: RootState) => {
       specialist_profile: {
         id: 333,
         name: 'Александр Невский',
-        position: 'ТРЕНИРОВКИ',
+        position: SpecializationName.TRAINER,
         profile_photo: '',
       },
-      title: 'тренька',
-      description: `Сегодня с 23:00 до 05:00 со спутника лазером будут замерять
-      температуру у населения(ректально). Просьба высунуть жопу в открытое
-      окно по направлению к звёздам. в правой руке держать открытый
-      паспорт.
-      Сегодня с 23:00 до 05:00 со спутника лазером будут замерять
-      температуру у населения(ректально). Просьба высунуть жопу в открытое
-      окно по направлению к звёздам. в правой руке держать открытый
-      паспорт.
-      Сегодня с 23:00 до 05:00 со спутника лазером будут замерять
-      температуру у населения(ректально). Просьба высунуть жопу в открытое
-      окно по направлению к звёздам. в правой руке держать открытый
-      паспорт.
-      
-      Сегодня с 23:00 до 05:00 со спутника лазером будут замерять
-      температуру у населения(ректально). Просьба высунуть жопу в открытое
-      окно по направлению к звёздам. в правой руке держать открытый
-      паспорт.`,
+      title: 'Отжимания на брусьях',
+      description: `Наклоните торс вперед, а затем медленно опуститесь между брусьями, сгибая руки в локтях. Важно сопротивляться гравитации на пути вниз, в противном случае, вы можете повредить грудную мышцу, в месте крепления ее к плечевой кости, или локтевой сустав.`,
       createdAt: '2020-03-04',
     },
     {
@@ -166,14 +123,11 @@ export const selectSortedRecommendationsData = (state: RootState) => {
       specialist_profile: {
         id: 333,
         name: 'Александр Невский',
-        position: 'ТРЕНИРОВКИ',
+        position: SpecializationName.TRAINER,
         profile_photo: '',
       },
-      title: 'тренька',
-      description: `Сегодня с 23:00 до 05:00 со спутника лазером будут замерять
-      температуру у населения(ректально). Просьба высунуть жопу в открытое
-      окно по направлению к звёздам. в правой руке держать открытый
-      паспорт.`,
+      title: 'Приседания',
+      description: `Приседа́ния — одно из базовых силовых упражнений (в том числе в пауэрлифтинге и культуризме); выполняющий упражнение приседает и затем встаёт, возвращаясь в положение стоя. Приседание считается одним из важнейших упражнений не только в силовом спорте, но и в общефизической подготовке, а также используется в качестве подсобного в процессе подготовки спортсменов практически всех спортивных дисциплин.`,
       createdAt: '2020-03-04',
     },
   ];
