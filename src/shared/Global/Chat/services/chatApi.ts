@@ -13,8 +13,13 @@ export const chatApi = {
         return data;
     },
     async fetchDialogs(): Promise<Dialog[]> {
-        const {data} = await $api.get('/dialogs/');
-        return data;
+        const result = await axios.get(chatUrl + '/dialogs', {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+
+        return result.data
     },
     async create(userId: number): Promise<Dialog> {
         const result = await axios.post(chatUrl + '/dialogs', {

@@ -12,6 +12,7 @@ type DateTime = string;
 interface Dialog {
     id: number;
     createdAt: DateTime;
+    title?: string;
     participants: ChatUser[];
     messages: Message[];
     dialogReadings: Reading[];
