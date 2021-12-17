@@ -44,7 +44,7 @@ export const Recommended = ({ isPublic, user }: Props) => {
       ? ''
       : 'Чтобы получить рекомендации, пройдите видеоконсультацию.',
     bottomLink: isPublic ? '' : 'Записаться на видеоконсультацию',
-    href: '/video',
+    href: '/consultations',
   };
 
   const recommendations: SortedRecommendations = useSelector(
