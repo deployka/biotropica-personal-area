@@ -9,6 +9,7 @@ import { fetchSpecialistsData } from '../../../store/ducks/specialists/actionCre
 import { selectFilteredSpecialistsData } from '../../../store/ducks/specialists/selectors';
 import { chatApi } from '../../../shared/Global/Chat/services/chatApi';
 import { eventBus, EventTypes } from '../../../services/EventBus';
+import { differenceInDays } from 'date-fns';
 
 import s from './Consultations.module.scss';
 
@@ -27,10 +28,10 @@ export const ConsultationsList = (props: Props) => {
   const consultations = useSelector(selectConsultationsData);
 
   const activeConsultations = consultations.filter(
-    c => new Date(c.date || '').getTime() > new Date().getTime()
+    c => differenceInDays(new Date(c.date || ''), new Date().getTime()) <= 0
   );
   const inactiveConsultations = consultations.filter(
-    c => new Date(c.date || '').getTime() < new Date().getTime()
+    c => differenceInDays(new Date(c.date || ''), new Date().getTime()) > 0
   );
   const consultationsWithoutData = consultations.filter(c => !c.date);
 

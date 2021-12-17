@@ -10,6 +10,7 @@ export type AppModuleProps = {
         [key: string]: (val: any) => void;
     }
     className?: string;
+    allow?: string;
 };
 
 export function AppModule(props: AppModuleProps) {
@@ -42,6 +43,7 @@ export function AppModule(props: AppModuleProps) {
 
 
     return <iframe
+        allow={props.allow}
         className={s.module + ' ' + props.className}
         src={myUrlWithParams.href}
     />
