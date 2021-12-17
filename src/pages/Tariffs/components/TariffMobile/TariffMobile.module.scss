@@ -112,10 +112,15 @@
             display: flex;
             align-items: center;
 
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -webkit-tap-highlight-color: transparent;
+
             img {
                 position: relative;
                 top: 3px;
-                transform: rotate(180deg);
+
+                transition: all 0.2s ease;
+                transform: rotateX(180deg);
             }
         }
     }

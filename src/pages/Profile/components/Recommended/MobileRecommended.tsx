@@ -12,6 +12,7 @@ import {
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 import s from './Recommended.module.scss';
+import AnimateHeight from 'react-animate-height';
 
 interface Props {
   recTypes: RecommendationType[];
@@ -45,16 +46,17 @@ export const MobileRecommended = ({
             amount={getAmountByType(type)}
           />
           <PerfectScrollbar>
-            <div className={s.content}>
-              {activeType === type &&
-                Object.keys(getProfilesByType(type)).map(id => (
+            <AnimateHeight height={activeType === type ? 'auto' : 0}>
+              <div className={s.content}>
+                {Object.keys(getProfilesByType(type)).map(id => (
                   <Recommendation
                     key={`${id}`}
                     id={id}
                     activeProfiles={getProfilesByType(type)}
                   />
                 ))}
-            </div>
+              </div>
+            </AnimateHeight>
           </PerfectScrollbar>
         </div>
       ))}

@@ -11,6 +11,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 
 import s from './Recommended.module.scss';
 import { Recommendation } from './Recommendation/Recommendation';
+import AnimateHeight from 'react-animate-height';
 
 interface Props {
   recTypes: RecommendationType[];

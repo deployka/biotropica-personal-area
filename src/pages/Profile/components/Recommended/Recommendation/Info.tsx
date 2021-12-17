@@ -3,13 +3,13 @@ import React, { Dispatch, SetStateAction } from 'react';
 import s from './Recommendation.module.scss';
 
 interface Props {
-  hidden: boolean;
-  setHidden: Dispatch<SetStateAction<boolean>>;
+  height: number | string;
+  setHeight: Dispatch<SetStateAction<number | string>>;
 }
 
-export const Info = ({ hidden, setHidden }: Props) => {
+export const Info = ({ height, setHeight }: Props) => {
   function onClick() {
-    setHidden(!hidden);
+    setHeight(height === 0 ? 'auto' : 0);
   }
 
   return (
@@ -18,7 +18,7 @@ export const Info = ({ hidden, setHidden }: Props) => {
         <p>обновлено 5 июня 2021г.</p>
       </div>
       <div className={s.hideButton} onClick={onClick}>
-        <p>{hidden ? 'показать рекомендации' : 'скрыть рекомендации'}</p>
+        <p>{height ? 'показать рекомендации' : 'скрыть рекомендации'}</p>
       </div>
     </div>
   );
