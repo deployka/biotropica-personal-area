@@ -41,7 +41,7 @@ export const Content = ({ recommendation }: Props) => {
             toggle();
           }}
         >
-          <p>{height ? 'показать' : 'скрыть'}</p>
+          <p>{!height ? 'показать' : 'скрыть'}</p>
         </div>
       </div>
     </div>
