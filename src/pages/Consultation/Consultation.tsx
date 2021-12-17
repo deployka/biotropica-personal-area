@@ -3,11 +3,12 @@ import s from './Consultation.module.scss'
 import {Zoom} from "../../shared/Modules/Zoom";
 import {useSelector} from "react-redux";
 import {selectUserData} from "../../store/ducks/user/selectors";
-import {useParams} from "react-router";
+import {useHistory, useParams} from "react-router";
 import ConsultationService from "../../services/ConsultationService";
 import {Consultation} from "../../store/ducks/consultation/contracts/state";
 
 export function ConsultationPage() {
+    const history = useHistory();
     const {id} = useParams<{id: string}>();
     const [consultation, setConsultation] = useState<Consultation|null>();
     useEffect(() => {
@@ -34,5 +35,6 @@ export function ConsultationPage() {
         password={consultation.meetingPassword}
         role={0}
         username={username}
+        onClose={() => history.push('/consultations/list')}
     />
 }

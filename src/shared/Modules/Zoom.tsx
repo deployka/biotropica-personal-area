@@ -7,6 +7,7 @@ export type ZoomProps = {
     password: string;
     username: string;
     role: number;
+    onClose(): void;
     className?: string;
 };
 
@@ -37,6 +38,9 @@ export function Zoom(props: ZoomProps) {
             password: props.password,
             username: props.username,
             role: props.role.toString(),
+        }}
+        events={{
+            onClose: props.onClose
         }}
     />
 }
