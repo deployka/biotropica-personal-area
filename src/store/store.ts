@@ -16,6 +16,7 @@ import { AnalyzesState } from './ducks/analyzes/contracts/state';
 import { SpecialistState } from './ducks/specialist/contracts/state';
 import { SpecialistsState } from './ducks/specialists/contracts/state';
 import { ConsultationState } from './ducks/consultation/contracts/state';
+import { ConsultationsState } from './ducks/consultations/contracts/state';
 
 declare global {
   interface Window {
@@ -35,6 +36,7 @@ export interface RootState {
   specialist: SpecialistState;
   specialists: SpecialistsState;
   consultation: ConsultationState;
+  consultations: ConsultationsState;
   goals: GoalsState;
   goal: GoalState;
   progress: ProgressState;

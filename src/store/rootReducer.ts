@@ -10,12 +10,14 @@ import { analyzeReducer } from './ducks/analyze/reducer';
 import { specialistReducer } from './ducks/specialist/reducer';
 import { specialistsReducer } from './ducks/specialists/reducer';
 import { consultationReducer } from './ducks/consultation/reducer';
+import { consultationsReducer } from './ducks/consultations/reducer';
 
 export const rootReducer = combineReducers({
   user: userReducer,
   specialist: specialistReducer,
   specialists: specialistsReducer,
   consultation: consultationReducer,
+  consultations: consultationsReducer,
   goal: goalReducer,
   goals: goalsReducer,
   progress: progressReducer,

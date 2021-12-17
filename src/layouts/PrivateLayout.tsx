@@ -12,9 +12,11 @@ import { fetchSignout, setUserData } from '../store/ducks/user/actionCreators';
 import { SidebarDesktop } from '../shared/Global/Sidebar/SidebarDesktop';
 import { SidebarMobile } from '../shared/Global/Sidebar/SidebarMobile';
 import NotificationService from '../services/NotificationService';
-import {SidebarWrapper} from "../shared/Global/SidebarWrapper/SidebarWrapper";
-import {Chat} from "../shared/Modules/Chat";
-import {eventBus, EventTypes} from "../services/EventBus";
+
+import { SidebarWrapper } from '../shared/Global/SidebarWrapper/SidebarWrapper';
+import { Chat } from '../shared/Modules/Chat';
+import { eventBus, EventTypes } from '../services/EventBus';
+import { chatApi } from '../shared/Global/Chat/services/chatApi';
 
 interface Props {
   children: React.ReactNode;
@@ -29,6 +31,14 @@ export interface Nav extends Pages {
   svg: ReactElement;
 }
 
+async function sendMessage() {
+  const dialogs = await chatApi.fetchDialogs();
+  const dialog = dialogs.find(it => it.title === 'Техподдержка');
+  if (dialog) {
+    eventBus.emit(EventTypes.chatOpen, dialog.id);
+  }
+}
+
 export function PrivateLayout(props: Props) {
   const isAuth = useSelector(selectIsAuth);
   const currentUser = useSelector(selectUserData);
@@ -40,7 +50,9 @@ export function PrivateLayout(props: Props) {
   const [page, setPage] = useState<string>('Главная');
   const [isUnread, setIsUnread] = useState(false);
   const [isNotificationsUnread, setIsNotificationsUnread] = useState(false);
-  const [openedDialog, setOpenedDialog] = useState<number|undefined>(undefined);
+  const [openedDialog, setOpenedDialog] = useState<number | undefined>(
+    undefined
+  );
 
   const [sidebarNotificationsOpen, setSidebarNotificationsOpen] =
     useState<boolean>(false);
@@ -49,7 +61,7 @@ export function PrivateLayout(props: Props) {
   eventBus.on(EventTypes.chatOpen, (id: number) => {
     setSidebarChatOpen(true);
     setOpenedDialog(id);
-  })
+  });
 
   // useEffect(() => {
   //   NotificationService
@@ -65,17 +77,16 @@ export function PrivateLayout(props: Props) {
     { page: 'Главная', link: '/' },
     { page: 'Цели', link: '/goals' },
     { page: 'Тарифы', link: '/tariffs' },
-    { page: 'Видео', link: '/video' },
+    { page: 'Видеоконсультации', link: '/consultations' },
     { page: 'Блог', link: '', redirect: 'https://biotropika.ru/blog/' },
     {
-      page: 'Дополнительные услуги',
+      page: 'Интернет-магазин',
       link: '',
       redirect: 'https://biotropika.ru/shop/',
     },
     { page: 'Анкета', link: '/questionnaire' },
     { page: 'Профиль пользователя', link: '/users' },
     { page: 'Специалист', link: '/specialists' },
-
   ];
 
   const nav: Nav[] = [
@@ -124,8 +135,10 @@ export function PrivateLayout(props: Props) {
   }, [location.pathname]);
 
   const openChat = useCallback(() => {
-    setSidebarNotificationsOpen(false);
-    setSidebarChatOpen(!chatNotificationsOpen);
+    sendMessage().then(res => {
+      setSidebarNotificationsOpen(false);
+      setSidebarChatOpen(true);
+    });
   }, [chatNotificationsOpen]);
 
   const logout = useCallback(() => {
@@ -178,8 +191,6 @@ export function PrivateLayout(props: Props) {
       )}
 
       {currentUser ? (
-
-
         // <Chat
         //   isOpened={chatNotificationsOpen}
         //   isAuth={isAuth}
@@ -189,16 +200,16 @@ export function PrivateLayout(props: Props) {
         //   onChangeReading={setIsUnread}
         //   onClose={() => setSidebarChatOpen(false)}
         // />
-          <SidebarWrapper
-              isOpened={chatNotificationsOpen}
-              onClose={() => setSidebarChatOpen(false)}
-          >
-            <Chat
-                token={localStorage.getItem('token') as string}
-                activeDialogId={openedDialog}
-                onClose={() => setSidebarChatOpen(false)}
-            />
-          </SidebarWrapper>
+        <SidebarWrapper
+          isOpened={chatNotificationsOpen}
+          onClose={() => setSidebarChatOpen(false)}
+        >
+          <Chat
+            token={localStorage.getItem('token') as string}
+            activeDialogId={openedDialog}
+            onClose={() => setSidebarChatOpen(false)}
+          />
+        </SidebarWrapper>
       ) : (
         <div />
       )}

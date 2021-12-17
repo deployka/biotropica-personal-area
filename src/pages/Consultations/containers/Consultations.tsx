@@ -35,7 +35,8 @@ import { NotificationType } from '../../../components/GlobalNotifications/Global
 import ConsultationService from '../../../services/ConsultationService';
 import { Button } from '../../../shared/Form/Button/Button';
 import { FREE_CONSULTATIONS_COUNT } from '../../../constants/consultations';
-import {chatApi} from "../../../shared/Global/Chat/services/chatApi";
+import { chatApi } from '../../../shared/Global/Chat/services/chatApi';
+import { Link } from 'react-router-dom';
 
 async function sendMessage(userId: number) {
   const dialog = await chatApi.create(userId);
@@ -159,16 +160,18 @@ const Consultations = () => {
     title: 'Ближайшая запись',
     text: `Ваша ближайшая запись на персональную консультацию у ${
       specialists.find(s => s.id === closestConsultation?.specialistId)?.name
-    } ${moment(closestConsultation?.date).format('Do MMMM в h:mm')}`,
+    } ${moment(closestConsultation?.date).format('Do MMMM в H:mm')}`,
     textLink: 'перейти в диалог',
     bottomLink: `Остаток бесплатных консультаций: ${getFreeConsultationsCount()}  из ${FREE_CONSULTATIONS_COUNT}`,
     href: '',
     onClick: () => {
-      const specialist = specialists.find(s => s.id === closestConsultation?.specialistId);
-      if(!specialist) {
+      const specialist = specialists.find(
+        s => s.id === closestConsultation?.specialistId
+      );
+      if (!specialist) {
         return;
       }
-      return sendMessage(specialist.userId)
+      return sendMessage(specialist.userId);
     },
   };
 
@@ -181,11 +184,13 @@ const Consultations = () => {
     bottomLink: `Остаток бесплатных консультаций: ${getFreeConsultationsCount()} из ${FREE_CONSULTATIONS_COUNT}`,
     href: '',
     onClick: () => {
-      const specialist = specialists.find(s => s.id === LastAddedConsultation?.specialistId);
-      if(!specialist) {
+      const specialist = specialists.find(
+        s => s.id === LastAddedConsultation?.specialistId
+      );
+      if (!specialist) {
         return;
       }
-      return sendMessage(specialist.userId)
+      return sendMessage(specialist.userId);
     },
   };
 
@@ -222,7 +227,6 @@ const Consultations = () => {
               ConsultationService.geAll().then(({ data }) => {
                 if (data.length < FREE_CONSULTATIONS_COUNT) {
                   dispatch(createConsultationData({ specialistId }));
-                  //TODO: dispatch(CreateDialog(userId));
                 } else {
                   console.log('pay');
                   //TODO: перенаправление на оплату
@@ -276,12 +280,15 @@ const Consultations = () => {
       {LastAddedConsultation && (
         <InfoBar infoBar={InfoBarLastConsultationOptions} />
       )}
-      <SearchForm
-        onSelectChange={onSelectChange}
-        selectValue={selectedSort}
-        onSearchChange={onSearchChange}
-        searchValue={searchQuery}
-      />
+      <div className={s.headerWrapper}>
+        <SearchForm
+          onSelectChange={onSelectChange}
+          selectValue={selectedSort}
+          onSearchChange={onSearchChange}
+          searchValue={searchQuery}
+        />
+        <Link to="/consultations/list">Мои видеоконсультации</Link>
+      </div>
       <SpecialistsList
         consultationsCount={consultationsCount}
         isLoadingSignUp={isLoading}

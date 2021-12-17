@@ -11,6 +11,8 @@ export const selectGlobalLoadingStatus = (state: RootState): boolean => {
   const loadingAnalyzes = state.analyzes.status;
   const loadingSpecialists = state.specialists.status;
   const loadingSpecialist = state.specialist.status;
+  const loadingConsultations = state.consultations.status;
+  const loadingConsultation = state.consultation.status;
   return (
     loadingUser === LoadingStatus.LOADING ||
     loadingSpecialist === LoadingStatus.LOADING ||
@@ -20,6 +22,8 @@ export const selectGlobalLoadingStatus = (state: RootState): boolean => {
     loadingProgress === LoadingStatus.LOADING ||
     loadingRecommendations === LoadingStatus.LOADING ||
     loadingAnalyze === LoadingStatus.LOADING ||
-    loadingAnalyzes === LoadingStatus.LOADING
+    loadingAnalyzes === LoadingStatus.LOADING ||
+    loadingConsultations === LoadingStatus.LOADING ||
+    loadingConsultation === LoadingStatus.LOADING
   );
 };

@@ -10,6 +10,8 @@ import { ProfileLayout } from '../layouts/ProfileLayout';
 import Questionnaire from '../pages/Questionnaire/containers/Questionnaire';
 import Tariffs from '../pages/Tariffs/containers/Tariffs';
 import { Specialist } from '../pages/Specialist/Specialist';
+import { ConsultationsList } from '../pages/Consultations/containers/ConsultationsList';
+import {ConsultationPage} from "../pages/Consultation/Consultation";
 
 const routes = [
   {
@@ -18,8 +20,18 @@ const routes = [
     exact: true,
   },
   {
-    path: 'video',
+    path: 'consultations',
     component: Consultations,
+    exact: true,
+  },
+  {
+    path: 'consultations/list',
+    component: ConsultationsList,
+    exact: true,
+  },
+  {
+    path: 'consultations/list/:id',
+    component: ConsultationPage,
     exact: true,
   },
   {
