@@ -56,9 +56,9 @@ export function* fetchClosestConsultationDataRequest({}: FetchClosestConsultatio
 export function* createConsultationDataRequest({
   payload,
 }: CreateConsultationDataActionInterface): any {
-  yield put(setConsultationLoadingStatus(LoadingStatus.LOADING));
-  const { data, status } = yield call(ConsultationService.create, payload);
-  if (status === HTTP_CREATED) {
+  try {
+    yield put(setConsultationLoadingStatus(LoadingStatus.LOADING));
+    const { data, status } = yield call(ConsultationService.create, payload);
     yield put(setConsultationData(data));
     yield put(
       setConsultationResponse({
@@ -67,7 +67,7 @@ export function* createConsultationDataRequest({
       })
     );
     yield put(setConsultationLoadingStatus(LoadingStatus.SUCCESS));
-  } else {
+  } catch (error) {
     yield put(setConsultationLoadingStatus(LoadingStatus.ERROR));
   }
 }
