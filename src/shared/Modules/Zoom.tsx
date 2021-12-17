@@ -19,7 +19,7 @@ export function Zoom(props: ZoomProps) {
                console.log('result', r)
            })
            .catch(e => {
-               setMediaAccess(false);
+               setMediaAccess(true);
                console.log('error', e)
            })
 
