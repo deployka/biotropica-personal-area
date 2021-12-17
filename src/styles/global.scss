@@ -5,6 +5,8 @@
 @import "mixins.scss";
 @import "rangepicker.scss";
 @import "datepicker.scss";
+@import "~@zoomus/websdk/dist/css/bootstrap.css";
+@import "~@zoomus/websdk/dist/css/react-select.css";
 
 * {
   box-sizing: border-box;

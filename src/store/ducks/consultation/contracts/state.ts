@@ -6,6 +6,8 @@ export interface Consultation {
   specialistId: number;
   date: Date | null;
   createdAt: string;
+  meetingNumber: number;
+  meetingPassword: string;
 }
 
 export interface ClosestConsultation extends Consultation {

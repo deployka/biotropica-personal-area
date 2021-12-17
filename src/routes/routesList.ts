@@ -11,7 +11,7 @@ import Questionnaire from '../pages/Questionnaire/containers/Questionnaire';
 import Tariffs from '../pages/Tariffs/containers/Tariffs';
 import { Specialist } from '../pages/Specialist/Specialist';
 import { ConsultationsList } from '../pages/Consultations/containers/ConsultationsList';
-import { Consultation } from '../Consultation/Consultation';
+import {ConsultationPage} from "../pages/Consultation/Consultation";
 
 const routes = [
   {
@@ -31,7 +31,7 @@ const routes = [
   },
   {
     path: 'consultations/list/:id',
-    component: Consultation,
+    component: ConsultationPage,
     exact: true,
   },
   {

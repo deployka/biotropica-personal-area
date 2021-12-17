@@ -13,8 +13,8 @@ interface Response {
 export default class ConsultationService {
   static route: string = 'consultations';
 
-  static async getOne(payload: number): Promise<AxiosResponse<Response>> {
-    return await $api.get<Response>(`/${ConsultationService.route}/${payload}`);
+  static async getOne(payload: number): Promise<AxiosResponse<Consultation>> {
+    return await $api.get(`/${ConsultationService.route}/${payload}`);
   }
 
   static async getClosest(): Promise<AxiosResponse<Response>> {

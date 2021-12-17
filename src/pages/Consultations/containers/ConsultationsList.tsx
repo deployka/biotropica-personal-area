@@ -7,6 +7,7 @@ import { fetchConsultationsData } from '../../../store/ducks/consultations/actio
 import { selectConsultationsData } from '../../../store/ducks/consultations/selectors';
 import { fetchSpecialistsData } from '../../../store/ducks/specialists/actionCreators';
 import { selectFilteredSpecialistsData } from '../../../store/ducks/specialists/selectors';
+import {differenceInDays} from 'date-fns'
 
 import s from './Consultations.module.scss';
 
@@ -25,10 +26,10 @@ export const ConsultationsList = (props: Props) => {
   const consultations = useSelector(selectConsultationsData);
 
   const activeConsultations = consultations.filter(
-    c => new Date(c.date || '').getTime() > new Date().getTime()
+      c => differenceInDays(new Date(c.date || ''), new Date().getTime()) <= 0
   );
   const inactiveConsultations = consultations.filter(
-    c => new Date(c.date || '').getTime() < new Date().getTime()
+      c => differenceInDays(new Date(c.date || ''), new Date().getTime()) > 0
   );
 
   const moveToConsultation = (id: number) => () => {
