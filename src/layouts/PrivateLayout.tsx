@@ -12,9 +12,11 @@ import { fetchSignout, setUserData } from '../store/ducks/user/actionCreators';
 import { SidebarDesktop } from '../shared/Global/Sidebar/SidebarDesktop';
 import { SidebarMobile } from '../shared/Global/Sidebar/SidebarMobile';
 import NotificationService from '../services/NotificationService';
+
 import { SidebarWrapper } from '../shared/Global/SidebarWrapper/SidebarWrapper';
 import { Chat } from '../shared/Modules/Chat';
 import { eventBus, EventTypes } from '../services/EventBus';
+import { chatApi } from '../shared/Global/Chat/services/chatApi';
 
 interface Props {
   children: React.ReactNode;
@@ -27,6 +29,14 @@ export interface Pages {
 }
 export interface Nav extends Pages {
   svg: ReactElement;
+}
+
+async function sendMessage() {
+  const dialogs = await chatApi.fetchDialogs();
+  const dialog = dialogs.find(it => it.title === 'Техподдержка');
+  if (dialog) {
+    eventBus.emit(EventTypes.chatOpen, dialog.id);
+  }
 }
 
 export function PrivateLayout(props: Props) {
@@ -125,8 +135,10 @@ export function PrivateLayout(props: Props) {
   }, [location.pathname]);
 
   const openChat = useCallback(() => {
-    setSidebarNotificationsOpen(false);
-    setSidebarChatOpen(!chatNotificationsOpen);
+    sendMessage().then(res => {
+      setSidebarNotificationsOpen(false);
+      setSidebarChatOpen(true);
+    });
   }, [chatNotificationsOpen]);
 
   const logout = useCallback(() => {
