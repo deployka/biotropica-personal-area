@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const Recommendation = ({ id, activeProfiles }: Props) => {
-  const [height, setHeight] = useState<number | string>(0);
+  const [height, setHeight] = useState<number | string>('auto');
 
   return (
     <div className={s.recommendation}>
