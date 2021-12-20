@@ -22,7 +22,10 @@ export const validationSchema = yup.object().shape({
     .string()
     .typeError('Должно быть строкой')
     .required('Введите пароль')
-    .min(5, 'Пароль должен быть более 5 символов'),
+    .min(8, 'Пароль должен быть не менее 8 символов')
+    .matches(/[a-z]/, 'Не хватает латинской строчной буквы')
+    .matches(/[A-Z]/, 'Не хватает латинской заглавной буквы')
+    .matches(/[0-9]{1}/, 'Не хватает цифры'),
   verification_password: yup
     .string()
     .oneOf([yup.ref('password')], 'Пароли не совпадают')

@@ -8,7 +8,9 @@ export const selectConsultationsState = (
 export const selectConsultationsData = (
   state: RootState
 ): ConsultationsState['consultations'] =>
-  selectConsultationsState(state).consultations;
+  [...selectConsultationsState(state).consultations].sort((a, b) =>
+    a.date && b.date ? +new Date(b.date) - +new Date(a.date) : -1
+  );
 
 export const selectConsultationsResponse = (
   state: RootState

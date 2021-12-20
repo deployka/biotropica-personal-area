@@ -4,6 +4,7 @@ import checkbox from './../../../../assets/icons/tariffs/checkbox.svg';
 import arrow from './../../../../assets/icons/tariffs/arrow.svg';
 
 import { Tariff as ITariff } from '../../containers/Tariffs';
+import AnimateHeight from 'react-animate-height';
 
 interface Props {
   tariff: any;
@@ -15,7 +16,11 @@ interface Feature {
 export const TariffMobile = ({ tariff }: Props) => {
   const { price, name, features, prolongLink } = tariff;
 
-  const [hidden, setHidden] = useState(true);
+  const [height, setHeight] = useState<number | string>(0);
+
+  function toggle() {
+    height === 0 ? setHeight('auto') : setHeight(0);
+  }
 
   return (
     <div className={s.card}>
@@ -30,7 +35,11 @@ export const TariffMobile = ({ tariff }: Props) => {
           <p>/месяц</p>
         </div>
       </div>
-      {!hidden && (
+
+      <AnimateHeight
+        duration={300}
+        height={height} // see props documentation below
+      >
         <ul className={s.list}>
           {features.map((feature: string) => (
             <li key={feature} className={s.listEl}>
@@ -39,7 +48,8 @@ export const TariffMobile = ({ tariff }: Props) => {
             </li>
           ))}
         </ul>
-      )}
+      </AnimateHeight>
+
       <div className={s.bottom}>
         <a href={prolongLink} className={s.button}>
           продлить тариф
@@ -47,12 +57,12 @@ export const TariffMobile = ({ tariff }: Props) => {
         <button
           className={s.hideBtn}
           onClick={() => {
-            setHidden(!hidden);
+            toggle();
           }}
         >
-          {hidden ? 'подробнее' : 'скрыть'}
+          {!height ? 'подробнее' : 'скрыть'}
           <img
-            style={hidden ? { transform: 'rotate(0)', top: 0 } : {}}
+            style={!height ? { transform: 'rotate(0)', top: '-1px' } : {}}
             src={arrow}
             alt=""
           />

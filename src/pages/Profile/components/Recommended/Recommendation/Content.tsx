@@ -6,23 +6,31 @@ import moment from 'moment';
 import s from './Recommendation.module.scss';
 
 import 'react-perfect-scrollbar/dist/css/styles.css';
+import AnimateHeight from 'react-animate-height';
 
 interface Props {
   recommendation: IRecommendation;
 }
 
 export const Content = ({ recommendation }: Props) => {
-  const [hidden, setHidden] = useState(true);
+  const [height, setHeight] = useState<number | string>(0);
+
+  function toggle() {
+    setHeight(height === 0 ? 'auto' : 0);
+  }
 
   const createdAt = moment(recommendation.createdAt, 'YYYYMMDD');
   return (
     <div className={s.recommendationPost}>
-      <div className={s.content} style={hidden ? { height: '20px' } : {}}>
+      <div className={s.content}>
         <h2 className={s.title}>{recommendation.title}</h2>
-        <p className={s.content}>
-          {recommendation.description || 'Нет описания'}
-        </p>
+        <AnimateHeight height={height}>
+          <p className={s.content}>
+            {recommendation.description || 'Нет описания'}
+          </p>
+        </AnimateHeight>
       </div>
+
       <div className={s.infoBar}>
         <div className={s.date}>
           <p>Создано: {createdAt.format('Do MMMM YYYY г.')}</p>
@@ -30,10 +38,10 @@ export const Content = ({ recommendation }: Props) => {
         <div
           className={s.hiddenButton}
           onClick={() => {
-            setHidden(!hidden);
+            toggle();
           }}
         >
-          <p>{hidden ? 'показать' : 'скрыть'}</p>
+          <p>{!height ? 'показать' : 'скрыть'}</p>
         </div>
       </div>
     </div>

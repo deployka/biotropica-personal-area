@@ -7,7 +7,9 @@ import { fetchConsultationsData } from '../../../store/ducks/consultations/actio
 import { selectConsultationsData } from '../../../store/ducks/consultations/selectors';
 import { fetchSpecialistsData } from '../../../store/ducks/specialists/actionCreators';
 import { selectFilteredSpecialistsData } from '../../../store/ducks/specialists/selectors';
-import {differenceInDays} from 'date-fns'
+import { chatApi } from '../../../shared/Global/Chat/services/chatApi';
+import { eventBus, EventTypes } from '../../../services/EventBus';
+import { differenceInDays } from 'date-fns';
 
 import s from './Consultations.module.scss';
 
@@ -26,15 +28,31 @@ export const ConsultationsList = (props: Props) => {
   const consultations = useSelector(selectConsultationsData);
 
   const activeConsultations = consultations.filter(
-      c => differenceInDays(new Date(c.date || ''), new Date().getTime()) <= 0
+    c => differenceInDays(new Date(c.date || ''), new Date().getTime()) <= 0
   );
   const inactiveConsultations = consultations.filter(
-      c => differenceInDays(new Date(c.date || ''), new Date().getTime()) > 0
+    c => differenceInDays(new Date(c.date || ''), new Date().getTime()) > 0
   );
+  const consultationsWithoutData = consultations.filter(c => !c.date);
 
   const moveToConsultation = (id: number) => () => {
     history.push(`/consultations/list/${id}`);
   };
+
+  async function sendMessage(userId: number) {
+    const dialog = await chatApi.create(userId);
+    eventBus.emit(EventTypes.chatOpen, dialog.id);
+  }
+
+  function onSendMessageClick(userId: number | undefined) {
+    return () => {
+      if (userId) {
+        sendMessage(userId);
+      } else {
+        throw Error();
+      }
+    };
+  }
 
   return (
     <div className={s.usersList}>
@@ -64,10 +82,51 @@ export const ConsultationsList = (props: Props) => {
                 }
               </td>
               <td
-                style={{ cursor: 'pointer', color: '#6f61d0' }}
+                style={{
+                  cursor: 'pointer',
+                  color: '#6f61d0',
+                  textAlign: 'right',
+                }}
                 onClick={moveToConsultation(consultation.id)}
               >
                 перейти
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr className={s.tableRow}>
+            <td className={s.tableNoData}>Нет данных</td>
+          </tr>
+        )}
+        <tr className={s.tableHeaderRow}>
+          <th>Без даты</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        {consultationsWithoutData.length !== 0 ? (
+          consultationsWithoutData.map((consultation: Consultation) => (
+            <tr key={consultation.id} className={s.tableRowOfPastConsultations}>
+              <td>укажет специалист</td>
+              <td>укажет специалист</td>
+              <td>
+                {
+                  specialists.find(s => s.id === consultation.specialistId)
+                    ?.name
+                }
+              </td>
+              <td
+                style={{
+                  cursor: 'pointer',
+                  color: '#6f61d0',
+                  textAlign: 'right',
+                }}
+                onClick={onSendMessageClick(
+                  specialists.find(s => s.id === consultation.specialistId)
+                    ?.userId
+                )}
+              >
+                открыть диалог
               </td>
             </tr>
           ))
