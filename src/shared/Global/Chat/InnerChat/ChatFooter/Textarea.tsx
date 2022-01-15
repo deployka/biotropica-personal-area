@@ -1,10 +1,5 @@
 import s from './ChatFooter.module.scss';
-import React, {
-  FocusEventHandler,
-  RefObject,
-  useEffect,
-  useState,
-} from 'react';
+import React, { RefObject, useEffect, useState } from 'react';
 
 type Props = {
   value: string;
@@ -16,45 +11,6 @@ type Props = {
   onBlur: () => void;
   onEnter?: () => void;
 };
-
-export function Textarea(props: Props) {
-  const ref = React.createRef() as RefObject<HTMLTextAreaElement>;
-  const [rows, setRows] = useState<number>(1);
-
-  useEffect(() => {
-    const textarea = ref.current;
-    if (textarea) {
-      const updatedRows = calculateNumberOfLines(
-        textarea,
-        props.minRows,
-        props.maxRows,
-        rows
-      );
-      if (updatedRows !== rows) {
-        setRows(updatedRows);
-      }
-    }
-  }, [props.value]);
-
-  return (
-    <textarea
-      ref={ref}
-      rows={rows}
-      className={s.text}
-      value={props.value}
-      placeholder={props.placeholder}
-      onChange={e => props.onChange(e.target.value)}
-      onFocus={props.onFocus}
-      onBlur={props.onBlur}
-      onKeyPress={(e) => {
-        if(e.key === "Enter") {
-          props.onEnter && props.onEnter()
-          e.preventDefault();
-        }
-      }}
-    />
-  );
-}
 
 function calculateNumberOfLines(
   textarea: HTMLTextAreaElement,
@@ -86,4 +42,43 @@ function calculateNumberOfLines(
   }
 
   return rows;
+}
+
+export function Textarea(props: Props) {
+  const ref = React.createRef() as RefObject<HTMLTextAreaElement>;
+  const [rows, setRows] = useState<number>(1);
+
+  useEffect(() => {
+    const textarea = ref.current;
+    if (textarea) {
+      const updatedRows = calculateNumberOfLines(
+        textarea,
+        props.minRows,
+        props.maxRows,
+        rows
+      );
+      if (updatedRows !== rows) {
+        setRows(updatedRows);
+      }
+    }
+  }, [props.value]);
+
+  return (
+    <textarea
+      ref={ref}
+      rows={rows}
+      className={s.text}
+      value={props.value}
+      placeholder={props.placeholder}
+      onChange={e => props.onChange(e.target.value)}
+      onFocus={props.onFocus}
+      onBlur={props.onBlur}
+      onKeyPress={e => {
+        if (e.key === 'Enter') {
+          props.onEnter && props.onEnter();
+          e.preventDefault();
+        }
+      }}
+    />
+  );
 }

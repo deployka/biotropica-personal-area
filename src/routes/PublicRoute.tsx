@@ -7,16 +7,18 @@ export const PublicRoute = ({ children, isAuth, ...rest }: Props) => {
     <Route
       {...rest}
       render={({ location }) =>
-        !isAuth ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/',
-              state: { from: location },
-            }}
-          />
-        )
+        !isAuth
+          ? (
+            children
+          )
+          : (
+            <Redirect
+              to={{
+                pathname: '/',
+                state: { from: location },
+              }}
+            />
+          )
       }
     />
   );

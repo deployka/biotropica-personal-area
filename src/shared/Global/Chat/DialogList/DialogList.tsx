@@ -1,7 +1,7 @@
+import React from 'react';
 import { BtnClose } from '../../../buttons/BtnClose/BtnClose';
 import { DialogItem } from './DialogItem';
 import { getOpponent } from '../../../../utils/dialogHelper';
-import React from 'react';
 
 import s from './DialogList.module.scss';
 
@@ -47,7 +47,7 @@ export function DialogList({
             <DialogItem
               key={index}
               options={{
-                image: opponent?.profile_photo,
+                image: opponent?.profilePhoto,
                 name: opponent ? opponent.name + ' ' + opponent.lastname : '',
                 content,
                 status: unread.includes(dialog.id),

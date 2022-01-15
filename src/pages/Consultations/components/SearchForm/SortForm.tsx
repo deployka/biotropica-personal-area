@@ -3,6 +3,7 @@ import { ConsultationsSvgSelector } from '../../../../assets/icons/consultations
 import {
   ISelect,
   SelectCustom,
+  Styles,
 } from '../../../../shared/Form/Select/SelectCustom';
 import { SpecializationName } from '../../../../store/ducks/specialist/contracts/state';
 
@@ -11,7 +12,7 @@ import s from './SortForm.module.scss';
 interface Props {
   onSelectChange: (e: ISelect<string>[]) => void;
   onSearchChange: (e: string) => void;
-  selectValue: ISelect<string>[] | null;
+  selectValue: ISelect<string>[] | undefined;
   searchValue: string;
 }
 
@@ -27,12 +28,12 @@ export const SearchForm = ({
   }));
 
   const selectStyles = {
-    container: (styles: any) => ({
+    container: (styles: Styles) => ({
       ...styles,
       width: '100%',
       height: '100%',
     }),
-    control: (styles: any) => ({
+    control: (styles: Styles) => ({
       ...styles,
       borderRadius: 50,
       height: '100%',
@@ -40,7 +41,7 @@ export const SearchForm = ({
       paddingLeft: 5,
     }),
 
-    option: (styles: any, { isSelected }: any) => ({
+    option: (styles: Styles, { isSelected }: Styles) => ({
       ...styles,
       background: isSelected ? '#F7F6FB' : null,
       color: '#1E174D',
@@ -50,7 +51,7 @@ export const SearchForm = ({
       fontWeight: 400,
       padding: '14px 12px',
     }),
-    menu: (styles: any) => ({
+    menu: (styles: Styles) => ({
       ...styles,
       borderRadius: 5,
       border: null,
@@ -58,7 +59,7 @@ export const SearchForm = ({
       zIndex: '45',
       overflow: 'hidden',
     }),
-    menuList: (styles: any) => ({
+    menuList: (styles: Styles) => ({
       ...styles,
       paddingBottom: 0,
       paddingTop: 0,

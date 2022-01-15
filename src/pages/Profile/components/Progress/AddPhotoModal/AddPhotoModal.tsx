@@ -1,5 +1,6 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { Formik, FormikHelpers } from 'formik';
-import { useEffect, useRef, useState } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../../../../hooks/useModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
@@ -65,7 +66,7 @@ export const AddPhotoModal = ({ user }: Props) => {
 
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectProgressLoadingStatus);
-  const refResetForm = useRef<any>(null);
+  const refResetForm = useRef<(() => void) | null>(null);
 
   const { closeModal, modals } = useModal();
   const loader = loadingStatus === LoadingStatus.LOADING;
@@ -131,7 +132,7 @@ export const AddPhotoModal = ({ user }: Props) => {
   async function loadFile(
     e: React.ChangeEvent<HTMLInputElement>,
     type: TypePhoto,
-    setFieldValue: any
+    setFieldValue: (field: string, value: File) => void
   ) {
     try {
       const files = e.target.files || null;

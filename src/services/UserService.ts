@@ -13,7 +13,7 @@ interface UpdateEmailData {
 }
 
 export default class UserService {
-  static route: string = 'users';
+  static route = 'users';
 
   static async getMe(): Promise<AxiosResponse<Response>> {
     return await $api.get<Response>(`/${UserService.route}/me`);
@@ -27,18 +27,13 @@ export default class UserService {
     return $api.get(`/${UserService.route}/${userId}/answers`);
   }
 
-  static async update(
-    payload: UpdateUserData
-  ): Promise<AxiosResponse<Response>> {
+  static async update(payload: UpdateUserData): Promise<AxiosResponse<Response>> {
     return await $api.patch<Response>(`/${UserService.route}/update`, payload);
   }
 
   static async updateEmail(
     payload: UpdateEmailData
   ): Promise<AxiosResponse<Response>> {
-    return await $api.patch<Response>(
-      `/${UserService.route}/update-email`,
-      payload
-    );
+    return await $api.patch<Response>(`/${UserService.route}/update-email`, payload);
   }
 }

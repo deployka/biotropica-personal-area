@@ -11,13 +11,14 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 
 import s from './Recommended.module.scss';
 import { Recommendation } from './Recommendation/Recommendation';
-import AnimateHeight from 'react-animate-height';
 
 interface Props {
   recTypes: RecommendationType[];
   activeType: RecommendationType | null;
   setActiveType: Dispatch<SetStateAction<RecommendationType | null>>;
-  optionsByType: any;
+  optionsByType: {
+    [key in RecommendationType]: { name: string; color: string };
+  };
   getAmountByType: (type: RecommendationType) => number;
   activeProfiles: Record<string, IRecommendation[]>;
 }
@@ -48,11 +49,7 @@ export const DesktopRecommended = ({
       <PerfectScrollbar>
         <div className={s.content}>
           {Object.keys(activeProfiles).map(id => (
-            <Recommendation
-              key={`${id}`}
-              id={id}
-              activeProfiles={activeProfiles}
-            />
+            <Recommendation key={`${id}`} id={id} activeProfiles={activeProfiles} />
           ))}
         </div>
       </PerfectScrollbar>

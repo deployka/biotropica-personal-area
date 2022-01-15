@@ -10,7 +10,9 @@ import {
   ConsultationsActionsType,
 } from './contracts/actionTypes';
 
-export function* fetchConsultationsDataRequest({}: FetchConsultationsDataActionInterface): any {
+export function * fetchConsultationsDataRequest(
+  _: FetchConsultationsDataActionInterface
+) {
   try {
     yield put(setConsultationsLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(ConsultationService.geAll);
@@ -22,7 +24,7 @@ export function* fetchConsultationsDataRequest({}: FetchConsultationsDataActionI
   }
 }
 
-export function* consultationsSaga(): any {
+export function * consultationsSaga() {
   yield takeLatest(
     ConsultationsActionsType.FETCH_CONSULTATIONS_DATA,
     fetchConsultationsDataRequest

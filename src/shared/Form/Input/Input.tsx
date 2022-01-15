@@ -1,25 +1,35 @@
-import React from 'react';
+import React, {
+  ClipboardEventHandler,
+  FormEventHandler,
+  KeyboardEventHandler,
+  ChangeEventHandler,
+} from 'react';
 import classNames from 'classnames';
 
 import s from './Input.module.scss';
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 import { Label } from '../Label/Label';
+import { FormikErrors, FormikTouched } from 'formik';
+
+export type Classes = {
+  [x in string]: boolean;
+};
 
 interface Props {
-  onChange: (e: React.ChangeEvent<any>) => void;
-  onPaste?: (e: React.ChangeEvent<any>) => void;
-  onKeyDown?: (e: React.ChangeEvent<any>) => void;
-  onInput?: (e: React.ChangeEvent<any>) => void;
-  onBlur: any;
-  autoComplete?: any;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  onPaste?: ClipboardEventHandler<HTMLInputElement>;
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
+  onInput?: FormEventHandler<HTMLInputElement>;
+  onBlur: ChangeEventHandler<HTMLInputElement>;
+  autoComplete?: string;
   placeholder: string;
   name: string;
-  value: any;
+  value: string | number | readonly string[] | undefined;
   type: string;
   options: {
-    classes?: any;
-    touched: any;
-    errors: any;
+    classes?: Classes;
+    touched: FormikTouched<{ [key in string]: unknown }>;
+    errors: FormikErrors<{ [key in string]: unknown }>;
     placeholderActive?: string;
   };
 }
@@ -31,9 +41,6 @@ export const Input = (props: Props) => {
   return (
     <>
       <input
-        onKeyUp={(e) => {
-          const target = e.target as HTMLInputElement;
-        }}
         className={classNames({
           ...classes,
           [s.input]: true,
@@ -46,7 +53,7 @@ export const Input = (props: Props) => {
       />
       <Label active={false} value={props.placeholder} />
       {touched[props.name] && errors[props.name] && (
-        <ErrorMessage message={errors[props.name]} />
+        <ErrorMessage message={errors[props.name] || ''} />
       )}
     </>
   );

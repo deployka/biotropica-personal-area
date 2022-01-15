@@ -1,4 +1,4 @@
-import { LoadingStatus } from '../../../types';
+import { LoadingStatus, Response } from '../../../types';
 import { User } from '../../user/contracts/state';
 
 export interface SpecialistUser {
@@ -12,7 +12,7 @@ export interface SpecialistUser {
 
 export interface Specialist
   extends Omit<SpecialistUser, 'user' | 'specializations'>,
-    Pick<SpecialistUser['user'], 'profile_photo' | 'name'> {
+    Pick<SpecialistUser['user'], 'profilePhoto' | 'name'> {
   specializations: string;
   userId: number;
 }
@@ -20,7 +20,7 @@ export interface Specialist
 export interface SpecialistState {
   specialist: SpecialistUser | undefined;
   status: LoadingStatus;
-  response: any;
+  response: Response | undefined;
 }
 
 export const SpecializationName = {

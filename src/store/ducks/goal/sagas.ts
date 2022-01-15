@@ -14,9 +14,7 @@ import {
   DeleteGoalActionInterface,
 } from './contracts/actionTypes';
 
-export function* fetchGoalDataRequest({
-  payload,
-}: FetchGoalDataActionInterface): any {
+export function * fetchGoalDataRequest({ payload }: FetchGoalDataActionInterface) {
   try {
     yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(GoalService.getOne, payload);
@@ -28,9 +26,7 @@ export function* fetchGoalDataRequest({
   }
 }
 
-export function* createGoalDataRequest({
-  payload,
-}: CreateGoalDataActionInterface): any {
+export function * createGoalDataRequest({ payload }: CreateGoalDataActionInterface) {
   try {
     yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(GoalService.create, payload);
@@ -42,16 +38,12 @@ export function* createGoalDataRequest({
   }
 }
 
-export function* fetchUpdateGoalRequest({
-  payload,
-}: UpdateGoalActionInterface): any {
+export function * fetchUpdateGoalRequest({ payload }: UpdateGoalActionInterface) {
   try {
     yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
     const { data, status } = yield call(GoalService.update, payload);
     yield put(setGoalData(data));
-    yield put(
-      setGoalResponse({ statusCode: status, message: 'Данные обновлены' })
-    );
+    yield put(setGoalResponse({ statusCode: status, message: 'Данные обновлены' }));
     yield put(setGoalLoadingStatus(LoadingStatus.SUCCESS));
     yield put(setGoalLoadingStatus(LoadingStatus.LOADED));
   } catch (error) {
@@ -59,9 +51,7 @@ export function* fetchUpdateGoalRequest({
   }
 }
 
-export function* fetchDeleteGoalRequest({
-  payload,
-}: DeleteGoalActionInterface): any {
+export function * fetchDeleteGoalRequest({ payload }: DeleteGoalActionInterface) {
   yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
   const { data, status } = yield call(GoalService.delete, payload);
   if (status === 200) {
@@ -75,7 +65,7 @@ export function* fetchDeleteGoalRequest({
   }
 }
 
-export function* goalSaga(): any {
+export function * goalSaga() {
   yield takeLatest(GoalActionsType.FETCH_GOAL_DATA, fetchGoalDataRequest);
   yield takeLatest(GoalActionsType.FETCH_UPDATE_GOAL, fetchUpdateGoalRequest);
   yield takeLatest(GoalActionsType.CREATE_GOAL_DATA, createGoalDataRequest);

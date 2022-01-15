@@ -7,7 +7,9 @@ interface Props {
 
 export const PopupBackground = ({ open }: Props) => {
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : 'auto';
+    document.body.style.overflow = open
+      ? 'hidden'
+      : 'auto';
   }, [open]);
   return <div className={(open && s.back) || ''}></div>;
 };

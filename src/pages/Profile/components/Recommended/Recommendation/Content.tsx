@@ -16,7 +16,9 @@ export const Content = ({ recommendation }: Props) => {
   const [height, setHeight] = useState<number | string>(0);
 
   function toggle() {
-    setHeight(height === 0 ? 'auto' : 0);
+    setHeight(height === 0
+      ? 'auto'
+      : 0);
   }
 
   const createdAt = moment(recommendation.createdAt, 'YYYYMMDD');
@@ -41,7 +43,9 @@ export const Content = ({ recommendation }: Props) => {
             toggle();
           }}
         >
-          <p>{!height ? 'показать' : 'скрыть'}</p>
+          <p>{!height
+            ? 'показать'
+            : 'скрыть'}</p>
         </div>
       </div>
     </div>

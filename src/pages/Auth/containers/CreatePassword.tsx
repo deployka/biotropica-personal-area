@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { MutableRefObject, useEffect, useRef } from 'react';
 import { FormikHelpers } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -27,7 +27,7 @@ const CreatePassword = () => {
   const loader = loadingStatus === LoadingStatus.LOADING;
 
   const token = query.get('token') || '';
-  const refResetForm = useRef<any>(null);
+  const refResetForm = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     switch (loadingStatus) {

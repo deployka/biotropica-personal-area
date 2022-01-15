@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { LoadingStatus } from '../../../types';
+import { LoadingStatus, Response } from '../../../types';
 import { Goal } from '../../goal/contracts/state';
 
 export enum GoalsActionsType {
@@ -9,15 +9,13 @@ export enum GoalsActionsType {
   FETCH_GOALS_DATA = 'goals/FETCH_GOALS_DATA',
 }
 
-export interface FetchGoalsDataActionInterface
-  extends Action<GoalsActionsType> {
+export interface FetchGoalsDataActionInterface extends Action<GoalsActionsType> {
   type: GoalsActionsType.FETCH_GOALS_DATA;
 }
 
-export interface SetGoalsResponseActionInterface
-  extends Action<GoalsActionsType> {
+export interface SetGoalsResponseActionInterface extends Action<GoalsActionsType> {
   type: GoalsActionsType.SET_GOALS_RESPONSE;
-  payload: any;
+  payload: Response | undefined;
 }
 
 export interface SetGoalsDataActionInterface extends Action<GoalsActionsType> {

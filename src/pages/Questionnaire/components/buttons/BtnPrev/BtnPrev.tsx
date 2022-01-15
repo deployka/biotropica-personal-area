@@ -1,5 +1,5 @@
+import React from 'react';
 import s from './BtnPrev.module.scss';
-interface Props {}
-export const BtnPrev = (props: Props) => {
+export const BtnPrev = () => {
   return <div className={s.BtnPrev}></div>;
 };

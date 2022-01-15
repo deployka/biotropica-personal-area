@@ -12,7 +12,7 @@ interface Response {
 }
 
 export default class ProgressService {
-  static route: string = 'progress';
+  static route = 'progress';
 
   static async getOne(payload: number): Promise<AxiosResponse<Response>> {
     return await $api.get<Response>(`/${ProgressService.route}/${payload}`);

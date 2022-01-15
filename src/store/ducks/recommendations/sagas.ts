@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { HTTP_SUCCESS } from '../../../http/httpConstants';
 import RecommendationService from '../../../services/RecommendationService';
 import { LoadingStatus } from '../../types';
 import {
@@ -10,13 +11,13 @@ import {
   RecommendationsActionsType,
 } from './contracts/actionTypes';
 
-export function* fetchRecommendationsDataRequest({
+export function * fetchRecommendationsDataRequest({
   payload,
-}: FetchRecommendationsDataActionInterface): any {
+}: FetchRecommendationsDataActionInterface) {
   try {
     yield put(setRecommendationsLoadingStatus(LoadingStatus.LOADING));
     const { data, status } = yield call(RecommendationService.geAll, payload);
-    if (status === 200) {
+    if (status === HTTP_SUCCESS) {
       yield put(setRecommendationsData(data));
       yield put(setRecommendationsLoadingStatus(LoadingStatus.SUCCESS));
     } else {
@@ -27,7 +28,7 @@ export function* fetchRecommendationsDataRequest({
   }
 }
 
-export function* recommendationsSaga(): any {
+export function * recommendationsSaga() {
   yield takeLatest(
     RecommendationsActionsType.FETCH_RECOMMENDATIONS_DATA,
     fetchRecommendationsDataRequest

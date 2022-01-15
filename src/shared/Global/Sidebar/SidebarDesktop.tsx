@@ -18,7 +18,6 @@ interface Props {
   pages: Pages[];
   nav: Nav[];
   user: User | undefined;
-  location: any;
 }
 
 export const SidebarDesktop = memo(
@@ -30,7 +29,6 @@ export const SidebarDesktop = memo(
     openChat,
     logout,
     user,
-    location,
   }: Props) => {
     return (
       <div className={s.sidebar}>
@@ -40,8 +38,7 @@ export const SidebarDesktop = memo(
               to="/profile"
               className={classNames({
                 [s.avatar]: true,
-                [s.active]:
-                  pages[0].link === '/' + location.pathname.split('/')[1],
+                [s.active]: pages[0].link === '/' + location.pathname.split('/')[1],
               })}
               onClick={() => onNavClick(pages[0])}
             >
@@ -49,10 +46,10 @@ export const SidebarDesktop = memo(
                 className={s.img}
                 style={{
                   backgroundImage: `url(${
-                    (user?.profile_photo &&
+                    (user?.profilePhoto &&
                       process.env.REACT_APP_BACKEND_URL +
                         '/' +
-                        user?.profile_photo) ||
+                        user?.profilePhoto) ||
                     defaultAvatar
                   })`,
                 }}
@@ -84,10 +81,7 @@ export const SidebarDesktop = memo(
           <div className={s.bottom}>
             <div
               onClick={openChat}
-              className={classNames(
-                s.chat,
-                chatNotificationsOpen ? s.active : ''
-              )}
+              className={classNames(s.chat, chatNotificationsOpen ? s.active : '')}
             >
               <SidebarSvgSelector id="support" />
               <div className={s.prompt}>
@@ -108,3 +102,5 @@ export const SidebarDesktop = memo(
     );
   }
 );
+
+SidebarDesktop.displayName = 'SidebarDesktop';

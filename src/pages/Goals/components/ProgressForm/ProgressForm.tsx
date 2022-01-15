@@ -39,9 +39,7 @@ import { NotificationType } from '../../../../components/GlobalNotifications/Glo
 
 registerLocale('ru', ru);
 
-interface Props {}
-
-export const ProgressForm = ({}: Props) => {
+export const ProgressForm = () => {
   const goal: Goal | undefined = useSelector(selectGoalData);
 
   const [progressBarOptions, setProgressBarOptions] = useState({
@@ -64,7 +62,36 @@ export const ProgressForm = ({}: Props) => {
   const [visibleDeleteNot, setVisibleDeleteNot] = useState<boolean>(false);
 
   const [loader, setLoader] = useState<boolean>(false);
-  const refResetForm = useRef<any>(null);
+  const refResetForm = useRef<(() => void) | null>(null);
+
+  function getMaxValueFromGoalValues(): number {
+    const values = goal?.values?.map(value => parseInt(value?.value)) || [];
+    values.push(parseInt(goal?.startResult || '', 10));
+    return Math.max(...values);
+  }
+
+  function getProgressValueByTypeAndUnit(
+    type: GoalType,
+    units: ISelect<Partial<GoalUnits> | null>[]
+  ): number {
+    switch (type) {
+      case GoalType.RUN:
+        switch (units[0].value) {
+          case RunUnits.KILOMETER:
+          case RunUnits.MINUTES:
+          case RunUnits.MINUTES_KILOMETER:
+            return getMaxValueFromGoalValues();
+        }
+        break;
+      case GoalType.WEIGHT:
+        return parseInt(goal?.values?.[0]?.value || goal?.startResult || '');
+      case GoalType.FORCE:
+        return getMaxValueFromGoalValues();
+      default:
+        break;
+    }
+    return 0;
+  }
 
   useEffect(() => {
     if (progressBarOptions.progressValue >= 100 && !goal?.completed) {
@@ -77,7 +104,7 @@ export const ProgressForm = ({}: Props) => {
     setVisibleDeleteNot(false);
     store.removeNotification('delete-notification');
     if (goal) {
-      const max: number = parseInt(goal.end_result);
+      const max: number = parseInt(goal.endResult);
       const value = Math.floor(
         (getProgressValueByTypeAndUnit(goal.type, goal.units) * 100) / max
       );
@@ -102,8 +129,7 @@ export const ProgressForm = ({}: Props) => {
     if (loadingStatus === LoadingStatus.SUCCESS && update) {
       eventBus.emit(EventTypes.notification, {
         title: `Цель «${name}» успешно обновлена!`,
-        message:
-          'Не забывайте регулярно отмечать свой прогресс в достижении цели',
+        message: 'Не забывайте регулярно отмечать свой прогресс в достижении цели',
         type: NotificationType.INFO,
         dismiss: {
           duration: 5000,
@@ -112,7 +138,9 @@ export const ProgressForm = ({}: Props) => {
         },
       });
       dispatch(setGoalResponse(undefined));
-      refResetForm.current();
+      if (refResetForm.current) {
+        refResetForm.current();
+      }
       setUpdate(false);
     }
   }, [loadingStatus, update]);
@@ -157,10 +185,7 @@ export const ProgressForm = ({}: Props) => {
     }
   }, [loadingStatus]);
 
-  async function onSubmit(
-    values: GoalValue,
-    options: FormikHelpers<GoalValue>
-  ) {
+  async function onSubmit(values: GoalValue, options: FormikHelpers<GoalValue>) {
     refResetForm.current = options.resetForm;
     setName(goal?.name || '');
     setUpdate(true);
@@ -236,40 +261,11 @@ export const ProgressForm = ({}: Props) => {
     });
   }
 
-  function getProgressValueByTypeAndUnit(
-    type: GoalType,
-    units: ISelect<Partial<GoalUnits> | null>[]
-  ): number {
-    switch (type) {
-      case GoalType.RUN:
-        switch (units[0].value) {
-          case RunUnits.KILOMETER:
-          case RunUnits.MINUTES:
-          case RunUnits.MINUTES_KILOMETER:
-            return getMaxValueFromGoalValues();
-        }
-        break;
-      case GoalType.WEIGHT:
-        return parseInt(goal?.values?.[0]?.value || goal?.start_result || '');
-      case GoalType.FORCE:
-        return getMaxValueFromGoalValues();
-      default:
-        break;
-    }
-    return 0;
-  }
-
-  function getMaxValueFromGoalValues(): number {
-    const values = goal?.values?.map(value => parseInt(value?.value)) || [];
-    values.push(parseInt(goal?.start_result || '', 10));
-    return Math.max.apply(Math, values);
-  }
-
   return (
     <>
       <div className={s.goalPanel}>
         <div className={s.top}>
-          <ProgressBar options={progressBarOptions} />
+          <ProgressBar progressBarOptions={progressBarOptions} />
           <div className={s.goalActions}>
             <Link to={`/goals/edit/${goal?.id}`} className={s.action}>
               <GlobalSvgSelector id="edit" />
@@ -341,10 +337,7 @@ export const ProgressForm = ({}: Props) => {
                       label: 'Введите дату',
                       yearDropdownItemNumber: 150,
                       customInput: (
-                        <MaskedInput
-                          mask="11.11.1111"
-                          placeholder="dd.mm.yyyy"
-                        />
+                        <MaskedInput mask="11.11.1111" placeholder="dd.mm.yyyy" />
                       ),
                     }}
                   />

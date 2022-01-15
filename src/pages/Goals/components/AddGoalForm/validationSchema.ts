@@ -5,7 +5,7 @@ import {
 } from '../../../../store/ducks/goal/contracts/state';
 
 export const validationSchema = (type: GoalType) => () => {
-  const end_result_weight = yup
+  const endResultWeight = yup
     .number()
     .positive()
     .typeError('Должен быть числом')
@@ -13,11 +13,11 @@ export const validationSchema = (type: GoalType) => () => {
     .min(1, 'Минимальный результат: 1')
     .max(1000, 'Максимальный результат: 1000');
 
-  const end_result = end_result_weight.moreThan(
-    yup.ref('start_result'),
+  const endResult = endResultWeight.moreThan(
+    yup.ref('startResult'),
     'Не может быть меньше стартового результата'
   );
-  const isWeight = type === GoalType.WEIGHT ? true : false;
+  const isWeight = type === GoalType.WEIGHT;
   return yup.object().shape({
     name: yup
       .string()
@@ -33,8 +33,10 @@ export const validationSchema = (type: GoalType) => () => {
           .typeError('Выберите единицы измерения'),
       })
     ),
-    end_result: isWeight ? end_result_weight : end_result,
-    start_result: yup
+    endResult: isWeight
+      ? endResultWeight
+      : endResult,
+    startResult: yup
       .number()
       .typeError('Должен быть числом')
       .required('Введите текущий результат')

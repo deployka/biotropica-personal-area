@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Progress } from './Progress/Progress';
 import {
   NumberQuestion,
@@ -8,7 +8,6 @@ import {
 } from './Variations';
 import { QuestionNav as Nav } from './QuestionNav';
 import s from './Question.module.scss';
-import { useState } from 'react';
 
 type Props = {
   title: string;
@@ -106,7 +105,7 @@ export const Question = (props: Props) => {
         />
       </div> */}
 
-      {/*<div className={s.question__body}>
+      {/* <div className={s.question__body}>
         <div className={s.question__number}>5 вопрос</div>
         <h2 className={s.question__title}>
           Есть ли у Вас диагностированные / ранее перенесенные или хронические
@@ -125,7 +124,7 @@ export const Question = (props: Props) => {
             </div>
           ))}
         </div>
-      </div>*/}
+      </div> */}
     </div>
   );
 };

@@ -21,7 +21,7 @@ export const selectFilteredSpecialistsData = (
   return specialists.reduce((acc: Specialist[], spec: SpecialistUser) => {
     const { user, ...res } = spec;
     acc.push({
-      profile_photo: user.profile_photo,
+      profilePhoto: user.profilePhoto,
       name: `${user.lastname || ''} ${user.name || ''} ${
         user.patronymic || ''
       }`,

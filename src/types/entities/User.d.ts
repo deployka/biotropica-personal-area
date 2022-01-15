@@ -2,7 +2,7 @@ interface User {
   id: number;
   email: string;
   password: string;
-  profile_photo: string;
+  profilePhoto: string;
   name: string;
   lastname: string;
   patronymic: string;

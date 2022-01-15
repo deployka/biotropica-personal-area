@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent, ChangeEventHandler, ReactElement } from 'react';
 import classNames from 'classnames';
 
 import DatePicker from 'react-datepicker';
@@ -6,33 +6,35 @@ import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 
 import s from './DatePickerCustom.module.scss';
 import { Label } from '../Label/Label';
+import { Locale } from 'date-fns';
+import { Classes } from '../Input/Input';
+import { FormikErrors, FormikTouched } from 'formik';
 
 interface Props {
-  onChange: any;
-  onBlur: any;
-  onSelect: any;
+  onChange: (date: Date) => void;
+  onBlur: ChangeEventHandler<HTMLInputElement>;
+  onSelect: (date: Date) => void;
   dateFormat: string;
   maxDate: Date;
-  scrollableYearDropdown: any;
+  scrollableYearDropdown: boolean;
   name: string;
-  locale: any;
-  showYearDropdown: any;
-  selected: any;
+  locale: Locale;
+  showYearDropdown: boolean;
+  selected: Date | null | undefined;
   withPortal?: boolean;
   options: {
-    classes?: any;
-    touched: any;
-    errors: any;
+    classes?: Classes;
+    touched: FormikTouched<{ [key in string]: unknown }>;
+    errors: FormikErrors<{ [key in string]: unknown }>;
     yearDropdownItemNumber: number;
-    customInput: any;
+    customInput: ReactElement;
     label: string;
   };
 }
 
 export const DatePickerCustom = (props: Props) => {
   const { options, ...inputProps } = props;
-  const { touched, errors, yearDropdownItemNumber, customInput, label } =
-    options;
+  const { touched, errors, yearDropdownItemNumber, customInput, label } = options;
   return (
     <>
       <Label active={true} value={label} />
@@ -52,7 +54,7 @@ export const DatePickerCustom = (props: Props) => {
         customInput={customInput}
       />
       {touched[props.name] && errors[props.name] && (
-        <ErrorMessage message={errors[props.name]} />
+        <ErrorMessage message={errors[props.name] || ''} />
       )}
     </>
   );

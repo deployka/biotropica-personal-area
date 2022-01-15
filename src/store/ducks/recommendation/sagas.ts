@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { HTTP_CREATED, HTTP_SUCCESS } from '../../../http/httpConstants';
 import RecommendationService from '../../../services/RecommendationService';
 import { LoadingStatus } from '../../types';
 import {
@@ -14,12 +15,12 @@ import {
   DeleteRecommendationActionInterface,
 } from './contracts/actionTypes';
 
-export function* fetchRecommendationDataRequest({
+export function * fetchRecommendationDataRequest({
   payload,
-}: FetchRecommendationDataActionInterface): any {
+}: FetchRecommendationDataActionInterface) {
   yield put(setRecommendationLoadingStatus(LoadingStatus.LOADING));
   const { data, status } = yield call(RecommendationService.getOne, payload);
-  if (status === 200) {
+  if (status === HTTP_SUCCESS) {
     yield put(setRecommendationData(data));
     yield put(setRecommendationLoadingStatus(LoadingStatus.SUCCESS));
   } else {
@@ -30,12 +31,12 @@ export function* fetchRecommendationDataRequest({
   }
 }
 
-export function* createRecommendationDataRequest({
+export function * createRecommendationDataRequest({
   payload,
-}: CreateRecommendationDataActionInterface): any {
+}: CreateRecommendationDataActionInterface) {
   yield put(setRecommendationLoadingStatus(LoadingStatus.LOADING));
   const { data, status } = yield call(RecommendationService.create, payload);
-  if (status === 201) {
+  if (status === HTTP_CREATED) {
     yield put(setRecommendationData(data));
     yield put(setRecommendationLoadingStatus(LoadingStatus.SUCCESS));
   } else {
@@ -43,12 +44,12 @@ export function* createRecommendationDataRequest({
   }
 }
 
-export function* fetchUpdateRecommendationRequest({
+export function * fetchUpdateRecommendationRequest({
   payload,
-}: UpdateRecommendationActionInterface): any {
+}: UpdateRecommendationActionInterface) {
   yield put(setRecommendationLoadingStatus(LoadingStatus.LOADING));
   const { data, status } = yield call(RecommendationService.update, payload);
-  if (status === 200) {
+  if (status === HTTP_SUCCESS) {
     yield put(setRecommendationData(data));
     yield put(
       setRecommendationResponse({
@@ -63,12 +64,12 @@ export function* fetchUpdateRecommendationRequest({
   }
 }
 
-export function* fetchDeleteRecommendationRequest({
+export function * fetchDeleteRecommendationRequest({
   payload,
-}: DeleteRecommendationActionInterface): any {
+}: DeleteRecommendationActionInterface) {
   yield put(setRecommendationLoadingStatus(LoadingStatus.LOADING));
   const { data, status } = yield call(RecommendationService.delete, payload);
-  if (status === 200) {
+  if (status === HTTP_SUCCESS) {
     yield put(setRecommendationData(undefined));
     yield put(
       setRecommendationResponse({ statusCode: status, message: data.message })
@@ -80,7 +81,7 @@ export function* fetchDeleteRecommendationRequest({
   }
 }
 
-export function* recommendationSaga(): any {
+export function * recommendationSaga() {
   yield takeLatest(
     RecommendationActionsType.FETCH_RECOMMENDATION_DATA,
     fetchRecommendationDataRequest

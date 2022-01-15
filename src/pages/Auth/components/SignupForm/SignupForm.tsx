@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
@@ -14,12 +15,12 @@ import { Loader } from '../../../../shared/Form/Loader/Loader';
 
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
-import { useState } from 'react';
+import { SchemaOf } from 'yup';
 
 interface Props {
   onSubmit: (values: SignupData, options: FormikHelpers<SignupData>) => void;
   loader: boolean;
-  validationSchema: any;
+  validationSchema: SchemaOf<SignupData>;
 }
 
 export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
@@ -27,13 +28,14 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || !checked || loader;
   }
+
   return (
     <>
       <Formik
         initialValues={{
           email: '',
           password: '',
-          verification_password: '',
+          verificationPassword: '',
           name: '',
           lastname: '',
           phone: '',
@@ -57,9 +59,7 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
         }) => (
           <div className={s.form}>
             <h1 className={s.title}>Регистрация</h1>
-            <h2 className={s.subtitle}>
-              Пожалуйста, заполните информацию ниже:
-            </h2>
+            <h2 className={s.subtitle}>Пожалуйста, заполните информацию ниже:</h2>
 
             <div className={s.input__wrapper_name}>
               <Input
@@ -130,8 +130,8 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Повторите пароль"
-                name="verification_password"
-                value={values.verification_password}
+                name="verificationPassword"
+                value={values.verificationPassword}
                 type="password"
                 options={{ touched, errors }}
               />
@@ -142,7 +142,9 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
               type="submit"
               onClick={() => handleSubmit()}
               options={{
-                content: loader ? <Loader /> : 'Зарегистрироваться',
+                content: loader
+                  ? <Loader />
+                  : 'Зарегистрироваться',
                 setDisabledStyle: isDisabled(isValid, dirty),
                 width: '100%',
                 height: '50px',
@@ -164,7 +166,7 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
                 })}
               ></label>
               <span>
-                Нажимая кнопку «Зарегистрироваться», вы принимаете{' '}
+                Нажимая кнопку «Зарегистрироваться», вы принимаете{' '}
                 <a href="/policy">условия пользовательского соглашения</a>
               </span>
             </div>

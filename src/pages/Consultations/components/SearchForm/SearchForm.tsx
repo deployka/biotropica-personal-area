@@ -1,24 +1,22 @@
 import React from 'react';
 import { ConsultationsSvgSelector } from '../../../../assets/icons/consultations/ConsultationsSvgSelector';
-import { SelectCustom } from '../../../../shared/Form/Select/SelectCustom';
+import { SelectCustom, Styles } from '../../../../shared/Form/Select/SelectCustom';
 
 import s from './SearchForm.module.scss';
 
-interface Props {}
-
-export const SearchForm = (props: Props) => {
+export const SearchForm = () => {
   const options = [
     { value: 'Диетолог', label: 'Диетолог' },
     { value: 'Эндокринолог', label: 'Эндокринолог' },
   ];
 
   const selectStyles = {
-    container: (styles: any) => ({
+    container: (styles: Styles) => ({
       ...styles,
       width: '100%',
       height: '100%',
     }),
-    control: (styles: any) => ({
+    control: (styles: Styles) => ({
       ...styles,
       borderRadius: 50,
       height: '100%',
@@ -26,7 +24,7 @@ export const SearchForm = (props: Props) => {
       paddingLeft: 5,
     }),
 
-    option: (styles: any, { isSelected }: any) => ({
+    option: (styles: Styles, { isSelected }: Styles) => ({
       ...styles,
       background: isSelected ? '#F7F6FB' : null,
       color: '#1E174D',
@@ -36,7 +34,7 @@ export const SearchForm = (props: Props) => {
       fontWeight: 400,
       padding: '14px 12px',
     }),
-    menu: (styles: any) => ({
+    menu: (styles: Styles) => ({
       ...styles,
       borderRadius: 5,
       border: null,
@@ -44,7 +42,7 @@ export const SearchForm = (props: Props) => {
       zIndex: '45',
       overflow: 'hidden',
     }),
-    menuList: (styles: any) => ({
+    menuList: (styles: Styles) => ({
       ...styles,
       paddingBottom: 0,
       paddingTop: 0,
@@ -79,7 +77,7 @@ export const SearchForm = (props: Props) => {
           hideLabel={true}
           placeholder="Специалист"
           name="specialist"
-          value={null}
+          value={undefined}
           options={options}
         />
       </div>

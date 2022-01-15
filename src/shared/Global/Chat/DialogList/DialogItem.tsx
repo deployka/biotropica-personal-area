@@ -1,9 +1,15 @@
+import React from 'react';
 import classNames from 'classnames';
 import s from './DialogList.module.scss';
 import defaultAvatar from '../../../../assets/images/profile/default_avatar.png';
 import { getMediaLink } from '../../../../utils/mediaHelper';
 interface Props {
-  options: any;
+  options: {
+    image?: string;
+    name: string;
+    content?: string;
+    status: boolean;
+  };
   onClick: () => void;
 }
 
@@ -11,9 +17,7 @@ export const DialogItem = ({ options, onClick }: Props) => {
   return (
     <div className={s.message} onClick={() => onClick()}>
       <div className={s.avatar}>
-        <img
-          src={(options.image && getMediaLink(options.image)) || defaultAvatar}
-        />
+        <img src={(options.image && getMediaLink(options.image)) || defaultAvatar} />
       </div>
       <div className={s.info}>
         <div className={s.username}>

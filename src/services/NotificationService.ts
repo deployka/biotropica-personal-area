@@ -8,7 +8,7 @@ interface Response {
 }
 
 export default class NotificationService {
-  static route: string = 'notifications';
+  static route = 'notifications';
 
   static async getAll(): Promise<INotification[]> {
     return (await $api.get(`/${NotificationService.route}/`)).data;

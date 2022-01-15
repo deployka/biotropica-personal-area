@@ -1,22 +1,28 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import s from './Tariff.module.scss';
+
+interface Tariff {
+  name: string;
+  expires: string;
+}
 interface Props {
-  Tariff: any; //TODO: Добавить интерфейс после добавления тарифов в редакс
+  tariff: Tariff; // TODO: Добавить интерфейс после добавления тарифов в редакс
 }
 
-export const Tariff = ({ Tariff }: Props) => {
+export const Tariff = ({ tariff }: Props) => {
   return (
     <Link style={{ textDecoration: 'none' }} className={s.tariff} to="/tariffs">
       <div className={s.title}>
         <p>
           Тариф {'  '}
-          {Tariff.name}
+          {tariff.name}
         </p>
       </div>
       <div className={s.date}>
         <p>
           до {'  '}
-          {Tariff.expires}
+          {tariff.expires}
         </p>
       </div>
     </Link>

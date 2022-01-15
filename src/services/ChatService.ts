@@ -39,7 +39,7 @@ export type Message = {
 };
 
 export default class ChatService {
-  static route: string = 'dialogs';
+  static route = 'dialogs';
 
   static async getAll(): Promise<AxiosResponse<Exclude<Dialog, 'messages'>[]>> {
     return await $api.get(`/${ChatService.route}`);

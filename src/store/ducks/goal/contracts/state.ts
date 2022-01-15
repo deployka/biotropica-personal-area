@@ -1,6 +1,11 @@
 import { ISelect } from '../../../../shared/Form/Select/SelectCustom';
-import { LoadingStatus } from '../../../types';
+import { LoadingStatus, Response } from '../../../types';
 
+export enum GoalType {
+  FORCE = 'FORCE',
+  WEIGHT = 'WEIGHT',
+  RUN = 'RUN',
+}
 export interface Goal {
   id: number;
   name: string;
@@ -8,9 +13,9 @@ export interface Goal {
   units: ISelect<Partial<GoalUnits> | null>[];
   description: string;
   values: GoalValue[];
-  start_result: string;
+  startResult: string;
   userId: number;
-  end_result: string;
+  endResult: string;
   completed: boolean;
   createdAt: string;
 }
@@ -54,17 +59,8 @@ export interface GoalState {
   response: Response | undefined;
 }
 
-type Response = {
-  message: string;
-  statusCode: number;
-};
-
-export enum GoalType {
-  FORCE = 'FORCE',
-  WEIGHT = 'WEIGHT',
-  RUN = 'RUN',
-}
-
-export interface UpdateGoalData extends Partial<Goal> {}
-export interface CreateGoalData
-  extends Omit<Goal, 'id' | 'values' | 'userId' | 'completed' | 'createdAt'> {}
+export type UpdateGoalData = Partial<Goal>;
+export type CreateGoalData = Omit<
+  Goal,
+  'id' | 'values' | 'userId' | 'completed' | 'createdAt'
+>;

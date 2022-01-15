@@ -20,11 +20,15 @@ interface Props {
 function returnMsg(message: IMessage, currentUser: ChatUser, read: boolean) {
   const time = format(new Date(message.createdAt), 'HH:mm');
   const itIsCurrentUser = currentUser.id === message.authorId;
-  const readSentIcon = message.id ? <ChatSvgSelector id="sent" /> : '';
-  const readIcon = read ? <ChatSvgSelector id="read" /> : '';
+  const readSentIcon = message.id
+    ? <ChatSvgSelector id="sent" />
+    : '';
+  const readIcon = read
+    ? <ChatSvgSelector id="read" />
+    : '';
 
   switch (message.type) {
-    case MessageType.DOCUMENT:
+    case MessageType.DOCUMENT: {
       if (!message.file) {
         return '';
       }
@@ -38,6 +42,7 @@ function returnMsg(message: IMessage, currentUser: ChatUser, read: boolean) {
             href={getMediaLink(message.file.name)}
             download
             target="_blank"
+            rel="noreferrer"
           >
             <div className={s.icon}>
               <GlobalSvgSelector id="document" />
@@ -57,25 +62,32 @@ function returnMsg(message: IMessage, currentUser: ChatUser, read: boolean) {
             </div>
             <div className={classNames(s.time)}>
               <span>{time}</span>
-              {itIsCurrentUser ? readIcon || readSentIcon : ''}
+              {itIsCurrentUser
+                ? readIcon || readSentIcon
+                : ''}
             </div>
           </div>
         </div>
       );
+    }
     case MessageType.IMAGE:
-      return message.file?.name ? (
-        <img
-          src={getMediaLink(message.file.name)}
-          className={classNames(
-            s.message,
-            s.imageMessage,
-            s.new__branch,
-            itIsCurrentUser ? s.by__user : ''
-          )}
-        />
-      ) : (
-        'XXXXXX'
-      );
+      return message.file?.name
+        ? (
+          <img
+            src={getMediaLink(message.file.name)}
+            className={classNames(
+              s.message,
+              s.imageMessage,
+              s.new__branch,
+              itIsCurrentUser
+                ? s.by__user
+                : ''
+            )}
+          />
+        )
+        : (
+          'XXXXXX'
+        );
     case MessageType.TEXT:
       return (
         <MessageText

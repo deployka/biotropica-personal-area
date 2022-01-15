@@ -1,16 +1,13 @@
+import React, { ReactElement } from 'react';
 interface Props {
   id: string;
 }
 
-export const ErrorSvgSelector = ({ id }: Props) => {
+export const ErrorSvgSelector = ({ id }: Props): ReactElement => {
   switch (id) {
     case 'illustration':
       return (
-        <svg
-          viewBox="0 0 554 512"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg viewBox="0 0 554 512" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M543.883 462.578C551.237 450.096 550.729 435.762 541.94 428.497C538.323 425.523 533.794 424.207 528.966 424.267C529.489 412.145 525.528 401.114 516.948 394.029C505.05 384.208 487.367 384.567 471.328 393.296C452.853 366.705 422.555 355.225 400.971 367.676C393.557 371.951 388.101 378.558 384.648 386.555C353.692 375.554 321.899 384.223 311.809 407.287C309.149 413.356 308.252 419.843 308.895 426.405C299.821 424.477 291.137 426.524 285.995 432.757C279.598 440.5 280.629 452.413 287.49 462.563H543.883V462.578Z"
             fill="#F7F6FB"

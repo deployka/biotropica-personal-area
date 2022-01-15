@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useEffect } from 'react';
+import React, { ReactElement, ReactNode, useEffect } from 'react';
 import { ReactNotificationOptions, store } from 'react-notifications-component';
 import { useHistory, useLocation } from 'react-router';
 import { notification } from '../../config/notification/notificationForm';
@@ -21,7 +21,7 @@ export interface Notification extends Partial<ReactNotificationOptions> {
   title?: string;
 }
 
-const GlobalNotifications = () => {
+const GlobalNotifications = (): ReactElement => {
   const query = useQuery();
   const history = useHistory();
   const location = useLocation();

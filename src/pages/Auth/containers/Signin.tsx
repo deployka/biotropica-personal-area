@@ -16,7 +16,9 @@ const Signin = () => {
   const loadingStatus = useSelector(selectUserLoadingStatus);
 
   const loader = loadingStatus === LoadingStatus.LOADING;
-  const refSetFieldValue = useRef<any>(null);
+  const refSetFieldValue = useRef<((field: string, value: string) => void) | null>(
+    null
+  );
 
   useEffect(() => {
     if (!refSetFieldValue.current) return;

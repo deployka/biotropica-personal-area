@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from 'react';
 
 import s from './ProgressBar.module.scss';
-interface ProgressBar {
-  options: any; //FIXME:
+interface progressBarOptions {
+  width: number;
+  height: number;
+  circleWidth: number;
+  gradientStartColor: string;
+  gradientStopColor: string;
+  bgColor: string;
+  progressValue: number;
 }
 
-export const ProgressBar = ({ options }: ProgressBar) => {
+interface Props {
+  progressBarOptions: progressBarOptions;
+}
+
+export const ProgressBar = ({ progressBarOptions }: Props) => {
   const {
     width,
     height,
@@ -14,7 +24,7 @@ export const ProgressBar = ({ options }: ProgressBar) => {
     gradientStopColor,
     bgColor,
     progressValue,
-  } = options;
+  } = progressBarOptions;
   const radius = width / 2 - circleWidth / 2;
 
   const circumference = 2 * Math.PI * radius;
@@ -30,7 +40,7 @@ export const ProgressBar = ({ options }: ProgressBar) => {
       return;
     }
 
-    let timeout: number = -1;
+    let timeout = -1;
     if (progress !== progressValue) {
       timeout = setTimeout(setProgress, 10, progress + 1);
     }
@@ -69,12 +79,7 @@ export const ProgressBar = ({ options }: ProgressBar) => {
             className={s.progress__bar__circle}
           />
         </svg>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          version="1.1"
-          height={0}
-          width={0}
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height={0} width={0}>
           <defs>
             <linearGradient id="GradientColor">
               <stop offset="0%" stopColor={gradientStartColor} />

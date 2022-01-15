@@ -1,4 +1,6 @@
-export const notification: any = {
+import { ReactNotificationOptions } from 'react-notifications-component';
+
+export const notification: ReactNotificationOptions = {
   insert: 'top',
   container: 'top-right',
   animationIn: ['animate__animated', 'animate__fadeInRight'],

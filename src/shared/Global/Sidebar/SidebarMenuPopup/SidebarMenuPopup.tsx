@@ -1,5 +1,5 @@
+import React from 'react';
 import classNames from 'classnames';
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { SidebarSvgSelector } from '../../../../assets/icons/sidebar/SIdebarSvgSelector';
 import { useModal } from '../../../../hooks/useModal';
@@ -18,7 +18,7 @@ interface Props {
   logout: () => void;
   user: User | undefined;
   pages: Pages[];
-  location: any;
+  location: Location;
 }
 
 export const SidebarMenuPopup = ({
@@ -49,8 +49,7 @@ export const SidebarMenuPopup = ({
             <div
               className={classNames({
                 [s.avatar]: true,
-                [s.active]:
-                  pages[0].link === '/' + location.pathname.split('/')[1],
+                [s.active]: pages[0].link === '/' + location.pathname.split('/')[1],
               })}
               onClick={() => onNavClick({ ...pages[0] })}
             >
@@ -58,10 +57,10 @@ export const SidebarMenuPopup = ({
                 className={s.img}
                 style={{
                   backgroundImage: `url(${
-                    (user?.profile_photo &&
+                    (user?.profilePhoto &&
                       process.env.REACT_APP_BACKEND_URL +
                         '/' +
-                        user?.profile_photo) ||
+                        user?.profilePhoto) ||
                     defaultAvatar
                   })`,
                 }}

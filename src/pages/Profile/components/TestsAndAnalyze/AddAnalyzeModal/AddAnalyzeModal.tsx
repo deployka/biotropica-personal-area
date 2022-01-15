@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { Formik } from 'formik';
 import React, { useState } from 'react';
+import { SchemaOf } from 'yup';
 
 import { ProfileSvgSelector } from '../../../../../assets/icons/profile/ProfileSvgSelector';
 
@@ -23,7 +24,7 @@ import s from './AddAnalyzeModal.module.scss';
 
 interface Props {
   onSubmit: (values: CreateAnalyzeAnswerData) => void;
-  validationSchema: any;
+  validationSchema: SchemaOf<Omit<CreateAnalyzeAnswerData, 'analyzeId'>>;
   onErrorFileLoaded: () => void;
   onSuccessFileLoaded: () => void;
 }
@@ -41,7 +42,7 @@ export const AddAnalyzeModal = ({
 
   async function onFileLoaded(
     e: React.ChangeEvent<HTMLInputElement>,
-    setFieldValue: (field: string, value: any) => void
+    setFieldValue: (field: string, value: File) => void
   ) {
     try {
       const files = e.target.files || null;
@@ -110,14 +111,13 @@ export const AddAnalyzeModal = ({
               />
               <label
                 className={classNames(s.label, {
-                  [s.success__input]:
-                    touched['filePath'] && !errors['filePath'],
-                  [s.error__input]: touched['filePath'] && errors['filePath'],
+                  [s.success__input]: touched.filePath && !errors.filePath,
+                  [s.error__input]: touched.filePath && errors.filePath,
                 })}
                 htmlFor="modalFileInput"
               >
                 <ProfileSvgSelector id="document" />
-                <p>{fileName ? fileName : 'Загрузить анализы'}</p>
+                <p>{fileName || 'Загрузить анализы'}</p>
               </label>
             </div>
             <div className={s.textInput}>

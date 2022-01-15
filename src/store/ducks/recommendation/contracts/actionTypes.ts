@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { LoadingStatus } from '../../../types';
+import { LoadingStatus, Response } from '../../../types';
 import {
   UpdateRecommendationData,
   Recommendation,
@@ -45,7 +45,7 @@ export interface CreateRecommendationDataActionInterface
 export interface SetRecommendationResponseActionInterface
   extends Action<RecommendationActionsType> {
   type: RecommendationActionsType.SET_RECOMMENDATION_RESPONSE;
-  payload: any;
+  payload: Response | undefined;
 }
 
 export interface SetRecommendationDataActionInterface

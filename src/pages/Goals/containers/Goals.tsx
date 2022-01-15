@@ -42,7 +42,9 @@ const Goals = () => {
   const { id } = useParams<Params>();
   const activeGoalId: number = parseInt(id, 10);
 
-  const activeGoalTemplate = activeGoalId ? goal : goals[0];
+  const activeGoalTemplate = activeGoalId
+    ? goal
+    : goals[0];
 
   useEffect(() => {
     if (activeGoalId && activeGoalId !== goal?.id) {
@@ -85,7 +87,7 @@ const Goals = () => {
     <div className={s.goals}>
       <Header
         goals={goals.sort((a, b) => b.id - a.id)}
-        active={activeGoalId ? activeGoalId : goals[goals.length - 1]?.id}
+        active={activeGoalId || goals[goals.length - 1]?.id}
       />
       <div className={s.content}>
         <div className={s.graph}>

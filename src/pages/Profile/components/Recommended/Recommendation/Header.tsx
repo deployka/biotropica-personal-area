@@ -6,7 +6,7 @@ import { getMediaLink } from '../../../../../utils/mediaHelper';
 import defaultAvatar from '../../../../../assets/images/profile/default_avatar.png';
 
 import s from './Recommendation.module.scss';
-import {emitAppModuleEvent} from "../../../../../services/AppModuleService";
+import { emitAppModuleEvent } from '../../../../../services/AppModuleService';
 
 interface Props {
   profile: ISpecialistProfile;
@@ -21,7 +21,7 @@ export const Header = ({ profile }: Props) => {
     }
   }, []);
 
-  const photoLink = getMediaLink(profile.profile_photo);
+  const photoLink = getMediaLink(profile.profilePhoto);
   return (
     <div className={s.header}>
       <div className={s.specialist}>
@@ -37,13 +37,13 @@ export const Header = ({ profile }: Props) => {
           </div>
         </div>
       </div>
-        {/*TODO: вернуть ссылку*/}
-        {/*<Link*/}
-        {/*    to={'/specialists/' + profile.id}*/}
-        {/*    className={s.button}*/}
-        {/*>*/}
-        {/*  <p>{mobile ? 'профиль' : 'перейти в профиль'}</p>*/}
-        {/*</Link>*/}
+      {/* TODO: вернуть ссылку */}
+      {/* <Link */}
+      {/*    to={'/specialists/' + profile.id} */}
+      {/*    className={s.button} */}
+      {/* > */}
+      {/*  <p>{mobile ? 'профиль' : 'перейти в профиль'}</p> */}
+      {/* </Link> */}
     </div>
   );
 };

@@ -15,9 +15,9 @@ import {
   FetchClosestConsultationDataActionInterface,
 } from './contracts/actionTypes';
 
-export function* fetchConsultationDataRequest({
+export function * fetchConsultationDataRequest({
   payload,
-}: FetchConsultationDataActionInterface): any {
+}: FetchConsultationDataActionInterface) {
   try {
     yield put(setConsultationLoadingStatus(LoadingStatus.LOADING));
     const { data, status } = yield call(ConsultationService.getOne, payload);
@@ -35,7 +35,9 @@ export function* fetchConsultationDataRequest({
   }
 }
 
-export function* fetchClosestConsultationDataRequest({}: FetchClosestConsultationDataActionInterface): any {
+export function * fetchClosestConsultationDataRequest(
+  _: FetchClosestConsultationDataActionInterface
+) {
   try {
     yield put(setConsultationLoadingStatus(LoadingStatus.LOADING));
     const { data, status } = yield call(ConsultationService.getClosest);
@@ -53,9 +55,9 @@ export function* fetchClosestConsultationDataRequest({}: FetchClosestConsultatio
   }
 }
 
-export function* createConsultationDataRequest({
+export function * createConsultationDataRequest({
   payload,
-}: CreateConsultationDataActionInterface): any {
+}: CreateConsultationDataActionInterface) {
   try {
     yield put(setConsultationLoadingStatus(LoadingStatus.LOADING));
     const { data, status } = yield call(ConsultationService.create, payload);
@@ -72,7 +74,7 @@ export function* createConsultationDataRequest({
   }
 }
 
-export function* consultationSaga(): any {
+export function * consultationSaga() {
   yield takeLatest(
     ConsultationActionsType.FETCH_CONSULTATION_DATA,
     fetchConsultationDataRequest

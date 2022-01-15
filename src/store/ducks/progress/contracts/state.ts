@@ -1,4 +1,4 @@
-import { LoadingStatus } from '../../../types';
+import { LoadingStatus, Response } from '../../../types';
 
 export interface Progress {
   id: number;
@@ -21,12 +21,12 @@ export enum TypePhoto {
 export interface ProgressState {
   progress: Progress[] | undefined;
   status: LoadingStatus;
-  response: any;
+  response: Response | undefined;
 }
 
 export enum ProgressType {}
 
-export interface UpdateProgressData extends Partial<Progress> {}
+export type UpdateProgressData = Partial<Progress>;
 export interface CreateProgressData extends Omit<Progress, 'id' | 'createdAt'> {
   id?: number;
 }

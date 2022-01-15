@@ -19,8 +19,10 @@ export const Recommendation = ({ id, activeProfiles }: Props) => {
 
   return (
     <div className={s.recommendation}>
-      <Header profile={activeProfiles[id][0].specialist_profile} />
-      <AnimateHeight duration={300} height={height ? 0 : 'auto'}>
+      <Header profile={activeProfiles[id][0].specialistProfile} />
+      <AnimateHeight duration={300} height={height
+        ? 0
+        : 'auto'}>
         <div className={s.postsWrapper}>
           {activeProfiles[id].map((recommendation: IRecommendation) => (
             <Content

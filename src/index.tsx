@@ -8,7 +8,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store/store';
 
-//libs styles
+// libs styles
 import 'react-notifications-component/dist/theme.css';
 import 'swiper/swiper.scss';
 import 'react-dates/lib/css/_datepicker.css';

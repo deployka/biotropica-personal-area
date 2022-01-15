@@ -18,11 +18,11 @@ interface Props {
   recTypes: RecommendationType[];
   activeType: RecommendationType | null;
   setActiveType: Dispatch<SetStateAction<RecommendationType | null>>;
-  optionsByType: any;
+  optionsByType: {
+    [key in RecommendationType]: { name: string; color: string };
+  };
   getAmountByType: (type: RecommendationType) => number;
-  getProfilesByType: (
-    type: RecommendationType
-  ) => Record<string, IRecommendation[]>;
+  getProfilesByType: (type: RecommendationType) => Record<string, IRecommendation[]>;
 }
 
 export const MobileRecommended = ({

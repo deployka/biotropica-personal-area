@@ -87,6 +87,8 @@ export const InnerChat = ({
         return (
           <Timemark time={item.patload} key={`timemark-${item.patload}`} />
         );
+      default:
+        return null;
     }
   });
 
@@ -100,7 +102,9 @@ export const InnerChat = ({
       <ChatHeader user={opponent} onClose={onClose} />
       <div className={s.messages} id="InnerChat">
         {List}
-        {dialog.opponentWriting ? <PrintedMessage /> : ''}
+        {dialog.opponentWriting
+          ? <PrintedMessage />
+          : ''}
       </div>
       <ChatFooter
         onSubmit={onSendMessage}

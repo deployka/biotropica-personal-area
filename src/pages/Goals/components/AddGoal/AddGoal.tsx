@@ -35,8 +35,8 @@ const AddGoal = () => {
     type: GoalType.WEIGHT,
     units: [{ label: '', value: null }],
     description: '',
-    end_result: '',
-    start_result: '',
+    endResult: '',
+    startResult: '',
     name: '',
   });
 
@@ -53,9 +53,9 @@ const AddGoal = () => {
   const [name, setName] = useState<string>('');
 
   const isLoading = loadingStatus === LoadingStatus.LOADING;
-  const refResetForm = useRef<any>(null);
+  const refResetForm = useRef<(() => void) | null>(null);
 
-  function getOptions(): ISelect<string>[] | null {
+  function getOptions(): ISelect<string>[] | undefined {
     switch (goalTemplate.type) {
       case GoalType.RUN:
         return [
@@ -73,21 +73,17 @@ const AddGoal = () => {
       case GoalType.FORCE:
         return [{ value: WeightUnits.KILOGRAM, label: 'Килограммы' }];
       default:
-        return null;
+        return undefined;
     }
   }
 
   useEffect(() => {
     switch (loadingStatus) {
-      case LoadingStatus.ERROR:
-        if (!refResetForm.current) return;
-        break;
       case LoadingStatus.LOADED:
         if (!refResetForm.current) return;
         eventBus.emit(EventTypes.notification, {
           title: `Цель «${name}» успешно создана!`,
-          message:
-            'Не забывайте регулярно отмечать свой прогресс в достижении цели',
+          message: 'Не забывайте регулярно отмечать свой прогресс в достижении цели',
           type: NotificationType.SUCCESS,
           dismiss: {
             onScreen: true,

@@ -20,7 +20,7 @@ export const Analyzes = ({ analyzes }: Props) => {
               <img src={documentSvg} />
             </div>
             <div className={s.name}>
-              <a target="_blank" href={getMediaLink(analyze.filePath)}>
+              <a target="_blank" href={getMediaLink(analyze.filePath)} rel="noreferrer">
                 {analyze.text}
               </a>
             </div>

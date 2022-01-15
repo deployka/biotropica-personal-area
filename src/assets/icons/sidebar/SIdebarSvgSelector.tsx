@@ -1,8 +1,9 @@
+import React, { ReactElement } from 'react';
 interface Props {
   id: string;
 }
 
-export const SidebarSvgSelector = ({ id }: Props) => {
+export const SidebarSvgSelector = ({ id }: Props): ReactElement => {
   switch (id) {
     case 'home':
       return (
@@ -93,34 +94,6 @@ export const SidebarSvgSelector = ({ id }: Props) => {
             fillRule="evenodd"
             clipRule="evenodd"
             d="M10.9842 1C10.9842 1 4.99553 1.00326 4.98617 1.00326C2.83315 1.01711 1.5 2.49674 1.5 4.75367V12.2463C1.5 14.5147 2.84329 16 5.01503 16C5.01503 16 11.0029 15.9976 11.0131 15.9976C13.1661 15.9837 14.5 14.5033 14.5 12.2463V4.75367C14.5 2.48533 13.1559 1 10.9842 1Z"
-            stroke="#9E97BE"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      );
-
-    case 'video':
-      return (
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M15.8158 15.6205C15.8158 17.6135 14.4578 19.0215 12.2858 19.0215H6.06881C3.8988 19.0215 2.5498 17.6135 2.5498 15.6205V8.66049C2.5498 6.66849 3.8988 5.25049 6.07981 5.25049H12.2858C14.4578 5.25049 15.8158 6.66849 15.8158 8.66049V15.6205Z"
-            stroke="#9E97BE"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15.8154 11.2766L19.9124 7.9226C20.5624 7.3876 21.5494 7.8526 21.5494 8.6996V15.5716C21.5494 16.4196 20.5624 16.8826 19.9124 16.3486L15.8154 12.9946"
             stroke="#9E97BE"
             strokeWidth="1.5"
             strokeLinecap="round"
@@ -315,18 +288,8 @@ export const SidebarSvgSelector = ({ id }: Props) => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            d="M1 1H21"
-            stroke="#9E97BE"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          <path
-            d="M1 6H21"
-            stroke="#9E97BE"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
+          <path d="M1 1H21" stroke="#9E97BE" strokeWidth="2" strokeLinecap="round" />
+          <path d="M1 6H21" stroke="#9E97BE" strokeWidth="2" strokeLinecap="round" />
           <path
             d="M1 11H21"
             stroke="#9E97BE"

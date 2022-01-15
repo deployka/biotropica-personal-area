@@ -17,7 +17,9 @@ export function MessageText(props: Props) {
       className={classNames(
         s.message,
         s.textMessage,
-        props.itIsCurrentUser ? s.by__user : ''
+        props.itIsCurrentUser
+          ? s.by__user
+          : ''
       )}
     >
       {props.message.text}

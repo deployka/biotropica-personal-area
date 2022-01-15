@@ -21,5 +21,4 @@ export interface ConsultationState {
   response: Response | undefined;
 }
 
-export interface CreateConsultationData
-  extends Pick<Consultation, 'specialistId'> {}
+export type CreateConsultationData = Pick<Consultation, 'specialistId'>

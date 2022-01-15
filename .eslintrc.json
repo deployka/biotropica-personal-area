@@ -4,29 +4,34 @@
     "es2021": true
   },
   "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react-hooks/recommended",
     "plugin:react/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "plugin:import/typescript",
-    "airbnb",
-    "plugin:prettier/recommended",
     "prettier",
-    "prettier/react"
+    "standard",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 13,
+    "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "require-jsdoc": "off",
-    "@typescript-eslint/ban-ts-comment": "off",
-    "@typescript-eslint/ban-types": "off"
+    "semi": ["error", "always"],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "comma-dangle": ["error", "only-multiline"],
+    "space-before-function-paren": [
+      "error",
+      { "anonymous": "always", "named": "never", "asyncArrow": "always" }
+    ],
+    "max-len": ["error", { "code": 85, "ignoreStrings": true, "comments": 120 }],
+    "multiline-ternary": ["error", "always-multiline"],
+    "prefer-promise-reject-errors": ["error", { "allowEmptyReject": true }],
+    "arrow-parens": ["error", "as-needed"]
   }
 }

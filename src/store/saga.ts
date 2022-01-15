@@ -13,7 +13,7 @@ import { specialistsSaga } from './ducks/specialists/sagas';
 import { consultationSaga } from './ducks/consultation/sagas';
 import { consultationsSaga } from './ducks/consultations/sagas';
 
-export default function* rootSaga(): any {
+export default function* rootSaga() {
   yield all([
     userSaga(),
     specialistSaga(),

@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
@@ -10,7 +11,7 @@ import {
   selectProgressLoadingStatus,
 } from '../../../../store/ducks/progress/selectors';
 import { Progress as IProgress } from '../../../../store/ducks/progress/contracts/state';
-import { useEffect } from 'react';
+
 import { fetchProgressData } from '../../../../store/ducks/progress/actionCreators';
 import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
 import { ModalName } from '../../../../providers/ModalProvider';
@@ -34,7 +35,9 @@ export const Progress = ({ isPublic, user }: Props) => {
     text: !isPublic
       ? ''
       : 'Вы еще не загрузили фото прогресса. Сделайте это нажав на ссылку ниже',
-    bottomLink: !isPublic ? '' : 'Загрузить фото',
+    bottomLink: !isPublic
+      ? ''
+      : 'Загрузить фото',
     onClick: () => {
       openModal(ModalName.MODAL_ADD_PROGRESS_PHOTO, { user });
     },

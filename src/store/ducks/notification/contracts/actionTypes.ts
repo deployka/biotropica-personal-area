@@ -1,10 +1,6 @@
 import { Action } from 'redux';
-import { LoadingStatus } from '../../../types';
-import {
-  UpdateNotificationData,
-  Notification,
-  NotificationState,
-} from './state';
+import { LoadingStatus, Response } from '../../../types';
+import { UpdateNotificationData, Notification, NotificationState } from './state';
 
 export enum NotificationActionsType {
   SET_NOTIFICATION_DATA = 'notification/SET_NOTIFICATION_DATA',
@@ -40,7 +36,7 @@ export interface FetchNotificationDataActionInterface
 export interface SetNotificationResponseActionInterface
   extends Action<NotificationActionsType> {
   type: NotificationActionsType.SET_NOTIFICATION_RESPONSE;
-  payload: any;
+  payload: Response | undefined;
 }
 
 export interface SetNotificationDataActionInterface

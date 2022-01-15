@@ -1,20 +1,15 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import AuthService from '../../../services/AuthService';
 import SpecialistService from '../../../services/SpecialistService';
 import { LoadingStatus } from '../../types';
-import {
-  setSpecialistData,
-  setSpecialistLoadingStatus,
-  setSpecialistResponse,
-} from './actionCreators';
+import { setSpecialistData, setSpecialistLoadingStatus } from './actionCreators';
 import {
   FetchSpecialistDataActionInterface,
   SpecialistActionsType,
 } from './contracts/actionTypes';
 
-export function* fetchSpecialistDataRequest({
+export function * fetchSpecialistDataRequest({
   payload,
-}: FetchSpecialistDataActionInterface): any {
+}: FetchSpecialistDataActionInterface) {
   try {
     yield put(setSpecialistLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(SpecialistService.getOne, payload);
@@ -26,7 +21,7 @@ export function* fetchSpecialistDataRequest({
   }
 }
 
-export function* specialistSaga(): any {
+export function * specialistSaga() {
   yield takeLatest(
     SpecialistActionsType.FETCH_SPECIALIST_DATA,
     fetchSpecialistDataRequest

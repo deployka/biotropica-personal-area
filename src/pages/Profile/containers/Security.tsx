@@ -22,15 +22,17 @@ export const Security = () => {
   const loadingStatus = useSelector(selectUserLoadingStatus);
   const response = useSelector(selectUserResponse);
   const user = useSelector(selectUserData);
-  const refSetFieldValue = useRef<any>(null);
-  const refResetForm = useRef<any>(null);
+  const refSetFieldValue = useRef<((field: string, value: string) => void) | null>(
+    null
+  );
+  const refResetForm = useRef<(() => void) | null>(null);
   const loader = loadingStatus === LoadingStatus.LOADING;
 
   useEffect(() => {
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
         if (!refSetFieldValue.current) return;
-        refSetFieldValue.current('current_password', '');
+        refSetFieldValue.current('currentPassword', '');
         break;
       case LoadingStatus.SUCCESS:
         if (!refResetForm.current) return;
@@ -60,11 +62,6 @@ export const Security = () => {
     dispatch(fetchSignout());
   }
   return (
-    <EditPassword
-      onSubmit={onSubmit}
-      logout={logout}
-      loader={loader}
-      user={user}
-    />
+    <EditPassword onSubmit={onSubmit} logout={logout} loader={loader} user={user} />
   );
 };

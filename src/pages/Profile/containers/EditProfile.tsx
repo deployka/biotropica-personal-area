@@ -11,10 +11,7 @@ import {
   fetchUpdateUserEmail,
   setUserResponse,
 } from '../../../store/ducks/user/actionCreators';
-import {
-  UpdateUserData,
-  User,
-} from '../../../store/ducks/user/contracts/state';
+import { UpdateUserData, User } from '../../../store/ducks/user/contracts/state';
 import {
   selectUserData,
   selectUserLoadingStatus,
@@ -42,12 +39,10 @@ const EditProfile = () => {
   const history = useHistory();
 
   const user: User | undefined = useSelector(selectUserData);
-  const userImage = user?.profile_photo && getMediaLink(user?.profile_photo);
+  const userImage = user?.profilePhoto && getMediaLink(user?.profilePhoto);
 
   const loader = LoadingStatus.LOADING === loadingStatus;
-  const [image, setImage] = useState<string | ArrayBuffer | null>(
-    userImage || ''
-  );
+  const [image, setImage] = useState<string | ArrayBuffer | null>(userImage || '');
 
   useEffect(() => {
     if (!response) return;
@@ -72,9 +67,9 @@ const EditProfile = () => {
     if (values.email && user?.email !== values.email) {
       dispatch(fetchUpdateUserEmail({ email: values.email }));
     }
-    if (values.profile_photo instanceof File) {
-      const res = await FileService.upload(values.profile_photo);
-      values.profile_photo = res.data.name;
+    if (values.profilePhoto instanceof File) {
+      const res = await FileService.upload(values.profilePhoto);
+      values.profilePhoto = res.data.name;
     }
     const data: UpdateUserData = {
       ...values,
@@ -85,7 +80,7 @@ const EditProfile = () => {
 
   async function onAvatarLoaded(
     e: React.ChangeEvent<HTMLInputElement>,
-    setFieldValue: (field: string, value: any) => void
+    setFieldValue: (field: string, value: File) => void
   ) {
     try {
       store.removeNotification('avatar_type_error');
@@ -98,7 +93,7 @@ const EditProfile = () => {
 
       const fr = await uploadFiles(files);
       setImage(fr.result);
-      setFieldValue('profile_photo', files[0]);
+      setFieldValue('profilePhoto', files[0]);
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
         title: 'Фото не добавлено!',

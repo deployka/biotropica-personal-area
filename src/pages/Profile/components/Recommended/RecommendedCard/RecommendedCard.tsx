@@ -1,6 +1,7 @@
+import React, { Dispatch, SetStateAction } from 'react';
 import s from './RecommendedCard.module.scss';
 import { GlobalSvgSelector } from '../../../../../assets/icons/global/GlobalSvgSelector';
-import { Dispatch, SetStateAction } from 'react';
+
 import classNames from 'classnames';
 import { RecommendationType } from '../../../../../store/ducks/recommendation/contracts/state';
 

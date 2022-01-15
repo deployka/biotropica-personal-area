@@ -35,21 +35,24 @@ export const Chat = (props: Props) => {
 
   useEffect(() => {
     const unread = dialogs.reduce((acc, dialog) => {
-      const currentUserReading = dialog.dialogReadings.find(r => r.userId === props.currentUser.id);
+      const currentUserReading = dialog.dialogReadings.find(
+        r => r.userId === props.currentUser.id
+      );
       if (!currentUserReading) return acc;
 
-      if(dialog.messages.filter(m => m.updatedAt > currentUserReading.readAt).length) {
-        acc.push(dialog.id)
+      if (
+        dialog.messages.filter(m => m.updatedAt > currentUserReading.readAt)
+          .length
+      ) {
+        acc.push(dialog.id);
       }
       return acc;
     }, [] as number[]);
     setUnreadDialogs(unread);
-  }, [dialogs])
+  }, [dialogs]);
 
-
-
-  if(!!unreadDialogs.length !== props.isUnread) {
-    props.onChangeReading(!!unreadDialogs.length)
+  if (!!unreadDialogs.length !== props.isUnread) {
+    props.onChangeReading(!!unreadDialogs.length);
   }
 
   function closeDialog() {
@@ -57,12 +60,10 @@ export const Chat = (props: Props) => {
   }
 
   function openDialog(dialogId: Dialog['id']) {
-    chatApi
-      .fetchDialog(dialogId)
-      .then((dialog: Dialog) => {
-        setSelectedDialog(dialog);
-        setUnreadDialogs(unreadDialogs.filter(it => it !== dialog.id))
-      });
+    chatApi.fetchDialog(dialogId).then((dialog: Dialog) => {
+      setSelectedDialog(dialog);
+      setUnreadDialogs(unreadDialogs.filter(it => it !== dialog.id));
+    });
   }
 
   useEffect(() => {
@@ -82,14 +83,13 @@ export const Chat = (props: Props) => {
     }
   }, [props.isAuth]);
 
-
   function dispatchAddMessage(newMessage: Message) {
     const dialogId = newMessage.dialogId;
     const dialog = dialogs.find(it => it.id === dialogId);
     if (dialog) {
       const messages = dialog.messages.slice();
       const messagesIndex = messages.findIndex(
-          it => it.uuid === newMessage.uuid
+        it => it.uuid === newMessage.uuid
       );
       if (messagesIndex === -1) {
         messages.push(newMessage);
@@ -101,10 +101,12 @@ export const Chat = (props: Props) => {
       updated.splice(index, 1, {
         ...dialog,
         messages,
-      })
-      const foundReading = dialog.dialogReadings.find(it => it.id === props.currentUser.id)
-      if(foundReading) {
-        foundReading.readAt = (new Date()).toISOString()
+      });
+      const foundReading = dialog.dialogReadings.find(
+        it => it.id === props.currentUser.id
+      );
+      if (foundReading) {
+        foundReading.readAt = new Date().toISOString();
       }
       setDialogs(updated);
     }
@@ -247,24 +249,26 @@ export const Chat = (props: Props) => {
         })}
       >
         <div className={s.wrapper}>
-          {selectedDialog ? (
-            <InnerChat
-              dialog={selectedDialog}
-              currentUser={props.currentUser}
-              onClose={() => closeDialog()}
-              onSendMessage={msg => sendMessage(selectedDialog!, msg)}
-              onStartWritings={() => sendWritingsStart(selectedDialog!)}
-              onFinishWritings={() => sendWritingsStop(selectedDialog!)}
-            />
-          ) : (
-            <DialogList
-              dialogs={dialogs}
-              unread={unreadDialogs}
-              currentUser={props.currentUser}
-              onClose={() => props.onClose()}
-              onOpenDialog={dialog => openDialog(dialog.id)}
-            />
-          )}
+          {selectedDialog
+            ? (
+              <InnerChat
+                dialog={selectedDialog}
+                currentUser={props.currentUser}
+                onClose={() => closeDialog()}
+                onSendMessage={msg => sendMessage(selectedDialog!, msg)}
+                onStartWritings={() => sendWritingsStart(selectedDialog!)}
+                onFinishWritings={() => sendWritingsStop(selectedDialog!)}
+              />
+            )
+            : (
+              <DialogList
+                dialogs={dialogs}
+                unread={unreadDialogs}
+                currentUser={props.currentUser}
+                onClose={() => props.onClose()}
+                onOpenDialog={dialog => openDialog(dialog.id)}
+              />
+            )}
         </div>
       </div>
     </>

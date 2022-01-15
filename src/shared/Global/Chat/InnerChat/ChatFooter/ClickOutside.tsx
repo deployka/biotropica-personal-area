@@ -1,4 +1,4 @@
-import React, {ReactElement, useEffect} from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
 type Props = {
     children: ReactElement;
@@ -7,23 +7,23 @@ type Props = {
 }
 
 export function ClickOutside(props: Props) {
-    const  wrapperRef = React.createRef<HTMLDivElement>();
-    function handleClickOutside(event: MouseEvent) {
-        if (
-            wrapperRef &&
+  const wrapperRef = React.createRef<HTMLDivElement>();
+  function handleClickOutside(event: MouseEvent) {
+    if (
+      wrapperRef &&
             !wrapperRef.current?.contains(event.target as Node)
-        ) {
-            event.stopPropagation();
-            props.onClickOutside();
-        }
+    ) {
+      event.stopPropagation();
+      props.onClickOutside();
     }
+  }
 
-    useEffect(() => {
-        document.addEventListener('click', handleClickOutside)
-        return () => {
-            document.removeEventListener('click', handleClickOutside)
-        }
-    })
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  });
 
-    return <div ref={wrapperRef}>{props.children}</div>
+  return <div ref={wrapperRef}>{props.children}</div>;
 }

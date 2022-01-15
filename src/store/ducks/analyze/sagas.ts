@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { HTTP_CREATED } from '../../../http/httpConstants';
 import AnalyzeService from '../../../services/AnalyzeService';
 import { LoadingStatus } from '../../types';
 import {
@@ -14,28 +15,26 @@ import {
   DeleteAnalyzeActionInterface,
 } from './contracts/actionTypes';
 
-export function* fetchAnalyzeDataRequest({
+export function * fetchAnalyzeDataRequest({
   payload,
-}: FetchAnalyzeDataActionInterface): any {
+}: FetchAnalyzeDataActionInterface) {
   yield put(setAnalyzeLoadingStatus(LoadingStatus.LOADING));
   const { data, status } = yield call(AnalyzeService.getOne, payload);
   if (status === 200) {
     yield put(setAnalyzeData(data));
     yield put(setAnalyzeLoadingStatus(LoadingStatus.SUCCESS));
   } else {
-    yield put(
-      setAnalyzeResponse({ statusCode: status, message: data.message })
-    );
+    yield put(setAnalyzeResponse({ statusCode: status, message: data.message }));
     yield put(setAnalyzeLoadingStatus(LoadingStatus.ERROR));
   }
 }
 
-export function* createAnalyzeDataRequest({
+export function * createAnalyzeDataRequest({
   payload,
-}: CreateAnalyzeAnswerDataActionInterface): any {
+}: CreateAnalyzeAnswerDataActionInterface) {
   yield put(setAnalyzeLoadingStatus(LoadingStatus.LOADING));
   const { status } = yield call(AnalyzeService.create, payload);
-  if (status === 201) {
+  if (status === HTTP_CREATED) {
     yield put(
       setAnalyzeResponse({
         statusCode: status,
@@ -48,9 +47,9 @@ export function* createAnalyzeDataRequest({
   }
 }
 
-export function* fetchUpdateAnalyzeRequest({
+export function * fetchUpdateAnalyzeRequest({
   payload,
-}: UpdateAnalyzeActionInterface): any {
+}: UpdateAnalyzeActionInterface) {
   yield put(setAnalyzeLoadingStatus(LoadingStatus.LOADING));
   const { data, status } = yield call(AnalyzeService.update, payload);
   if (status === 200) {
@@ -65,16 +64,14 @@ export function* fetchUpdateAnalyzeRequest({
   }
 }
 
-export function* fetchDeleteAnalyzeRequest({
+export function * fetchDeleteAnalyzeRequest({
   payload,
-}: DeleteAnalyzeActionInterface): any {
+}: DeleteAnalyzeActionInterface) {
   yield put(setAnalyzeLoadingStatus(LoadingStatus.LOADING));
   const { data, status } = yield call(AnalyzeService.delete, payload);
   if (status === 200) {
     yield put(setAnalyzeData(data));
-    yield put(
-      setAnalyzeResponse({ statusCode: status, message: data.message })
-    );
+    yield put(setAnalyzeResponse({ statusCode: status, message: data.message }));
     yield put(setAnalyzeLoadingStatus(LoadingStatus.SUCCESS));
   } else {
     yield put(setAnalyzeResponse(data));
@@ -82,19 +79,13 @@ export function* fetchDeleteAnalyzeRequest({
   }
 }
 
-export function* analyzeSaga(): any {
-  yield takeLatest(
-    AnalyzeActionsType.FETCH_ANALYZE_DATA,
-    fetchAnalyzeDataRequest
-  );
+export function * analyzeSaga() {
+  yield takeLatest(AnalyzeActionsType.FETCH_ANALYZE_DATA, fetchAnalyzeDataRequest);
   yield takeLatest(
     AnalyzeActionsType.FETCH_UPDATE_ANALYZE,
     fetchUpdateAnalyzeRequest
   );
-  yield takeLatest(
-    AnalyzeActionsType.CREATE_ANALYZE_DATA,
-    createAnalyzeDataRequest
-  );
+  yield takeLatest(AnalyzeActionsType.CREATE_ANALYZE_DATA, createAnalyzeDataRequest);
   yield takeLatest(
     AnalyzeActionsType.FETCH_DELETE_ANALYZE,
     fetchDeleteAnalyzeRequest

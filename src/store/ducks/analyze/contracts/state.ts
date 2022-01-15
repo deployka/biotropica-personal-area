@@ -1,4 +1,4 @@
-import { LoadingStatus } from '../../../types';
+import { LoadingStatus, Response } from '../../../types';
 
 export interface Analyze {
   id: number;
@@ -18,10 +18,10 @@ export interface AnalyzeAnswer {
 export interface AnalyzeAnswerState {
   analyze: AnalyzeAnswer | undefined;
   status: LoadingStatus;
-  response: any;
+  response: Response | undefined;
 }
 
-export interface UpdateAnalyzeAnswerData extends Partial<AnalyzeAnswer> {}
+export type UpdateAnalyzeAnswerData = Partial<AnalyzeAnswer>;
 export interface CreateAnalyzeAnswerData
   extends Omit<AnalyzeAnswer, 'id' | 'createdAt' | 'filePath'> {
   filePath: File | null | string;

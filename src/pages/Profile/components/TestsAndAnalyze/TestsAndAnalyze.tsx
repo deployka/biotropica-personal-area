@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import s from './TestsAndAnalyze.module.scss';
 import { AnalyzesCard } from './AnalyzesCard/AnalyzesCard';
 import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
@@ -8,7 +9,7 @@ import {
   selectAnalyzeLoadingStatus,
   selectAnalyzeResponse,
 } from '../../../../store/ducks/analyze/selectors';
-import { useEffect, useState } from 'react';
+
 import { LoadingStatus } from '../../../../store/types';
 import { store } from 'react-notifications-component';
 import {
@@ -129,7 +130,8 @@ export const TestsAndAnalyze = ({ user, isPublic }: Props) => {
       onErrorFileLoaded: () => {
         eventBus.emit(EventTypes.notification, {
           title: 'Файл не был загружен!',
-          message: `Допустимые типы анализов: pdf Максимальный размер файла: ${MAX_PDF_SIZE} мб`,
+          message: `Допустимые типы анализов:
+           pdf Максимальный размер файла: ${MAX_PDF_SIZE} мб`,
           type: NotificationType.DANGER,
           id: 'file_type_error',
           dismiss: {
@@ -146,17 +148,25 @@ export const TestsAndAnalyze = ({ user, isPublic }: Props) => {
     title: !isPublic
       ? 'Пользователь не заполнял анкету'
       : 'Вы не заполняли анкету',
-    text: !isPublic ? '' : 'Пожалуйста, заполните анкету',
+    text: !isPublic
+      ? ''
+      : 'Пожалуйста, заполните анкету',
     href: '/questionnaire',
-    bottomLink: !isPublic ? '' : 'Заполнить анкету',
+    bottomLink: !isPublic
+      ? ''
+      : 'Заполнить анкету',
   };
 
   const analyzesInfoBar: IInfoBar = {
     title: !isPublic
       ? 'Пользователь не добавлял анализы'
       : 'Вы не добавляли анализы',
-    text: !isPublic ? '' : 'У вас нет загруженных анализов.',
-    bottomLink: !isPublic ? '' : 'Загрузить анализы',
+    text: !isPublic
+      ? ''
+      : 'У вас нет загруженных анализов.',
+    bottomLink: !isPublic
+      ? ''
+      : 'Загрузить анализы',
     onClick: () => {
       addAnalyzeOpen();
     },
@@ -173,24 +183,28 @@ export const TestsAndAnalyze = ({ user, isPublic }: Props) => {
 
   return (
     <div className={s.tests__and__analyze}>
-      {answers.length ? (
-        <Questionnaire
-          answers={answers.sort((a, b) => a.question.order - b.question.order)}
-        />
-      ) : (
-        <InfoBar infoBar={testInfoBar} />
-      )}
-      {analyzes.length ? (
-        <AnalyzesCard
-          analyzeTypes={analyzeTypes}
-          onAddAnalyzeClick={addAnalyzeOpen}
-          analyzes={analyzes}
-          onShowMoreClick={onShowMoreClick}
-          isShowMore={isShowMore}
-        />
-      ) : (
-        <InfoBar infoBar={analyzesInfoBar} />
-      )}
+      {answers.length
+        ? (
+          <Questionnaire
+            answers={answers.sort((a, b) => a.question.order - b.question.order)}
+          />
+        )
+        : (
+          <InfoBar infoBar={testInfoBar} />
+        )}
+      {analyzes.length
+        ? (
+          <AnalyzesCard
+            analyzeTypes={analyzeTypes}
+            onAddAnalyzeClick={addAnalyzeOpen}
+            analyzes={analyzes}
+            onShowMoreClick={onShowMoreClick}
+            isShowMore={isShowMore}
+          />
+        )
+        : (
+          <InfoBar infoBar={analyzesInfoBar} />
+        )}
     </div>
   );
 };

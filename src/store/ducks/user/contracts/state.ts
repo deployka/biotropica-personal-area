@@ -1,11 +1,11 @@
 import { ISelect } from '../../../../shared/Form/Select/SelectCustom';
-import { LoadingStatus } from '../../../types';
+import { LoadingStatus, Response } from '../../../types';
 
 export interface User {
   id: number;
   email: string;
   password: string;
-  profile_photo: string;
+  profilePhoto: string;
   name: string;
   lastname: string;
   patronymic: string;
@@ -23,13 +23,13 @@ export interface User {
 export interface UserState {
   user: User | undefined;
   status: LoadingStatus;
-  response: any;
+  response: Response | undefined;
 }
 
 export interface SignupData {
   email: string;
   password: string;
-  verification_password: string;
+  verificationPassword: string;
   name: string;
   lastname: string;
   phone: string;
@@ -43,21 +43,21 @@ export interface UpdateEmailData {
   email: string;
 }
 
-export interface UpdateUserData extends Partial<Omit<User, 'profile_photo'>> {
-  profile_photo: File | null | string;
+export interface UpdateUserData extends Partial<Omit<User, 'profilePhoto'>> {
+  profilePhoto: File | null | string;
 }
 
 export interface ForgotPasswordData {
   email: string;
 }
 export interface ChangePasswordData {
-  current_password: string;
+  currentPassword: string;
   password: string;
-  verification_password: string;
+  verificationPassword: string;
 }
 
 export interface RestorePasswordData {
   password: string;
-  verification_password: string;
+  verificationPassword: string;
   restoreToken: string;
 }

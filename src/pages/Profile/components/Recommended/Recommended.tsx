@@ -25,17 +25,6 @@ export const Recommended = ({ isPublic, user }: Props) => {
   const dispatch = useDispatch();
   const [mobile, setMobile] = useState<boolean>(false);
 
-  useEffect(() => {
-    dispatch(fetchRecommendationsData(user.id));
-  }, []);
-
-  useEffect(() => {
-    if (document.documentElement.clientWidth <= 1200) {
-      setMobile(true);
-      setActiveType(null);
-    }
-  }, []);
-
   const infoBar: IInfoBar = {
     title: isPublic
       ? 'Пользователь не добавлял рекомендации'
@@ -43,7 +32,9 @@ export const Recommended = ({ isPublic, user }: Props) => {
     text: isPublic
       ? ''
       : 'Чтобы получить рекомендации, пройдите видеоконсультацию.',
-    bottomLink: isPublic ? '' : 'Записаться на видеоконсультацию',
+    bottomLink: isPublic
+      ? ''
+      : 'Записаться на видеоконсультацию',
     href: '/consultations',
   };
 
@@ -60,6 +51,17 @@ export const Recommended = ({ isPublic, user }: Props) => {
 
   const activeProfiles =
     recommendations[activeType || RecommendationType.WORKOUT];
+
+  useEffect(() => {
+    dispatch(fetchRecommendationsData(user.id));
+  }, []);
+
+  useEffect(() => {
+    if (document.documentElement.clientWidth <= 1200) {
+      setMobile(true);
+      setActiveType(null);
+    }
+  }, []);
 
   const optionsByType = {
     [RecommendationType.NUTRITION]: {
@@ -88,25 +90,27 @@ export const Recommended = ({ isPublic, user }: Props) => {
 
   return (
     <div className={s.recommendations}>
-      {mobile ? (
-        <MobileRecommended
-          recTypes={recTypes}
-          activeType={activeType}
-          setActiveType={setActiveType}
-          optionsByType={optionsByType}
-          getAmountByType={getAmountByType}
-          getProfilesByType={getProfilesByType}
-        />
-      ) : (
-        <DesktopRecommended
-          recTypes={recTypes}
-          activeType={activeType}
-          setActiveType={setActiveType}
-          optionsByType={optionsByType}
-          getAmountByType={getAmountByType}
-          activeProfiles={activeProfiles}
-        />
-      )}
+      {mobile
+        ? (
+          <MobileRecommended
+            recTypes={recTypes}
+            activeType={activeType}
+            setActiveType={setActiveType}
+            optionsByType={optionsByType}
+            getAmountByType={getAmountByType}
+            getProfilesByType={getProfilesByType}
+          />
+        )
+        : (
+          <DesktopRecommended
+            recTypes={recTypes}
+            activeType={activeType}
+            setActiveType={setActiveType}
+            optionsByType={optionsByType}
+            getAmountByType={getAmountByType}
+            activeProfiles={activeProfiles}
+          />
+        )}
     </div>
   );
 };

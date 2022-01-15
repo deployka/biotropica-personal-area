@@ -1,8 +1,9 @@
+import React, { ReactElement } from 'react';
 interface Props {
   id: string;
 }
 
-export const HeaderSvgSelector = ({ id }: Props) => {
+export const HeaderSvgSelector = ({ id }: Props): ReactElement => {
   switch (id) {
     case 'chat-active':
       return (
@@ -60,14 +61,7 @@ export const HeaderSvgSelector = ({ id }: Props) => {
           xmlns="http://www.w3.org/2000/svg"
         >
           <rect width="24" height="27" fill="#E5E5E5" />
-          <rect
-            x="-172"
-            y="-382"
-            width="1748"
-            height="1168"
-            rx="50"
-            fill="white"
-          />
+          <rect x="-172" y="-382" width="1748" height="1168" rx="50" fill="white" />
           <path
             fillRule="evenodd"
             clipRule="evenodd"

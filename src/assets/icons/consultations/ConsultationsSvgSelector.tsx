@@ -1,10 +1,11 @@
+import React, { ReactElement } from 'react';
 interface Props {
   id: string;
 }
 
-export const ConsultationsSvgSelector = ({ id }: Props) => {
+export const ConsultationsSvgSelector = ({ id }: Props): ReactElement => {
   switch (id) {
-    case "search":
+    case 'search':
       return (
         <svg
           width="20"

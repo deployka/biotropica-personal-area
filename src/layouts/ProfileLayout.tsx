@@ -33,13 +33,15 @@ export const ProfileLayout = ({ isAuth = true }: Props) => {
 
   return (
     <>
-      {isAuth ? (
-        <Profile isPublic={isAuth} user={user} />
-      ) : (
-        <div className="container" style={{ marginTop: '100px' }}>
+      {isAuth
+        ? (
           <Profile isPublic={isAuth} user={user} />
-        </div>
-      )}
+        )
+        : (
+          <div className="container" style={{ marginTop: '100px' }}>
+            <Profile isPublic={isAuth} user={user} />
+          </div>
+        )}
     </>
   );
 };

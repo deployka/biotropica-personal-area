@@ -1,3 +1,4 @@
+import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import s from './Notification.module.scss';
@@ -12,9 +13,7 @@ export const Notification = ({ notification }: Props) => {
     <div className={s.notification}>
       <div className={s.info}>
         <div className={s.text}>
-          <p>
-            {message}
-          </p>
+          <p>{message}</p>
         </div>
         <div className={s.date}>
           <p>{moment(new Date(createdAt), 'YYYYMMDD').fromNow()}</p>
