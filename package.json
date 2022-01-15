@@ -76,7 +76,8 @@
     "eject": "react-scripts eject",
     "build:sw": "webpack -c sw.webpack.config.js",
     "lint": "eslint --ext .ts,.tsx src",
-    "lint:fix": "eslint --ext .ts,.tsx src --fix --color"
+    "lint:fix": "eslint --ext .ts,.tsx src --fix --color",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
