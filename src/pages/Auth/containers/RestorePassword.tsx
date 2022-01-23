@@ -27,7 +27,7 @@ const RestorePassword = () => {
 
   const token = query.get('token') || '';
   const refSetFieldValue = useRef<((field: string, value: string) => void) | null>(
-    null
+    null,
   );
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const RestorePassword = () => {
 
   async function onSubmit(
     values: RestorePasswordData,
-    options: FormikHelpers<RestorePasswordData>
+    options: FormikHelpers<RestorePasswordData>,
   ) {
     refSetFieldValue.current = options.setFieldValue;
     try {

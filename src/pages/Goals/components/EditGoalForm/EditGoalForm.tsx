@@ -78,7 +78,7 @@ const EditGoalForm = () => {
       dispatch(setGoalResponse(undefined));
       if (goal && goals) {
         dispatch(
-          setGoalsData([...goals.filter(fGoal => fGoal.id !== goal.id), goal])
+          setGoalsData([...goals.filter(fGoal => fGoal.id !== goal.id), goal]),
         );
       }
       refResetForm.current();
@@ -88,7 +88,7 @@ const EditGoalForm = () => {
 
   async function onSubmit(
     values: UpdateGoalData,
-    options: FormikHelpers<UpdateGoalData>
+    options: FormikHelpers<UpdateGoalData>,
   ) {
     refResetForm.current = options.resetForm;
     setName(values?.name || '');

@@ -35,7 +35,7 @@ export function * fetchUpdateNotificationRequest({
       setNotificationResponse({
         statusCode: status,
         message: 'Данные обновлены',
-      })
+      }),
     );
     yield put(setNotificationLoadingStatus(LoadingStatus.SUCCESS));
   } else {
@@ -52,6 +52,6 @@ export function * notificationSaga() {
 
   yield takeLatest(
     NotificationActionsType.FETCH_UPDATE_NOTIFICATION,
-    fetchUpdateNotificationRequest
+    fetchUpdateNotificationRequest,
   );
 }

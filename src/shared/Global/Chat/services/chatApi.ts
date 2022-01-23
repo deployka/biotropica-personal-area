@@ -15,21 +15,21 @@ export const chatApi = {
   async fetchDialogs(): Promise<Dialog[]> {
     const result = await axios.get(chatUrl + '/dialogs', {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token')
-      }
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
     });
 
     return result.data;
   },
   async create(userId: number): Promise<Dialog> {
     const result = await axios.post(chatUrl + '/dialogs', {
-      userId
+      userId,
     }, {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token')
-      }
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
     });
 
     return result.data;
-  }
+  },
 };

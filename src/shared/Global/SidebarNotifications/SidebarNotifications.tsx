@@ -18,7 +18,7 @@ export const SidebarNotifications = ({ open, setOpen }: Props) => {
   const [notifications, setNotifications] = useState<INotification[]>([]);
   useEffect(() => {
     NotificationService.getAll().then(notifications =>
-      setNotifications(notifications)
+      setNotifications(notifications),
     );
   }, []);
   return (

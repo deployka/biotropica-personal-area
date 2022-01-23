@@ -15,7 +15,7 @@ export const validationSchema = yup.object().shape({
   gender: yup.array().of(
     yup.object().shape({
       value: yup.mixed<Partial<string>>().typeError('Выберите гендер'),
-    })
+    }),
   ),
   phone: yup
     .string()

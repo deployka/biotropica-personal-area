@@ -15,7 +15,7 @@ export const validationSchema = (type: GoalType) => () => {
 
   const endResult = endResultWeight.moreThan(
     yup.ref('startResult'),
-    'Не может быть меньше стартового результата'
+    'Не может быть меньше стартового результата',
   );
   const isWeight = type === GoalType.WEIGHT;
   return yup.object().shape({
@@ -31,7 +31,7 @@ export const validationSchema = (type: GoalType) => () => {
           .mixed<Partial<GoalUnits>>()
           .required('Выберите единицы измерения')
           .typeError('Выберите единицы измерения'),
-      })
+      }),
     ),
     endResult: isWeight
       ? endResultWeight

@@ -11,7 +11,7 @@ import {
 } from './contracts/actionTypes';
 
 export function * fetchConsultationsDataRequest(
-  _: FetchConsultationsDataActionInterface
+  _: FetchConsultationsDataActionInterface,
 ) {
   try {
     yield put(setConsultationsLoadingStatus(LoadingStatus.LOADING));
@@ -27,6 +27,6 @@ export function * fetchConsultationsDataRequest(
 export function * consultationsSaga() {
   yield takeLatest(
     ConsultationsActionsType.FETCH_CONSULTATIONS_DATA,
-    fetchConsultationsDataRequest
+    fetchConsultationsDataRequest,
   );
 }

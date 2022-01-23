@@ -83,7 +83,7 @@ export const SidebarMenuPopup = ({
                   item.link === '/' + location.pathname.split('/')[1]
                     ? s.active
                     : '',
-                  s.link
+                  s.link,
                 )}
               >
                 <div className={s.icon}>{item.svg}</div>

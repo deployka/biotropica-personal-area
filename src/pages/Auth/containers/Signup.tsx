@@ -30,7 +30,7 @@ const Signup = () => {
 
   const loader = LoadingStatus.LOADING === loadingStatus;
   const refSetFieldValue = useRef<((field: string, value: string) => void) | null>(
-    null
+    null,
   );
   const refResetForm = useRef<(() => void) | null>(null);
 

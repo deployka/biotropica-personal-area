@@ -18,13 +18,13 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["react", "react-hooks", "@typescript-eslint"],
   "rules": {
     "semi": ["error", "always"],
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
-    "comma-dangle": ["error", "only-multiline"],
+    "comma-dangle": ["error", "always-multiline"],
     "space-before-function-paren": [
       "error",
       { "anonymous": "always", "named": "never", "asyncArrow": "always" }
@@ -32,6 +32,8 @@
     "max-len": ["error", { "code": 85, "ignoreStrings": true, "comments": 120 }],
     "multiline-ternary": ["error", "always-multiline"],
     "prefer-promise-reject-errors": ["error", { "allowEmptyReject": true }],
-    "arrow-parens": ["error", "as-needed"]
+    "arrow-parens": ["error", "as-needed"],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

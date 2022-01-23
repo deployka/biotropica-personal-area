@@ -171,24 +171,24 @@ export function * userSaga() {
   yield takeLatest(UserActionsType.FETCH_SIGN_OUT, fetchSignoutRequest);
   yield takeLatest(
     UserActionsType.FETCH_FORGOT_PASSWORD,
-    fetchForgotPasswordRequest
+    fetchForgotPasswordRequest,
   );
   yield takeLatest(
     UserActionsType.FETCH_CHANGE_PASSWORD,
-    fetchChangePasswordRequest
+    fetchChangePasswordRequest,
   );
   yield takeLatest(
     UserActionsType.FETCH_RESTORE_PASSWORD,
-    fetchRestorePasswordRequest
+    fetchRestorePasswordRequest,
   );
   yield takeLatest(
     UserActionsType.FETCH_UPDATE_USER_EMAIL,
-    fetchUpdateUserEmailRequest
+    fetchUpdateUserEmailRequest,
   );
   yield takeLatest(UserActionsType.FETCH_UPDATE_USER, fetchUpdateUserRequest);
   yield takeLatest(
     UserActionsType.FETCH_CREATE_PASSWORD,
-    fetchCreatePasswordRequest
+    fetchCreatePasswordRequest,
   );
   yield takeLatest(UserActionsType.FETCH_USER_DATA_BY_ID, fetchUserDataByIdRequest);
 }

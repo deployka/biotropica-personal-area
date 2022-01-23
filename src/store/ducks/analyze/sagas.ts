@@ -39,7 +39,7 @@ export function * createAnalyzeDataRequest({
       setAnalyzeResponse({
         statusCode: status,
         message: 'Анализ успешно загружен!',
-      })
+      }),
     );
     yield put(setAnalyzeLoadingStatus(LoadingStatus.SUCCESS));
   } else {
@@ -55,7 +55,7 @@ export function * fetchUpdateAnalyzeRequest({
   if (status === 200) {
     yield put(setAnalyzeData(data));
     yield put(
-      setAnalyzeResponse({ statusCode: status, message: 'Данные обновлены' })
+      setAnalyzeResponse({ statusCode: status, message: 'Данные обновлены' }),
     );
     yield put(setAnalyzeLoadingStatus(LoadingStatus.SUCCESS));
   } else {
@@ -83,11 +83,11 @@ export function * analyzeSaga() {
   yield takeLatest(AnalyzeActionsType.FETCH_ANALYZE_DATA, fetchAnalyzeDataRequest);
   yield takeLatest(
     AnalyzeActionsType.FETCH_UPDATE_ANALYZE,
-    fetchUpdateAnalyzeRequest
+    fetchUpdateAnalyzeRequest,
   );
   yield takeLatest(AnalyzeActionsType.CREATE_ANALYZE_DATA, createAnalyzeDataRequest);
   yield takeLatest(
     AnalyzeActionsType.FETCH_DELETE_ANALYZE,
-    fetchDeleteAnalyzeRequest
+    fetchDeleteAnalyzeRequest,
   );
 }

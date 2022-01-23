@@ -23,17 +23,17 @@ export default class ProgressService {
   }
 
   static async create(
-    payload: CreateProgressData
+    payload: CreateProgressData,
   ): Promise<AxiosResponse<Response>> {
     return await $api.post<Response>(`/${ProgressService.route}/`, payload);
   }
 
   static async update(
-    payload: UpdateProgressData
+    payload: UpdateProgressData,
   ): Promise<AxiosResponse<Response>> {
     return await $api.patch<Response>(
       `/${ProgressService.route}/update/${payload.id}`,
-      payload
+      payload,
     );
   }
 }

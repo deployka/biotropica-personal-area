@@ -53,7 +53,7 @@ export const Header = memo(
         </div>
       </header>
     );
-  }
+  },
 );
 
 Header.displayName = 'Header';

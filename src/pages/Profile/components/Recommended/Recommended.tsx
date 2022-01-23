@@ -39,14 +39,14 @@ export const Recommended = ({ isPublic, user }: Props) => {
   };
 
   const recommendations: SortedRecommendations = useSelector(
-    selectSortedRecommendationsData
+    selectSortedRecommendationsData,
   );
   const recTypes: RecommendationType[] = Object.keys(
-    recommendations
+    recommendations,
   ) as RecommendationType[];
 
   const [activeType, setActiveType] = useState<RecommendationType | null>(
-    recTypes[0]
+    recTypes[0],
   );
 
   const activeProfiles =

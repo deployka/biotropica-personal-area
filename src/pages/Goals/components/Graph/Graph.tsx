@@ -27,7 +27,7 @@ export const Graph = ({ startDate, endDate }: Props) => {
     }
     return [
       ...(goal?.values?.filter(el =>
-        moment(el?.createdAt).isBetween(startDate, endDate, 'days', '[]')
+        moment(el?.createdAt).isBetween(startDate, endDate, 'days', '[]'),
       ) || []),
     ]
       .sort((a, b) => +new Date(a.createdAt) - +new Date(b.createdAt))

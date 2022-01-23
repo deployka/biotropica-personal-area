@@ -37,7 +37,7 @@ export const EditPassword = ({ loader, onSubmit, user, logout }: Props) => {
         validateOnBlur
         onSubmit={(
           values: ChangePasswordData,
-          options: FormikHelpers<ChangePasswordData>
+          options: FormikHelpers<ChangePasswordData>,
         ) => onSubmit(values, options)}
         validationSchema={validationSchema}
       >

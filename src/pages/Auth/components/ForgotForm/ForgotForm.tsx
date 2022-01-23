@@ -32,7 +32,7 @@ export const ForgotForm = ({ loader, onSubmit, validationSchema, email }: Props)
         validateOnBlur
         onSubmit={(
           values: ForgotPasswordData,
-          options: FormikHelpers<ForgotPasswordData>
+          options: FormikHelpers<ForgotPasswordData>,
         ) => onSubmit(values, options)}
         validationSchema={validationSchema}
       >

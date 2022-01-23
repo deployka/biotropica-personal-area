@@ -80,7 +80,7 @@ export class ChatWSService {
         type: 'writing',
         action: 'start',
         dialogId,
-      })
+      }),
     );
   }
 
@@ -93,7 +93,7 @@ export class ChatWSService {
         type: 'writing',
         action: 'stop',
         dialogId,
-      })
+      }),
     );
   }
 
@@ -105,7 +105,7 @@ export class ChatWSService {
       JSON.stringify({
         type: 'openDialog',
         dialogId,
-      })
+      }),
     );
   }
 
@@ -116,7 +116,7 @@ export class ChatWSService {
     this.ws?.send(
       JSON.stringify({
         type: 'closeDialog',
-      })
+      }),
     );
   }
 }

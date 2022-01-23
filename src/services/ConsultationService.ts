@@ -26,7 +26,7 @@ export default class ConsultationService {
   }
 
   static async create(
-    payload: CreateConsultationData
+    payload: CreateConsultationData,
   ): Promise<AxiosResponse<Response>> {
     return await $api.post<Response>(`/${ConsultationService.route}/`, payload);
   }

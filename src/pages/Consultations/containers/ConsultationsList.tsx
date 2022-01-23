@@ -26,10 +26,10 @@ export const ConsultationsList = () => {
   const consultations = useSelector(selectConsultationsData);
 
   const activeConsultations = consultations.filter(
-    c => differenceInDays(new Date().getTime(), new Date(c.date || '')) <= 0
+    c => differenceInDays(new Date().getTime(), new Date(c.date || '')) <= 0,
   );
   const inactiveConsultations = consultations.filter(
-    c => differenceInDays(new Date().getTime(), new Date(c.date || '')) > 0
+    c => differenceInDays(new Date().getTime(), new Date(c.date || '')) > 0,
   );
   const consultationsWithoutData = consultations.filter(c => !c.date);
 
@@ -124,7 +124,7 @@ export const ConsultationsList = () => {
                   }}
                   onClick={onSendMessageClick(
                     specialists.find(s => s.id === consultation.specialistId)
-                      ?.userId
+                      ?.userId,
                   )}
                 >
                 открыть диалог

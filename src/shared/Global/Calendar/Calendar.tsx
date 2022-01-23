@@ -28,7 +28,7 @@ export const Calendar = ({
   setActiveTab,
 }: Props) => {
   const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(
-    null
+    null,
   );
 
   const [dates, setDates] = useState<CalendarDates>({

@@ -12,21 +12,21 @@ export const fetchGoalsData = (): FetchGoalsDataActionInterface => ({
 });
 
 export const setGoalsLoadingStatus = (
-  payload: GoalsState['status']
+  payload: GoalsState['status'],
 ): SetGoalsLoadingStatusActionInterface => ({
   type: GoalsActionsType.SET_LOADING_STATE,
   payload,
 });
 
 export const setGoalsData = (
-  payload: GoalsState['goals']
+  payload: GoalsState['goals'],
 ): SetGoalsDataActionInterface => ({
   type: GoalsActionsType.SET_GOALS_DATA,
   payload,
 });
 
 export const setGoalsResponse = (
-  payload: GoalsState['response']
+  payload: GoalsState['response'],
 ): SetGoalsResponseActionInterface => ({
   type: GoalsActionsType.SET_GOALS_RESPONSE,
   payload,

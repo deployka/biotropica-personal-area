@@ -30,5 +30,5 @@ export const goalsReducer = produce(
         break;
     }
   },
-  initialGoalsState
+  initialGoalsState,
 );

@@ -15,49 +15,49 @@ import {
 } from './contracts/state';
 
 export const fetchAnalyzeData = (
-  payload: number
+  payload: number,
 ): FetchAnalyzeDataActionInterface => ({
   type: AnalyzeActionsType.FETCH_ANALYZE_DATA,
   payload,
 });
 
 export const createAnalyzeAnswerData = (
-  payload: CreateAnalyzeAnswerData
+  payload: CreateAnalyzeAnswerData,
 ): CreateAnalyzeAnswerDataActionInterface => ({
   type: AnalyzeActionsType.CREATE_ANALYZE_DATA,
   payload,
 });
 
 export const updateAnalyzeData = (
-  payload: UpdateAnalyzeAnswerData
+  payload: UpdateAnalyzeAnswerData,
 ): UpdateAnalyzeActionInterface => ({
   type: AnalyzeActionsType.FETCH_UPDATE_ANALYZE,
   payload,
 });
 
 export const deleteAnalyzeData = (
-  payload: number
+  payload: number,
 ): DeleteAnalyzeActionInterface => ({
   type: AnalyzeActionsType.FETCH_DELETE_ANALYZE,
   payload,
 });
 
 export const setAnalyzeLoadingStatus = (
-  payload: AnalyzeAnswerState['status']
+  payload: AnalyzeAnswerState['status'],
 ): setAnalyzeLoadingStatusActionInterface => ({
   type: AnalyzeActionsType.SET_LOADING_STATE,
   payload,
 });
 
 export const setAnalyzeData = (
-  payload: AnalyzeAnswerState['analyze']
+  payload: AnalyzeAnswerState['analyze'],
 ): setAnalyzeDataActionInterface => ({
   type: AnalyzeActionsType.SET_ANALYZE_DATA,
   payload,
 });
 
 export const setAnalyzeResponse = (
-  payload: AnalyzeAnswerState['response']
+  payload: AnalyzeAnswerState['response'],
 ): setAnalyzeResponseActionInterface => ({
   type: AnalyzeActionsType.SET_ANALYZE_RESPONSE,
   payload,

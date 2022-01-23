@@ -23,7 +23,7 @@ export const Security = () => {
   const response = useSelector(selectUserResponse);
   const user = useSelector(selectUserData);
   const refSetFieldValue = useRef<((field: string, value: string) => void) | null>(
-    null
+    null,
   );
   const refResetForm = useRef<(() => void) | null>(null);
   const loader = loadingStatus === LoadingStatus.LOADING;
@@ -51,7 +51,7 @@ export const Security = () => {
 
   async function onSubmit(
     values: ChangePasswordData,
-    options: FormikHelpers<ChangePasswordData>
+    options: FormikHelpers<ChangePasswordData>,
   ) {
     refSetFieldValue.current = options.setFieldValue;
     refResetForm.current = options.resetForm;

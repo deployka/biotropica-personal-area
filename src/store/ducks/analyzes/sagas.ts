@@ -21,7 +21,7 @@ export function * fetchAnalyzesDataRequest({
       AnalyzeService.geAll,
       payload.id,
       payload.offset,
-      payload.limit
+      payload.limit,
     );
     if (status === 200) {
       if (payload.offset) {
@@ -41,6 +41,6 @@ export function * fetchAnalyzesDataRequest({
 export function * analyzesSaga() {
   yield takeLatest(
     AnalyzesActionsType.FETCH_ANALYZES_DATA,
-    fetchAnalyzesDataRequest
+    fetchAnalyzesDataRequest,
   );
 }

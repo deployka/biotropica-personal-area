@@ -25,7 +25,7 @@ export function * fetchRecommendationDataRequest({
     yield put(setRecommendationLoadingStatus(LoadingStatus.SUCCESS));
   } else {
     yield put(
-      setRecommendationResponse({ statusCode: status, message: data.message })
+      setRecommendationResponse({ statusCode: status, message: data.message }),
     );
     yield put(setRecommendationLoadingStatus(LoadingStatus.ERROR));
   }
@@ -55,7 +55,7 @@ export function * fetchUpdateRecommendationRequest({
       setRecommendationResponse({
         statusCode: status,
         message: 'Данные обновлены',
-      })
+      }),
     );
     yield put(setRecommendationLoadingStatus(LoadingStatus.SUCCESS));
   } else {
@@ -72,7 +72,7 @@ export function * fetchDeleteRecommendationRequest({
   if (status === HTTP_SUCCESS) {
     yield put(setRecommendationData(undefined));
     yield put(
-      setRecommendationResponse({ statusCode: status, message: data.message })
+      setRecommendationResponse({ statusCode: status, message: data.message }),
     );
     yield put(setRecommendationLoadingStatus(LoadingStatus.SUCCESS));
   } else {
@@ -84,18 +84,18 @@ export function * fetchDeleteRecommendationRequest({
 export function * recommendationSaga() {
   yield takeLatest(
     RecommendationActionsType.FETCH_RECOMMENDATION_DATA,
-    fetchRecommendationDataRequest
+    fetchRecommendationDataRequest,
   );
   yield takeLatest(
     RecommendationActionsType.FETCH_UPDATE_RECOMMENDATION,
-    fetchUpdateRecommendationRequest
+    fetchUpdateRecommendationRequest,
   );
   yield takeLatest(
     RecommendationActionsType.CREATE_RECOMMENDATION_DATA,
-    createRecommendationDataRequest
+    createRecommendationDataRequest,
   );
   yield takeLatest(
     RecommendationActionsType.FETCH_DELETE_RECOMMENDATION,
-    fetchDeleteRecommendationRequest
+    fetchDeleteRecommendationRequest,
   );
 }

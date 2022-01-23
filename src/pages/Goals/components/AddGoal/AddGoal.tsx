@@ -108,7 +108,7 @@ const AddGoal = () => {
 
   async function onSubmit(
     values: CreateGoalData,
-    options: FormikHelpers<CreateGoalData>
+    options: FormikHelpers<CreateGoalData>,
   ) {
     refResetForm.current = options.resetForm;
     setName(values.name);

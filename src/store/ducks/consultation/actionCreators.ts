@@ -11,7 +11,7 @@ import {
 import { CreateConsultationData, ConsultationState } from './contracts/state';
 
 export const fetchConsultationData = (
-  payload: number
+  payload: number,
 ): FetchConsultationDataActionInterface => ({
   type: ConsultationActionsType.FETCH_CONSULTATION_DATA,
   payload,
@@ -23,35 +23,35 @@ export const fetchClosestConsultationData =
   });
 
 export const createConsultationData = (
-  payload: CreateConsultationData
+  payload: CreateConsultationData,
 ): CreateConsultationDataActionInterface => ({
   type: ConsultationActionsType.CREATE_CONSULTATION_DATA,
   payload,
 });
 
 export const setConsultationLoadingStatus = (
-  payload: ConsultationState['status']
+  payload: ConsultationState['status'],
 ): SetConsultationLoadingStatusActionInterface => ({
   type: ConsultationActionsType.SET_LOADING_STATE,
   payload,
 });
 
 export const setConsultationData = (
-  payload: ConsultationState['consultation']
+  payload: ConsultationState['consultation'],
 ): SetConsultationDataActionInterface => ({
   type: ConsultationActionsType.SET_CONSULTATION_DATA,
   payload,
 });
 
 export const setClosestConsultationData = (
-  payload: ConsultationState['closestConsultation']
+  payload: ConsultationState['closestConsultation'],
 ): SetClosestConsultationDataActionInterface => ({
   type: ConsultationActionsType.SET_CLOSEST_CONSULTATION_DATA,
   payload,
 });
 
 export const setConsultationResponse = (
-  payload: ConsultationState['response']
+  payload: ConsultationState['response'],
 ): SetConsultationResponseActionInterface => ({
   type: ConsultationActionsType.SET_CONSULTATION_RESPONSE,
   payload,

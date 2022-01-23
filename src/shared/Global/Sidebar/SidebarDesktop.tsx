@@ -66,7 +66,7 @@ export const SidebarDesktop = memo(
                     item.link === '/' + location.pathname.split('/')[1]
                       ? s.active
                       : '',
-                    s.link
+                    s.link,
                   )}
                 >
                   <div className={s.icon}>{item.svg}</div>
@@ -100,7 +100,7 @@ export const SidebarDesktop = memo(
         </div>
       </div>
     );
-  }
+  },
 );
 
 SidebarDesktop.displayName = 'SidebarDesktop';

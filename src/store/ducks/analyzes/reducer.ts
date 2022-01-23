@@ -30,5 +30,5 @@ export const analyzesReducer = produce(
         break;
     }
   },
-  initialAnalyzesState
+  initialAnalyzesState,
 );

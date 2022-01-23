@@ -13,21 +13,21 @@ export const fetchConsultationsData =
   });
 
 export const setConsultationsLoadingStatus = (
-  payload: ConsultationsState['status']
+  payload: ConsultationsState['status'],
 ): SetConsultationsLoadingStatusActionInterface => ({
   type: ConsultationsActionsType.SET_LOADING_STATE,
   payload,
 });
 
 export const setConsultationsData = (
-  payload: ConsultationsState['consultations']
+  payload: ConsultationsState['consultations'],
 ): SetConsultationsDataActionInterface => ({
   type: ConsultationsActionsType.SET_CONSULTATIONS_DATA,
   payload,
 });
 
 export const setConsultationsResponse = (
-  payload: ConsultationsState['response']
+  payload: ConsultationsState['response'],
 ): SetConsultationsResponseActionInterface => ({
   type: ConsultationsActionsType.SET_CONSULTATIONS_RESPONSE,
   payload,

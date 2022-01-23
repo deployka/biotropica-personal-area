@@ -72,7 +72,7 @@ $api.interceptors.response.use(
       eventBus.emit(EventTypes.routerPush, '/signin');
       throw e;
     }
-  }
+  },
 );
 
 export default $api;

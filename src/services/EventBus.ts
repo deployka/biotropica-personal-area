@@ -34,7 +34,7 @@ class EventBus {
 
   off<K extends EventTypes>(key: K, callback: EventListenerCallback<K>) {
     const index = this.listeners[key].indexOf(
-      callback as EventListenerCallback<EventTypes>
+      callback as EventListenerCallback<EventTypes>,
     );
     if (index === -1) {
       return;

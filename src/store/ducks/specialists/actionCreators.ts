@@ -13,21 +13,21 @@ export const fetchSpecialistsData =
   });
 
 export const setSpecialistsLoadingStatus = (
-  payload: SpecialistsState['status']
+  payload: SpecialistsState['status'],
 ): SetSpecialistsLoadingStatusActionInterface => ({
   type: SpecialistsActionsType.SET_LOADING_STATE,
   payload,
 });
 
 export const setSpecialistsData = (
-  payload: SpecialistsState['specialists']
+  payload: SpecialistsState['specialists'],
 ): SetSpecialistsDataActionInterface => ({
   type: SpecialistsActionsType.SET_SPECIALISTS_DATA,
   payload,
 });
 
 export const setSpecialistsResponse = (
-  payload: SpecialistsState['response']
+  payload: SpecialistsState['response'],
 ): SetSpecialistsResponseActionInterface => ({
   type: SpecialistsActionsType.SET_SPECIALISTS_RESPONSE,
   payload,

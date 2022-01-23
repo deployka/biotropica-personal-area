@@ -45,7 +45,7 @@ export const RestoreForm = ({
         validateOnBlur
         onSubmit={(
           values: RestorePasswordData,
-          options: FormikHelpers<RestorePasswordData>
+          options: FormikHelpers<RestorePasswordData>,
         ) => onSubmit(values, options)}
         validationSchema={validationSchema}
       >

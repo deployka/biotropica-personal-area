@@ -19,7 +19,7 @@ export function MessageText(props: Props) {
         s.textMessage,
         props.itIsCurrentUser
           ? s.by__user
-          : ''
+          : '',
       )}
     >
       {props.message.text}

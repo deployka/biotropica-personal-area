@@ -5,15 +5,15 @@ export const selectAnalyzesState = (state: RootState): AnalyzesState =>
   state.analyzes;
 
 export const selectAnalyzesData = (
-  state: RootState
+  state: RootState,
 ): AnalyzesState['analyzes'] => selectAnalyzesState(state).analyzes;
 
 export const selectAnalyzesResponse = (
-  state: RootState
+  state: RootState,
 ): AnalyzesState['response'] => selectAnalyzesState(state).response;
 
 export const selectAnalyzesStatus = (
-  state: RootState
+  state: RootState,
 ): AnalyzesState['status'] => selectAnalyzesState(state).status;
 
 export const selectAnalyzesLoadingStatus = (state: RootState): string =>

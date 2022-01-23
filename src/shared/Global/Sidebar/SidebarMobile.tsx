@@ -63,7 +63,7 @@ export const SidebarMobile = memo(
             to={nav[0].link}
             className={classNames(
               s.homeLink,
-              nav[0].link === '/' + location.pathname.split('/')[1] ? s.active : ''
+              nav[0].link === '/' + location.pathname.split('/')[1] ? s.active : '',
             )}
           >
             <div className={s.icon}>{nav[0].svg}</div>
@@ -90,7 +90,7 @@ export const SidebarMobile = memo(
         </div>
       </div>
     );
-  }
+  },
 );
 
 SidebarMobile.displayName = 'SidebarMobile';

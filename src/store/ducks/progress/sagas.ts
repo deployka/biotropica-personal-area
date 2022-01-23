@@ -42,11 +42,11 @@ export function * createProgressDataRequest({
 export function * progressSaga() {
   yield takeLatest(
     ProgressActionsType.FETCH_PROGRESS_DATA,
-    fetchProgressDataRequest
+    fetchProgressDataRequest,
   );
 
   yield takeLatest(
     ProgressActionsType.CREATE_PROGRESS_DATA,
-    createProgressDataRequest
+    createProgressDataRequest,
   );
 }

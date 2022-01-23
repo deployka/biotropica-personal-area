@@ -32,7 +32,7 @@ export default class UserService {
   }
 
   static async updateEmail(
-    payload: UpdateEmailData
+    payload: UpdateEmailData,
   ): Promise<AxiosResponse<Response>> {
     return await $api.patch<Response>(`/${UserService.route}/update-email`, payload);
   }

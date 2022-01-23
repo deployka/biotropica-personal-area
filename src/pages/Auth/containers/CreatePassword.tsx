@@ -51,7 +51,7 @@ const CreatePassword = () => {
 
   async function onSubmit(
     values: RestorePasswordData,
-    options: FormikHelpers<RestorePasswordData>
+    options: FormikHelpers<RestorePasswordData>,
   ) {
     refResetForm.current = options.resetForm;
     try {

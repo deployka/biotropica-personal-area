@@ -72,7 +72,7 @@ export const ProgressForm = () => {
 
   function getProgressValueByTypeAndUnit(
     type: GoalType,
-    units: ISelect<Partial<GoalUnits> | null>[]
+    units: ISelect<Partial<GoalUnits> | null>[],
   ): number {
     switch (type) {
       case GoalType.RUN:
@@ -106,7 +106,7 @@ export const ProgressForm = () => {
     if (goal) {
       const max: number = parseInt(goal.endResult);
       const value = Math.floor(
-        (getProgressValueByTypeAndUnit(goal.type, goal.units) * 100) / max
+        (getProgressValueByTypeAndUnit(goal.type, goal.units) * 100) / max,
       );
       const progressValue: number = value <= 100 ? value : 100;
       setProgressBarOptions({
@@ -193,7 +193,7 @@ export const ProgressForm = () => {
       updateGoalData({
         id: goal?.id,
         values: [values],
-      })
+      }),
     );
   }
 

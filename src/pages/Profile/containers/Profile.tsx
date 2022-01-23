@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  selectUserData,
   selectUserLoadingStatus,
   selectUserResponse,
 } from '../../../store/ducks/user/selectors';
@@ -57,7 +56,7 @@ const Profile = ({ isPublic, user }: Props) => {
   const history = useHistory();
 
   const [activeTab, setActiveTab] = useState<string>(
-    getTabByKey(active, tabs)?.key || tabs[0].key
+    getTabByKey(active, tabs)?.key || tabs[0].key,
   );
 
   const tariffData = {
@@ -86,7 +85,6 @@ const Profile = ({ isPublic, user }: Props) => {
   }
 
   useEffect(() => {
-    console.log(active);
     if (active) {
       setActiveTab(getTabByKey(active, tabs)?.key || activeTab);
       history.push(`/profile/tabs/${getTabByKey(active, tabs)?.key || activeTab}`);

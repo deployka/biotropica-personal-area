@@ -15,10 +15,10 @@ export function Chat(props: ChatProps) {
     url={process.env.REACT_APP_CHAT_FRONT_URL as string}
     params={{
       token: props.token,
-      activeDialogId: props.activeDialogId?.toString() || ''
+      activeDialogId: props.activeDialogId?.toString() || '',
     }}
     events={{
-      onClose: props.onClose
+      onClose: props.onClose,
     }}
   />;
 }

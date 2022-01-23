@@ -132,7 +132,7 @@ export const AddPhotoModal = ({ user }: Props) => {
   async function loadFile(
     e: React.ChangeEvent<HTMLInputElement>,
     type: TypePhoto,
-    setFieldValue: (field: string, value: File) => void
+    setFieldValue: (field: string, value: File) => void,
   ) {
     try {
       const files = e.target.files || null;

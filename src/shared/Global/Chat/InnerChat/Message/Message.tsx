@@ -81,7 +81,7 @@ function returnMsg(message: IMessage, currentUser: ChatUser, read: boolean) {
               s.new__branch,
               itIsCurrentUser
                 ? s.by__user
-                : ''
+                : '',
             )}
           />
         )

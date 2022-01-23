@@ -14,28 +14,28 @@ export const fetchNotificationData =
   });
 
 export const fetchUpdateNotification = (
-  payload: UpdateNotificationData
+  payload: UpdateNotificationData,
 ): FetchUpdateNotificationActionInterface => ({
   type: NotificationActionsType.FETCH_UPDATE_NOTIFICATION,
   payload,
 });
 
 export const setNotificationLoadingStatus = (
-  payload: NotificationState['status']
+  payload: NotificationState['status'],
 ): SetNotificationLoadingStatusActionInterface => ({
   type: NotificationActionsType.SET_LOADING_STATE,
   payload,
 });
 
 export const setNotificationData = (
-  payload: NotificationState['notification']
+  payload: NotificationState['notification'],
 ): SetNotificationDataActionInterface => ({
   type: NotificationActionsType.SET_NOTIFICATION_DATA,
   payload,
 });
 
 export const setNotificationResponse = (
-  payload: NotificationState['response']
+  payload: NotificationState['response'],
 ): SetNotificationResponseActionInterface => ({
   type: NotificationActionsType.SET_NOTIFICATION_RESPONSE,
   payload,

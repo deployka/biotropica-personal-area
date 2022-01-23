@@ -70,10 +70,10 @@ const Consultations = () => {
 
   const specialists: Specialist[] = useSelector(selectFilteredSpecialistsData);
   const closestConsultation: ClosestConsultation | undefined = useSelector(
-    selectClosestConsultationData
+    selectClosestConsultationData,
   );
   const LastAddedConsultation: Consultation | undefined = useSelector(
-    selectConsultationData
+    selectConsultationData,
   );
 
   useEffect(() => {
@@ -114,13 +114,13 @@ const Consultations = () => {
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedSort, setSelectedSort] = useState<ISelect<string>[] | undefined>(
-    sort ? [{ label: sort, value: sort }] : undefined
+    sort ? [{ label: sort, value: sort }] : undefined,
   );
 
   const filteredSpecialists = useMemo(() => {
     if (!selectedSort?.[0]) return [];
     return specialists.filter(spec =>
-      spec.specializations.includes(selectedSort[0].label)
+      spec.specializations.includes(selectedSort[0].label),
     );
   }, [selectedSort, specialists]);
 
@@ -129,8 +129,8 @@ const Consultations = () => {
       Object.keys(spec).some(key =>
         String(spec[key as keyof Specialist])
           .toLowerCase()
-          .includes(query)
-      )
+          .includes(query),
+      ),
     );
   }
 
@@ -165,7 +165,7 @@ const Consultations = () => {
     href: '',
     onClick: () => {
       const specialist = specialists.find(
-        s => s.id === closestConsultation?.specialistId
+        s => s.id === closestConsultation?.specialistId,
       );
       if (!specialist) {
         return;
@@ -185,7 +185,7 @@ const Consultations = () => {
     href: '',
     onClick: () => {
       const specialist = specialists.find(
-        s => s.id === LastAddedConsultation?.specialistId
+        s => s.id === LastAddedConsultation?.specialistId,
       );
       if (!specialist) {
         return;
@@ -207,7 +207,7 @@ const Consultations = () => {
   const onSignUpClick = (
     specialistId: number,
     userId: number,
-    setClick: (click: boolean) => void
+    setClick: (click: boolean) => void,
   ) => {
     eventBus.emit(EventTypes.notification, {
       title: `Записаться к ${specialists.find(s => s.id === specialistId)?.name}?`,

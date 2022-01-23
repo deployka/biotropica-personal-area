@@ -19,11 +19,11 @@ export default class NotificationService {
   }
 
   static async update(
-    payload: UpdateNotificationData
+    payload: UpdateNotificationData,
   ): Promise<AxiosResponse<Response>> {
     return await $api.patch<Response>(
       `/${NotificationService.route}/update`,
-      payload
+      payload,
     );
   }
 }

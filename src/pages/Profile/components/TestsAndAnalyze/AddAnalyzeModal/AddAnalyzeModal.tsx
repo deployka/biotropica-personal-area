@@ -42,7 +42,7 @@ export const AddAnalyzeModal = ({
 
   async function onFileLoaded(
     e: React.ChangeEvent<HTMLInputElement>,
-    setFieldValue: (field: string, value: File) => void
+    setFieldValue: (field: string, value: File) => void,
   ) {
     try {
       const files = e.target.files || null;

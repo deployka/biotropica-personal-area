@@ -41,7 +41,7 @@ export const MultiSelectQuestion = ({ value, options, onChange }: Props) => {
                   onChange(
                     value.filter(it => {
                       return it !== option.value;
-                    })
+                    }),
                   );
                 }}
               >

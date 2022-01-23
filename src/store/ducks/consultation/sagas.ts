@@ -26,7 +26,7 @@ export function * fetchConsultationDataRequest({
       yield put(setConsultationLoadingStatus(LoadingStatus.SUCCESS));
     } else {
       yield put(
-        setConsultationResponse({ statusCode: status, message: data.message })
+        setConsultationResponse({ statusCode: status, message: data.message }),
       );
       yield put(setConsultationLoadingStatus(LoadingStatus.ERROR));
     }
@@ -36,7 +36,7 @@ export function * fetchConsultationDataRequest({
 }
 
 export function * fetchClosestConsultationDataRequest(
-  _: FetchClosestConsultationDataActionInterface
+  _: FetchClosestConsultationDataActionInterface,
 ) {
   try {
     yield put(setConsultationLoadingStatus(LoadingStatus.LOADING));
@@ -46,7 +46,7 @@ export function * fetchClosestConsultationDataRequest(
       yield put(setConsultationLoadingStatus(LoadingStatus.SUCCESS));
     } else {
       yield put(
-        setConsultationResponse({ statusCode: status, message: data.message })
+        setConsultationResponse({ statusCode: status, message: data.message }),
       );
       yield put(setConsultationLoadingStatus(LoadingStatus.ERROR));
     }
@@ -66,7 +66,7 @@ export function * createConsultationDataRequest({
       setConsultationResponse({
         message: 'Вы успешно записались! Перейдите в чат со специалистом',
         statusCode: status,
-      })
+      }),
     );
     yield put(setConsultationLoadingStatus(LoadingStatus.SUCCESS));
   } catch (error) {
@@ -77,15 +77,15 @@ export function * createConsultationDataRequest({
 export function * consultationSaga() {
   yield takeLatest(
     ConsultationActionsType.FETCH_CONSULTATION_DATA,
-    fetchConsultationDataRequest
+    fetchConsultationDataRequest,
   );
 
   yield takeLatest(
     ConsultationActionsType.CREATE_CONSULTATION_DATA,
-    createConsultationDataRequest
+    createConsultationDataRequest,
   );
   yield takeLatest(
     ConsultationActionsType.FETCH_CLOSEST_CONSULTATION_DATA,
-    fetchClosestConsultationDataRequest
+    fetchClosestConsultationDataRequest,
   );
 }

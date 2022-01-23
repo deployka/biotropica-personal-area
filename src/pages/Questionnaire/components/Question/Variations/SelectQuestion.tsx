@@ -27,7 +27,7 @@ export const SelectQuestion = ({ value, options, onChange }: Props) => {
               s.button,
               option.value === value
                 ? s.selected
-                : ''
+                : '',
             )}
             onClick={() => {
               if (value === option.value) return;

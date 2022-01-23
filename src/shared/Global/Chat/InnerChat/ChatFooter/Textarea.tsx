@@ -16,7 +16,7 @@ function calculateNumberOfLines(
   textarea: HTMLTextAreaElement,
   minRows: number,
   maxRows: number,
-  currentRows: number
+  currentRows: number,
 ): number {
   const rows = textarea.rows || minRows;
   const value = textarea.innerHTML;
@@ -55,7 +55,7 @@ export function Textarea(props: Props) {
         textarea,
         props.minRows,
         props.maxRows,
-        rows
+        rows,
       );
       if (updatedRows !== rows) {
         setRows(updatedRows);

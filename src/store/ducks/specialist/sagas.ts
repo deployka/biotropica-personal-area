@@ -24,6 +24,6 @@ export function * fetchSpecialistDataRequest({
 export function * specialistSaga() {
   yield takeLatest(
     SpecialistActionsType.FETCH_SPECIALIST_DATA,
-    fetchSpecialistDataRequest
+    fetchSpecialistDataRequest,
   );
 }

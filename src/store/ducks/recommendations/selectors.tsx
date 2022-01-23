@@ -12,11 +12,11 @@ export type SortedRecommendations = Record<
 >;
 
 export const selectRecommendationsState = (
-  state: RootState
+  state: RootState,
 ): RecommendationsState => state.recommendations;
 
 export const selectRecommendationsData = (
-  state: RootState
+  state: RootState,
 ): RecommendationsState['recommendations'] =>
   selectRecommendationsState(state).recommendations;
 
@@ -150,12 +150,12 @@ export const selectSortedRecommendationsData = (state: RootState) => {
 };
 
 export const selectRecommendationsResponse = (
-  state: RootState
+  state: RootState,
 ): RecommendationsState['response'] =>
   selectRecommendationsState(state).response;
 
 export const selectRecommendationsStatus = (
-  state: RootState
+  state: RootState,
 ): RecommendationsState['status'] => selectRecommendationsState(state).status;
 
 export const selectRecommendationsLoadingStatus = (state: RootState): string =>

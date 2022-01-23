@@ -10,7 +10,7 @@ import { AnalyzesState } from './contracts/state';
 export const fetchAnalyzesData = (
   id: number,
   offset?: number,
-  limit?: number
+  limit?: number,
 ): FetchAnalyzesDataActionInterface => ({
   type: AnalyzesActionsType.FETCH_ANALYZES_DATA,
   payload: {
@@ -21,21 +21,21 @@ export const fetchAnalyzesData = (
 });
 
 export const setAnalyzesLoadingStatus = (
-  payload: AnalyzesState['status']
+  payload: AnalyzesState['status'],
 ): SetAnalyzesLoadingStatusActionInterface => ({
   type: AnalyzesActionsType.SET_LOADING_STATE,
   payload,
 });
 
 export const setAnalyzesData = (
-  payload: AnalyzesState['analyzes']
+  payload: AnalyzesState['analyzes'],
 ): SetAnalyzesDataActionInterface => ({
   type: AnalyzesActionsType.SET_ANALYZES_DATA,
   payload,
 });
 
 export const setAnalyzesResponse = (
-  payload: AnalyzesState['response']
+  payload: AnalyzesState['response'],
 ): SetAnalyzesResponseActionInterface => ({
   type: AnalyzesActionsType.SET_ANALYZES_RESPONSE,
   payload,

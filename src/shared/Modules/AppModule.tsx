@@ -38,7 +38,7 @@ export function AppModule(props: AppModuleProps) {
     return () => {
       window.removeEventListener('message', handleEvent);
     };
-  }, []);
+  }, [handleEvent]);
 
   return (
     <iframe

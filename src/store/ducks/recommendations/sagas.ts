@@ -31,6 +31,6 @@ export function * fetchRecommendationsDataRequest({
 export function * recommendationsSaga() {
   yield takeLatest(
     RecommendationsActionsType.FETCH_RECOMMENDATIONS_DATA,
-    fetchRecommendationsDataRequest
+    fetchRecommendationsDataRequest,
   );
 }

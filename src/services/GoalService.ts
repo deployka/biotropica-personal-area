@@ -29,7 +29,7 @@ export default class GoalService {
   static async update(payload: UpdateGoalData): Promise<AxiosResponse<Response>> {
     return await $api.patch<Response>(
       `/${GoalService.route}/update/${payload.id}`,
-      payload
+      payload,
     );
   }
 

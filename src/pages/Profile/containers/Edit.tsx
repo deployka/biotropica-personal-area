@@ -31,7 +31,7 @@ const Edit = () => {
 
   const { active } = useParams<Param>();
   const [activeTab, setActiveTab] = useState<string>(
-    getTabByKey(active, tabs)?.key || tabs[0].key
+    getTabByKey(active, tabs)?.key || tabs[0].key,
   );
   useEffect(() => {
     history.push(`/profile/edit/${activeTab}`);

@@ -36,7 +36,7 @@ export const Chat = (props: Props) => {
   useEffect(() => {
     const unread = dialogs.reduce((acc, dialog) => {
       const currentUserReading = dialog.dialogReadings.find(
-        r => r.userId === props.currentUser.id
+        r => r.userId === props.currentUser.id,
       );
       if (!currentUserReading) return acc;
 
@@ -89,7 +89,7 @@ export const Chat = (props: Props) => {
     if (dialog) {
       const messages = dialog.messages.slice();
       const messagesIndex = messages.findIndex(
-        it => it.uuid === newMessage.uuid
+        it => it.uuid === newMessage.uuid,
       );
       if (messagesIndex === -1) {
         messages.push(newMessage);
@@ -103,7 +103,7 @@ export const Chat = (props: Props) => {
         messages,
       });
       const foundReading = dialog.dialogReadings.find(
-        it => it.id === props.currentUser.id
+        it => it.id === props.currentUser.id,
       );
       if (foundReading) {
         foundReading.readAt = new Date().toISOString();
@@ -194,12 +194,12 @@ export const Chat = (props: Props) => {
   useEffect(() => {
     chatWsService.addEventListener(
       WSEvent.onMessageReceived,
-      handleOnMessageReceived
+      handleOnMessageReceived,
     );
     return () =>
       chatWsService.removeEventListener(
         WSEvent.onMessageReceived,
-        handleOnMessageReceived
+        handleOnMessageReceived,
       );
   }, [selectedDialog]);
 
@@ -209,7 +209,7 @@ export const Chat = (props: Props) => {
       type: MessageType;
       text?: string;
       fileId?: number;
-    }
+    },
   ) {
     if (!selectedDialog) {
       return;

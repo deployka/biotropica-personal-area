@@ -80,7 +80,7 @@ const EditProfile = () => {
 
   async function onAvatarLoaded(
     e: React.ChangeEvent<HTMLInputElement>,
-    setFieldValue: (field: string, value: File) => void
+    setFieldValue: (field: string, value: File) => void,
   ) {
     try {
       store.removeNotification('avatar_type_error');

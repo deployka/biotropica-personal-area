@@ -19,7 +19,7 @@ export const useModal = () => {
     modals,
     openModal<N extends ModalName, P extends Modals[N]['props']>(
       name: N,
-      props?: P
+      props?: P,
     ) {
       setModals({ ...modals, [name]: { open: true, props } });
     },

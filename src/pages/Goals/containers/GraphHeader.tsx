@@ -42,12 +42,12 @@ export const GraphHeader = ({ setDates, dates, setGraphDates }: Props) => {
         break;
       case 'month':
         currentDate.setDate(
-          new Date().getDate() - moment(currentDate).daysInMonth() + 1
+          new Date().getDate() - moment(currentDate).daysInMonth() + 1,
         );
         break;
       case 'year':
         currentDate.setDate(
-          new Date().getDate() - moment(currentDate).daysInMonth() * 12
+          new Date().getDate() - moment(currentDate).daysInMonth() * 12,
         );
         break;
       default:

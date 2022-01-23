@@ -30,5 +30,5 @@ export const notificationReducer = produce(
         break;
     }
   },
-  initialNotificationState
+  initialNotificationState,
 );

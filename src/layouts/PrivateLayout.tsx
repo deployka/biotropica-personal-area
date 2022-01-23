@@ -149,7 +149,7 @@ export function PrivateLayout(props: Props) {
         return window.open(nav.redirect);
       }
     },
-    [window]
+    [window],
   );
 
   return (

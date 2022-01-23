@@ -17,7 +17,7 @@ const Signin = () => {
 
   const loader = loadingStatus === LoadingStatus.LOADING;
   const refSetFieldValue = useRef<((field: string, value: string) => void) | null>(
-    null
+    null,
   );
 
   useEffect(() => {

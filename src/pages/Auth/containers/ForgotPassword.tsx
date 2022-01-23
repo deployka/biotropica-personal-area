@@ -27,7 +27,7 @@ const ForgotPassword = () => {
 
   const loader = loadingStatus === LoadingStatus.LOADING;
   const refSetFieldValue = useRef<((field: string, value: string) => void) | null>(
-    null
+    null,
   );
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const ForgotPassword = () => {
 
   async function onSubmit(
     values: ForgotPasswordData,
-    options: FormikHelpers<ForgotPasswordData>
+    options: FormikHelpers<ForgotPasswordData>,
   ) {
     refSetFieldValue.current = options.setFieldValue;
     dispatch(fetchForgotPassword(values));
