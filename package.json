@@ -117,13 +117,7 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "prettier": {
-    "singleQuote": true,
-    "arrowParens": "avoid",
-    "printWidth": 85,
-    "spaces": 2,
-    "insertSpaceBeforeFunctionParenthesis": true
-  },
+
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"

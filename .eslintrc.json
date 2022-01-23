@@ -5,7 +5,6 @@
   },
   "extends": [
     "plugin:react/recommended",
-    "prettier",
     "standard",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
@@ -29,7 +28,10 @@
       "error",
       { "anonymous": "always", "named": "never", "asyncArrow": "always" }
     ],
-    "max-len": ["error", { "code": 85, "ignoreStrings": true, "comments": 120 }],
+    "max-len": [
+      "error",
+      { "code": 85, "ignoreStrings": true, "comments": 120 }
+    ],
     "multiline-ternary": ["error", "always-multiline"],
     "prefer-promise-reject-errors": ["error", { "allowEmptyReject": true }],
     "arrow-parens": ["error", "as-needed"],
