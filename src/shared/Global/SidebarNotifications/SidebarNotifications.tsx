@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import s from './SidebarNotifications.module.scss';
 import { BtnClose } from '../../buttons/BtnClose/BtnClose';
@@ -7,7 +7,7 @@ import { Notification } from './Notification/Notification';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import { PopupBackground } from '../PopupBackground/PopupBackground';
-import NotificationService from "../../../services/NotificationService";
+import NotificationService from '../../../services/NotificationService';
 
 interface Props {
   open: boolean;
@@ -17,8 +17,10 @@ interface Props {
 export const SidebarNotifications = ({ open, setOpen }: Props) => {
   const [notifications, setNotifications] = useState<INotification[]>([]);
   useEffect(() => {
-    NotificationService.getAll().then(notifications => setNotifications(notifications))
-  }, [])
+    NotificationService.getAll().then(notifications =>
+      setNotifications(notifications),
+    );
+  }, []);
   return (
     <>
       <div onClick={() => setOpen(false)}>

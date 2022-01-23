@@ -6,7 +6,7 @@ import { NotificationState } from './contracts/state';
 
 const initialNotificationState: NotificationState = {
   notification: null,
-  response: null,
+  response: undefined,
   status: LoadingStatus.NEVER,
 };
 
@@ -30,5 +30,5 @@ export const notificationReducer = produce(
         break;
     }
   },
-  initialNotificationState
+  initialNotificationState,
 );

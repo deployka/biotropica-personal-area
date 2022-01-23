@@ -8,7 +8,7 @@ interface Response {
 }
 
 export default class SpecialistService {
-  static route: string = 'specialists';
+  static route = 'specialists';
 
   static async getOne(payload: number): Promise<AxiosResponse<Response>> {
     return await $api.get<Response>(`/${SpecialistService.route}/${payload}`);

@@ -27,12 +27,14 @@ class EventBus {
   emit<K extends EventTypes>(key: K, payload: EventArguments[K]) {
     this.listeners[key].forEach(callback => callback(payload));
   }
+
   on<K extends EventTypes>(key: K, callback: EventListenerCallback<K>) {
     this.listeners[key].push(callback as EventListenerCallback<EventTypes>);
   }
+
   off<K extends EventTypes>(key: K, callback: EventListenerCallback<K>) {
     const index = this.listeners[key].indexOf(
-      callback as EventListenerCallback<EventTypes>
+      callback as EventListenerCallback<EventTypes>,
     );
     if (index === -1) {
       return;

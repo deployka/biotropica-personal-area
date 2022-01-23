@@ -16,7 +16,7 @@ export const MultiSelectQuestion = ({ value, options, onChange }: Props) => {
     <div className={s.multiSelect}>
       {options &&
         options.map(option => (
-          <div className={s.selector}>
+          <div key={option.value} className={s.selector}>
             <div className={s.title}>
               <p>{option.label}</p>
             </div>
@@ -41,7 +41,7 @@ export const MultiSelectQuestion = ({ value, options, onChange }: Props) => {
                   onChange(
                     value.filter(it => {
                       return it !== option.value;
-                    })
+                    }),
                   );
                 }}
               >

@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { HTTP_CREATED } from '../../../http/httpConstants';
 import ProgressService from '../../../services/ProgressService';
 import { LoadingStatus } from '../../types';
 import {
@@ -12,9 +13,9 @@ import {
   CreateProgressDataActionInterface,
 } from './contracts/actionTypes';
 
-export function* fetchProgressDataRequest({
+export function * fetchProgressDataRequest({
   payload,
-}: FetchProgressDataActionInterface): any {
+}: FetchProgressDataActionInterface) {
   try {
     yield put(setProgressLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(ProgressService.getAll, payload);
@@ -25,12 +26,12 @@ export function* fetchProgressDataRequest({
   }
 }
 
-export function* createProgressDataRequest({
+export function * createProgressDataRequest({
   payload,
-}: CreateProgressDataActionInterface): any {
+}: CreateProgressDataActionInterface) {
   yield put(setProgressLoadingStatus(LoadingStatus.LOADING));
   const { data, status } = yield call(ProgressService.create, payload);
-  if (status === 201) {
+  if (status === HTTP_CREATED) {
     yield put(setProgressData(data));
     yield put(setProgressLoadingStatus(LoadingStatus.SUCCESS));
   } else {
@@ -38,14 +39,14 @@ export function* createProgressDataRequest({
   }
 }
 
-export function* progressSaga(): any {
+export function * progressSaga() {
   yield takeLatest(
     ProgressActionsType.FETCH_PROGRESS_DATA,
-    fetchProgressDataRequest
+    fetchProgressDataRequest,
   );
 
   yield takeLatest(
     ProgressActionsType.CREATE_PROGRESS_DATA,
-    createProgressDataRequest
+    createProgressDataRequest,
   );
 }

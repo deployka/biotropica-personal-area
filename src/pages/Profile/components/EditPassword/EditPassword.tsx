@@ -30,14 +30,14 @@ export const EditPassword = ({ loader, onSubmit, user, logout }: Props) => {
     <div className={s.edit__password}>
       <Formik
         initialValues={{
-          current_password: '',
+          currentPassword: '',
           password: '',
-          verification_password: '',
+          verificationPassword: '',
         }}
         validateOnBlur
         onSubmit={(
           values: ChangePasswordData,
-          options: FormikHelpers<ChangePasswordData>
+          options: FormikHelpers<ChangePasswordData>,
         ) => onSubmit(values, options)}
         validationSchema={validationSchema}
       >
@@ -65,13 +65,13 @@ export const EditPassword = ({ loader, onSubmit, user, logout }: Props) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Старый пароль"
-                name="current_password"
-                value={values.current_password}
+                name="currentPassword"
+                value={values.currentPassword}
                 type="password"
                 options={{
                   touched,
                   errors,
-                  classes: { [s.input__current_password]: true },
+                  classes: { [s.input__currentPassword]: true },
                 }}
               />
             </div>
@@ -97,8 +97,8 @@ export const EditPassword = ({ loader, onSubmit, user, logout }: Props) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Повторите пароль"
-                name="verification_password"
-                value={values.verification_password}
+                name="verificationPassword"
+                value={values.verificationPassword}
                 type="password"
                 options={{
                   touched,
@@ -113,7 +113,9 @@ export const EditPassword = ({ loader, onSubmit, user, logout }: Props) => {
                 type="submit"
                 onClick={() => handleSubmit()}
                 options={{
-                  content: loader ? <Loader /> : 'Сохранить',
+                  content: loader
+                    ? <Loader />
+                    : 'Сохранить',
                   setDisabledStyle: isDisabled(isValid, dirty),
                 }}
               />

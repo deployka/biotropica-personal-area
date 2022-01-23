@@ -1,3 +1,4 @@
+import React from 'react';
 import { Formik, FormikHelpers } from 'formik';
 
 import s from './SigninForm.module.scss';
@@ -7,11 +8,12 @@ import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { SigninData } from '../../../../store/ducks/user/contracts/state';
 import { Link } from 'react-router-dom';
+import { SchemaOf } from 'yup';
 
 interface Props {
   onSubmit: (values: SigninData, options: FormikHelpers<SigninData>) => void;
   loader: boolean;
-  validationSchema: any;
+  validationSchema: SchemaOf<SigninData>;
 }
 
 export const SigninForm = ({ onSubmit, loader, validationSchema }: Props) => {
@@ -43,9 +45,7 @@ export const SigninForm = ({ onSubmit, loader, validationSchema }: Props) => {
         }) => (
           <div className={s.form}>
             <h1 className={s.title}>Вход</h1>
-            <h2 className={s.subtitle}>
-              Пожалуйста, заполните информацию ниже:
-            </h2>
+            <h2 className={s.subtitle}>Пожалуйста, заполните информацию ниже:</h2>
 
             <div className={s.input__wrapper}>
               <Input
@@ -82,7 +82,9 @@ export const SigninForm = ({ onSubmit, loader, validationSchema }: Props) => {
               type="submit"
               onClick={() => handleSubmit()}
               options={{
-                content: loader ? <Loader /> : 'Войти',
+                content: loader
+                  ? <Loader />
+                  : 'Войти',
                 setDisabledStyle: isDisabled(isValid, dirty),
                 width: '100%',
                 height: '50px',

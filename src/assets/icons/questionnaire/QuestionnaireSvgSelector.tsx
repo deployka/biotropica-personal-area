@@ -1,8 +1,9 @@
+import React, { ReactElement } from 'react';
 interface Props {
   id: string;
 }
 
-export const QuestionnaireSvgSelector = ({ id }: Props) => {
+export const QuestionnaireSvgSelector = ({ id }: Props): ReactElement => {
   switch (id) {
     case 'arrow':
       return (

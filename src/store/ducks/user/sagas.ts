@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import AuthService from '../../../services/AuthService';
 import UserService from '../../../services/UserService';
@@ -21,9 +20,7 @@ import {
   UserActionsType,
 } from './contracts/actionTypes';
 
-export function* fetchSigninRequest({
-  payload,
-}: FetchSigninActionInterface): any {
+export function * fetchSigninRequest({ payload }: FetchSigninActionInterface) {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(AuthService.signin, payload);
@@ -37,9 +34,7 @@ export function* fetchSigninRequest({
   }
 }
 
-export function* fetchSignupRequest({
-  payload,
-}: FetchSignupActionInterface): any {
+export function * fetchSignupRequest({ payload }: FetchSignupActionInterface) {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(AuthService.signup, payload);
@@ -50,7 +45,7 @@ export function* fetchSignupRequest({
   }
 }
 
-export function* fetchSignoutRequest({}: FetchSignupActionInterface): any {
+export function * fetchSignoutRequest() {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(AuthService.signout);
@@ -61,9 +56,9 @@ export function* fetchSignoutRequest({}: FetchSignupActionInterface): any {
   }
 }
 
-export function* fetchForgotPasswordRequest({
+export function * fetchForgotPasswordRequest({
   payload,
-}: FetchForgotPasswordActionInterface): any {
+}: FetchForgotPasswordActionInterface) {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(AuthService.forgotPassword, payload);
@@ -75,9 +70,9 @@ export function* fetchForgotPasswordRequest({
   }
 }
 
-export function* fetchChangePasswordRequest({
+export function * fetchChangePasswordRequest({
   payload,
-}: FetchChangePasswordActionInterface): any {
+}: FetchChangePasswordActionInterface) {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(AuthService.changePassword, payload);
@@ -88,9 +83,9 @@ export function* fetchChangePasswordRequest({
   }
 }
 
-export function* fetchRestorePasswordRequest({
+export function * fetchRestorePasswordRequest({
   payload,
-}: FetchRestorePasswordActionInterface): any {
+}: FetchRestorePasswordActionInterface) {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(AuthService.restorePassword, payload);
@@ -101,9 +96,9 @@ export function* fetchRestorePasswordRequest({
   }
 }
 
-export function* fetchCreatePasswordRequest({
+export function * fetchCreatePasswordRequest({
   payload,
-}: FetchRestorePasswordActionInterface): any {
+}: FetchRestorePasswordActionInterface) {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(AuthService.createPassword, payload);
@@ -114,7 +109,7 @@ export function* fetchCreatePasswordRequest({
   }
 }
 
-export function* fetchUserDataRequest({}: FetchUserDataActionInterface): any {
+export function * fetchUserDataRequest() {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(UserService.getMe);
@@ -126,9 +121,9 @@ export function* fetchUserDataRequest({}: FetchUserDataActionInterface): any {
   }
 }
 
-export function* fetchUserDataByIdRequest({
+export function * fetchUserDataByIdRequest({
   payload,
-}: FetchUserDataByIdActionInterface): any {
+}: FetchUserDataByIdActionInterface) {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(UserService.getOne, payload);
@@ -140,9 +135,9 @@ export function* fetchUserDataByIdRequest({
   }
 }
 
-export function* fetchUpdateUserEmailRequest({
+export function * fetchUpdateUserEmailRequest({
   payload,
-}: FetchUpdateUserEmailActionInterface): any {
+}: FetchUpdateUserEmailActionInterface) {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(UserService.updateEmail, payload);
@@ -155,50 +150,45 @@ export function* fetchUpdateUserEmailRequest({
   }
 }
 
-export function* fetchUpdateUserRequest({
+export function * fetchUpdateUserRequest({
   payload,
-}: FetchUpdateUserActionInterface): any {
+}: FetchUpdateUserActionInterface) {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data, status } = yield call(UserService.update, payload);
     yield put(setUserData(data));
-    yield put(
-      setUserResponse({ statusCode: status, message: 'Данные обновлены' })
-    );
+    yield put(setUserResponse({ statusCode: status, message: 'Данные обновлены' }));
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } catch (error) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
 }
 
-export function* userSaga(): any {
+export function * userSaga() {
   yield takeLatest(UserActionsType.FETCH_SIGN_IN, fetchSigninRequest);
   yield takeLatest(UserActionsType.FETCH_SIGN_UP, fetchSignupRequest);
   yield takeLatest(UserActionsType.FETCH_USER_DATA, fetchUserDataRequest);
   yield takeLatest(UserActionsType.FETCH_SIGN_OUT, fetchSignoutRequest);
   yield takeLatest(
     UserActionsType.FETCH_FORGOT_PASSWORD,
-    fetchForgotPasswordRequest
+    fetchForgotPasswordRequest,
   );
   yield takeLatest(
     UserActionsType.FETCH_CHANGE_PASSWORD,
-    fetchChangePasswordRequest
+    fetchChangePasswordRequest,
   );
   yield takeLatest(
     UserActionsType.FETCH_RESTORE_PASSWORD,
-    fetchRestorePasswordRequest
+    fetchRestorePasswordRequest,
   );
   yield takeLatest(
     UserActionsType.FETCH_UPDATE_USER_EMAIL,
-    fetchUpdateUserEmailRequest
+    fetchUpdateUserEmailRequest,
   );
   yield takeLatest(UserActionsType.FETCH_UPDATE_USER, fetchUpdateUserRequest);
   yield takeLatest(
     UserActionsType.FETCH_CREATE_PASSWORD,
-    fetchCreatePasswordRequest
+    fetchCreatePasswordRequest,
   );
-  yield takeLatest(
-    UserActionsType.FETCH_USER_DATA_BY_ID,
-    fetchUserDataByIdRequest
-  );
+  yield takeLatest(UserActionsType.FETCH_USER_DATA_BY_ID, fetchUserDataByIdRequest);
 }

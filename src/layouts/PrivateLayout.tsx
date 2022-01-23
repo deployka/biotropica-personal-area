@@ -2,17 +2,14 @@ import { Modals } from '../modals/Modals';
 import { SidebarNotifications } from '../shared/Global/SidebarNotifications/SidebarNotifications';
 import { Header } from '../shared/Global/Header/Header';
 import React, { ReactElement, useCallback, useEffect, useState } from 'react';
-import { selectIsAuth, selectUserData } from '../store/ducks/user/selectors';
+import { selectUserData } from '../store/ducks/user/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { User } from '../store/ducks/user/contracts/state';
 import { useMobile } from '../hooks/useMobile';
 import { SidebarSvgSelector } from '../assets/icons/sidebar/SIdebarSvgSelector';
 import { useLocation } from 'react-router';
 import { fetchSignout, setUserData } from '../store/ducks/user/actionCreators';
 import { SidebarDesktop } from '../shared/Global/Sidebar/SidebarDesktop';
 import { SidebarMobile } from '../shared/Global/Sidebar/SidebarMobile';
-import NotificationService from '../services/NotificationService';
-
 import { SidebarWrapper } from '../shared/Global/SidebarWrapper/SidebarWrapper';
 import { Chat } from '../shared/Modules/Chat';
 import { eventBus, EventTypes } from '../services/EventBus';
@@ -40,7 +37,6 @@ async function sendMessage() {
 }
 
 export function PrivateLayout(props: Props) {
-  const isAuth = useSelector(selectIsAuth);
   const currentUser = useSelector(selectUserData);
 
   const dispatch = useDispatch();
@@ -48,11 +44,9 @@ export function PrivateLayout(props: Props) {
 
   const isMobile = useMobile();
   const [page, setPage] = useState<string>('Главная');
-  const [isUnread, setIsUnread] = useState(false);
-  const [isNotificationsUnread, setIsNotificationsUnread] = useState(false);
-  const [openedDialog, setOpenedDialog] = useState<number | undefined>(
-    undefined
-  );
+  const [isUnread] = useState(false);
+  const [isNotificationsUnread] = useState(false);
+  const [openedDialog, setOpenedDialog] = useState<number | undefined>(undefined);
 
   const [sidebarNotificationsOpen, setSidebarNotificationsOpen] =
     useState<boolean>(false);
@@ -71,7 +65,7 @@ export function PrivateLayout(props: Props) {
   //       })
   // }, [])
 
-  //TODO: реакторинг (очень неочевидно, что данный массив способен поблиять на ссылки в меню сайдбара)
+  // TODO: реакторинг (очень неочевидно, что данный массив способен поблиять на ссылки в меню сайдбара)
   const pages = [
     { page: 'Профиль', link: '/profile' },
     { page: 'Главная', link: '/' },
@@ -155,64 +149,57 @@ export function PrivateLayout(props: Props) {
         return window.open(nav.redirect);
       }
     },
-    [window]
+    [window],
   );
 
   return (
     <div className="global__container">
       <Modals />
 
-      {!isMobile ? (
-        <SidebarDesktop
-          onNavClick={onNavClick}
-          setSidebarChatOpen={setSidebarChatOpen}
-          setSidebarNotificationsOpen={setSidebarNotificationsOpen}
-          chatNotificationsOpen={chatNotificationsOpen}
-          openChat={openChat}
-          logout={logout}
-          pages={pages}
-          nav={nav}
-          user={user}
-          location={location}
-        />
-      ) : (
-        <SidebarMobile
-          onNavClick={onNavClick}
-          setSidebarChatOpen={setSidebarChatOpen}
-          setSidebarNotificationsOpen={setSidebarNotificationsOpen}
-          chatNotificationsOpen={chatNotificationsOpen}
-          openChat={openChat}
-          logout={logout}
-          pages={pages}
-          nav={nav}
-          user={user}
-          location={location}
-        />
-      )}
-
-      {currentUser ? (
-        // <Chat
-        //   isOpened={chatNotificationsOpen}
-        //   isAuth={isAuth}
-        //   token={localStorage.getItem('token') as string}
-        //   currentUser={currentUser}
-        //   isUnread={isUnread}
-        //   onChangeReading={setIsUnread}
-        //   onClose={() => setSidebarChatOpen(false)}
-        // />
-        <SidebarWrapper
-          isOpened={chatNotificationsOpen}
-          onClose={() => setSidebarChatOpen(false)}
-        >
-          <Chat
-            token={localStorage.getItem('token') as string}
-            activeDialogId={openedDialog}
-            onClose={() => setSidebarChatOpen(false)}
+      {!isMobile
+        ? (
+          <SidebarDesktop
+            onNavClick={onNavClick}
+            setSidebarChatOpen={setSidebarChatOpen}
+            setSidebarNotificationsOpen={setSidebarNotificationsOpen}
+            chatNotificationsOpen={chatNotificationsOpen}
+            openChat={openChat}
+            logout={logout}
+            pages={pages}
+            nav={nav}
+            user={user}
           />
-        </SidebarWrapper>
-      ) : (
-        <div />
-      )}
+        )
+        : (
+          <SidebarMobile
+            onNavClick={onNavClick}
+            setSidebarChatOpen={setSidebarChatOpen}
+            setSidebarNotificationsOpen={setSidebarNotificationsOpen}
+            chatNotificationsOpen={chatNotificationsOpen}
+            openChat={openChat}
+            logout={logout}
+            pages={pages}
+            nav={nav}
+            user={user}
+          />
+        )}
+
+      {currentUser
+        ? (
+          <SidebarWrapper
+            isOpened={chatNotificationsOpen}
+            onClose={() => setSidebarChatOpen(false)}
+          >
+            <Chat
+              token={localStorage.getItem('token') as string}
+              activeDialogId={openedDialog}
+              onClose={() => setSidebarChatOpen(false)}
+            />
+          </SidebarWrapper>
+        )
+        : (
+          <div />
+        )}
       <SidebarNotifications
         open={sidebarNotificationsOpen}
         setOpen={setSidebarNotificationsOpen}

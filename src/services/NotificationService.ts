@@ -8,7 +8,7 @@ interface Response {
 }
 
 export default class NotificationService {
-  static route: string = 'notifications';
+  static route = 'notifications';
 
   static async getAll(): Promise<INotification[]> {
     return (await $api.get(`/${NotificationService.route}/`)).data;
@@ -19,11 +19,11 @@ export default class NotificationService {
   }
 
   static async update(
-    payload: UpdateNotificationData
+    payload: UpdateNotificationData,
   ): Promise<AxiosResponse<Response>> {
     return await $api.patch<Response>(
       `/${NotificationService.route}/update`,
-      payload
+      payload,
     );
   }
 }

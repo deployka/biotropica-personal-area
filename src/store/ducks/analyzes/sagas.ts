@@ -12,17 +12,16 @@ import {
 } from './contracts/actionTypes';
 import { selectAnalyzesData } from './selectors';
 
-export function* fetchAnalyzesDataRequest({
+export function * fetchAnalyzesDataRequest({
   payload,
-}: FetchAnalyzesDataActionInterface): any {
+}: FetchAnalyzesDataActionInterface): unknown {
   try {
     yield put(setAnalyzesLoadingStatus(LoadingStatus.LOADING));
-
     const { data, status } = yield call(
       AnalyzeService.geAll,
       payload.id,
       payload.offset,
-      payload.limit
+      payload.limit,
     );
     if (status === 200) {
       if (payload.offset) {
@@ -39,9 +38,9 @@ export function* fetchAnalyzesDataRequest({
   } catch (error) {}
 }
 
-export function* analyzesSaga(): any {
+export function * analyzesSaga() {
   yield takeLatest(
     AnalyzesActionsType.FETCH_ANALYZES_DATA,
-    fetchAnalyzesDataRequest
+    fetchAnalyzesDataRequest,
   );
 }

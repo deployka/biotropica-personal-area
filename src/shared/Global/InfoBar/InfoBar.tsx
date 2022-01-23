@@ -37,7 +37,9 @@ export const InfoBar = ({ infoBar }: Props) => {
       {infoBar.bottomLink && (
         <div
           className={s.bottomLink}
-          onClick={infoBar.href ? () => {} : infoBar.onClick}
+          onClick={infoBar.href
+            ? () => null
+            : infoBar.onClick}
         >
           <Link to={`${infoBar.href || '#'}`}>{infoBar.bottomLink}</Link>
         </div>

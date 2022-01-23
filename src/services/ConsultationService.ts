@@ -11,7 +11,7 @@ interface Response {
 }
 
 export default class ConsultationService {
-  static route: string = 'consultations';
+  static route = 'consultations';
 
   static async getOne(payload: number): Promise<AxiosResponse<Consultation>> {
     return await $api.get(`/${ConsultationService.route}/${payload}`);
@@ -26,7 +26,7 @@ export default class ConsultationService {
   }
 
   static async create(
-    payload: CreateConsultationData
+    payload: CreateConsultationData,
   ): Promise<AxiosResponse<Response>> {
     return await $api.post<Response>(`/${ConsultationService.route}/`, payload);
   }

@@ -1,11 +1,11 @@
-import classNames from "classnames";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import classNames from 'classnames';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import {
   CreateGoalData,
   GoalType,
-} from "../../../../store/ducks/goal/contracts/state";
+} from '../../../../store/ducks/goal/contracts/state';
 
-import s from "./Selector.module.scss";
+import s from './Selector.module.scss';
 
 export interface Selector {
   title: string;

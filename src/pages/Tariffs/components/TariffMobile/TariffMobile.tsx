@@ -3,14 +3,11 @@ import s from './TariffMobile.module.scss';
 import checkbox from './../../../../assets/icons/tariffs/checkbox.svg';
 import arrow from './../../../../assets/icons/tariffs/arrow.svg';
 
-import { Tariff as ITariff } from '../../containers/Tariffs';
+import { Tariff } from '../../containers/Tariffs';
 import AnimateHeight from 'react-animate-height';
 
 interface Props {
-  tariff: any;
-}
-interface Feature {
-  tariff: ITariff;
+  tariff: Tariff;
 }
 
 export const TariffMobile = ({ tariff }: Props) => {

@@ -15,49 +15,49 @@ import {
 } from './contracts/state';
 
 export const fetchRecommendationData = (
-  payload: number
+  payload: number,
 ): FetchRecommendationDataActionInterface => ({
   type: RecommendationActionsType.FETCH_RECOMMENDATION_DATA,
   payload,
 });
 
 export const createRecommendationData = (
-  payload: CreateRecommendationData
+  payload: CreateRecommendationData,
 ): CreateRecommendationDataActionInterface => ({
   type: RecommendationActionsType.CREATE_RECOMMENDATION_DATA,
   payload,
 });
 
 export const updateRecommendationData = (
-  payload: UpdateRecommendationData
+  payload: UpdateRecommendationData,
 ): UpdateRecommendationActionInterface => ({
   type: RecommendationActionsType.FETCH_UPDATE_RECOMMENDATION,
   payload,
 });
 
 export const deleteRecommendationData = (
-  payload: number
+  payload: number,
 ): DeleteRecommendationActionInterface => ({
   type: RecommendationActionsType.FETCH_DELETE_RECOMMENDATION,
   payload,
 });
 
 export const setRecommendationLoadingStatus = (
-  payload: RecommendationState['status']
+  payload: RecommendationState['status'],
 ): SetRecommendationLoadingStatusActionInterface => ({
   type: RecommendationActionsType.SET_LOADING_STATE,
   payload,
 });
 
 export const setRecommendationData = (
-  payload: RecommendationState['recommendation']
+  payload: RecommendationState['recommendation'],
 ): SetRecommendationDataActionInterface => ({
   type: RecommendationActionsType.SET_RECOMMENDATION_DATA,
   payload,
 });
 
 export const setRecommendationResponse = (
-  payload: RecommendationState['response']
+  payload: RecommendationState['response'],
 ): SetRecommendationResponseActionInterface => ({
   type: RecommendationActionsType.SET_RECOMMENDATION_RESPONSE,
   payload,

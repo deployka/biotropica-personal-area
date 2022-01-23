@@ -1,10 +1,11 @@
+import React, { ReactElement } from 'react';
 interface Props {
   id: string;
 }
 
-export const FormsSvgSelector = ({ id }: Props) => {
+export const FormsSvgSelector = ({ id }: Props): ReactElement => {
   switch (id) {
-    case "camera":
+    case 'camera':
       return (
         <svg
           width="20"
@@ -38,7 +39,7 @@ export const FormsSvgSelector = ({ id }: Props) => {
         </svg>
       );
 
-    case "check":
+    case 'check':
       return (
         <svg
           width="16"

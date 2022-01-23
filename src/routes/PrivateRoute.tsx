@@ -7,16 +7,18 @@ export const PrivateRoute = ({ children, isAuth, ...rest }: Props) => {
     <Route
       {...rest}
       render={({ location }) =>
-        isAuth ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/signin',
-              state: { from: location },
-            }}
-          />
-        )
+        isAuth
+          ? (
+            children
+          )
+          : (
+            <Redirect
+              to={{
+                pathname: '/signin',
+                state: { from: location },
+              }}
+            />
+          )
       }
     />
   );

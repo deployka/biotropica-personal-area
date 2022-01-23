@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { LoadingStatus } from '../../../types';
+import { LoadingStatus, Response } from '../../../types';
 import {
   UpdateAnalyzeAnswerData,
   CreateAnalyzeAnswerData,
@@ -18,20 +18,17 @@ export enum AnalyzeActionsType {
   FETCH_DELETE_ANALYZE = 'analyze/FETCH_DELETE_ANALYZE',
 }
 
-export interface UpdateAnalyzeActionInterface
-  extends Action<AnalyzeActionsType> {
+export interface UpdateAnalyzeActionInterface extends Action<AnalyzeActionsType> {
   type: AnalyzeActionsType.FETCH_UPDATE_ANALYZE;
   payload: UpdateAnalyzeAnswerData;
 }
 
-export interface DeleteAnalyzeActionInterface
-  extends Action<AnalyzeActionsType> {
+export interface DeleteAnalyzeActionInterface extends Action<AnalyzeActionsType> {
   type: AnalyzeActionsType.FETCH_DELETE_ANALYZE;
   payload: number;
 }
 
-export interface FetchAnalyzeDataActionInterface
-  extends Action<AnalyzeActionsType> {
+export interface FetchAnalyzeDataActionInterface extends Action<AnalyzeActionsType> {
   type: AnalyzeActionsType.FETCH_ANALYZE_DATA;
   payload: number;
 }
@@ -45,11 +42,10 @@ export interface CreateAnalyzeAnswerDataActionInterface
 export interface setAnalyzeResponseActionInterface
   extends Action<AnalyzeActionsType> {
   type: AnalyzeActionsType.SET_ANALYZE_RESPONSE;
-  payload: any;
+  payload: Response | undefined;
 }
 
-export interface setAnalyzeDataActionInterface
-  extends Action<AnalyzeActionsType> {
+export interface setAnalyzeDataActionInterface extends Action<AnalyzeActionsType> {
   type: AnalyzeActionsType.SET_ANALYZE_DATA;
   payload: AnalyzeAnswer | undefined;
 }

@@ -19,15 +19,13 @@ export const useModal = () => {
     modals,
     openModal<N extends ModalName, P extends Modals[N]['props']>(
       name: N,
-      props?: P
+      props?: P,
     ) {
       setModals({ ...modals, [name]: { open: true, props } });
     },
     closeModal,
     closeAllModals() {
-      Object.keys(modals).forEach((modal: string) =>
-        closeModal(modal as ModalName)
-      );
+      Object.keys(modals).forEach((modal: string) => closeModal(modal as ModalName));
     },
   };
 };

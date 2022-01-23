@@ -25,7 +25,7 @@ getToken(messaging, { vapidKey: process.env.FB_VAPID_KEY })
     } else {
       // Show permission request UI
       console.log(
-        'No registration token available. Request permission to generate one.'
+        'No registration token available. Request permission to generate one.',
       );
       // ...
     }

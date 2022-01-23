@@ -18,24 +18,24 @@ const Questionnaire = () => {
   const [total, setTotal] = useState(0);
   const history = useHistory();
 
+  async function fetchQuestion() {
+    const {
+      data: { question, index, total },
+    } = await QuestionService.getCurrentQuestion();
+    if (!question) {
+      return history.push('/');
+    }
+    setQuestion(question);
+    setIndex(index);
+    setTotal(total);
+  }
+
   useEffect(() => {
     fetchQuestion();
   }, []);
 
   if (!question) {
     return null;
-  }
-
-  async function fetchQuestion() {
-    const {
-      data: { question, index, total },
-    } = await QuestionService.getCurrentQuestion();
-    if(!question) {
-      return history.push('/');
-    }
-    setQuestion(question);
-    setIndex(index);
-    setTotal(total);
   }
 
   async function giveAnswer(answer: CreateAnswerDto) {
@@ -49,9 +49,9 @@ const Questionnaire = () => {
 
   const options = question.allowedAnswers
     ? question.allowedAnswers.map(it => ({
-        value: it,
-        label: it,
-      }))
+      value: it,
+      label: it,
+    }))
     : [];
 
   return (

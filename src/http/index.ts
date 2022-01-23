@@ -2,12 +2,7 @@ import axios from 'axios';
 import { NotificationType } from '../components/GlobalNotifications/GlobalNotifications';
 import AuthService from '../services/AuthService';
 import { eventBus, EventTypes } from '../services/EventBus';
-import {
-  HTTP_BAD_REQUEST,
-  HTTP_NOT_FOUND,
-  HTTP_SUCCESS,
-  HTTP_UNAUTHORIZED,
-} from './httpConstants';
+import { HTTP_BAD_REQUEST, HTTP_SUCCESS, HTTP_UNAUTHORIZED } from './httpConstants';
 
 const $api = axios.create({
   withCredentials: true,
@@ -19,7 +14,7 @@ $api.interceptors.request.use(config => {
   return config;
 });
 
-let isRetrying: Promise<void> | undefined = undefined;
+let isRetrying: Promise<void> | undefined;
 
 const exceptions = ['/auth/refresh', 'auth/signin'];
 
@@ -51,15 +46,18 @@ $api.interceptors.response.use(
       await isRetrying;
       return $api.request(originalRequest);
     }
-    isRetrying = new Promise(async (resolve, reject) => {
+    isRetrying = new Promise((resolve, reject) => {
       try {
-        const { data, status } = await AuthService.refresh();
-        if (status === HTTP_SUCCESS) {
-          window.localStorage.setItem('token', data.accessToken);
-          resolve();
-        } else {
-          reject();
-        }
+        AuthService.refresh()
+          .then(({ data, status }) => {
+            if (status === HTTP_SUCCESS) {
+              window.localStorage.setItem('token', data.accessToken);
+              resolve();
+            } else {
+              reject();
+            }
+          })
+          .catch(reject);
       } catch (error) {
         reject(error);
       }
@@ -74,7 +72,7 @@ $api.interceptors.response.use(
       eventBus.emit(EventTypes.routerPush, '/signin');
       throw e;
     }
-  }
+  },
 );
 
 export default $api;

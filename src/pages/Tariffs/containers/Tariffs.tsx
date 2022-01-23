@@ -8,7 +8,7 @@ import s from './Tariffs.module.scss';
 export interface Tariff {
   price: string;
   name: string;
-  features: any[];
+  features: string[];
   prolongLink: string;
 }
 

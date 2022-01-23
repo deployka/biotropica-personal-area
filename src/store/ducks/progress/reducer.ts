@@ -30,5 +30,5 @@ export const progressReducer = produce(
         break;
     }
   },
-  initialProgressState
+  initialProgressState,
 );

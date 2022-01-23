@@ -1,25 +1,33 @@
-import React from 'react';
+import React, {
+  ChangeEventHandler,
+  ClipboardEventHandler,
+  FormEventHandler,
+  KeyboardEventHandler,
+} from 'react';
 import classNames from 'classnames';
 
 import s from './Textarea.module.scss';
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 import { Label } from '../Label/Label';
+import { Classes } from '../Input/Input';
+import { FormikErrors, FormikTouched } from 'formik';
 
 interface Props {
-  onChange: (e: React.ChangeEvent<any>) => void;
-  onPaste?: (e: React.ChangeEvent<any>) => void;
-  onKeyDown?: (e: React.ChangeEvent<any>) => void;
-  onInput?: (e: React.ChangeEvent<any>) => void;
-  onBlur: any;
-  autoComplete?: any;
+  onChange: ChangeEventHandler<HTMLTextAreaElement>;
+  onPaste?: ClipboardEventHandler<HTMLTextAreaElement>;
+  onKeyDown?: KeyboardEventHandler<HTMLTextAreaElement>;
+  onInput?: FormEventHandler<HTMLTextAreaElement>;
+  onBlur: ChangeEventHandler<HTMLTextAreaElement>;
+  autoComplete?: string;
   placeholder: string;
   name: string;
-  value: any;
+  value: string | number | readonly string[] | undefined;
   type: string;
   options: {
-    classes?: any;
-    touched: any;
-    errors: any;
+    classes?: Classes;
+    touched: FormikTouched<{ [key in string]: unknown }>;
+    errors: FormikErrors<{ [key in string]: unknown }>;
+    placeholderActive?: string;
   };
 }
 
@@ -41,7 +49,7 @@ export const Textarea = (props: Props) => {
       />
       <Label active={false} value={props.placeholder} />
       {touched[props.name] && errors[props.name] && (
-        <ErrorMessage message={errors[props.name]} />
+        <ErrorMessage message={errors[props.name] || ''} />
       )}
     </>
   );

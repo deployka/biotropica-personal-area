@@ -19,18 +19,12 @@ export const uploadFiles = (files: FileList | null): Promise<FileReader> => {
   });
 };
 
-export const checkFileType = (
-  file: File | null,
-  paths: FileType[]
-): boolean => {
+export const checkFileType = (file: File | null, paths: FileType[]): boolean => {
   if (!file) return false;
   return paths.includes(file.type as FileType);
 };
 
-export const checkFileSize = (
-  file: File | null,
-  maxFileSize: number
-): boolean => {
+export const checkFileSize = (file: File | null, maxFileSize: number): boolean => {
   if (!file) return false;
   const fileSize = file.size / 1024 / 1024;
   return fileSize > maxFileSize;

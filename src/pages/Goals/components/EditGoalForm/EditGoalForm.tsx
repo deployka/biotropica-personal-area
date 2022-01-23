@@ -1,14 +1,11 @@
-import { Formik, FormikHelpers } from 'formik';
-import { Link, useLocation } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
+import { Formik, FormikHelpers } from 'formik';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
-import {
-  Goal,
-  UpdateGoalData,
-} from '../../../../store/ducks/goal/contracts/state';
+import { Goal, UpdateGoalData } from '../../../../store/ducks/goal/contracts/state';
 import {
   fetchGoalData,
   setGoalData,
@@ -18,22 +15,19 @@ import {
 import {
   selectGoalData,
   selectGoalLoadingStatus,
-  selectGoalResponse,
 } from '../../../../store/ducks/goal/selectors';
 import { LoadingStatus } from '../../../../store/types';
 
 import s from './EditGoalForm.module.scss';
 import { validationSchema } from './validationSchema';
 import { Textarea } from '../../../../shared/Form/Textarea/Textarea';
-import { useHistory } from 'react-router-dom';
+
 import { selectGoalsData } from '../../../../store/ducks/goals/selectors';
 import { setGoalsData } from '../../../../store/ducks/goals/actionCreators';
 import { eventBus, EventTypes } from '../../../../services/EventBus';
 import { NotificationType } from '../../../../components/GlobalNotifications/GlobalNotifications';
 
-interface Props {}
-
-const EditGoalForm = ({}: Props) => {
+const EditGoalForm = () => {
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectGoalLoadingStatus);
   const history = useHistory();
@@ -45,7 +39,7 @@ const EditGoalForm = ({}: Props) => {
   const [name, setName] = useState<string>('');
 
   const [loader, setLoader] = useState<boolean>(false);
-  const refResetForm = useRef<any>(null);
+  const refResetForm = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     dispatch(setGoalData(undefined));
@@ -55,7 +49,7 @@ const EditGoalForm = ({}: Props) => {
 
   useEffect(() => {
     if (!goal && loadingStatus === LoadingStatus.ERROR) {
-      history.push(`/goals`);
+      history.push('/goals');
     }
   }, [goal, loadingStatus]);
 
@@ -73,8 +67,7 @@ const EditGoalForm = ({}: Props) => {
     if (loadingStatus === LoadingStatus.SUCCESS && refResetForm.current) {
       eventBus.emit(EventTypes.notification, {
         title: `Цель «${name}» успешно обновлена!`,
-        message:
-          'Не забывайте регулярно отмечать свой прогресс в достижении цели',
+        message: 'Не забывайте регулярно отмечать свой прогресс в достижении цели',
         type: NotificationType.INFO,
         dismiss: {
           onScreen: true,
@@ -85,7 +78,7 @@ const EditGoalForm = ({}: Props) => {
       dispatch(setGoalResponse(undefined));
       if (goal && goals) {
         dispatch(
-          setGoalsData([...goals.filter(fGoal => fGoal.id !== goal.id), goal])
+          setGoalsData([...goals.filter(fGoal => fGoal.id !== goal.id), goal]),
         );
       }
       refResetForm.current();
@@ -95,7 +88,7 @@ const EditGoalForm = ({}: Props) => {
 
   async function onSubmit(
     values: UpdateGoalData,
-    options: FormikHelpers<UpdateGoalData>
+    options: FormikHelpers<UpdateGoalData>,
   ) {
     refResetForm.current = options.resetForm;
     setName(values?.name || '');
@@ -118,9 +111,7 @@ const EditGoalForm = ({}: Props) => {
               ...goal,
             }}
             validateOnBlur
-            onSubmit={(values: UpdateGoalData, options) =>
-              onSubmit(values, options)
-            }
+            onSubmit={(values: UpdateGoalData, options) => onSubmit(values, options)}
             validationSchema={validationSchema}
           >
             {({
@@ -163,8 +154,8 @@ const EditGoalForm = ({}: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     placeholder="Желаемый результат"
-                    name="end_result"
-                    value={values.end_result}
+                    name="endResult"
+                    value={values.endResult}
                     type="text"
                     options={{
                       touched,
@@ -190,7 +181,9 @@ const EditGoalForm = ({}: Props) => {
                     type="submit"
                     onClick={() => handleSubmit()}
                     options={{
-                      content: loader ? <Loader /> : 'Сохранить',
+                      content: loader
+                        ? <Loader />
+                        : 'Сохранить',
                       setDisabledStyle: isDisabled(isValid, dirty),
                       width: '100px',
                       height: '30px',

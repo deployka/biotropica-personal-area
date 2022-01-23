@@ -17,7 +17,7 @@ interface Props {
   onNavClick: (nav: Partial<Nav>) => void;
   user: User | undefined;
   pages: Pages[];
-  location: any;
+  location: Location;
 }
 
 export const SidebarNotificationsPopup = ({
@@ -50,8 +50,7 @@ export const SidebarNotificationsPopup = ({
             <div
               className={classNames({
                 [s.avatar]: true,
-                [s.active]:
-                  pages[0].link === '/' + location.pathname.split('/')[1],
+                [s.active]: pages[0].link === '/' + location.pathname.split('/')[1],
               })}
               onClick={() => onNavClick({ ...pages[0] })}
             >
@@ -59,10 +58,10 @@ export const SidebarNotificationsPopup = ({
                 className={s.img}
                 style={{
                   backgroundImage: `url(${
-                    (user?.profile_photo &&
+                    (user?.profilePhoto &&
                       process.env.REACT_APP_BACKEND_URL +
                         '/' +
-                        user?.profile_photo) ||
+                        user?.profilePhoto) ||
                     defaultAvatar
                   })`,
                 }}

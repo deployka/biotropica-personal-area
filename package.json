@@ -27,6 +27,7 @@
     "@types/redux-saga": "^0.10.5",
     "@types/uuid": "^8.3.1",
     "@types/yup": "^0.29.13",
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
     "animate.css": "^4.1.1",
     "axios": "^0.21.1",
     "chart.js": "^3.5.1",
@@ -36,6 +37,8 @@
     "date-fns": "^2.23.0",
     "dotenv": "^10.0.0",
     "dotenv-webpack": "^7.0.3",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-react": "^7.28.0",
     "firebase": "^9.6.0",
     "formik": "^2.2.9",
     "loader-utils": "^3.2.0",
@@ -71,7 +74,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build:sw": "webpack -c sw.webpack.config.js"
+    "build:sw": "webpack -c sw.webpack.config.js",
+    "lint": "eslint --ext .ts,.tsx src",
+    "lint:fix": "eslint --ext .ts,.tsx src --fix --color",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -93,11 +99,33 @@
   },
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "^7.0.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "lint-staged": "^12.1.7",
+    "prettier": "^2.5.1",
     "webpack-cli": "^4.9.1"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "yarn lint:fix"
+    ]
   }
 }

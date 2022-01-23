@@ -20,7 +20,7 @@ export interface ResponseRefresh {
 }
 
 export default class AuthService {
-  static route: string = 'auth';
+  static route = 'auth';
 
   static async signin(data: SigninData): Promise<AxiosResponse<Response>> {
     return await $api.post<Response>(`/${AuthService.route}/signin`, data);
@@ -52,6 +52,7 @@ export default class AuthService {
       headers: { authorization: `Bearer ${data.restoreToken}` },
     });
   }
+
   static async createPassword(data: RestorePasswordData): Promise<void> {
     return await $api.post(`/${AuthService.route}/create-password`, data, {
       headers: { authorization: `Bearer ${data.restoreToken}` },

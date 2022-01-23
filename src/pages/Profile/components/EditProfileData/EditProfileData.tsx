@@ -3,10 +3,7 @@ import classNames from 'classnames';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
-import {
-  UpdateUserData,
-  User,
-} from '../../../../store/ducks/user/contracts/state';
+import { UpdateUserData, User } from '../../../../store/ducks/user/contracts/state';
 import {
   onPhoneInput,
   onPhoneKeyDown,
@@ -20,10 +17,7 @@ import MaskedInput from 'react-maskedinput';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { DatePickerCustom } from '../../../../shared/Form/DatePicker/DatePickerCustom';
 import { Button } from '../../../../shared/Form/Button/Button';
-import {
-  ISelect,
-  SelectCustom,
-} from '../../../../shared/Form/Select/SelectCustom';
+import { ISelect, SelectCustom } from '../../../../shared/Form/Select/SelectCustom';
 import { FormsSvgSelector } from '../../../../assets/icons/forms/FormsSvgSelector';
 import ru from 'date-fns/locale/ru';
 import { useMobile } from '../../../../hooks/useMobile';
@@ -37,7 +31,7 @@ interface Props {
   options: ISelect<string>[];
   onAvatarLoaded: (
     e: React.ChangeEvent<HTMLInputElement>,
-    setFieldValue: (field: string, value: any) => void
+    setFieldValue: (field: string, value: File) => void
   ) => void;
   onSubmit: (values: UpdateUserData) => void;
 }
@@ -55,9 +49,7 @@ export const EditProfileData = ({
   }
 
   function getDateByUTC(date: Date) {
-    return new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
-    );
+    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
   }
 
   const isMobile = useMobile();
@@ -65,7 +57,7 @@ export const EditProfileData = ({
     <div className={s.edit__password}>
       <Formik
         initialValues={{
-          profile_photo: user?.profile_photo || null,
+          profilePhoto: user?.profilePhoto || null,
           lastname: user?.lastname || '',
           name: user?.name || '',
           email: user?.email || '',
@@ -107,12 +99,12 @@ export const EditProfileData = ({
               className={classNames({
                 [s.image__loader__wrapper]: true,
                 [s.error__image__wrapper]:
-                  touched.profile_photo && errors.profile_photo,
+                  touched.profilePhoto && errors.profilePhoto,
               })}
             >
               <input
                 type="file"
-                name="profile_photo"
+                name="profilePhoto"
                 accept=".png, .jpg, .jpeg, .gif"
                 onChange={e => {
                   onAvatarLoaded(e, setFieldValue);
@@ -219,13 +211,13 @@ export const EditProfileData = ({
 
               <div className={s.input__wrapper}>
                 <SelectCustom
-                  onChange={(e: any) => {
+                  onChange={(e: ISelect<string>) => {
                     setFieldValue('gender', [e]);
                   }}
                   placeholder="Выберите пол..."
                   onBlur={handleBlur}
                   name="gender"
-                  value={(values.gender?.[0].label && values.gender) || null}
+                  value={(values.gender?.[0].label && values.gender) || undefined}
                   options={options}
                   settings={{ touched, errors }}
                 />

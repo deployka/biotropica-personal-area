@@ -1,5 +1,6 @@
+import React, { Dispatch, SetStateAction } from 'react';
 import s from './BtnClose.module.scss';
-import { Dispatch, SetStateAction } from 'react';
+
 import { GlobalSvgSelector } from '../../../assets/icons/global/GlobalSvgSelector';
 
 interface Props {

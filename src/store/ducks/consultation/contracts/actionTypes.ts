@@ -1,10 +1,6 @@
 import { Action } from 'redux';
-import { LoadingStatus } from '../../../types';
-import {
-  ClosestConsultation,
-  Consultation,
-  CreateConsultationData,
-} from './state';
+import { LoadingStatus, Response } from '../../../types';
+import { ClosestConsultation, Consultation, CreateConsultationData } from './state';
 
 export enum ConsultationActionsType {
   SET_CONSULTATION_DATA = 'consultation/SET_CONSULTATION_DATA',
@@ -39,7 +35,7 @@ export interface CreateConsultationDataActionInterface
 export interface SetConsultationResponseActionInterface
   extends Action<ConsultationActionsType> {
   type: ConsultationActionsType.SET_CONSULTATION_RESPONSE;
-  payload: any;
+  payload: Response | undefined;
 }
 
 export interface SetConsultationDataActionInterface

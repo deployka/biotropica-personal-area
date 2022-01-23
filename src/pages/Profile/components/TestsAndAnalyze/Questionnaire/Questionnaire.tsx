@@ -1,3 +1,4 @@
+import React from 'react';
 import s from './Questionnaire.module.scss';
 
 import editSvg from '../../../../../assets/icons/profile/edit.svg';

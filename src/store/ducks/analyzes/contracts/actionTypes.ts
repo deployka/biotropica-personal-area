@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { LoadingStatus } from '../../../types';
+import { LoadingStatus, Response } from '../../../types';
 import { AnalyzeAnswer } from '../../analyze/contracts/state';
 
 export enum AnalyzesActionsType {
@@ -23,11 +23,10 @@ export interface FetchAnalyzesDataActionInterface
 export interface SetAnalyzesResponseActionInterface
   extends Action<AnalyzesActionsType> {
   type: AnalyzesActionsType.SET_ANALYZES_RESPONSE;
-  payload: any;
+  payload: Response | undefined;
 }
 
-export interface SetAnalyzesDataActionInterface
-  extends Action<AnalyzesActionsType> {
+export interface SetAnalyzesDataActionInterface extends Action<AnalyzesActionsType> {
   type: AnalyzesActionsType.SET_ANALYZES_DATA;
   payload: AnalyzeAnswer[] | [];
 }

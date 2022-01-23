@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { LoadingStatus } from '../../../types';
+import { LoadingStatus, Response } from '../../../types';
 import {
   ChangePasswordData,
   ForgotPasswordData,
@@ -48,14 +48,12 @@ export interface FetchSignoutActionInterface extends Action<UserActionsType> {
   type: UserActionsType.FETCH_SIGN_OUT;
 }
 
-export interface FetchForgotPasswordActionInterface
-  extends Action<UserActionsType> {
+export interface FetchForgotPasswordActionInterface extends Action<UserActionsType> {
   type: UserActionsType.FETCH_FORGOT_PASSWORD;
   payload: ForgotPasswordData;
 }
 
-export interface FetchChangePasswordActionInterface
-  extends Action<UserActionsType> {
+export interface FetchChangePasswordActionInterface extends Action<UserActionsType> {
   type: UserActionsType.FETCH_CHANGE_PASSWORD;
   payload: ChangePasswordData;
 }
@@ -66,13 +64,11 @@ export interface FetchRestorePasswordActionInterface
   payload: RestorePasswordData;
 }
 
-export interface FetchCreatePasswordActionInterface
-  extends Action<UserActionsType> {
+export interface FetchCreatePasswordActionInterface extends Action<UserActionsType> {
   type: UserActionsType.FETCH_CREATE_PASSWORD;
   payload: RestorePasswordData;
 }
-export interface FetchUpdateUserActionInterface
-  extends Action<UserActionsType> {
+export interface FetchUpdateUserActionInterface extends Action<UserActionsType> {
   type: UserActionsType.FETCH_UPDATE_USER;
   payload: UpdateUserData;
 }
@@ -81,18 +77,16 @@ export interface FetchUserDataActionInterface extends Action<UserActionsType> {
   type: UserActionsType.FETCH_USER_DATA;
 }
 
-export interface SetUserResponseActionInterface
-  extends Action<UserActionsType> {
+export interface SetUserResponseActionInterface extends Action<UserActionsType> {
   type: UserActionsType.SET_USER_RESPONSE;
-  payload: any;
+  payload: Response | undefined;
 }
 
 export interface SetUserDataActionInterface extends Action<UserActionsType> {
   type: UserActionsType.SET_USER_DATA;
   payload: User | undefined;
 }
-export interface FetchUserDataByIdActionInterface
-  extends Action<UserActionsType> {
+export interface FetchUserDataByIdActionInterface extends Action<UserActionsType> {
   type: UserActionsType.FETCH_USER_DATA_BY_ID;
   payload: number;
 }

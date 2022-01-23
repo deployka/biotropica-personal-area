@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
+import { SchemaOf } from 'yup';
 import { ModalContext } from '../context/ModalContext';
 import { Nav, Pages } from '../layouts/PrivateLayout';
 
@@ -28,7 +29,7 @@ export type Modals = {
   }>;
   [ModalName.MODAL_ADD_ANALYZ_FILE]: Modal<{
     onSubmit: (values: CreateAnalyzeAnswerData) => void;
-    validationSchema: any;
+    validationSchema: SchemaOf<Omit<CreateAnalyzeAnswerData, 'analyzeId'>>;
     onErrorFileLoaded: () => void;
     onSuccessFileLoaded: () => void;
   }>;
@@ -44,7 +45,7 @@ export type Modals = {
     logout: () => void;
     user: User | undefined;
     pages: Pages[];
-    location: any;
+    location: Location;
   }>;
   [ModalName.MODAL_NOTIFICATIONS_MENU]: Modal<{
     setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
@@ -52,21 +53,11 @@ export type Modals = {
     onNavClick: (nav: Partial<Nav>) => void;
     user: User | undefined;
     pages: Pages[];
-    location: any;
+    location: Location;
   }>;
 };
 
-export const initialModals: Modals = Object.keys(ModalName).reduce(
-  (acc: any, key: string) => {
-    acc[key] = {
-      open: false,
-      props: null,
-    };
-    return acc;
-  },
-  {}
-);
-
+export const initialModals = {} as Modals;
 export function ModalProvider({ children, ...props }: Props) {
   const [modals, setModals] = useState<Modals>(initialModals);
   return (

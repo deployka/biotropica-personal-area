@@ -1,3 +1,4 @@
+import React from 'react';
 import { GlobalSvgSelector } from '../../../assets/icons/global/GlobalSvgSelector';
 import s from './BtnBack.module.scss';
 

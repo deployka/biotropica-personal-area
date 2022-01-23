@@ -1,27 +1,24 @@
 import { Formik, FormikHelpers } from 'formik';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
-import { CreateGoalData } from '../../../../store/ducks/goal/contracts/state';
+import {
+  CreateGoalData,
+  GoalUnits,
+} from '../../../../store/ducks/goal/contracts/state';
 
 import s from './AddGoalForm.module.scss';
 import { validationSchema } from './validationSchema';
 import { Textarea } from '../../../../shared/Form/Textarea/Textarea';
-import {
-  ISelect,
-  SelectCustom,
-} from '../../../../shared/Form/Select/SelectCustom';
+import { ISelect, SelectCustom } from '../../../../shared/Form/Select/SelectCustom';
 
 interface Props {
   goalTemplate: CreateGoalData;
   setNext: Dispatch<SetStateAction<boolean>>;
-  onSubmit: (
-    values: CreateGoalData,
-    options: FormikHelpers<CreateGoalData>
-  ) => void;
+  onSubmit: (values: CreateGoalData, options: FormikHelpers<CreateGoalData>) => void;
   isLoading: boolean;
-  options: ISelect<string>[] | null;
+  options: ISelect<string>[] | undefined;
 }
 
 export const AddGoalForm = ({
@@ -39,8 +36,8 @@ export const AddGoalForm = ({
     <div className={s.add__goals__form}>
       <div className={s.add__goals__form__wrapper}>
         <h2 className={s.form__title}>
-          Введите заголовок, описание <br /> и параметры цели, а также ваш
-          текущий результат
+          Введите заголовок, описание <br /> и параметры цели, а также ваш текущий
+          результат
         </h2>
 
         <Formik
@@ -48,9 +45,7 @@ export const AddGoalForm = ({
             ...goalTemplate,
           }}
           validateOnBlur
-          onSubmit={(values: CreateGoalData, options) =>
-            onSubmit(values, options)
-          }
+          onSubmit={(values: CreateGoalData, options) => onSubmit(values, options)}
           validationSchema={validationSchema(goalTemplate.type)}
         >
           {({
@@ -91,13 +86,13 @@ export const AddGoalForm = ({
 
               <div className={s.input__wrapper}>
                 <SelectCustom
-                  onChange={(e: any) => {
+                  onChange={(e: ISelect<GoalUnits>) => {
                     setFieldValue('units', [e]);
                   }}
                   placeholder="Единицы измерения"
                   onBlur={handleBlur}
                   name="units"
-                  value={(values.units[0].label && values.units) || null}
+                  value={(values.units[0].label && values.units) || undefined}
                   options={options}
                   settings={{ touched, errors }}
                 />
@@ -107,9 +102,9 @@ export const AddGoalForm = ({
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder={`Желаемый результат`}
-                  name="end_result"
-                  value={values.end_result}
+                  placeholder={'Желаемый результат'}
+                  name="endResult"
+                  value={values.endResult}
                   type="text"
                   options={{
                     touched,
@@ -122,9 +117,9 @@ export const AddGoalForm = ({
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder={`Текущий результат`}
-                  name="start_result"
-                  value={values.start_result}
+                  placeholder={'Текущий результат'}
+                  name="startResult"
+                  value={values.startResult}
                   type="text"
                   options={{
                     touched,

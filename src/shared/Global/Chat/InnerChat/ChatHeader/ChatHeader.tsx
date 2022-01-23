@@ -21,7 +21,7 @@ export function ChatHeader({ user, onClose }: Props) {
         <div className={s.avatar}>
           <img
             src={
-              (user.profile_photo && getMediaLink(user.profile_photo)) ||
+              (user.profilePhoto && getMediaLink(user.profilePhoto)) ||
               defaultAvatar
             }
           />

@@ -1,4 +1,4 @@
-import { LoadingStatus } from '../../../types';
+import { LoadingStatus, Response } from '../../../types';
 
 export interface Notification {
   text: string;
@@ -10,7 +10,7 @@ export interface Notification {
 export interface NotificationState {
   notification: Notification | null;
   status: LoadingStatus;
-  response: any;
+  response: Response | undefined;
 }
 
 export interface UpdateNotificationData {

@@ -66,16 +66,14 @@ const Consultations = () => {
 
   const loadingStatus = useSelector(selectConsultationLoadingStatus);
   const isLoading = loadingStatus === LoadingStatus.LOADING;
-  const response: Response | undefined = useSelector(
-    selectConsultationResponse
-  );
+  const response: Response | undefined = useSelector(selectConsultationResponse);
 
   const specialists: Specialist[] = useSelector(selectFilteredSpecialistsData);
   const closestConsultation: ClosestConsultation | undefined = useSelector(
-    selectClosestConsultationData
+    selectClosestConsultationData,
   );
   const LastAddedConsultation: Consultation | undefined = useSelector(
-    selectConsultationData
+    selectConsultationData,
   );
 
   useEffect(() => {
@@ -115,16 +113,26 @@ const Consultations = () => {
   }, [loadingStatus, response]);
 
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedSort, setSelectedSort] = useState<ISelect<string>[] | null>(
-    sort ? [{ label: sort, value: sort }] : null
+  const [selectedSort, setSelectedSort] = useState<ISelect<string>[] | undefined>(
+    sort ? [{ label: sort, value: sort }] : undefined,
   );
 
   const filteredSpecialists = useMemo(() => {
     if (!selectedSort?.[0]) return [];
     return specialists.filter(spec =>
-      spec.specializations.includes(selectedSort[0].label)
+      spec.specializations.includes(selectedSort[0].label),
     );
   }, [selectedSort, specialists]);
+
+  function searchSpecialistsByQuery(specialists: Specialist[], query: string) {
+    return specialists.filter((spec: Specialist) =>
+      Object.keys(spec).some(key =>
+        String(spec[key as keyof Specialist])
+          .toLowerCase()
+          .includes(query),
+      ),
+    );
+  }
 
   const searchedAndFilteredSpecialists = useMemo(() => {
     const query = searchQuery.toLowerCase();
@@ -139,16 +147,6 @@ const Consultations = () => {
     return searchSpecialistsByQuery(specialists, query);
   }, [searchQuery, selectedSort, specialists]);
 
-  function searchSpecialistsByQuery(specialists: Specialist[], query: string) {
-    return specialists.filter((spec: Specialist) =>
-      Object.keys(spec).some(key =>
-        String(spec[key as keyof Specialist])
-          .toLowerCase()
-          .includes(query)
-      )
-    );
-  }
-
   const getFreeConsultationsCount = useCallback(() => {
     if (FREE_CONSULTATIONS_COUNT - consultationsCount > 0) {
       return FREE_CONSULTATIONS_COUNT - consultationsCount;
@@ -162,11 +160,12 @@ const Consultations = () => {
       specialists.find(s => s.id === closestConsultation?.specialistId)?.name
     } ${moment(closestConsultation?.date).format('Do MMMM в H:mm')}`,
     textLink: 'перейти в диалог',
-    bottomLink: `Остаток бесплатных консультаций: ${getFreeConsultationsCount()}  из ${FREE_CONSULTATIONS_COUNT}`,
+    bottomLink: `Остаток бесплатных консультаций: 
+    ${getFreeConsultationsCount()}  из ${FREE_CONSULTATIONS_COUNT}`,
     href: '',
     onClick: () => {
       const specialist = specialists.find(
-        s => s.id === closestConsultation?.specialistId
+        s => s.id === closestConsultation?.specialistId,
       );
       if (!specialist) {
         return;
@@ -181,11 +180,12 @@ const Consultations = () => {
       specialists.find(s => s.id === LastAddedConsultation?.specialistId)?.name
     }, пожалуйста, обсудите удобное время и дату консультацию в чате.`,
     textLink: 'перейти в диалог',
-    bottomLink: `Остаток бесплатных консультаций: ${getFreeConsultationsCount()} из ${FREE_CONSULTATIONS_COUNT}`,
+    bottomLink: `Остаток бесплатных консультаций: 
+    ${getFreeConsultationsCount()} из ${FREE_CONSULTATIONS_COUNT}`,
     href: '',
     onClick: () => {
       const specialist = specialists.find(
-        s => s.id === LastAddedConsultation?.specialistId
+        s => s.id === LastAddedConsultation?.specialistId,
       );
       if (!specialist) {
         return;
@@ -194,7 +194,7 @@ const Consultations = () => {
     },
   };
 
-  function onSelectChange(sort: ISelect<string>[] | null) {
+  function onSelectChange(sort: ISelect<string>[] | undefined) {
     setSelectedSort(sort);
     queryParam.set('sort', sort?.[0]?.label || '');
     history.push(location.pathname + '?' + queryParam.toString());
@@ -207,12 +207,10 @@ const Consultations = () => {
   const onSignUpClick = (
     specialistId: number,
     userId: number,
-    setClick: (click: boolean) => void
+    setClick: (click: boolean) => void,
   ) => {
     eventBus.emit(EventTypes.notification, {
-      title: `Записаться к ${
-        specialists.find(s => s.id === specialistId)?.name
-      }?`,
+      title: `Записаться к ${specialists.find(s => s.id === specialistId)?.name}?`,
       message: (
         <>
           <Button
@@ -229,7 +227,7 @@ const Consultations = () => {
                   dispatch(createConsultationData({ specialistId }));
                 } else {
                   console.log('pay');
-                  //TODO: перенаправление на оплату
+                  // TODO: перенаправление на оплату
                 }
               });
             }}
@@ -247,7 +245,6 @@ const Consultations = () => {
               border: '1px solid #fff',
             }}
             name="discard"
-            onClick={() => {}}
             options={{
               content: 'Отмена',
               width: '100px',
@@ -277,9 +274,7 @@ const Consultations = () => {
       {closestConsultation && (
         <InfoBar infoBar={InfoBarClosestConsultationOptions} />
       )}
-      {LastAddedConsultation && (
-        <InfoBar infoBar={InfoBarLastConsultationOptions} />
-      )}
+      {LastAddedConsultation && <InfoBar infoBar={InfoBarLastConsultationOptions} />}
       <div className={s.headerWrapper}>
         <SearchForm
           onSelectChange={onSelectChange}

@@ -12,12 +12,10 @@ interface Response {
 }
 
 export default class RecommendationService {
-  static route: string = 'recommendations';
+  static route = 'recommendations';
 
   static async getOne(payload: number): Promise<AxiosResponse<Response>> {
-    return await $api.get<Response>(
-      `/${RecommendationService.route}/${payload}`
-    );
+    return await $api.get<Response>(`/${RecommendationService.route}/${payload}`);
   }
 
   static async geAll(id: number): Promise<AxiosResponse<Response>> {
@@ -25,26 +23,23 @@ export default class RecommendationService {
   }
 
   static async create(
-    payload: CreateRecommendationData
+    payload: CreateRecommendationData,
   ): Promise<AxiosResponse<Response>> {
-    return await $api.post<Response>(
-      `/${RecommendationService.route}/`,
-      payload
-    );
+    return await $api.post<Response>(`/${RecommendationService.route}/`, payload);
   }
 
   static async update(
-    payload: UpdateRecommendationData
+    payload: UpdateRecommendationData,
   ): Promise<AxiosResponse<Response>> {
     return await $api.patch<Response>(
       `/${RecommendationService.route}/update/${payload.id}`,
-      payload
+      payload,
     );
   }
 
   static async delete(payload: number): Promise<AxiosResponse<Response>> {
     return await $api.delete<Response>(
-      `/${RecommendationService.route}/delete/${payload}`
+      `/${RecommendationService.route}/delete/${payload}`,
     );
   }
 }

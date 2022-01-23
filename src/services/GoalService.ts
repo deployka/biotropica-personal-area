@@ -12,7 +12,7 @@ interface Response {
 }
 
 export default class GoalService {
-  static route: string = 'goals';
+  static route = 'goals';
 
   static async getOne(payload: number): Promise<AxiosResponse<Response>> {
     return await $api.get<Response>(`/${GoalService.route}/${payload}`);
@@ -22,24 +22,18 @@ export default class GoalService {
     return await $api.get<Response>(`/${GoalService.route}/`);
   }
 
-  static async create(
-    payload: CreateGoalData
-  ): Promise<AxiosResponse<Response>> {
+  static async create(payload: CreateGoalData): Promise<AxiosResponse<Response>> {
     return await $api.post<Response>(`/${GoalService.route}/`, payload);
   }
 
-  static async update(
-    payload: UpdateGoalData
-  ): Promise<AxiosResponse<Response>> {
+  static async update(payload: UpdateGoalData): Promise<AxiosResponse<Response>> {
     return await $api.patch<Response>(
       `/${GoalService.route}/update/${payload.id}`,
-      payload
+      payload,
     );
   }
 
   static async delete(payload: number): Promise<AxiosResponse<Response>> {
-    return await $api.delete<Response>(
-      `/${GoalService.route}/delete/${payload}`
-    );
+    return await $api.delete<Response>(`/${GoalService.route}/delete/${payload}`);
   }
 }

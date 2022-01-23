@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  selectUserData,
   selectUserLoadingStatus,
   selectUserResponse,
 } from '../../../store/ducks/user/selectors';
@@ -57,10 +56,10 @@ const Profile = ({ isPublic, user }: Props) => {
   const history = useHistory();
 
   const [activeTab, setActiveTab] = useState<string>(
-    getTabByKey(active, tabs)?.key || tabs[0].key
+    getTabByKey(active, tabs)?.key || tabs[0].key,
   );
 
-  const TariffData = {
+  const tariffData = {
     name: 'стандарт',
     expires: '9 июля 2021',
   };
@@ -82,18 +81,13 @@ const Profile = ({ isPublic, user }: Props) => {
   }, [response]);
 
   function onTabClick(tab: Tab) {
-    history.push(
-      `/${isPublic ? 'profile' : `users/${user?.id}`}/tabs/${tab.key}`
-    );
+    history.push(`/${isPublic ? 'profile' : `users/${user?.id}`}/tabs/${tab.key}`);
   }
 
   useEffect(() => {
-    console.log(active);
     if (active) {
       setActiveTab(getTabByKey(active, tabs)?.key || activeTab);
-      history.push(
-        `/profile/tabs/${getTabByKey(active, tabs)?.key || activeTab}`
-      );
+      history.push(`/profile/tabs/${getTabByKey(active, tabs)?.key || activeTab}`);
     }
   }, [active]);
   return (
@@ -104,7 +98,7 @@ const Profile = ({ isPublic, user }: Props) => {
           {isPublic && (
             <div className={s.userInfo}>
               <Goals />
-              <Tariff Tariff={TariffData} />
+              <Tariff tariff={tariffData} />
             </div>
           )}
         </div>

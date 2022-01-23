@@ -6,7 +6,7 @@ export enum LoadingStatus {
   SUCCESS = 'SUCCESS',
 }
 
-export interface Response {
-  statusCode: number;
-  message: string;
-}
+export type Response = {
+  statusCode?: number;
+  message?: string;
+};

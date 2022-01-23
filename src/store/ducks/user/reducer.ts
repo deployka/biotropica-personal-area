@@ -30,5 +30,5 @@ export const userReducer = produce(
         break;
     }
   },
-  initialUserState
+  initialUserState,
 );

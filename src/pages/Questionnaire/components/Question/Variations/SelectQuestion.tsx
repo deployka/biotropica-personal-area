@@ -16,13 +16,18 @@ export const SelectQuestion = ({ value, options, onChange }: Props) => {
   const isBig = options && options.length < 3;
 
   return (
-    <div className={classNames(s.select, isBig ? s.big : s.small)}>
+    <div className={classNames(s.select, isBig
+      ? s.big
+      : s.small)}>
       {options &&
         options.map(option => (
           <button
+            key={option.value}
             className={classNames(
               s.button,
-              option.value === value ? s.selected : ''
+              option.value === value
+                ? s.selected
+                : '',
             )}
             onClick={() => {
               if (value === option.value) return;

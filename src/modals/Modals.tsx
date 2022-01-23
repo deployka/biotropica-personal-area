@@ -7,29 +7,8 @@ import { ModalName } from '../providers/ModalProvider';
 import { SidebarMenuPopup } from '../shared/Global/Sidebar/SidebarMenuPopup/SidebarMenuPopup';
 import { SidebarNotificationsPopup } from '../shared/Global/Sidebar/SidebarNotificationsPopup/SidebarNotificationsPopup';
 
-interface Props {}
-
-export const Modals = ({}: Props) => {
+export const Modals = () => {
   const { modals, closeAllModals } = useModal();
-
-  useEffect(() => {
-    setElements(getElements());
-  }, [modals]);
-
-  const escFunction = useCallback(event => {
-    if (event.keyCode === 27) {
-      closeAllModals();
-    }
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener('keydown', escFunction, false);
-    return () => {
-      document.removeEventListener('keydown', escFunction, false);
-    };
-  }, []);
-
-  const [elements, setElements] = useState<React.ReactNode[]>(getElements());
 
   function getElements(): React.ReactNode[] {
     return Object.keys(modals).map((modal: string) => {
@@ -52,6 +31,25 @@ export const Modals = ({}: Props) => {
       }
     });
   }
+
+  const [elements, setElements] = useState<React.ReactNode[]>(getElements());
+
+  useEffect(() => {
+    setElements(getElements());
+  }, [modals]);
+
+  const escFunction = useCallback(event => {
+    if (event.keyCode === 27) {
+      closeAllModals();
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('keydown', escFunction, false);
+    return () => {
+      document.removeEventListener('keydown', escFunction, false);
+    };
+  }, []);
 
   return <>{elements.map((el, i) => el && <div key={i}>{el}</div>)}</>;
 };

@@ -30,5 +30,5 @@ export const specialistsReducer = produce(
         break;
     }
   },
-  initialSpecialistsState
+  initialSpecialistsState,
 );

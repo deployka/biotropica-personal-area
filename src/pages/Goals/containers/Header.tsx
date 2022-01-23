@@ -25,6 +25,8 @@ const ButtonAddGoal = memo(() => {
   );
 });
 
+ButtonAddGoal.displayName = 'ButtonAddGoal';
+
 export const Header = ({ active, goals }: Props) => {
   return (
     <div className={s.header}>
@@ -37,7 +39,7 @@ export const Header = ({ active, goals }: Props) => {
           }}
           spaceBetween={30}
           breakpoints={{
-            '0': {
+            0: {
               slidesPerView: 1,
               pagination: {
                 el: '.swiper-pagination-goals-header',
@@ -45,10 +47,10 @@ export const Header = ({ active, goals }: Props) => {
                 clickable: true,
               },
             },
-            '600': {
+            600: {
               slidesPerView: 2,
             },
-            '1180': {
+            1180: {
               slidesPerView: 3,
               width: 890,
             },

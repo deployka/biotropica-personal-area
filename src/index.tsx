@@ -8,7 +8,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store/store';
 
-//libs styles
+// libs styles
 import 'react-notifications-component/dist/theme.css';
 import 'swiper/swiper.scss';
 import 'react-dates/lib/css/_datepicker.css';
@@ -29,7 +29,7 @@ ReactDOM.render(
       </Provider>
     </Router>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 reportWebVitals();

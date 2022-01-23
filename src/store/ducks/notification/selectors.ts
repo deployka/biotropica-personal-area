@@ -5,19 +5,19 @@ export const selectNotificationState = (state: RootState): NotificationState =>
   state.notification;
 
 export const selectNotificationData = (
-  state: RootState
+  state: RootState,
 ): NotificationState['notification'] =>
   selectNotificationState(state).notification;
 
 export const selectNotificationResponse = (
-  state: RootState
+  state: RootState,
 ): NotificationState['response'] => selectNotificationState(state).response;
 
 export const selectIsAuth = (state: RootState): boolean =>
   !!window.localStorage.getItem('token');
 
 export const selectNotificationStatus = (
-  state: RootState
+  state: RootState,
 ): NotificationState['status'] => selectNotificationState(state).status;
 
 export const selectNotificationLoadingStatus = (state: RootState): string =>

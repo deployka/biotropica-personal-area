@@ -15,9 +15,9 @@ import {
   FetchClosestConsultationDataActionInterface,
 } from './contracts/actionTypes';
 
-export function* fetchConsultationDataRequest({
+export function * fetchConsultationDataRequest({
   payload,
-}: FetchConsultationDataActionInterface): any {
+}: FetchConsultationDataActionInterface) {
   try {
     yield put(setConsultationLoadingStatus(LoadingStatus.LOADING));
     const { data, status } = yield call(ConsultationService.getOne, payload);
@@ -26,7 +26,7 @@ export function* fetchConsultationDataRequest({
       yield put(setConsultationLoadingStatus(LoadingStatus.SUCCESS));
     } else {
       yield put(
-        setConsultationResponse({ statusCode: status, message: data.message })
+        setConsultationResponse({ statusCode: status, message: data.message }),
       );
       yield put(setConsultationLoadingStatus(LoadingStatus.ERROR));
     }
@@ -35,7 +35,9 @@ export function* fetchConsultationDataRequest({
   }
 }
 
-export function* fetchClosestConsultationDataRequest({}: FetchClosestConsultationDataActionInterface): any {
+export function * fetchClosestConsultationDataRequest(
+  _: FetchClosestConsultationDataActionInterface,
+) {
   try {
     yield put(setConsultationLoadingStatus(LoadingStatus.LOADING));
     const { data, status } = yield call(ConsultationService.getClosest);
@@ -44,7 +46,7 @@ export function* fetchClosestConsultationDataRequest({}: FetchClosestConsultatio
       yield put(setConsultationLoadingStatus(LoadingStatus.SUCCESS));
     } else {
       yield put(
-        setConsultationResponse({ statusCode: status, message: data.message })
+        setConsultationResponse({ statusCode: status, message: data.message }),
       );
       yield put(setConsultationLoadingStatus(LoadingStatus.ERROR));
     }
@@ -53,9 +55,9 @@ export function* fetchClosestConsultationDataRequest({}: FetchClosestConsultatio
   }
 }
 
-export function* createConsultationDataRequest({
+export function * createConsultationDataRequest({
   payload,
-}: CreateConsultationDataActionInterface): any {
+}: CreateConsultationDataActionInterface) {
   try {
     yield put(setConsultationLoadingStatus(LoadingStatus.LOADING));
     const { data, status } = yield call(ConsultationService.create, payload);
@@ -64,7 +66,7 @@ export function* createConsultationDataRequest({
       setConsultationResponse({
         message: 'Вы успешно записались! Перейдите в чат со специалистом',
         statusCode: status,
-      })
+      }),
     );
     yield put(setConsultationLoadingStatus(LoadingStatus.SUCCESS));
   } catch (error) {
@@ -72,18 +74,18 @@ export function* createConsultationDataRequest({
   }
 }
 
-export function* consultationSaga(): any {
+export function * consultationSaga() {
   yield takeLatest(
     ConsultationActionsType.FETCH_CONSULTATION_DATA,
-    fetchConsultationDataRequest
+    fetchConsultationDataRequest,
   );
 
   yield takeLatest(
     ConsultationActionsType.CREATE_CONSULTATION_DATA,
-    createConsultationDataRequest
+    createConsultationDataRequest,
   );
   yield takeLatest(
     ConsultationActionsType.FETCH_CLOSEST_CONSULTATION_DATA,
-    fetchClosestConsultationDataRequest
+    fetchClosestConsultationDataRequest,
   );
 }

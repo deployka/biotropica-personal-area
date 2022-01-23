@@ -5,15 +5,15 @@ export const selectProgressState = (state: RootState): ProgressState =>
   state.progress;
 
 export const selectProgressData = (
-  state: RootState
+  state: RootState,
 ): ProgressState['progress'] => selectProgressState(state).progress;
 
 export const selectProgressResponse = (
-  state: RootState
+  state: RootState,
 ): ProgressState['response'] => selectProgressState(state).response;
 
 export const selectProgressStatus = (
-  state: RootState
+  state: RootState,
 ): ProgressState['status'] => selectProgressState(state).status;
 
 export const selectProgressLoadingStatus = (state: RootState): string =>

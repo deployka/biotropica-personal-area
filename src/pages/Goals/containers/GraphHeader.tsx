@@ -32,6 +32,8 @@ export const GraphHeader = ({ setDates, dates, setGraphDates }: Props) => {
     },
   ];
 
+  const [activeTab, setActiveTab] = useState<string>(tabs[0].key);
+
   function getStartDate() {
     const currentDate = new Date();
     switch (activeTab) {
@@ -40,12 +42,12 @@ export const GraphHeader = ({ setDates, dates, setGraphDates }: Props) => {
         break;
       case 'month':
         currentDate.setDate(
-          new Date().getDate() - moment(currentDate).daysInMonth() + 1
+          new Date().getDate() - moment(currentDate).daysInMonth() + 1,
         );
         break;
       case 'year':
         currentDate.setDate(
-          new Date().getDate() - moment(currentDate).daysInMonth() * 12
+          new Date().getDate() - moment(currentDate).daysInMonth() * 12,
         );
         break;
       default:
@@ -54,8 +56,6 @@ export const GraphHeader = ({ setDates, dates, setGraphDates }: Props) => {
     }
     return currentDate;
   }
-
-  const [activeTab, setActiveTab] = useState<string>(tabs[0].key);
 
   useEffect(() => {
     if (activeTab === 'off') {

@@ -1,9 +1,9 @@
-import { LoadingStatus } from '../../../types';
+import { LoadingStatus, Response } from '../../../types';
 
 export interface Recommendation {
   id: number;
   type: RecommendationType;
-  specialist_profile: SpecialistProfile;
+  specialistProfile: SpecialistProfile;
   createdAt: string;
   title: string;
   description: string;
@@ -12,7 +12,7 @@ export interface Recommendation {
 export interface RecommendationState {
   recommendation: Recommendation | undefined;
   status: LoadingStatus;
-  response: any;
+  response: Response | undefined;
 }
 
 export enum RecommendationType {
@@ -24,9 +24,8 @@ export type SpecialistProfile = {
   id: number;
   name: string;
   position: string;
-  profile_photo: string;
+  profilePhoto: string;
 };
 
-export interface UpdateRecommendationData extends Partial<Recommendation> {}
-export interface CreateRecommendationData
-  extends Omit<Recommendation, 'id' | 'createdAt'> {}
+export type UpdateRecommendationData = Partial<Recommendation>;
+export type CreateRecommendationData = Omit<Recommendation, 'id' | 'createdAt'>;

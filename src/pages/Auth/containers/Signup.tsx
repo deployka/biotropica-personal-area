@@ -25,24 +25,26 @@ const Signup = () => {
   const history = useHistory();
   const res = useSelector(selectUserResponse);
   const loadingStatus = useSelector(selectUserLoadingStatus);
-  //TODO: реализовать функционал удаления поля при ошибке email || phone
+  // TODO: реализовать функционал удаления поля при ошибке email || phone
   // const [errorValue, errorText] = res?.message?.split(':') || [];
 
   const loader = LoadingStatus.LOADING === loadingStatus;
-  const refSetFieldValue = useRef<any>(null);
-  const refResetForm = useRef<any>(null);
+  const refSetFieldValue = useRef<((field: string, value: string) => void) | null>(
+    null,
+  );
+  const refResetForm = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
         if (!refSetFieldValue.current) return;
-        //TODO: refSetFieldValue.current(errorValue, '');
-        refSetFieldValue.current('verification_password', '');
+        // TODO: refSetFieldValue.current(errorValue, '');
+        refSetFieldValue.current('verificationPassword', '');
         break;
       case LoadingStatus.SUCCESS:
         if (!refResetForm.current) return;
         eventBus.emit(EventTypes.notification, {
-          message: res.message,
+          message: res?.message,
           type: NotificationType.SUCCESS,
           dismiss: {
             onScreen: true,
@@ -59,10 +61,7 @@ const Signup = () => {
     }
   }, [loadingStatus]);
 
-  async function onSubmit(
-    values: SignupData,
-    options: FormikHelpers<SignupData>
-  ) {
+  async function onSubmit(values: SignupData, options: FormikHelpers<SignupData>) {
     refSetFieldValue.current = options.setFieldValue;
     refResetForm.current = options.resetForm;
     try {

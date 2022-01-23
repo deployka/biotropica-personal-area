@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { LoadingStatus } from '../../../types';
+import { LoadingStatus, Response } from '../../../types';
 import { SpecialistUser } from './state';
 
 export enum SpecialistActionsType {
@@ -18,7 +18,7 @@ export interface FetchSpecialistDataActionInterface
 export interface SetSpecialistResponseActionInterface
   extends Action<SpecialistActionsType> {
   type: SpecialistActionsType.SET_SPECIALIST_RESPONSE;
-  payload: any;
+  payload: Response | undefined;
 }
 
 export interface SetSpecialistDataActionInterface

@@ -25,6 +25,33 @@ export const Recommended = ({ isPublic, user }: Props) => {
   const dispatch = useDispatch();
   const [mobile, setMobile] = useState<boolean>(false);
 
+  const infoBar: IInfoBar = {
+    title: isPublic
+      ? 'Пользователь не добавлял рекомендации'
+      : 'У вас нет рекомендаций',
+    text: isPublic
+      ? ''
+      : 'Чтобы получить рекомендации, пройдите видеоконсультацию.',
+    bottomLink: isPublic
+      ? ''
+      : 'Записаться на видеоконсультацию',
+    href: '/consultations',
+  };
+
+  const recommendations: SortedRecommendations = useSelector(
+    selectSortedRecommendationsData,
+  );
+  const recTypes: RecommendationType[] = Object.keys(
+    recommendations,
+  ) as RecommendationType[];
+
+  const [activeType, setActiveType] = useState<RecommendationType | null>(
+    recTypes[0],
+  );
+
+  const activeProfiles =
+    recommendations[activeType || RecommendationType.WORKOUT];
+
   useEffect(() => {
     dispatch(fetchRecommendationsData(user.id));
   }, []);
@@ -35,31 +62,6 @@ export const Recommended = ({ isPublic, user }: Props) => {
       setActiveType(null);
     }
   }, []);
-
-  const infoBar: IInfoBar = {
-    title: isPublic
-      ? 'Пользователь не добавлял рекомендации'
-      : 'У вас нет рекомендаций',
-    text: isPublic
-      ? ''
-      : 'Чтобы получить рекомендации, пройдите видеоконсультацию.',
-    bottomLink: isPublic ? '' : 'Записаться на видеоконсультацию',
-    href: '/consultations',
-  };
-
-  const recommendations: SortedRecommendations = useSelector(
-    selectSortedRecommendationsData
-  );
-  const recTypes: RecommendationType[] = Object.keys(
-    recommendations
-  ) as RecommendationType[];
-
-  const [activeType, setActiveType] = useState<RecommendationType | null>(
-    recTypes[0]
-  );
-
-  const activeProfiles =
-    recommendations[activeType || RecommendationType.WORKOUT];
 
   const optionsByType = {
     [RecommendationType.NUTRITION]: {
@@ -88,25 +90,27 @@ export const Recommended = ({ isPublic, user }: Props) => {
 
   return (
     <div className={s.recommendations}>
-      {mobile ? (
-        <MobileRecommended
-          recTypes={recTypes}
-          activeType={activeType}
-          setActiveType={setActiveType}
-          optionsByType={optionsByType}
-          getAmountByType={getAmountByType}
-          getProfilesByType={getProfilesByType}
-        />
-      ) : (
-        <DesktopRecommended
-          recTypes={recTypes}
-          activeType={activeType}
-          setActiveType={setActiveType}
-          optionsByType={optionsByType}
-          getAmountByType={getAmountByType}
-          activeProfiles={activeProfiles}
-        />
-      )}
+      {mobile
+        ? (
+          <MobileRecommended
+            recTypes={recTypes}
+            activeType={activeType}
+            setActiveType={setActiveType}
+            optionsByType={optionsByType}
+            getAmountByType={getAmountByType}
+            getProfilesByType={getProfilesByType}
+          />
+        )
+        : (
+          <DesktopRecommended
+            recTypes={recTypes}
+            activeType={activeType}
+            setActiveType={setActiveType}
+            optionsByType={optionsByType}
+            getAmountByType={getAmountByType}
+            activeProfiles={activeProfiles}
+          />
+        )}
     </div>
   );
 };

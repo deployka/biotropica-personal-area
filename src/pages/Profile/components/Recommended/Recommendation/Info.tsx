@@ -9,7 +9,9 @@ interface Props {
 
 export const Info = ({ height, setHeight }: Props) => {
   function onClick() {
-    setHeight(height === 0 ? 'auto' : 0);
+    setHeight(height === 0
+      ? 'auto'
+      : 0);
   }
 
   return (
@@ -18,7 +20,9 @@ export const Info = ({ height, setHeight }: Props) => {
         <p>обновлено 5 июня 2021г.</p>
       </div>
       <div className={s.hideButton} onClick={onClick}>
-        <p>{height ? 'показать рекомендации' : 'скрыть рекомендации'}</p>
+        <p>{height
+          ? 'показать рекомендации'
+          : 'скрыть рекомендации'}</p>
       </div>
     </div>
   );

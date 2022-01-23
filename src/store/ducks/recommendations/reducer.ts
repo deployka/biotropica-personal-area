@@ -30,5 +30,5 @@ export const recommendationsReducer = produce(
         break;
     }
   },
-  initialRecommendationsState
+  initialRecommendationsState,
 );

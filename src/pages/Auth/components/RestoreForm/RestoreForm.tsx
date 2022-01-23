@@ -6,6 +6,7 @@ import { Loader } from '../../../../shared/Form/Loader/Loader';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
 import s from './RestoreForm.module.scss';
+import { SchemaOf } from 'yup';
 
 interface Props {
   onSubmit: (
@@ -13,7 +14,7 @@ interface Props {
     options: FormikHelpers<RestorePasswordData>
   ) => void;
   loader: boolean;
-  validationSchema: any;
+  validationSchema: SchemaOf<Omit<RestorePasswordData, 'restoreToken'>>;
   type: Type;
   token: string;
 }
@@ -38,13 +39,13 @@ export const RestoreForm = ({
       <Formik
         initialValues={{
           password: '',
-          verification_password: '',
+          verificationPassword: '',
           restoreToken: token,
         }}
         validateOnBlur
         onSubmit={(
           values: RestorePasswordData,
-          options: FormikHelpers<RestorePasswordData>
+          options: FormikHelpers<RestorePasswordData>,
         ) => onSubmit(values, options)}
         validationSchema={validationSchema}
       >
@@ -60,7 +61,9 @@ export const RestoreForm = ({
         }) => (
           <div className={s.form__wrapper}>
             <h1 className={s.title}>
-              {type === Type.CHANGE ? 'Смена пароля' : 'Создание пароля'}
+              {type === Type.CHANGE
+                ? 'Смена пароля'
+                : 'Создание пароля'}
             </h1>
             <div className={s.form}>
               <h2 className={s.subtitle}>Введите пароли</h2>
@@ -83,8 +86,8 @@ export const RestoreForm = ({
                   onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="Повторите пароль"
-                  name="verification_password"
-                  value={values.verification_password}
+                  name="verificationPassword"
+                  value={values.verificationPassword}
                   type="password"
                   options={{ touched, errors }}
                 />
@@ -95,13 +98,17 @@ export const RestoreForm = ({
                 type="submit"
                 onClick={() => handleSubmit()}
                 options={{
-                  content: loader ? (
-                    <Loader />
-                  ) : type === Type.CHANGE ? (
-                    'Сменить пароль'
-                  ) : (
-                    'Создать пароль'
-                  ),
+                  content: loader
+                    ? (
+                      <Loader />
+                    )
+                    : type === Type.CHANGE
+                      ? (
+                        'Сменить пароль'
+                      )
+                      : (
+                        'Создать пароль'
+                      ),
                   setDisabledStyle: isDisabled(isValid, dirty),
                   width: '100%',
                   height: '50px',

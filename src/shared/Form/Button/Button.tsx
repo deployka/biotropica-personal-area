@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { MouseEventHandler, ReactElement } from 'react';
 import classNames from 'classnames';
 
 import s from './Button.module.scss';
+import { Classes } from '../Input/Input';
+import { Styles } from '../Select/SelectCustom';
 
 interface Props {
-  onClick?: (e: React.MouseEvent) => void;
-  type?: any;
-  disabled?: any;
-  style?: any;
-  name?: any;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  type?: 'button' | 'submit' | 'reset' | undefined;
+  disabled?: boolean;
+  style?: Styles;
+  name?: string;
   options: {
-    classes?: any;
-    content: any;
-    setDisabledStyle?: any;
+    classes?: Classes;
+    content: string | ReactElement;
+    setDisabledStyle?: boolean;
     width?: string;
     height?: string;
   };

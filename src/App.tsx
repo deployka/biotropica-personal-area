@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { ReactElement, Suspense, useEffect } from 'react';
 import { Switch } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,7 +24,7 @@ import { selectGlobalLoadingStatus } from './store/selectors';
 import Policy from './pages/Policy/containers/Policy';
 import { ProfileLayout } from './layouts/ProfileLayout';
 
-function App() {
+function App(): ReactElement {
   const dispatch = useDispatch();
 
   const isAuth = useSelector(selectIsAuth);

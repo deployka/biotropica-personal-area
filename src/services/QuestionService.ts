@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import $api from '../http';
 
 export default class QuestionService {
-  static route: string = 'questions';
+  static route = 'questions';
 
   static async getCurrentQuestion(): Promise<
     AxiosResponse<{
@@ -10,7 +10,7 @@ export default class QuestionService {
       index: number;
       total: number;
     }>
-  > {
+    > {
     return $api.get(`/${QuestionService.route}/current`);
   }
 

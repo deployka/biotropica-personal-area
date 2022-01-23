@@ -36,5 +36,5 @@ export const consultationReducer = produce(
         break;
     }
   },
-  initialConsultationState
+  initialConsultationState,
 );

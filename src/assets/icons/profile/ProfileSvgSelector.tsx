@@ -1,12 +1,12 @@
-import React from "react";
+import React, { ReactElement } from 'react';
 
 interface Props {
   id: string;
 }
 
-export const ProfileSvgSelector = ({ id }: Props) => {
+export const ProfileSvgSelector = ({ id }: Props): ReactElement => {
   switch (id) {
-    case "arrow-left":
+    case 'arrow-left':
       return (
         <svg
           width="7"
@@ -18,14 +18,14 @@ export const ProfileSvgSelector = ({ id }: Props) => {
           <path
             d="M5.74046 1.25954L1 6L5.74046 10.7405"
             stroke="#1E174D"
-            stroke-width="1.81493"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.81493"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       );
 
-    case "arrow-right":
+    case 'arrow-right':
       return (
         <svg
           width="7"
@@ -37,13 +37,13 @@ export const ProfileSvgSelector = ({ id }: Props) => {
           <path
             d="M1.25954 1.25954L6 6L1.25954 10.7405"
             stroke="#1E174D"
-            stroke-width="1.81493"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.81493"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       );
-    case "close":
+    case 'close':
       return (
         <svg
           width="15"
@@ -58,7 +58,7 @@ export const ProfileSvgSelector = ({ id }: Props) => {
           />
         </svg>
       );
-    case "camera":
+    case 'camera':
       return (
         <svg
           width="64"
@@ -76,7 +76,7 @@ export const ProfileSvgSelector = ({ id }: Props) => {
         </svg>
       );
 
-    case "document":
+    case 'document':
       return (
         <svg
           width="24"

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { User } from '../../../../store/ducks/user/contracts/state';
 
@@ -27,7 +28,7 @@ export const Card = ({ user, isPublic }: Props) => {
         <img
           className={s.profile__avatar}
           src={
-            (user?.profile_photo && getMediaLink(user.profile_photo)) ||
+            (user?.profilePhoto && getMediaLink(user.profilePhoto)) ||
             defaultAvatar
           }
           alt=""

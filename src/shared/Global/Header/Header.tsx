@@ -29,25 +29,31 @@ export const Header = memo(
               onClick={() => setSidebarNotificationsOpen(true)}
               className={s.header__link}
             >
-              {isNotificationsUnread ? (
-                <HeaderSvgSelector id="notification-active" />
-              ) : (
-                <HeaderSvgSelector id="notification" />
-              )}
+              {isNotificationsUnread
+                ? (
+                  <HeaderSvgSelector id="notification-active" />
+                )
+                : (
+                  <HeaderSvgSelector id="notification" />
+                )}
             </div>
             <div
               onClick={() => setSidebarChatOpen(true)}
               className={s.header__link}
             >
-              {isChatUnread ? (
-                <HeaderSvgSelector id="chat-active" />
-              ) : (
-                <HeaderSvgSelector id="chat" />
-              )}
+              {isChatUnread
+                ? (
+                  <HeaderSvgSelector id="chat-active" />
+                )
+                : (
+                  <HeaderSvgSelector id="chat" />
+                )}
             </div>
           </div>
         </div>
       </header>
     );
-  }
+  },
 );
+
+Header.displayName = 'Header';

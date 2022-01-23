@@ -12,11 +12,11 @@ export type SortedRecommendations = Record<
 >;
 
 export const selectRecommendationsState = (
-  state: RootState
+  state: RootState,
 ): RecommendationsState => state.recommendations;
 
 export const selectRecommendationsData = (
-  state: RootState
+  state: RootState,
 ): RecommendationsState['recommendations'] =>
   selectRecommendationsState(state).recommendations;
 
@@ -26,11 +26,11 @@ export const selectSortedRecommendationsData = (state: RootState) => {
     {
       id: 1,
       type: RecommendationType.WORKOUT,
-      specialist_profile: {
+      specialistProfile: {
         id: 124,
         name: 'Татьяна Алексеевна',
         position: SpecializationName.PHYSICIAN,
-        profile_photo: '',
+        profilePhoto: '',
       },
       title: 'Делать зарядку',
       description: '',
@@ -39,95 +39,99 @@ export const selectSortedRecommendationsData = (state: RootState) => {
     {
       id: 2,
       type: RecommendationType.WORKOUT,
-      specialist_profile: {
+      specialistProfile: {
         id: 124,
         name: 'Татьяна Алексеевна',
         position: SpecializationName.PHYSICIAN,
-        profile_photo: '',
+        profilePhoto: '',
       },
       title: 'Отжиматься',
-      description: `Займите исходное положение на полу: плечи, спина, ягодицы, живот и ноги должны составлять одну линию.
-      При выполнении упражнения необходимо двигаться из стороны в сторону.
-      Руки необходимо расставить намного шире, чем при выполнении классических отжиманий.
+      description: `Займите исходное положение на полу: плечи, спина,
+       ягодицы, живот и ноги должны составлять линию.
+      При выполнении упражнения необходимо двигаться из стороны.
+      Руки необходимо расставить намного шире, чем при выполнении классических.
       Перекатывайтесь на одну руку, выпрямив другую, и наоборот.`,
       createdAt: '2021-04-07',
     },
     {
       id: 3,
       type: RecommendationType.WORKOUT,
-      specialist_profile: {
+      specialistProfile: {
         id: 124,
         name: 'Татьяна Алексеевна',
         position: SpecializationName.PHYSICIAN,
-        profile_photo: '',
+        profilePhoto: '',
       },
       title: 'Подтягиваться',
-      description: `Подтянитесь сколько сможете`,
+      description: 'Подтянитесь сколько сможете',
       createdAt: '2021-04-07',
     },
     {
       id: 4,
       type: RecommendationType.NUTRITION,
-      specialist_profile: {
+      specialistProfile: {
         id: 124,
         name: 'Татьяна Алексеевна',
         position: SpecializationName.NUTRITIONIST,
-        profile_photo: '',
+        profilePhoto: '',
       },
       title: 'Кушайте кашу',
-      description: `Чтобы набраться сил кушайте геркулес 2`,
+      description: 'Чтобы набраться сил кушайте геркулес 2',
       createdAt: '2021-01-10',
     },
     {
       id: 5,
       type: RecommendationType.NUTRITION,
-      specialist_profile: {
+      specialistProfile: {
         id: 124,
         name: 'Татьяна Алексеевна',
         position: SpecializationName.NUTRITIONIST,
-        profile_photo: '',
+        profilePhoto: '',
       },
       title: 'Ешьте орехи',
-      description: `Чтобы вырос большой мозг, нужно есть грецкий орех! (2 раза в день)`,
+      description:
+        'Чтобы вырос большой мозг, нужно есть грецкий орех! (2 раза в день)',
       createdAt: '2021-02-10',
     },
     {
       id: 7,
       type: RecommendationType.NUTRITION,
-      specialist_profile: {
+      specialistProfile: {
         id: 4364,
         name: 'Владилен Минин',
         position: SpecializationName.NUTRITSIOLOG,
-        profile_photo: '',
+        profilePhoto: '',
       },
       title: 'Придерживайтесь диеты',
-      description: `Чтобы сбросить вес кушайте по чуть-чуть 5 раз в день`,
+      description: 'Чтобы сбросить вес кушайте по чуть-чуть 5 раз в день',
       createdAt: '2018-06-01',
     },
     {
       id: 8,
       type: RecommendationType.WORKOUT,
-      specialist_profile: {
+      specialistProfile: {
         id: 333,
         name: 'Александр Невский',
         position: SpecializationName.TRAINER,
-        profile_photo: '',
+        profilePhoto: '',
       },
       title: 'Отжимания на брусьях',
-      description: `Наклоните торс вперед, а затем медленно опуститесь между брусьями, сгибая руки в локтях. Важно сопротивляться гравитации на пути вниз, в противном случае, вы можете повредить грудную мышцу, в месте крепления ее к плечевой кости, или локтевой сустав.`,
+      description:
+        'Наклоните торс вперед, а затем медленно опуститесь между брусьями, сгибая руки в локтях. Важно сопротивляться гравитации на пути вниз, в противном случае, вы можете повредить грудную мышцу, в месте крепления ее к плечевой кости, или локтевой сустав.',
       createdAt: '2020-03-04',
     },
     {
       id: 9,
       type: RecommendationType.WORKOUT,
-      specialist_profile: {
+      specialistProfile: {
         id: 333,
         name: 'Александр Невский',
         position: SpecializationName.TRAINER,
-        profile_photo: '',
+        profilePhoto: '',
       },
       title: 'Приседания',
-      description: `Приседа́ния — одно из базовых силовых упражнений (в том числе в пауэрлифтинге и культуризме); выполняющий упражнение приседает и затем встаёт, возвращаясь в положение стоя. Приседание считается одним из важнейших упражнений не только в силовом спорте, но и в общефизической подготовке, а также используется в качестве подсобного в процессе подготовки спортсменов практически всех спортивных дисциплин.`,
+      description:
+        'Приседа́ния — одно из базовых силовых упражнений (в том числе в пауэрлифтинге и культуризме); выполняющий упражнение приседает и затем встаёт, возвращаясь в положение стоя. Приседание считается одним из важнейших упражнений не только в силовом спорте, но и в общефизической подготовке, а также используется в качестве подсобного в процессе подготовки спортсменов практически всех спортивных дисциплин.',
       createdAt: '2020-03-04',
     },
   ];
@@ -136,22 +140,22 @@ export const selectSortedRecommendationsData = (state: RootState) => {
     if (!acc[rec.type]) {
       acc[rec.type] = {};
     }
-    if (!acc[rec.type][rec.specialist_profile.id]) {
-      acc[rec.type][rec.specialist_profile.id] = [];
+    if (!acc[rec.type][rec.specialistProfile.id]) {
+      acc[rec.type][rec.specialistProfile.id] = [];
     }
-    acc[rec.type][rec.specialist_profile.id].push(rec);
+    acc[rec.type][rec.specialistProfile.id].push(rec);
     return acc;
   }, {} as SortedRecommendations);
   return rec;
 };
 
 export const selectRecommendationsResponse = (
-  state: RootState
+  state: RootState,
 ): RecommendationsState['response'] =>
   selectRecommendationsState(state).response;
 
 export const selectRecommendationsStatus = (
-  state: RootState
+  state: RootState,
 ): RecommendationsState['status'] => selectRecommendationsState(state).status;
 
 export const selectRecommendationsLoadingStatus = (state: RootState): string =>

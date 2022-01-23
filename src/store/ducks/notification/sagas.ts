@@ -13,7 +13,7 @@ import {
   NotificationActionsType,
 } from './contracts/actionTypes';
 
-// export function* fetchNotificationDataRequest({}: FetchNotificationDataActionInterface): any {
+// export function* fetchNotificationDataRequest({}: FetchNotificationDataActionInterface) {
 //   yield put(setNotificationLoadingStatus(LoadingStatus.LOADING));
 //   const { data, status } = yield call(NotificationService.getMe);
 //   if (status === 200) {
@@ -24,9 +24,9 @@ import {
 //   }
 // }
 
-export function* fetchUpdateNotificationRequest({
+export function * fetchUpdateNotificationRequest({
   payload,
-}: FetchUpdateNotificationActionInterface): any {
+}: FetchUpdateNotificationActionInterface) {
   yield put(setNotificationLoadingStatus(LoadingStatus.LOADING));
   const { data, status } = yield call(NotificationService.update, payload);
   if (status === 200) {
@@ -35,7 +35,7 @@ export function* fetchUpdateNotificationRequest({
       setNotificationResponse({
         statusCode: status,
         message: 'Данные обновлены',
-      })
+      }),
     );
     yield put(setNotificationLoadingStatus(LoadingStatus.SUCCESS));
   } else {
@@ -44,7 +44,7 @@ export function* fetchUpdateNotificationRequest({
   }
 }
 
-export function* notificationSaga(): any {
+export function * notificationSaga() {
   // yield takeLatest(
   //   NotificationActionsType.FETCH_NOTIFICATION_DATA,
   //   fetchNotificationDataRequest
@@ -52,6 +52,6 @@ export function* notificationSaga(): any {
 
   yield takeLatest(
     NotificationActionsType.FETCH_UPDATE_NOTIFICATION,
-    fetchUpdateNotificationRequest
+    fetchUpdateNotificationRequest,
   );
 }

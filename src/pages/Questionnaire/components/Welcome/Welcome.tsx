@@ -1,10 +1,8 @@
+import React from 'react';
 import s from './Welcome.module.scss';
-import { GlobalSvgSelector } from '../../../../assets/icons/global/GlobalSvgSelector';
-
 import logoIcon from './../../../../assets/icons/global/logo.svg';
 
-interface Props {}
-export const Welcome = (props: Props) => {
+export const Welcome = () => {
   return (
     <div className={s.welcome}>
       <div className={s.content}>

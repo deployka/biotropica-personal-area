@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ForgotPasswordData } from '../../../../store/ducks/user/contracts/state';
 import { Formik, FormikHelpers } from 'formik';
@@ -7,22 +8,18 @@ import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
 
 import s from './ForgotForm.module.scss';
+import { SchemaOf } from 'yup';
 interface Props {
   onSubmit: (
     values: ForgotPasswordData,
     options: FormikHelpers<ForgotPasswordData>
   ) => void;
   loader: boolean;
-  validationSchema: any;
+  validationSchema: SchemaOf<ForgotPasswordData>;
   email: string;
 }
 
-export const ForgotForm = ({
-  loader,
-  onSubmit,
-  validationSchema,
-  email,
-}: Props) => {
+export const ForgotForm = ({ loader, onSubmit, validationSchema, email }: Props) => {
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || loader;
   }
@@ -35,7 +32,7 @@ export const ForgotForm = ({
         validateOnBlur
         onSubmit={(
           values: ForgotPasswordData,
-          options: FormikHelpers<ForgotPasswordData>
+          options: FormikHelpers<ForgotPasswordData>,
         ) => onSubmit(values, options)}
         validationSchema={validationSchema}
       >
@@ -73,7 +70,9 @@ export const ForgotForm = ({
                 type="submit"
                 onClick={() => handleSubmit()}
                 options={{
-                  content: loader ? <Loader /> : 'Продолжить',
+                  content: loader
+                    ? <Loader />
+                    : 'Продолжить',
                   setDisabledStyle: isDisabled(isValid, dirty),
                   width: '100%',
                   height: '50px',

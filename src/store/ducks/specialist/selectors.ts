@@ -6,18 +6,18 @@ export const selectSpecialistState = (state: RootState): SpecialistState =>
   state.specialist;
 
 export const selectSpecialistData = (
-  state: RootState
+  state: RootState,
 ): SpecialistState['specialist'] => selectSpecialistState(state).specialist;
 
 export const selectSpecialistResponse = (
-  state: RootState
+  state: RootState,
 ): SpecialistState['response'] => selectSpecialistState(state).response;
 
 export const selectIsAuth = (state: RootState): boolean =>
   !!window.localStorage.getItem('token');
 
 export const selectSpecialistStatus = (
-  state: RootState
+  state: RootState,
 ): SpecialistState['status'] => selectSpecialistState(state).status;
 
 export const selectSpecialistLoadingStatus = (state: RootState): string =>

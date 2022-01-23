@@ -27,15 +27,8 @@ export const Specialist = ({
   isLoadingSignUp,
   consultationsCount,
 }: Props) => {
-  const {
-    experience,
-    specializations,
-    price,
-    name,
-    profile_photo,
-    id,
-    userId,
-  } = specialist;
+  const { experience, specializations, price, name, profilePhoto, id, userId } =
+    specialist;
 
   const [click, setClick] = useState(false);
   const history = useHistory();
@@ -87,7 +80,7 @@ export const Specialist = ({
           className={s.photo}
           style={{
             backgroundImage: `url(${
-              getMediaLink(profile_photo) || defaultAvatar
+              getMediaLink(profilePhoto) || defaultAvatar
             })`,
           }}
         ></div>
@@ -116,7 +109,9 @@ export const Specialist = ({
           type="submit"
           onClick={signUpClick}
           options={{
-            content: isLoadingSignUp && click ? <Loader /> : 'Записаться',
+            content: isLoadingSignUp && click
+              ? <Loader />
+              : 'Записаться',
             setDisabledStyle: isLoadingSignUp || click,
           }}
         />

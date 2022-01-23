@@ -1,8 +1,9 @@
+import React, { ReactElement } from 'react';
 interface Props {
   id: string;
 }
 
-export const GlobalSvgSelector = ({ id }: Props) => {
+export const GlobalSvgSelector = ({ id }: Props): ReactElement => {
   switch (id) {
     case 'delete-card':
       return (

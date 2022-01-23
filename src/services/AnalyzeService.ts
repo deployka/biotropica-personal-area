@@ -13,7 +13,7 @@ interface Response {
 }
 
 export default class AnalyzeService {
-  static route: string = 'analyzes';
+  static route = 'analyzes';
 
   static async getOne(id: number): Promise<AxiosResponse<Response>> {
     return await $api.get<Response>(`/${AnalyzeService.route}/${id}`);
@@ -21,11 +21,11 @@ export default class AnalyzeService {
 
   static async geAll(
     id: number,
-    offset: number = 0,
-    limit: number = 2
+    offset = 0,
+    limit = 2,
   ): Promise<AxiosResponse<Response>> {
     return await $api.get<Response>(
-      `/${AnalyzeService.route}/answers/${id}/?offset=${offset}&limit=${limit}`
+      `/${AnalyzeService.route}/answers/${id}/?offset=${offset}&limit=${limit}`,
     );
   }
 
@@ -34,17 +34,17 @@ export default class AnalyzeService {
   }
 
   static async create(
-    data: CreateAnalyzeAnswerData
+    data: CreateAnalyzeAnswerData,
   ): Promise<AxiosResponse<Response>> {
     return await $api.post<Response>(`/${AnalyzeService.route}/answer`, data);
   }
 
   static async update(
-    data: UpdateAnalyzeAnswerData
+    data: UpdateAnalyzeAnswerData,
   ): Promise<AxiosResponse<Response>> {
     return await $api.patch<Response>(
       `/${AnalyzeService.route}/update/${data.id}`,
-      data
+      data,
     );
   }
 

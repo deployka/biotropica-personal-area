@@ -10,7 +10,7 @@ export type IFile = {
 };
 
 export default class FileService {
-  static route: string = 'files';
+  static route = 'files';
 
   static async upload(file: File): Promise<AxiosResponse<IFile>> {
     const formData = new FormData();
@@ -21,6 +21,7 @@ export default class FileService {
       },
     });
   }
+
   static async uploadFiles(files: File[]): Promise<AxiosResponse<IFile[]>> {
     const formData = new FormData();
     files.forEach(file => {
