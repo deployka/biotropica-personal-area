@@ -1,22 +1,28 @@
 import { Formik, FormikHelpers } from 'formik';
-import React, { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
 import {
   CreateGoalData,
-  GoalUnits,
+  FormGoalData,
 } from '../../../../store/ducks/goal/contracts/state';
 
 import s from './AddGoalForm.module.scss';
 import { validationSchema } from './validationSchema';
 import { Textarea } from '../../../../shared/Form/Textarea/Textarea';
-import { ISelect, SelectCustom } from '../../../../shared/Form/Select/SelectCustom';
+import {
+  ISelect,
+  SelectCustom,
+} from '../../../../shared/Form/Select/SelectCustom';
 
 interface Props {
-  goalTemplate: CreateGoalData;
+  goalTemplate: FormGoalData;
   setNext: Dispatch<SetStateAction<boolean>>;
-  onSubmit: (values: CreateGoalData, options: FormikHelpers<CreateGoalData>) => void;
+  onSubmit: (
+    values: FormGoalData,
+    options: FormikHelpers<FormGoalData>,
+  ) => void;
   isLoading: boolean;
   options: ISelect<string>[] | undefined;
 }
@@ -36,8 +42,8 @@ export const AddGoalForm = ({
     <div className={s.add__goals__form}>
       <div className={s.add__goals__form__wrapper}>
         <h2 className={s.form__title}>
-          Введите заголовок, описание <br /> и параметры цели, а также ваш текущий
-          результат
+          Введите заголовок, описание <br /> и параметры цели, а также ваш
+          текущий результат
         </h2>
 
         <Formik
@@ -45,7 +51,9 @@ export const AddGoalForm = ({
             ...goalTemplate,
           }}
           validateOnBlur
-          onSubmit={(values: CreateGoalData, options) => onSubmit(values, options)}
+          onSubmit={(values: FormGoalData, options) =>
+            onSubmit(values, options)
+          }
           validationSchema={validationSchema(goalTemplate.type)}
         >
           {({

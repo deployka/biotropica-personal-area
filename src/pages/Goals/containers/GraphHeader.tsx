@@ -1,8 +1,7 @@
-import moment from 'moment';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { Calendar } from '../../../shared/Global/Calendar/Calendar';
-import { Goal } from '../../../store/ducks/goal/contracts/state';
 import { selectGoalData } from '../../../store/ducks/goal/selectors';
 import { Tab, Tabs } from './../../../shared/Global/Tabs/Tabs';
 import { Dates } from './Goals';

@@ -16,6 +16,7 @@ export const goalsReducer = produce(
       case GoalsActionsType.SET_GOALS_DATA:
         draft.goals = action.payload || [];
         draft.status = LoadingStatus.SUCCESS;
+        draft.status = LoadingStatus.LOADED;
         break;
 
       case GoalsActionsType.SET_GOALS_RESPONSE:

@@ -10,7 +10,7 @@ import {
 } from '../../../../store/ducks/goal/actionCreators';
 import {
   CreateGoalData,
-  Goal,
+  FormGoalData,
   GoalType,
   RunUnits,
   WeightUnits,
@@ -31,7 +31,7 @@ import { ISelect } from '../../../../shared/Form/Select/SelectCustom';
 import { Selector } from '../AddGoalSelect/Selector';
 
 const AddGoal = () => {
-  const [goalTemplate, setGoalTemplate] = useState<CreateGoalData>({
+  const [goalTemplate, setGoalTemplate] = useState<FormGoalData>({
     type: GoalType.WEIGHT,
     units: [{ label: '', value: null }],
     description: '',
@@ -83,7 +83,8 @@ const AddGoal = () => {
         if (!refResetForm.current) return;
         eventBus.emit(EventTypes.notification, {
           title: `Цель «${name}» успешно создана!`,
-          message: 'Не забывайте регулярно отмечать свой прогресс в достижении цели',
+          message:
+            'Не забывайте регулярно отмечать свой прогресс в достижении цели',
           type: NotificationType.SUCCESS,
           dismiss: {
             onScreen: true,
@@ -107,12 +108,18 @@ const AddGoal = () => {
   }, [goal, loadingStatus]);
 
   async function onSubmit(
-    values: CreateGoalData,
-    options: FormikHelpers<CreateGoalData>,
+    values: FormGoalData,
+    options: FormikHelpers<FormGoalData>,
   ) {
     refResetForm.current = options.resetForm;
     setName(values.name);
-    dispatch(createGoalData(values));
+    dispatch(
+      createGoalData({
+        ...values,
+        endResult: +values.endResult,
+        startResult: +values.startResult,
+      }),
+    );
   }
 
   const selectors: Selector[] = [

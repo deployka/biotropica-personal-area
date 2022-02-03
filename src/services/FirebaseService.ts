@@ -19,7 +19,6 @@ const messaging = getMessaging(firebaseApp);
 getToken(messaging, { vapidKey: process.env.FB_VAPID_KEY })
   .then(currentToken => {
     if (currentToken) {
-      console.log('currentToken', currentToken);
       // Send the token to your server and update the UI if necessary
       // ...
     } else {
