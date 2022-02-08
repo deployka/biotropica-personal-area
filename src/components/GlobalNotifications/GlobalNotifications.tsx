@@ -80,7 +80,6 @@ const GlobalNotifications = (): ReactElement => {
       return;
     }
     NotificationService.getNow().then(nowNotifications => {
-      console.log(nowNotifications);
       nowNotifications.forEach(notification => {
         eventBus.emit(EventTypes.notification, {
           container: 'top-right',

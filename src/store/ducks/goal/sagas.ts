@@ -14,19 +14,24 @@ import {
   DeleteGoalActionInterface,
 } from './contracts/actionTypes';
 
-export function * fetchGoalDataRequest({ payload }: FetchGoalDataActionInterface) {
+export function * fetchGoalDataRequest({
+  payload,
+}: FetchGoalDataActionInterface) {
   try {
     yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(GoalService.getOne, payload);
     yield put(setGoalData(data));
     yield put(setGoalLoadingStatus(LoadingStatus.SUCCESS));
     yield put(setGoalLoadingStatus(LoadingStatus.LOADED));
-  } catch (error) {
+  } catch (error: any) {
+    yield put(setGoalResponse(error?.response?.data));
     yield put(setGoalLoadingStatus(LoadingStatus.ERROR));
   }
 }
 
-export function * createGoalDataRequest({ payload }: CreateGoalDataActionInterface) {
+export function * createGoalDataRequest({
+  payload,
+}: CreateGoalDataActionInterface) {
   try {
     yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(GoalService.create, payload);
@@ -38,12 +43,18 @@ export function * createGoalDataRequest({ payload }: CreateGoalDataActionInterfa
   }
 }
 
-export function * fetchUpdateGoalRequest({ payload }: UpdateGoalActionInterface) {
+export function * fetchUpdateGoalRequest({
+  payload,
+}: UpdateGoalActionInterface) {
   try {
+    yield put(setGoalData(undefined));
     yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
-    const { data, status } = yield call(GoalService.update, payload);
-    yield put(setGoalData(data));
-    yield put(setGoalResponse({ statusCode: status, message: 'Данные обновлены' }));
+    const { data } = yield call(GoalService.update, payload);
+    if (!data.completed) {
+      yield put(setGoalData(data));
+    } else {
+      yield put(setGoalData(undefined));
+    }
     yield put(setGoalLoadingStatus(LoadingStatus.SUCCESS));
     yield put(setGoalLoadingStatus(LoadingStatus.LOADED));
   } catch (error) {
@@ -51,7 +62,9 @@ export function * fetchUpdateGoalRequest({ payload }: UpdateGoalActionInterface)
   }
 }
 
-export function * fetchDeleteGoalRequest({ payload }: DeleteGoalActionInterface) {
+export function * fetchDeleteGoalRequest({
+  payload,
+}: DeleteGoalActionInterface) {
   yield put(setGoalLoadingStatus(LoadingStatus.LOADING));
   const { data, status } = yield call(GoalService.delete, payload);
   if (status === 200) {

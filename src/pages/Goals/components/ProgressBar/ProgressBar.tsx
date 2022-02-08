@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import s from './ProgressBar.module.scss';
-interface progressBarOptions {
+export interface progressBarOptions {
   width: number;
   height: number;
   circleWidth: number;
@@ -35,13 +35,13 @@ export const ProgressBar = ({ progressBarOptions }: Props) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    if (progress > progressValue) {
+    if (progress > +progressValue.toFixed(0)) {
       setProgress(0);
       return;
     }
 
     let timeout = -1;
-    if (progress !== progressValue) {
+    if (progress !== +progressValue.toFixed(0)) {
       timeout = setTimeout(setProgress, 10, progress + 1);
     }
 
@@ -79,7 +79,12 @@ export const ProgressBar = ({ progressBarOptions }: Props) => {
             className={s.progress__bar__circle}
           />
         </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height={0} width={0}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          height={0}
+          width={0}
+        >
           <defs>
             <linearGradient id="GradientColor">
               <stop offset="0%" stopColor={gradientStartColor} />

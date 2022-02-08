@@ -2,7 +2,11 @@ import axios from 'axios';
 import { NotificationType } from '../components/GlobalNotifications/GlobalNotifications';
 import AuthService from '../services/AuthService';
 import { eventBus, EventTypes } from '../services/EventBus';
-import { HTTP_BAD_REQUEST, HTTP_SUCCESS, HTTP_UNAUTHORIZED } from './httpConstants';
+import {
+  HTTP_BAD_REQUEST,
+  HTTP_SUCCESS,
+  HTTP_UNAUTHORIZED,
+} from './httpConstants';
 
 const $api = axios.create({
   withCredentials: true,

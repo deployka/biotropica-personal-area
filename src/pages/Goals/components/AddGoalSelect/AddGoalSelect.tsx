@@ -1,13 +1,13 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Button } from '../../../../shared/Form/Button/Button';
-import { CreateGoalData } from '../../../../store/ducks/goal/contracts/state';
+import { FormGoalData } from '../../../../store/ducks/goal/contracts/state';
 
 import s from './AddGoalSelect.module.scss';
 import { Selector, SelectorItem } from './Selector';
 
 interface Props {
-  goal: CreateGoalData;
-  setGoal: Dispatch<SetStateAction<CreateGoalData>>;
+  goal: FormGoalData;
+  setGoal: Dispatch<SetStateAction<FormGoalData>>;
   setNext: Dispatch<SetStateAction<boolean>>;
   selectors: Selector[];
   onDiscard: () => void;

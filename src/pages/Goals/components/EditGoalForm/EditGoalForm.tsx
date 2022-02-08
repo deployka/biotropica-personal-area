@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
-import { Goal, UpdateGoalData } from '../../../../store/ducks/goal/contracts/state';
+import { UpdateGoalData } from '../../../../store/ducks/goal/contracts/state';
 import {
   fetchGoalData,
   setGoalData,
@@ -64,10 +64,11 @@ const EditGoalForm = () => {
     ) {
       setLoader(false);
     }
-    if (loadingStatus === LoadingStatus.SUCCESS && refResetForm.current) {
+    if (loadingStatus === LoadingStatus.LOADED && refResetForm.current) {
       eventBus.emit(EventTypes.notification, {
         title: `Цель «${name}» успешно обновлена!`,
-        message: 'Не забывайте регулярно отмечать свой прогресс в достижении цели',
+        message:
+          'Не забывайте регулярно отмечать свой прогресс в достижении цели',
         type: NotificationType.INFO,
         dismiss: {
           onScreen: true,
@@ -82,9 +83,11 @@ const EditGoalForm = () => {
         );
       }
       refResetForm.current();
-      history.push(`/goals/${goal?.id}`);
+      if (goal) {
+        history.push(`/goals/${goal.id}`);
+      }
     }
-  }, [loadingStatus]);
+  }, [loadingStatus, goal]);
 
   async function onSubmit(
     values: UpdateGoalData,
@@ -111,7 +114,9 @@ const EditGoalForm = () => {
               ...goal,
             }}
             validateOnBlur
-            onSubmit={(values: UpdateGoalData, options) => onSubmit(values, options)}
+            onSubmit={(values: UpdateGoalData, options) =>
+              onSubmit(values, options)
+            }
             validationSchema={validationSchema}
           >
             {({
@@ -181,9 +186,7 @@ const EditGoalForm = () => {
                     type="submit"
                     onClick={() => handleSubmit()}
                     options={{
-                      content: loader
-                        ? <Loader />
-                        : 'Сохранить',
+                      content: loader ? <Loader /> : 'Сохранить',
                       setDisabledStyle: isDisabled(isValid, dirty),
                       width: '100px',
                       height: '30px',

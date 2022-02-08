@@ -9,15 +9,12 @@ import { Consultation } from '../../store/ducks/consultation/contracts/state';
 
 export function ConsultationPage() {
   const history = useHistory();
-  const { id } = useParams<{id: string}>();
-  const [consultation, setConsultation] = useState<Consultation|null>();
+  const { id } = useParams<{ id: string }>();
+  const [consultation, setConsultation] = useState<Consultation | null>();
   useEffect(() => {
-    ConsultationService
-      .getOne(+id)
-      .then(res => {
-        console.log('RES', res);
-        setConsultation(res.data);
-      });
+    ConsultationService.getOne(+id).then(res => {
+      setConsultation(res.data);
+    });
   }, []);
 
   const currentUser = useSelector(selectUserData);
@@ -29,12 +26,14 @@ export function ConsultationPage() {
 
   const username = currentUser.name + ' ' + currentUser.lastname;
 
-  return <Zoom
-    className={s.consultation}
-    meetingNumber={consultation.meetingNumber}
-    password={consultation.meetingPassword}
-    role={0}
-    username={username}
-    onClose={() => history.push('/consultations/list')}
-  />;
+  return (
+    <Zoom
+      className={s.consultation}
+      meetingNumber={consultation.meetingNumber}
+      password={consultation.meetingPassword}
+      role={0}
+      username={username}
+      onClose={() => history.push('/consultations/list')}
+    />
+  );
 }

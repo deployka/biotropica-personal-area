@@ -1,7 +1,7 @@
+import React, { Dispatch, SetStateAction } from 'react';
 import classNames from 'classnames';
-import React, { Dispatch, SetStateAction, useState } from 'react';
 import {
-  CreateGoalData,
+  FormGoalData,
   GoalType,
 } from '../../../../store/ducks/goal/contracts/state';
 
@@ -15,8 +15,8 @@ export interface Selector {
 
 interface Props {
   item: Selector;
-  goal: CreateGoalData;
-  setGoal: Dispatch<SetStateAction<CreateGoalData>>;
+  goal: FormGoalData;
+  setGoal: Dispatch<SetStateAction<FormGoalData>>;
   type: GoalType;
 }
 

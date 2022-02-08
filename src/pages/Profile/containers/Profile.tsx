@@ -22,6 +22,7 @@ import { LoadingStatus } from '../../../store/types';
 import { eventBus, EventTypes } from '../../../services/EventBus';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { setUserResponse } from '../../../store/ducks/user/actionCreators';
+import { selectGoalsData } from '../../../store/ducks/goals/selectors';
 
 interface Props {
   isPublic?: boolean;
@@ -49,6 +50,7 @@ const Profile = ({ isPublic, user }: Props) => {
   const dispatch = useDispatch();
 
   const response = useSelector(selectUserResponse);
+  const goals = useSelector(selectGoalsData);
   const loadingStatus = useSelector(selectUserLoadingStatus);
 
   const { active } = useParams<Param>();
@@ -81,13 +83,17 @@ const Profile = ({ isPublic, user }: Props) => {
   }, [response]);
 
   function onTabClick(tab: Tab) {
-    history.push(`/${isPublic ? 'profile' : `users/${user?.id}`}/tabs/${tab.key}`);
+    history.push(
+      `/${isPublic ? 'profile' : `users/${user?.id}`}/tabs/${tab.key}`,
+    );
   }
 
   useEffect(() => {
     if (active) {
       setActiveTab(getTabByKey(active, tabs)?.key || activeTab);
-      history.push(`/profile/tabs/${getTabByKey(active, tabs)?.key || activeTab}`);
+      history.push(
+        `/profile/tabs/${getTabByKey(active, tabs)?.key || activeTab}`,
+      );
     }
   }, [active]);
   return (
@@ -97,7 +103,7 @@ const Profile = ({ isPublic, user }: Props) => {
           {user && <Card isPublic={isPublic} user={user} />}
           {isPublic && (
             <div className={s.userInfo}>
-              <Goals />
+              <Goals goals={goals} />
               <Tariff tariff={tariffData} />
             </div>
           )}

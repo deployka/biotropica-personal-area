@@ -1,23 +1,22 @@
-import classNames from 'classnames';
 import React from 'react';
-import { useHistory } from 'react-router';
-import { Goal as IGoal } from '../../../../store/ducks/goal/contracts/state';
+import classNames from 'classnames';
 
 import s from './Goal.module.scss';
 interface Props {
-  goal: IGoal;
+  goal: Goal;
   active: number;
+  onClick: (id: number) => void;
 }
 
-export const Goal = ({ goal, active }: Props) => {
-  const history = useHistory();
+export const Goal = ({ goal, active, onClick }: Props) => {
+  function clickHandler(id: number) {
+    return () => onClick(id);
+  }
   return (
     <>
       {goal && (
         <div
-          onClick={() => {
-            history.push(`/goals/${goal.id}`);
-          }}
+          onClick={clickHandler(goal.id)}
           className={classNames(s.goal, {
             [s.active]: goal.id === active,
           })}

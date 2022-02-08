@@ -1,23 +1,24 @@
 import * as yup from 'yup';
-import {
-  GoalType,
-  GoalUnits,
-} from '../../../../store/ducks/goal/contracts/state';
+import { GoalType } from '../../../../store/ducks/goal/contracts/state';
 
 export const validationSchema = (type: GoalType) => () => {
-  const endResultWeight = yup
+  const isWeight = type === GoalType.WEIGHT;
+
+  const template = yup
     .number()
-    .positive()
+    .positive('Результат должен быть больше 0')
     .typeError('Должен быть числом')
     .required('Введите желаемый результат')
     .min(1, 'Минимальный результат: 1')
     .max(1000, 'Максимальный результат: 1000');
 
-  const endResult = endResultWeight.moreThan(
-    yup.ref('startResult'),
-    'Не может быть меньше стартового результата',
-  );
-  const isWeight = type === GoalType.WEIGHT;
+  const endResult = isWeight
+    ? template
+    : template.moreThan(
+      yup.ref('startResult'),
+      'Не может быть меньше стартового результата',
+    );
+
   return yup.object().shape({
     name: yup
       .string()
@@ -33,14 +34,17 @@ export const validationSchema = (type: GoalType) => () => {
           .typeError('Выберите единицы измерения'),
       }),
     ),
-    endResult: isWeight
-      ? endResultWeight
-      : endResult,
+    endResult: endResult.notOneOf(
+      [yup.ref('startResult')],
+      'Результаты не могут быть равны',
+    ),
     startResult: yup
       .number()
       .typeError('Должен быть числом')
       .required('Введите текущий результат')
       .max(999, 'Максимальный результат: 999')
-      .positive(),
+      .nullable()
+      .moreThan(-1, 'Результат не может быть отрицательным')
+      .notOneOf([yup.ref('endResult')], 'Результаты не могут быть равны'),
   });
 };

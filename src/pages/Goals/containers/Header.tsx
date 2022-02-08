@@ -2,7 +2,6 @@ import React, { memo } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper/core';
 import { Link } from 'react-router-dom';
-import { Goal as IGoal } from '../../../store/ducks/goal/contracts/state';
 
 import s from './Goals.module.scss';
 import { GlobalSvgSelector } from '../../../assets/icons/global/GlobalSvgSelector';
@@ -14,7 +13,8 @@ SwiperCore.use([Pagination]);
 
 interface Props {
   active: number;
-  goals: IGoal[];
+  goals: Goal[];
+  onGoalClick: (id: number) => void;
 }
 
 const ButtonAddGoal = memo(() => {
@@ -27,7 +27,7 @@ const ButtonAddGoal = memo(() => {
 
 ButtonAddGoal.displayName = 'ButtonAddGoal';
 
-export const Header = ({ active, goals }: Props) => {
+export const Header = ({ active, goals, onGoalClick }: Props) => {
   return (
     <div className={s.header}>
       <div className={s.container}>
@@ -56,9 +56,9 @@ export const Header = ({ active, goals }: Props) => {
             },
           }}
         >
-          {goals.map((goal: IGoal) => (
+          {goals.map((goal: Goal) => (
             <SwiperSlide key={goal.id}>
-              <Goal active={active} goal={goal} />
+              <Goal active={active} goal={goal} onClick={onGoalClick} />
             </SwiperSlide>
           ))}
         </Swiper>

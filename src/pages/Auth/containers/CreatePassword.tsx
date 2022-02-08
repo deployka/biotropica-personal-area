@@ -2,7 +2,6 @@ import React, { MutableRefObject, useEffect, useRef } from 'react';
 import { FormikHelpers } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { notification } from '../../../config/notification/notificationForm';
 import { useQuery } from '../../../hooks/useQuery';
 import { eventBus, EventTypes } from '../../../services/EventBus';
 import { fetchCreatePassword } from '../../../store/ducks/user/actionCreators';

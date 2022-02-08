@@ -1,23 +1,8 @@
-import { ISelect } from '../../../../shared/Form/Select/SelectCustom';
 import { LoadingStatus, Response } from '../../../types';
-
 export enum GoalType {
   FORCE = 'FORCE',
   WEIGHT = 'WEIGHT',
   RUN = 'RUN',
-}
-export interface Goal {
-  id: number;
-  name: string;
-  type: GoalType;
-  units: ISelect<Partial<GoalUnits> | null>[];
-  description: string;
-  values: GoalValue[];
-  startResult: string;
-  userId: number;
-  endResult: string;
-  completed: boolean;
-  createdAt: string;
 }
 
 export enum GoalSubtype {
@@ -41,18 +26,6 @@ export enum WeightUnits {
 export enum ForceUnits {
   KILOGRAM = 'KILOGRAM',
 }
-
-export type GoalUnits = {
-  [GoalType.RUN]: RunUnits;
-  [GoalType.WEIGHT]: WeightUnits;
-  [GoalType.FORCE]: ForceUnits;
-};
-
-export interface GoalValue {
-  value: string;
-  createdAt: Date;
-}
-
 export interface GoalState {
   goal: Goal | undefined;
   status: LoadingStatus;
@@ -60,7 +33,17 @@ export interface GoalState {
 }
 
 export type UpdateGoalData = Partial<Goal>;
-export type CreateGoalData = Omit<
+export interface UpdateGoalValues extends Pick<GoalValue, 'createdAt'> {
+  value: string;
+}
+
+export type CreateGoalData = Pick<
   Goal,
-  'id' | 'values' | 'userId' | 'completed' | 'createdAt'
+  'name' | 'type' | 'units' | 'description' | 'startResult' | 'endResult'
 >;
+
+export interface FormGoalData
+  extends Omit<CreateGoalData, 'endResult' | 'startResult'> {
+  endResult: string;
+  startResult: string;
+}

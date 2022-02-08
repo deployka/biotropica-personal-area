@@ -5,7 +5,6 @@ import s from './Graph.module.scss';
 import { useSelector } from 'react-redux';
 import { selectGoalData } from '../../../../store/ducks/goal/selectors';
 import moment from 'moment';
-import { GoalValue } from '../../../../store/ducks/goal/contracts/state';
 
 Chart.register(...registerables);
 
