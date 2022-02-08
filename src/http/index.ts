@@ -31,7 +31,6 @@ $api.interceptors.response.use(
     const statusCode = error?.response?.data?.statusCode;
     if (message && statusCode === HTTP_BAD_REQUEST) {
       const type = NotificationType.DANGER;
-      console.log(type);
       eventBus.emit(EventTypes.notification, {
         type,
         message,

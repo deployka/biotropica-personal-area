@@ -31,7 +31,8 @@ export const Goal = ({ goal, onChangeGoal, progressBarOptions }: Props) => {
 
   const loading = useSelector(selectGoalLoadingStatus);
 
-  const [visibleDeleteNot, setVisibleDeleteNot] = useState<boolean>(false);
+  const [visibleDeleteNotification, setVisibleDeleteNotification] =
+    useState<boolean>(false);
 
   const [dates, setDates] = useState<Dates>({
     startDate: new Date(),
@@ -47,17 +48,17 @@ export const Goal = ({ goal, onChangeGoal, progressBarOptions }: Props) => {
     return () => {
       onChangeGoal(GoalState.DELETED, goal);
       dispatch(deleteGoalData(goal.id));
-      setVisibleDeleteNot(false);
+      setVisibleDeleteNotification(false);
     };
   }
 
   function onDiscard() {
-    setVisibleDeleteNot(false);
+    setVisibleDeleteNotification(false);
   }
 
   function showDeleteGoalConfirmation() {
-    if (visibleDeleteNot || !goal) return;
-    setVisibleDeleteNot(true);
+    if (visibleDeleteNotification || !goal) return;
+    setVisibleDeleteNotification(true);
     eventBus.emit(EventTypes.notification, {
       title: `Удалить цель «${goal.name}»?`,
       message: (
@@ -67,7 +68,7 @@ export const Goal = ({ goal, onChangeGoal, progressBarOptions }: Props) => {
       dismiss: undefined,
       id: 'delete-notification',
       onRemoval: () => {
-        setVisibleDeleteNot(false);
+        setVisibleDeleteNotification(false);
       },
     });
   }
@@ -76,14 +77,13 @@ export const Goal = ({ goal, onChangeGoal, progressBarOptions }: Props) => {
     { value, createdAt }: UpdateGoalValues,
     options: FormikHelpers<UpdateGoalValues>,
   ) {
-    if (goal) {
-      onChangeGoal(GoalState.UPDATED, goal);
-    }
+    if (!goal) return;
+    onChangeGoal(GoalState.UPDATED, goal);
     refResetForm.current = options.resetForm;
 
     dispatch(
       updateGoalData({
-        id: goal?.id,
+        id: goal.id,
         values: [
           {
             value: +value,

@@ -4,7 +4,8 @@ import { GoalsState } from './contracts/state';
 export const selectGoalsState = (state: RootState): GoalsState => state.goals;
 
 export const selectGoalsData = (state: RootState): GoalsState['goals'] =>
-  [...selectGoalsState(state).goals]
+  selectGoalsState(state)
+    .goals.slice()
     .sort((a, b) => b.id - a.id)
     .filter(goal => !goal.completed);
 

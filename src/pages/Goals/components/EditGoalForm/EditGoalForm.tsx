@@ -84,7 +84,7 @@ const EditGoalForm = () => {
       }
       refResetForm.current();
       if (goal) {
-        history.push(`/goals/${goal?.id}`);
+        history.push(`/goals/${goal.id}`);
       }
     }
   }, [loadingStatus, goal]);

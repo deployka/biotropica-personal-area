@@ -19,8 +19,13 @@ import { Header } from './Header';
 import { Goal } from './Goal';
 import { setGoalsData } from '../../../store/ducks/goals/actionCreators';
 import { eventBus, EventTypes } from '../../../services/EventBus';
-import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
-import { getProgressValueByTypeAndUnit } from '../../../utils/goalsHelper';
+import {
+  getProgressValueByTypeAndUnit,
+  showNotificationAfterDeleteGoal,
+  showNotificationAfterGoalComplete,
+  showNotificationAfterUpdateGoal,
+} from '../../../utils/goalsHelper';
+import { MAX_PROGRESS } from '../../../constants/goals';
 
 export interface Dates {
   startDate: Date;
@@ -47,18 +52,10 @@ const Goals = () => {
   const loadingGoals = useSelector(selectGoalsStatus);
   const loadingGoal = useSelector(selectGoalStatus);
 
-  const [changedGoal, setChangedGoal] = useState<Goal>();
+  const [changedGoal, setChangedGoal] = useState<Goal | undefined>(undefined);
   const [goalState, setGoalState] = useState<GoalState | null>(null);
 
-  const [progressBarOptions, setProgressBarOptions] = useState({
-    width: 120,
-    height: 120,
-    circleWidth: 8,
-    gradientStartColor: '#6F61D0',
-    gradientStopColor: '#C77EDF',
-    bgColor: '#F7F6FB',
-    progressValue: 0,
-  });
+  const [progressValue, setProgressValue] = useState(0);
 
   const { id } = useParams<Params>();
   const paramGoalId = +id;
@@ -96,59 +93,19 @@ const Goals = () => {
   }, [goals, goal, loadingGoals, loadingGoal, paramGoalId]);
 
   useEffect(() => {
-    function showNotificationAfterDeleteGoal() {
-      eventBus.emit(EventTypes.notification, {
-        title: `Цель «${changedGoal?.name}» успешно удалена!`,
-        message: 'Чтобы закрыть это уведомление, нажмите на него',
-        type: NotificationType.SUCCESS,
-        dismiss: {
-          duration: 5000,
-          pauseOnHover: true,
-          onScreen: true,
-        },
-      });
-    }
-
-    function showNotificationAfterUpdateGoal() {
-      eventBus.emit(EventTypes.notification, {
-        title: `Цель «${changedGoal?.name}» успешно обновлена!`,
-        message:
-          'Не забывайте регулярно отмечать свой прогресс в достижении цели',
-        type: NotificationType.INFO,
-        dismiss: {
-          duration: 5000,
-          pauseOnHover: true,
-          onScreen: true,
-        },
-      });
-    }
-
-    function showNotificationAfterGoalComplete() {
-      eventBus.emit(EventTypes.notification, {
-        title: `Цель «${changedGoal?.name}» успешно завершена!`,
-        message: 'Поздравляем с завершением цели!',
-        type: NotificationType.SUCCESS,
-        dismiss: {
-          duration: 15000,
-          pauseOnHover: true,
-          onScreen: true,
-        },
-      });
-    }
-
     if (changedGoal && goalState && loadingGoal) {
       switch (goalState) {
         case GoalState.COMPLETED:
           dispatch(setGoalsData(goals.filter(g => g.id !== changedGoal.id)));
-          showNotificationAfterGoalComplete();
+          showNotificationAfterGoalComplete(changedGoal.name);
           setChangedGoal(() => undefined);
           break;
         case GoalState.UPDATED:
-          showNotificationAfterUpdateGoal();
+          showNotificationAfterUpdateGoal(changedGoal.name);
           break;
         case GoalState.DELETED:
           dispatch(setGoalsData(goals.filter(g => g.id !== changedGoal.id)));
-          showNotificationAfterDeleteGoal();
+          showNotificationAfterDeleteGoal(changedGoal.name);
           setChangedGoal(() => undefined);
           break;
         default:
@@ -173,7 +130,7 @@ const Goals = () => {
       goal,
     );
 
-    if (progressValue >= 100) {
+    if (progressValue >= MAX_PROGRESS) {
       onChangeGoal(GoalState.COMPLETED, goal);
       dispatch(updateGoalData({ id: goal?.id, completed: true }));
     }
@@ -183,11 +140,8 @@ const Goals = () => {
     eventBus.emit(EventTypes.removeNotification, 'delete-notification');
     if (goal) {
       const value = getProgressValueByTypeAndUnit(goal.type, goal.units, goal);
-      const progressValue = value <= 100 ? value : 100;
-      setProgressBarOptions({
-        ...progressBarOptions,
-        progressValue,
-      });
+      const progressValue = value <= MAX_PROGRESS ? value : MAX_PROGRESS;
+      setProgressValue(progressValue);
     }
   }, [goal, getProgressValueByTypeAndUnit]);
 
@@ -199,7 +153,15 @@ const Goals = () => {
         active={paramGoalId || goals[goals.length - 1]?.id}
       />
       <Goal
-        progressBarOptions={progressBarOptions}
+        progressBarOptions={{
+          width: 120,
+          height: 120,
+          circleWidth: 8,
+          gradientStartColor: '#6F61D0',
+          gradientStopColor: '#C77EDF',
+          bgColor: '#F7F6FB',
+          progressValue,
+        }}
         goal={goal}
         onChangeGoal={onChangeGoal}
       />
