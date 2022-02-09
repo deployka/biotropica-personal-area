@@ -11,7 +11,6 @@ import {
 } from '../../../../store/ducks/analyze/selectors';
 
 import { LoadingStatus } from '../../../../store/types';
-import { store } from 'react-notifications-component';
 import {
   createAnalyzeAnswerData,
   setAnalyzeLoadingStatus,
@@ -117,6 +116,7 @@ export const TestsAndAnalyze = ({ user, isPublic }: Props) => {
         message: 'Произошла непредвиденная ошибка!',
         type: NotificationType.DANGER,
         dismiss: {
+          duration: 5000,
           onScreen: true,
         },
       });
@@ -140,7 +140,8 @@ export const TestsAndAnalyze = ({ user, isPublic }: Props) => {
           },
         });
       },
-      onSuccessFileLoaded: () => store.removeNotification('file_type_error'),
+      onSuccessFileLoaded: () =>
+        eventBus.emit(EventTypes.removeNotification, 'file_type_error'),
     });
   }
 
@@ -148,25 +149,17 @@ export const TestsAndAnalyze = ({ user, isPublic }: Props) => {
     title: !isPublic
       ? 'Пользователь не заполнял анкету'
       : 'Вы не заполняли анкету',
-    text: !isPublic
-      ? ''
-      : 'Пожалуйста, заполните анкету',
+    text: !isPublic ? '' : 'Пожалуйста, заполните анкету',
     href: '/questionnaire',
-    bottomLink: !isPublic
-      ? ''
-      : 'Заполнить анкету',
+    bottomLink: !isPublic ? '' : 'Заполнить анкету',
   };
 
   const analyzesInfoBar: IInfoBar = {
     title: !isPublic
       ? 'Пользователь не добавлял анализы'
       : 'Вы не добавляли анализы',
-    text: !isPublic
-      ? ''
-      : 'У вас нет загруженных анализов.',
-    bottomLink: !isPublic
-      ? ''
-      : 'Загрузить анализы',
+    text: !isPublic ? '' : 'У вас нет загруженных анализов.',
+    bottomLink: !isPublic ? '' : 'Загрузить анализы',
     onClick: () => {
       addAnalyzeOpen();
     },

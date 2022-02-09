@@ -1,5 +1,4 @@
 import React, { ReactElement, ReactNode, useEffect } from 'react';
-import { ReactNotificationOptions, store } from 'react-notifications-component';
 import { useHistory, useLocation } from 'react-router';
 import { notification } from '../../config/notification/notificationForm';
 import { useQuery } from '../../hooks/useQuery';
@@ -7,6 +6,11 @@ import { eventBus, EventTypes } from '../../services/EventBus';
 import NotificationService from '../../services/NotificationService';
 import { useSelector } from 'react-redux';
 import { selectIsAuth } from '../../store/ducks/user/selectors';
+import {
+  iNotification,
+  iNotificationDismiss,
+  Store,
+} from 'react-notifications-component';
 
 export enum NotificationType {
   DANGER = 'danger',
@@ -15,10 +19,11 @@ export enum NotificationType {
   WARNING = 'warning',
   DEFAULT = 'default',
 }
-export interface Notification extends Partial<ReactNotificationOptions> {
+export interface Notification extends Partial<iNotification> {
   type: NotificationType;
   message: string | ReactNode;
   title?: string;
+  dismiss?: iNotificationDismiss;
 }
 
 const GlobalNotifications = (): ReactElement => {
@@ -30,7 +35,7 @@ const GlobalNotifications = (): ReactElement => {
   useEffect(() => {
     const message = query.get('message');
     if (message) {
-      store.addNotification({
+      Store.addNotification({
         ...notification,
         title: 'Внимание!',
         message: decodeURI(message),
@@ -42,7 +47,7 @@ const GlobalNotifications = (): ReactElement => {
   }, [location.search, query, history, location.pathname]);
 
   useEffect(() => {
-    store.removeNotification('delete-notification');
+    Store.removeNotification('delete-notification');
   }, [location.pathname]);
 
   useEffect(() => {
@@ -61,7 +66,7 @@ const GlobalNotifications = (): ReactElement => {
       }
     };
     eventBus.on(EventTypes.notification, res => {
-      store.addNotification({
+      Store.addNotification({
         ...notification,
         ...res,
         title: res.title ? res.title : getNotificationTitle(res.type),
@@ -71,7 +76,7 @@ const GlobalNotifications = (): ReactElement => {
     });
 
     eventBus.on(EventTypes.removeNotification, (id: string) => {
-      store.removeNotification(id);
+      Store.removeNotification(id);
     });
   }, []);
 

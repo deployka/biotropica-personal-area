@@ -1,9 +1,7 @@
 import { FormikHelpers } from 'formik';
 import React, { useEffect, useRef } from 'react';
-import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { notification } from '../../../config/notification/notificationForm';
 import {
   fetchSignup,
   setUserResponse,
@@ -29,9 +27,8 @@ const Signup = () => {
   // const [errorValue, errorText] = res?.message?.split(':') || [];
 
   const loader = LoadingStatus.LOADING === loadingStatus;
-  const refSetFieldValue = useRef<((field: string, value: string) => void) | null>(
-    null,
-  );
+  type SetFieldValue = (field: string, value: string) => void;
+  const refSetFieldValue = useRef<SetFieldValue | null>(null);
   const refResetForm = useRef<(() => void) | null>(null);
 
   useEffect(() => {
@@ -61,7 +58,10 @@ const Signup = () => {
     }
   }, [loadingStatus]);
 
-  async function onSubmit(values: SignupData, options: FormikHelpers<SignupData>) {
+  async function onSubmit(
+    values: SignupData,
+    options: FormikHelpers<SignupData>,
+  ) {
     refSetFieldValue.current = options.setFieldValue;
     refResetForm.current = options.resetForm;
     try {

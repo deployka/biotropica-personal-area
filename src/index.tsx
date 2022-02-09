@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import ReactNotification from 'react-notifications-component';
+import { ReactNotifications } from 'react-notifications-component';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -23,7 +23,7 @@ ReactDOM.render(
     <Router>
       <Provider store={store}>
         <ModalProvider>
-          <ReactNotification />
+          <ReactNotifications />
           <App />
         </ModalProvider>
       </Provider>
