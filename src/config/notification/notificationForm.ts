@@ -1,6 +1,6 @@
-import { ReactNotificationOptions } from 'react-notifications-component';
+import { iNotification } from 'react-notifications-component';
 
-export const notification: ReactNotificationOptions = {
+export const notification: iNotification = {
   insert: 'top',
   container: 'top-right',
   animationIn: ['animate__animated', 'animate__fadeInRight'],

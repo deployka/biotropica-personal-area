@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { store } from 'react-notifications-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
@@ -11,7 +10,10 @@ import {
   fetchUpdateUserEmail,
   setUserResponse,
 } from '../../../store/ducks/user/actionCreators';
-import { UpdateUserData, User } from '../../../store/ducks/user/contracts/state';
+import {
+  UpdateUserData,
+  User,
+} from '../../../store/ducks/user/contracts/state';
 import {
   selectUserData,
   selectUserLoadingStatus,
@@ -42,7 +44,9 @@ const EditProfile = () => {
   const userImage = user?.profilePhoto && getMediaLink(user?.profilePhoto);
 
   const loader = LoadingStatus.LOADING === loadingStatus;
-  const [image, setImage] = useState<string | ArrayBuffer | null>(userImage || '');
+  const [image, setImage] = useState<string | ArrayBuffer | null>(
+    userImage || '',
+  );
 
   useEffect(() => {
     if (!response) return;
@@ -83,7 +87,7 @@ const EditProfile = () => {
     setFieldValue: (field: string, value: File) => void,
   ) {
     try {
-      store.removeNotification('avatar_type_error');
+      eventBus.emit(EventTypes.removeNotification, 'avatar_type_error');
       const files = e.target.files || null;
       const paths = [FileType.PNG, FileType.JPEG, FileType.GIF];
 

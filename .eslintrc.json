@@ -30,9 +30,10 @@
     ],
     "max-len": [
       "error",
-      { "code": 85, "ignoreStrings": true, "comments": 120 }
+      { "code": 90, "ignoreStrings": true, "comments": 120 }
     ],
     "multiline-ternary": ["error", "always-multiline"],
+    "func-call-spacing": ["error", "never"],
     "prefer-promise-reject-errors": ["error", { "allowEmptyReject": true }],
     "arrow-parens": ["error", "as-needed"],
     "react-hooks/rules-of-hooks": "error",
