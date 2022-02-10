@@ -1,12 +1,12 @@
-@import "../../../../styles/mixins.scss";
-@import "../../../../styles/variables.scss";
+@import '../../../../styles/mixins.scss';
+@import '../../../../styles/variables.scss';
 .tariff {
   padding: 20px 30px;
   width: 100%;
 
   border: 1px solid #6f61d0;
   box-sizing: border-box;
-  border-radius: 15px;
+  border-radius: 5px;
 
   transition: all 0.2s ease;
 

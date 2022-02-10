@@ -15,7 +15,7 @@
   align-items: flex-start;
 
   border: 1px solid $color-secondary;
-  border-radius: 15px;
+  border-radius: 5px;
 
   .header {
     @include flex($justify: space-between);

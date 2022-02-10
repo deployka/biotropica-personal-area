@@ -1,5 +1,5 @@
-@import "../../../styles/variables.scss";
-@import "../../../styles/mixins.scss";
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
 
 .sidebar {
   position: fixed;
@@ -64,7 +64,7 @@
     }
 
     &:after {
-      content: "";
+      content: '';
       width: 36px;
       height: 36px;
 
@@ -73,7 +73,14 @@
       position: absolute;
       opacity: 0;
       transition: 0.5s;
-      background-image: linear-gradient(to right top, #ff642e, #ff4163, #eb3994, #bb4dbb, #6f61d0);
+      background-image: linear-gradient(
+        to right top,
+        #ff642e,
+        #ff4163,
+        #eb3994,
+        #bb4dbb,
+        #6f61d0
+      );
       animation: rotate 2s infinite;
       border: 2px;
     }
@@ -132,7 +139,7 @@
     }
 
     &:after {
-      content: "";
+      content: '';
       width: 3px;
       height: 0;
       background-color: #ffffff81;
@@ -259,7 +266,11 @@
 
     padding: 5px 10px;
 
-    background: linear-gradient(0deg, rgba(30, 23, 77, 0.8), rgba(30, 23, 77, 0.8));
+    background: linear-gradient(
+      0deg,
+      rgba(30, 23, 77, 0.8),
+      rgba(30, 23, 77, 0.8)
+    );
     backdrop-filter: blur(16px);
     box-sizing: border-box;
     border: 1px solid #6f61d0;

@@ -32,7 +32,7 @@ export const SelectCustom = (props: Props) => {
   const DefaultStyles = {
     control: (styles: Styles) => ({
       ...styles,
-      borderRadius: 15,
+      borderRadius: 5,
       height: 50,
       border: '1px solid #9895a7',
       paddingLeft: 5,
@@ -49,7 +49,7 @@ export const SelectCustom = (props: Props) => {
     }),
     menu: (styles: Styles) => ({
       ...styles,
-      borderRadius: 15,
+      borderRadius: 5,
       border: null,
       boxShadow: '0px 1px 10px rgba(30, 23, 77, 0.05);',
       zIndex: '45',

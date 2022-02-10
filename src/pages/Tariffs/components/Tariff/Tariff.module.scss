@@ -1,4 +1,4 @@
-@import "./../../../../styles/mixins.scss";
+@import './../../../../styles/mixins.scss';
 
 .card {
   padding: 30px;
@@ -6,7 +6,7 @@
 
   background: #ffffff;
   box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
-  border-radius: 15px;
+  border-radius: 5px;
 
   display: flex;
   flex-direction: column;
@@ -122,7 +122,7 @@
       background-color: #ffffff00;
       border: 1px solid #6f61d0;
       box-sizing: border-box;
-      border-radius: 100px;
+      border-radius: 5px;
 
       font-weight: 500;
       font-size: 14px;

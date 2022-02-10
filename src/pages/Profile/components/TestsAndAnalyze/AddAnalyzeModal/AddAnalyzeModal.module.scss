@@ -1,4 +1,4 @@
-@import "./../../../../../styles/mixins.scss";
+@import './../../../../../styles/mixins.scss';
 
 .analyzeModal {
   position: absolute;
@@ -15,7 +15,7 @@
   align-items: center;
 
   background-color: #fff;
-  border-radius: 30px;
+  border-radius: 5px;
 
   z-index: 500;
 
@@ -83,7 +83,7 @@
       }
 
       background-color: #f7f6fb;
-      border-radius: 15px;
+      border-radius: 5px;
     }
 
     p {
@@ -115,7 +115,6 @@
 
     button {
       padding: 7px 15px;
-      border-radius: 50px;
       height: 35px;
 
       font-weight: 500;
