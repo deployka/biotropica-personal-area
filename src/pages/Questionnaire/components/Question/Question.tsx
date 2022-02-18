@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import { Progress } from './Progress/Progress';
 import {
   NumberQuestion,
@@ -7,6 +8,7 @@ import {
   MultiSelectQuestion,
 } from './Variations';
 import { QuestionNav as Nav } from './QuestionNav';
+
 import s from './Question.module.scss';
 
 type Props = {
@@ -26,11 +28,17 @@ type Props = {
 };
 
 export const Question = (props: Props) => {
+  const {
+    title,
+    type,
+    progress,
+    placeholder = 'Введите ответ',
+    options = [],
+    onNext,
+    onPrev,
+  } = props;
   const [answer, setAnswer] = useState<string>('');
   const [multiAnswer, setMultiAnswer] = useState<string[]>([]);
-
-  const placeholder = props.placeholder || 'Введите ответ';
-  const options = props.options || [];
 
   const variations = {
     number: (
@@ -59,33 +67,31 @@ export const Question = (props: Props) => {
     ),
   };
 
-  const onNext = () => {
-    if (['select', 'number', 'text'].includes(props.type) && answer) {
-      setAnswer('');
-      props.onNext(answer);
-    }
-
-    if (props.type === 'multiselect' && multiAnswer) {
-      setMultiAnswer([]);
-      props.onNext(JSON.stringify(multiAnswer));
-    }
+  const next = () => {
+    if (['select', 'number', 'text'].includes(type)) onNext(answer);
+    if (type === 'multiselect') onNext(JSON.stringify(multiAnswer));
   };
+
+  useEffect(() => {
+    if (answer) setAnswer('');
+    if (multiAnswer.length) setMultiAnswer([]);
+  }, [progress]);
 
   return (
     <div className={s.question}>
-      <Progress options={props.progress} />
+      <Progress options={progress} />
 
       <div className={s.body}>
         <div className={s.number}>
-          <p>{props.progress.currentIndex + 1} вопрос</p>
+          <p>{progress.currentIndex + 1} вопрос</p>
         </div>
         <div className={s.title}>
-          <p>{props.title}</p>
+          <p>{title}</p>
         </div>
-        {variations[props.type]}
+        {variations[type]}
       </div>
 
-      <Nav progress={props.progress} onNext={onNext} onPrev={props.onPrev} />
+      <Nav progress={progress} onNext={next} onPrev={onPrev} />
 
       {/* <div className={s.question__body}>
         <div className={s.question__number}>4 вопрос</div>

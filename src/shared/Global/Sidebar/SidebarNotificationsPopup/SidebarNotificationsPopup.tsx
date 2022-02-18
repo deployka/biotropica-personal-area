@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { HeaderSvgSelector } from '../../../../assets/icons/header/HeaderSvgSelector';
-import { useModal } from '../../../../hooks/useModal';
+import { useModal } from '../../../../hooks/UseModal';
 import { Nav, Pages } from '../../../../layouts/PrivateLayout';
 import { ModalName } from '../../../../providers/ModalProvider';
 import { PopupBackground } from '../../PopupBackground/PopupBackground';

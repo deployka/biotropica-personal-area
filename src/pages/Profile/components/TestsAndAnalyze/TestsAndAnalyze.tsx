@@ -3,7 +3,7 @@ import s from './TestsAndAnalyze.module.scss';
 import { AnalyzesCard } from './AnalyzesCard/AnalyzesCard';
 import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
 import { ModalName } from '../../../../providers/ModalProvider';
-import { useModal } from '../../../../hooks/useModal';
+import { useModal } from '../../../../hooks/UseModal';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectAnalyzeLoadingStatus,
