@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import React from 'react';
+import classNames from 'classnames';
 
 import s from '../Question.module.scss';
 
@@ -13,30 +13,30 @@ type Props = {
 };
 
 export const SelectQuestion = ({ value, options, onChange }: Props) => {
-  const isBig = options && options.length < 3;
+  const isLongLable = options.find(it => it.label.length > 25);
+  const isBig = options.length < 3 || isLongLable;
+  const isMedium = !isBig && options.find(it => it.label.length > 3);
+  const classes = classNames(s.select, isBig ? s.big : s.small, isMedium && s.medium);
 
   return (
-    <div className={classNames(s.select, isBig
-      ? s.big
-      : s.small)}>
-      {options &&
-        options.map(option => (
-          <button
-            key={option.value}
-            className={classNames(
-              s.button,
-              option.value === value
-                ? s.selected
-                : '',
-            )}
-            onClick={() => {
-              if (value === option.value) return;
-              onChange(option.value);
-            }}
-          >
-            <p>{option.label}</p>
-          </button>
-        ))}
+    <div className={classes}>
+      {options.map(option => (
+        <button
+          key={option.value}
+          className={classNames(
+            s.button,
+            option.value === value
+              ? s.selected
+              : '',
+          )}
+          onClick={() => {
+            if (value === option.value) return;
+            onChange(option.value);
+          }}
+        >
+          <p>{option.label}</p>
+        </button>
+      ))}
     </div>
   );
 };

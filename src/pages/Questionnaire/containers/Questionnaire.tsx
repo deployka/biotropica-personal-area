@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
+
 import { Question as QuestionComponent } from '../components/Question/Question';
+import QuestionService from '../../../services/QuestionService';
 
 import s from './Questionnaire.module.scss';
-import QuestionService from '../../../services/QuestionService';
-import { useHistory } from 'react-router';
 
 type Question = {
   title: string;
@@ -39,11 +40,10 @@ const Questionnaire = () => {
   }
 
   async function giveAnswer(answer: CreateAnswerDto) {
+    await QuestionService.answer(answer);
     if (index === total) {
-      console.log('index');
       return history.push('/');
     }
-    await QuestionService.answer(answer);
     await fetchQuestion();
   }
 
@@ -71,7 +71,7 @@ const Questionnaire = () => {
           });
         }}
         onPrev={() => {
-          // setProgress({...progress, currentIndex: progress.currentIndex - 1});
+        //   setIndex(index - 1);
         }}
       />
     </div>

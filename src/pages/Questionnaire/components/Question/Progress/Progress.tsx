@@ -9,15 +9,14 @@ interface Progress {
 }
 export const Progress = ({ options }: Progress) => {
   const { currentIndex, total } = options;
-  const percantage = Math.round((currentIndex / total) * 100);
+  const percantage = Math.round(((currentIndex + 1) / total) * 100);
   return (
     <div className={s.progress}>
       <div className={s.info}>
         <div className={s.counter}>
           <p>
-            {/* <span className={s.current}>{currentIndex + 1}</span> */}
-            {/* {'  '}/{'  '} */}
-            {/* <span className={s.sum}>{total}</span> */}
+            <span className={s.current}>{currentIndex + 1}</span>
+            <span>{' / ' + total}</span>
           </p>
         </div>
         <div className={s.percentage}>

@@ -6,7 +6,7 @@ import { SchemaOf } from 'yup';
 import { ProfileSvgSelector } from '../../../../../assets/icons/profile/ProfileSvgSelector';
 
 import { MAX_IMAGE_SIZE } from '../../../../../constants/files';
-import { useModal } from '../../../../../hooks/useModal';
+import { useModal } from '../../../../../hooks/UseModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
 import { Button } from '../../../../../shared/Form/Button/Button';
 import { Loader } from '../../../../../shared/Form/Loader/Loader';

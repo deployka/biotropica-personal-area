@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { ProfileSvgSelector } from '../../../../../assets/icons/profile/ProfileSvgSelector';
 import { GlobalSvgSelector } from '../../../../../assets/icons/global/GlobalSvgSelector';
 import { PopupBackground } from '../../../../../shared/Global/PopupBackground/PopupBackground';
-import { useModal } from '../../../../../hooks/useModal';
+import { useModal } from '../../../../../hooks/UseModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
 import { Photo } from '../../../../../store/ducks/progress/contracts/state';
 import moment from 'moment';

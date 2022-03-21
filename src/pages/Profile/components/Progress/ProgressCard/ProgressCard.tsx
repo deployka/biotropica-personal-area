@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { useModal } from '../../../../../hooks/useModal';
+import { useModal } from '../../../../../hooks/UseModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
 import {
   Photo,

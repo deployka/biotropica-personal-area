@@ -15,7 +15,7 @@ import { Progress as IProgress } from '../../../../store/ducks/progress/contract
 import { fetchProgressData } from '../../../../store/ducks/progress/actionCreators';
 import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
 import { ModalName } from '../../../../providers/ModalProvider';
-import { useModal } from '../../../../hooks/useModal';
+import { useModal } from '../../../../hooks/UseModal';
 import { LoadingStatus } from '../../../../store/types';
 
 interface Props {

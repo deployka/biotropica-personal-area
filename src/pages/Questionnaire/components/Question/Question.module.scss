@@ -225,12 +225,13 @@
 
 .select {
   display: flex;
+  justify-content: space-between;
 
   .button {
     padding: 10px 20px;
 
     min-width: 185px;
-    height: 40px;
+    min-height: 40px;
 
     display: flex;
     align-items: center;
@@ -266,12 +267,15 @@
   &.small {
     align-items: center;
     flex-wrap: wrap;
-    column-gap: 15px;
-    row-gap: 15px;
+    column-gap: 10px;
+    row-gap: 10px;
+
+    @media (max-width: 850px) {
+      max-width: 350px;
+    }
 
     .button {
-      min-width: unset;
-      min-height: 40px;
+      min-width: 60px;
       height: unset;
     }
   }
@@ -280,5 +284,11 @@
     flex-direction: column;
     align-items: center;
     row-gap: 15px;
+  }
+}
+
+.medium {
+  @media (max-width: 850px) {
+    justify-content: center;
   }
 }
