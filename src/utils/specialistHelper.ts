@@ -4,5 +4,7 @@ export function formatSpecializationsToString(
   specializations: Array<keyof typeof SpecializationName>,
 ): string {
   if (specializations === null) return '';
-  return specializations.map(s => SpecializationName[s]).join(', ');
+  if (!Array.isArray(specializations)) return '';
+
+  return specializations.join(', ');
 }

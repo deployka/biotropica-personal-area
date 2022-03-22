@@ -22,9 +22,8 @@ export const Security = () => {
   const loadingStatus = useSelector(selectUserLoadingStatus);
   const response = useSelector(selectUserResponse);
   const user = useSelector(selectUserData);
-  const refSetFieldValue = useRef<((field: string, value: string) => void) | null>(
-    null,
-  );
+  type SetFieldValue = (field: string, value: string) => void;
+  const refSetFieldValue = useRef<SetFieldValue | null>(null);
   const refResetForm = useRef<(() => void) | null>(null);
   const loader = loadingStatus === LoadingStatus.LOADING;
 
@@ -62,6 +61,11 @@ export const Security = () => {
     dispatch(fetchSignout());
   }
   return (
-    <EditPassword onSubmit={onSubmit} logout={logout} loader={loader} user={user} />
+    <EditPassword
+      onSubmit={onSubmit}
+      logout={logout}
+      loader={loader}
+      user={user}
+    />
   );
 };

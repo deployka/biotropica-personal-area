@@ -31,17 +31,5 @@ export const ProfileLayout = ({ isAuth = true }: Props) => {
     }
   }, []);
 
-  return (
-    <>
-      {isAuth
-        ? (
-          <Profile isPublic={isAuth} user={user} />
-        )
-        : (
-          <div className="container" style={{ marginTop: '100px' }}>
-            <Profile isPublic={isAuth} user={user} />
-          </div>
-        )}
-    </>
-  );
+  return <>{user && <Profile user={user} />}</>;
 };

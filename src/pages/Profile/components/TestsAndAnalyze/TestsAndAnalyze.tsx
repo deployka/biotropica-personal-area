@@ -41,10 +41,9 @@ import UserService from '../../../../services/UserService';
 
 interface Props {
   user: User;
-  isPublic?: boolean;
 }
 
-export const TestsAndAnalyze = ({ user, isPublic }: Props) => {
+export const TestsAndAnalyze = ({ user }: Props) => {
   const { openModal, closeModal } = useModal();
   const [answers, setAnswers] = useState<Answer[]>([]);
 
@@ -53,10 +52,11 @@ export const TestsAndAnalyze = ({ user, isPublic }: Props) => {
   const response = useSelector(selectAnalyzeResponse);
   const offsetData = useSelector(selectAnalyzesResponse);
 
-  const [analyzeTypes, setAnalyzeTypes] = useState<Analyze[]>([]);
   const [isShowMore, setIsShowMore] = useState(true);
 
+  const [analyzeTypes, setAnalyzeTypes] = useState<Analyze[]>([]);
   const analyzes: AnalyzeAnswer[] = useSelector(selectAnalyzesData);
+
   const offset: number = analyzes.length;
 
   function fetchAnalyzesByLimitAndOffset(offset: number, limit?: number) {
@@ -146,20 +146,16 @@ export const TestsAndAnalyze = ({ user, isPublic }: Props) => {
   }
 
   const testInfoBar: IInfoBar = {
-    title: !isPublic
-      ? 'Пользователь не заполнял анкету'
-      : 'Вы не заполняли анкету',
-    text: !isPublic ? '' : 'Пожалуйста, заполните анкету',
+    title: 'Вы не заполняли анкету',
+    text: 'Пожалуйста, заполните анкету',
     href: '/questionnaire',
-    bottomLink: !isPublic ? '' : 'Заполнить анкету',
+    bottomLink: 'Заполнить анкету',
   };
 
   const analyzesInfoBar: IInfoBar = {
-    title: !isPublic
-      ? 'Пользователь не добавлял анализы'
-      : 'Вы не добавляли анализы',
-    text: !isPublic ? '' : 'У вас нет загруженных анализов.',
-    bottomLink: !isPublic ? '' : 'Загрузить анализы',
+    title: 'Вы не добавляли анализы',
+    text: 'У вас нет загруженных анализов.',
+    bottomLink: 'Загрузить анализы',
     onClick: () => {
       addAnalyzeOpen();
     },

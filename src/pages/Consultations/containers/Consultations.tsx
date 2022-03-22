@@ -66,7 +66,9 @@ const Consultations = () => {
 
   const loadingStatus = useSelector(selectConsultationLoadingStatus);
   const isLoading = loadingStatus === LoadingStatus.LOADING;
-  const response: Response | undefined = useSelector(selectConsultationResponse);
+  const response: Response | undefined = useSelector(
+    selectConsultationResponse,
+  );
 
   const specialists: Specialist[] = useSelector(selectFilteredSpecialistsData);
   const closestConsultation: ClosestConsultation | undefined = useSelector(
@@ -113,9 +115,9 @@ const Consultations = () => {
   }, [loadingStatus, response]);
 
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedSort, setSelectedSort] = useState<ISelect<string>[] | undefined>(
-    sort ? [{ label: sort, value: sort }] : undefined,
-  );
+  const [selectedSort, setSelectedSort] = useState<
+    ISelect<string>[] | undefined
+  >(sort ? [{ label: sort, value: sort }] : undefined);
 
   const filteredSpecialists = useMemo(() => {
     if (!selectedSort?.[0]) return [];
@@ -210,7 +212,9 @@ const Consultations = () => {
     setClick: (click: boolean) => void,
   ) => {
     eventBus.emit(EventTypes.notification, {
-      title: `Записаться к ${specialists.find(s => s.id === specialistId)?.name}?`,
+      title: `Записаться к ${
+        specialists.find(s => s.id === specialistId)?.name
+      }?`,
       message: (
         <>
           <Button
@@ -274,7 +278,9 @@ const Consultations = () => {
       {closestConsultation && (
         <InfoBar infoBar={InfoBarClosestConsultationOptions} />
       )}
-      {LastAddedConsultation && <InfoBar infoBar={InfoBarLastConsultationOptions} />}
+      {LastAddedConsultation && (
+        <InfoBar infoBar={InfoBarLastConsultationOptions} />
+      )}
       <div className={s.headerWrapper}>
         <SearchForm
           onSelectChange={onSelectChange}

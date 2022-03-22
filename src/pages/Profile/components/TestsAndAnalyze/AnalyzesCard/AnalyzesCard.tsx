@@ -15,7 +15,6 @@ interface Props {
   onShowMoreClick: () => void;
   analyzeTypes: Analyze[];
   isShowMore: boolean;
-  isPublic?: boolean;
 }
 
 export const AnalyzesCard = ({
@@ -24,12 +23,9 @@ export const AnalyzesCard = ({
   analyzeTypes,
   onShowMoreClick,
   isShowMore,
-  isPublic,
 }: Props) => {
   const ShowMore = () => {
-    return <div>{isShowMore
-      ? 'показать еще'
-      : 'скрыть'}</div>;
+    return <div>{isShowMore ? 'показать еще' : 'скрыть'}</div>;
   };
   return (
     <div className={s.analyzesCard}>
@@ -37,26 +33,18 @@ export const AnalyzesCard = ({
         <div className={s.title}>
           <p>Анализы</p>
         </div>
-        {!isPublic
-          ? (
-            <button onClick={onAddAnalyzeClick} className={s.updateBtn}>
-              <p>загрузить новые</p>
-              <img src={editSvg} alt="" />
-            </button>
-          )
-          : (
-            ''
-          )}
+
+        <button onClick={onAddAnalyzeClick} className={s.updateBtn}>
+          <p>загрузить новые</p>
+          <img src={editSvg} alt="" />
+        </button>
       </div>
       <AnalyzeTypes analyzeTypes={analyzeTypes} />
       <Analyzes analyzes={analyzes} />
-      {isPublic && (
-        <button onClick={onShowMoreClick} className={s.moreBtn}>
-          {analyzes.length >= 2
-            ? <ShowMore />
-            : ''}
-        </button>
-      )}
+
+      <button onClick={onShowMoreClick} className={s.moreBtn}>
+        {analyzes.length >= 2 ? <ShowMore /> : ''}
+      </button>
     </div>
   );
 };

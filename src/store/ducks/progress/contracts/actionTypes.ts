@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 import { LoadingStatus, Response } from '../../../types';
-import { UpdateProgressData, Progress, CreateProgressData } from './state';
+import { Progress, CreateProgressData } from './state';
 
 export enum ProgressActionsType {
   SET_PROGRESS_DATA = 'progress/SET_PROGRESS_DATA',
@@ -29,7 +29,8 @@ export interface SetProgressResponseActionInterface
   payload: Response | undefined;
 }
 
-export interface SetProgressDataActionInterface extends Action<ProgressActionsType> {
+export interface SetProgressDataActionInterface
+  extends Action<ProgressActionsType> {
   type: ProgressActionsType.SET_PROGRESS_DATA;
   payload: Progress[] | undefined;
 }

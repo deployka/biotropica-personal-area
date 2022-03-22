@@ -25,11 +25,10 @@ import { setUserResponse } from '../../../store/ducks/user/actionCreators';
 import { selectGoalsData } from '../../../store/ducks/goals/selectors';
 
 interface Props {
-  isPublic?: boolean;
-  user: User | undefined;
+  user: User;
 }
 
-const Profile = ({ isPublic, user }: Props) => {
+const Profile = ({ user }: Props) => {
   const { openModal } = useModal();
 
   const tabs: Tab[] = [
@@ -83,9 +82,11 @@ const Profile = ({ isPublic, user }: Props) => {
   }, [response]);
 
   function onTabClick(tab: Tab) {
-    history.push(
-      `/${isPublic ? 'profile' : `users/${user?.id}`}/tabs/${tab.key}`,
-    );
+    history.push(`/profile/tabs/${tab.key}`);
+  }
+
+  function openModalHandler() {
+    openModal(ModalName.MODAL_ADD_PROGRESS_PHOTO, { user });
   }
 
   useEffect(() => {
@@ -100,13 +101,11 @@ const Profile = ({ isPublic, user }: Props) => {
     <>
       <div className={s.profile}>
         <div className={s.info}>
-          {user && <Card isPublic={isPublic} user={user} />}
-          {isPublic && (
-            <div className={s.userInfo}>
-              <Goals goals={goals} />
-              <Tariff tariff={tariffData} />
-            </div>
-          )}
+          <Card user={user} />
+          <div className={s.userInfo}>
+            <Goals goalsLength={goals.length} />
+            <Tariff tariff={tariffData} />
+          </div>
         </div>
         <div className={s.content}>
           <div className={s.tabs__container}>
@@ -120,25 +119,14 @@ const Profile = ({ isPublic, user }: Props) => {
               />
             </div>
           </div>
-          {activeTab === tabs[0].key && user && (
-            <Recommended user={user} isPublic={isPublic} />
-          )}
-          {activeTab === tabs[1].key && user && (
-            <TestsAndAnalyze user={user} isPublic={isPublic} />
-          )}
-          {activeTab === tabs[2].key && isPublic && (
-            <button
-              onClick={() =>
-                user && openModal(ModalName.MODAL_ADD_PROGRESS_PHOTO, { user })
-              }
-              className={s.btn__add__photo}
-            >
+          {activeTab === tabs[0].key && <Recommended user={user} />}
+          {activeTab === tabs[1].key && <TestsAndAnalyze user={user} />}
+          {activeTab === tabs[2].key && (
+            <button onClick={openModalHandler} className={s.btn__add__photo}>
               добавить фото
             </button>
           )}
-          {activeTab === tabs[2].key && user && (
-            <Progress isPublic={isPublic} user={user} />
-          )}
+          {activeTab === tabs[2].key && <Progress user={user} />}
         </div>
       </div>
     </>

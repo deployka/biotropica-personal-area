@@ -17,24 +17,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchRecommendationsData } from '../../../../store/ducks/recommendations/actionCreators';
 
 interface Props {
-  isPublic?: boolean;
   user: User;
 }
 
-export const Recommended = ({ isPublic, user }: Props) => {
+export const Recommended = ({ user }: Props) => {
   const dispatch = useDispatch();
   const [mobile, setMobile] = useState<boolean>(false);
 
   const infoBar: IInfoBar = {
-    title: isPublic
-      ? 'Пользователь не добавлял рекомендации'
-      : 'У вас нет рекомендаций',
-    text: isPublic
-      ? ''
-      : 'Чтобы получить рекомендации, пройдите видеоконсультацию.',
-    bottomLink: isPublic
-      ? ''
-      : 'Записаться на видеоконсультацию',
+    title: 'У вас нет рекомендаций',
+    text: 'Чтобы получить рекомендации, пройдите видеоконсультацию.',
+    bottomLink: 'Записаться на видеоконсультацию',
     href: '/consultations',
   };
 
