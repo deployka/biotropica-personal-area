@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Formik, FormikHelpers } from 'formik';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { useModal } from '../../../../../hooks/UseModal';
+import { useModal } from '../../../../../hooks/useModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
 import classNames from 'classnames';
 import FileService from '../../../../../services/FileService';

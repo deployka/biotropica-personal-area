@@ -12,7 +12,7 @@ import { Recommended } from '../components/Recommended/Recommended';
 import { TestsAndAnalyze } from '../components/TestsAndAnalyze/TestsAndAnalyze';
 
 import s from './Profile.module.scss';
-import { useModal } from '../../../hooks/UseModal';
+import { useModal } from '../../../hooks/useModal';
 import { ModalName } from '../../../providers/ModalProvider';
 import { useHistory, useParams } from 'react-router';
 import { Param } from './Edit';

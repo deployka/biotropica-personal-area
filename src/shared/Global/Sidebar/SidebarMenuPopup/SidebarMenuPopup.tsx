@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { SidebarSvgSelector } from '../../../../assets/icons/sidebar/SIdebarSvgSelector';
-import { useModal } from '../../../../hooks/UseModal';
+import { useModal } from '../../../../hooks/useModal';
 import { Nav, Pages } from '../../../../layouts/PrivateLayout';
 import { ModalName } from '../../../../providers/ModalProvider';
 import { PopupBackground } from '../../PopupBackground/PopupBackground';
@@ -49,7 +49,8 @@ export const SidebarMenuPopup = ({
             <div
               className={classNames({
                 [s.avatar]: true,
-                [s.active]: pages[0].link === '/' + location.pathname.split('/')[1],
+                [s.active]:
+                  pages[0].link === '/' + location.pathname.split('/')[1],
               })}
               onClick={() => onNavClick({ ...pages[0] })}
             >

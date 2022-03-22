@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useModal } from '../hooks/UseModal';
+import { useModal } from '../hooks/useModal';
 import { AddPhotoModal } from '../pages/Profile/components/Progress/AddPhotoModal/AddPhotoModal';
 import { PhotoSliderModal } from '../pages/Profile/components/Progress/PhotoSliderModal/PhotoSliderModal';
 import { AddAnalyzeModal } from '../pages/Profile/components/TestsAndAnalyze/AddAnalyzeModal/AddAnalyzeModal';

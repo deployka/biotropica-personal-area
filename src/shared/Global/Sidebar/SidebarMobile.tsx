@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import s from './SidebarMobile.module.scss';
 
-import { useModal } from '../../../hooks/UseModal';
+import { useModal } from '../../../hooks/useModal';
 import { SidebarSvgSelector } from '../../../assets/icons/sidebar/SIdebarSvgSelector';
 import { ModalName } from '../../../providers/ModalProvider';
 import { Nav, Pages } from '../../../layouts/PrivateLayout';
@@ -63,7 +63,9 @@ export const SidebarMobile = memo(
             to={nav[0].link}
             className={classNames(
               s.homeLink,
-              nav[0].link === '/' + location.pathname.split('/')[1] ? s.active : '',
+              nav[0].link === '/' + location.pathname.split('/')[1]
+                ? s.active
+                : '',
             )}
           >
             <div className={s.icon}>{nav[0].svg}</div>

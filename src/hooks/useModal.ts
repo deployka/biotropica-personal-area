@@ -25,7 +25,9 @@ export const useModal = () => {
     },
     closeModal,
     closeAllModals() {
-      Object.keys(modals).forEach((modal: string) => closeModal(modal as ModalName));
+      Object.keys(modals).forEach((modal: string) =>
+        closeModal(modal as ModalName),
+      );
     },
   };
 };
