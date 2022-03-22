@@ -1,4 +1,5 @@
 import { RootState } from '../../store';
+import { LoadingStatus } from '../../types';
 import { ProgressState } from './contracts/state';
 
 export const selectProgressState = (state: RootState): ProgressState =>
@@ -16,5 +17,5 @@ export const selectProgressStatus = (
   state: RootState,
 ): ProgressState['status'] => selectProgressState(state).status;
 
-export const selectProgressLoadingStatus = (state: RootState): string =>
+export const selectProgressLoadingStatus = (state: RootState): LoadingStatus =>
   selectProgressState(state).status;

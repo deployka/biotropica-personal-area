@@ -6,11 +6,18 @@ export enum GoalsActionsType {
   SET_LOADING_STATE = 'goals/SET_LOADING_STATE',
   SET_GOALS_RESPONSE = 'goals/SET_GOALS_RESPONSE',
   FETCH_GOALS_DATA = 'goals/FETCH_GOALS_DATA',
+  FETCH_GOALS_DATA_BY_ID = 'goals/FETCH_GOALS_DATA_BY_ID',
 }
 
 export interface FetchGoalsDataActionInterface
   extends Action<GoalsActionsType> {
   type: GoalsActionsType.FETCH_GOALS_DATA;
+}
+
+export interface FetchGoalsDataByIdActionInterface
+  extends Action<GoalsActionsType> {
+  type: GoalsActionsType.FETCH_GOALS_DATA_BY_ID;
+  payload: number;
 }
 
 export interface SetGoalsResponseActionInterface

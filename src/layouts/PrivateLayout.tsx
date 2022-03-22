@@ -46,7 +46,9 @@ export function PrivateLayout(props: Props) {
   const [page, setPage] = useState<string>('Главная');
   const [isUnread] = useState(false);
   const [isNotificationsUnread] = useState(false);
-  const [openedDialog, setOpenedDialog] = useState<number | undefined>(undefined);
+  const [openedDialog, setOpenedDialog] = useState<number | undefined>(
+    undefined,
+  );
 
   const [sidebarNotificationsOpen, setSidebarNotificationsOpen] =
     useState<boolean>(false);
@@ -193,6 +195,7 @@ export function PrivateLayout(props: Props) {
             <Chat
               token={localStorage.getItem('token') as string}
               activeDialogId={openedDialog}
+              currentUser={currentUser as ChatUser}
               onClose={() => setSidebarChatOpen(false)}
             />
           </SidebarWrapper>

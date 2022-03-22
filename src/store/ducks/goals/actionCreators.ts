@@ -4,11 +4,19 @@ import {
   SetGoalsLoadingStatusActionInterface,
   SetGoalsResponseActionInterface,
   GoalsActionsType,
+  FetchGoalsDataByIdActionInterface,
 } from './contracts/actionTypes';
 import { GoalsState } from './contracts/state';
 
 export const fetchGoalsData = (): FetchGoalsDataActionInterface => ({
   type: GoalsActionsType.FETCH_GOALS_DATA,
+});
+
+export const fetchGoalsDataById = (
+  payload: number,
+): FetchGoalsDataByIdActionInterface => ({
+  type: GoalsActionsType.FETCH_GOALS_DATA_BY_ID,
+  payload,
 });
 
 export const setGoalsLoadingStatus = (

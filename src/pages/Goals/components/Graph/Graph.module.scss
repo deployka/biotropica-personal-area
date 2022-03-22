@@ -1,11 +1,11 @@
-@import "../../../../styles/variables.scss";
-@import "./../../../../styles/mixins.scss";
+@import '../../../../styles/variables.scss';
+@import './../../../../styles/mixins.scss';
 
 .container {
   width: 100%;
   display: flex;
 
-  overflow: scroll;
+  overflow: auto;
 
   @include for-phone {
     padding: 0 0 5px 0;

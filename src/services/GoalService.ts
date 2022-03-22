@@ -21,6 +21,10 @@ export default class GoalService {
     return await $api.get<Response>(`/${GoalService.route}/`);
   }
 
+  static async geAllById(id: number): Promise<AxiosResponse<Response>> {
+    return await $api.get<Response>(`/${GoalService.route}/${id}`);
+  }
+
   static async create(
     payload: CreateGoalData,
   ): Promise<AxiosResponse<Response>> {

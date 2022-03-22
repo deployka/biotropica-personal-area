@@ -6,10 +6,9 @@ import { Link } from 'react-router-dom';
 
 interface Props {
   answers: Answer[];
-  isPublic?: boolean;
 }
 
-export const Questionnaire = ({ answers, isPublic }: Props) => {
+export const Questionnaire = ({ answers }: Props) => {
   function getCurrentAnswer(answer: Answer) {
     try {
       return JSON.parse(answer.text)?.join(', ');
@@ -24,21 +23,19 @@ export const Questionnaire = ({ answers, isPublic }: Props) => {
           <p>Тестирование</p>
         </div>
         <div className={s.updateBtn}>
-          {!isPublic && (
-            <Link to={'/questionnaire'}>
-              <div className={s.icon}>
-                <img src={editSvg} alt="" />
-              </div>
-              <p className={s.text}>редактировать</p>
-            </Link>
-          )}
+          <Link to={'/questionnaire'}>
+            <div className={s.icon}>
+              <img src={editSvg} alt="" />
+            </div>
+            <p className={s.text}>редактировать</p>
+          </Link>
         </div>
       </div>
       <div className={s.list}>
         {answers.map((answer, i) => (
           <div className={s.item} key={answer.id}>
             <p>
-              {i + 1}. {answer.question.title}:{' '}
+              {answer.question.order}. {answer.question.title}:{' '}
               <span className={s.answer}>{getCurrentAnswer(answer)}</span>
             </p>
           </div>
