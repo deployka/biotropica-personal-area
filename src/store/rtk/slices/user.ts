@@ -7,12 +7,10 @@ import { createCookie, eraseCookie } from '../../../utils/cookie';
 const initialState: UserState = {
   data: {
     profilePhoto: '',
-    after_photos: null,
     banReason: null,
     banned: null,
-    before_photos: null,
     confirmed: false,
-    confirmed_hash: '',
+    confirmedHash: '',
     createdAt: '',
     dob: null,
     email: '',
@@ -38,7 +36,6 @@ const initialState: UserState = {
       price: 1000,
       specializations: [],
       updatedAt: '',
-
     },
     tariff: TARIFF.BASE,
     updatedAt: '',
@@ -70,10 +67,6 @@ const UserSlice = createSlice({
   extraReducers: {},
 });
 
-export const {
-  setIsLogged,
-  setIsLoggedOut,
-  setUserData,
-} = UserSlice.actions;
+export const { setIsLogged, setIsLoggedOut, setUserData } = UserSlice.actions;
 
 export default UserSlice.reducer;

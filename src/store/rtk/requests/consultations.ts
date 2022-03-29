@@ -3,7 +3,6 @@ import { baseApi } from './baseApi';
 import { Consultation } from '../types/user';
 
 export const consultationsApi = baseApi.injectEndpoints({
-
   endpoints: builder => ({
     requestConsultations: builder.query<Consultation[], void>({
       query: () => ({
@@ -20,7 +19,7 @@ export const consultationsApi = baseApi.injectEndpoints({
       }),
     }),
 
-    requestDeleteConsultation: builder.mutation<any, {id: number}>({
+    requestDeleteConsultation: builder.mutation<any, { id: number }>({
       query: payload => ({
         url: `/consultations/${payload.id}`,
         method: 'delete',
