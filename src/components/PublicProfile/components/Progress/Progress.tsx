@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 

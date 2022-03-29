@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import classNames from 'classnames';
-import ru from 'date-fns/locale/ru';
 import { Formik } from 'formik';
-import MaskedInput from 'react-maskedinput';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import s from './EditProfile.module.scss';
