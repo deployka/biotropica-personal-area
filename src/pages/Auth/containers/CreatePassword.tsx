@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FormikHelpers } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -46,7 +46,7 @@ const CreatePassword = () => {
       default:
         break;
     }
-  }, [loadingStatus]);
+  }, [history, loadingStatus]);
 
   async function onSubmit(
     values: RestorePasswordData,

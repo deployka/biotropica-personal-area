@@ -5,7 +5,8 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = function override(config, env) {
-  config.output.publicPath = process.env.WEBPACK_PUBLIC_PATH;
+  // config.output.publicPath = process.env.WEBPACK_PUBLIC_PATH;
+  console.log('config.output', config.output);
 
   config.plugins.push(
     new CopyPlugin({

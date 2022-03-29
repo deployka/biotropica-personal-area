@@ -7,6 +7,21 @@ interface Response {
   data: User;
   message: string;
 }
+export enum ROLE {
+  USER = 'USER',
+  SPECIALIST = 'SPECIALIST',
+  ADMIN = 'ADMIN',
+}
+
+export enum TARIFF {
+  BASE = 'BASE',
+  EXTENDED = 'EXTENDED',
+  INDIVIDUAL = 'INDIVIDUAL',
+}
+
+export type Role = {
+  name: ROLE;
+}
 
 interface UpdateEmailData {
   email: string;

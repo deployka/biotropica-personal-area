@@ -9,7 +9,6 @@ import {
   setGoalResponse,
 } from '../../../../store/ducks/goal/actionCreators';
 import {
-  CreateGoalData,
   FormGoalData,
   GoalType,
   RunUnits,
@@ -99,13 +98,13 @@ const AddGoal = () => {
       default:
         break;
     }
-  }, [loadingStatus]);
+  }, [loadingStatus, dispatch, goal, history, name]);
 
   useEffect(() => {
     if (goal && goals && loadingStatus === LoadingStatus.SUCCESS) {
       dispatch(setGoalsData([...goals, goal]));
     }
-  }, [goal, loadingStatus]);
+  }, [dispatch, goal, goals, loadingStatus]);
 
   async function onSubmit(
     values: FormGoalData,

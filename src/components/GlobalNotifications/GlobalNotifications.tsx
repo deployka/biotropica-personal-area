@@ -103,7 +103,7 @@ const GlobalNotifications = (): ReactElement => {
         });
       });
     });
-  }, [isAuth]);
+  }, [history, isAuth]);
 
   return <></>;
 };

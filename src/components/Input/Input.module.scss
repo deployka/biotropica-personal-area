@@ -1,0 +1,68 @@
+.wrapperInput {
+  width:  100%;
+  
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  .input {
+    height: 40px;
+    padding: 0 12px;
+    background: transparent;
+    border: 0;
+    outline: none;
+    font-size: 15px;
+    width: 100%;
+    max-width: 350px;
+
+    &:placeholder {
+      color: #736F8B;
+    }
+
+    border: 1px solid #f7f6fb;
+    box-sizing: border-box;
+    border-radius: 4px;
+
+    &:focus ~ label {
+      font-weight: 500;
+      font-size: 12px;
+      color: #9e97be;
+      top: -7px;
+      left: 19px;
+      padding: 0 4px;
+      text-align: center;
+      background: #fff;
+      z-index: 40;
+    }
+  }
+
+  .active {
+    & ~ label {
+      font-weight: 500;
+      font-size: 12px;
+      color: #9e97be;
+      top: -7px;
+      left: 19px;
+      padding: 0 4px;
+      text-align: center;
+      background: #fff;
+      z-index: 40;
+    }
+  }
+
+  .disabled__input{
+    &::placeholder{
+      color: rgb(221, 221, 221);
+    }
+  }
+
+  .error__input {
+    border: 1px solid #d06361;
+    color: #d06361;
+  }
+
+  .success__input {
+    border: 1px solid #309a74;
+    color: #309a74;
+  }
+}

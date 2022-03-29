@@ -82,7 +82,7 @@ export const Profile = ({
         `/profile/tabs/${getTabByKey(active, tabs)?.key || activeTab}`,
       );
     }
-  }, [active]);
+  }, [history, active, activeTab]);
 
   return (
     <>

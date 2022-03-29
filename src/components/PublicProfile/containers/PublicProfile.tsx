@@ -49,7 +49,7 @@ export const PublicProfile = ({ userId }: Props) => {
     }
     fetchAllTypes();
     fetchAnswers();
-  }, []);
+  }, [dispatch, userId]);
 
   if (!user || !progress?.length) {
     return <div>Загрузка...</div>;

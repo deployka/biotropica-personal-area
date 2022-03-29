@@ -56,7 +56,7 @@ const Signup = () => {
       default:
         break;
     }
-  }, [loadingStatus]);
+  }, [dispatch, res, history, loadingStatus]);
 
   async function onSubmit(
     values: SignupData,

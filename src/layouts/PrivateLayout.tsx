@@ -14,6 +14,7 @@ import { SidebarWrapper } from '../shared/Global/SidebarWrapper/SidebarWrapper';
 import { Chat } from '../shared/Modules/Chat';
 import { eventBus, EventTypes } from '../services/EventBus';
 import { chatApi } from '../shared/Global/Chat/services/chatApi';
+import { selectUserRoles } from '../store/rtk/slices/authSlice';
 
 interface Props {
   children: React.ReactNode;
@@ -41,6 +42,7 @@ export function PrivateLayout(props: Props) {
 
   const dispatch = useDispatch();
   const location = useLocation();
+  const roles = useSelector(selectUserRoles);
 
   const isMobile = useMobile();
   const [page, setPage] = useState<string>('Главная');
@@ -68,6 +70,7 @@ export function PrivateLayout(props: Props) {
   // }, [])
 
   // TODO: реакторинг (очень неочевидно, что данный массив способен поблиять на ссылки в меню сайдбара)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const pages = [
     { page: 'Профиль', link: '/profile' },
     { page: 'Главная', link: '/' },
@@ -83,9 +86,10 @@ export function PrivateLayout(props: Props) {
     { page: 'Анкета', link: '/questionnaire' },
     { page: 'Профиль пользователя', link: '/users' },
     { page: 'Специалист', link: '/specialists' },
+    { page: 'Рекомендации', link: '/recommendations' },
   ];
 
-  const nav: Nav[] = [
+  const clientNav: Nav[] = [
     {
       ...pages[1],
       svg: <SidebarSvgSelector id="home" />,
@@ -112,6 +116,27 @@ export function PrivateLayout(props: Props) {
     },
   ];
 
+  const specialistNav: Nav[] = [
+    {
+      ...pages[1],
+      svg: <SidebarSvgSelector id="home" />,
+    },
+    {
+      ...pages[4],
+      svg: <SidebarSvgSelector id="video" />,
+    },
+    {
+      ...pages[5],
+      svg: <SidebarSvgSelector id="edit-square" />,
+    },
+    {
+      ...pages[6],
+      svg: <SidebarSvgSelector id="services" />,
+    },
+  ];
+
+  const nav = roles.includes('USER') ? clientNav : specialistNav;
+
   const user = useSelector(selectUserData);
 
   useEffect(() => {
@@ -128,19 +153,20 @@ export function PrivateLayout(props: Props) {
       }
     }
     setPageName();
-  }, [location.pathname]);
+  }, [pages, location.pathname]);
 
   const openChat = useCallback(() => {
-    sendMessage().then(res => {
+    sendMessage().then(() => {
       setSidebarNotificationsOpen(false);
       setSidebarChatOpen(true);
     });
+    // eslint-disable-next-line
   }, [chatNotificationsOpen]);
 
   const logout = useCallback(() => {
     dispatch(fetchSignout());
     dispatch(setUserData(undefined));
-  }, []);
+  }, [dispatch]);
 
   const onNavClick = useCallback(
     (nav: Partial<Nav>) => {
@@ -151,6 +177,7 @@ export function PrivateLayout(props: Props) {
         return window.open(nav.redirect);
       }
     },
+    // eslint-disable-next-line
     [window],
   );
 

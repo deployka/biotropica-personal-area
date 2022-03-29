@@ -18,7 +18,7 @@ export function ConsultationPage() {
     ConsultationService.getOne(+id).then(res => {
       setConsultation(res.data);
     });
-  }, []);
+  }, [id]);
 
   if (!currentUser || !consultation) return null;
 
