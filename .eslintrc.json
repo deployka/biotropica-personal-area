@@ -32,7 +32,7 @@
       "error",
       { "code": 90, "ignoreStrings": true, "comments": 120 }
     ],
-    "multiline-ternary": ["error", "always-multiline"],
+    "multiline-ternary": "off",
     "func-call-spacing": ["error", "never"],
     "prefer-promise-reject-errors": ["error", { "allowEmptyReject": true }],
     "arrow-parens": ["error", "as-needed"],

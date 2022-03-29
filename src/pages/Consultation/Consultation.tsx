@@ -1,39 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import s from './Consultation.module.scss';
-import { Zoom } from '../../shared/Modules/Zoom';
+import React, { useEffect, useState, useRef, useContext } from 'react';
+import { Zoom } from '../../shared/Modules/Zoom/Zoom';
 import { useSelector } from 'react-redux';
 import { selectUserData } from '../../store/ducks/user/selectors';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import ConsultationService from '../../services/ConsultationService';
 import { Consultation } from '../../store/ducks/consultation/contracts/state';
+import { config } from '../../config/zoom';
+
+import s from './Consultation.module.scss';
 
 export function ConsultationPage() {
-  const history = useHistory();
   const { id } = useParams<{ id: string }>();
   const [consultation, setConsultation] = useState<Consultation | null>();
+  const currentUser = useSelector(selectUserData);
+
   useEffect(() => {
     ConsultationService.getOne(+id).then(res => {
       setConsultation(res.data);
     });
   }, []);
 
-  const currentUser = useSelector(selectUserData);
-  if (!currentUser || !consultation) {
-    return null;
-  }
-
-  console.log('consultation', consultation);
-
-  const username = currentUser.name + ' ' + currentUser.lastname;
+  if (!currentUser || !consultation) return null;
 
   return (
     <Zoom
-      className={s.consultation}
+      sdkKey={config.sdkKey}
+      sdkSecret={config.sdkSecret}
+      leaveUrl="/consultations"
       meetingNumber={consultation.meetingNumber}
-      password={consultation.meetingPassword}
-      role={0}
-      username={username}
-      onClose={() => history.push('/consultations/list')}
+      passWord={consultation?.meetingPassword}
+      userName={currentUser.name + ' ' + currentUser.lastname}
     />
   );
 }

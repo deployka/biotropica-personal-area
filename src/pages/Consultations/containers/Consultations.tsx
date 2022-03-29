@@ -288,7 +288,7 @@ const Consultations = () => {
           onSearchChange={onSearchChange}
           searchValue={searchQuery}
         />
-        <Link to="/consultations/list">Мои видеоконсультации</Link>
+        <Link to="/consultations/list/302">Мои видеоконсультации</Link>
       </div>
       <SpecialistsList
         consultationsCount={consultationsCount}

@@ -17,6 +17,14 @@ import './styles/global.scss';
 
 import { ModalProvider } from './providers/ModalProvider';
 import './services/FirebaseService';
+import { ZoomProvider } from './providers/ZoomProvider';
+import { ZoomMtg } from '@zoomus/websdk';
+
+ZoomMtg.setZoomJSLib('https://source.zoom.us/2.3.0/lib', '/av');
+ZoomMtg.preLoadWasm();
+ZoomMtg.prepareWebSDK();
+ZoomMtg.i18n.load('ru-RU');
+ZoomMtg.i18n.reload('ru-RU');
 
 ReactDOM.render(
   <React.StrictMode>
@@ -24,7 +32,9 @@ ReactDOM.render(
       <Provider store={store}>
         <ModalProvider>
           <ReactNotifications />
-          <App />
+          <ZoomProvider>
+            <App />
+          </ZoomProvider>
         </ModalProvider>
       </Provider>
     </Router>

@@ -26,3 +26,4 @@ yarn-error.log*
 .env
 
 public/firebase-messaging-sw.js
+/public/lib
