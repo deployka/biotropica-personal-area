@@ -6,14 +6,14 @@ export const consultationsApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     requestConsultations: builder.query<Consultation[], void>({
       query: () => ({
-        url: '/consultations',
+        url: '/specialist-consultations',
         method: 'get',
       }),
     }),
 
     requestChangeConsultationDatetime: builder.mutation<any, Consultation>({
       query: payload => ({
-        url: `/consultations/${payload.id}`,
+        url: `/specialist-consultations/${payload.id}`,
         data: payload,
         method: 'put',
       }),
@@ -21,7 +21,7 @@ export const consultationsApi = baseApi.injectEndpoints({
 
     requestDeleteConsultation: builder.mutation<any, { id: number }>({
       query: payload => ({
-        url: `/consultations/${payload.id}`,
+        url: `/specialist-consultations/${payload.id}`,
         method: 'delete',
       }),
     }),

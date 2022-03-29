@@ -18,10 +18,9 @@ import s from './Recommendations.module.scss';
 import Button from '../../components/Button/Button';
 import { RecommendationEditor } from '../../components/recommendations/RecommendationEditor/RecommendationEditor';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
 import { selectUserData } from '../../store/ducks/user/selectors';
 import { Tabs } from '../../components/Tabs/Tabs';
-import { selectIsDoctor, selectUserRoles } from '../../store/rtk/slices/authSlice';
+import { selectIsDoctor } from '../../store/rtk/slices/authSlice';
 
 type CreateRecommendation = {
   title: string;
