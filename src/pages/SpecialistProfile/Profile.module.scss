@@ -1,0 +1,87 @@
+@import "../../styles/global.scss";
+
+@media screen and (max-width: 576px) {
+  .backgroundWrapper {
+    background-image: url('../../assets/images/ProfileBackground.jpg'); 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100%;
+  }
+}
+
+.profile {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  @media screen and (max-width: 650px) {
+    padding: 20px 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .info {
+    position: fixed;
+
+    @media screen and (max-width: 650px) {
+      position: relative;
+      width: 100%;
+    }
+  }
+
+  .courses {
+    position: relative;
+    margin-left: 315px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    @media screen and (max-width: 768px) {
+      margin-left: 275px;
+    }
+
+    @media screen and (max-width: 650px) {
+      margin: 0;
+      width: 100%;
+    }
+  }
+
+  .postList {
+    margin: 30px 0 0 0;
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    max-height: calc(100vh - 220px);
+
+    scroll-behavior: smooth;
+
+    @media screen and (max-width: 650px) {
+      margin: 20px 0 0 0;
+      max-height: unset;
+    }
+  }
+
+  .title {
+    h3 {
+      @include Heading-3;
+      color: $color-grey-3;
+
+      @media screen and (max-width: 650px) {
+        margin: 20px 0 0 0;
+        font-size: 16px;
+      }
+    }
+  }
+
+  .actionBtn {
+    width: 100%;
+  }
+}

@@ -37,6 +37,7 @@ export const Specialist = ({
     history.push('/specialists/' + userId);
   }
 
+  // eslint-disable-next-line
   function getMarkStringByValue(value: string | number): ReactElement {
     value = String(value);
     const query: string = searchQuery.toLowerCase();
@@ -57,7 +58,9 @@ export const Specialist = ({
       setClick(click);
     });
     setClick(true);
-  }, [id, userId, click]);
+
+    // eslint-disable-next-line
+  }, [id, userId, click, onSignUpClick]);
 
   useEffect(() => {
     if (!isLoadingSignUp) {
@@ -70,7 +73,7 @@ export const Specialist = ({
       return <>{getMarkStringByValue(price)} ₽</>;
     }
     return <>Бесплатно</>;
-  }, [price, consultationsCount, FREE_CONSULTATIONS_COUNT]);
+  }, [price, consultationsCount, getMarkStringByValue]);
 
   return (
     <div className={s.specialist}>
@@ -83,7 +86,7 @@ export const Specialist = ({
               getMediaLink(profilePhoto) || defaultAvatar
             })`,
           }}
-        ></div>
+        />
 
         <div className={s.info}>
           <div className={s.name} onClick={moveToSpecialist}>

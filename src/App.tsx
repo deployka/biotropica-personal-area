@@ -22,10 +22,11 @@ import ForgotPassword from './pages/Auth/containers/ForgotPassword';
 import GlobalNotifications from './components/GlobalNotifications/GlobalNotifications';
 import { selectGlobalLoadingStatus } from './store/selectors';
 import Policy from './pages/Policy/containers/Policy';
-import { ProfileLayout } from './layouts/ProfileLayout';
+import { useRequestUserDataQuery } from './store/rtk/requests/user';
 
 function App(): ReactElement {
   const dispatch = useDispatch();
+  const { isLoading: userDataLoading } = useRequestUserDataQuery();
 
   const isAuth = useSelector(selectIsAuth);
   const getGlobalLoading = useSelector(selectGlobalLoadingStatus);
@@ -36,6 +37,10 @@ function App(): ReactElement {
       dispatch(fetchGoalsData());
     }
   }, [isAuth, dispatch]);
+
+  if (userDataLoading) {
+    return <Loader/>;
+  }
 
   return (
     <Suspense fallback={<Loader />}>
@@ -60,12 +65,12 @@ function App(): ReactElement {
         <PublicRoute path="/policy" isAuth={isAuth}>
           <Policy />
         </PublicRoute>
-        <PublicRoute path="/users/:id" isAuth={isAuth}>
-          <ProfileLayout isAuth={isAuth} />
-        </PublicRoute>
-        <PublicRoute path="/users/:id/tabs/:active" isAuth={isAuth}>
-          <ProfileLayout isAuth={isAuth} />
-        </PublicRoute>
+        {/* <PublicRoute path="/users/:id" isAuth={isAuth}> */}
+        {/*  <ProfileLayout isAuth={isAuth} /> */}
+        {/* </PublicRoute> */}
+        {/* <PublicRoute path="/users/:id/tabs/:active" isAuth={isAuth}> */}
+        {/*  <ProfileLayout isAuth={isAuth} /> */}
+        {/* </PublicRoute> */}
 
         <PrivateRoute path="/" isAuth={isAuth}>
           <Routes />

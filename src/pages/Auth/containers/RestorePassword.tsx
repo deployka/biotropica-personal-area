@@ -49,7 +49,7 @@ const RestorePassword = () => {
       default:
         break;
     }
-  }, [loadingStatus]);
+  }, [response, history, loadingStatus]);
 
   async function onSubmit(
     values: RestorePasswordData,

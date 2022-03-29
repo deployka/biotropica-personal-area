@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Profile from '../pages/Profile/containers/Profile';
@@ -7,10 +7,6 @@ import {
   fetchUserDataById,
 } from '../store/ducks/user/actionCreators';
 import { selectUserData } from '../store/ducks/user/selectors';
-
-interface Params {
-  id: string;
-}
 
 interface Props {
   isAuth?: boolean;
@@ -21,7 +17,7 @@ export const ProfileLayout = ({ isAuth = true }: Props) => {
 
   const user = useSelector(selectUserData);
 
-  const { id } = useParams<Params>();
+  const { id } = useParams<{id: string}>();
 
   useEffect(() => {
     if (isAuth) {
@@ -29,7 +25,7 @@ export const ProfileLayout = ({ isAuth = true }: Props) => {
     } else {
       dispatch(fetchUserDataById(+id));
     }
-  }, []);
+  }, [dispatch, isAuth, id]);
 
   return <>{user && <Profile user={user} />}</>;
 };

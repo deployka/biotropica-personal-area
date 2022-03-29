@@ -93,3 +93,66 @@
     @content;
   }
 }
+$font-primary: "Montserrat", sans-serif;
+
+@mixin Heading-1 {
+  font-family: $font-primary;
+
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 120%;
+
+  letter-spacing: 0.0075em;
+}
+
+@mixin Heading-2 {
+  font-family: $font-primary;
+
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 120%;
+
+  letter-spacing: 0.0075em;
+}
+
+@mixin Heading-3 {
+  font-family: $font-primary;
+
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 120%;
+}
+
+@mixin text-regular {
+  font-family: $font-primary;
+
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 120%;
+}
+
+@mixin text-medium {
+  font-family: $font-primary;
+
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+}
+
+@mixin text-message {
+  font-family: $font-primary;
+
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 130%;
+
+  letter-spacing: 0.25px;
+}
+
+@mixin link {
+  font-family: $font-primary;
+
+  font-size: 16px;
+  line-height: 120%;
+}

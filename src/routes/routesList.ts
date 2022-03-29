@@ -12,16 +12,27 @@ import Tariffs from '../pages/Tariffs/containers/Tariffs';
 import { Specialist } from '../pages/Specialist/Specialist';
 import { ConsultationsList } from '../pages/Consultations/containers/ConsultationsList';
 import { ConsultationPage } from '../pages/Consultation/Consultation';
+import { Tasks } from '../pages/Tasks/Tasks';
+import { Recommendations } from '../pages/Recommendations/Recommendations';
+import VideoConsultationsList from '../pages/SpecilalistVideoConsultationsList/VideoConsultationsList';
+import SpecialistProfile from '../pages/SpecialistProfile/Profile';
 
 const routes = [
   {
     path: '/',
-    component: Home,
+    component: Tasks,
+    exact: true,
+    access: 'FRONT_TASKS_PAGE',
+  },
+  {
+    path: 'recommendations',
+    component: Recommendations,
     exact: true,
   },
   {
     path: 'consultations',
     component: Consultations,
+    specialistComponent: VideoConsultationsList,
     exact: true,
   },
   {
@@ -37,11 +48,22 @@ const routes = [
   {
     path: 'profile',
     component: ProfileLayout,
+    specialistComponent: SpecialistProfile,
     exact: true,
   },
   {
     path: 'profile/edit/:active',
     component: Edit,
+    exact: true,
+  },
+  {
+    path: 'users/:userId/tasks',
+    component: Tasks,
+    exact: true,
+  },
+  {
+    path: 'users/:userId/recommendations',
+    component: Recommendations,
     exact: true,
   },
   {

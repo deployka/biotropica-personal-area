@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { RecommendedCard } from './RecommendedCard/RecommendedCard';
 import { Recommendation } from './Recommendation/Recommendation';

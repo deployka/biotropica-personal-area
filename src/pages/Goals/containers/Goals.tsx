@@ -57,7 +57,7 @@ const Goals = () => {
 
   const [progressValue, setProgressValue] = useState(0);
 
-  const { id } = useParams<Params>();
+  const { id } = useParams<{ id: string }>();
   const paramGoalId = +id;
 
   function getGoalById(id: number) {

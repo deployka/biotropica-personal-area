@@ -20,7 +20,7 @@ export const ConsultationsList = () => {
   useEffect(() => {
     dispatch(fetchConsultationsData());
     dispatch(fetchSpecialistsData());
-  }, []);
+  }, [dispatch]);
 
   const specialists = useSelector(selectFilteredSpecialistsData);
   const consultations = useSelector(selectConsultationsData);

@@ -50,7 +50,7 @@ const ForgotPassword = () => {
       default:
         break;
     }
-  }, [loadingStatus]);
+  }, [response, history, loadingStatus]);
 
   async function onSubmit(
     values: ForgotPasswordData,

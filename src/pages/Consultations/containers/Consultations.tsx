@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { SpecialistsList } from './../components/SpecialistsList/SpecialistsList';
+import { SpecialistsList } from '../components/SpecialistsList/SpecialistsList';
 import { SearchForm } from '../components/SearchForm/SortForm';
 
 import { ISelect } from '../../../shared/Form/Select/SelectCustom';
@@ -56,7 +56,7 @@ const Consultations = () => {
   useEffect(() => {
     dispatch(fetchSpecialistsData());
     dispatch(fetchClosestConsultationData());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     return () => {
@@ -87,6 +87,7 @@ const Consultations = () => {
     getAllConsultations();
   }, [closestConsultation, LastAddedConsultation]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function onSuccessCreateNotification() {
     eventBus.emit(EventTypes.notification, {
       title: 'Успешно!',
@@ -96,6 +97,7 @@ const Consultations = () => {
     dispatch(setConsultationResponse(undefined));
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function onErrorCreateNotification() {
     dispatch(setConsultationResponse(undefined));
   }
@@ -112,7 +114,7 @@ const Consultations = () => {
       default:
         break;
     }
-  }, [loadingStatus, response]);
+  }, [onErrorCreateNotification, onSuccessCreateNotification, loadingStatus, response]);
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedSort, setSelectedSort] = useState<
@@ -147,14 +149,14 @@ const Consultations = () => {
       return searchSpecialistsByQuery(filteredSpecialists, query);
     }
     return searchSpecialistsByQuery(specialists, query);
-  }, [searchQuery, selectedSort, specialists]);
+  }, [filteredSpecialists, searchQuery, selectedSort, specialists]);
 
   const getFreeConsultationsCount = useCallback(() => {
     if (FREE_CONSULTATIONS_COUNT - consultationsCount > 0) {
       return FREE_CONSULTATIONS_COUNT - consultationsCount;
     }
     return 0;
-  }, [consultationsCount, FREE_CONSULTATIONS_COUNT]);
+  }, [consultationsCount]);
 
   const InfoBarClosestConsultationOptions = {
     title: 'Ближайшая запись',
