@@ -8,6 +8,7 @@ import { Consultation } from '../../store/ducks/consultation/contracts/state';
 import { config } from '../../config/zoom';
 
 import s from './Consultation.module.scss';
+import { generateSignature } from '../../utils/generateSignature';
 
 export function ConsultationPage() {
   const { id } = useParams<{ id: string }>();
@@ -22,10 +23,19 @@ export function ConsultationPage() {
 
   if (!currentUser || !consultation) return null;
 
+  const role = currentUser.roles.includes('SPECIALIST') ? 1 : 0;
+
+  const signature = generateSignature(
+    config.sdkKey,
+    config.sdkSecret,
+    consultation.meetingNumber,
+    role,
+  );
+
   return (
     <Zoom
       sdkKey={config.sdkKey}
-      sdkSecret={config.sdkSecret}
+      signature={signature}
       leaveUrl="/consultations"
       meetingNumber={consultation.meetingNumber}
       passWord={consultation?.meetingPassword}

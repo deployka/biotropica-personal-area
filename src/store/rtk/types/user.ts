@@ -40,6 +40,7 @@ export type Consultation = {
   createdAt: string;
   date: string;
   id: number;
+  userId: number;
   specialist: Specialist;
   updatedAt: string;
   user: User;

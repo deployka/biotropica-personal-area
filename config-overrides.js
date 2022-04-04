@@ -8,6 +8,10 @@ module.exports = function override(config, env) {
   // config.output.publicPath = process.env.WEBPACK_PUBLIC_PATH;
   console.log('config.output', config.output);
 
+  config.resolve.fallback = {
+    crypto: false,
+    'crypto-browserify': require.resolve('crypto-browserify'),
+  };
   config.plugins.push(
     new CopyPlugin({
       patterns: [

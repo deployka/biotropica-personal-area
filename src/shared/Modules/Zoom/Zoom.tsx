@@ -2,7 +2,6 @@ import { ZoomMtg } from '@zoomus/websdk';
 import React, { useEffect } from 'react';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { eventBus, EventTypes } from '../../../services/EventBus';
-import { generateSignature } from '../../../utils/generateSignature';
 
 import './Zoom.scss';
 
@@ -11,13 +10,13 @@ export type ZoomProps = {
   leaveUrl: string;
   meetingNumber: string;
   passWord: string;
+  signature: string;
   sdkKey: string;
-  sdkSecret: string;
 };
 
 export function Zoom({
   sdkKey,
-  sdkSecret,
+  signature,
   meetingNumber,
   passWord,
   leaveUrl,
@@ -28,8 +27,6 @@ export function Zoom({
   useEffect(() => {
     if (!zoom) return;
     zoom.style.display = 'block';
-
-    const signature = generateSignature(sdkKey, sdkSecret, meetingNumber, 0);
 
     ZoomMtg.init({
       leaveUrl: leaveUrl,

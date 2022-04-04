@@ -18,6 +18,7 @@ export interface User {
   banReason: string;
   confirmed: boolean;
   refreshToken: string;
+  roles: Array<'CLIENT' | 'SPECIALIST' | 'ADMIN'>;
 }
 
 export interface UserState {

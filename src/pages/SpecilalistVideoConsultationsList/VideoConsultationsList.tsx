@@ -77,9 +77,9 @@ const VideoConsultationsList = () => {
         const dmy = moment(date).format('D MMMM YYYY');
         const hours = date.getHours();
         const minutes = date.getMinutes();
-        const name = consultation.user.name;
-        const lastname = consultation.user.lastname;
-        const patronymic = consultation.user.patronymic;
+        const name = consultation?.user?.name || consultation.userId;
+        const lastname = consultation?.user?.lastname || '';
+        const patronymic = consultation?.user?.patronymic || '';
         const status =
           new Date().getTime() < date.getTime() ? 'active' : 'inactive';
 

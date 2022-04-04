@@ -45,6 +45,7 @@ export const Graph = ({ startDate, endDate }: Props) => {
               data: [],
               borderWidth: 2,
               tension: 0.5,
+              cubicInterpolationMode: 'monotone',
             },
           ],
         },
