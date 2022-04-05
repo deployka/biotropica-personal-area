@@ -9,13 +9,13 @@ export type TaskPreviewCommentProps = {
 export function TaskPreviewComment({ comment }: TaskPreviewCommentProps) {
   const { datetime, text, author } = comment;
   // eslint-disable-next-line camelcase
-  const { lastname, name, profile_photo } = author;
+  const { lastname, name, profilePhoto } = author;
 
   return (
     <div className={s.comment}>
       <div className={s.photo}>
         {/* eslint-disable-next-line camelcase */}
-        <img src={profile_photo} alt="" />
+        <img src={profilePhoto} alt="" />
       </div>
       <div className={s.body}>
         <div className={s.header}>

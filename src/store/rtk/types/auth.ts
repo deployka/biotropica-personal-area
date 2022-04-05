@@ -11,7 +11,7 @@ export interface SignInResponse {
 export interface SignUpData {
   email: string;
   password: string;
-  verification_password: string;
+  verificationPassword: string;
   name: string;
   lastname: string;
   phone: string;
@@ -29,6 +29,6 @@ export interface ChangePasswordData {
 
 export interface RestorePasswordData {
   password: string;
-  verification_password: string;
+  verificationPassword: string;
   restoreToken?: string;
 }
