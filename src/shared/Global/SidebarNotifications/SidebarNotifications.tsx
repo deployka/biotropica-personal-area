@@ -38,18 +38,20 @@ export const SidebarNotifications = ({ open, setOpen }: Props) => {
           </div>
           <BtnClose setOpen={setOpen} />
         </div>
-        <PerfectScrollbar>
-          <div className={s.notifications}>
-            {notifications.map((notification: INotification, i: number) => {
-              return (
-                <Notification
-                  key={i + notification.id}
-                  notification={notification}
-                />
-              );
-            })}
-          </div>
-        </PerfectScrollbar>
+        <div className={s.notifications}>
+          {!notifications.length && 'Список уведомлений пуст'}
+          <PerfectScrollbar>
+            {!!notifications.length &&
+              notifications.map((notification: INotification, i: number) => {
+                return (
+                  <Notification
+                    key={i + notification.id}
+                    notification={notification}
+                  />
+                );
+              })}
+          </PerfectScrollbar>
+        </div>
       </div>
     </>
   );
