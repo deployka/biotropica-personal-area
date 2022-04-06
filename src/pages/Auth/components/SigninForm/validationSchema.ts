@@ -9,6 +9,5 @@ export const validationSchema = yup.object().shape({
   password: yup
     .string()
     .typeError('Должно быть строкой')
-    .required('Введите пароль')
-    .min(5, 'Пароль должен быть более 5 символов'),
+    .required('Введите пароль'),
 });

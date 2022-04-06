@@ -16,15 +16,18 @@ const Signin = () => {
   const loadingStatus = useSelector(selectUserLoadingStatus);
 
   const loader = loadingStatus === LoadingStatus.LOADING;
-  const refSetFieldValue = useRef<((field: string, value: string) => void) | null>(
-    null,
-  );
+  type Current = ((field: string, value: string) => void) | null;
+  const refSetFieldValue = useRef<Current>(null);
 
   useEffect(() => {
     if (!refSetFieldValue.current) return;
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
         refSetFieldValue.current('password', '');
+        eventBus.emit(EventTypes.notification, {
+          message: 'Неверный логин или пароль!',
+          type: NotificationType.DANGER,
+        });
         break;
       case LoadingStatus.SUCCESS:
         eventBus.emit(EventTypes.notification, {

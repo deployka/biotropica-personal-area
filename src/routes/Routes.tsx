@@ -12,13 +12,24 @@ export const Routes = () => {
   return (
     <Switch>
       <PrivateLayout>
-        <Suspense fallback={<Loader/>}>
+        <Suspense fallback={<Loader />}>
           <Switch>
-            {routes.map(({ component: Component, specialistComponent: SpecialistComponent, path, exact }) => (
-              <Route path={`/${path}`} key={path} exact={exact}>
-                {isDoctor && SpecialistComponent ? <SpecialistComponent/> : <Component/>}
-              </Route>
-            ))}
+            {routes.map(
+              ({
+                component: Component,
+                specialistComponent: SpecialistComponent,
+                path,
+                exact,
+              }) => (
+                <Route path={`/${path}`} key={path} exact={exact}>
+                  {isDoctor && SpecialistComponent ? (
+                    <SpecialistComponent />
+                  ) : (
+                    <Component />
+                  )}
+                </Route>
+              ),
+            )}
           </Switch>
         </Suspense>
       </PrivateLayout>
