@@ -7,12 +7,20 @@ export interface Analyze {
   createdAt: string;
 }
 
+export interface Comment {
+  id: number;
+  text: string;
+  author: Pick<User, 'profilePhoto' | 'name' | 'lastname'>;
+  createdAt: string;
+}
+
 export interface AnalyzeAnswer {
   id: number;
   analyzeId: number;
   text: string;
   filePath: string;
   createdAt: string;
+  comments: Comment[];
 }
 
 export interface AnalyzeAnswerState {
@@ -23,6 +31,6 @@ export interface AnalyzeAnswerState {
 
 export type UpdateAnalyzeAnswerData = Partial<AnalyzeAnswer>;
 export interface CreateAnalyzeAnswerData
-  extends Omit<AnalyzeAnswer, 'id' | 'createdAt' | 'filePath'> {
+  extends Omit<AnalyzeAnswer, 'id' | 'createdAt' | 'filePath' | 'comments'> {
   filePath: File | null | string;
 }

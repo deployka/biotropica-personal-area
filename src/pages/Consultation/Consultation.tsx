@@ -22,8 +22,6 @@ export function ConsultationPage() {
     return null;
   }
 
-  console.log('consultation', consultation);
-
   const username = currentUser.name + ' ' + currentUser.lastname;
 
   return (

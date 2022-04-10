@@ -13,7 +13,7 @@ import { eventBus, EventTypes } from '../../services/EventBus';
 import { useParams } from 'react-router-dom';
 
 const Profile = () => {
-  const { id } = useParams<{id: string}>();
+  const { id } = useParams<{ id: string }>();
 
   const userId = Number(id);
 
@@ -37,40 +37,36 @@ const Profile = () => {
     <div className={s.backgroundWrapper}>
       <div className={s.profile}>
         <div className={s.info}>
-          {
-            !!user &&
-              <Card user={user} />
-          }
-          {
-            userClient
-              ? <Button
-                isPrimary={true}
-                className={s.actionBtn}
-                onClick={sendMessage}
-              >
+          {!!user && <Card user={user} />}
+          {userClient ? (
+            <Button
+              isPrimary={true}
+              className={s.actionBtn}
+              onClick={sendMessage}
+            >
               Начать чат
-              </Button>
-              : ''
-          }
+            </Button>
+          ) : (
+            ''
+          )}
         </div>
-        {
-          courses &&
-            <div className={s.courses}>
-              <div className={s.title}>
-                <h3>Курсы повышения квалификации</h3>
-                <div className={s.postList}>
-                  {courses.map((course, i) => (
-                    <Post
-                      key={i}
-                      title={course.title}
-                      description={course.description}
-                      date={course.date}
-                    />
-                  ))}
-                </div>
+        {courses && (
+          <div className={s.courses}>
+            <div className={s.title}>
+              <h3>Курсы повышения квалификации</h3>
+              <div className={s.postList}>
+                {courses.map((course, i) => (
+                  <Post
+                    key={i}
+                    title={course.title}
+                    description={course.description}
+                    date={course.date}
+                  />
+                ))}
               </div>
             </div>
-        }
+          </div>
+        )}
       </div>
     </div>
   );
