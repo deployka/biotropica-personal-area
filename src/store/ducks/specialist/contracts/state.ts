@@ -4,7 +4,7 @@ import { User } from '../../user/contracts/state';
 export interface SpecialistUser {
   id: number;
   price: number;
-  specializations: Array<keyof typeof SpecializationName>;
+  specializations: Specialization[];
   experience: string;
   education: string;
   user: User;
@@ -33,4 +33,9 @@ export const SpecializationName = {
   THERAPIST: 'Терапевт',
   PHYSICIAN: 'Врач ЛФК и спортивной медицины',
   ALLERGIST_IMMUNOLOGIST: 'Аллерголог-иммунолог',
+};
+
+export type Specialization = {
+  title: string;
+  key: keyof typeof SpecializationName;
 };
