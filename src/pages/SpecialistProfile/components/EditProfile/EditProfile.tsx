@@ -13,20 +13,31 @@ import {
 } from '../../../../utils/phoneValidator';
 import Button from '../../../../components/Button/Button';
 import DatePicker from '../../../../components/DatePicker/DatePickerCustom';
-import SelectCustom, { SelectOptions } from '../../../../components/Select/SelectCustom';
+import SelectCustom, {
+  SelectOptions,
+} from '../../../../components/Select/SelectCustom';
 import Input, { InputTypes } from '../../../../components/Input/Input';
 import { FormsSvgSelector } from '../../../../assets/icons/FormsSvgSelector';
 import validationSchema from './editProfileValidation';
-import { useRequestUpdateUserDataMutation, useRequestUserDataQuery } from '../../../../store/rtk/requests/user';
+import {
+  useRequestUpdateUserDataMutation,
+  useRequestUserDataQuery,
+} from '../../../../store/rtk/requests/user';
 import MultiSelect from '../../../../components/MultiSelect/MultiSelect';
 import { useRequestChangeSpecialistDataMutation } from '../../../../store/rtk/requests/specialists';
 // import { showErrorMessage, showSuccessMessage } from '../../../../components/notification/messages';
 import { Loader } from '../../../../shared/Global/Loader/Loader';
-import { useRequestAddAvatarMutation, useRequestAvatarQuery } from '../../../../store/rtk/requests/avatar';
-import { Specialization, useGetSpecializationListQuery } from '../../../../store/rtk/requests/specializations';
+import {
+  useRequestAddAvatarMutation,
+  useRequestAvatarQuery,
+} from '../../../../store/rtk/requests/avatar';
+import {
+  Specialization,
+  useGetSpecializationListQuery,
+} from '../../../../store/rtk/requests/specializations';
 import { useDispatch } from 'react-redux';
 
-type Option = { label: string, value: number };
+type Option = { label: string; value: number };
 
 const EditProfile = () => {
   const dispatch = useDispatch();
@@ -48,8 +59,12 @@ const EditProfile = () => {
   }));
 
   React.useEffect(() => {
-    isGetUserSuccess && !!user.profilePhoto &&
-      setImage('https://master.bio-specialist.devshift.ru/api/static/' + user.profilePhoto);
+    isGetUserSuccess &&
+      !!user.profilePhoto &&
+      setImage(
+        'https://master.bio-specialist.devshift.ru/api/static/' +
+          user.profilePhoto,
+      );
   }, [isGetUserSuccess]);
 
   const [file, setFile] = useState<File>();
@@ -147,14 +162,14 @@ const EditProfile = () => {
     female: 'Женский',
   };
 
-  const selectGender: SelectOptions[] = Object.keys(
-    translatedGender,
-  ).map((key: string) => {
-    return {
-      value: key,
-      label: translatedGender[key],
-    };
-  });
+  const selectGender: SelectOptions[] = Object.keys(translatedGender).map(
+    (key: string) => {
+      return {
+        value: key,
+        label: translatedGender[key],
+      };
+    },
+  );
 
   const gender: string = user ? user.gender : '';
 
@@ -206,228 +221,224 @@ const EditProfile = () => {
 
   return (
     <>
-      {
-        (isGetUserLoading)
-          ? <Loader />
-          : <>
-            {
-              (
-                isUpdateUserLoading ||
-                isChangeSpecialistLoading ||
-                isUpdateUserLoading ||
-                isChangeSpecialistLoading ||
-                isAddAvatarLoading
-              ) &&
-                <Loader />
-            }
-            <div className={s.edit__password}>
-              <Formik
-                initialValues={{
-                  name: user.name,
-                  email: user.email,
-                  phone: user.phone,
-                  lastname: user.lastname,
-                  profile_photo: user.profile_photo,
-                  patronymic: user.patronymic || '',
-                  dob: user.dob ? new Date(user.dob) : null,
-                  specializations: user.specialist.specializations,
-                  experience: user.specialist.experience,
-                  education: user.specialist.education,
-                  gender: gender,
-                }}
-                validateOnBlur
-                onSubmit={values => handleSubmit(values, file)}
-                validationSchema={validationSchema}
-              >
-                {({
-                  dirty,
-                  values,
-                  isValid,
-                  touched,
-                  errors,
-                  handleBlur,
-                  handleChange,
-                  handleSubmit,
-                  setFieldValue,
-                }) => (
-                  <form
-                    name="user_data"
-                    onSubmit={e => e.preventDefault()}
-                    className={s.form}
+      {isGetUserLoading ? (
+        <Loader />
+      ) : (
+        <>
+          {(isUpdateUserLoading ||
+            isChangeSpecialistLoading ||
+            isUpdateUserLoading ||
+            isChangeSpecialistLoading ||
+            isAddAvatarLoading) && <Loader />}
+          <div className={s.edit__password}>
+            <Formik
+              initialValues={{
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                lastname: user.lastname,
+                profilePhoto: user.profilePhoto,
+                patronymic: user.patronymic || '',
+                dob: user.dob ? new Date(user.dob) : null,
+                specializations: user.specialist.specializations,
+                experience: user.specialist.experience,
+                education: user.specialist.education,
+                gender: gender,
+              }}
+              validateOnBlur
+              onSubmit={values => handleSubmit(values, file)}
+              validationSchema={validationSchema}
+            >
+              {({
+                dirty,
+                values,
+                isValid,
+                touched,
+                errors,
+                handleBlur,
+                handleChange,
+                handleSubmit,
+                setFieldValue,
+              }) => (
+                <form
+                  name="user_data"
+                  onSubmit={e => e.preventDefault()}
+                  className={s.form}
+                >
+                  <div
+                    style={{
+                      backgroundImage: `url(${image})`,
+                    }}
+                    className={classNames({
+                      [s.image__loader__wrapper]: true,
+                      // [s.error__image__wrapper]:
+                      //   touched.profilePhoto && errors.profilePhoto,
+                    })}
                   >
-                    <div
-                      style={{
-                        backgroundImage: `url(${image})`,
+                    <input
+                      type="file"
+                      name="profilePhoto"
+                      accept=".png, .jpg, .jpeg, .gif"
+                      onChange={(e: any) => {
+                        setFieldValue('profilePhoto', e.currentTarget.files[0]);
+                        onAvatarLoaded(e);
                       }}
-                      className={classNames({
-                        [s.image__loader__wrapper]: true,
-                        // [s.error__image__wrapper]:
-                        //   touched.profilePhoto && errors.profilePhoto,
-                      })}
-                    >
-                      <input
-                        type="file"
-                        name="profile_photo"
-                        accept=".png, .jpg, .jpeg, .gif"
-                        onChange={(e: any) => {
-                          setFieldValue('profile_photo', e.currentTarget.files[0]);
-                          onAvatarLoaded(e);
+                    />
+                    <FormsSvgSelector id="camera" />
+                    <span>Изменить</span>
+                  </div>
+                  <div className={s.text__inputs__wrapper}>
+                    <div className={s.small__input__wrapper}>
+                      <div className={s.input__wrapper}>
+                        <Input
+                          name="lastname"
+                          placeholder="Фамилия"
+                          label="Фамилия"
+                          value={values.lastname}
+                          type={InputTypes.LAST_NAME}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className={s.input__wrapper}>
+                        <Input
+                          name="name"
+                          placeholder="Имя"
+                          label="Имя"
+                          value={values.name}
+                          type={InputTypes.NAME}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+                    <div className={s.input__wrapper}>
+                      <Input
+                        name="patronymic"
+                        label="Отчество"
+                        placeholder="Отчество"
+                        value={values.patronymic}
+                        type={InputTypes.PATRONYMIC}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className={s.input__wrapper}>
+                      <Input
+                        name="email"
+                        placeholder="Почта"
+                        label="Почта"
+                        value={values.email}
+                        type={InputTypes.EMAIL}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className={s.input__wrapper}>
+                      <DatePicker
+                        name="dob"
+                        maxDate={new Date()}
+                        selected={values.dob}
+                        label={'Дата рождения'}
+                        onBlur={handleBlur}
+                        onChange={(date: Date) => setFieldValue('dob', date)}
+                        onSelect={(date: Date) => setFieldValue('dob', date)}
+                      />
+                    </div>
+                    <div className={s.input__wrapper}>
+                      <Input
+                        name="experience"
+                        placeholder="Опыт работы"
+                        label="Опты работы"
+                        value={values.experience}
+                        type={InputTypes.TEXT}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className={s.input__wrapper}>
+                      <SelectCustom
+                        name="gender"
+                        label="Выберите пол"
+                        placeholder="Выберите пол"
+                        options={selectGender}
+                        value={values.gender}
+                        onBlur={handleBlur}
+                        onChange={value => {
+                          setFieldValue('gender', value);
+                        }}
+                        touched={!!touched.gender}
+                        error={errors.gender}
+                      />
+                    </div>
+                    <div className={s.input__wrapper}>
+                      <Input
+                        name="phone"
+                        placeholder="Телефон"
+                        label="Телефон"
+                        type={InputTypes.PHONE}
+                        value={values.phone}
+                        onBlur={handleBlur}
+                        onPaste={onPhonePaste}
+                        onInput={onPhoneInput}
+                        onChange={handleChange}
+                        onKeyDown={onPhoneKeyDown}
+                      />
+                    </div>
+                    <div className={s.input__wrapper}>
+                      <Input
+                        name="education"
+                        placeholder="Образование"
+                        label="Образование"
+                        value={values.education}
+                        type={InputTypes.TEXT}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className={s.input__wrapper}>
+                      <MultiSelect
+                        name="specializations"
+                        placeholder="Специальность"
+                        options={specializationOptions}
+                        value={values.specializations?.map(
+                          (it: Specialization) =>
+                            specializationOptions.find(
+                              so => so.value === it.id.toString(),
+                            ),
+                        )}
+                        onBlur={handleBlur}
+                        onChange={(option: Option[]) => {
+                          setFieldValue(
+                            'specializations',
+                            option.map((item: Option) =>
+                              specializations?.find(s => s.id === +item.value),
+                            ),
+                          );
                         }}
                       />
-                      <FormsSvgSelector id="camera" />
-                      <span>
-                        Изменить
-                      </span>
                     </div>
-                    <div className={s.text__inputs__wrapper}>
-                      <div className={s.small__input__wrapper}>
-                        <div className={s.input__wrapper}>
-                          <Input
-                            name="lastname"
-                            placeholder="Фамилия"
-                            label="Фамилия"
-                            value={values.lastname}
-                            type={InputTypes.LAST_NAME}
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                          />
-                        </div>
-                        <div className={s.input__wrapper}>
-                          <Input
-                            name="name"
-                            placeholder="Имя"
-                            label="Имя"
-                            value={values.name}
-                            type={InputTypes.NAME}
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                          />
-                        </div>
-                      </div>
-                      <div className={s.input__wrapper}>
-                        <Input
-                          name="patronymic"
-                          label="Отчество"
-                          placeholder="Отчество"
-                          value={values.patronymic}
-                          type={InputTypes.PATRONYMIC}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className={s.input__wrapper}>
-                        <Input
-                          name="email"
-                          placeholder="Почта"
-                          label="Почта"
-                          value={values.email}
-                          type={InputTypes.EMAIL}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className={s.input__wrapper}>
-                        <DatePicker
-                          name="dob"
-                          maxDate={new Date()}
-                          selected={values.dob}
-                          label={'Дата рождения'}
-                          onBlur={handleBlur}
-                          onChange={(date: Date) => setFieldValue('dob', date)}
-                          onSelect={(date: Date) => setFieldValue('dob', date)}
-                        />
-                      </div>
-                      <div className={s.input__wrapper}>
-                        <Input
-                          name="experience"
-                          placeholder="Опыт работы"
-                          label="Опты работы"
-                          value={values.experience}
-                          type={InputTypes.TEXT}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className={s.input__wrapper}>
-                        <SelectCustom
-                          name="gender"
-                          label="Выберите пол"
-                          placeholder="Выберите пол"
-                          options={selectGender}
-                          value={values.gender}
-                          onBlur={handleBlur}
-                          onChange={value => {
-                            setFieldValue('gender', value);
-                          }}
-                          touched={!!touched.gender}
-                          error={errors.gender}
-                        />
-                      </div>
-                      <div className={s.input__wrapper}>
-                        <Input
-                          name="phone"
-                          placeholder="Телефон"
-                          label="Телефон"
-                          type={InputTypes.PHONE}
-                          value={values.phone}
-                          onBlur={handleBlur}
-                          onPaste={onPhonePaste}
-                          onInput={onPhoneInput}
-                          onChange={handleChange}
-                          onKeyDown={onPhoneKeyDown}
-                        />
-                      </div>
-                      <div className={s.input__wrapper}>
-                        <Input
-                          name="education"
-                          placeholder="Образование"
-                          label="Образование"
-                          value={values.education}
-                          type={InputTypes.TEXT}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className={s.input__wrapper}>
-                        <MultiSelect
-                          name="specializations"
-                          placeholder="Специальность"
-                          options={specializationOptions}
-                          value={values.specializations?.map(
-                            (it: Specialization) => specializationOptions.find(so => so.value === it.id.toString()),
-                          )}
-                          onBlur={handleBlur}
-                          onChange={(option: Option[]) => {
-                            setFieldValue(
-                              'specializations',
-                              (option).map((item: Option) => specializations?.find(s => s.id === +item.value)),
-                            );
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <div className={s.button__wrapper}>
-                      <Button className={s.cancelBtn}>
-                        <Link to={'/profile/' + user.id}>
-                          Отмена
-                        </Link>
-                      </Button>
-                      <Button
-                        type="submit"
-                        className={s.submitBtn}
-                        isPrimary
-                        isDisabled={!(isValid && dirty)}
-                        onClick={() => handleSubmit()}
-                      >
-                        Сохранить
-                      </Button>
-                    </div>
-                  </form>
-                )}
-              </Formik>
-            </div>
-          </>
-      }
+                  </div>
+                  <div className={s.button__wrapper}>
+                    <Button className={s.cancelBtn}>
+                      <Link to={'/profile/' + user.id}>Отмена</Link>
+                    </Button>
+                    <Button
+                      type="submit"
+                      className={s.submitBtn}
+                      isPrimary
+                      isDisabled={!(isValid && dirty)}
+                      onClick={() => handleSubmit()}
+                    >
+                      Сохранить
+                    </Button>
+                  </div>
+                </form>
+              )}
+            </Formik>
+          </div>
+        </>
+      )}
     </>
   );
 };

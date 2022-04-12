@@ -30,6 +30,8 @@ import { selectUserData } from '../../store/ducks/user/selectors';
 import s from './Tasks.module.scss';
 import classNames from 'classnames';
 import { Tabs } from '../../components/Tabs/Tabs';
+import { eventBus, EventTypes } from '../../services/EventBus';
+import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 
 export function Tasks() {
   const currentUser = useSelector(selectUserData);
@@ -38,7 +40,7 @@ export function Tasks() {
   const [createTask] = useCreateTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();
   const [addComment] = useAddTaskCommentMutation();
-  const { userId: rawUserId } = useParams<{userId: string}>();
+  const { userId: rawUserId } = useParams<{ userId: string }>();
 
   const id = rawUserId || currentUser?.id;
 
@@ -54,8 +56,9 @@ export function Tasks() {
 
   const [openedTaskId, setOpenedTaskId] = useState<string>('');
 
-  const [openedTask, setOpenedTask] =
-    useState<CreateSomeTask | SomeTask | null>(null);
+  const [openedTask, setOpenedTask] = useState<
+    CreateSomeTask | SomeTask | null
+  >(null);
 
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
@@ -86,9 +89,31 @@ export function Tasks() {
 
   async function handleSaveTask(task: CreateSomeTask | SomeTask) {
     if ('id' in task) {
-      await updateTask({ ...task });
+      try {
+        await updateTask({ ...task });
+        eventBus.emit(EventTypes.notification, {
+          type: NotificationType.SUCCESS,
+          message: 'Задача успешно обновлена!',
+        });
+      } catch (error) {
+        eventBus.emit(EventTypes.notification, {
+          type: NotificationType.DANGER,
+          message: 'Не удалось сохранить задачу',
+        });
+      }
     } else {
-      await createTask({ ...task, executorId: userId });
+      try {
+        await createTask({ ...task, executorId: userId });
+        eventBus.emit(EventTypes.notification, {
+          type: NotificationType.SUCCESS,
+          message: 'Задача успешно создана!',
+        });
+      } catch (error) {
+        eventBus.emit(EventTypes.notification, {
+          type: NotificationType.DANGER,
+          message: 'Не удалось создать задачу',
+        });
+      }
     }
     handleCloseTask();
   }

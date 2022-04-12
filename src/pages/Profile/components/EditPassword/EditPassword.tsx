@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, FormikHelpers } from 'formik';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
@@ -11,6 +11,9 @@ import {
 
 import s from './EditPassword.module.scss';
 import { validationSchema } from './validationSchema';
+import { eventBus, EventTypes } from '../../../../services/EventBus';
+import { NotificationButtons } from './NotificationButtons';
+import { NotificationType } from '../../../../components/GlobalNotifications/GlobalNotifications';
 
 interface Props {
   user: User | undefined;
@@ -18,7 +21,7 @@ interface Props {
   logout: () => void;
   onSubmit: (
     values: ChangePasswordData,
-    options: FormikHelpers<ChangePasswordData>
+    options: FormikHelpers<ChangePasswordData>,
   ) => void;
 }
 
@@ -26,6 +29,30 @@ export const EditPassword = ({ loader, onSubmit, user, logout }: Props) => {
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || loader;
   }
+
+  const history = useHistory();
+
+  function onDiscard() {
+    eventBus.emit(EventTypes.removeNotification, 'logout-notification');
+  }
+
+  function onConfirm() {
+    logout();
+    history.push(`/forgot-password?email=${user?.email || ''}`);
+  }
+
+  function showLogoutConfirmation() {
+    eventBus.emit(EventTypes.notification, {
+      title: 'Для восстановления пароля будет выполнен выход из аккаунт',
+      message: (
+        <NotificationButtons onDiscard={onDiscard} onConfirm={onConfirm} />
+      ),
+      type: NotificationType.WARNING,
+      dismiss: undefined,
+      id: 'logout-notification',
+    });
+  }
+
   return (
     <div className={s.edit__password}>
       <Formik
@@ -54,8 +81,8 @@ export const EditPassword = ({ loader, onSubmit, user, logout }: Props) => {
           <div className={s.form}>
             <div className={s.input__wrapper}>
               <Link
-                to={`/forgot-password?email=${user?.email || ''}`}
-                onClick={logout}
+                to="#"
+                onClick={showLogoutConfirmation}
                 className={s.forgot}
               >
                 Восстановить
@@ -113,9 +140,7 @@ export const EditPassword = ({ loader, onSubmit, user, logout }: Props) => {
                 type="submit"
                 onClick={() => handleSubmit()}
                 options={{
-                  content: loader
-                    ? <Loader />
-                    : 'Сохранить',
+                  content: loader ? <Loader /> : 'Сохранить',
                   setDisabledStyle: isDisabled(isValid, dirty),
                 }}
               />

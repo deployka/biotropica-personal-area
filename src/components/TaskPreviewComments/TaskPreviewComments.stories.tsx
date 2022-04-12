@@ -25,7 +25,7 @@ const props: Partial<TaskPreviewCommentsProps> = {
       author: {
         lastname: 'Барулин',
         name: 'Михаил',
-        profile_photo:
+        profilePhoto:
           'https://images.unsplash.com/photo-1642978277577-83c6ceac4820?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80', // Ссылка
       },
     },
@@ -36,7 +36,7 @@ const props: Partial<TaskPreviewCommentsProps> = {
       author: {
         lastname: 'Самарин',
         name: 'Иван',
-        profile_photo:
+        profilePhoto:
           'https://images.unsplash.com/photo-1642622928474-c0ac98fccd29?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80', // Ссылка
       },
     },
@@ -47,7 +47,7 @@ const props: Partial<TaskPreviewCommentsProps> = {
       author: {
         lastname: 'Барулин',
         name: 'Михаил',
-        profile_photo:
+        profilePhoto:
           'https://images.unsplash.com/photo-1642978277577-83c6ceac4820?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80', // Ссылка
       },
     },
@@ -58,7 +58,7 @@ const props: Partial<TaskPreviewCommentsProps> = {
       author: {
         lastname: 'Самарин',
         name: 'Иван',
-        profile_photo:
+        profilePhoto:
           'https://images.unsplash.com/photo-1642622928474-c0ac98fccd29?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80', // Ссылка
       },
     },

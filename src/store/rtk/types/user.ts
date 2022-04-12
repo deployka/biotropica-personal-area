@@ -17,13 +17,13 @@ export type Role = {
   id: number;
   name: ROLE;
   updatedAt: string;
-}
+};
 
 export type Course = {
   description: string;
   title: string;
-  date: string,
-}
+  date: string;
+};
 
 export type Specialist = {
   courses: Course[];
@@ -34,7 +34,7 @@ export type Specialist = {
   price: number;
   specializations: [];
   updatedAt: string;
-}
+};
 
 export type Consultation = {
   createdAt: string;
@@ -45,7 +45,7 @@ export type Consultation = {
   user: User;
   meetingNumber: number;
   meetingPassword: string;
-}
+};
 
 export type Recommendation = {
   createdAt: string;
@@ -57,7 +57,7 @@ export type Recommendation = {
   updatedAt: string;
   user: User;
   specialization: Specialization;
-}
+};
 
 export enum RecommendationStatus {
   INITIATED = 'INITIATED',
@@ -68,12 +68,10 @@ export enum RecommendationStatus {
 }
 
 export interface User {
-  after_photos: JSON | null;
   banReason: string | null;
   banned: boolean | null;
-  before_photos: JSON | null;
   confirmed: boolean;
-  confirmed_hash: string;
+  confirmedHash: string;
   createdAt: string;
   dob: Date | null;
   email: string;
