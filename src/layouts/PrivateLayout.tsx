@@ -185,51 +185,47 @@ export function PrivateLayout(props: Props) {
     <div className="global__container">
       <Modals />
 
-      {!isMobile
-        ? (
-          <SidebarDesktop
-            onNavClick={onNavClick}
-            setSidebarChatOpen={setSidebarChatOpen}
-            setSidebarNotificationsOpen={setSidebarNotificationsOpen}
-            chatNotificationsOpen={chatNotificationsOpen}
-            openChat={openChat}
-            logout={logout}
-            pages={pages}
-            nav={nav}
-            user={user}
-          />
-        )
-        : (
-          <SidebarMobile
-            onNavClick={onNavClick}
-            setSidebarChatOpen={setSidebarChatOpen}
-            setSidebarNotificationsOpen={setSidebarNotificationsOpen}
-            chatNotificationsOpen={chatNotificationsOpen}
-            openChat={openChat}
-            logout={logout}
-            pages={pages}
-            nav={nav}
-            user={user}
-          />
-        )}
+      {!isMobile ? (
+        <SidebarDesktop
+          onNavClick={onNavClick}
+          setSidebarChatOpen={setSidebarChatOpen}
+          setSidebarNotificationsOpen={setSidebarNotificationsOpen}
+          chatNotificationsOpen={chatNotificationsOpen}
+          openChat={openChat}
+          logout={logout}
+          pages={pages}
+          nav={nav}
+          user={user}
+        />
+      ) : (
+        <SidebarMobile
+          onNavClick={onNavClick}
+          setSidebarChatOpen={setSidebarChatOpen}
+          setSidebarNotificationsOpen={setSidebarNotificationsOpen}
+          chatNotificationsOpen={chatNotificationsOpen}
+          openChat={openChat}
+          logout={logout}
+          pages={pages}
+          nav={nav}
+          user={user}
+        />
+      )}
 
-      {currentUser
-        ? (
-          <SidebarWrapper
-            isOpened={chatNotificationsOpen}
+      {currentUser ? (
+        <SidebarWrapper
+          isOpened={chatNotificationsOpen}
+          onClose={() => setSidebarChatOpen(false)}
+        >
+          <Chat
+            token={localStorage.getItem('token') as string}
+            activeDialogId={openedDialog}
+            currentUser={currentUser as ChatUser}
             onClose={() => setSidebarChatOpen(false)}
-          >
-            <Chat
-              token={localStorage.getItem('token') as string}
-              activeDialogId={openedDialog}
-              currentUser={currentUser as ChatUser}
-              onClose={() => setSidebarChatOpen(false)}
-            />
-          </SidebarWrapper>
-        )
-        : (
-          <div />
-        )}
+          />
+        </SidebarWrapper>
+      ) : (
+        <div />
+      )}
       <SidebarNotifications
         open={sidebarNotificationsOpen}
         setOpen={setSidebarNotificationsOpen}

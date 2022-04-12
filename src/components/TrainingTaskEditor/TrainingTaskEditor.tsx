@@ -22,6 +22,7 @@ import { NEW_DATE } from '../../constants/dates';
 
 export type TrainingTaskEditorProps = {
   onClose(): void;
+  isLoading: boolean;
   task: TrainingTask | CreateTrainingTask;
   onSave(task: CreateTrainingTask): void;
   onDelete(): void;
@@ -31,6 +32,7 @@ export function TrainingTaskEditor({
   task,
   onClose,
   onSave,
+  isLoading,
   onDelete,
 }: TrainingTaskEditorProps) {
   function onSubmit(values: Partial<CreateTrainingTask>) {
@@ -195,15 +197,17 @@ export function TrainingTaskEditor({
             </div>
             <div className={s.buttons}>
               <Button onClick={onClose}>Отмена</Button>
-              <Button type="submit" isPrimary={true}>
+              <Button
+                isDisabled={isLoading}
+                isLoading={isLoading}
+                type="submit"
+                isPrimary={true}
+              >
                 Сохранить
               </Button>
             </div>
             {'id' in task && (
-              <div
-                className={classNames(s.line, s.delete)}
-                onClick={onDelete}
-              >
+              <div className={classNames(s.line, s.delete)} onClick={onDelete}>
                 Удалить задачу
               </div>
             )}
