@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import {ComponentStory, Meta} from "@storybook/react";
-import {Tabs, TabsProps} from "./Tabs";
+import { ComponentStory, Meta } from '@storybook/react';
+import { Tabs, TabsProps } from './Tabs';
 
 export default {
-    component: Tabs,
-    title: "src/components/Tabs",
+  component: Tabs,
+  title: 'src/components/Tabs',
 } as Meta;
 
 const Template: ComponentStory<typeof Tabs> = (args: TabsProps) => <Tabs {...args} />;

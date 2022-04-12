@@ -49,7 +49,7 @@ export default class ChatService {
     return await $api.get(`/${ChatService.route}/${id}`);
   }
 
-  static async createDialog(userId: number): Promise<AxiosResponse<Dialog>> {
-    return await $api.post(`/${ChatService.route}/`, { userId });
+  static async createDialog(userId: number, title?: string): Promise<AxiosResponse<Dialog>> {
+    return await $api.post(`/${ChatService.route}/`, { userId, title });
   }
 }

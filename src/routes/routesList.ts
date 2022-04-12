@@ -16,6 +16,7 @@ import { Tasks } from '../pages/Tasks/Tasks';
 import { Recommendations } from '../pages/Recommendations/Recommendations';
 import VideoConsultationsList from '../pages/SpecilalistVideoConsultationsList/VideoConsultationsList';
 import SpecialistProfile from '../pages/SpecialistProfile/Profile';
+import { Users } from '../pages/Users/Users';
 
 const routes = [
   {
@@ -114,6 +115,11 @@ const routes = [
   {
     path: 'questionnaire',
     component: Questionnaire,
+    exact: true,
+  },
+  {
+    path: 'users',
+    component: Users,
     exact: true,
   },
 

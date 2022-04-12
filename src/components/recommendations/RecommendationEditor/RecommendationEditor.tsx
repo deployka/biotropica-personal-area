@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { Formik } from 'formik';
-import React  from 'react';
+import React from 'react';
 import Button from '../../Button/Button';
 import { HtmlEditor } from '../../HtmlEditor/HtmlEditor';
 import Input, { InputTypes } from '../../Input/Input';

@@ -23,6 +23,7 @@ import GlobalNotifications from './components/GlobalNotifications/GlobalNotifica
 import { selectGlobalLoadingStatus } from './store/selectors';
 import Policy from './pages/Policy/containers/Policy';
 import { useRequestUserDataQuery } from './store/rtk/requests/user';
+import { ProfileLayout } from './layouts/ProfileLayout';
 
 function App(): ReactElement {
   const dispatch = useDispatch();
@@ -65,12 +66,12 @@ function App(): ReactElement {
         <PublicRoute path="/policy" isAuth={isAuth}>
           <Policy />
         </PublicRoute>
-        {/* <PublicRoute path="/users/:id" isAuth={isAuth}> */}
-        {/*  <ProfileLayout isAuth={isAuth} /> */}
-        {/* </PublicRoute> */}
-        {/* <PublicRoute path="/users/:id/tabs/:active" isAuth={isAuth}> */}
-        {/*  <ProfileLayout isAuth={isAuth} /> */}
-        {/* </PublicRoute> */}
+        <PublicRoute path="/users/:id" isAuth={isAuth}>
+          <ProfileLayout isAuth={isAuth} />
+        </PublicRoute>
+        <PublicRoute path="/users/:id/tabs/:active" isAuth={isAuth}>
+          <ProfileLayout isAuth={isAuth} />
+        </PublicRoute>
 
         <PrivateRoute path="/" isAuth={isAuth}>
           <Routes />

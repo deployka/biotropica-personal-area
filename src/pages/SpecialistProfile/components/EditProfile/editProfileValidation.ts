@@ -20,5 +20,5 @@ export default yup.object().shape({
     .required('Введите адрес электронной почты'),
   specializations: yup
     .array()
-    .min(1, 'Выберите как минимум одну специальность')
+    .min(1, 'Выберите как минимум одну специальность'),
 });
