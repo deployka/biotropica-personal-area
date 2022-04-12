@@ -15,7 +15,7 @@ export function ConsultationPage() {
     ConsultationService.getOne(+id).then(res => {
       setConsultation(res.data);
     });
-  }, []);
+  }, [id]);
 
   const currentUser = useSelector(selectUserData);
   if (!currentUser || !consultation) {

@@ -1,0 +1,47 @@
+.background{
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.25);
+
+    z-index: 9;
+
+    transition: all .2s ease;
+
+    &.hidden{
+        z-index: -1;
+        opacity: 0;
+        visibility: none;
+    }
+}
+
+.editorWrapper{
+    position: fixed;
+    top: 0;
+    right: 0;
+    
+    width: 410px;
+    height: 100%;
+
+    background: #FFFFFF;
+
+    z-index: 12;
+
+    overflow: scroll;
+
+    .body{
+        width: 100%;
+        padding: 10px 30px;
+    }
+
+    transition: all .2s ease;
+
+    &.hidden{
+        transform: translateX(100%);
+    }
+}

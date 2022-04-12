@@ -1,0 +1,200 @@
+.courses {
+  padding-top: 27px;
+  padding-bottom: 80px;
+
+  .course {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    max-width: 530px;
+
+    @media screen and (max-width: 768px) {
+      max-width: unset;
+    }
+
+    &:hover {
+
+      .course__closeBtn {
+        opacity: 1;
+        border: none;
+        background: transparent;
+      }
+    }
+
+    &__inputs {
+      width: 100%;
+      margin-right: 10px;
+    }
+
+    &__closeBtn {
+      opacity: 0;
+      height: fit-content;
+      color: #c05d97;
+      font-size: 20px;
+      transition: 0.3s;
+      padding: 5px 10px;
+      border: none;
+      background: transparent;
+
+      @media screen and (max-width: 1024px) {
+        opacity: 1;
+      }
+    }
+  }
+
+  .wrapperInput {
+    position: relative;
+    margin-bottom: 15px;
+
+    input {
+      height: 50px;
+      padding: 15px 20px;
+      background: transparent;
+      border: 0;
+      outline: none;
+      font-size: 16px;
+      width: 100%;
+      max-width: 508px;
+    
+      &:placeholder {
+        color: transparent;
+      }
+  
+      border: 1px solid #9895a7;
+      border-radius: 10px;
+  
+      &:focus ~ label {
+        font-weight: 500;
+        font-size: 12px;
+        color: #9e97be;
+        top: -7px;
+        left: 17px;
+        padding: 0 4px;
+        text-align: center;
+        background: #fff;
+        z-index: 40;
+      }
+  
+      .active {
+        & ~ label {
+          font-weight: 500;
+          font-size: 12px;
+          color: #9e97be;
+          top: -7px;
+          left: 19px;
+          padding: 0 4px;
+          text-align: center;
+          background: #fff;
+          z-index: 40;
+        }
+      }
+    }
+    
+    .error__input {
+      border: 1px solid #d06361;
+      color: #d06361;
+    }
+    
+    .success__input {
+      border: 1px solid #309a74;
+      color: #309a74;
+    }
+  }
+
+
+  .wrapperTextarea {
+    position: relative;
+    margin-bottom: 20px;
+
+    .textarea {
+      height: 140px;
+      min-height: 50px;
+      padding: 15px 20px;
+      background: transparent;
+      border: 0;
+      outline: none;
+      font-size: 16px;
+      resize: vertical;
+      border: 1px solid #9895a7;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 508px;
+      
+      & ~ label {
+        top: 20px;
+        left: 20px;
+        background-color: transparent;
+      }
+      
+      &:focus ~ label {
+        font-weight: 500;
+        font-size: 12px;
+        color: #9e97be;
+        top: -7px;
+        left: 19px;
+        padding: 0 4px;
+        text-align: center;
+        background: #fff;
+        z-index: 40;
+      }
+    }
+
+    // corner grabber lines
+    textarea::-webkit-resizer {
+      width: 18.71px;
+      height: 18.71px;
+      background-image: url('../../../../assets/icons/resize-grabber.svg');
+      background-repeat: no-repeat;
+      background-size: 70%;
+    }
+
+    .active {
+      & ~ label {
+        font-weight: 500;
+        font-size: 12px;
+        color: #9e97be;
+        top: -7px;
+        left: 19px;
+        padding: 0 4px;
+        text-align: center;
+        background: #fff;
+        z-index: 40;
+      }
+    }
+    
+    .error__textarea {
+      border: 1px solid #d06361;
+      color: #d06361;
+    }
+    
+    .success__textarea {
+      border: 1px solid #309a74;
+      color: #309a74;
+    }
+  }
+
+  .addButton {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    span:first-child {
+      margin-right: 10px;
+      font-size: 20px;
+    }
+  }
+
+  .cancelBtn {
+
+    margin-right: 20px;
+
+    a {
+      color: #9895A7;
+      transition: 0.3s;
+    }
+
+    &:hover a {
+      color: #fff;
+    }
+  }
+}

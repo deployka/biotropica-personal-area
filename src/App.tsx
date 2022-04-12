@@ -22,10 +22,12 @@ import ForgotPassword from './pages/Auth/containers/ForgotPassword';
 import GlobalNotifications from './components/GlobalNotifications/GlobalNotifications';
 import { selectGlobalLoadingStatus } from './store/selectors';
 import Policy from './pages/Policy/containers/Policy';
+import { useRequestUserDataQuery } from './store/rtk/requests/user';
 import { ProfileLayout } from './layouts/ProfileLayout';
 
 function App(): ReactElement {
   const dispatch = useDispatch();
+  const { isLoading: userDataLoading } = useRequestUserDataQuery();
 
   const isAuth = useSelector(selectIsAuth);
   const getGlobalLoading = useSelector(selectGlobalLoadingStatus);
@@ -36,6 +38,10 @@ function App(): ReactElement {
       dispatch(fetchGoalsData());
     }
   }, [isAuth, dispatch]);
+
+  if (userDataLoading) {
+    return <Loader/>;
+  }
 
   return (
     <Suspense fallback={<Loader />}>

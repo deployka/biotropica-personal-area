@@ -1,0 +1,34 @@
+@import '../../styles/breakpoints';
+@import '../../styles/global';
+
+.search {
+  padding: 0 8px;
+  width: 240px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #736f8b;
+  box-sizing: border-box;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  input {
+    width: 196px;
+    height: 20px;
+    font-size: 14px;
+    border: none;
+
+    &::placeholder {
+      font-size: 14px;
+      color: #9895a7;
+    }
+  }
+
+  .searchIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

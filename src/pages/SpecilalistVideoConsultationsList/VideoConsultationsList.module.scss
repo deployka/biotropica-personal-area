@@ -1,0 +1,424 @@
+@import "./../../styles/global.scss";
+
+.usersList {
+  position: relative;
+  box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+  border-radius: 15px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 17px;
+    color: $color-black;
+    box-shadow: $box-shadow;
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
+
+    .headerLeft {
+      display: flex;
+      align-items: center;
+
+      @media screen and (max-width: 768px) {
+        margin-bottom: 15px;
+      }
+
+      .headerTitle {
+        margin-right: 8px;
+      }
+
+      .usersCount {
+        padding: 3px 6px;
+        background: #F7F6FB;
+        border-radius: 4px;
+      }
+    }
+
+    .headerRight {
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      .searchIcon {
+        position: absolute;
+        left: 9px;
+        width: 20px;
+        height: 20px;
+
+        @media screen and (max-width: 576px) {
+          display: none;
+        }
+      }
+
+      .mobileSearchIcon {
+        display: none;
+
+        @media screen and (max-width: 576px) {
+          display: block;
+          padding: 2px 1px;
+        }
+      }
+
+      .searchInput {
+        width: 240px;
+        padding-left: 32px;
+        padding-right: 10px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        border: 1px solid #736F8B;
+        box-sizing: border-box;
+        border-radius: 100px;
+
+        @media screen and (max-width: 576px) {
+          width: 256px;
+          padding-left: 13px;
+          padding-top: 9px;
+          padding-bottom: 9px;
+          margin-right: 8px;
+          border: 1px solid #9E97BE;
+        }
+      }
+
+      .searchInput::placeholder {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 20px;
+
+        @media screen and (max-width: 576px) {
+          opacity: 0.4;
+        }
+      }
+    }
+  }
+
+  .table {
+    position: relative;
+    max-height: 70vh;
+    overflow: hidden; 
+    overflow-y: scroll;
+    border-collapse: collapse;
+    width: 100%;
+    padding: 0 10px;
+
+    .tableHeaderRow {
+      box-shadow: $box-shadow;
+      background-color: $color-divider;
+
+      th:first-child {
+        @media screen and (max-width: 576px) {
+          padding-left: 10px;
+        }
+      }
+      
+      th {
+        padding: 18px 17px;
+        text-align: left;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        color: #736F8B;
+        text-transform: uppercase;
+
+        @media screen and (max-width: 576px) {
+          font-size: 12px;
+          padding: 15px 10px;
+          padding-left: 0;
+        }
+      }
+    }
+
+    .tableRow, .tableRowOfPastConsultations {
+      box-shadow: $box-shadow;
+      background-color: white;
+
+      td:first-child {
+        @media screen and (max-width: 576px) {
+          padding-left: 10px;
+        }
+      }
+      
+      td {
+        padding: 26px 17px;
+        text-align: left;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        color: $color-black;
+        width: 30%;
+        max-width: 30%;
+
+        @media screen and (max-width: 600px) {
+          font-size: 14px;
+        }
+
+        @media screen and (max-width: 576px) {
+          font-size: 12px;
+          line-height: 120%;
+          padding: 20px 0;
+          padding-right: 10px;
+          padding-left: 0;
+        }
+      }
+
+      .tableNoData {
+        color: #9895a7;
+      }
+    }
+
+    .tableRowOfPastConsultations td {
+      color: #9895a7;
+    }
+  
+    .tableRow:last-child, .tableRowOfPastConsultations:last-child {
+      border-radius: 15px;
+
+      @media screen and (max-width: 576px) {
+        border-radius: 0;
+      }
+    }
+
+    .moreOptions {
+      position: relative;
+
+      @media screen and (max-width: 576px) {
+        padding-right: 10px;
+      }
+
+      .moreOptionsBtn {
+
+        img {
+          width: 20px;
+          height: 20px;
+        }
+
+        @media screen and (max-width: 768px) {
+          transform: rotate(90deg);
+        }
+      }
+
+      .moreOptionsBtn:hover {
+        opacity: 0.7;
+      }
+  
+      .contextMenu {
+        position: absolute;
+        right: 30px;
+        top: 25px;
+        width: 255px;
+        border-radius: 15px;
+        background: #ffffff;
+        color: #1E174D;
+        box-shadow: 0px 1px 10px rgba(30, 23, 77, 0.09);
+        z-index: 1000;
+
+        @media screen and (max-width: 768px) {
+          right: 40px;
+          top: -37px;
+        }
+
+        @media screen and (max-width: 576px) {
+          width: 200px;
+        }
+
+        .contextMenuOption {
+          padding: 15px 20px;
+        }
+
+        .contextMenuOption:last-child {
+          margin-bottom: 0;
+        }
+
+        .contextMenuOption:hover {
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    ::-webkit-scrollbar {
+      -webkit-appearance: none;
+      width: 7px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: rgba(0, 0, 0, .5);
+      -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+    }
+  }
+}
+
+.dateTimeModal {
+  text-align: center;
+
+  @media screen and (max-width: 768px) {
+    padding: 30px 50px;
+  }
+
+  @media screen and (max-width: 620px) {
+    padding: 30px 50px;
+  }
+
+  @media screen and (max-width: 576px) {
+    height: 100%;
+    width: 100%;
+    padding: 30px 20px;
+    border-radius: 20px 20px 0px 0px;
+  }
+
+  .dateTimeHeader {
+    margin-bottom: 75px;
+
+    @media screen and (max-width: 768px) {
+      margin-bottom: 25px;
+    }
+
+    @media screen and (max-width: 576px) {
+      margin-bottom: 20px;
+    }
+  }
+
+  .dateTimeDivider {
+    display: none;
+
+    @media screen and (max-width: 768px) {
+      display: block;
+      margin-bottom: 50px;
+    }
+
+    @media screen and (max-width: 576px) {
+      margin-bottom: 30px;
+    }
+  }
+
+  .dateTimeInputs {
+    position: relative;
+    display: flex;
+    margin-bottom: 50px;
+
+    .wrapperInput {
+      margin-right: 20px;
+
+      @media screen and (max-width: 768px) {
+        margin-bottom: 20px;
+      }
+
+      @media screen and (max-width: 576px) {
+        margin: 0;
+        margin-bottom: 15px;
+      }
+    }
+
+    label {
+      left: 20px;
+    }
+
+    @media screen and (max-width: 768px) {
+      display: block;
+    }
+
+    @media screen and (max-width: 576px) {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .dateTimeLabel {
+      display: none;
+
+      @media screen and (max-width: 768px) {
+        display: block;
+        text-align: left;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 130%;
+        color: #9E97BE;
+        margin-bottom: 5px;
+      }
+    }
+
+    input {
+      width: 370px;
+
+      &:focus ~ label {
+        left: 20px;
+      }
+
+      @media screen and (max-width: 900px) {
+        width: 270px;
+      }
+
+      @media screen and (max-width: 768px) {
+        width: 370px;
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      @media screen and (max-width: 576px) {
+        width: 100%;
+        max-width: unset;
+      }
+    }
+  
+    .dateTimeInput::placeholder {
+      color: #9895A7;
+    }
+  }
+
+  .dateTimeControlBtns {
+
+    @media screen and (max-width: 576px) {
+      display: flex;
+      justify-content: left;
+      flex-direction: row-reverse;
+    }
+
+    .cancelBtn, .submitBtn {
+      border: 1px solid #6F61D0;
+      box-sizing: border-box;
+      border-radius: 5px;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 120%;
+      color: #6F61D0;
+      padding: 6px 11px;
+  
+      @media screen and (max-width: 768px) {
+        border-radius: 100px;
+      }
+    }
+  
+    .cancelBtn {
+      margin-right: 20px;
+
+      @media screen and (max-width: 576px) {
+        margin-right: 0;
+        background: #6F61D0;
+        color: #fff;
+      }
+    }
+    
+    .submitBtn {
+      background: #6F61D0;
+      color: #fff;
+
+      @media screen and (max-width: 576px) {
+        margin-right: 20px;
+      }
+    }
+    
+    .cancelBtn:hover, .submitBtn:hover {
+      opacity: 0.8;
+    }
+  }
+}

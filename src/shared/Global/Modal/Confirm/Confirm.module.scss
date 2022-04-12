@@ -1,0 +1,60 @@
+@import "./../../../../styles/global.scss";
+
+.confirm {
+  padding: 20px 86px;
+  text-align: center;
+
+  @media screen and (max-width: 768px) {
+    padding: 10px 20px;
+  }
+
+  @media screen and (max-width: 576px) {
+    padding: 0px;
+  }
+  
+  .helpMessage {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 120%;
+    color: #736F8B;
+    margin-bottom: 42px;
+
+    @media screen and (max-width: 768px) {
+      width: 250px;
+    }
+
+    @media screen and (max-width: 576px) {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .controlBtns {
+    display: flex;
+    justify-content: center;
+
+    .rejectBtn, .acceptBtn {
+      border: 1px solid #6F61D0;
+      box-sizing: border-box;
+      border-radius: 100px;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 120%;
+      color: #6F61D0;
+      padding: 7px 15px;
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+    
+    .acceptBtn {
+      background: #6F61D0;
+      color: #fff;
+    }
+    
+    .rejectBtn:hover, .acceptBtn:hover {
+      opacity: 0.8;
+    }
+  }
+}

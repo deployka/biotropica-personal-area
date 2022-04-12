@@ -1,0 +1,38 @@
+.taskPreviewComments{
+    max-width: 350px;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .addNewComment{
+        position: relative;
+
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .inputButton{
+            position: absolute;
+            top: 50%;
+            right: 10px;
+
+            width: 26px;
+            height: 26px;
+
+            transform: translateY(-50%);
+        }
+    }
+
+    .commentsList{
+        margin: 24px 0 0 0;
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+    }
+}

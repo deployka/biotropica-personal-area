@@ -1,5 +1,5 @@
-@import "../../../styles/mixins.scss";
-@import "../../../styles/variables.scss";
+@import '../../../styles/mixins.scss';
+@import '../../../styles/variables.scss';
 
 .sidebarNotifications {
   position: absolute;
@@ -22,8 +22,9 @@
 
   .notifications {
     position: relative;
-
+    padding-left: 30px;
     width: 100%;
+    margin-top: 10px;
 
     background: $color-white;
 

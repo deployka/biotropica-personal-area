@@ -1,0 +1,21 @@
+.valueField {
+    display: flex;
+    flex-direction: column;
+    .value {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 120%;
+        color: #736f8b;
+    }
+
+    .title {
+        margin: 0 0 4px 0;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 11px;
+        line-height: 18px;
+        text-transform: uppercase;
+        color: #736f8b;
+        opacity: 0.7;
+    }
+}

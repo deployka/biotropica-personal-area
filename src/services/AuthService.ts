@@ -27,7 +27,10 @@ export default class AuthService {
   }
 
   static async signup(data: SignupData): Promise<AxiosResponse<Response>> {
-    return await $api.post<Response>(`/${AuthService.route}/signup`, data);
+    return await $api.post<Response>(`/${AuthService.route}/signup`, {
+      ...data,
+      role: 'U2FsdGVkX1/Wu+I1MDLYRYr6cfmYyaX9goy28g3vpU76t3TP8m4u2gQcf/aQpCgxr0wEkxfgKaXhPpY8LhHwtWehZHHtPiW3q3VkIflX68E=',
+    });
   }
 
   static async refresh(): Promise<AxiosResponse<ResponseRefresh>> {

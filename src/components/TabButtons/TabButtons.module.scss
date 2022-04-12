@@ -1,0 +1,92 @@
+@import "../../styles/mixins.scss";
+@import "../../styles/variables.scss";
+
+.tabs {
+  width: auto;
+
+  display: flex;
+
+  @media screen and (max-width: 700px) {
+    column-gap: 20px !important;
+  }
+
+  @include for-phone {
+    column-gap: 10px !important;
+  }
+
+  @media screen and (max-width: 450px) {
+    display: block;
+  }
+
+  .tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    cursor: pointer;
+
+    @media screen and (max-width: 450px) {
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 18px;
+      font-weight: 600;
+
+      color: #736f8b;
+
+      @media screen and (max-width: 700px) {
+        font-size: 15px;
+      }
+
+      @include for-phone {
+        color: #736f8b;
+        white-space: nowrap;
+        font-weight: 400;
+        font-size: 16px;
+      }
+    }
+
+    @include for-phone {
+      padding: 7px 10px;
+
+      background-color: #f7f6fb;
+    }
+
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+
+      width: 0px;
+      height: 2px;
+
+      border-radius: 2px;
+
+      background: rgba(111, 97, 208, 0.5);
+
+      transition: all 0.2s ease;
+
+      @include for-phone {
+        display: none;
+      }
+    }
+    &.active {
+      &:after {
+        width: 100%;
+      }
+      p {
+        color: #6f61d0;
+      }
+
+      @include for-phone {
+        background-color: #a59ce2;
+        p {
+          color: #fff;
+        }
+      }
+    }
+  }
+}

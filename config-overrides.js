@@ -2,7 +2,8 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const ExternalTemplateRemotesPlugin = require('external-remotes-plugin');
 
 module.exports = function override(config, env) {
-  config.output.publicPath = process.env.WEBPACK_PUBLIC_PATH;
+  // config.output.publicPath = process.env.WEBPACK_PUBLIC_PATH;
+  console.log('config.output', config.output);
 
   config.plugins.push(
     new ModuleFederationPlugin({

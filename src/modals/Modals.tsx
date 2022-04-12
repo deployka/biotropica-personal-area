@@ -36,20 +36,21 @@ export const Modals = () => {
 
   useEffect(() => {
     setElements(getElements());
+    // eslint-disable-next-line
   }, [modals]);
 
   const escFunction = useCallback(event => {
     if (event.keyCode === 27) {
       closeAllModals();
     }
-  }, []);
+  }, [closeAllModals]);
 
   useEffect(() => {
     document.addEventListener('keydown', escFunction, false);
     return () => {
       document.removeEventListener('keydown', escFunction, false);
     };
-  }, []);
+  }, [escFunction]);
 
   return <>{elements.map((el, i) => el && <div key={i}>{el}</div>)}</>;
 };
