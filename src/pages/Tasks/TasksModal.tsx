@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  CreateSomeTask,
-  SomeTask,
-} from '../../store/@types/Task';
+import { CreateSomeTask, SomeTask } from '../../store/@types/Task';
 import { BaseTaskEditor } from '../../components/BaseTaskEditor/BaseTaskEditor';
 import {
   getTranslatedCompetitionType,
@@ -17,18 +14,14 @@ import {
 import { TaskLayout } from './TaskLayout';
 
 type TasksModalProps = {
-  task:
-    | SomeTask
-    | CreateSomeTask
-    | null;
+  task: SomeTask | CreateSomeTask | null;
   mode: 'edit' | 'view';
   isOpened: boolean;
+  isLoading: boolean;
   onClose(): void;
   onEditBtnClick(): void;
   onDelete(): void;
-  onSave(
-    task: CreateSomeTask
-  ): void;
+  onSave(task: CreateSomeTask): void;
   onSendComment(newCommentText: string): void;
   onSaveFactValue(value: number): void;
   onSaveFirstValue(value: number | undefined): void;
@@ -39,6 +32,7 @@ export const TasksModal = ({
   task,
   mode,
   isOpened,
+  isLoading,
   onClose,
   onSave,
   onDelete,
@@ -50,18 +44,22 @@ export const TasksModal = ({
 }: TasksModalProps) => {
   let category = '';
   let title = '';
-  let icon;
+  let icon: string | undefined;
 
   if (task?.type) {
     switch (task.type) {
       case 'training':
         title = translatedKindOfSport[task.kindOfSport];
         category = translatedCategories[task.category];
-        icon = typeGroups[task.type].taskTypeGroup.find(taskType => taskType.key === task.kindOfSport)?.icon;
+        icon = typeGroups[task.type].taskTypeGroup.find(
+          taskType => taskType.key === task.kindOfSport,
+        )?.icon;
         break;
       case 'event':
         title = translatedKindOfEvent[task.kindOfEvent];
-        icon = typeGroups[task.type].taskTypeGroup.find(taskType => taskType.key === task.kindOfEvent)?.icon;
+        icon = typeGroups[task.type].taskTypeGroup.find(
+          taskType => taskType.key === task.kindOfEvent,
+        )?.icon;
         break;
       case 'competition':
         title = translatedKindOfCompetitionSport[task.kindOfSport];
@@ -69,7 +67,9 @@ export const TasksModal = ({
           task.kindOfSport,
           task.competitionType,
         );
-        icon = typeGroups[task.type].taskTypeGroup.find(taskType => taskType.key === task.kindOfSport)?.icon;
+        icon = typeGroups[task.type].taskTypeGroup.find(
+          taskType => taskType.key === task.kindOfSport,
+        )?.icon;
         break;
       default:
         break;
@@ -90,6 +90,7 @@ export const TasksModal = ({
       <TaskLayout
         task={task}
         mode={mode}
+        isLoading={isLoading}
         onSave={onSave}
         onClose={onClose}
         onDelete={onDelete}

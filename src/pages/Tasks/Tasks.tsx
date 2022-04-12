@@ -36,10 +36,12 @@ import { NotificationType } from '../../components/GlobalNotifications/GlobalNot
 export function Tasks() {
   const currentUser = useSelector(selectUserData);
   const dispatch = useDispatch();
-  const [updateTask] = useUpdateTaskMutation();
-  const [createTask] = useCreateTaskMutation();
-  const [deleteTask] = useDeleteTaskMutation();
-  const [addComment] = useAddTaskCommentMutation();
+  const [updateTask, { isLoading: isUpdateLoading }] = useUpdateTaskMutation();
+  const [createTask, { isLoading: isCreateLoading }] = useCreateTaskMutation();
+  const [deleteTask, { isLoading: isDeleteLoading }] = useDeleteTaskMutation();
+  const [addComment, { isLoading: isCommentLoading }] =
+    useAddTaskCommentMutation();
+
   const { userId: rawUserId } = useParams<{ userId: string }>();
 
   const id = rawUserId || currentUser?.id;
@@ -230,6 +232,7 @@ export function Tasks() {
       />
 
       <TasksModal
+        isLoading={isUpdateLoading || isCreateLoading}
         task={openedTask}
         mode={taskModalMode}
         isOpened={isTaskModalOpen}

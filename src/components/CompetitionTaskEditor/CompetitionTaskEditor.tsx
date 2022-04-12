@@ -33,6 +33,7 @@ import { NEW_DATE } from '../../constants/dates';
 
 export type CompetitionTaskEditorProps = {
   task: CompetitionTask | CreateCompetitionTask;
+  isLoading: boolean;
   onSave(task: CreateCompetitionTask): void;
   onClose(): void;
   onDelete(taskId: string): void;
@@ -40,6 +41,7 @@ export type CompetitionTaskEditorProps = {
 
 export function CompetitionTaskEditor({
   task,
+  isLoading,
   onSave,
   onClose,
   onDelete,
@@ -205,7 +207,12 @@ export function CompetitionTaskEditor({
           </div>
           <div className={s.buttons}>
             <Button onClick={onClose}>Отмена</Button>
-            <Button type="submit" isPrimary={true}>
+            <Button
+              isLoading={isLoading}
+              isDisabled={isLoading}
+              type="submit"
+              isPrimary={true}
+            >
               Сохранить
             </Button>
           </div>
