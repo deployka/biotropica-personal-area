@@ -1,116 +1,188 @@
 .header {
-    padding: 28px 30px;
+  padding: 28px 30px;
 
-    width: 100%;
+  width: 100%;
 
-    position: sticky;
-    top: 0;
+  position: sticky;
+  top: 0;
 
-    z-index: 10;
+  z-index: 10;
 
-    background-color: #3b82f6;
+  background-color: #3b82f6;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .rightContent {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+  }
+
+  .taskTitle {
+    display: flex;
     align-items: center;
 
-    .taskTitle{
-        display: flex;
-        align-items: center;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 120%;
 
-        font-weight: 500;
-        font-size: 16px;
-        line-height: 120%;
+    color: #ffffff;
 
-        color: #ffffff;
+    .icon {
+      margin: 0 8px 0 0;
 
-        .icon{
-            margin: 0 8px 0 0;
+      width: 24px;
+      height: 24px;
 
-            width: 24px;
-            height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+      border-radius: 50%;
 
-            border-radius: 50%;
-
-            background-color: #fff;
-        }
-        
-        .iconMask{
-            width: 24px;
-            height: 24px;
-            mask-repeat: no-repeat;
-            mask-position: center;
-        }
+      background-color: #fff;
     }
 
-    .title {
-        width: 100%;
+    .iconMask {
+      width: 24px;
+      height: 24px;
+      mask-repeat: no-repeat;
+      mask-position: center;
+    }
+  }
 
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+  .title {
+    width: 100%;
 
-        &.underline {
-            padding: 0 0 18px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-            border-bottom: 1px solid rgba(247, 246, 251, 0.2);
-        }
+    &.underline {
+      padding: 0 0 18px 0;
 
-        .closeIcon {
-            cursor: pointer;
-        }
+      border-bottom: 1px solid rgba(247, 246, 251, 0.2);
     }
 
-    .taskInfo {
-        position: relative;
+    .closeIcon {
+      cursor: pointer;
+    }
+  }
 
-        margin: 16px 0 0 0;
-        width: 100%;
+  .taskInfo {
+    position: relative;
 
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
+    margin: 16px 0 0 0;
+    width: 100%;
 
-        .row {
-            width: 170px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
 
-            display: flex;
-            flex-direction: column;
-        }
+    .row {
+      width: 170px;
 
-        .rowTitle {
-            font-weight: 500;
-            font-size: 11px;
-            line-height: 18px;
-
-            text-transform: uppercase;
-
-            color: #ffffff;
-
-            opacity: 0.7;
-        }
-
-        .rowText {
-            margin: 4px 0 0 0;
-
-            font-weight: 500;
-            font-size: 16px;
-            line-height: 18px;
-
-            color: #ffffff;
-        }
+      display: flex;
+      flex-direction: column;
     }
 
-    .editIcon{
-        position: absolute;
+    .rowTitle {
+      font-weight: 500;
+      font-size: 11px;
+      line-height: 18px;
 
-        bottom: 0;
-        right: 0;
+      text-transform: uppercase;
 
-        cursor: pointer;
+      color: #ffffff;
+
+      opacity: 0.7;
     }
+
+    .rowText {
+      margin: 4px 0 0 0;
+
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 18px;
+
+      color: #ffffff;
+    }
+  }
+
+  .editIcon {
+    position: absolute;
+
+    bottom: 0;
+    right: 0;
+
+    cursor: pointer;
+  }
+
+  .moreOptions {
+    position: relative;
+    width: 32px;
+    height: 32px;
+
+    @media screen and (max-width: 576px) {
+      padding-right: 10px;
+    }
+
+    .moreOptionsBtn {
+      width: 32px;
+      height: 32px;
+      img {
+        width: 32px;
+        height: 32px;
+      }
+
+      @media screen and (max-width: 768px) {
+        transform: rotate(90deg);
+      }
+    }
+
+    .moreOptionsBtn:hover {
+      opacity: 0.7;
+    }
+
+    .delete {
+      color: #e53935;
+      background: #f7f6fb;
+      width: 100%;
+      text-align: left;
+    }
+
+    .contextMenu {
+      position: absolute;
+      right: 30px;
+      top: 25px;
+      width: 255px;
+      border-radius: 5px;
+      background: #ffffff;
+      color: #fff;
+      box-shadow: 0px 1px 10px rgba(30, 23, 77, 0.09);
+      z-index: 1000;
+
+      @media screen and (max-width: 768px) {
+        right: 40px;
+        top: -37px;
+      }
+
+      @media screen and (max-width: 576px) {
+        width: 200px;
+      }
+
+      .contextMenuOption {
+        padding: 15px 20px;
+      }
+
+      .contextMenuOption:last-child {
+        margin-bottom: 0;
+      }
+
+      .contextMenuOption:hover {
+        opacity: 0.7;
+      }
+    }
+  }
 }

@@ -9,7 +9,6 @@ type TaskLayoutProps = {
   mode: 'edit' | 'view';
   isLoading: boolean;
   onClose(): void;
-  onDelete(): void;
   onSave(task: CreateSomeTask): void;
   onSendComment(newCommentText: string): void;
   onSaveFactValue(value: number): void;
@@ -22,7 +21,6 @@ export function TaskLayout({
   mode,
   onClose,
   onSave,
-  onDelete,
   isLoading,
   onSendComment,
   onSaveFirstValue,
@@ -47,7 +45,6 @@ export function TaskLayout({
       isLoading={isLoading}
       onSave={onSave}
       onClose={onClose}
-      onDelete={onDelete}
     />
   );
 }

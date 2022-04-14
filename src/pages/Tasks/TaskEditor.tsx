@@ -9,7 +9,6 @@ type TaskEditorProps = {
   isLoading: boolean;
   onSave(task: CreateSomeTask): void;
   onClose(): void;
-  onDelete(): void;
 };
 
 export const TaskEditor = ({
@@ -17,7 +16,6 @@ export const TaskEditor = ({
   onSave,
   isLoading,
   onClose,
-  onDelete,
 }: TaskEditorProps) => {
   switch (task.type) {
     case 'training':
@@ -27,7 +25,6 @@ export const TaskEditor = ({
           isLoading={isLoading}
           onSave={onSave}
           onClose={onClose}
-          onDelete={onDelete}
         />
       );
     case 'event':
@@ -37,7 +34,6 @@ export const TaskEditor = ({
           isLoading={isLoading}
           onSave={onSave}
           onClose={onClose}
-          onDelete={onDelete}
         />
       );
     case 'competition':
@@ -47,7 +43,6 @@ export const TaskEditor = ({
           task={task}
           onSave={onSave}
           onClose={onClose}
-          onDelete={onDelete}
         />
       );
     default:

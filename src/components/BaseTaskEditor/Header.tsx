@@ -5,6 +5,7 @@ import closeIcon from './../../assets/icons/close_white.svg';
 import editIcon from './../../assets/icons/edit_note.svg';
 
 import s from './Header.module.scss';
+import { MoreOptionsButton } from './MoreOptionsButton';
 
 interface Props {
   mode: 'edit' | 'view';
@@ -13,7 +14,10 @@ interface Props {
   category?: string;
   type?: string;
   onClose(): void;
+  taskId: string;
   onEditBtnClick(): void;
+  onSaveAsTemplate: () => void;
+  onDeleteTask(): void;
 }
 
 export const Header = ({
@@ -21,7 +25,10 @@ export const Header = ({
   title,
   icon,
   type,
+  onSaveAsTemplate,
+  onDeleteTask,
   category,
+  taskId,
   onClose,
   onEditBtnClick,
 }: Props) => {
@@ -58,52 +65,60 @@ export const Header = ({
     <div className={s.header} style={{ backgroundColor: headerColor }}>
       <div className={classNames(s.title, mode === 'view' ? s.underline : '')}>
         <div className={s.taskTitle}>
-          {icon && mode === 'view' && <div className={s.icon}>
-            <div
-              className={s.iconMask}
-              style={{
-                backgroundColor: headerColor,
-                WebkitMaskImage: `url(images/icons/taskType/${icon}.svg)`,
-                maskImage: `url(images/icons/taskType/${icon}.svg)`,
-              }}
-            >
+          {icon && mode === 'view' && (
+            <div className={s.icon}>
+              <div
+                className={s.iconMask}
+                style={{
+                  backgroundColor: headerColor,
+                  WebkitMaskImage: `url(images/icons/taskType/${icon}.svg)`,
+                  maskImage: `url(images/icons/taskType/${icon}.svg)`,
+                }}
+              ></div>
             </div>
-          </div>}
-
+          )}
           {mode === 'edit' ? 'Редактирование задачи' : title}
         </div>
-        <img
-          className={s.closeIcon}
-          src={closeIcon}
-          alt=""
-          onClick={onCloseClick}
-        />
+
+        <div className={s.rightContent}>
+          {mode === 'edit' && (
+            <MoreOptionsButton
+              saveTemplate={onSaveAsTemplate}
+              onDelete={onDeleteTask}
+              taskId={taskId}
+            />
+          )}
+          <img
+            className={s.closeIcon}
+            src={closeIcon}
+            alt=""
+            onClick={onCloseClick}
+          />
+        </div>
       </div>
 
-      {mode === 'view'
-        ? (
-          <div className={s.taskInfo}>
-            <div className={s.row}>
-              <p className={s.rowTitle}>тип задачи</p>
-              <p className={s.rowText}>{taskType}</p>
-            </div>
-            {category && (
-              <div className={s.row}>
-                <p className={s.rowTitle}>категория</p>
-                <p className={s.rowText}>{category}</p>
-              </div>
-            )}
-            <img
-              className={s.editIcon}
-              src={editIcon}
-              alt=""
-              onClick={onEditClick}
-            />
+      {mode === 'view' ? (
+        <div className={s.taskInfo}>
+          <div className={s.row}>
+            <p className={s.rowTitle}>тип задачи</p>
+            <p className={s.rowText}>{taskType}</p>
           </div>
-        )
-        : (
-          ''
-        )}
+          {category && (
+            <div className={s.row}>
+              <p className={s.rowTitle}>категория</p>
+              <p className={s.rowText}>{category}</p>
+            </div>
+          )}
+          <img
+            className={s.editIcon}
+            src={editIcon}
+            alt=""
+            onClick={onEditClick}
+          />
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

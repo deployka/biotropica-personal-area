@@ -32,6 +32,7 @@ import classNames from 'classnames';
 import { Tabs } from '../../components/Tabs/Tabs';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
+import { NotificationButtons } from './NotificationButtons';
 
 export function Tasks() {
   const currentUser = useSelector(selectUserData);
@@ -120,9 +121,36 @@ export function Tasks() {
     handleCloseTask();
   }
 
+  async function onDelete() {
+    try {
+      eventBus.emit(EventTypes.removeNotification, 'delete-notification');
+      await deleteTask(openedTaskId);
+      eventBus.emit(EventTypes.notification, {
+        type: NotificationType.SUCCESS,
+        message: `Задача ${openedTask?.title} успешно удалена!`,
+      });
+      handleCloseTask();
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        type: NotificationType.DANGER,
+        message: 'При удалении произошла ошибка, попробуйте еще раз',
+      });
+    }
+  }
+
+  function onDiscard() {
+    eventBus.emit(EventTypes.removeNotification, 'delete-notification');
+  }
+
   async function handleDeleteTask() {
-    await deleteTask(openedTaskId);
-    handleCloseTask();
+    eventBus.emit(EventTypes.notification, {
+      type: NotificationType.WARNING,
+      title: `Удалить задачу ${openedTask?.title}?`,
+      dismiss: undefined,
+      message: (
+        <NotificationButtons onDelete={onDelete} onDiscard={onDiscard} />
+      ),
+    });
   }
 
   async function handleSendComment(commentText: string) {
@@ -234,13 +262,17 @@ export function Tasks() {
       <TasksModal
         isLoading={isUpdateLoading || isCreateLoading}
         task={openedTask}
+        taskId={openedTaskId}
         mode={taskModalMode}
         isOpened={isTaskModalOpen}
         onClose={handleCloseTask}
         onEditBtnClick={handleEditClick}
         onSendComment={handleSendComment}
         onSave={handleSaveTask}
-        onDelete={handleDeleteTask}
+        onSaveAsTemplate={() => {
+          console.log('save template');
+        }}
+        onDeleteTask={handleDeleteTask}
         onSaveFirstValue={handleSaveFirstFactValue}
         onSaveSecondValue={handleSaveSecondFactValue}
         onSaveFactValue={handleSaveFactValue}

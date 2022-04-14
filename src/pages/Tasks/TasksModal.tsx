@@ -18,9 +18,11 @@ type TasksModalProps = {
   mode: 'edit' | 'view';
   isOpened: boolean;
   isLoading: boolean;
+  taskId: string;
   onClose(): void;
   onEditBtnClick(): void;
-  onDelete(): void;
+  onDeleteTask(): void;
+  onSaveAsTemplate: () => void;
   onSave(task: CreateSomeTask): void;
   onSendComment(newCommentText: string): void;
   onSaveFactValue(value: number): void;
@@ -30,12 +32,14 @@ type TasksModalProps = {
 
 export const TasksModal = ({
   task,
+  taskId,
   mode,
   isOpened,
   isLoading,
   onClose,
   onSave,
-  onDelete,
+  onSaveAsTemplate,
+  onDeleteTask,
   onEditBtnClick,
   onSendComment,
   onSaveFirstValue,
@@ -79,8 +83,11 @@ export const TasksModal = ({
   return (
     <BaseTaskEditor
       task={task}
+      taskId={taskId}
       title={title}
       icon={icon}
+      onDeleteTask={onDeleteTask}
+      onSaveAsTemplate={onSaveAsTemplate}
       category={category}
       mode={mode}
       isOpened={isOpened}
@@ -93,7 +100,6 @@ export const TasksModal = ({
         isLoading={isLoading}
         onSave={onSave}
         onClose={onClose}
-        onDelete={onDelete}
         onSendComment={onSendComment}
         onSaveFactValue={onSaveFactValue}
         onSaveFirstValue={onSaveFirstValue}

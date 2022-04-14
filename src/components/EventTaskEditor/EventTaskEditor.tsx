@@ -21,7 +21,6 @@ export type EventTaskEditorProps = {
   isLoading: boolean;
   onClose(): void;
   onSave(task: CreateEventTask): void;
-  onDelete(taskId: string): void;
 };
 
 export function EventTaskEditor({
@@ -29,16 +28,9 @@ export function EventTaskEditor({
   onClose,
   onSave,
   isLoading,
-  onDelete,
 }: EventTaskEditorProps) {
   function onSubmit(values: Partial<CreateEventTask>) {
     onSave({ ...task, ...values });
-  }
-
-  function onDeleteTask() {
-    if ('id' in task) {
-      onDelete(task.id);
-    }
   }
 
   return (
@@ -191,14 +183,6 @@ export function EventTaskEditor({
               Сохранить
             </Button>
           </div>
-          {'id' in task && (
-            <div
-              className={classNames(s.line, s.delete)}
-              onClick={onDeleteTask}
-            >
-              Удалить задачу
-            </div>
-          )}
         </form>
       )}
     </Formik>

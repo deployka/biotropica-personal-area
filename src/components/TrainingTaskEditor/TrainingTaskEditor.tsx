@@ -25,7 +25,6 @@ export type TrainingTaskEditorProps = {
   isLoading: boolean;
   task: TrainingTask | CreateTrainingTask;
   onSave(task: CreateTrainingTask): void;
-  onDelete(): void;
 };
 
 export function TrainingTaskEditor({
@@ -33,7 +32,6 @@ export function TrainingTaskEditor({
   onClose,
   onSave,
   isLoading,
-  onDelete,
 }: TrainingTaskEditorProps) {
   function onSubmit(values: Partial<CreateTrainingTask>) {
     onSave({ ...task, ...values });
@@ -206,11 +204,6 @@ export function TrainingTaskEditor({
                 Сохранить
               </Button>
             </div>
-            {'id' in task && (
-              <div className={classNames(s.line, s.delete)} onClick={onDelete}>
-                Удалить задачу
-              </div>
-            )}
           </form>
         );
       }}
