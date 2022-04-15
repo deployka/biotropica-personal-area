@@ -3,7 +3,6 @@ import ErrorPage from '../pages/ErrorPage/containers/ErrorPage';
 import AddGoal from '../pages/Goals/components/AddGoal/AddGoal';
 import EditGoalForm from '../pages/Goals/components/EditGoalForm/EditGoalForm';
 import Goals from '../pages/Goals/containers/Goals';
-import Home from '../pages/Home/containers/Home';
 import Policy from '../pages/Policy/containers/Policy';
 import Edit from '../pages/Profile/containers/Edit';
 import { ProfileLayout } from '../layouts/ProfileLayout';
@@ -23,7 +22,6 @@ const routes = [
     path: '/',
     component: Tasks,
     exact: true,
-    access: 'FRONT_TASKS_PAGE',
   },
   {
     path: 'recommendations',
@@ -58,6 +56,12 @@ const routes = [
     exact: true,
   },
   {
+    path: 'users/:id',
+    component: ProfileLayout,
+    specialistComponent: SpecialistProfile,
+    exact: true,
+  },
+  {
     path: 'users/:userId/tasks',
     component: Tasks,
     exact: true,
@@ -79,7 +83,7 @@ const routes = [
   },
   {
     path: 'specialists/:id',
-    component: Specialist,
+    component: SpecialistProfile,
   },
 
   {

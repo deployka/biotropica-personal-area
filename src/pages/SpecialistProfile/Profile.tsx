@@ -67,16 +67,20 @@ const Profile = () => {
             <div className={s.courses}>
               <div className={s.title}>
                 <h3>Курсы повышения квалификации</h3>
-                <div className={s.postList}>
-                  {courses.map((course, i) => (
-                    <Post
-                      key={i}
-                      title={course.title}
-                      description={course.description}
-                      date={course.date}
-                    />
-                  ))}
-                </div>
+                {courses.length
+                  ? <div className={s.postList}>
+                    {courses.map((course, i) => (
+                      <Post
+                        key={i}
+                        title={course.title}
+                        description={course.description}
+                        date={course.date}
+                      />
+                    ))}
+                  </div>
+                  : <p>
+                      Нет данных
+                  </p> }
               </div>
             </div>
         }
