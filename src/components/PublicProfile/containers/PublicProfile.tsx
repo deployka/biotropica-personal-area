@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 import AnalyzeService from '../../../services/AnalyzeService';
 import UserService from '../../../services/UserService';
 import { Analyze } from '../../../store/ducks/analyze/contracts/state';
@@ -18,11 +19,10 @@ import { fetchUserDataById } from '../../../store/ducks/user/actionCreators';
 import { selectUserData } from '../../../store/ducks/user/selectors';
 import { Profile } from './Profile';
 
-type Props = {
-  userId: number;
-};
+export const PublicProfile = () => {
+  const { id } = useParams<{ id: string }>();
 
-export const PublicProfile = ({ userId }: Props) => {
+  const userId = +id;
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
   const progress = useSelector(selectProgressData);
