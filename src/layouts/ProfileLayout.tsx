@@ -17,7 +17,7 @@ export const ProfileLayout = ({ isAuth = true }: Props) => {
 
   const user = useSelector(selectUserData);
 
-  const { id } = useParams<{id: string}>();
+  const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     if (isAuth) {
