@@ -40,7 +40,7 @@ function App(): ReactElement {
   }, [isAuth, dispatch]);
 
   if (userDataLoading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   return (
@@ -65,9 +65,6 @@ function App(): ReactElement {
         </PublicRoute>
         <PublicRoute path="/policy" isAuth={isAuth}>
           <Policy />
-        </PublicRoute>
-        <PublicRoute path="/users/:id" isAuth={isAuth}>
-          <ProfileLayout isAuth={isAuth} />
         </PublicRoute>
         <PublicRoute path="/users/:id/tabs/:active" isAuth={isAuth}>
           <ProfileLayout isAuth={isAuth} />

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Card } from '../components/Card/Card';
 import { Tariff } from '../components/Tariff/Tariff';
 import { Goals } from '../components/Goals/Goals';
 import { Progress } from '../components/Progress/Progress';
 import { Recommended } from '../components/Recommended/Recommended';
 import { TestsAndAnalyze } from '../components/TestsAndAnalyze/TestsAndAnalyze';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 import { getTabByKey } from '../../../utils/tabsHelper';
 
@@ -60,8 +60,6 @@ export const Profile = ({
 
   const { active } = useParams<Param>();
 
-  const history = useHistory();
-
   const [activeTab, setActiveTab] = useState<string>(
     getTabByKey(active, tabs)?.key || tabs[0].key,
   );
@@ -69,20 +67,7 @@ export const Profile = ({
   const tariffData = {
     name: 'стандарт',
     expires: '9 июля 2021',
-  };
-
-  function onTabClick(tab: Tab) {
-    history.push(`/${`users/${user?.id}`}/tabs/${tab.key}`);
-  }
-
-  useEffect(() => {
-    if (active) {
-      setActiveTab(getTabByKey(active, tabs)?.key || activeTab);
-      history.push(
-        `/profile/tabs/${getTabByKey(active, tabs)?.key || activeTab}`,
-      );
-    }
-  }, [history, active, activeTab]);
+  }; // TODO: добавить нормальные данные
 
   return (
     <>
@@ -102,7 +87,6 @@ export const Profile = ({
                 activeTab={activeTab}
                 onActiveTabChanged={setActiveTab}
                 spaceBetween={50}
-                onTabClick={onTabClick}
               />
             </div>
           </div>

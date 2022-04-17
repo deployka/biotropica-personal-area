@@ -16,6 +16,7 @@ import { Recommendations } from '../pages/Recommendations/Recommendations';
 import VideoConsultationsList from '../pages/SpecilalistVideoConsultationsList/VideoConsultationsList';
 import SpecialistProfile from '../pages/SpecialistProfile/Profile';
 import { Users } from '../pages/Users/Users';
+import { PublicProfile } from '../components/PublicProfile/containers/PublicProfile';
 
 const routes = [
   {
@@ -56,9 +57,15 @@ const routes = [
     exact: true,
   },
   {
+    path: 'users/:id/tabs/:active',
+    component: ProfileLayout,
+    specialistComponent: PublicProfile,
+    exact: true,
+  },
+  {
     path: 'users/:id',
     component: ProfileLayout,
-    specialistComponent: SpecialistProfile,
+    specialistComponent: PublicProfile,
     exact: true,
   },
   {
