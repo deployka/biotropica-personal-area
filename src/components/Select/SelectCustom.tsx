@@ -96,9 +96,7 @@ function SelectCustom<V>({ touched, error, ...props }: Props<V>) {
         name={name}
         value={selectValue}
         placeholder={placeholder}
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        styles={{ ...styles }}
+        styles={{ ...(styles as object) }}
         options={options}
         onChange={e => onChange(e?.value || null)}
         onBlur={onBlur}

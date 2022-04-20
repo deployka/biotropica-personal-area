@@ -1,10 +1,9 @@
-import { SpecializationName } from '../store/ducks/specialist/contracts/state';
+import { Specialization } from '../store/ducks/specialist/contracts/state';
 
 export function formatSpecializationsToString(
-  specializations: Array<keyof typeof SpecializationName>,
+  specializations: Specialization[],
 ): string {
   if (specializations === null) return '';
   if (!Array.isArray(specializations)) return '';
-
-  return specializations.join(', ');
+  return specializations.map(s => s.title).join(', ');
 }

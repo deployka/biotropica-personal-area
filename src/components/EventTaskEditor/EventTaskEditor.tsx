@@ -18,6 +18,7 @@ import validationSchema from './validationSchema';
 
 export type EventTaskEditorProps = {
   task: EventTask | CreateEventTask;
+  isLoading: boolean;
   onClose(): void;
   onSave(task: CreateEventTask): void;
   onDelete(taskId: string): void;
@@ -27,6 +28,7 @@ export function EventTaskEditor({
   task,
   onClose,
   onSave,
+  isLoading,
   onDelete,
 }: EventTaskEditorProps) {
   function onSubmit(values: Partial<CreateEventTask>) {
@@ -133,44 +135,40 @@ export function EventTaskEditor({
             />
           </div>
           <div className={s.line}>
-            {values.completionType
-              ? (
-                values.completionType === 'byDate'
-                  ? (
-                    <DatePickerCustom
-                      name="completionDate"
-                      minDate={NEW_DATE}
-                      selected={
-                        typeof values.completionValue !== 'number' &&
+            {values.completionType ? (
+              values.completionType === 'byDate' ? (
+                <DatePickerCustom
+                  name="completionDate"
+                  minDate={NEW_DATE}
+                  selected={
+                    typeof values.completionValue !== 'number' &&
                     values.completionValue
-                          ? new Date(values.completionValue)
-                          : null
-                      }
-                      label={'Дата завершения'}
-                      onBlur={handleBlur}
-                      onChange={(date: Date) =>
-                        setFieldValue('completionValue', date)
-                      }
-                      onSelect={(date: Date) =>
-                        setFieldValue('completionValue', date)
-                      }
-                    />
-                  )
-                  : (
-                    <Input
-                      type={InputTypes.NUMBER}
-                      placeholder="Количество повторений"
-                      label="Количество повторений"
-                      name="completionValue"
-                      value={values.completionValue ? +values.completionValue : ''}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                    />
-                  )
+                      ? new Date(values.completionValue)
+                      : null
+                  }
+                  label={'Дата завершения'}
+                  onBlur={handleBlur}
+                  onChange={(date: Date) =>
+                    setFieldValue('completionValue', date)
+                  }
+                  onSelect={(date: Date) =>
+                    setFieldValue('completionValue', date)
+                  }
+                />
+              ) : (
+                <Input
+                  type={InputTypes.NUMBER}
+                  placeholder="Количество повторений"
+                  label="Количество повторений"
+                  name="completionValue"
+                  value={values.completionValue ? +values.completionValue : ''}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                />
               )
-              : (
-                ''
-              )}
+            ) : (
+              ''
+            )}
           </div>
           <div className={s.line}>
             <HtmlEditor
@@ -184,7 +182,12 @@ export function EventTaskEditor({
           </div>
           <div className={s.buttons}>
             <Button onClick={onClose}>Отмена</Button>
-            <Button type="submit" isPrimary={true}>
+            <Button
+              isDisabled={isLoading}
+              isLoading={isLoading}
+              type="submit"
+              isPrimary={true}
+            >
               Сохранить
             </Button>
           </div>

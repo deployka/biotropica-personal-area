@@ -1,16 +1,13 @@
 import React from 'react';
-import {
-  CreateSomeTask,
-} from '../../store/@types/Task';
+import { CreateSomeTask } from '../../store/@types/Task';
 import { CompetitionTaskEditor } from '../../components/CompetitionTaskEditor/CompetitionTaskEditor';
 import { EventTaskEditor } from '../../components/EventTaskEditor/EventTaskEditor';
 import { TrainingTaskEditor } from '../../components/TrainingTaskEditor/TrainingTaskEditor';
 
 type TaskEditorProps = {
-  task: CreateSomeTask
-  onSave(
-    task: CreateSomeTask
-  ): void;
+  task: CreateSomeTask;
+  isLoading: boolean;
+  onSave(task: CreateSomeTask): void;
   onClose(): void;
   onDelete(): void;
 };
@@ -18,6 +15,7 @@ type TaskEditorProps = {
 export const TaskEditor = ({
   task,
   onSave,
+  isLoading,
   onClose,
   onDelete,
 }: TaskEditorProps) => {
@@ -26,6 +24,7 @@ export const TaskEditor = ({
       return (
         <TrainingTaskEditor
           task={task}
+          isLoading={isLoading}
           onSave={onSave}
           onClose={onClose}
           onDelete={onDelete}
@@ -35,6 +34,7 @@ export const TaskEditor = ({
       return (
         <EventTaskEditor
           task={task}
+          isLoading={isLoading}
           onSave={onSave}
           onClose={onClose}
           onDelete={onDelete}
@@ -43,6 +43,7 @@ export const TaskEditor = ({
     case 'competition':
       return (
         <CompetitionTaskEditor
+          isLoading={isLoading}
           task={task}
           onSave={onSave}
           onClose={onClose}

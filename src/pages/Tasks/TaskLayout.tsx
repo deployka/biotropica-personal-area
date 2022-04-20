@@ -5,21 +5,17 @@ import { TaskEditor } from './TaskEditor';
 import { TaskPreview } from './TaskPreview';
 
 type TaskLayoutProps = {
-    task:
-      | SomeTask
-      | CreateSomeTask
-      | null;
-    mode: 'edit' | 'view';
-    onClose(): void;
-    onDelete(): void;
-    onSave(
-      task: CreateSomeTask
-    ): void;
-    onSendComment(newCommentText: string): void;
-    onSaveFactValue(value: number): void;
-    onSaveFirstValue(value: number | undefined): void;
-    onSaveSecondValue(value: number | undefined): void;
-  };
+  task: SomeTask | CreateSomeTask | null;
+  mode: 'edit' | 'view';
+  isLoading: boolean;
+  onClose(): void;
+  onDelete(): void;
+  onSave(task: CreateSomeTask): void;
+  onSendComment(newCommentText: string): void;
+  onSaveFactValue(value: number): void;
+  onSaveFirstValue(value: number | undefined): void;
+  onSaveSecondValue(value: number | undefined): void;
+};
 
 export function TaskLayout({
   task,
@@ -27,6 +23,7 @@ export function TaskLayout({
   onClose,
   onSave,
   onDelete,
+  isLoading,
   onSendComment,
   onSaveFirstValue,
   onSaveSecondValue,
@@ -47,6 +44,7 @@ export function TaskLayout({
   return (
     <TaskEditor
       task={task}
+      isLoading={isLoading}
       onSave={onSave}
       onClose={onClose}
       onDelete={onDelete}

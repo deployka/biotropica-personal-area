@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import s from './Profile.module.scss';
 
-import { RootState } from '../../store/store';
 import Card from './components/Card/Card';
 import { Post } from './components/Post/Post';
 import { ROLE } from '../../store/rtk/types/user';
@@ -11,15 +10,24 @@ import Button from '../../components/Button/Button';
 import { chatApi } from '../../shared/Global/Chat/services/chatApi';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { useParams } from 'react-router-dom';
+import { selectUserData } from '../../store/ducks/user/selectors';
+import { useGetUserQuery } from '../../store/rtk/requests/user';
 
 const Profile = () => {
   const { id } = useParams<{ id: string }>();
 
-  const userId = Number(id);
+  const currentUser = useSelector(selectUserData);
 
-  const users = useSelector((state: RootState) => state.users.list);
+  console.log('SpecialistProfile', currentUser);
+  const userId = Number(id || currentUser?.id);
+  console.log('SpecialistProfile.id', userId);
+  const { data: user } = useGetUserQuery(userId, {
+    skip: Number.isNaN(userId),
+  });
 
-  const user = users.find(user => user.id === userId);
+  // const users = useSelector((state: RootState) => state.users.list);
+  //
+  // const user = users.find(user => user.id === userId);
   const courses = user?.specialist?.courses;
   const userClient = user?.roles.some(it => it.name === ROLE.USER);
 
@@ -50,20 +58,25 @@ const Profile = () => {
             ''
           )}
         </div>
+
         {courses && (
           <div className={s.courses}>
             <div className={s.title}>
               <h3>Курсы повышения квалификации</h3>
-              <div className={s.postList}>
-                {courses.map((course, i) => (
-                  <Post
-                    key={i}
-                    title={course.title}
-                    description={course.description}
-                    date={course.date}
-                  />
-                ))}
-              </div>
+              {courses.length ? (
+                <div className={s.postList}>
+                  {courses.map((course, i) => (
+                    <Post
+                      key={i}
+                      title={course.title}
+                      description={course.description}
+                      date={course.date}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p>Нет данных</p>
+              )}
             </div>
           </div>
         )}
