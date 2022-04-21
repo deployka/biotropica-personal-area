@@ -25,7 +25,7 @@ export const PublicProfile = () => {
   const userId = +id;
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
-  const progress = useSelector(selectProgressData);
+  const progress = useSelector(selectProgressData) || [];
   const goalsLength = useSelector(selectGoalsData).length;
   const recommendations = useSelector(selectSortedRecommendationsData);
   const progressLoadingStatus = useSelector(selectProgressLoadingStatus);
@@ -51,7 +51,7 @@ export const PublicProfile = () => {
     fetchAnswers();
   }, [dispatch, userId]);
 
-  if (!user || !progress?.length) {
+  if (!user) {
     return <div>Загрузка...</div>;
   }
 

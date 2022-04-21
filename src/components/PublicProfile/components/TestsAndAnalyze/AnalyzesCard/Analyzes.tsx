@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import { AnalyzeAnswer } from '../../../../../store/ducks/analyze/contracts/state';
 import { getMediaLink } from '../../../../../utils/mediaHelper';
 import documentSvg from '../../../../../assets/icons/profile/document.svg';
+import { AnalyzesComments } from '../AnalyzesComments/AnalyzesComments';
 
 import s from './AnalyzesCard.module.scss';
 
@@ -11,6 +12,8 @@ interface Props {
 }
 
 export const Analyzes = ({ analyzes }: Props) => {
+  const [isCommentsOpen, setIsCommentsOpen] = useState(false);
+
   function formatCreatedAt(createdAt: string) {
     return moment(createdAt).format('LL');
   }
@@ -32,9 +35,20 @@ export const Analyzes = ({ analyzes }: Props) => {
               </a>
             </div>
           </div>
-          <div className={s.createdAt}>
-            {formatCreatedAt(analyze.createdAt)}
+          <div className={s.analyze_footer}>
+            <div className={s.createdAt}>
+              {formatCreatedAt(analyze.createdAt)}
+            </div>
+
+            <div
+              onClick={() => setIsCommentsOpen(!isCommentsOpen)}
+              className={s.commentsCount}
+            >
+              {isCommentsOpen ? 'скрыть' : 'показать'} комментарии:{' '}
+              {analyze.comments?.length || 0}
+            </div>
           </div>
+          {isCommentsOpen && <AnalyzesComments comments={analyze.comments} />}
         </div>
       ))}
     </div>

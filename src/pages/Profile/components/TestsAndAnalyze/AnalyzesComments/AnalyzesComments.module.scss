@@ -1,0 +1,49 @@
+.analyzesComments {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+}
+
+.analyzesComment {
+  display: flex;
+  margin-right: 12px;
+  margin-bottom: 20px;
+  max-width: 550px;
+}
+
+.data {
+  &_header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    h5 {
+      font-size: 16px;
+      color: #04030a;
+      margin-right: 14px;
+      font-weight: 500;
+    }
+    p {
+      font-size: 14px;
+      color: #bbbbbb;
+    }
+  }
+  .data_content {
+    font-size: 16px;
+    color: #9895a7;
+  }
+}
+
+.avatar {
+  border-radius: 50%;
+  min-width: 42px;
+  max-height: 42px;
+  margin-right: 12px;
+  border: 1px solid #bbbbbb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    min-width: 38px;
+    max-height: 38px;
+  }
+}

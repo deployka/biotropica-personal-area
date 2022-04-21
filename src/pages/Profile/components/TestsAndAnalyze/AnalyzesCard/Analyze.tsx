@@ -3,7 +3,7 @@ import moment from 'moment';
 import { AnalyzeAnswer } from '../../../../../store/ducks/analyze/contracts/state';
 import { getMediaLink } from '../../../../../utils/mediaHelper';
 import documentSvg from '../../../../../assets/icons/profile/document.svg';
-import { AnalyzesComments } from '../AnalzyesComments/AnalyzesComments';
+import { AnalyzesComments } from '../AnalyzesComments/AnalyzesComments';
 
 import s from './AnalyzesCard.module.scss';
 
