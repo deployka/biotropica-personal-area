@@ -862,10 +862,8 @@ const Policy = () => {
             </div>
           </div>
           </div>
-      
         </div>
       </div>
-    </div>
   );
 };
 
