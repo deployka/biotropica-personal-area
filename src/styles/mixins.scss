@@ -1,38 +1,158 @@
-@mixin avatar() {
-  width: 36px;
-  height: 36px;
-
+@mixin flex($direction: row, $justify: center, $align: center, $wrap: nowrap) {
   display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 50%;
-
-  box-sizing: border-box;
-
-  border: 3px solid $color-primary;
-  filter: drop-shadow(0px 0px 4px rgba(126, 134, 239, 0.15));
-
-  transition: all 0.2s ease;
-
-  &__img {
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    overflow: hidden;
-
-    img {
-      height: 100%;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+  flex-direction: $direction;
+}
+@mixin wh($width: 100px, $height: 100px) {
+  width: $width;
+  height: $height;
+}
+@mixin minwh($width: 100px, $height: 100px) {
+  min-width: $width;
+  min-height: $height;
+}
+@mixin maxwh($width: 100px, $height: 100px) {
+  max-width: $width;
+  max-height: $height;
+}
+@mixin allwh($width: 100px, $height: 100px) {
+  width: $width;
+  height: $height;
+  min-width: $width;
+  min-height: $height;
+  max-width: $width;
+  max-height: $height;
+}
+@mixin defaultBtn(
+  $width: 141px,
+  $height: 31px,
+  $border: 1px solid $color-primary,
+  $clr: $color-primary,
+  $bg: transparent,
+  $hoverClr: $color-secondary,
+  $hoverBg: $color-secondary,
+  $hoverBorder: 1px solid $color-secondary,
+  $transition: 0.2s,
+  $disabledClr: $color-disabled,
+  $disabledBg: $color-disabled,
+  $selectedClr: $color-white,
+  $selectedBg: $color-primary,
+  $selectedBorder: $color-primary,
+  $fs: 16px,
+  $fw: 500,
+  $lh: 120%
+) {
+  cursor: pointer;
+  @include flex();
+  border-radius: 50px;
+  width: $width;
+  height: $height;
+  border: $border;
+  color: $clr;
+  background: $bg;
+  transition: $transition;
+  font-size: $fs;
+  font-weight: $fw;
+  line-height: $lh;
+  @media (min-width: $sze-laptop-sm) {
+    &:hover {
+      color: $hoverClr;
+      border: $hoverBorder;
     }
   }
-
-  &:hover {
-    border-color: $color-white;
+  &:disabled {
+    color: $disabledClr;
+    background: $disabledBg;
   }
+  &.selected {
+    color: $selectedClr;
+    background: $selectedBg;
+    border: $selectedBorder;
+  }
+}
+@mixin invisibleScroll() {
+  scrollbar-width: none;
+  overflow-y: auto;
+}
+
+@mixin for-laptop {
+  @media (max-width: 1180px) {
+    @content;
+  }
+}
+@mixin for-tablet {
+  @media (max-width: 860px) {
+    @content;
+  }
+}
+
+@mixin for-phone {
+  @media (max-width: 600px) {
+    @content;
+  }
+}
+$font-primary: "Montserrat", sans-serif;
+
+@mixin Heading-1 {
+  font-family: $font-primary;
+
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 120%;
+
+  letter-spacing: 0.0075em;
+}
+
+@mixin Heading-2 {
+  font-family: $font-primary;
+
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 120%;
+
+  letter-spacing: 0.0075em;
+}
+
+@mixin Heading-3 {
+  font-family: $font-primary;
+
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 120%;
+}
+
+@mixin text-regular {
+  font-family: $font-primary;
+
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 120%;
+}
+
+@mixin text-medium {
+  font-family: $font-primary;
+
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+}
+
+@mixin text-message {
+  font-family: $font-primary;
+
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 130%;
+
+  letter-spacing: 0.25px;
+}
+
+@mixin link {
+  font-family: $font-primary;
+
+  font-size: 16px;
+  line-height: 120%;
 }

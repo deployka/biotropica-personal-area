@@ -29,3 +29,32 @@ $font-primary: 'Montserrat', sans-serif;
 
   font-family: $font-primary;
 }
+
+
+@mixin Heading-1 {
+  font-family: $font-primary;
+
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 120%;
+
+  letter-spacing: 0.0075em;
+}
+
+@mixin Heading-2 {
+  font-family: $font-primary;
+
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 120%;
+
+  letter-spacing: 0.0075em;
+}
+
+@mixin Heading-3 {
+  font-family: $font-primary;
+
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 120%;
+}

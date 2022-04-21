@@ -1,37 +1,35 @@
-import { LoadingStatus } from '../../../types';
+import { ISelect } from '../../../../shared/Form/Select/SelectCustom';
+import { LoadingStatus, Response } from '../../../types';
 
 export interface User {
   id: number;
   email: string;
   password: string;
-  profile_photo: string;
+  profilePhoto: string;
   name: string;
   lastname: string;
   patronymic: string;
-  dob: string;
+  dob: Date;
   phone: string;
-  gender: string;
-  before_photos: JSON;
-  after_photos: JSON;
+  gender: ISelect<string>[];
   paid: boolean;
+  isOnline: boolean;
   banned: boolean;
   banReason: string;
   confirmed: boolean;
-  confirmed_hash: string;
   refreshToken: string;
 }
 
 export interface UserState {
-  data: User | undefined;
+  user: User | undefined;
   status: LoadingStatus;
-  response: any;
-  errors: ErrorsData | undefined;
+  response: Response | undefined;
 }
 
 export interface SignupData {
   email: string;
   password: string;
-  verification_password: string;
+  verificationPassword: string;
   name: string;
   lastname: string;
   phone: string;
@@ -41,22 +39,25 @@ export interface SigninData {
   email: string;
   password: string;
 }
+export interface UpdateEmailData {
+  email: string;
+}
 
-export interface ErrorsData {
-  message: string;
-  statusCode: string;
+export interface UpdateUserData extends Partial<Omit<User, 'profilePhoto'>> {
+  profilePhoto: File | null | string;
 }
 
 export interface ForgotPasswordData {
   email: string;
 }
 export interface ChangePasswordData {
+  currentPassword: string;
   password: string;
-  verification_password: string;
+  verificationPassword: string;
 }
 
 export interface RestorePasswordData {
   password: string;
-  verification_password: string;
-  restoreToken?: string;
+  verificationPassword: string;
+  restoreToken: string;
 }

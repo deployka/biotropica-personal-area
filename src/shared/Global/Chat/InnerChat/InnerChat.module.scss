@@ -1,0 +1,29 @@
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
+
+.innerChat {
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.messages {
+  padding: 30px 30px;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: auto;
+  scrollbar-width: none;
+  outline: none;
+  height: inherit;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @include for-phone {
+    padding: 30px 10px;
+  }
+}

@@ -1,0 +1,126 @@
+@import '../../../../../styles/mixins.scss';
+@import '../../../../../styles/variables.scss';
+
+.card {
+  margin: 0 0 20px 0;
+  padding: 19px 30px 18px 26px;
+
+  position: relative;
+
+  width: 354px;
+  height: 80px;
+
+  background-color: $color-white;
+  border-radius: 5px;
+
+  box-shadow: 0px 0px 6px rgba(205, 199, 230, 0.5);
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  @include for-phone {
+    margin: 5px 0;
+    width: 100%;
+  }
+
+  .status {
+    width: 3px;
+    height: 40px;
+    border-radius: 0px 2px 2px 0px;
+    position: absolute;
+
+    left: 0;
+    top: calc(50% - 20px);
+  }
+  .title {
+    p {
+      color: $color-black;
+
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 120%;
+      letter-spacing: 0.0075em;
+      margin-bottom: 5px;
+    }
+  }
+  .recommendations {
+    p {
+      color: $color-grey-2;
+
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 120%;
+    }
+  }
+
+  .expand {
+    position: absolute;
+    right: -11px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: $color-white;
+    border-radius: 50%;
+
+    filter: drop-shadow(0px 3px 16px rgba(233, 229, 247, 0.5));
+
+    transition: all 0.3s ease;
+
+    @include for-phone {
+      display: none;
+    }
+
+    svg {
+      width: 7px;
+      height: 12px;
+      stroke: #333333;
+    }
+  }
+
+  &:hover {
+    .expand {
+      filter: drop-shadow(1px 0px 13px rgba(91, 76, 200, 0.3));
+      background-color: $color-primary;
+      svg {
+        stroke: $color-white;
+      }
+    }
+  }
+
+  &.active {
+    background-color: $color-primary;
+
+    .title {
+      p {
+        color: $color-white;
+      }
+    }
+    .recommendations {
+      p {
+        color: $color-primary-hover-2;
+      }
+    }
+    .expand {
+      transform: scale(-1, 1) translateY(-50%);
+      filter: drop-shadow(0px 3px 16px rgba(91, 76, 200, 0.6));
+    }
+
+    &:hover {
+      .expand {
+        filter: drop-shadow(1px 0px 13px rgba(91, 76, 200, 0.3));
+        background-color: #ffffff;
+        svg {
+          stroke: #333333;
+        }
+      }
+    }
+  }
+}

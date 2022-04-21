@@ -1,0 +1,223 @@
+@import '../../../styles/mixins.scss';
+@import '../../../styles/variables.scss';
+
+.goals {
+  width: 100%;
+
+  .header {
+    position: relative;
+
+    margin: 0 0 20px 0;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .right,
+    .left {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+
+      width: 32px;
+      height: 32px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      background: #ffffff;
+      filter: drop-shadow(0px 3px 16px rgba(233, 229, 247, 0.5));
+      border-radius: 50%;
+
+      z-index: 21;
+
+      cursor: pointer;
+
+      transition: all 0.2s ease;
+
+      @include for-tablet {
+        display: none;
+      }
+
+      &:hover {
+        svg {
+          path {
+            stroke: $color-white;
+          }
+        }
+        background: $color-primary;
+      }
+    }
+    .right {
+      right: -16px;
+    }
+    .left {
+      left: -16px;
+    }
+
+    .container {
+      position: relative;
+      width: 75%;
+      max-width: 890px;
+
+      display: flex;
+      align-items: center;
+
+      @include for-phone {
+        width: 100%;
+      }
+    }
+
+    .createBtn {
+      width: 23%;
+      max-width: 275px;
+      height: 60px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: $color-primary;
+      border: 1px solid $color-primary;
+      box-shadow: 0px 0px 4px rgba(111, 97, 208, 0.14);
+      border-radius: 5px;
+
+      font-weight: 500;
+      user-select: none;
+
+      text-decoration: none;
+      font-size: 16px;
+      line-height: 120%;
+
+      @include for-tablet {
+        font-size: 14px;
+        text-align: center;
+      }
+
+      @include for-phone {
+        display: none;
+      }
+    }
+  }
+
+  .content {
+    padding: 40px 30px 50px 30px;
+
+    width: 100%;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    @include for-laptop {
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    background: $color-white;
+
+    box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+    border-radius: 15px;
+
+    @include for-laptop {
+      padding: 0;
+      box-shadow: none;
+    }
+
+    .graph {
+      width: 75%;
+
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+
+      @include for-laptop {
+        padding: 40px 30px;
+
+        width: 100%;
+
+        box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+      }
+
+      @include for-phone {
+        padding: 10px;
+      }
+    }
+
+    .edit {
+      width: 22%;
+
+      @include for-laptop {
+        width: 100%;
+      }
+    }
+  }
+
+  .helper {
+    margin: 0 0 20px 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+
+    @include for-laptop {
+      flex-direction: column;
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .title {
+      p {
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 120%;
+        word-break: break-word;
+        color: $color-black;
+        margin-bottom: 5px;
+      }
+    }
+
+    .description {
+      p {
+        font-size: 16px;
+        word-break: break-word;
+        max-width: 420px;
+        line-height: 120%;
+        color: $color-secondary;
+      }
+    }
+
+    .selectors {
+      margin: 0 30px 0 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+
+      @include for-laptop {
+        margin: 30px 0 0 0;
+      }
+
+      @include for-phone {
+        flex-direction: column;
+        align-items: flex-start;
+        row-gap: 10px;
+      }
+    }
+
+    .tabs {
+      margin: 0 30px 0 0;
+    }
+  }
+  .goalsContainer {
+    display: flex;
+    width: 100%;
+  }
+}

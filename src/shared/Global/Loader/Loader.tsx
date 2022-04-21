@@ -1,9 +1,7 @@
 import React from 'react';
 import s from './Loader.module.scss';
 
-interface Props {}
-
-export const Loader = ({}: Props) => {
+export const Loader = () => {
   return (
     <div className={s.loader}>
       <div className={s.loaderLine}></div>

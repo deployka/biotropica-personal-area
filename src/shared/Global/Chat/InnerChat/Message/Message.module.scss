@@ -1,0 +1,152 @@
+@import "/src/styles/mixins.scss";
+@import "/src/styles/variables.scss";
+.message {
+  border-radius: 0 15px 15px 15px;
+  background: $color-grey;
+  width: fit-content;
+  margin-bottom: 7px;
+  max-width: 309px;
+  position: relative;
+  word-break: break-word;
+
+  @include for-phone {
+    max-width: calc(100% - 10px);
+  }
+
+  .time {
+    user-select: none;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 120%;
+    color: $color-grey-2;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+
+    &.document {
+      position: absolute;
+      right: 5px;
+      bottom: 13px;
+    }
+
+    &.text {
+      position: absolute;
+      right: 5px;
+      bottom: 12px;
+    }
+
+    & span {
+      margin-right: 5px;
+    }
+  }
+
+  &.textMessage {
+    padding: 12px 65px 12px 20px;
+
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    letter-spacing: 0.25px;
+    color: $color-black;
+
+    text-align: left;
+  }
+
+  &.imageMessage {
+    cursor: pointer;
+    display: block;
+
+    max-width: 100%;
+    height: auto;
+
+    border: 4px solid #f7f6fb;
+  }
+
+  &.documentMessage {
+    padding: 20px 5px 10px 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    .top {
+      margin: 0 15px 20px 0;
+
+      display: flex;
+      align-items: center;
+
+      color: #1e174d;
+      text-decoration: none;
+
+      cursor: pointer;
+    }
+    .bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: $color-grey-2;
+      font-size: 14px;
+      line-height: 17px;
+      width: 100%;
+    }
+
+    .icon {
+      margin: 0 15px 0 0;
+      width: 24px;
+      height: 24px;
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .name {
+      p {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 17px;
+        letter-spacing: -0.3px;
+        color: #1e174d;
+      }
+    }
+
+    .fileInfo {
+      display: flex;
+      white-space: nowrap;
+    }
+
+    .size {
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .dot {
+      margin: 0 2px;
+    }
+
+    .extension {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &.typing {
+    padding: 12px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    letter-spacing: 0.25px;
+    color: $color-grey-2;
+  }
+}
+
+.by__user {
+  border-radius: 15px 15px 0 15px;
+  align-self: flex-end;
+  background-color: #e8e5f5;
+}

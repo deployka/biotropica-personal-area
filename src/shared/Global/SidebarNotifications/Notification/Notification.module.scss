@@ -1,0 +1,79 @@
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
+
+.notification {
+  padding: 10px 30px;
+  margin: 0 0 10px 0;
+
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  &:last-child {
+    margin: 0;
+  }
+
+  @include for-phone {
+    padding: 10px 20px;
+  }
+
+  .info {
+    margin: 0 0 10px 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .text {
+    margin: 0 0 5px 0;
+    p {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 140%;
+
+      color: $color-black;
+    }
+  }
+  .actions {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .link {
+    padding-bottom: 1px;
+
+    display: block;
+
+    font-size: 16px;
+    line-height: 120%;
+    text-decoration: none;
+    color: $color-primary;
+
+    border-bottom: 1px solid $color-primary;
+
+    cursor: pointer;
+  }
+
+  .delete {
+    cursor: pointer;
+    p {
+      font-size: 14px;
+      line-height: 17px;
+      color: $color-grey-3;
+    }
+  }
+}
+.date {
+  p {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: $color-grey-3;
+  }
+}
+.new {
+  background: $color-green-2;
+}

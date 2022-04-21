@@ -1,0 +1,17 @@
+@import "../../styles/variables.scss";
+
+.label {
+  padding: 0 0 4px 0;
+
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 18px;
+
+  text-transform: uppercase;
+
+  color: #1e174d;
+
+  pointer-events: none;
+
+  opacity: 0.7;
+}

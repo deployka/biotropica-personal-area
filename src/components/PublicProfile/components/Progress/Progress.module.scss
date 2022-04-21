@@ -1,0 +1,17 @@
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
+.progress {
+  width: calc(100% - 10px);
+  max-height: 58vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 20px;
+
+  @include for-phone {
+    max-height: unset;
+
+    row-gap: 10px;
+  }
+}

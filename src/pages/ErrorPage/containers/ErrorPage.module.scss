@@ -1,0 +1,83 @@
+@import "./../../../styles/global.scss";
+@import "./../../../styles/mixins.scss";
+
+.errorPage {
+  width: 100%;
+  height: calc(100vh - 260px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @include for-laptop {
+    height: unset;
+    flex-direction: column-reverse;
+  }
+
+  @include for-phone {
+    flex-direction: column-reverse;
+  }
+
+  .content {
+    width: calc(100% - 20px);
+    max-width: 560px;
+
+    @include for-phone {
+      width: 100%;
+    }
+  }
+
+  .title {
+    h2 {
+      font-size: 64px;
+
+      background: linear-gradient(81.27deg, #c77edf 17.42%, #6f61d0 65.53%);
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      color: $color-primary;
+
+      @include for-laptop {
+        font-size: 38px;
+      }
+
+      @include for-phone {
+        font-size: 32px;
+      }
+    }
+  }
+
+  .text {
+    margin: 30px 0 0 0;
+
+    @include for-phone {
+      margin: 20px 0 0 0;
+    }
+
+    p {
+      color: $color-secondary;
+    }
+
+    a {
+      color: $color-primary;
+      text-decoration: none;
+    }
+  }
+
+  .img {
+    width: calc(100% - 60px);
+    max-width: 550px;
+    svg {
+      width: 100%;
+    }
+    @include for-phone {
+      margin: 30px 0 0 0;
+
+      width: 100%;
+
+      svg {
+        width: 100%;
+      }
+    }
+  }
+}

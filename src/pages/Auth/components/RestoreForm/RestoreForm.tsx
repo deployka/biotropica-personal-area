@@ -1,75 +1,52 @@
-import classNames from 'classnames';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
-import { fetchRestorePassword } from '../../../../store/ducks/user/actionCreators';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { RestorePasswordData } from '../../../../store/ducks/user/contracts/state';
-import { LoadingStatus } from '../../../../store/types';
-import { Formik } from 'formik';
-
-import s from './RestoreForm.module.scss';
-import { validationSchema } from './validationSchema';
-import {
-  selectUserErrors,
-  selectUserResponse,
-} from '../../../../store/ducks/user/selectors';
+import { Formik, FormikHelpers } from 'formik';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
+import { Input } from '../../../../shared/Form/Input/Input';
+import { Button } from '../../../../shared/Form/Button/Button';
+import s from './RestoreForm.module.scss';
+import { SchemaOf } from 'yup';
 
 interface Props {
-  loadingStatus: string;
+  onSubmit: (
+    values: RestorePasswordData,
+    options: FormikHelpers<RestorePasswordData>
+  ) => void;
+  loader: boolean;
+  validationSchema: SchemaOf<Omit<RestorePasswordData, 'restoreToken'>>;
+  type: Type;
+  token: string;
 }
 
-let setFieldValue: any = null;
+export enum Type {
+  CREATE = 'CREATE',
+  CHANGE = 'CHANGE',
+}
 
-export const RestoreForm = ({ loadingStatus }: Props) => {
-  const dispatch = useDispatch();
-  const errorsServer = useSelector(selectUserErrors);
-  const responseServer = useSelector(selectUserResponse);
-  const location = useLocation();
-  const history = useHistory();
-
-  const token = location.search?.split('=')[1];
-
-  const [loader, setLoader] = useState<boolean>(false);
-  const [sending, setSending] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (loadingStatus === LoadingStatus.ERROR && sending) {
-      setLoader(false);
-      setFieldValue('password', '');
-      setFieldValue('verification_password', '');
-    }
-    if (loadingStatus === LoadingStatus.SUCCESS && sending) {
-      setLoader(false);
-      setTimeout(() => {
-        history.push('/signin');
-      }, 2000);
-    }
-  }, [loadingStatus]);
-
-  async function onSubmit(values: RestorePasswordData, options: any) {
-    setFieldValue = options.setFieldValue;
-    try {
-      setLoader(true);
-      dispatch(fetchRestorePassword(values));
-      setSending(true);
-    } catch (error) {
-      setLoader(false);
-    }
+export const RestoreForm = ({
+  type,
+  loader,
+  onSubmit,
+  token,
+  validationSchema,
+}: Props) => {
+  function isDisabled(isValid: boolean, dirty: boolean) {
+    return (!isValid && !dirty) || loader;
   }
-
   return (
     <>
       <Formik
         initialValues={{
           password: '',
-          verification_password: '',
+          verificationPassword: '',
           restoreToken: token,
         }}
         validateOnBlur
-        onSubmit={(values: RestorePasswordData, options) =>
-          onSubmit(values, options)
-        }
+        onSubmit={(
+          values: RestorePasswordData,
+          options: FormikHelpers<RestorePasswordData>,
+        ) => onSubmit(values, options)}
         validationSchema={validationSchema}
       >
         {({
@@ -83,30 +60,16 @@ export const RestoreForm = ({ loadingStatus }: Props) => {
           dirty,
         }) => (
           <div className={s.form__wrapper}>
-            <h1 className={s.title}>Смена пароля</h1>
+            <h1 className={s.title}>
+              {type === Type.CHANGE
+                ? 'Смена пароля'
+                : 'Создание пароля'}
+            </h1>
             <div className={s.form}>
               <h2 className={s.subtitle}>Введите пароли</h2>
-              <div
-                style={
-                  errorsServer?.message || responseServer?.message
-                    ? { display: 'flex' }
-                    : {}
-                }
-                className={classNames({
-                  [s.error__server]: !!errorsServer?.message,
-                  [s.success__server]: !!responseServer?.message,
-                })}
-              >
-                {errorsServer?.message || responseServer?.message}
-              </div>
 
               <div className={s.input__wrapper}>
-                <input
-                  className={classNames({
-                    [s.input]: true,
-                    [s.success__input]: touched.password && !errors.password,
-                    [s.error__input]: touched.password && errors.password,
-                  })}
+                <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="Пароль"
@@ -114,49 +77,43 @@ export const RestoreForm = ({ loadingStatus }: Props) => {
                   autoComplete="new-password"
                   value={values.password}
                   type="password"
+                  options={{ touched, errors }}
                 />
-                {touched.password && errors.password && (
-                  <span className={s.error}>{errors.password}</span>
-                )}
               </div>
 
               <div className={s.input__wrapper}>
-                <input
-                  className={classNames({
-                    [s.input]: true,
-                    [s.success__input]:
-                      touched.verification_password &&
-                      !errors.verification_password,
-                    [s.error__input]:
-                      touched.verification_password &&
-                      errors.verification_password,
-                  })}
+                <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="Повторите пароль"
-                  name="verification_password"
-                  value={values.verification_password}
+                  name="verificationPassword"
+                  value={values.verificationPassword}
                   type="password"
+                  options={{ touched, errors }}
                 />
-                {touched.verification_password &&
-                  errors.verification_password && (
-                    <span className={s.error}>
-                      {errors.verification_password}
-                    </span>
-                  )}
               </div>
 
-              <button
-                disabled={(!isValid && !dirty) || loader}
+              <Button
+                disabled={isDisabled(isValid, dirty)}
                 type="submit"
                 onClick={() => handleSubmit()}
-                className={classNames({
-                  [s.btn]: true,
-                  [s.disabled]: (!isValid && !dirty) || loader,
-                })}
-              >
-                {loader ? <Loader /> : 'Сменить пароль'}
-              </button>
+                options={{
+                  content: loader
+                    ? (
+                      <Loader />
+                    )
+                    : type === Type.CHANGE
+                      ? (
+                        'Сменить пароль'
+                      )
+                      : (
+                        'Создать пароль'
+                      ),
+                  setDisabledStyle: isDisabled(isValid, dirty),
+                  width: '100%',
+                  height: '50px',
+                }}
+              />
               <Link className={s.signin} to="/signin">
                 Войти
               </Link>

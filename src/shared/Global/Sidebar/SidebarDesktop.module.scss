@@ -1,0 +1,301 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  width: 80px;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: $color-black;
+
+  z-index: 499;
+
+  @include for-phone {
+    display: none;
+  }
+
+  .wrapper {
+    padding: 25px 0 35px 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .top {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .avatar {
+    margin: 0 0 20px 0;
+
+    width: 36px;
+    height: 36px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid #9e97be;
+
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: #ffffff;
+    }
+
+    &:after {
+      content: '';
+      width: 36px;
+      height: 36px;
+
+      border-radius: 50%;
+      z-index: 1;
+      position: absolute;
+      opacity: 0;
+      transition: 0.5s;
+      background-image: linear-gradient(
+        to right top,
+        #ff642e,
+        #ff4163,
+        #eb3994,
+        #bb4dbb,
+        #6f61d0
+      );
+      animation: rotate 2s infinite;
+      border: 2px;
+    }
+
+    .img {
+      width: 100%;
+      height: 100%;
+
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+
+      z-index: 2;
+    }
+
+    &.active {
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+
+  .nav {
+    margin: 25px 0 0 0;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .link {
+    position: relative;
+
+    width: 72px;
+    height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .prompt {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+
+    .icon {
+      svg {
+        path {
+          stroke: #6f61d0;
+        }
+        ellipse {
+          stroke: #6f61d0;
+        }
+      }
+    }
+
+    &:after {
+      content: '';
+      width: 3px;
+      height: 0;
+      background-color: #ffffff81;
+      position: absolute;
+      border-radius: 0 2px 2px 0;
+      left: -4px;
+
+      transition: all 0.2s ease;
+    }
+
+    &:hover {
+      &:after {
+        height: 30px;
+      }
+
+      .prompt {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    &.active {
+      svg {
+        path {
+          stroke: #ffffff;
+        }
+        ellipse {
+          stroke: #ffffff;
+        }
+      }
+
+      &:after {
+        height: 40px;
+        background-color: #fff;
+      }
+    }
+  }
+
+  .divider {
+    width: 54px;
+    height: 2px;
+
+    background: #6f61d0;
+    opacity: 0.1;
+  }
+
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chat {
+    width: 72px;
+    height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    .prompt {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+
+    &.active {
+      svg {
+        path {
+          fill: #ffffff;
+        }
+      }
+    }
+
+    &:hover {
+      .prompt {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  }
+
+  .logout {
+    margin: 25px 0 0 0;
+
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: #6f61d0;
+
+      svg {
+        path {
+          stroke: #ffffff;
+        }
+      }
+    }
+
+    .prompt {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+
+    &:hover {
+      .prompt {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  }
+
+  .prompt {
+    position: absolute;
+    left: calc(100% + 24px);
+
+    padding: 5px 10px;
+
+    background: linear-gradient(
+      0deg,
+      rgba(30, 23, 77, 0.8),
+      rgba(30, 23, 77, 0.8)
+    );
+    backdrop-filter: blur(16px);
+    box-sizing: border-box;
+    border: 1px solid #6f61d0;
+    border-radius: 15px;
+    transition: all 0.2s ease;
+
+    user-select: none;
+    pointer-events: none;
+
+    p {
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    @include for-tablet {
+      display: none;
+    }
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

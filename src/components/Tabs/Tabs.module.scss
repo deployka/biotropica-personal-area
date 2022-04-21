@@ -1,0 +1,41 @@
+.center {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggleButtons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 4px;
+
+  overflow: hidden;
+
+  .toggleButton {
+    width: 170px;
+    height: 30px;
+
+    border: none;
+    border-radius: 0;
+
+    background: #f7f6fb;
+
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    line-height: 20px;
+
+    letter-spacing: -0.08px;
+
+    color: #736f8b;
+
+    &.active {
+      background: #736f8b;
+      font-weight: bold;
+      color: #ffffff;
+    }
+  }
+}

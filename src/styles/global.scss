@@ -1,7 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import '~normalize.css';
-@import 'variables.scss';
-@import 'mixins.scss';
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import "~animate.css";
+@import "~normalize.css";
+@import "variables.scss";
+@import "mixins.scss";
+@import "rangepicker.scss";
+@import "datepicker.scss";
 
 * {
   box-sizing: border-box;
@@ -9,11 +12,127 @@
 
 body {
   background: $background-color;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
+}
+
+button {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.formContainer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include for-phone {
+    margin: 0 auto;
+    width: calc(100vw - 20px);
+  }
+}
+
+.global__container {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
 }
 
 .container {
+  padding: 0 0 30px 0;
+  width: calc(100% - 60px);
   max-width: 1200px;
-  margin-left: 120px;
-  padding: 40px 0 0 0;
+  margin: 0 auto;
+  position: relative;
+  @media (max-width: 1400px) {
+    padding: 0 0 30px 0;
+    margin: 0 0 0 110px;
+
+    width: calc(100% - 140px);
+  }
+
+  @include for-tablet {
+    padding: 0 0 70px 0;
+  }
+
+  @include for-phone {
+    margin: 0 auto;
+    width: calc(100vw - 20px);
+  }
+}
+.auth__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+
+  @include for-phone {
+    margin: 0 auto;
+    width: calc(100% - 20px);
+    height: unset;
+    min-height: 100vh;
+  }
+}
+
+.react-datepicker-popper {
+  z-index: 60;
+}
+
+//react-notifications
+.notification {
+  .notification__item {
+    border-radius: 10px;
+  }
+}
+
+// helper
+.hide {
+  display: none;
+}
+
+//swiper
+.swiper-container {
+  margin-left: 0;
+  width: 100%;
+}
+
+.swiper-pagination-goals-header {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  left: 0;
+  bottom: -13px;
+  .swiper-pagination-bullet {
+    height: 7px;
+    width: 7px;
+    background: #9e97be;
+    opacity: 0.5;
+    margin-right: 5px;
+    border-radius: 50%;
+    display: inline-block;
+    transition: all 0.3;
+  }
+  .swiper-pagination-bullet-active {
+    background: #6f61d0;
+    opacity: 1;
+  }
+}
+
+.scrollbar-container {
+  width: calc(100% + 10px);
+
+  @include for-tablet {
+    width: 100%;
+  }
+}
+
+.rah-static,
+.rah-static,
+.rah-animating {
+  width: 100%;
 }

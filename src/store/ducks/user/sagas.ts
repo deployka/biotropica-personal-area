@@ -4,7 +4,6 @@ import UserService from '../../../services/UserService';
 import { LoadingStatus } from '../../types';
 import {
   setUserData,
-  setUserErrors,
   setUserLoadingStatus,
   setUserResponse,
 } from './actionCreators';
@@ -14,45 +13,39 @@ import {
   FetchRestorePasswordActionInterface,
   FetchSigninActionInterface,
   FetchSignupActionInterface,
+  FetchUpdateUserActionInterface,
   FetchUserDataActionInterface,
+  FetchUserDataByIdActionInterface,
+  FetchUpdateUserEmailActionInterface,
   UserActionsType,
 } from './contracts/actionTypes';
 
-export function* fetchSigninRequest({
-  payload,
-}: FetchSigninActionInterface): any {
-  yield put(setUserErrors(undefined));
-  yield put(setUserResponse(undefined));
-  yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-  const { response, data } = yield call(AuthService.signin, payload);
-  if (data) {
-    window.localStorage.setItem('token', data.accessToken);
+export function * fetchSigninRequest({ payload }: FetchSigninActionInterface) {
+  try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
+    const { data } = yield call(AuthService.signin, payload);
     yield put(setUserResponse(data));
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
-  } else {
-    yield put(setUserErrors(response.data));
+    window.localStorage.setItem('token', data.accessToken);
+    yield put(setUserLoadingStatus(LoadingStatus.LOADED));
+    yield put(setUserResponse(undefined));
+  } catch (error) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
 }
 
-export function* fetchSignupRequest({
-  payload,
-}: FetchSignupActionInterface): any {
-  yield put(setUserErrors(undefined));
-  yield put(setUserResponse(undefined));
-  yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-  const { response, data } = yield call(AuthService.signup, payload);
-  if (data) {
-    window.localStorage.setItem('token', data.accessToken);
+export function * fetchSignupRequest({ payload }: FetchSignupActionInterface) {
+  try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
+    const { data } = yield call(AuthService.signup, payload);
     yield put(setUserResponse(data));
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
-  } else {
-    yield put(setUserErrors(response.data));
+  } catch (error) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
 }
 
-export function* fetchSignoutRequest({}: FetchSignupActionInterface): any {
+export function * fetchSignoutRequest() {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(AuthService.signout);
@@ -63,80 +56,139 @@ export function* fetchSignoutRequest({}: FetchSignupActionInterface): any {
   }
 }
 
-export function* fetchForgotPasswordRequest({
+export function * fetchForgotPasswordRequest({
   payload,
-}: FetchForgotPasswordActionInterface): any {
-  yield put(setUserErrors(undefined));
-  yield put(setUserResponse(undefined));
-  yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-  const { response, data } = yield call(AuthService.forgotPassword, payload);
-  if (data) {
-    yield put(setUserResponse(data));
-    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
-  } else {
-    yield put(setUserErrors(response.data));
-    yield put(setUserLoadingStatus(LoadingStatus.ERROR));
-  }
-}
-
-export function* fetchChangePasswordRequest({
-  payload,
-}: FetchChangePasswordActionInterface): any {
-  yield put(setUserErrors(undefined));
-  yield put(setUserResponse(undefined));
-  yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-  const { response, data } = yield call(AuthService.changePassword, payload);
-  if (data) {
-    yield put(setUserResponse(data));
-    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
-  } else {
-    yield put(setUserErrors(response.data));
-    yield put(setUserLoadingStatus(LoadingStatus.ERROR));
-  }
-}
-
-export function* fetchRestorePasswordRequest({
-  payload,
-}: FetchRestorePasswordActionInterface): any {
-  yield put(setUserErrors(undefined));
-  yield put(setUserResponse(undefined));
-  yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-  const { response, data } = yield call(AuthService.restorePassword, payload);
-  if (data) {
-    yield put(setUserResponse(data));
-    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
-  } else {
-    yield put(setUserErrors(response.data));
-    yield put(setUserLoadingStatus(LoadingStatus.ERROR));
-  }
-}
-
-export function* fetchUserDataRequest({}: FetchUserDataActionInterface): any {
+}: FetchForgotPasswordActionInterface) {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-    const { data } = yield call(UserService.getMe);
-    yield put(setUserData(data));
+    const { data } = yield call(AuthService.forgotPassword, payload);
+    yield put(setUserResponse(data));
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
+  } catch (error: any) {
+    yield put(setUserResponse(error?.response?.data));
+    yield put(setUserLoadingStatus(LoadingStatus.ERROR));
+  }
+}
+
+export function * fetchChangePasswordRequest({
+  payload,
+}: FetchChangePasswordActionInterface) {
+  try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
+    const { data } = yield call(AuthService.changePassword, payload);
+    yield put(setUserResponse(data));
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } catch (error) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
   }
 }
 
-export function* userSaga(): any {
+export function * fetchRestorePasswordRequest({
+  payload,
+}: FetchRestorePasswordActionInterface) {
+  try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
+    const { data } = yield call(AuthService.restorePassword, payload);
+    yield put(setUserResponse(data));
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
+  } catch (error) {
+    yield put(setUserLoadingStatus(LoadingStatus.ERROR));
+  }
+}
+
+export function * fetchCreatePasswordRequest({
+  payload,
+}: FetchRestorePasswordActionInterface) {
+  try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
+    const { data } = yield call(AuthService.createPassword, payload);
+    yield put(setUserResponse(data));
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
+  } catch (error) {
+    yield put(setUserLoadingStatus(LoadingStatus.ERROR));
+  }
+}
+
+export function * fetchUserDataRequest() {
+  try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
+    const { data } = yield call(UserService.getMe);
+    yield put(setUserData(data));
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
+    yield put(setUserLoadingStatus(LoadingStatus.LOADED));
+  } catch (error) {
+    yield put(setUserLoadingStatus(LoadingStatus.ERROR));
+  }
+}
+
+export function * fetchUserDataByIdRequest({
+  payload,
+}: FetchUserDataByIdActionInterface) {
+  try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
+    const { data } = yield call(UserService.getOne, payload);
+    yield put(setUserData(data));
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
+    yield put(setUserLoadingStatus(LoadingStatus.LOADED));
+  } catch (error) {
+    yield put(setUserLoadingStatus(LoadingStatus.ERROR));
+  }
+}
+
+export function * fetchUpdateUserEmailRequest({
+  payload,
+}: FetchUpdateUserEmailActionInterface) {
+  try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
+    const { data } = yield call(UserService.updateEmail, payload);
+    yield put(setUserResponse(data));
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
+    yield put(setUserLoadingStatus(LoadingStatus.LOADED));
+  } catch (error) {
+    yield put(setUserResponse(undefined));
+    yield put(setUserLoadingStatus(LoadingStatus.ERROR));
+  }
+}
+
+export function * fetchUpdateUserRequest({
+  payload,
+}: FetchUpdateUserActionInterface) {
+  try {
+    yield put(setUserLoadingStatus(LoadingStatus.LOADING));
+    const { data, status } = yield call(UserService.update, payload);
+    yield put(setUserData(data));
+    yield put(setUserResponse({ statusCode: status, message: 'Данные обновлены' }));
+    yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
+  } catch (error) {
+    yield put(setUserLoadingStatus(LoadingStatus.ERROR));
+  }
+}
+
+export function * userSaga() {
   yield takeLatest(UserActionsType.FETCH_SIGN_IN, fetchSigninRequest);
   yield takeLatest(UserActionsType.FETCH_SIGN_UP, fetchSignupRequest);
   yield takeLatest(UserActionsType.FETCH_USER_DATA, fetchUserDataRequest);
   yield takeLatest(UserActionsType.FETCH_SIGN_OUT, fetchSignoutRequest);
   yield takeLatest(
     UserActionsType.FETCH_FORGOT_PASSWORD,
-    fetchForgotPasswordRequest
+    fetchForgotPasswordRequest,
   );
   yield takeLatest(
     UserActionsType.FETCH_CHANGE_PASSWORD,
-    fetchChangePasswordRequest
+    fetchChangePasswordRequest,
   );
   yield takeLatest(
     UserActionsType.FETCH_RESTORE_PASSWORD,
-    fetchRestorePasswordRequest
+    fetchRestorePasswordRequest,
   );
+  yield takeLatest(
+    UserActionsType.FETCH_UPDATE_USER_EMAIL,
+    fetchUpdateUserEmailRequest,
+  );
+  yield takeLatest(UserActionsType.FETCH_UPDATE_USER, fetchUpdateUserRequest);
+  yield takeLatest(
+    UserActionsType.FETCH_CREATE_PASSWORD,
+    fetchCreatePasswordRequest,
+  );
+  yield takeLatest(UserActionsType.FETCH_USER_DATA_BY_ID, fetchUserDataByIdRequest);
 }

@@ -1,0 +1,19 @@
+@import './../../../styles/mixins.scss';
+
+.back {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  transition: 0.3s;
+
+  z-index: 500;
+  background: rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include for-phone {
+    background: rgba(0, 0, 0, 0.8);
+  }
+}

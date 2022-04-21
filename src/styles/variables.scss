@@ -1,11 +1,20 @@
+//colors
+
 $background-color: #fff;
 $color-primary: #6f61d0;
+$color-primary-hover: #a59ce2;
+$color-primary-hover-2: #c9c4ed;
 
 $color-black: #1e174d;
-$color-grey: #736f8b;
+$color-black-2: #04030a;
+$color-grey: #f7f6fb;
+$color-grey-2: #9895a7;
+$color-grey-3: #736f8b;
+$color-grey-4: #c8c8c8;
 $color-secondary: #9e97be;
 
 $color-green: #61d0a7;
+$color-green-2: #309a74;
 $color-purple: #c05d97;
 $color-yellow: #e2d341;
 $color-white: #ffffff;
@@ -16,4 +25,17 @@ $color-divider: #f7f6fb;
 
 $color-disabled: #bbbbbb;
 
-$color-primary-hover: #a59ce2;
+//sizes
+
+$sze-phone-sm: 320px;
+$sze-phone-md: 380px;
+$sze-phone-bg: 480px;
+$sze-ipad: 768px;
+$sze-ipad-pro: 1024px;
+$sze-laptop-sm: 1200px;
+$sze-laptop-mac: 1440px;
+$sze-desktop: 1920px;
+$sze-desktop-qHD: 2560px;
+$sze-desktop-uHD: 3840px;
+
+$box-shadow: inset 0px -1px 0px #e4e4e7;

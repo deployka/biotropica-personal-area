@@ -1,7 +1,6 @@
 import React from 'react';
 
-interface Props {}
-
-export const Home = (props: Props) => {
-  return <div>Home</div>;
+const Home = () => {
+  return <p>Страница находится в разработке, она скоро появится! &#x262D;</p>;
 };
+export default Home;

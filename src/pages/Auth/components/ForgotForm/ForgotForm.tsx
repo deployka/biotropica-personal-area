@@ -1,68 +1,28 @@
-import classNames from 'classnames';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
-import { fetchForgotPassword } from '../../../../store/ducks/user/actionCreators';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { ForgotPasswordData } from '../../../../store/ducks/user/contracts/state';
-import { LoadingStatus } from '../../../../store/types';
-import { Formik } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
+
+import { Loader } from '../../../../shared/Form/Loader/Loader';
+import { Input } from '../../../../shared/Form/Input/Input';
+import { Button } from '../../../../shared/Form/Button/Button';
 
 import s from './ForgotForm.module.scss';
-import { validationSchema } from './validationSchema';
-import {
-  selectUserErrors,
-  selectUserResponse,
-} from '../../../../store/ducks/user/selectors';
-import { Loader } from '../../../../shared/Form/Loader/Loader';
-
+import { SchemaOf } from 'yup';
 interface Props {
-  loadingStatus: string;
+  onSubmit: (
+    values: ForgotPasswordData,
+    options: FormikHelpers<ForgotPasswordData>
+  ) => void;
+  loader: boolean;
+  validationSchema: SchemaOf<ForgotPasswordData>;
+  email: string;
 }
 
-let setFieldValue: any = null;
-
-export const ForgotForm = ({ loadingStatus }: Props) => {
-  const dispatch = useDispatch();
-  const errorsServer = useSelector(selectUserErrors);
-  const responseServer = useSelector(selectUserResponse);
-  const location = useLocation();
-  const history = useHistory();
-  const email = location.search.split('=')[1];
-
-  const [loader, setLoader] = useState<boolean>(false);
-  const [sending, setSending] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (
-      loadingStatus === LoadingStatus.SUCCESS ||
-      loadingStatus === LoadingStatus.ERROR
-    ) {
-      setLoader(false);
-    }
-
-    if (loadingStatus === LoadingStatus.ERROR && sending) {
-      setFieldValue?.('email', '');
-    }
-
-    if (loadingStatus === LoadingStatus.SUCCESS && sending) {
-      setFieldValue?.('email', '');
-      setTimeout(() => {
-        history.push('/signin');
-      }, 2000);
-    }
-  }, [loadingStatus]);
-
-  async function onSubmit(values: ForgotPasswordData, options: any) {
-    setFieldValue = options.setFieldValue;
-    try {
-      setLoader(true);
-      dispatch(fetchForgotPassword(values));
-      setSending(true);
-    } catch (error) {
-      setLoader(false);
-    }
+export const ForgotForm = ({ loader, onSubmit, validationSchema, email }: Props) => {
+  function isDisabled(isValid: boolean, dirty: boolean) {
+    return (!isValid && !dirty) || loader;
   }
-
   return (
     <>
       <Formik
@@ -70,9 +30,10 @@ export const ForgotForm = ({ loadingStatus }: Props) => {
           email: email,
         }}
         validateOnBlur
-        onSubmit={(values: ForgotPasswordData, options) =>
-          onSubmit(values, options)
-        }
+        onSubmit={(
+          values: ForgotPasswordData,
+          options: FormikHelpers<ForgotPasswordData>,
+        ) => onSubmit(values, options)}
         validationSchema={validationSchema}
       >
         {({
@@ -91,50 +52,32 @@ export const ForgotForm = ({ loadingStatus }: Props) => {
               <h2 className={s.subtitle}>
                 На ваш e-mail будет отправлена ссылка для смены пароля
               </h2>
-              <div
-                style={
-                  errorsServer?.message || responseServer?.message
-                    ? { display: 'flex' }
-                    : {}
-                }
-                className={classNames({
-                  [s.error__server]: !!errorsServer?.message,
-                  [s.success__server]: !!responseServer?.message,
-                })}
-              >
-                {errorsServer?.message || responseServer?.message}
-              </div>
 
               <div className={s.input__wrapper}>
-                <input
-                  className={classNames({
-                    [s.input]: true,
-                    [s.success__input]: touched.email && !errors.email,
-                    [s.error__input]: touched.email && errors.email,
-                  })}
+                <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="Email"
                   name="email"
                   value={values.email}
                   type="email"
+                  options={{ touched, errors }}
                 />
-                {touched.email && errors.email && (
-                  <span className={s.error}>{errors.email}</span>
-                )}
               </div>
 
-              <button
-                disabled={(!isValid && !dirty) || loader}
+              <Button
+                disabled={isDisabled(isValid, dirty)}
                 type="submit"
                 onClick={() => handleSubmit()}
-                className={classNames({
-                  [s.btn]: true,
-                  [s.disabled]: (!isValid && !dirty) || loader,
-                })}
-              >
-                {loader ? <Loader /> : 'Продолжить'}
-              </button>
+                options={{
+                  content: loader
+                    ? <Loader />
+                    : 'Продолжить',
+                  setDisabledStyle: isDisabled(isValid, dirty),
+                  width: '100%',
+                  height: '50px',
+                }}
+              />
             </div>
             <Link className={s.signin} to="/signin">
               Помните свой пароль? Вернуться на страницу входа

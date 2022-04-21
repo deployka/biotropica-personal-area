@@ -1,136 +1,80 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Redirect,
-  Route,
-  Switch,
-  useHistory,
-  useLocation,
-} from 'react-router-dom';
-import { ErrorPage } from './pages/404/containers/404';
-import { Goals } from './pages/Goals/containers/Goals';
-import { Home } from './pages/Home/containers/Home';
-import { Profile } from './pages/Profile/containers/Profile';
-import { Questionnaire } from './pages/Questionnaire/containers/Questionnaire';
+import React, { ReactElement, Suspense, useEffect } from 'react';
+import { Switch } from 'react-router-dom';
+
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  selectIsAuth,
-  selectUserLoadingStatus,
-} from './store/ducks/user/selectors';
-import { SigninForm } from './pages/Auth/components/SigninForm/SigninForm';
-import { SignupForm } from './pages/Auth/components/SignupForm/SignupForm';
-import {
-  fetchUserData,
-  setUserErrors,
-  setUserLoadingStatus,
-  setUserResponse,
-} from './store/ducks/user/actionCreators';
-import { RestoreForm } from './pages/Auth/components/RestoreForm/RestoreForm';
-import { ForgotForm } from './pages/Auth/components/ForgotForm/ForgotForm';
+
 import { Loader } from './shared/Global/Loader/Loader';
-import { LoadingStatus } from './store/types';
-import { Sidebar } from './shared/Global/Sidebar/Sidebar';
-import { Tariffs } from './pages/Tariffs/containers/Tariffs';
-import { Services } from './pages/Services/containers/Services';
-import { Header } from './shared/Global/Header/Header';
 
-import './styles/global.scss';
+import { fetchUserData } from './store/ducks/user/actionCreators';
+import { fetchGoalsData } from './store/ducks/goals/actionCreators';
 
-function App() {
-  const isAuth = useSelector(selectIsAuth);
-  const loadingStatus = useSelector(selectUserLoadingStatus);
-  const history = useHistory();
-  const location = useLocation();
+import { selectIsAuth } from './store/ducks/user/selectors';
+import { Routes } from './routes/Routes';
+import { PrivateRoute } from './routes/PrivateRoute';
+import { PublicRoute } from './routes/PublicRoute';
+
+import Signin from './pages/Auth/containers/Signin';
+import Signup from './pages/Auth/containers/Signup';
+import RestorePassword from './pages/Auth/containers/RestorePassword';
+import CreatePassword from './pages/Auth/containers/CreatePassword';
+import ForgotPassword from './pages/Auth/containers/ForgotPassword';
+
+import GlobalNotifications from './components/GlobalNotifications/GlobalNotifications';
+import { selectGlobalLoadingStatus } from './store/selectors';
+import Policy from './pages/Policy/containers/Policy';
+import { useRequestUserDataQuery } from './store/rtk/requests/user';
+import { ProfileLayout } from './layouts/ProfileLayout';
+
+function App(): ReactElement {
   const dispatch = useDispatch();
+  const { isLoading: userDataLoading } = useRequestUserDataQuery();
 
-  const [redirect, setRedirect] = useState<boolean>(false);
-  const [page, setPage] = useState<string>('Главная');
-
-  const currentPath = location.pathname;
-  const authPaths = ['/signin', '/signup'];
+  const isAuth = useSelector(selectIsAuth);
+  const getGlobalLoading = useSelector(selectGlobalLoadingStatus);
 
   useEffect(() => {
     dispatch(fetchUserData());
-  }, [isAuth]);
-
-  useEffect(() => {
-    dispatch(setUserLoadingStatus(LoadingStatus.LOADED));
-    dispatch(setUserErrors(undefined));
-    dispatch(setUserResponse(undefined));
-  }, [location.pathname]);
-
-  useEffect(() => {
-    if (isAuth && authPaths.includes(currentPath)) {
-      history.push('/');
-    } else if (loadingStatus === LoadingStatus.SUCCESS && isAuth && redirect) {
-      history.push(currentPath);
-      setRedirect(false);
+    if (isAuth) {
+      dispatch(fetchGoalsData());
     }
-  }, [isAuth, loadingStatus]);
+  }, [isAuth, dispatch]);
 
-  function getLoading() {
-    return (
-      loadingStatus === LoadingStatus.LOADING ||
-      loadingStatus === LoadingStatus.NEVER
-    );
-  }
-
-  if (!isAuth) {
-    return (
-      <>
-        {getLoading() && <Loader />}
-        <Switch>
-          <Route exact path="/signin">
-            <SigninForm
-              loadingStatus={loadingStatus}
-              setRedirect={setRedirect}
-            />
-          </Route>
-
-          <Route exact path="/signup">
-            <SignupForm
-              loadingStatus={loadingStatus}
-              setRedirect={setRedirect}
-            />
-          </Route>
-
-          <Route exact path="/forgot-password">
-            <ForgotForm loadingStatus={loadingStatus} />
-          </Route>
-
-          <Route exact path="/restore-password">
-            <RestoreForm loadingStatus={loadingStatus} />
-          </Route>
-
-          <Route render={() => <Redirect to="/signin" />} />
-        </Switch>
-      </>
-    );
+  if (userDataLoading) {
+    return <Loader />;
   }
 
   return (
-    <>
-      {getLoading() && <Loader />}
-      <Sidebar setPage={setPage} />
-      <Header page={page} />
-      <div className="container">
-        <Switch>
-          <Route exact path="/" component={Home} />
+    <Suspense fallback={<Loader />}>
+      {getGlobalLoading && <Loader />}
+      {<GlobalNotifications />}
+      <Switch>
+        <PublicRoute path="/signin" isAuth={isAuth}>
+          <Signin />
+        </PublicRoute>
+        <PublicRoute path="/signup" isAuth={isAuth}>
+          <Signup />
+        </PublicRoute>
+        <PublicRoute path="/forgot-password" isAuth={isAuth}>
+          <ForgotPassword />
+        </PublicRoute>
+        <PublicRoute path="/restore-password" isAuth={isAuth}>
+          <RestorePassword />
+        </PublicRoute>
+        <PublicRoute path="/create-password" isAuth={isAuth}>
+          <CreatePassword />
+        </PublicRoute>
+        <PublicRoute path="/policy" isAuth={isAuth}>
+          <Policy />
+        </PublicRoute>
+        <PublicRoute path="/users/:id/tabs/:active" isAuth={isAuth}>
+          <ProfileLayout isAuth={isAuth} />
+        </PublicRoute>
 
-          <Route exact path="/questionnaire" component={Questionnaire} />
-
-          <Route exact path="/profile" component={Profile} />
-
-          <Route path="/goals" component={Goals} />
-
-          <Route path="/tariffs" component={Tariffs} />
-
-          <Route path="/services" component={Services} />
-
-          <Route component={ErrorPage} />
-        </Switch>
-      </div>
-    </>
+        <PrivateRoute path="/" isAuth={isAuth}>
+          <Routes />
+        </PrivateRoute>
+      </Switch>
+    </Suspense>
   );
 }
-
 export default App;

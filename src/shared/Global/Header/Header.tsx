@@ -1,32 +1,63 @@
-import React from 'react';
+import React, { Dispatch, memo, ReactElement, SetStateAction } from 'react';
+import { HeaderSvgSelector } from '../../../assets/icons/header/HeaderSvgSelector';
 
 import s from './Header.module.scss';
-import notificationImg from '../../../assets/icons/header/notification.svg';
-import chatImg from '../../../assets/icons/header/chat.svg';
+import classNames from 'classnames';
 interface Props {
   page: string;
+  isChatUnread: boolean;
+  isNotificationsUnread: boolean;
+  setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
+  setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
+  centerComponent?: ReactElement;
 }
 
-export const Header = ({ page }: Props) => {
-  return (
-    <header className={s.header}>
-      <div className={s.header__wrapper}>
-        <div className={s.header__title}>
-          <h2>{page}</h2>
-        </div>
-        <div className={s.header__links}>
-          <div className={s.header__link}>
-            <a href="#">
-              <img src={notificationImg} alt="уведомления" />
-            </a>
+export const Header = memo(
+  ({
+    page,
+    setSidebarNotificationsOpen,
+    setSidebarChatOpen,
+    isChatUnread,
+    isNotificationsUnread,
+    centerComponent,
+  }: Props) => {
+    return (
+      <header className={s.header}>
+        <div className={s.header__wrapper}>
+          <div className={s.header__title}>
+            <h2>{page}</h2>
           </div>
-          <div className={s.header__link}>
-            <a href="#">
-              <img src={chatImg} alt="чат" />
-            </a>
+          {centerComponent || ''}
+          <div className={s.header__links}>
+            <div
+              onClick={() => setSidebarNotificationsOpen(true)}
+              className={s.header__link}
+            >
+              {isNotificationsUnread
+                ? (
+                  <HeaderSvgSelector id="notification-active" />
+                )
+                : (
+                  <HeaderSvgSelector id="notification" />
+                )}
+            </div>
+            <div
+              onClick={() => setSidebarChatOpen(true)}
+              className={s.header__link}
+            >
+              {isChatUnread
+                ? (
+                  <HeaderSvgSelector id="chat-active" />
+                )
+                : (
+                  <HeaderSvgSelector id="chat" />
+                )}
+            </div>
           </div>
         </div>
-      </div>
-    </header>
-  );
-};
+      </header>
+    );
+  },
+);
+
+Header.displayName = 'Header';
