@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import s from './Card.module.scss';
 
 import editIcon from '../../../../assets/icons/edit.svg';
-import defaultAvatar from '../../../../assets/icons/default_avatar.png';
+import defaultAvatar from '../../../../assets/images/profile/default_avatar.png';
 import { RootState } from '../../../../store/store';
 import {
   SpecializationOptions,

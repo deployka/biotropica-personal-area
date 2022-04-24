@@ -1,16 +1,10 @@
+import { Comment } from '../../../../types/entities/Comment';
 import { LoadingStatus, Response } from '../../../types';
 
 export interface Analyze {
   id: number;
   title: string;
   description: string;
-  createdAt: string;
-}
-
-export interface Comment {
-  id: number;
-  text: string;
-  author: Pick<User, 'profilePhoto' | 'name' | 'lastname'>;
   createdAt: string;
 }
 
