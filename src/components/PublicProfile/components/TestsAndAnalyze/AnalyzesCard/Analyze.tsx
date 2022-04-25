@@ -26,7 +26,7 @@ export const Analyze = ({
 }: Props) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 
-  const { setSort, sort } = useSort('ASC');
+  const { setSort, sort } = useSort('DESC');
 
   const onSort = (by: Order) => setSort(by);
 
@@ -58,12 +58,13 @@ export const Analyze = ({
           {moment(analyze.createdAt).format('LL')}
         </div>
 
-        <AddCommentForm
-          isLoading={isLoadingComment}
-          onSubmit={onAddComment}
-          analyzeId={analyze.id}
-        />
-
+        {isCommentsOpen && (
+          <AddCommentForm
+            isLoading={isLoadingComment}
+            onSubmit={onAddComment}
+            analyzeId={analyze.id}
+          />
+        )}
         <CommentsInfo
           sort={sort}
           onSort={onSort}

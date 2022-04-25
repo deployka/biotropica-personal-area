@@ -75,7 +75,7 @@ const Profile = () => {
                   ))}
                 </div>
               ) : (
-                <p>Нет данных</p>
+                <p className={s.emptyData}>Нет данных</p>
               )}
             </div>
           </div>

@@ -8,9 +8,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 400px;
+  width: 400px;
 
-  .commentsCount {
+  .commentsCount,
+  .sortType {
     font-size: 14px;
     cursor: pointer;
     p {
@@ -21,21 +22,18 @@
   .sort {
     display: flex;
     align-items: center;
-    .active {
-      svg {
-        stroke: #6f61d0;
-      }
+    .down {
+      transform: rotate(180deg);
+    }
+    .up {
+      transform: rotate(0);
     }
 
     svg {
+      stroke: #6f61d0;
       cursor: pointer;
-      stroke: #bbbac4;
       width: 20px;
       height: 20px;
-    }
-    .down {
-      transform: rotate(180deg);
-      margin-bottom: 3px;
     }
   }
 }
@@ -61,6 +59,7 @@
       color: #04030a;
       margin-right: 14px;
       font-weight: 500;
+      cursor: pointer;
     }
     p {
       font-size: 14px;
@@ -79,6 +78,7 @@
 
 .avatar {
   border-radius: 50%;
+  cursor: pointer;
   min-width: 42px;
   max-width: 42px;
   overflow: hidden;

@@ -162,7 +162,7 @@
 
 .analyze_footer {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   width: 400px;
   justify-content: space-between;
 }

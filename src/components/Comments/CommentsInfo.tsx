@@ -20,34 +20,28 @@ export function CommentsInfo({
   onSort,
   sort,
 }: Props) {
-  function isActive(order: Order) {
-    return sort === order;
-  }
   return (
     <>
-      {!!length && (
-        <div className={s.commentsInfo}>
-          <div onClick={onToggle} className={s.commentsCount}>
-            {isOpen ? 'Скрыть' : 'Показать'} комментарии: <p>{length}</p>
-          </div>
-          {onSort && (
-            <div className={s.sort}>
-              <div
-                className={classNames(s.up, { [s.active]: isActive('ASC') })}
-                onClick={() => onSort('ASC')}
-              >
-                <GlobalSvgSelector id="arrow" />
-              </div>
-              <div
-                className={classNames(s.down, { [s.active]: isActive('DESC') })}
-                onClick={() => onSort('DESC')}
-              >
-                <GlobalSvgSelector id="arrow" />
-              </div>
-            </div>
-          )}
+      <div className={s.commentsInfo}>
+        <div onClick={onToggle} className={s.commentsCount}>
+          {isOpen ? 'Скрыть' : 'Показать'} комментарии: <p>{length}</p>
         </div>
-      )}
+        {onSort && (
+          <div
+            className={s.sort}
+            onClick={() => onSort(sort === 'ASC' ? 'DESC' : 'ASC')}
+          >
+            <div className={s.sortType}>По дате:</div>{' '}
+            <div
+              className={classNames({
+                [s[sort === 'ASC' ? 'up' : 'down']]: true,
+              })}
+            >
+              <GlobalSvgSelector id="arrow" />
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 }

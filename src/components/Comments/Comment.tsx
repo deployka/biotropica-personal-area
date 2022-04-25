@@ -9,15 +9,23 @@ import { GlobalSvgSelector } from '../../assets/icons/global/GlobalSvgSelector';
 import { NotificationButtons } from './NotificationButtons';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
+import { useHistory } from 'react-router';
 
 type Props = {
   comment: CommentType;
   withTrash?: boolean;
   id?: number;
+  specialistId: number;
   onDelete?: (id: number) => void;
 };
 
-export function Comment({ comment, withTrash = false, id, onDelete }: Props) {
+export function Comment({
+  comment,
+  withTrash = false,
+  id,
+  specialistId,
+  onDelete,
+}: Props) {
   const {
     createdAt,
     text,
@@ -27,6 +35,7 @@ export function Comment({ comment, withTrash = false, id, onDelete }: Props) {
   const fullName = getFullName(name, lastname);
   const avatar = profilePhoto ? getMediaLink(profilePhoto) : defaultAvatar;
   const currentDate = moment(createdAt).format('DD.MM.YYYY');
+  const history = useHistory();
 
   function onDiscard() {
     eventBus.emit(EventTypes.removeNotification, 'remove-comment-notification');
@@ -51,14 +60,18 @@ export function Comment({ comment, withTrash = false, id, onDelete }: Props) {
     showDeleteConfirmation();
   }
 
+  function moveToSpecialist() {
+    history.push(`/specialists/${specialistId}`);
+  }
+
   return (
     <div className={s.comment}>
-      <div className={s.avatar}>
+      <div className={s.avatar} onClick={moveToSpecialist}>
         <img src={avatar} alt="av" />
       </div>
       <div className={s.data}>
         <div className={s.data_header}>
-          <h5>{fullName}</h5>
+          <h5 onClick={moveToSpecialist}>{fullName}</h5>
           <div className={s.rightGroup}>
             <p>{currentDate}</p>
             {withTrash && (

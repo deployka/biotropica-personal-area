@@ -25,7 +25,7 @@ export const AddCommentForm = ({ onSubmit, analyzeId, isLoading }: Props) => {
     length: `Максимальная длина комментария ${MAX_COMMENT_LENGTH} символов`,
   };
 
-  function onChange(e: ChangeEvent<HTMLTextAreaElement>) {
+  function onChange(e: ChangeEvent<HTMLInputElement>) {
     const comment = e.target.value;
     const isMax = comment.length > MAX_COMMENT_LENGTH;
     setErrors(() => ({
@@ -53,7 +53,7 @@ export const AddCommentForm = ({ onSubmit, analyzeId, isLoading }: Props) => {
   return (
     <form onSubmit={submitHandler} className={s.addCommentForm}>
       <div className={s.inputWrapper}>
-        <textarea
+        <input
           placeholder="Введите комментарий"
           value={value}
           onChange={onChange}
