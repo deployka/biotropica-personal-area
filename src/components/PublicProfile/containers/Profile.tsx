@@ -27,6 +27,9 @@ interface Props {
   questionnaireAnswers: Answer[];
   progress: IProgress[];
   progressLoadingStatus: LoadingStatus;
+  onAddComment: (comment: string, analyzeId: number) => void;
+  isLoadingComment: boolean;
+  onDeleteComment: (id: number) => void;
 }
 
 export interface Param {
@@ -42,6 +45,9 @@ export const Profile = ({
   analyzeTypes,
   progress,
   progressLoadingStatus,
+  onAddComment,
+  onDeleteComment,
+  isLoadingComment,
 }: Props) => {
   const tabs: Tab[] = [
     {
@@ -95,6 +101,9 @@ export const Profile = ({
           )}
           {activeTab === tabs[1].key && (
             <TestsAndAnalyze
+              onDeleteComment={onDeleteComment}
+              isLoadingComment={isLoadingComment}
+              onAddComment={onAddComment}
               questionnaireAnswers={questionnaireAnswers}
               analyzes={analyzes}
               analyzeTypes={analyzeTypes}

@@ -27,8 +27,6 @@ export const GuardRoute = ({
   const userRoles = useSelector(selectUserRoles);
   const isAuth = useSelector(selectIsAuth);
 
-  console.log('isAuth= ', isAuth);
-
   const isAllowed = access
     ? userAccesses.includes(access)
     : userRoles.some(it => roles.includes(it));

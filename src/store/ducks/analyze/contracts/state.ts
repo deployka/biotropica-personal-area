@@ -1,3 +1,4 @@
+import { Comment } from '../../../../types/entities/Comment';
 import { LoadingStatus, Response } from '../../../types';
 
 export interface Analyze {
@@ -13,6 +14,7 @@ export interface AnalyzeAnswer {
   text: string;
   filePath: string;
   createdAt: string;
+  comments: Comment[];
 }
 
 export interface AnalyzeAnswerState {
@@ -23,6 +25,6 @@ export interface AnalyzeAnswerState {
 
 export type UpdateAnalyzeAnswerData = Partial<AnalyzeAnswer>;
 export interface CreateAnalyzeAnswerData
-  extends Omit<AnalyzeAnswer, 'id' | 'createdAt' | 'filePath'> {
+  extends Omit<AnalyzeAnswer, 'id' | 'createdAt' | 'filePath' | 'comments'> {
   filePath: File | null | string;
 }

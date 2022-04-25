@@ -8,12 +8,15 @@ import { useSelector } from 'react-redux';
 import s from './Card.module.scss';
 
 import editIcon from '../../../../assets/icons/edit.svg';
-import defaultAvatar from '../../../../assets/icons/default_avatar.png';
-import { User } from '../../../../store/rtk/types/user';
+import defaultAvatar from '../../../../assets/images/profile/default_avatar.png';
 import { RootState } from '../../../../store/store';
-import { SpecializationOptions, SpecializationOption } from '../../../../components/MultiSelect/MultiSelect';
+import {
+  SpecializationOptions,
+  SpecializationOption,
+} from '../../../../components/MultiSelect/MultiSelect';
 import { useRequestAvatarFileQuery } from '../../../../store/rtk/requests/avatar';
 import { Loader } from '../../../../shared/Global/Loader/Loader';
+import { User } from '../../../../store/@types/User';
 
 moment.locale('ru');
 
@@ -35,13 +38,16 @@ const Card = (props: Props) => {
 
   const { path, url } = useRouteMatch();
 
-  const { data, isLoading, isSuccess } = useRequestAvatarFileQuery(profilePhoto);
+  const { data, isLoading, isSuccess } =
+    useRequestAvatarFileQuery(profilePhoto);
 
   const currentUser = useSelector((state: RootState) => state.user.user);
 
-  const specializations = !!specialist && specialist.specializations.map((spec: string) => (
-    SpecializationOptions.find(option => option.value === spec)
-  ));
+  const specializations =
+    !!specialist &&
+    specialist.specializations.map((spec: string) =>
+      SpecializationOptions.find(option => option.value === spec),
+    );
 
   if (!currentUser) {
     return <div></div>;
@@ -61,32 +67,34 @@ const Card = (props: Props) => {
               })}
             >
               <img
-                id='card_avatar'
+                id="card_avatar"
                 className={s.profile__avatar}
                 src={
                   (!!profilePhoto && isSuccess) || isLoading
-                    ? 'https://master.bio-specialist.devshift.ru/api/static/' + profilePhoto
+                    ? 'https://master.bio-specialist.devshift.ru/api/static/' +
+                      profilePhoto
                     : defaultAvatar
                 }
-                alt=''
+                alt=""
               />
             </div>
             <div className={s.profile__data}>
-              {
-                !!specializations &&
-                  <div className={s.profile__specializations}>
-                    {specializations.map((spec: SpecializationOption | undefined) => spec?.label).join(', ')}
-                  </div>
-              }
+              {!!specializations && (
+                <div className={s.profile__specializations}>
+                  {specializations
+                    .map(
+                      (spec: SpecializationOption | undefined) => spec?.label,
+                    )
+                    .join(', ')}
+                </div>
+              )}
               <div className={s.profile__name}>
                 <p>
                   {lastname}
                   {'  '}
                   {name}
                 </p>
-                <p>
-                  {patronymic}
-                </p>
+                <p>{patronymic}</p>
               </div>
               <div className={s.profile__mail}>
                 <p>{email}</p>
@@ -94,37 +102,26 @@ const Card = (props: Props) => {
               <div className={s.profile__phone}>
                 <p>{phone}</p>
               </div>
-              {
-                specialist && specialist.experience &&
-                  <div className={s.profile__experience}>
-                    <p className={s.profile__experience_header}>
-                      Опыт работы:
-                    </p>
-                    <p>
-                      {specialist.experience}
-                    </p>
+              {specialist && specialist.experience && (
+                <div className={s.profile__experience}>
+                  <p className={s.profile__experience_header}>Опыт работы:</p>
+                  <p>{specialist.experience}</p>
+                </div>
+              )}
+              {specialist && specialist.education && (
+                <div className={s.profile__education}>
+                  <p className={s.profile__education_header}>Образование:</p>
+                  <p>{specialist.education}</p>
+                </div>
+              )}
+              {id === currentUser.id && (
+                <Link className={s.profile__edit} to={`${url}/edit`}>
+                  <div className={s.profile__editIcon}>
+                    <img src={editIcon} alt="редактировать" />
                   </div>
-              }
-              {
-                specialist && specialist.education &&
-                  <div className={s.profile__education}>
-                    <p className={s.profile__education_header}>
-                      Образование:
-                    </p>
-                    <p>
-                      {specialist.education}
-                    </p>
-                  </div>
-              }
-              {
-                id === currentUser.id &&
-                  <Link className={s.profile__edit} to={`${url}/edit`}>
-                    <div className={s.profile__editIcon}>
-                      <img src={editIcon} alt='редактировать' />
-                    </div>
-                    <span>редактировать</span>
-                  </Link>
-              }
+                  <span>редактировать</span>
+                </Link>
+              )}
             </div>
           </div>
           {/* <Link style={{ textDecoration: 'none' }} to='/goals'>

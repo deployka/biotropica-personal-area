@@ -10,9 +10,18 @@ import { Analyzes } from './Analyzes';
 interface Props {
   analyzes: AnalyzeAnswer[];
   analyzeTypes: Analyze[];
+  isLoadingComment: boolean;
+  onAddComment: (comment: string, analyzeId: number) => void;
+  onDeleteComment: (id: number) => void;
 }
 
-export const AnalyzesCard = ({ analyzes, analyzeTypes }: Props) => {
+export const AnalyzesCard = ({
+  analyzes,
+  analyzeTypes,
+  onAddComment,
+  isLoadingComment,
+  onDeleteComment,
+}: Props) => {
   return (
     <div className={s.analyzesCard}>
       <div className={s.header}>
@@ -21,7 +30,12 @@ export const AnalyzesCard = ({ analyzes, analyzeTypes }: Props) => {
         </div>
       </div>
       <AnalyzeTypes analyzeTypes={analyzeTypes} />
-      <Analyzes analyzes={analyzes} />
+      <Analyzes
+        onDeleteComment={onDeleteComment}
+        isLoadingComment={isLoadingComment}
+        onAddComment={onAddComment}
+        analyzes={analyzes}
+      />
     </div>
   );
 };
