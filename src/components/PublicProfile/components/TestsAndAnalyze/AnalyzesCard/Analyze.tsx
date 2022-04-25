@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import moment from 'moment';
 import { AnalyzeAnswer } from '../../../../../store/ducks/analyze/contracts/state';
 import { getMediaLink } from '../../../../../utils/mediaHelper';
@@ -30,12 +30,16 @@ export const Analyze = ({
 
   const onSort = (by: Order) => setSort(by);
 
-  const sortedComments = analyze.comments.slice().sort((a, b) => {
-    if (sort === 'ASC') {
-      return a.createdAt > b.createdAt ? 1 : -1;
-    }
-    return a.createdAt < b.createdAt ? 1 : -1;
-  });
+  const sortedComments = useMemo(
+    () =>
+      analyze.comments.slice().sort((a, b) => {
+        if (sort === 'ASC') {
+          return a.createdAt > b.createdAt ? 1 : -1;
+        }
+        return a.createdAt < b.createdAt ? 1 : -1;
+      }),
+    [sort, analyze.comments],
+  );
 
   return (
     <div key={analyze.id} className={s.document}>
