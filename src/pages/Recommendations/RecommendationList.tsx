@@ -52,8 +52,6 @@ export const RecommendationList = ({
         } as RecommendationGroupType,
       ]);
     });
-
-    console.log(specialists);
   }, [recommendations]);
 
   return (

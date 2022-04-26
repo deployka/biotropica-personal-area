@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 
 import s from './Profile.module.scss';
 
-import { RootState } from '../../store/store';
 import Card from './components/Card/Card';
 import { Post } from './components/Post/Post';
 import { ROLE } from '../../store/rtk/types/user';
@@ -15,7 +14,7 @@ import { selectUserData } from '../../store/ducks/user/selectors';
 import { useGetUserQuery } from '../../store/rtk/requests/user';
 
 const Profile = () => {
-  const { id } = useParams<{id: string}>();
+  const { id } = useParams<{ id: string }>();
 
   const currentUser = useSelector(selectUserData);
 
@@ -46,44 +45,41 @@ const Profile = () => {
     <div className={s.backgroundWrapper}>
       <div className={s.profile}>
         <div className={s.info}>
-          {
-            !!user &&
-              <Card user={user} />
-          }
-          {
-            userClient
-              ? <Button
-                isPrimary={true}
-                className={s.actionBtn}
-                onClick={sendMessage}
-              >
+          {!!user && <Card user={user} />}
+          {userClient ? (
+            <Button
+              isPrimary={true}
+              className={s.actionBtn}
+              onClick={sendMessage}
+            >
               Начать чат
-              </Button>
-              : ''
-          }
+            </Button>
+          ) : (
+            ''
+          )}
         </div>
-        {
-          courses &&
-            <div className={s.courses}>
-              <div className={s.title}>
-                <h3>Курсы повышения квалификации</h3>
-                {courses.length
-                  ? <div className={s.postList}>
-                    {courses.map((course, i) => (
-                      <Post
-                        key={i}
-                        title={course.title}
-                        description={course.description}
-                        date={course.date}
-                      />
-                    ))}
-                  </div>
-                  : <p>
-                      Нет данных
-                  </p> }
-              </div>
+
+        {courses && (
+          <div className={s.courses}>
+            <div className={s.title}>
+              <h3>Курсы повышения квалификации</h3>
+              {courses.length ? (
+                <div className={s.postList}>
+                  {courses.map((course, i) => (
+                    <Post
+                      key={i}
+                      title={course.title}
+                      description={course.description}
+                      date={course.date}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p className={s.emptyData}>Нет данных</p>
+              )}
             </div>
-        }
+          </div>
+        )}
       </div>
     </div>
   );

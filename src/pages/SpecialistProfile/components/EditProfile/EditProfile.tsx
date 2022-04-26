@@ -212,12 +212,9 @@ const EditProfile = () => {
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
-
       requestAddAvatar(formData);
     }
   };
-
-  // console.log('SPEC' , user.specialist?.specializations)
 
   return (
     <>
