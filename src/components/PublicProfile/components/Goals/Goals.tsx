@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import s from './Goals.module.scss';
 
 type Props = {
@@ -7,9 +6,5 @@ type Props = {
 };
 
 export const Goals = ({ goalsLength }: Props) => {
-  return (
-    <Link style={{ textDecoration: 'none' }} className={s.goals} to="/goals">
-      Активных целей: {goalsLength}
-    </Link>
-  );
+  return <div className={s.goals}>Активных целей: {goalsLength}</div>;
 };

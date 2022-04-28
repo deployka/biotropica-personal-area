@@ -3,15 +3,19 @@ import React, { useState } from 'react';
 import { BlockUserConfirmModal } from './components/BlockUserConfirmModal';
 import { UserList } from './components/UserList/UserList';
 import { eventBus, EventTypes } from '../../services/EventBus';
-import { useBlockUserMutation, useCreateUserMutation, useGetAllUsersQuery } from '../../store/rtk/requests/user';
+import {
+  useBlockUserMutation,
+  useCreateUserMutation,
+  useGetAllUsersQuery,
+} from '../../store/rtk/requests/user';
 import ChatService from '../../services/ChatService';
 import { useGetAllRolesQuery } from '../../store/rtk/requests/roles';
 import { User } from '../../store/rtk/types/user';
 
-export function Users() {
-  console.log('Users');
+export function AdminUsers() {
   const [popup, setPopup] = useState<boolean>(false);
-  const [blockUserModalOpened, setBlockUserModalOpened] = useState<boolean>(false);
+  const [blockUserModalOpened, setBlockUserModalOpened] =
+    useState<boolean>(false);
   const [userToBlock, setUserToBlock] = useState<User | null>(null);
   const [createUser] = useCreateUserMutation();
   const [blockUser] = useBlockUserMutation();
@@ -25,7 +29,10 @@ export function Users() {
   }
 
   async function writeUser(user: User) {
-    const { data: dialog } = await ChatService.createDialog(user.id as number, 'Техподдержка');
+    const { data: dialog } = await ChatService.createDialog(
+      user.id as number,
+      'Техподдержка',
+    );
     eventBus.emit(EventTypes.chatOpen, dialog.id);
   }
 
@@ -55,14 +62,16 @@ export function Users() {
         onDisagreed={() => setBlockUserModalOpened(false)}
         onAgreed={handleBlockUser}
       />
-      {users
-        ? <UserList
+      {users ? (
+        <UserList
           users={users}
           onCreateUser={() => setPopup(true)}
           onWriteUser={(user: User) => writeUser(user)}
           onBlockUser={(user: User) => askBlockUser(user)}
         />
-        : ''}
+      ) : (
+        ''
+      )}
     </div>
   );
 }

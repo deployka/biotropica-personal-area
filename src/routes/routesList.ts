@@ -13,15 +13,17 @@ import { ConsultationsList } from '../pages/Consultations/containers/Consultatio
 import { ConsultationPage } from '../pages/Consultation/Consultation';
 import { Tasks } from '../pages/Tasks/Tasks';
 import { Recommendations } from '../pages/Recommendations/Recommendations';
-import VideoConsultationsList from '../pages/SpecilalistVideoConsultationsList/VideoConsultationsList';
 import SpecialistProfile from '../pages/SpecialistProfile/Profile';
-import { Users } from '../pages/Users/Users';
+import { AdminUsers } from '../pages/AdminUsers/AdminUsers';
 import { PublicProfile } from '../components/PublicProfile/containers/PublicProfile';
+import { SpecialistUsers } from '../pages/SpecialistUsers/SpecialistUsers';
+import VideoConsultationsList from '../pages/SpecialistVideoConsultationsList/VideoConsultationsList';
 
 const routes = [
   {
     path: '/',
     component: Tasks,
+    specialistComponent: SpecialistUsers,
     exact: true,
   },
   {
@@ -79,6 +81,11 @@ const routes = [
     exact: true,
   },
   {
+    path: 'admin/users',
+    component: AdminUsers,
+    exact: true,
+  },
+  {
     path: 'profile/edit',
     component: Edit,
     exact: true,
@@ -128,12 +135,6 @@ const routes = [
     component: Questionnaire,
     exact: true,
   },
-  {
-    path: 'users',
-    component: Users,
-    exact: true,
-  },
-
   {
     path: '*',
     component: ErrorPage,

@@ -10,36 +10,27 @@ import Button from '../../components/Button/Button';
 import { chatApi } from '../../shared/Global/Chat/services/chatApi';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { useParams } from 'react-router-dom';
-import { selectUserData } from '../../store/ducks/user/selectors';
+import { selectCurrentUserData } from '../../store/ducks/user/selectors';
 import { useGetUserQuery } from '../../store/rtk/requests/user';
 
 const Profile = () => {
   const { id } = useParams<{ id: string }>();
 
-  const currentUser = useSelector(selectUserData);
+  const currentUser = useSelector(selectCurrentUserData);
 
-  console.log('SpecialistProfile', currentUser);
   const userId = Number(id || currentUser?.id);
-  console.log('SpecialistProfile.id', userId);
   const { data: user } = useGetUserQuery(userId, {
     skip: Number.isNaN(userId),
   });
 
-  // const users = useSelector((state: RootState) => state.users.list);
-  //
-  // const user = users.find(user => user.id === userId);
   const courses = user?.specialist?.courses;
   const userClient = user?.roles.some(it => it.name === ROLE.USER);
 
   async function sendMessage() {
-    if (!user) {
-      return;
-    }
+    if (!user) return;
     const dialog = await chatApi.create(user.id as number);
     eventBus.emit(EventTypes.chatOpen, dialog.id);
   }
-
-  console.log('!');
 
   return (
     <div className={s.backgroundWrapper}>

@@ -38,10 +38,6 @@ export enum GoalState {
   COMPLETED = 'COMPLETED',
 }
 
-interface Params {
-  id: string;
-}
-
 const Goals = () => {
   const dispatch = useDispatch();
   const history = useHistory();

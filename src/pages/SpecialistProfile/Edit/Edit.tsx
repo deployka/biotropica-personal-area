@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import s from './Edit.module.scss';
-// import { selectUserData } from '../../../store/ducks/user/selectors';
+// import { selectCurrentUserData } from '../../../store/ducks/user/selectors';
 import EditProfile from '../components/EditProfile/EditProfile';
 import Safety from '../components/Safety/Safety';
 import Courses from '../components/Courses/Courses';

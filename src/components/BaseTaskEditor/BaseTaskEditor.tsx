@@ -1,6 +1,10 @@
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';
-import { CreateCompetitionTask, CreateEventTask, CreateTrainingTask } from '../../store/@types/Task';
+import {
+  CreateCompetitionTask,
+  CreateEventTask,
+  CreateTrainingTask,
+} from '../../store/@types/Task';
 
 import s from './BaseTaskEditor.module.scss';
 import { Header } from './Header';

@@ -17,6 +17,7 @@ import {
 import { useRequestAvatarFileQuery } from '../../../../store/rtk/requests/avatar';
 import { Loader } from '../../../../shared/Global/Loader/Loader';
 import { User } from '../../../../store/@types/User';
+import { getMediaLink } from '../../../../utils/mediaHelper';
 
 moment.locale('ru');
 
@@ -36,12 +37,11 @@ const Card = (props: Props) => {
     specialist,
   } = props.user;
 
-  const { path, url } = useRouteMatch();
+  const { url } = useRouteMatch();
 
-  const { data, isLoading, isSuccess } =
-    useRequestAvatarFileQuery(profilePhoto);
+  const { isLoading } = useRequestAvatarFileQuery(profilePhoto);
 
-  const currentUser = useSelector((state: RootState) => state.user.user);
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
 
   const specializations =
     !!specialist &&
@@ -69,13 +69,8 @@ const Card = (props: Props) => {
               <img
                 id="card_avatar"
                 className={s.profile__avatar}
-                src={
-                  (!!profilePhoto && isSuccess) || isLoading
-                    ? 'https://master.bio-specialist.devshift.ru/api/static/' +
-                      profilePhoto
-                    : defaultAvatar
-                }
-                alt=""
+                src={getMediaLink(profilePhoto) || defaultAvatar}
+                alt="avatar"
               />
             </div>
             <div className={s.profile__data}>

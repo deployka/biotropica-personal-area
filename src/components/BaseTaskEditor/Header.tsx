@@ -58,17 +58,18 @@ export const Header = ({
     <div className={s.header} style={{ backgroundColor: headerColor }}>
       <div className={classNames(s.title, mode === 'view' ? s.underline : '')}>
         <div className={s.taskTitle}>
-          {icon && mode === 'view' && <div className={s.icon}>
-            <div
-              className={s.iconMask}
-              style={{
-                backgroundColor: headerColor,
-                WebkitMaskImage: `url(images/icons/taskType/${icon}.svg)`,
-                maskImage: `url(images/icons/taskType/${icon}.svg)`,
-              }}
-            >
+          {icon && mode === 'view' && (
+            <div className={s.icon}>
+              <div
+                className={s.iconMask}
+                style={{
+                  backgroundColor: headerColor,
+                  WebkitMaskImage: `url(images/icons/taskType/${icon}.svg)`,
+                  maskImage: `url(images/icons/taskType/${icon}.svg)`,
+                }}
+              ></div>
             </div>
-          </div>}
+          )}
 
           {mode === 'edit' ? 'Редактирование задачи' : title}
         </div>
@@ -80,30 +81,28 @@ export const Header = ({
         />
       </div>
 
-      {mode === 'view'
-        ? (
-          <div className={s.taskInfo}>
-            <div className={s.row}>
-              <p className={s.rowTitle}>тип задачи</p>
-              <p className={s.rowText}>{taskType}</p>
-            </div>
-            {category && (
-              <div className={s.row}>
-                <p className={s.rowTitle}>категория</p>
-                <p className={s.rowText}>{category}</p>
-              </div>
-            )}
-            <img
-              className={s.editIcon}
-              src={editIcon}
-              alt=""
-              onClick={onEditClick}
-            />
+      {mode === 'view' ? (
+        <div className={s.taskInfo}>
+          <div className={s.row}>
+            <p className={s.rowTitle}>тип задачи</p>
+            <p className={s.rowText}>{taskType}</p>
           </div>
-        )
-        : (
-          ''
-        )}
+          {category && (
+            <div className={s.row}>
+              <p className={s.rowTitle}>категория</p>
+              <p className={s.rowText}>{category}</p>
+            </div>
+          )}
+          <img
+            className={s.editIcon}
+            src={editIcon}
+            alt=""
+            onClick={onEditClick}
+          />
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

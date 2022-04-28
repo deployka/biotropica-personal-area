@@ -26,7 +26,7 @@ import {
 import { TasksModal } from './TasksModal';
 import { createTaskByType } from './CreateTaskHelper';
 import { useHistory, useParams } from 'react-router-dom';
-import { selectUserData } from '../../store/ducks/user/selectors';
+import { selectCurrentUserData } from '../../store/ducks/user/selectors';
 import s from './Tasks.module.scss';
 import classNames from 'classnames';
 import { Tabs } from '../../components/Tabs/Tabs';
@@ -34,7 +34,7 @@ import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 
 export function Tasks() {
-  const currentUser = useSelector(selectUserData);
+  const currentUser = useSelector(selectCurrentUserData);
   const dispatch = useDispatch();
   const [updateTask, { isLoading: isUpdateLoading }] = useUpdateTaskMutation();
   const [createTask, { isLoading: isCreateLoading }] = useCreateTaskMutation();
@@ -68,7 +68,9 @@ export function Tasks() {
 
   const currentMonth = useAppSelector(selectTasksPageCurrentMonth);
 
-  const { data: tasks = [], isError } = useGetTaskListQuery({ userId });
+  const { data: tasks = [], isError } = useGetTaskListQuery({
+    userId,
+  });
 
   const { data: comments = [] } = useGetTaskCommentsQuery(
     { taskId: openedTaskId },
@@ -210,8 +212,12 @@ export function Tasks() {
           },
         ]}
         onSelect={value => {
-          if (value === 'recommendations') {
+          if (value === 'recommendations' && rawUserId) {
+            history.push(`/users/${userId}/recommendations`);
+          } else if (value === 'recommendations') {
             history.push('/recommendations');
+          } else if (value === 'tasks' && rawUserId) {
+            history.push(`/users/${userId}/tasks`);
           }
         }}
       />
