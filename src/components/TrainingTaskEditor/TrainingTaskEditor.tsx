@@ -1,5 +1,5 @@
-import React from 'react';
-import { Formik } from 'formik';
+import React, { RefObject } from 'react';
+import { Formik, FormikProps, FormikValues } from 'formik';
 import Input, { InputTypes } from '../Input/Input';
 import SelectCustom from '../Select/SelectCustom';
 import validationSchema from './validationSchema';
@@ -25,6 +25,7 @@ export type TrainingTaskEditorProps = {
   isLoading: boolean;
   task: TrainingTask | CreateTrainingTask;
   onSave(task: CreateTrainingTask): void;
+  formikRef: RefObject<FormikProps<Partial<CreateTrainingTask>>>;
 };
 
 export function TrainingTaskEditor({
@@ -32,6 +33,7 @@ export function TrainingTaskEditor({
   onClose,
   onSave,
   isLoading,
+  formikRef,
 }: TrainingTaskEditorProps) {
   function onSubmit(values: Partial<CreateTrainingTask>) {
     onSave({ ...task, ...values });
@@ -39,6 +41,7 @@ export function TrainingTaskEditor({
 
   return (
     <Formik
+      innerRef={formikRef}
       enableReinitialize
       initialValues={{
         title: task.title,
@@ -65,7 +68,7 @@ export function TrainingTaskEditor({
         setFieldValue,
       }) => {
         return (
-          <form className={s.form} onSubmit={handleSubmit}>
+          <form id="task-form" className={s.form} onSubmit={handleSubmit}>
             <div className={s.line}>
               <Input
                 placeholder="Название"

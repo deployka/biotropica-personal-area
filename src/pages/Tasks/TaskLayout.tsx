@@ -1,4 +1,5 @@
-import React from 'react';
+import { FormikProps, FormikValues } from 'formik';
+import React, { RefObject } from 'react';
 import { CreateSomeTask, SomeTask } from '../../store/@types/Task';
 
 import { TaskEditor } from './TaskEditor';
@@ -9,6 +10,7 @@ type TaskLayoutProps = {
   mode: 'edit' | 'view';
   isLoading: boolean;
   onClose(): void;
+  formikRef: RefObject<FormikProps<Partial<CreateSomeTask>>>;
   onSave(task: CreateSomeTask): void;
   onSendComment(newCommentText: string): void;
   onSaveFactValue(value: number): void;
@@ -24,6 +26,7 @@ export function TaskLayout({
   isLoading,
   onSendComment,
   onSaveFirstValue,
+  formikRef,
   onSaveSecondValue,
   onSaveFactValue,
 }: TaskLayoutProps) {
@@ -41,6 +44,7 @@ export function TaskLayout({
   }
   return (
     <TaskEditor
+      formikRef={formikRef}
       task={task}
       isLoading={isLoading}
       onSave={onSave}

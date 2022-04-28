@@ -1,5 +1,6 @@
 import classNames from 'classnames';
-import React, { ReactNode } from 'react';
+import { FormikProps } from 'formik';
+import React, { ReactNode, RefObject } from 'react';
 import {
   CreateCompetitionTask,
   CreateEventTask,
@@ -19,10 +20,11 @@ export type BaseTaskEditorProps = {
   children: ReactNode;
   isOpened: boolean;
   onDeleteTask(): void;
-  onSaveAsTemplate: () => void;
+  onSaveAsTemplate: (task: Partial<CreateSomeTask>) => void;
   onClose(): void;
   taskId: string;
   onEditBtnClick(): void;
+  formikRef: RefObject<FormikProps<Partial<CreateSomeTask>>>;
 };
 
 export function BaseTaskEditor({
@@ -34,6 +36,7 @@ export function BaseTaskEditor({
   category,
   isOpened,
   onClose,
+  formikRef,
   taskId,
   onDeleteTask,
   onSaveAsTemplate,
@@ -49,6 +52,7 @@ export function BaseTaskEditor({
         <Header
           taskId={taskId}
           mode={mode}
+          formikRef={formikRef}
           title={title}
           icon={icon}
           category={category}

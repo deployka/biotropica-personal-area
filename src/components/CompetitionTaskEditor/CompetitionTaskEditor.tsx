@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 
-import { Formik } from 'formik';
+import { Formik, FormikProps } from 'formik';
 import { TimePickerValue } from 'react-time-picker';
 import Button from '../Button/Button';
 import DatePickerCustom from '../DatePicker/DatePickerCustom';
@@ -33,6 +33,7 @@ import { NEW_DATE } from '../../constants/dates';
 export type CompetitionTaskEditorProps = {
   task: CompetitionTask | CreateCompetitionTask;
   isLoading: boolean;
+  formikRef: RefObject<FormikProps<Partial<CreateCompetitionTask>>>;
   onSave(task: CreateCompetitionTask): void;
   onClose(): void;
 };
@@ -41,6 +42,7 @@ export function CompetitionTaskEditor({
   task,
   isLoading,
   onSave,
+  formikRef,
   onClose,
 }: CompetitionTaskEditorProps) {
   function onSubmit(values: Partial<CreateCompetitionTask>) {
@@ -64,6 +66,7 @@ export function CompetitionTaskEditor({
 
   return (
     <Formik
+      formikRef={formikRef}
       enableReinitialize
       initialValues={{
         title: task.title,

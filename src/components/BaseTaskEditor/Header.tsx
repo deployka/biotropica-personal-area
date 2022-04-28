@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 
 import classNames from 'classnames';
 import closeIcon from './../../assets/icons/close_white.svg';
@@ -6,6 +6,8 @@ import editIcon from './../../assets/icons/edit_note.svg';
 
 import s from './Header.module.scss';
 import { MoreOptionsButton } from './MoreOptionsButton';
+import { CreateSomeTask } from '../../store/@types/Task';
+import { FormikProps } from 'formik';
 
 interface Props {
   mode: 'edit' | 'view';
@@ -16,8 +18,9 @@ interface Props {
   onClose(): void;
   taskId: string;
   onEditBtnClick(): void;
-  onSaveAsTemplate: () => void;
+  onSaveAsTemplate: (task: Partial<CreateSomeTask>) => void;
   onDeleteTask(): void;
+  formikRef: RefObject<FormikProps<Partial<CreateSomeTask>>>;
 }
 
 export const Header = ({
@@ -30,6 +33,7 @@ export const Header = ({
   category,
   taskId,
   onClose,
+  formikRef,
   onEditBtnClick,
 }: Props) => {
   let taskType = '';
@@ -83,6 +87,7 @@ export const Header = ({
         <div className={s.rightContent}>
           {mode === 'edit' && (
             <MoreOptionsButton
+              formikRef={formikRef}
               saveTemplate={onSaveAsTemplate}
               onDelete={onDeleteTask}
               taskId={taskId}

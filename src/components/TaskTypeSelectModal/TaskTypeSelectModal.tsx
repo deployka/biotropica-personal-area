@@ -1,6 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 
-import { TaskTypeGroupModel, TaskTypeGroup } from './TaskTypeGroup';
+import {
+  TaskTypeGroupModel,
+  TaskTypeGroup,
+  TaskTemplateGroupModel,
+} from './TaskTypeGroup';
 
 import s from './TaskTypeSelectModal.module.scss';
 
@@ -10,7 +14,9 @@ import {
   KindOfCompetitionSport,
   KindOfEvent,
   KindOfSport,
+  SomeTask,
   Task,
+  TaskTemplate,
   TaskType,
 } from '../../store/@types/Task';
 
@@ -31,16 +37,21 @@ import swimIcon from './taskType/swim.svg';
 import triathlonIcon from './taskType/triathlon.svg';
 import videoIcon from './taskType/video.svg';
 import virusIcon from './taskType/virus.svg';
+import { Tabs } from '../Tabs/Tabs';
+import { TaskTemplateGroup } from './TaskTemplateGroup';
 
 export type TaskTypeSelectModalProps = {
   isOpened: boolean;
   onClose(): void;
-  onSelect(type: TaskType): void;
+  isSpecialist: boolean;
+  onSelect(type: TaskType | TaskTemplate): void;
+  templates: SomeTask[];
+  onChangeTemplateName(templateId: string, value: string): void;
 };
 
 export const typeGroups: Record<Task['type'], TaskTypeGroupModel> = {
   training: {
-    title: 'Треноровка',
+    title: 'Тренировка',
     color: '#3B82F6',
     taskTypeGroup: [
       {
@@ -249,7 +260,71 @@ export function TaskTypeSelectModal({
   isOpened,
   onClose,
   onSelect,
+  isSpecialist,
+  templates,
+  onChangeTemplateName,
 }: TaskTypeSelectModalProps) {
+  type TabTypes = 'tasks' | 'templates';
+
+  function formatToTemplateTask(props: SomeTask): TaskTemplate {
+    const { type, templateName = '', title, id } = props;
+    let icon: string | undefined;
+
+    if (type) {
+      switch (type) {
+        case 'training':
+          icon = typeGroups[type].taskTypeGroup.find(
+            taskType => taskType.key === props.kindOfSport,
+          )?.icon;
+          break;
+        case 'event':
+          icon = typeGroups[type].taskTypeGroup.find(
+            taskType => taskType.key === props.kindOfEvent,
+          )?.icon;
+          break;
+        case 'competition':
+          icon = typeGroups[type].taskTypeGroup.find(
+            taskType => taskType.key === props.kindOfSport,
+          )?.icon;
+          break;
+        default:
+          break;
+      }
+    }
+    return {
+      icon: icon || '',
+      title,
+      templateName,
+      id,
+      type,
+    };
+  }
+
+  const templateGroups = templates.reduce((acc, template) => {
+    acc[template.type] = {
+      color: typeGroups[template.type].color,
+      title: typeGroups[template.type].title,
+      taskTemplateGroup: templates
+        .map(formatToTemplateTask)
+        .filter(t => t.type === template.type),
+    };
+    return acc;
+  }, {} as Record<Task['type'], TaskTemplateGroupModel>);
+
+  const options: { label: string; value: TabTypes }[] = [
+    {
+      value: 'tasks',
+      label: 'Задачи',
+    },
+    {
+      value: 'templates',
+      label: 'Шаблоны',
+    },
+  ];
+
+  const [selectedTab, setSelectedTab] = useState<TabTypes>('templates');
+
+  const onSelectTab = (currentTab: TabTypes) => setSelectedTab(currentTab);
   return (
     <>
       <div
@@ -258,17 +333,31 @@ export function TaskTypeSelectModal({
       ></div>
       <div className={classNames(s.typeSelectModal, isOpened ? '' : s.hidden)}>
         <div className={s.header}>
-          Выберите тип задачи
+          <p>Выберите тип задачи</p>
+          {isSpecialist && (
+            <Tabs
+              options={options}
+              value={selectedTab}
+              onSelect={onSelectTab}
+            />
+          )}
           <img className={s.closeBtn} src={closeIcon} onClick={onClose} />
         </div>
         <div className={s.typesGroups}>
-          {Object.keys(typeGroups).map(key => (
-            <TaskTypeGroup
-              key={key}
-              group={typeGroups[key as Task['type']]}
-              onSelect={onSelect}
-            />
-          ))}
+          {selectedTab === 'tasks' &&
+            Object.entries(typeGroups).map(([key, value]) => (
+              <TaskTypeGroup key={key} group={value} onSelect={onSelect} />
+            ))}
+          {selectedTab === 'templates' && !templates.length && 'Нет шаблонов'}
+          {selectedTab === 'templates' &&
+            Object.entries(templateGroups).map(([key, value]) => (
+              <TaskTemplateGroup
+                onChangeTemplateName={onChangeTemplateName}
+                key={key}
+                group={value}
+                onSelect={onSelect}
+              />
+            ))}
         </div>
       </div>
     </>

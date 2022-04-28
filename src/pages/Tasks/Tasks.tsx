@@ -19,8 +19,12 @@ import {
   CompetitionTask,
   CreateSomeTask,
   EventTask,
+  KindOfSport,
   SomeTask,
+  Task,
+  TaskTemplate,
   TaskType,
+  TrainingCategory,
   TrainingTask,
 } from '../../store/@types/Task';
 import { TasksModal } from './TasksModal';
@@ -55,7 +59,7 @@ export function Tasks() {
     history.push('/');
   }
 
-  const [isTypeSelectModalOpened, setIsTypeSelectModalOpened] = useState(false);
+  const [isTypeSelectModalOpened, setIsTypeSelectModalOpened] = useState(true);
 
   const [openedTaskId, setOpenedTaskId] = useState<string>('');
 
@@ -78,9 +82,32 @@ export function Tasks() {
     },
   );
 
+  const templates: SomeTask[] = [
+    {
+      id: '06fce062-389f-4da5-a92e-81347b7f9d61',
+      authorId: 15,
+      executorId: 15,
+      title: 'Пробежка',
+      type: 'training',
+      date: '2022-04-23',
+      startTime: '12:12:00',
+      endTime: '',
+      status: 'init',
+      description: '',
+      isTemplate: true,
+      templateName: 'Тренировка для попы',
+      kindOfSport: KindOfSport.swimming,
+      comments: [],
+      category: TrainingCategory.power,
+      firstTargetType: 'time',
+      firstTargetValue: 12,
+      secondTargetType: 'pulse',
+      secondTargetValue: 12,
+    },
+  ];
+
   useEffect(() => {
     if (!openedTask) return;
-
     setOpenedTask({ ...openedTask, comments });
   }, [comments]);
 
@@ -93,7 +120,7 @@ export function Tasks() {
   async function handleSaveTask(task: CreateSomeTask | SomeTask) {
     if ('id' in task) {
       try {
-        await updateTask({ ...task });
+        await updateTask({ ...task }).unwrap();
         eventBus.emit(EventTypes.notification, {
           type: NotificationType.SUCCESS,
           message: 'Задача успешно обновлена!',
@@ -106,7 +133,7 @@ export function Tasks() {
       }
     } else {
       try {
-        await createTask({ ...task, executorId: userId });
+        await createTask({ ...task, executorId: userId }).unwrap();
         eventBus.emit(EventTypes.notification, {
           type: NotificationType.SUCCESS,
           message: 'Задача успешно создана!',
@@ -154,7 +181,8 @@ export function Tasks() {
   }
 
   async function handleSendComment(commentText: string) {
-    await addComment({ taskId: openedTaskId, commentText });
+    // TODO: добавить обработку ошибок
+    await addComment({ taskId: openedTaskId, commentText }).unwrap();
   }
 
   function handelTaskClick(taskId: string) {
@@ -179,14 +207,14 @@ export function Tasks() {
     setIsTypeSelectModalOpened(true);
   }
 
-  function handleSelectTaskType(selectedType: TaskType) {
-    const newTask: CreateSomeTask | null = createTaskByType(
-      selectedType,
-      userId,
-    );
+  function handleSelectTaskType(selectedType: TaskType | TaskTemplate) {
+    const newTask =
+      'templateName' in selectedType
+        ? templates.find(t => t.id === selectedType.id)
+        : createTaskByType(selectedType, userId);
 
     setOpenedTaskId('');
-    setOpenedTask(newTask);
+    setOpenedTask(newTask || null);
     setIsTaskModalOpen(true);
     setIsTypeSelectModalOpened(false);
     setTaskModalMode('edit');
@@ -206,6 +234,36 @@ export function Tasks() {
 
   async function handleSaveFactValue(value: number) {
     await updateTask({ id: openedTaskId, factValue: value });
+  }
+
+  async function onChangeTemplateName(templateId: string, value: string) {
+    console.log(templateId, value);
+  }
+
+  async function handleSaveAsTemplate(task: Partial<CreateSomeTask>) {
+    console.log(123);
+
+    if (!task.isTemplate) {
+      const newTemplate = {
+        ...task,
+        isTemplate: true,
+        templateName: task.title,
+      };
+      try {
+        await createTask({ ...newTemplate, executorId: userId }).unwrap();
+        eventBus.emit(EventTypes.notification, {
+          type: NotificationType.SUCCESS,
+          message: 'Шаблон успешно создан!',
+        });
+      } catch (error) {
+        eventBus.emit(EventTypes.notification, {
+          type: NotificationType.DANGER,
+          message: 'Произошла ошибка при создании шаблона!',
+        });
+      }
+    }
+
+    handleCloseTask();
   }
 
   if (isError) {
@@ -252,6 +310,9 @@ export function Tasks() {
       />
 
       <TaskTypeSelectModal
+        onChangeTemplateName={onChangeTemplateName}
+        templates={templates}
+        isSpecialist={true} // TODO: передать сюда данные из стора
         isOpened={isTypeSelectModalOpened}
         onClose={() => {
           setIsTypeSelectModalOpened(false);
@@ -269,9 +330,7 @@ export function Tasks() {
         onEditBtnClick={handleEditClick}
         onSendComment={handleSendComment}
         onSave={handleSaveTask}
-        onSaveAsTemplate={() => {
-          console.log('save template');
-        }}
+        onSaveAsTemplate={handleSaveAsTemplate}
         onDeleteTask={handleDeleteTask}
         onSaveFirstValue={handleSaveFirstFactValue}
         onSaveSecondValue={handleSaveSecondFactValue}

@@ -1,6 +1,5 @@
-import React from 'react';
-import classNames from 'classnames';
-import { Formik } from 'formik';
+import React, { RefObject } from 'react';
+import { Formik, FormikProps } from 'formik';
 import { CreateEventTask, EventTask } from '../../store/@types/Task';
 import { NEW_DATE } from '../../constants/dates';
 import Button from '../Button/Button';
@@ -21,6 +20,7 @@ export type EventTaskEditorProps = {
   isLoading: boolean;
   onClose(): void;
   onSave(task: CreateEventTask): void;
+  formikRef: RefObject<FormikProps<Partial<CreateEventTask>>>;
 };
 
 export function EventTaskEditor({
@@ -28,6 +28,7 @@ export function EventTaskEditor({
   onClose,
   onSave,
   isLoading,
+  formikRef,
 }: EventTaskEditorProps) {
   function onSubmit(values: Partial<CreateEventTask>) {
     onSave({ ...task, ...values });
@@ -35,6 +36,7 @@ export function EventTaskEditor({
 
   return (
     <Formik
+      formikRef={formikRef}
       enableReinitialize
       initialValues={{
         title: task.title,
@@ -57,7 +59,7 @@ export function EventTaskEditor({
         handleSubmit,
         setFieldValue,
       }) => (
-        <form className={s.form} onSubmit={handleSubmit}>
+        <form id="task-form" className={s.form} onSubmit={handleSubmit}>
           <div className="line">
             <Input
               type={InputTypes.NAME}

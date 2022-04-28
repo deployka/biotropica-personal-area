@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { RefObject, useState } from 'react';
 import s from './Header.module.scss';
 import MoreIcon from '../../assets/icons/global/more.svg';
 import Divider from '../Divider/Divider';
 import classNames from 'classnames';
+import { FormikProps } from 'formik';
+import { CreateSomeTask } from '../../store/@types/Task';
 
 interface MoreOptionsButtonProps {
   taskId: string;
-  saveTemplate: () => void;
+  saveTemplate: (task: Partial<CreateSomeTask>) => void;
   onDelete: () => void;
+  formikRef: RefObject<FormikProps<Partial<CreateSomeTask>>>;
 }
 
 export function MoreOptionsButton(props: MoreOptionsButtonProps) {
@@ -25,8 +28,18 @@ export function MoreOptionsButton(props: MoreOptionsButtonProps) {
 
   const handleClickSaveTemplate = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    saveTemplate();
     closeContextMenu();
+    const isDirty = props.formikRef.current?.dirty;
+    const isValid = props.formikRef.current?.isValid;
+    const values = props.formikRef.current?.values;
+    console.log(isValid, isDirty);
+
+    if (values && isValid && isDirty) {
+      saveTemplate(values);
+      props.formikRef.current?.resetForm();
+      return;
+    }
+    props.formikRef.current?.submitForm();
   };
 
   const handleClickDelete = (event: React.MouseEvent<HTMLElement>) => {

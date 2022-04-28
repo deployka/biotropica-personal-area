@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { CreateSomeTask, SomeTask } from '../../store/@types/Task';
 import { BaseTaskEditor } from '../../components/BaseTaskEditor/BaseTaskEditor';
 import {
@@ -12,6 +12,7 @@ import {
   translatedKindOfSport,
 } from '../../components/TrainingTaskEditor/TraningTaskEditorConstants';
 import { TaskLayout } from './TaskLayout';
+import { FormikProps } from 'formik';
 
 type TasksModalProps = {
   task: SomeTask | CreateSomeTask | null;
@@ -22,7 +23,7 @@ type TasksModalProps = {
   onClose(): void;
   onEditBtnClick(): void;
   onDeleteTask(): void;
-  onSaveAsTemplate: () => void;
+  onSaveAsTemplate: (task: Partial<CreateSomeTask>) => void;
   onSave(task: CreateSomeTask): void;
   onSendComment(newCommentText: string): void;
   onSaveFactValue(value: number): void;
@@ -49,6 +50,7 @@ export const TasksModal = ({
   let category = '';
   let title = '';
   let icon: string | undefined;
+  const formikRef = useRef<FormikProps<Partial<CreateSomeTask>>>(null);
 
   if (task?.type) {
     switch (task.type) {
@@ -83,6 +85,7 @@ export const TasksModal = ({
   return (
     <BaseTaskEditor
       task={task}
+      formikRef={formikRef}
       taskId={taskId}
       title={title}
       icon={icon}
@@ -96,6 +99,7 @@ export const TasksModal = ({
     >
       <TaskLayout
         task={task}
+        formikRef={formikRef}
         mode={mode}
         isLoading={isLoading}
         onSave={onSave}

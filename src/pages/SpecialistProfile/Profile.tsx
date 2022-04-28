@@ -18,9 +18,7 @@ const Profile = () => {
 
   const currentUser = useSelector(selectUserData);
 
-  console.log('SpecialistProfile', currentUser);
   const userId = Number(id || currentUser?.id);
-  console.log('SpecialistProfile.id', userId);
   const { data: user } = useGetUserQuery(userId, {
     skip: Number.isNaN(userId),
   });
@@ -38,8 +36,6 @@ const Profile = () => {
     const dialog = await chatApi.create(user.id as number);
     eventBus.emit(EventTypes.chatOpen, dialog.id);
   }
-
-  console.log('!');
 
   return (
     <div className={s.backgroundWrapper}>
