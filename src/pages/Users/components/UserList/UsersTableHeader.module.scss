@@ -34,6 +34,9 @@
 
   .filterBtn {
     .btnText {
+      margin-left: 20px;
+      margin-right: 20px;
+
       @include for-phone {
         display: none;
       }
