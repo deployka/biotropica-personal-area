@@ -40,16 +40,23 @@ export function UserList({ users }: Props) {
     filteredUsers = filterUsersByQuery(filteredUsers, query);
   }
 
+  const [checked, setChecked] = useState(false);
+
   return (
     <div className={s.adminPanel}>
       <div className={`${s.listPanel} ${filterOpened ? '' : s.full}`}>
         <UsersTableHeader
+          checked={checked}
+          onChecked={setChecked}
           userLength={filteredUsers.length}
           onFilterBtnClick={() => setFilterOpened(!filterOpened)}
           filterOpened={filterOpened}
           query={query}
           onSearch={setQuery}
         />
+        {!filteredUsers.length && (
+          <p className={s.empty}>Пользователи не найдены</p>
+        )}
         <UsersTable users={filteredUsers} />
       </div>
     </div>

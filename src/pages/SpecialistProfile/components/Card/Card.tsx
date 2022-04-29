@@ -119,24 +119,6 @@ const Card = (props: Props) => {
               )}
             </div>
           </div>
-          {/* <Link style={{ textDecoration: 'none' }} to='/goals'>
-            <div className={s.goals}>
-              <span>Активных целей: </span>
-              {goalsCount}
-            </div>
-          </Link>
-          <Link style={{ textDecoration: 'none' }} to='/tariffs'>
-            <div className={s.tariff}>
-              <div className={s.tariff__name}>
-                Тариф {'  '}
-                {tariffData.name}
-              </div>
-              <div className={s.tariff__expires}>
-                до {'  '}
-                {tariffData.expires}
-              </div>
-            </div>
-          </Link> */}
         </div>
       </div>
     </>

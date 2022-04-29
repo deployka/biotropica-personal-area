@@ -149,8 +149,10 @@ export function Recommendations() {
           },
         ]}
         onSelect={value => {
-          if (value === 'tasks') {
+          if (value === 'tasks' && !userId) {
             history.push('/');
+          } else if (value === 'tasks' && userId) {
+            history.push(`/users/${userId}/tasks`);
           }
         }}
       />
@@ -182,7 +184,6 @@ export function Recommendations() {
             </>
           )}
         </div>
-
         {openedRecommendation && (
           <RecommendationEditor
             title={openedRecommendation?.title || ''}
@@ -194,6 +195,9 @@ export function Recommendations() {
           />
         )}
       </div>
+      {!openedRecommendation && (
+        <p className={s.empty}>Рекомендаций пока нет</p>
+      )}
     </div>
   );
 }

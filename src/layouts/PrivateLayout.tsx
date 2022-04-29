@@ -33,7 +33,7 @@ export interface Page {
   redirect?: string;
 }
 export interface Nav extends Page {
-  svg: ReactElement;
+  svg?: ReactElement;
 }
 
 const pages = [
@@ -85,7 +85,8 @@ const clientNav: Nav[] = [
 const specialistNav: Nav[] = [
   {
     ...pages[1],
-    svg: <SidebarSvgSelector id="home" />,
+    page: 'Пользователи',
+    svg: <SidebarSvgSelector id="users" />,
   },
   {
     ...pages[4],
@@ -115,10 +116,13 @@ export function PrivateLayout(props: Props) {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const roles = useSelector(selectUserRoles);
+  const nav = roles.includes('USER') ? clientNav : specialistNav;
 
   const currentPage = useMemo(() => getCurrentPage(pathname), [pathname]);
 
-  const defaultPageName = pages.find(p => p.link === currentPage)?.page;
+  const defaultPageName = nav
+    .concat(pages)
+    .find(p => p.link === currentPage)?.page;
   const [page, setPage] = useState<string>(defaultPageName || 'Страница 404');
 
   useEffect(() => {
@@ -141,8 +145,6 @@ export function PrivateLayout(props: Props) {
     setSidebarChatOpen(true);
     setOpenedDialog(id);
   });
-
-  const nav = roles.includes('USER') ? clientNav : specialistNav;
 
   const openChat = useCallback(() => {
     sendMessage().then(() => {

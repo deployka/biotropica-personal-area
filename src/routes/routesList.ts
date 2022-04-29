@@ -18,6 +18,7 @@ import { AdminUsers } from '../pages/AdminUsers/AdminUsers';
 import { PublicProfile } from '../components/PublicProfile/containers/PublicProfile';
 import { SpecialistUsers } from '../pages/SpecialistUsers/SpecialistUsers';
 import VideoConsultationsList from '../pages/SpecialistVideoConsultationsList/VideoConsultationsList';
+import EditSpecialistProfile from '../pages/SpecialistProfile/Edit/Edit';
 
 const routes = [
   {
@@ -56,6 +57,7 @@ const routes = [
   {
     path: 'profile/edit/:active',
     component: Edit,
+    specialistComponent: EditSpecialistProfile,
     exact: true,
   },
   {

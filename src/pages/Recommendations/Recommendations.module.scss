@@ -1,25 +1,29 @@
 .recommendationPage {
+  width: 100%;
+  display: flex;
+  padding-top: 40px;
+
+  .left {
+    margin: 0 70px 0 0;
+  }
+
+  .right {
     width: 100%;
-    display: flex;
-    padding-top: 40px;
-
-    .left {
-        margin: 0 70px 0 0;
-    }
-
-    .right {
-        width: 100%;
-    }
+  }
 }
 
-.recommendationList{
-    margin: 25px 0 0 0;
+.recommendationList {
+  margin: 25px 0 0 0;
 
-    width: 100%;
+  width: 100%;
 
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 
-    row-gap: 35px;
+  row-gap: 35px;
+}
+
+.empty {
+  text-align: center;
 }

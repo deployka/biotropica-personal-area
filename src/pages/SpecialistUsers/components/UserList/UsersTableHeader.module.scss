@@ -1,6 +1,5 @@
-@import "../../../../styles/global";
-@import "../../../../styles/breakpoints";
-
+@import '../../../../styles/global';
+@import '../../../../styles/breakpoints';
 
 .titleLine {
   padding: 0 16px;
@@ -106,9 +105,6 @@
   }
 }
 
-
-
-
 .options {
   display: flex;
   align-items: center;
@@ -130,4 +126,34 @@
   left: 10px;
 
   z-index: 10;
+}
+
+.checkbox__wrapper {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+  span {
+    font-size: 16px;
+    color: #736f8b;
+  }
+  .checkbox {
+    min-width: 24px;
+    height: 24px;
+    border: 1px solid #9895a7;
+    border-radius: 5px;
+    margin-right: 15px;
+    transition: 0.2s;
+  }
+  input:checked ~ label {
+    background: url('../../../../assets/icons/forms/check.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  input {
+    cursor: pointer;
+    position: absolute;
+    min-width: 24px;
+    height: 24px;
+    opacity: 0;
+  }
 }

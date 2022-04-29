@@ -18,6 +18,11 @@
 
   transition: all 0.3s ease;
 
+  .empty {
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+
   &.full {
     width: 100%;
   }
