@@ -25,6 +25,10 @@
     height: unset;
   }
 
+  .header {
+    display: flex;
+  }
+
   .price {
     display: flex;
 
@@ -136,5 +140,9 @@
         color: #ffffff;
       }
     }
+  }
+
+  .editBtn {
+    border-radius: 100px;
   }
 }

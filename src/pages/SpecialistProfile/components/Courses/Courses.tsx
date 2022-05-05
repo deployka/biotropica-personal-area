@@ -15,7 +15,7 @@ import { useRequestChangeCoursesMutation } from '../../../../store/rtk/requests/
 import { Loader } from '../../../../shared/Global/Loader/Loader';
 import { useRequestUserDataQuery } from '../../../../store/rtk/requests/user';
 import { useRequestUsersDataQuery } from '../../../../store/rtk/requests/users';
-import Input from '../../../../components/Input/Input';
+import Input, { InputTypes } from '../../../../components/Input/Input';
 import Textarea from '../../../../components/Textarea/Textarea';
 
 interface Course {
@@ -170,6 +170,7 @@ const Courses = () => {
               <div key={course.id} className={s.course}>
                 <div className={s.course__inputs}>
                   <Input
+                    type={InputTypes.TEXT}
                     value={course.title}
                     name="title"
                     onChange={e => handleChange(
@@ -178,6 +179,7 @@ const Courses = () => {
                       course.description,
                       course.date,
                     )}
+                    placeholder=''
                   />
                   <Textarea
                     value={course.description}

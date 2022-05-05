@@ -20,7 +20,7 @@ import { MoreOptionsButton } from './MoreOptionsButton';
 import Modal from '../../shared/Global/Modal/Modal';
 import Confirm from '../../shared/Global/Modal/Confirm/Confirm';
 import setDateTimeValidation from './setDateTimeValidation';
-import Input from '../../components/Input/Input';
+import Input, { InputTypes } from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import { Consultation as RequestedConsultation } from '../../store/rtk/types/user';
 
@@ -338,6 +338,7 @@ const VideoConsultationsList = () => {
                   </div>
                   <div className={s.wrapperInput}>
                     <Input
+                      type={InputTypes.TEXT}
                       name='time'
                       placeholder={
                         deviseWidth <= 768

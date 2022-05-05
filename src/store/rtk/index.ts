@@ -10,6 +10,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import usersApi from './requests/users';
 import userApi from './requests/user';
 import avatarApi from './requests/avatar';
+import tariffsApi from './requests/tariffs';
 import userReducer from './slices/user';
 import usersReducer from './slices/users';
 import avatarReducer from './slices/avatar';
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [avatarApi.reducerPath]: avatarApi.reducer,
   [taskApi.reducerPath]: taskApi.reducer,
+  [tariffsApi.reducerPath]: tariffsApi.reducer,
   [specializationApi.reducerPath]: specializationApi.reducer,
   [recommendationApi.reducerPath]: recommendationApi.reducer,
   authSlice: authSlice,
@@ -57,6 +59,7 @@ const middlewareHandler = (getDefaultMiddleware: any) => {
       usersApi.middleware,
       avatarApi.middleware,
       taskApi.middleware,
+      tariffsApi.middleware,
       specializationApi.middleware,
       recommendationApi.middleware,
     ),

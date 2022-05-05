@@ -1,59 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
-import { Tariff } from '../components/Tariff/Tariff';
+import { Tariff } from '../../../store/rtk/types/tariff';
+import { Tariff as TariffComponent } from '../components/Tariff/Tariff';
 import { TariffMobile } from '../components/TariffMobile/TariffMobile';
+import Button from '../../../components/Button/Button';
+import AddTariffModal from '../components/AddTariffModal/AddTariffModal';
+import PlusIcon from '../../../assets/icons/plus.svg';
+import { useRequestTariffsQuery } from '../../../store/rtk/requests/tariffs';
 
 import s from './Tariffs.module.scss';
 
-export interface Tariff {
-  price: string;
-  name: string;
-  features: string[];
-  prolongLink: string;
-}
-
 const Tariffs = () => {
-  const tariffsTest: Tariff[] = [
-    {
-      price: '15 999',
-      name: 'Базовый пакет',
-      features: [
-        'Интерпретация результатов анализов',
-        'Рекомендации тренера',
-        'Рекомендации диетолога',
-        'Рекомендации нутрициолога',
-      ],
-      prolongLink: 'bibi',
-    },
-    {
-      price: '25 999',
-      name: 'Расширенный пакет',
-      features: [
-        'Интерпретация результатов анализов',
-        'Рекомендации тренера',
-        'Рекомендации диетолога',
-        'Рекомендации нутрициолога',
-        'Рекомендации психолога',
-        'Рекомендации эндокринолога',
-      ],
-      prolongLink: 'bibi',
-    },
-    {
-      price: '35 999',
-      name: 'Индивидуальный пакет',
-      features: [
-        'Интерпретация результатов анализов',
-        'Консультации тренера по видеосвязи',
-        'Консультации диетолога по видеосвязи',
-        'Консультации нутрициолога по видеосвязи',
-        'Консультации психолога по видеосвязи',
-        'Консультации эндокринолога по видеосвязи',
-      ],
-      prolongLink: 'bibi',
-    },
-  ];
+  const { data: tariffs } = useRequestTariffsQuery();
 
   const [mobile, setMobile] = useState(false);
+  const [isAddTariffModalVisible, setIsAddTariffModalVisible] = useState(false);
 
   useEffect(() => {
     if (document.documentElement.clientWidth <= 500) {
@@ -62,24 +23,40 @@ const Tariffs = () => {
   }, []);
 
   return (
-    <div className={s.tariffs}>
-      {tariffsTest.map((currentTariff: Tariff, i) => {
-        if (mobile) {
+    <>
+      <div className={s.header}>
+        <Button 
+          isPrimary
+          className={s.addBtn}
+          onClick={() => setIsAddTariffModalVisible(true)}
+        >
+          <img className={s.plusForAddBtn} src={PlusIcon} alt="" />
+          <span>Добавить новый тариф</span>
+        </Button>
+      </div>
+      <div className={s.tariffs}>
+        {tariffs && tariffs.map((currentTariff: Tariff, i) => {
+          if (mobile) {
+            return (
+              <TariffMobile
+                key={`${currentTariff.title}_${currentTariff.cost}_${i}`}
+                tariff={currentTariff}
+              />
+            );
+          }
           return (
-            <TariffMobile
-              key={`${currentTariff.name}_${currentTariff.price}_${i}`}
+            <TariffComponent
+              key={`${currentTariff.title}_${currentTariff.cost}_${i}`}
               tariff={currentTariff}
             />
           );
-        }
-        return (
-          <Tariff
-            key={`${currentTariff.name}_${currentTariff.price}_${i}`}
-            tariff={currentTariff}
-          />
-        );
-      })}
-    </div>
+        })}
+      </div>
+      <AddTariffModal 
+        isVisible={isAddTariffModalVisible}
+        onClose={() => setIsAddTariffModalVisible(false)}
+      />
+    </>
   );
 };
 

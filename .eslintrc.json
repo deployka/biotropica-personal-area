@@ -20,7 +20,7 @@
   "plugins": ["react", "react-hooks", "@typescript-eslint"],
   "rules": {
     "semi": ["error", "always"],
-    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "indent": "warn",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "comma-dangle": ["error", "always-multiline"],
@@ -38,6 +38,8 @@
     "arrow-parens": ["error", "as-needed"],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "no-trailing-spaces": "warn",
+    "no-tabs": "warn"
   }
 }

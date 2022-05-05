@@ -1,0 +1,35 @@
+@import '../../../styles/global.scss';
+
+.form {
+    max-width: 350px;
+}
+.input {
+    margin-bottom: 12px;
+}
+
+.addFieldBtn {
+    width: 350px;
+}
+
+.closeAndSave {
+    display: flex;
+    flex-direction: row;
+
+    margin: 12px 0;
+
+    button {
+        margin-right: 8px;
+    }
+}
+
+.deleteBtn {
+    @include link;
+
+    text-decoration: none;
+
+    color: $color-link;
+
+    &:hover {
+        color: $color-primary;
+    }
+}

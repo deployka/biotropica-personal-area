@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useField } from 'formik';
 import classNames from 'classnames';
 
-import s from './Input.module.scss';
-
 import Label from '../Label/Label';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import checkIcon from '../../assets/icons/input/check.svg';
+import cancelIcon from '../../assets/icons/input/cancel.svg';
+
+import s from './Input.module.scss';
 
 export enum InputTypes {
   TEXT = 'text',
@@ -14,24 +16,30 @@ export enum InputTypes {
   PATRONYMIC = 'patronymic',
   PASSWORD = 'password',
   EMAIL = 'email',
-  PHONE= 'phone',
-  NUMBER='number'
+  PHONE = 'phone',
+  NUMBER = 'number'
 }
 
 export interface Props {
   name: string;
   value?: string | number;
   classes?: string;
-  type?: InputTypes;
+  type: InputTypes;
   label?: string;
-  placeholder?: string;
+  placeholder: string;
   autoComplete?: string;
   disabled?: boolean;
+  suffix?: string;
+  withAccept?: boolean;
+  withCancel?: boolean;
+  isError?: boolean;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onInput?: (e: React.FormEvent<HTMLInputElement>) => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onPaste?: (e: React.ClipboardEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onAccept?: () => void;
+  onCancel?: () => void;
 }
 
 const Input = (props: Props) => {
@@ -40,27 +48,83 @@ const Input = (props: Props) => {
     classes,
     label,
     disabled,
+    placeholder,
+    suffix,
+    withAccept,
+    withCancel,
+    onAccept,
+    onCancel,
   } = props;
 
-  const [, meta] = useField(props);
-  const isError = meta.touched && meta.error;
+  const [field, meta] = useField(props);
+  const isError = (meta.touched && meta.error) || props.isError;
+
+  const [iconIsHidden, setIconIsHidden] = useState(true);
 
   return (
-    <div className={s.wrapperInput}>
+    <div className={s.mainWrapper}>
       {label && <Label value={label} />}
-      <input
-        className={classNames({
-          [s.input]: true,
-          [s.active]: !!value,
-          [s.disabled__input]: disabled,
-          [s.success__input]: meta.touched && !isError,
-          [s.error__input]: isError,
-        }, classes)}
-        name={props.name}
-        onBlur={props.onBlur}
-        onInput={props.onInput}
-        onChange={props.onChange}
-      />
+
+      <div className={classNames({
+        [s.inputWrapper]: true,
+        [s.success__input]: meta.touched && !isError,
+        [s.error__input]: isError,
+      }, classes)
+      }>
+        <input
+          className={classNames({
+            [s.input]: true,
+            [s.active]: !!value,
+            [s.disabled__input]: disabled,
+            [s.with__icon]: !iconIsHidden,
+          })}
+          {...field}
+          {...props}
+          onFocus={() => {
+            if (withAccept || withCancel) setIconIsHidden(false);
+          }}
+          onBlur={e => {
+            field.onBlur(e);
+
+            if (withAccept || withCancel) setIconIsHidden(true);
+          }}
+          disabled={props.disabled}
+          placeholder={placeholder}
+        />
+
+        <div className={s.icons}>
+          {
+            withAccept && !iconIsHidden && (
+              <img
+                src={checkIcon}
+                className={s.icon}
+                alt=""
+                onClick={onAccept}
+                onMouseDown={e => e.preventDefault()}
+              />
+            )
+          }
+          {
+            withCancel && !iconIsHidden && (
+              <img
+                src={cancelIcon}
+                className={s.icon}
+                alt=""
+                onClick={onCancel}
+                onMouseDown={e => e.preventDefault()}
+              />
+            )
+          }
+        </div>
+
+        {
+          suffix && (
+            <div className={s.suffix}>
+              {suffix}
+            </div>
+          )
+        }
+      </div>
 
       {
         meta.touched &&

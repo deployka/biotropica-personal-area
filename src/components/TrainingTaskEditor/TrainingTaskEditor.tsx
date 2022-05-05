@@ -70,6 +70,7 @@ export function TrainingTaskEditor({
           <form className={s.form} onSubmit={handleSubmit}>
             <div className={s.line}>
               <Input
+                type={InputTypes.TEXT}
                 placeholder="Название"
                 label="Название"
                 name="title"
