@@ -5,18 +5,23 @@ import {
   useRequestDeleteTariffMutation,
 } from '../../../../store/rtk/requests/tariffs';
 import Modal from '../../../../shared/Global/Modal/Modal';
-import { Tariff, NewTariff } from '../../../../types/entities/Tariff';
+import { Tariff } from '../../../../types/entities/Tariff';
 import { TariffEditor } from '../../../../components/Tariff/TariffEditor/TariffEditor';
+import { 
+	showErrorNotificationAfterDeleteTariff,
+	showErrorNotificationAfterChangeTariff,
+} from '../../../../utils/tariffHelper';
 
 import s from './EditTariffModal.module.scss';
 
 interface Props {
 	id: Tariff['id'];
-	title: Tariff['title'];
 	cost: Tariff['cost'];
+	title: Tariff['title'];
 	includedFields: Tariff['includedFields'];
 	isVisible: boolean;
 	onClose(): void;
+	refetchTariffs(): void;
 }
 
 const EditTariffModal = (props: Props) => {
@@ -27,10 +32,26 @@ const EditTariffModal = (props: Props) => {
     includedFields,
     isVisible,
     onClose,
+		refetchTariffs,
   } = props;
 
-  const [updateTariff] = useRequestChangeTariffMutation();
-  const [deleteTariff] = useRequestDeleteTariffMutation();
+  const [updateTariff, { isSuccess: isChangeSuccess, isError: isChangeError }] = useRequestChangeTariffMutation();
+  const [deleteTariff, { isSuccess: isDeleteSuccess, isError: isDeleteError }] = useRequestDeleteTariffMutation();
+
+	React.useEffect(() => {
+
+		if (isChangeSuccess || isDeleteSuccess) {
+			onClose();
+			refetchTariffs();
+		}
+	}, [isChangeSuccess, isDeleteSuccess]);
+
+	React.useEffect(() => {
+
+		isChangeError && showErrorNotificationAfterChangeTariff(title);
+		isDeleteError && showErrorNotificationAfterDeleteTariff(title);
+		
+	}, [isChangeError, isDeleteError]);
 
   const handleDeleteTariff = () => {
     deleteTariff({ id });

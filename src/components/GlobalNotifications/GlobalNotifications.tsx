@@ -70,7 +70,7 @@ const GlobalNotifications = (): ReactElement => {
         ...notification,
         ...res,
         title: res.title ? res.title : getNotificationTitle(res.type),
-        message: res?.message || 'Нет сообщения',
+        message: res?.message || '',
         type: res.type,
       });
     });

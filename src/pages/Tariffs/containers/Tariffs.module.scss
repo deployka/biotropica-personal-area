@@ -6,7 +6,6 @@
 }
 
 .header {
-  text-align: right;
   margin-bottom: 31;
 }
 
@@ -27,7 +26,7 @@
   display: flex;
 
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
 
   column-gap: 30px;
   row-gap: 30px;

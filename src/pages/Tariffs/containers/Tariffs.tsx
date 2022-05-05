@@ -11,7 +11,7 @@ import { useRequestTariffsQuery } from '../../../store/rtk/requests/tariffs';
 import s from './Tariffs.module.scss';
 
 const Tariffs = () => {
-  const { data: tariffs } = useRequestTariffsQuery();
+  const { data: tariffs, refetch: refetchTariffs } = useRequestTariffsQuery();
 
   const [mobile, setMobile] = useState(false);
   const [isAddTariffModalVisible, setIsAddTariffModalVisible] = useState(false);
@@ -48,12 +48,14 @@ const Tariffs = () => {
             <TariffComponent
               key={`${currentTariff.title}_${currentTariff.cost}_${i}`}
               tariff={currentTariff}
+              refetchTariffs={refetchTariffs}
             />
           );
         })}
       </div>
       <AddTariffModal
         isVisible={isAddTariffModalVisible}
+        refetchTariffs={refetchTariffs}
         onClose={() => setIsAddTariffModalVisible(false)}
       />
     </>

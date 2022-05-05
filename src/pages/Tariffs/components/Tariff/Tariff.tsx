@@ -11,15 +11,18 @@ import s from './Tariff.module.scss';
 
 interface Props {
   tariff: ITariff;
+  refetchTariffs(): void;
 }
 
-export const Tariff = ({ tariff }: Props) => {
+export const Tariff = (props: Props) => {
   const {
     id,
     cost,
     title,
     includedFields,
-  } = tariff;
+  } = props.tariff;
+
+  const refetchTariffs = props.refetchTariffs;
 
   const [isEditTariffModalVisible, setIsEditTariffModalVisible] = React.useState(false);
 
@@ -82,6 +85,7 @@ export const Tariff = ({ tariff }: Props) => {
         title={title}
         includedFields={includedFields}
         isVisible={isEditTariffModalVisible}
+        refetchTariffs={refetchTariffs}
         onClose={() => setIsEditTariffModalVisible(false)}
       />
     </>

@@ -40,6 +40,7 @@
     "react-hooks/exhaustive-deps": "warn",
     "react/prop-types": "off",
     "no-trailing-spaces": "warn",
-    "no-tabs": "warn"
+    "no-tabs": "warn",
+    "padded-blocks": 0
   }
 }
