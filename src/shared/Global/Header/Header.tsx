@@ -36,10 +36,10 @@ export const Header = memo(
               {isNotificationsUnread
                 ? (
                   <HeaderSvgSelector id="notification-active" />
-                )
+                  )
                 : (
                   <HeaderSvgSelector id="notification" />
-                )}
+                  )}
             </div>
             <div
               onClick={() => setSidebarChatOpen(true)}
@@ -48,10 +48,10 @@ export const Header = memo(
               {isChatUnread
                 ? (
                   <HeaderSvgSelector id="chat-active" />
-                )
+                  )
                 : (
                   <HeaderSvgSelector id="chat" />
-                )}
+                  )}
             </div>
           </div>
         </div>

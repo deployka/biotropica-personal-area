@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {
- useRequestChangeTariffMutation,
- useRequestDeleteTariffMutation,
+  useRequestChangeTariffMutation,
+  useRequestDeleteTariffMutation,
 } from '../../../../store/rtk/requests/tariffs';
 import Modal from '../../../../shared/Global/Modal/Modal';
 import { Tariff, NewTariff } from '../../../../types/entities/Tariff';
@@ -20,33 +20,33 @@ interface Props {
 }
 
 const EditTariffModal = (props: Props) => {
-	const {
-		id,
-		title,
-		cost,
-		includedFields,
-		isVisible,
-		onClose,
-	} = props;
+  const {
+    id,
+    title,
+    cost,
+    includedFields,
+    isVisible,
+    onClose,
+  } = props;
 
-	const [updateTariff] = useRequestChangeTariffMutation();
-	const [deleteTariff] = useRequestDeleteTariffMutation();
+  const [updateTariff] = useRequestChangeTariffMutation();
+  const [deleteTariff] = useRequestDeleteTariffMutation();
 
-	const handleDeleteTariff = () => {
-		deleteTariff({ id });
-	};
+  const handleDeleteTariff = () => {
+    deleteTariff({ id });
+  };
 
-	const handleSaveTariff = (updatedTariff: Tariff) => {
-		updateTariff(updatedTariff);
-	};
+  const handleSaveTariff = (updatedTariff: Tariff) => {
+    updateTariff(updatedTariff);
+  };
 
-	return (
+  return (
 		<Modal
 			isOpened={isVisible}
 			close={() => onClose()}
 			className={s.modal}
 		>
-			<TariffEditor 
+			<TariffEditor
 				id={id}
 				title={title}
 				cost={cost}
@@ -56,7 +56,7 @@ const EditTariffModal = (props: Props) => {
 				onSave={(updatedTariff: Tariff) => handleSaveTariff(updatedTariff)}
 			/>
 		</Modal>
-	);
+  );
 };
 
 export default EditTariffModal;

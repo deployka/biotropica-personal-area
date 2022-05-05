@@ -11,29 +11,29 @@ interface Props {
 }
 
 const AddTariffModal = (props: Props) => {
-	const {
-		isVisible,
-		onClose,
-	} = props;
+  const {
+    isVisible,
+    onClose,
+  } = props;
 
-	const [addTariff] = useRequestAddTariffMutation();
+  const [addTariff] = useRequestAddTariffMutation();
 
-	const handleAddTariff = (newTariff: NewTariff) => {
-		addTariff(newTariff);
-	};
+  const handleAddTariff = (newTariff: NewTariff) => {
+    addTariff(newTariff);
+  };
 
-	return (
+  return (
 		<Modal
 			isOpened={isVisible}
 			close={() => onClose()}
 		>
-			<TariffEditor 
+			<TariffEditor
 				isNew
 				onClose={() => onClose()}
 				onSave={newTariff => handleAddTariff(newTariff)}
 			/>
 		</Modal>
-	);
+  );
 };
 
 export default AddTariffModal;

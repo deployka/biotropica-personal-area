@@ -295,18 +295,18 @@ const VideoConsultationsList = () => {
               date:
                 consultationToChange
                   ? (
-                    consultationToChange.fullData.date
-                      ? new Date(consultationToChange.fullData.date)
-                      : new Date()
-                  )
+                      consultationToChange.fullData.date
+                        ? new Date(consultationToChange.fullData.date)
+                        : new Date()
+                    )
                   : new Date(),
               time:
                 consultationToChange
                   ? (
-                    consultationToChange.time !== '-'
-                      ? consultationToChange.time
-                      : ''
-                  )
+                      consultationToChange.time !== '-'
+                        ? consultationToChange.time
+                        : ''
+                    )
                   : '',
             }}
             validateOnBlur

@@ -101,14 +101,14 @@ export const RestoreForm = ({
                   content: loader
                     ? (
                       <Loader />
-                    )
+                      )
                     : type === Type.CHANGE
                       ? (
-                        'Сменить пароль'
-                      )
+                          'Сменить пароль'
+                        )
                       : (
-                        'Создать пароль'
-                      ),
+                          'Создать пароль'
+                        ),
                   setDisabledStyle: isDisabled(isValid, dirty),
                   width: '100%',
                   height: '50px',

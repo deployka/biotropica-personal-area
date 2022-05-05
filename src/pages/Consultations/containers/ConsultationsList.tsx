@@ -70,7 +70,7 @@ export const ConsultationsList = () => {
         </tr>
         {activeConsultations.length !== 0
           ? (
-            activeConsultations.map((consultation: Consultation) => (
+              activeConsultations.map((consultation: Consultation) => (
               <tr key={consultation.id} className={s.tableRow}>
                 <td>{moment(consultation.date).format('LL')}</td>
                 <td>{moment(consultation.date).format('LT')}</td>
@@ -91,13 +91,13 @@ export const ConsultationsList = () => {
                 перейти
                 </td>
               </tr>
-            ))
-          )
+              ))
+            )
           : (
             <tr className={s.tableRow}>
               <td className={s.tableNoData}>Нет данных</td>
             </tr>
-          )}
+            )}
         <tr className={s.tableHeaderRow}>
           <th>Без даты</th>
           <th></th>
@@ -106,7 +106,7 @@ export const ConsultationsList = () => {
         </tr>
         {consultationsWithoutData.length !== 0
           ? (
-            consultationsWithoutData.map((consultation: Consultation) => (
+              consultationsWithoutData.map((consultation: Consultation) => (
               <tr key={consultation.id} className={s.tableRowOfPastConsultations}>
                 <td>укажет специалист</td>
                 <td>укажет специалист</td>
@@ -130,13 +130,13 @@ export const ConsultationsList = () => {
                 открыть диалог
                 </td>
               </tr>
-            ))
-          )
+              ))
+            )
           : (
             <tr className={s.tableRow}>
               <td className={s.tableNoData}>Нет данных</td>
             </tr>
-          )}
+            )}
         <tr className={s.tableHeaderRow}>
           <th>Прошедшие</th>
           <th></th>
@@ -145,7 +145,7 @@ export const ConsultationsList = () => {
         </tr>
         {inactiveConsultations.length !== 0
           ? (
-            inactiveConsultations.map((consultation: Consultation) => (
+              inactiveConsultations.map((consultation: Consultation) => (
               <tr key={consultation.id} className={s.tableRowOfPastConsultations}>
                 <td>{moment(consultation.date).format('LL')}</td>
                 <td>{moment(consultation.date).format('LT')}</td>
@@ -156,13 +156,13 @@ export const ConsultationsList = () => {
                   }
                 </td>
               </tr>
-            ))
-          )
+              ))
+            )
           : (
             <tr className={s.tableRow}>
               <td className={s.tableNoData}>Нет данных</td>
             </tr>
-          )}
+            )}
       </table>
     </div>
   );

@@ -14,15 +14,15 @@ interface Props {
 }
 
 export const Tariff = ({ tariff }: Props) => {
-  const { 
+  const {
     id,
-    cost, 
-    title, 
-    includedFields, 
+    cost,
+    title,
+    includedFields,
   } = tariff;
 
   const [isEditTariffModalVisible, setIsEditTariffModalVisible] = React.useState(false);
-  
+
   const roles = useSelector(selectUserRoles);
 
   const isAdmin = roles.includes('ADMIN');
@@ -41,7 +41,7 @@ export const Tariff = ({ tariff }: Props) => {
               </div>
             </div>
             <div>
-              
+
             </div>
           </div>
           <div className={s.title}>
@@ -60,14 +60,14 @@ export const Tariff = ({ tariff }: Props) => {
         <div className={s.bottom}>
           {
             !isAdmin && (
-              <Button 
-                isFunctional 
+              <Button
+                isFunctional
                 className={s.editBtn}
                 onClick={() => setIsEditTariffModalVisible(true)}
               >
                 Редактировать
               </Button>
-            ) 
+            )
             // : (
             //   <a href={prolongLink} className={s.button}>
             //     <button>продлить тариф</button>
@@ -76,7 +76,7 @@ export const Tariff = ({ tariff }: Props) => {
           }
         </div>
       </div>
-      <EditTariffModal 
+      <EditTariffModal
         id={id}
         cost={cost}
         title={title}

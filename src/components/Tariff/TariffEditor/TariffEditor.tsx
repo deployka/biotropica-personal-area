@@ -19,50 +19,50 @@ export type TariffEditorProps = {
 };
 
 export function TariffEditor(props: TariffEditorProps) {
-	const {
-		id,
-		title = '',
-		cost = 0,
-		includedFields = [''],
-		isNew,
-		onClose,
-		onSave,
-		onRemove,
-	} = props;
-	
-	const [price, setPrice] = useState(cost);
-	const [name, setName] = useState(title);
-	const [features, setFeatures] = useState(includedFields);
+  const {
+    id,
+    title = '',
+    cost = 0,
+    includedFields = [''],
+    isNew,
+    onClose,
+    onSave,
+    onRemove,
+  } = props;
 
-	function changeIncludedField(value: string, i: number) {
-		const updatedFields = features.slice();
-		updatedFields.splice(i, 1, value);
+  const [price, setPrice] = useState(cost);
+  const [name, setName] = useState(title);
+  const [features, setFeatures] = useState(includedFields);
 
-		setFeatures(updatedFields);
-	}
-	
-	function deleteIncludedField(i: number) {
-		const updatedFields = features.slice();
-		updatedFields.splice(i, 1);
+  function changeIncludedField(value: string, i: number) {
+    const updatedFields = features.slice();
+    updatedFields.splice(i, 1, value);
 
-		setFeatures(updatedFields);
-	}
+    setFeatures(updatedFields);
+  }
 
-	function save() {
-		const filteredFields = features.filter(it => it.trim() !== '');
+  function deleteIncludedField(i: number) {
+    const updatedFields = features.slice();
+    updatedFields.splice(i, 1);
 
-		const updatedTariff = {
-			title: name,
-			cost: price,
-			description: '',
-			includedFields: filteredFields,
-			access: [],
-		} as Tariff | NewTariff;
-		id ? console.log({ ...updatedTariff, id: id }) : console.log('polnaya pizda');
-		id ? onSave({ ...updatedTariff, id: id }) : onSave(updatedTariff);
-	}
+    setFeatures(updatedFields);
+  }
 
-	return (
+  function save() {
+    const filteredFields = features.filter(it => it.trim() !== '');
+
+    const updatedTariff = {
+      title: name,
+      cost: price,
+      description: '',
+      includedFields: filteredFields,
+      access: [],
+    } as Tariff | NewTariff;
+    id ? console.log({ ...updatedTariff, id: id }) : console.log('polnaya pizda');
+    id ? onSave({ ...updatedTariff, id: id }) : onSave(updatedTariff);
+  }
+
+  return (
 		<Formik
 			initialValues={{}}
 			onSubmit={save}
@@ -147,5 +147,5 @@ export function TariffEditor(props: TariffEditorProps) {
 				}
 			</Form>
 		</Formik>
-	);
+  );
 }

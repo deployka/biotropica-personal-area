@@ -259,7 +259,7 @@ export const Chat = (props: Props) => {
                 onStartWritings={() => sendWritingsStart(selectedDialog!)}
                 onFinishWritings={() => sendWritingsStop(selectedDialog!)}
               />
-            )
+              )
             : (
               <DialogList
                 dialogs={dialogs}
@@ -268,7 +268,7 @@ export const Chat = (props: Props) => {
                 onClose={() => props.onClose()}
                 onOpenDialog={dialog => openDialog(dialog.id)}
               />
-            )}
+              )}
         </div>
       </div>
     </>

@@ -84,10 +84,10 @@ function returnMsg(message: IMessage, currentUser: ChatUser, read: boolean) {
                 : '',
             )}
           />
-        )
+          )
         : (
-          'XXXXXX'
-        );
+            'XXXXXX'
+          );
     case MessageType.TEXT:
       return (
         <MessageText

@@ -25,7 +25,7 @@ const Tariffs = () => {
   return (
     <>
       <div className={s.header}>
-        <Button 
+        <Button
           isPrimary
           className={s.addBtn}
           onClick={() => setIsAddTariffModalVisible(true)}
@@ -52,7 +52,7 @@ const Tariffs = () => {
           );
         })}
       </div>
-      <AddTariffModal 
+      <AddTariffModal
         isVisible={isAddTariffModalVisible}
         onClose={() => setIsAddTariffModalVisible(false)}
       />
