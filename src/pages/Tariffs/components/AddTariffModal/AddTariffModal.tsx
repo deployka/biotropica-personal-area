@@ -1,9 +1,12 @@
 import React from 'react';
 
+import { 
+	showErrorNotificationAfterAddTariff,
+	showSuccessNotificationAfterAddTariff,
+} from '../../../../utils/tariffHelper';
 import Modal from '../../../../shared/Global/Modal/Modal';
 import { NewTariff } from '../../../../types/entities/Tariff';
 import { useRequestAddTariffMutation } from '../../../../store/rtk/requests/tariffs';
-import { showErrorNotificationAfterAddTariff } from '../../../../utils/tariffHelper';
 import { TariffEditor } from '../../../../components/Tariff/TariffEditor/TariffEditor';
 
 interface Props {
@@ -16,21 +19,22 @@ const AddTariffModal = (props: Props) => {
   const {
     isVisible,
     onClose,
-		refetchTariffs,
+    refetchTariffs,
   } = props;
 
   const [addTariff, { isSuccess, isError }] = useRequestAddTariffMutation();
 
-	React.useEffect(() => {
+  React.useEffect(() => {
 
-		if (isSuccess) {
-			onClose();
-			refetchTariffs();
-		}
+    if (isSuccess) {
+      onClose();
+      refetchTariffs();
+    }
 
-		isError && showErrorNotificationAfterAddTariff();
+		isSuccess && showSuccessNotificationAfterAddTariff();
+    isError && showErrorNotificationAfterAddTariff();
 
-	}, [isSuccess, isError]);
+  }, [isSuccess, isError]);
 
   const handleAddTariff = (newTariff: NewTariff) => {
     addTariff(newTariff);

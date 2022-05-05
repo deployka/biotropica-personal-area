@@ -100,10 +100,10 @@ export const Header = ({
               onClick={onEditClick}
             />
           </div>
-        )
+          )
         : (
-          ''
-        )}
+            ''
+          )}
     </div>
   );
 };

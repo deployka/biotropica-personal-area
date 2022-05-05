@@ -6,14 +6,17 @@
 }
 
 .header {
-  margin-bottom: 31;
+  margin-bottom: 31px;
+  
+  @include for-phone {
+    margin-bottom: 10px;
+  }
 }
 
 .addBtn {
   padding: 6px 6px;
   display: inline-flex;
   align-items: center;
-  margin-bottom: 31px;
 }
 
 .plusForAddBtn {
@@ -43,5 +46,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: unset;
+    row-gap: 10px;
   }
 }

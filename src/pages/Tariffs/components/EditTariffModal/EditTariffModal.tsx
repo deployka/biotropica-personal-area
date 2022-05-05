@@ -7,9 +7,11 @@ import {
 import Modal from '../../../../shared/Global/Modal/Modal';
 import { Tariff } from '../../../../types/entities/Tariff';
 import { TariffEditor } from '../../../../components/Tariff/TariffEditor/TariffEditor';
-import { 
-	showErrorNotificationAfterDeleteTariff,
-	showErrorNotificationAfterChangeTariff,
+import {
+  showErrorNotificationAfterDeleteTariff,
+  showErrorNotificationAfterChangeTariff,
+	showSuccessNotificationAfterDeleteTariff,
+	showSuccessNotificationAfterChangeTariff,
 } from '../../../../utils/tariffHelper';
 
 import s from './EditTariffModal.module.scss';
@@ -32,26 +34,30 @@ const EditTariffModal = (props: Props) => {
     includedFields,
     isVisible,
     onClose,
-		refetchTariffs,
+    refetchTariffs,
   } = props;
 
   const [updateTariff, { isSuccess: isChangeSuccess, isError: isChangeError }] = useRequestChangeTariffMutation();
   const [deleteTariff, { isSuccess: isDeleteSuccess, isError: isDeleteError }] = useRequestDeleteTariffMutation();
 
-	React.useEffect(() => {
+  React.useEffect(() => {
 
-		if (isChangeSuccess || isDeleteSuccess) {
-			onClose();
-			refetchTariffs();
-		}
+    if (isChangeSuccess || isDeleteSuccess) {
+      onClose();
+      refetchTariffs();
+    }
+
+		isDeleteSuccess && showSuccessNotificationAfterDeleteTariff(title);
+		isChangeSuccess && showSuccessNotificationAfterChangeTariff(title);
+
 	}, [isChangeSuccess, isDeleteSuccess]);
 
-	React.useEffect(() => {
+  React.useEffect(() => {
 
-		isChangeError && showErrorNotificationAfterChangeTariff(title);
-		isDeleteError && showErrorNotificationAfterDeleteTariff(title);
-		
-	}, [isChangeError, isDeleteError]);
+    isChangeError && showErrorNotificationAfterChangeTariff(title);
+    isDeleteError && showErrorNotificationAfterDeleteTariff(title);
+
+  }, [isChangeError, isDeleteError]);
 
   const handleDeleteTariff = () => {
     deleteTariff({ id });

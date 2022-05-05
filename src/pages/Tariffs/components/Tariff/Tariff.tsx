@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { useSelector } from 'react-redux';
-import { Tariff as ITariff } from '../../../../store/rtk/types/tariff';
-import EditTariffModal from '../EditTariffModal/EditTariffModal';
-import { selectUserRoles } from '../../../../store/rtk/slices/authSlice';
-import checkbox from './../../../../assets/icons/tariffs/checkbox.svg';
 import Button from '../../../../components/Button/Button';
+import EditTariffModal from '../EditTariffModal/EditTariffModal';
+import checkbox from './../../../../assets/icons/tariffs/checkbox.svg';
+import { Tariff as ITariff } from '../../../../store/rtk/types/tariff';
+import { selectUserRoles } from '../../../../store/rtk/slices/authSlice';
 
 import s from './Tariff.module.scss';
 
@@ -62,7 +62,7 @@ export const Tariff = (props: Props) => {
         </div>
         <div className={s.bottom}>
           {
-            !isAdmin && (
+            isAdmin ? (
               <Button
                 isFunctional
                 className={s.editBtn}
@@ -70,12 +70,11 @@ export const Tariff = (props: Props) => {
               >
                 Редактировать
               </Button>
+            ) : (
+              <a href='#' className={s.button}>
+                <button>продлить тариф</button>
+              </a>
             )
-            // : (
-            //   <a href={prolongLink} className={s.button}>
-            //     <button>продлить тариф</button>
-            //   </a>
-            // )
           }
         </div>
       </div>
