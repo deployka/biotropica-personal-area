@@ -10,8 +10,8 @@ import { TariffEditor } from '../../../../components/Tariff/TariffEditor/TariffE
 import {
   showErrorNotificationAfterDeleteTariff,
   showErrorNotificationAfterChangeTariff,
-	showSuccessNotificationAfterDeleteTariff,
-	showSuccessNotificationAfterChangeTariff,
+  showSuccessNotificationAfterDeleteTariff,
+  showSuccessNotificationAfterChangeTariff,
 } from '../../../../utils/tariffHelper';
 
 import s from './EditTariffModal.module.scss';
@@ -47,10 +47,10 @@ const EditTariffModal = (props: Props) => {
       refetchTariffs();
     }
 
-		isDeleteSuccess && showSuccessNotificationAfterDeleteTariff(title);
-		isChangeSuccess && showSuccessNotificationAfterChangeTariff(title);
+    isDeleteSuccess && showSuccessNotificationAfterDeleteTariff(title);
+    isChangeSuccess && showSuccessNotificationAfterChangeTariff(title);
 
-	}, [isChangeSuccess, isDeleteSuccess]);
+  }, [isChangeSuccess, isDeleteSuccess]);
 
   React.useEffect(() => {
 

@@ -17,17 +17,17 @@ interface Props {
 }
 
 export const TariffMobile = (props: Props) => {
-  const { 
+  const {
     id,
-    cost, 
-    title, 
+    cost,
+    title,
     includedFields,
   } = props.tariff;
 
   const refetchTariffs = props.refetchTariffs;
 
   const [height, setHeight] = useState<number | string>(0);
-  
+
   const [isEditTariffModalVisible, setIsEditTariffModalVisible] = useState(false);
 
   function toggle() {

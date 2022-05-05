@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { 
-	showErrorNotificationAfterAddTariff,
-	showSuccessNotificationAfterAddTariff,
+import {
+  showErrorNotificationAfterAddTariff,
+  showSuccessNotificationAfterAddTariff,
 } from '../../../../utils/tariffHelper';
 import Modal from '../../../../shared/Global/Modal/Modal';
 import { NewTariff } from '../../../../types/entities/Tariff';
@@ -31,7 +31,7 @@ const AddTariffModal = (props: Props) => {
       refetchTariffs();
     }
 
-		isSuccess && showSuccessNotificationAfterAddTariff();
+    isSuccess && showSuccessNotificationAfterAddTariff();
     isError && showErrorNotificationAfterAddTariff();
 
   }, [isSuccess, isError]);

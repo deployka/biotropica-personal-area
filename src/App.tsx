@@ -42,7 +42,7 @@ function App(): ReactElement {
   if (userDataLoading) {
     return <Loader />;
   }
-  
+
   return (
     <Suspense fallback={<Loader />}>
       {getGlobalLoading && <Loader />}

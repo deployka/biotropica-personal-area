@@ -124,8 +124,8 @@ export function TariffEditor(props: TariffEditorProps) {
 				</Button>
 
 				<div className={s.closeAndSave}>
-					<Button 
-						isFunctional 
+					<Button
+						isFunctional
 						onClick={onClose}
 						className={s.closeBtn}
 					>
