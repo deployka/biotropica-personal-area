@@ -22,6 +22,7 @@ export interface User {
 
 export interface UserState {
   user: User | undefined;
+  currentUser: User | undefined;
   status: LoadingStatus;
   response: Response | undefined;
 }

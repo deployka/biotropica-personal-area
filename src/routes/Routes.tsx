@@ -5,10 +5,10 @@ import routes from './routesList';
 import { Loader } from '../shared/Global/Loader/Loader';
 import { PrivateLayout } from '../layouts/PrivateLayout';
 import { useSelector } from 'react-redux';
-import { selectIsDoctor, selectUserRoles } from '../store/rtk/slices/authSlice';
+import { selectIsDoctor } from '../store/rtk/slices/authSlice';
 
 export const Routes = () => {
-  const isDoctor = useSelector(selectIsDoctor);
+  const isSpecialist = useSelector(selectIsDoctor);
   return (
     <Switch>
       <PrivateLayout>
@@ -22,10 +22,10 @@ export const Routes = () => {
                 exact,
               }) => (
                 <Route path={`/${path}`} key={path} exact={exact}>
-                  {isDoctor && SpecialistComponent ? (
+                  {isSpecialist && SpecialistComponent ? (
                     <SpecialistComponent />
                   ) : (
-                    <Component />
+                    Component && <Component />
                   )}
                 </Route>
               ),

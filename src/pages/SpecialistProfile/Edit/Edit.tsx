@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import s from './Edit.module.scss';
-// import { selectUserData } from '../../../store/ducks/user/selectors';
 import EditProfile from '../components/EditProfile/EditProfile';
 import Safety from '../components/Safety/Safety';
 import Courses from '../components/Courses/Courses';
@@ -12,7 +11,7 @@ export interface Param {
   active: string;
 }
 
-const Edit = () => {
+const EditSpecialistProfile = () => {
   const tabs: Tab[] = [
     {
       key: 'profile',
@@ -29,13 +28,13 @@ const Edit = () => {
   ];
 
   const history = useHistory();
-  const { path, url } = useRouteMatch();
+  const { url } = useRouteMatch();
 
   const [activeTab, setActiveTab] = useState<string>(tabs[0].key);
 
-  useEffect(() => {
-    history.push(`${url}/${activeTab}`);
-  }, [activeTab]);
+  // useEffect(() => {
+  //   history.push(`${url}/${activeTab}`);
+  // }, [activeTab]);
 
   return (
     <div className={s.edit}>
@@ -51,4 +50,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default EditSpecialistProfile;

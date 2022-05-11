@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import s from './Profile.module.scss';
-import { selectUserData } from '../../../store/ducks/user/selectors';
+import { selectCurrentUserData } from '../../../store/ducks/user/selectors';
 import EditProfile from './EditProfile';
 import { Security } from './Security';
 import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
@@ -27,7 +27,7 @@ const Edit = () => {
   ];
 
   const history = useHistory();
-  const user = useSelector(selectUserData);
+  const user = useSelector(selectCurrentUserData);
 
   const { active } = useParams<Param>();
   const [activeTab, setActiveTab] = useState<string>(
