@@ -3,55 +3,16 @@ import React, { useState, useEffect } from 'react';
 import { Tariff } from '../components/Tariff/Tariff';
 import { TariffMobile } from '../components/TariffMobile/TariffMobile';
 
+import './paymentForm.scss';
 import s from './Tariffs.module.scss';
-
-export interface Tariff {
-  price: string;
-  name: string;
-  features: string[];
-  prolongLink: string;
-}
+import { useGetAllTariffsQuery, useSelectTariffMutation } from '../../../store/rtk/requests/tariffs';
+import { Tariff as ITariff } from '../../../store/rtk/types/tariff';
+import Modal from '../../../shared/Global/Modal/Modal';
 
 const Tariffs = () => {
-  const tariffsTest: Tariff[] = [
-    {
-      price: '15 999',
-      name: 'Базовый пакет',
-      features: [
-        'Интерпретация результатов анализов',
-        'Рекомендации тренера',
-        'Рекомендации диетолога',
-        'Рекомендации нутрициолога',
-      ],
-      prolongLink: 'bibi',
-    },
-    {
-      price: '25 999',
-      name: 'Расширенный пакет',
-      features: [
-        'Интерпретация результатов анализов',
-        'Рекомендации тренера',
-        'Рекомендации диетолога',
-        'Рекомендации нутрициолога',
-        'Рекомендации психолога',
-        'Рекомендации эндокринолога',
-      ],
-      prolongLink: 'bibi',
-    },
-    {
-      price: '35 999',
-      name: 'Индивидуальный пакет',
-      features: [
-        'Интерпретация результатов анализов',
-        'Консультации тренера по видеосвязи',
-        'Консультации диетолога по видеосвязи',
-        'Консультации нутрициолога по видеосвязи',
-        'Консультации психолога по видеосвязи',
-        'Консультации эндокринолога по видеосвязи',
-      ],
-      prolongLink: 'bibi',
-    },
-  ];
+  const { data: tariffs } = useGetAllTariffsQuery();
+  const [selectTariff] = useSelectTariffMutation();
+  const [paymentForm, setPaymentForm] = useState('');
 
   const [mobile, setMobile] = useState(false);
 
@@ -61,24 +22,49 @@ const Tariffs = () => {
     }
   }, []);
 
+  async function handleSelectTariff(tariff: ITariff) {
+    const result = await selectTariff(tariff.id) as { data: { tinkoffForm: string } };
+    setPaymentForm(result.data && result.data.tinkoffForm);
+  }
+
+  if (!tariffs) {
+    return null;
+  }
+
   return (
     <div className={s.tariffs}>
-      {tariffsTest.map((currentTariff: Tariff, i) => {
+      {tariffs.map((currentTariff: ITariff, i) => {
         if (mobile) {
           return (
             <TariffMobile
-              key={`${currentTariff.name}_${currentTariff.price}_${i}`}
+              key={`${currentTariff.title}_${currentTariff.cost}_${i}`}
               tariff={currentTariff}
+              onSelect={() => {
+                handleSelectTariff(currentTariff);
+              }}
             />
           );
         }
         return (
           <Tariff
-            key={`${currentTariff.name}_${currentTariff.price}_${i}`}
+            key={`${currentTariff.title}_${currentTariff.cost}_${i}`}
             tariff={currentTariff}
+            onSelect={() => {
+              handleSelectTariff(currentTariff);
+            }}
           />
         );
       })}
+      <Modal isOpened={!!paymentForm} close={() => {
+        //
+      }}>
+        <div>
+          <p style={{ marginBottom: '15px' }}>
+            Выберете способ оплаты:
+          </p>
+          <div dangerouslySetInnerHTML={{ __html: paymentForm }}/>
+        </div>
+      </Modal>
     </div>
   );
 };

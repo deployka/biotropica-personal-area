@@ -1,31 +1,31 @@
 import React from 'react';
 import s from './Tariff.module.scss';
 import checkbox from './../../../../assets/icons/tariffs/checkbox.svg';
-import { Tariff as ITariff } from '../../containers/Tariffs';
+import { Tariff as ITariff } from '../../../../store/rtk/types/tariff';
 
 interface Props {
   tariff: ITariff;
+  onSelect(): void;
 }
 
-export const Tariff = ({ tariff }: Props) => {
-  const { price, name, features, prolongLink } = tariff;
+export const Tariff = ({ tariff, onSelect }: Props) => {
   return (
     <div className={s.card}>
       <div className={s.top}>
         <div className={s.price}>
           <div className={s.text}>
-            <p>{price}₽</p>
+            <p>{tariff.cost}₽</p>
           </div>
           <div className={s.subText}>
             <p>/месяц</p>
           </div>
         </div>
         <div className={s.title}>
-          <h3>{name}</h3>
+          <h3>{tariff.title}</h3>
         </div>
 
         <ul className={s.list}>
-          {features.map((feature: string) => (
+          {tariff.includedFields.map((feature: string) => (
             <li key={feature} className={s.listEl}>
               <img src={checkbox} alt="" />
               <p>{feature}</p>
@@ -34,7 +34,7 @@ export const Tariff = ({ tariff }: Props) => {
         </ul>
       </div>
       <div className={s.bottom}>
-        <a href={prolongLink} className={s.button}>
+        <a onClick={onSelect} className={s.button}>
           <button>продлить тариф</button>
         </a>
       </div>

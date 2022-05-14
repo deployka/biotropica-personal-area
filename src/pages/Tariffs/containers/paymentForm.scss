@@ -1,0 +1,57 @@
+@import '../../../styles/variables.scss';
+
+.tinkoffPayRow {
+    border: 1px solid $color-grey-2;
+    background: transparent;
+    color: $color-grey-2;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 120%;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: auto !important;
+
+&:hover {
+     background: $color-primary-hover;
+     color: $color-white;
+     border-color: $color-primary-hover;
+ }
+
+&__primary {
+     background: $color-primary;
+     color: $color-white;
+     border-color: $color-primary;
+
+&:hover {
+     background: $color-primary-hover;
+     color: $color-white;
+ }
+}
+
+&__functional {
+     background: transparent;
+     color: $color-primary;
+     border-color: $color-primary;
+
+&:hover {
+     background: $color-primary;
+     border-color: $color-primary;
+     color: $color-white;
+ }
+}
+
+&__disabled {
+     background: $color-disabled;
+     border-color: $color-disabled;
+     color: $color-white;
+     cursor: default;
+
+&:hover {
+     background: $color-disabled;
+     border-color: $color-disabled;
+ }
+}
+}

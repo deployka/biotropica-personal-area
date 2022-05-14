@@ -215,7 +215,11 @@ export function Tasks() {
           if (value === 'recommendations' && rawUserId) {
             history.push(`/users/${userId}/recommendations`);
           } else if (value === 'recommendations') {
-            history.push('/recommendations');
+            if (id === currentUser?.id) {
+              history.push('/recommendations');
+            } else {
+              history.push(`users/${id}/recommendations`);
+            }
           }
         }}
       />

@@ -3,16 +3,15 @@ import s from './TariffMobile.module.scss';
 import checkbox from './../../../../assets/icons/tariffs/checkbox.svg';
 import arrow from './../../../../assets/icons/tariffs/arrow.svg';
 
-import { Tariff } from '../../containers/Tariffs';
 import AnimateHeight from 'react-animate-height';
+import { Tariff } from '../../../../store/rtk/types/tariff';
 
 interface Props {
   tariff: Tariff;
+  onSelect(): void;
 }
 
-export const TariffMobile = ({ tariff }: Props) => {
-  const { price, name, features, prolongLink } = tariff;
-
+export const TariffMobile = ({ tariff, onSelect }: Props) => {
   const [height, setHeight] = useState<number | string>(0);
 
   function toggle() {
@@ -22,11 +21,11 @@ export const TariffMobile = ({ tariff }: Props) => {
   return (
     <div className={s.card}>
       <div className={s.title}>
-        <h3>{name}</h3>
+        <h3>{tariff.title}</h3>
       </div>
       <div className={s.price}>
         <div className={s.text}>
-          <p>{price}₽</p>
+          <p>{tariff.cost}₽</p>
         </div>
         <div className={s.subText}>
           <p>/месяц</p>
@@ -38,7 +37,7 @@ export const TariffMobile = ({ tariff }: Props) => {
         height={height} // see props documentation below
       >
         <ul className={s.list}>
-          {features.map((feature: string) => (
+          {tariff.includedFields.map((feature: string) => (
             <li key={feature} className={s.listEl}>
               <img src={checkbox} alt="" />
               <p>{feature}</p>
@@ -48,7 +47,7 @@ export const TariffMobile = ({ tariff }: Props) => {
       </AnimateHeight>
 
       <div className={s.bottom}>
-        <a href={prolongLink} className={s.button}>
+        <a onClick={onSelect} className={s.button}>
           продлить тариф
         </a>
         <button

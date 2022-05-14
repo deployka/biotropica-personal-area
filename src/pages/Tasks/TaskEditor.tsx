@@ -19,6 +19,7 @@ export const TaskEditor = ({
   onClose,
   onDelete,
 }: TaskEditorProps) => {
+  console.log('TaskEditor');
   switch (task.type) {
     case 'training':
       return (
