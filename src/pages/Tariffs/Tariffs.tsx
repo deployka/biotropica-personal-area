@@ -5,10 +5,8 @@ import { selectUserRoles } from '../../store/slices/authSlice';
 import { TariffAddModal } from '../../components/Tariff/AddModal/AddModal';
 import { TariffsList } from '../../components/Tariff/List/List';
 import { TariffAdminHeader } from '../../components/Tariff/AdminHeader/AdminHeader';
-import { useRequestTariffsQuery } from '../../api/tariffs';
 import { ROLE } from '../../@types/entities/Role';
-
-import s from './Tariffs.module.scss';
+import { useGetAllTariffsQuery } from '../../api/tariffs';
 
 const Tariffs = () => {
   // FIXME: refetch
@@ -17,7 +15,7 @@ const Tariffs = () => {
     isLoading,
     isError,
     refetch: refetchTariffs,
-  } = useRequestTariffsQuery();
+  } = useGetAllTariffsQuery();
 
   const [isMobile, setIsMobile] = useState(false);
 
