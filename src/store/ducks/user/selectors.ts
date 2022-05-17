@@ -4,13 +4,17 @@ import { UserState } from './contracts/state';
 
 export const selectUserState = (state: RootState): UserState => state.user;
 
+export const selectCurrentUserData = (state: RootState): UserState['user'] =>
+  selectUserState(state).currentUser;
+
 export const selectUserData = (state: RootState): UserState['user'] =>
   selectUserState(state).user;
 
 export const selectUserResponse = (state: RootState): UserState['response'] =>
   selectUserState(state).response;
 
-export const selectIsAuth = (): boolean => !!window.localStorage.getItem('token');
+export const selectIsAuth = (): boolean =>
+  !!window.localStorage.getItem('token');
 
 export const selectUserStatus = (state: RootState): UserState['status'] =>
   selectUserState(state).status;

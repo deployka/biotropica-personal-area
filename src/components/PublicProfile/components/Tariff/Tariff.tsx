@@ -12,7 +12,7 @@ interface Props {
 
 export const Tariff = ({ tariff }: Props) => {
   return (
-    <Link style={{ textDecoration: 'none' }} className={s.tariff} to="/tariffs">
+    <div className={s.tariff}>
       <div className={s.title}>
         <p>
           Тариф {'  '}
@@ -25,6 +25,6 @@ export const Tariff = ({ tariff }: Props) => {
           {tariff.expires}
         </p>
       </div>
-    </Link>
+    </div>
   );
 };

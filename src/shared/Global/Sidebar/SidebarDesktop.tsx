@@ -1,21 +1,19 @@
-import classNames from 'classnames';
-import React, { Dispatch, memo, SetStateAction } from 'react';
-import { Link } from 'react-router-dom';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 
 import s from './SidebarDesktop.module.scss';
 
-import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
-import { SidebarSvgSelector } from '../../../assets/icons/sidebar/SIdebarSvgSelector';
-import { Nav, Pages } from '../../../layouts/PrivateLayout';
+import { Nav } from '../../../layouts/PrivateLayout';
+import { Avatar } from './components/Avatar';
+import { NavItem } from './components/NavItem';
+import { SupportChatBtn } from './components/SupportChatBtn';
+import { LogoutBtn } from './components/LogoutBtn';
 
 interface Props {
   onNavClick: (nav: Partial<Nav>) => void;
-  setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
-  setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
   chatNotificationsOpen: boolean;
+  defaultSelected: string;
   openChat: () => void;
   logout: () => void;
-  pages: Pages[];
   nav: Nav[];
   user: User | undefined;
 }
@@ -23,79 +21,62 @@ interface Props {
 export const SidebarDesktop = memo(
   ({
     onNavClick,
+    defaultSelected,
     chatNotificationsOpen,
-    pages,
     nav,
     openChat,
     logout,
     user,
   }: Props) => {
+    const [selected, setSelected] = useState<string>(defaultSelected);
+
+    useEffect(() => {
+      setSelected(defaultSelected);
+    }, [defaultSelected]);
+
+    const handleItemClick = (item: Partial<Nav>) => () => {
+      item.link && setSelected(item.link);
+      onNavClick(item);
+    };
+
+    const isSelectedItem = useCallback(
+      (link: string) => selected === link,
+      [selected],
+    );
+
     return (
       <div className={s.sidebar}>
         <div className={s.wrapper}>
           <div className={s.top}>
-            <Link
-              to="/profile"
-              className={classNames({
-                [s.avatar]: true,
-                [s.active]: pages[0].link === '/' + location.pathname.split('/')[1],
-              })}
-              onClick={() => onNavClick(pages[0])}
-            >
-              <div
-                className={s.img}
-                style={{
-                  backgroundImage: `url(${
-                    (user?.profilePhoto &&
-                      process.env.REACT_APP_BACKEND_URL +
-                        '/' +
-                        user?.profilePhoto) ||
-                    defaultAvatar
-                  })`,
-                }}
-              ></div>
-            </Link>
+            <Avatar
+              avatar={user?.profilePhoto || ''}
+              isActive={isSelectedItem('profile')}
+              onClick={handleItemClick({ link: 'profile', page: 'Профиль' })}
+            />
+
             <div className={s.divider}></div>
+
             <nav className={s.nav}>
               {nav.map((item: Nav) => (
-                <Link
-                  key={item.page + item.link}
-                  onClick={() => onNavClick(item)}
-                  to={item.link}
-                  className={classNames(
-                    item.link === '/' + location.pathname.split('/')[1]
-                      ? s.active
-                      : '',
-                    s.link,
-                  )}
-                >
-                  <div className={s.icon}>{item.svg}</div>
-                  <div className={s.prompt}>
-                    <p>{item.page}</p>
-                  </div>
-                </Link>
+                <NavItem
+                  item={item}
+                  key={item.link}
+                  isActive={item.link ? isSelectedItem(item.link) : false}
+                  onClick={handleItemClick(item)}
+                />
               ))}
             </nav>
           </div>
 
           <div className={s.bottom}>
-            <div
+            <SupportChatBtn
               onClick={openChat}
-              className={classNames(s.chat, chatNotificationsOpen ? s.active : '')}
-            >
-              <SidebarSvgSelector id="support" />
-              <div className={s.prompt}>
-                <p>{'Чат поддержка'}</p>
-              </div>
-            </div>
+              isActive={chatNotificationsOpen}
+            />
+
             <div className={s.divider}></div>
 
-            <button onClick={logout} className={s.logout}>
-              <SidebarSvgSelector id="logout" />
-              <div className={s.prompt}>
-                <p>{'Выйти'}</p>
-              </div>
-            </button>
+            <LogoutBtn onClick={logout} />
           </div>
         </div>
       </div>

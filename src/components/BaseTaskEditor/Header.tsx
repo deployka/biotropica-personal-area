@@ -81,6 +81,7 @@ export const Header = ({
               ></div>
             </div>
           )}
+
           {mode === 'edit' ? 'Редактирование задачи' : title}
         </div>
 

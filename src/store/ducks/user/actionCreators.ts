@@ -12,6 +12,7 @@ import {
   SetUserDataActionInterface,
   SetUserLoadingStatusActionInterface,
   SetUserResponseActionInterface,
+  SetUserDataByIdActionInterface,
   UserActionsType,
   FetchUserDataByIdActionInterface,
 } from './contracts/actionTypes';
@@ -106,6 +107,13 @@ export const setUserLoadingStatus = (
 
 export const setUserData = (
   payload: UserState['user'],
+): SetUserDataByIdActionInterface => ({
+  type: UserActionsType.SET_USER_DATA_BY_ID,
+  payload,
+});
+
+export const setCurrentUserData = (
+  payload: UserState['user'],
 ): SetUserDataActionInterface => ({
   type: UserActionsType.SET_USER_DATA,
   payload,
@@ -121,4 +129,5 @@ export const setUserResponse = (
 export type UserActions =
   | SetUserDataActionInterface
   | SetUserLoadingStatusActionInterface
-  | SetUserResponseActionInterface;
+  | SetUserResponseActionInterface
+  | SetUserDataByIdActionInterface;

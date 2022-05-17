@@ -31,14 +31,16 @@ export function CommentsInfo({
             className={s.sort}
             onClick={() => onSort(sort === 'ASC' ? 'DESC' : 'ASC')}
           >
-            <div className={s.sortType}>По дате:</div>{' '}
-            <div
-              className={classNames({
-                [s[sort === 'ASC' ? 'up' : 'down']]: true,
-              })}
-            >
-              <GlobalSvgSelector id="arrow" />
-            </div>
+            {isOpen && <div className={s.sortType}>По дате:</div>}{' '}
+            {isOpen && (
+              <div
+                className={classNames({
+                  [s[sort === 'ASC' ? 'up' : 'down']]: true,
+                })}
+              >
+                <GlobalSvgSelector id="arrow" />
+              </div>
+            )}
           </div>
         )}
       </div>

@@ -23,6 +23,7 @@ import { eventBus, EventTypes } from '../../../services/EventBus';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { setUserResponse } from '../../../store/ducks/user/actionCreators';
 import { selectGoalsData } from '../../../store/ducks/goals/selectors';
+import { Button } from '../components/Button/Button';
 
 interface Props {
   user: User;
@@ -32,10 +33,6 @@ const Profile = ({ user }: Props) => {
   const { openModal } = useModal();
 
   const tabs: Tab[] = [
-    {
-      key: 'recommended',
-      value: 'Рекомендации',
-    },
     {
       key: 'test-analyzes',
       value: 'Тестирование и Анализы',
@@ -97,6 +94,10 @@ const Profile = ({ user }: Props) => {
       );
     }
   }, [active]);
+
+  function moveToTasks() {
+    history.push('/');
+  }
   return (
     <>
       <div className={s.profile}>
@@ -105,6 +106,7 @@ const Profile = ({ user }: Props) => {
           <div className={s.userInfo}>
             <Goals goalsLength={goals.length} />
             <Tariff tariff={tariffData} />
+            <Button onClick={moveToTasks}>Задачи и рекомендации</Button>
           </div>
         </div>
         <div className={s.content}>
@@ -119,14 +121,13 @@ const Profile = ({ user }: Props) => {
               />
             </div>
           </div>
-          {activeTab === tabs[0].key && <Recommended user={user} />}
-          {activeTab === tabs[1].key && <TestsAndAnalyze user={user} />}
-          {activeTab === tabs[2].key && (
+          {activeTab === tabs[0].key && <TestsAndAnalyze user={user} />}
+          {activeTab === tabs[1].key && (
             <button onClick={openModalHandler} className={s.btn__add__photo}>
               добавить фото
             </button>
           )}
-          {activeTab === tabs[2].key && <Progress user={user} />}
+          {activeTab === tabs[1].key && <Progress user={user} />}
         </div>
       </div>
     </>

@@ -12,7 +12,7 @@ import ChatService from '../../services/ChatService';
 import { useGetAllRolesQuery } from '../../store/rtk/requests/roles';
 import { User } from '../../store/rtk/types/user';
 
-export function Users() {
+export function AdminUsers() {
   const [popup, setPopup] = useState<boolean>(false);
   const [blockUserModalOpened, setBlockUserModalOpened] =
     useState<boolean>(false);
