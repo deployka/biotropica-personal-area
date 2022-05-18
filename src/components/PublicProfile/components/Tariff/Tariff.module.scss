@@ -3,6 +3,7 @@
 .tariff {
   padding: 20px 30px;
   width: 100%;
+  margin-bottom: 22px;
 
   border: 1px solid #6f61d0;
   box-sizing: border-box;
@@ -47,22 +48,6 @@
 
       @include for-phone {
         font-size: 14px;
-      }
-    }
-  }
-
-  &:hover {
-    background-color: #6f61d0;
-
-    .title {
-      p {
-        color: #fff;
-      }
-    }
-
-    .date {
-      p {
-        color: #fff;
       }
     }
   }

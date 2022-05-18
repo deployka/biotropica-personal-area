@@ -288,8 +288,18 @@ export const SidebarSvgSelector = ({ id }: Props): ReactElement => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path d="M1 1H21" stroke="#9E97BE" strokeWidth="2" strokeLinecap="round" />
-          <path d="M1 6H21" stroke="#9E97BE" strokeWidth="2" strokeLinecap="round" />
+          <path
+            d="M1 1H21"
+            stroke="#9E97BE"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+          <path
+            d="M1 6H21"
+            stroke="#9E97BE"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
           <path
             d="M1 11H21"
             stroke="#9E97BE"
@@ -315,6 +325,7 @@ export const SidebarSvgSelector = ({ id }: Props): ReactElement => {
           />
         </svg>
       );
+
     case 'logs':
       return (
         <svg
@@ -333,6 +344,49 @@ export const SidebarSvgSelector = ({ id }: Props): ReactElement => {
         </svg>
       );
 
+    case 'users':
+      return (
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 18 18"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12.3501 8.09461C13.8676 8.09461 15.0976 6.86461 15.0976 5.34711C15.0976 3.83044 13.8676 2.59961 12.3501 2.59961"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M13.6135 11.0803C14.0669 11.1112 14.5169 11.1762 14.961 11.2745C15.5769 11.397 16.3185 11.6495 16.5819 12.202C16.7502 12.5562 16.7502 12.9687 16.5819 13.3228C16.3194 13.8753 15.5769 14.1278 14.961 14.2545"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M6.99283 11.6721C10.0678 11.6721 12.6945 12.138 12.6945 13.9988C12.6945 15.8605 10.0845 16.3421 6.99283 16.3421C3.91783 16.3421 1.29199 15.8771 1.29199 14.0155C1.29199 12.1538 3.90116 11.6721 6.99283 11.6721Z"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M6.99293 9.01575C4.9646 9.01575 3.3396 7.38992 3.3396 5.36159C3.3396 3.33409 4.9646 1.70825 6.99293 1.70825C9.02127 1.70825 10.6471 3.33409 10.6471 5.36159C10.6471 7.38992 9.02127 9.01575 6.99293 9.01575Z"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
     default:
       return <div></div>;
   }

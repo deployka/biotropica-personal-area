@@ -24,8 +24,6 @@ export const RecommendationGroup = ({
 }: RecommendationGroupProps) => {
   const { specialist, recommendationList } = recommendationGroup;
 
-  console.log(specialist.specialist.specializations);
-
   return (
     <div className={s.recommendationGroup}>
       <div className={s.header}>

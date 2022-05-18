@@ -25,9 +25,9 @@ import Policy from './pages/Policy/containers/Policy';
 import { useRequestUserDataQuery } from './store/rtk/requests/user';
 import { ProfileLayout } from './layouts/ProfileLayout';
 import { Route } from 'react-router';
-import { Users } from './pages/Users/Users';
 import { PrivateLayout } from './layouts/PrivateLayout';
 import { Logs } from './pages/Logs/containers/Logs';
+import { AdminUsers } from './pages/AdminUsers/AdminUsers';
 
 function App(): ReactElement {
   const dispatch = useDispatch();
@@ -47,55 +47,56 @@ function App(): ReactElement {
   }, [isAuth, dispatch]);
 
   if (userDataLoading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   return (
-    <Suspense fallback={<Loader/>}>
-      {getGlobalLoading && <Loader/>}
-      {<GlobalNotifications/>}
+    <Suspense fallback={<Loader />}>
+      {getGlobalLoading && <Loader />}
+      {<GlobalNotifications />}
       <Switch>
         <PublicRoute path="/signin" isAuth={isAuth}>
-          <Signin/>
+          <Signin />
         </PublicRoute>
         <PublicRoute path="/signup" isAuth={isAuth}>
-          <Signup/>
+          <Signup />
         </PublicRoute>
         <PublicRoute path="/forgot-password" isAuth={isAuth}>
-          <ForgotPassword/>
+          <ForgotPassword />
         </PublicRoute>
         <PublicRoute path="/restore-password" isAuth={isAuth}>
-          <RestorePassword/>
+          <RestorePassword />
         </PublicRoute>
         <PublicRoute path="/create-password" isAuth={isAuth}>
-          <CreatePassword/>
+          <CreatePassword />
         </PublicRoute>
         <PublicRoute path="/policy" isAuth={isAuth}>
-          <Policy/>
+          <Policy />
         </PublicRoute>
         <PublicRoute path="/users/:id/tabs/:active" isAuth={isAuth}>
-          <ProfileLayout isAuth={isAuth}/>
+          <ProfileLayout isAuth={isAuth} />
         </PublicRoute>
 
-        {isAdmin
-          ? <PrivateRoute path="/" isAuth={isAuth}>
+        {isAdmin ? (
+          <PrivateRoute path="/" isAuth={isAuth}>
             <PrivateLayout>
               <Suspense fallback={<Loader />}>
                 <Switch>
                   <Route path="/logs">
-                    <Logs/>
+                    <Logs />
                   </Route>
                   <Route path="/">
-                    <Users/>
+                    <AdminUsers />
                   </Route>
                 </Switch>
               </Suspense>
             </PrivateLayout>
           </PrivateRoute>
-          : <PrivateRoute path="/" isAuth={isAuth}>
-            <Routes/>
-          </PrivateRoute>}
-
+        ) : (
+          <PrivateRoute path="/" isAuth={isAuth}>
+            <Routes />
+          </PrivateRoute>
+        )}
       </Switch>
     </Suspense>
   );

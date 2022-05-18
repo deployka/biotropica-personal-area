@@ -6,6 +6,9 @@ import {
   AnalyzeAnswer,
   Analyze,
 } from '../store/ducks/analyze/contracts/state';
+import { CreateCommentDto } from '../types/dto/analyzes/create-comment.dto';
+import { DeleteCommentDto } from '../types/dto/analyzes/delete-comment.dto';
+import { Comment } from '../types/entities/Comment';
 
 interface Response {
   status: string;
@@ -31,6 +34,21 @@ export default class AnalyzeService {
 
   static async geAllTypes(): Promise<AxiosResponse<Analyze[]>> {
     return await $api.get<Analyze[]>(`/${AnalyzeService.route}/`);
+  }
+
+  static async addComment(
+    comment: CreateCommentDto,
+  ): Promise<AxiosResponse<Comment>> {
+    return await $api.post<Comment>(
+      `/${AnalyzeService.route}/answer-comment`,
+      comment,
+    );
+  }
+
+  static async deleteComment({
+    id,
+  }: DeleteCommentDto): Promise<AxiosResponse<Comment>> {
+    return await $api.delete(`/${AnalyzeService.route}/answer-comment/${id}`);
   }
 
   static async create(

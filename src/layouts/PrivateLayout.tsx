@@ -1,8 +1,14 @@
 import { Modals } from '../modals/Modals';
 import { SidebarNotifications } from '../shared/Global/SidebarNotifications/SidebarNotifications';
 import { Header } from '../shared/Global/Header/Header';
-import React, { ReactElement, useCallback, useEffect, useState } from 'react';
-import { selectUserData } from '../store/ducks/user/selectors';
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { selectCurrentUserData } from '../store/ducks/user/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMobile } from '../hooks/useMobile';
 import { SidebarSvgSelector } from '../assets/icons/sidebar/SIdebarSvgSelector';
@@ -15,19 +21,99 @@ import { Chat } from '../shared/Modules/Chat';
 import { eventBus, EventTypes } from '../services/EventBus';
 import { chatApi } from '../shared/Global/Chat/services/chatApi';
 import { selectUserRoles } from '../store/rtk/slices/authSlice';
+import { getCurrentPage } from '../utils/getCurrentPage';
 
 interface Props {
   children: React.ReactNode;
 }
 
-export interface Pages {
+export interface Page {
   page: string;
   link: string;
   redirect?: string;
 }
-export interface Nav extends Pages {
-  svg: ReactElement;
+export interface Nav extends Page {
+  svg?: ReactElement;
 }
+
+const pages = [
+  { page: 'Профиль', link: 'profile' },
+  { page: 'Главная', link: '/' },
+  { page: 'Цели', link: 'goals' },
+  { page: 'Тарифы', link: 'tariffs' },
+  { page: 'Видеоконсультации', link: 'consultations' },
+  { page: 'Блог', link: '', redirect: 'https://biotropika.ru/blog/' },
+  {
+    page: 'Интернет-магазин',
+    link: '',
+    redirect: 'https://biotropika.ru/shop/',
+  },
+  { page: 'Анкета', link: 'questionnaire' },
+  { page: 'Пользователи', link: 'users' },
+  { page: 'Пользователи', link: 'admin' },
+  { page: 'Специалист', link: 'specialists' },
+  { page: 'Рекомендации', link: 'recommendations' },
+];
+
+const clientNav: Nav[] = [
+  {
+    ...pages[1],
+    svg: <SidebarSvgSelector id="home" />,
+  },
+  {
+    ...pages[2],
+    svg: <SidebarSvgSelector id="goals" />,
+  },
+  {
+    ...pages[3],
+    svg: <SidebarSvgSelector id="tariffs" />,
+  },
+  {
+    ...pages[4],
+    svg: <SidebarSvgSelector id="video" />,
+  },
+  {
+    ...pages[5],
+    svg: <SidebarSvgSelector id="edit-square" />,
+  },
+  {
+    ...pages[6],
+    svg: <SidebarSvgSelector id="services" />,
+  },
+];
+
+const specialistNav: Nav[] = [
+  {
+    ...pages[1],
+    page: 'Пользователи',
+    svg: <SidebarSvgSelector id="users" />,
+  },
+  {
+    ...pages[4],
+    svg: <SidebarSvgSelector id="video" />,
+  },
+  {
+    ...pages[5],
+    svg: <SidebarSvgSelector id="edit-square" />,
+  },
+  {
+    ...pages[6],
+    svg: <SidebarSvgSelector id="services" />,
+  },
+];
+
+const adminNav: Nav[] = [
+  {
+    page: 'Пользователи',
+    link: '/',
+    svg: <SidebarSvgSelector id="home" />,
+  },
+  {
+    page: 'Логи',
+    link: '/logs',
+    svg: <SidebarSvgSelector id="logs" />,
+  },
+];
 
 async function sendMessage() {
   const dialogs = await chatApi.fetchDialogs();
@@ -38,14 +124,34 @@ async function sendMessage() {
 }
 
 export function PrivateLayout(props: Props) {
-  const currentUser = useSelector(selectUserData);
+  const currentUser = useSelector(selectCurrentUserData);
 
   const dispatch = useDispatch();
-  const location = useLocation();
+  const { pathname } = useLocation();
   const roles = useSelector(selectUserRoles);
 
+  const currentPage = useMemo(() => getCurrentPage(pathname), [pathname]);
+
+  let nav: Nav[] = [];
+  if (roles.includes('ADMIN')) {
+    nav = adminNav;
+  } else if (roles.includes('SPECIALIST')) {
+    nav = specialistNav;
+  } else {
+    nav = clientNav;
+  }
+
+  const defaultPageName = nav
+    .concat(pages)
+    .find(p => p.link === currentPage)?.page;
+  const [page, setPage] = useState<string>(defaultPageName || 'Страница 404');
+
+  useEffect(() => {
+    setPage(defaultPageName || 'Страница 404');
+  }, [defaultPageName]);
+
   const isMobile = useMobile();
-  const [page, setPage] = useState<string>('Главная');
+
   const [isUnread] = useState(false);
   const [isNotificationsUnread] = useState(false);
   const [openedDialog, setOpenedDialog] = useState<number | undefined>(
@@ -61,127 +167,11 @@ export function PrivateLayout(props: Props) {
     setOpenedDialog(id);
   });
 
-  // useEffect(() => {
-  //   NotificationService
-  //       .getAll()
-  //       .then(res =>{
-  //         if(res.filter(it => it.))
-  //       })
-  // }, [])
-
-  // TODO: реакторинг (очень неочевидно, что данный массив способен поблиять на ссылки в меню сайдбара)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const pages = [
-    { page: 'Профиль', link: '/profile' },
-    { page: 'Главная', link: '/' },
-    { page: 'Цели', link: '/goals' },
-    { page: 'Тарифы', link: '/tariffs' },
-    { page: 'Видеоконсультации', link: '/consultations' },
-    { page: 'Блог', link: '', redirect: 'https://biotropika.ru/blog/' },
-    {
-      page: 'Интернет-магазин',
-      link: '',
-      redirect: 'https://biotropika.ru/shop/',
-    },
-    { page: 'Анкета', link: '/questionnaire' },
-    { page: 'Профиль пользователя', link: '/users' },
-    { page: 'Специалист', link: '/specialists' },
-    { page: 'Рекомендации', link: '/recommendations' },
-    { page: 'События', link: '/logs' },
-  ];
-
-  const clientNav: Nav[] = [
-    {
-      ...pages[1],
-      svg: <SidebarSvgSelector id="home" />,
-    },
-    {
-      ...pages[2],
-      svg: <SidebarSvgSelector id="goals" />,
-    },
-    {
-      ...pages[3],
-      svg: <SidebarSvgSelector id="tariffs" />,
-    },
-    {
-      ...pages[4],
-      svg: <SidebarSvgSelector id="video" />,
-    },
-    {
-      ...pages[5],
-      svg: <SidebarSvgSelector id="edit-square" />,
-    },
-    {
-      ...pages[6],
-      svg: <SidebarSvgSelector id="services" />,
-    },
-  ];
-
-  const specialistNav: Nav[] = [
-    {
-      ...pages[1],
-      svg: <SidebarSvgSelector id="home" />,
-    },
-    {
-      ...pages[4],
-      svg: <SidebarSvgSelector id="video" />,
-    },
-    {
-      ...pages[5],
-      svg: <SidebarSvgSelector id="edit-square" />,
-    },
-    {
-      ...pages[6],
-      svg: <SidebarSvgSelector id="services" />,
-    },
-  ];
-
-  const adminNav: Nav[] = [
-    {
-      page: 'Пользователи',
-      link: '/',
-      svg: <SidebarSvgSelector id="home" />,
-    },
-    {
-      page: 'Логи',
-      link: '/logs',
-      svg: <SidebarSvgSelector id="logs" />,
-    },
-  ];
-
-  let nav: Nav[] = [];
-  if (roles.includes('ADMIN')) {
-    nav = adminNav;
-  } else if (roles.includes('SPECIALIST')) {
-    nav = specialistNav;
-  } else {
-    nav = clientNav;
-  }
-
-  const user = useSelector(selectUserData);
-
-  useEffect(() => {
-    function setPageName() {
-      // TODO: refactoring
-      for (const value of pages) {
-        const currentPath = location.pathname.split('/');
-        if ('/' + currentPath[1] === value.link) {
-          setPage(value.page);
-          break;
-        } else {
-          setPage('Страница 404');
-        }
-      }
-    }
-    setPageName();
-  }, [pages, location.pathname]);
-
   const openChat = useCallback(() => {
     sendMessage().then(() => {
       setSidebarNotificationsOpen(false);
       setSidebarChatOpen(true);
     });
-    // eslint-disable-next-line
   }, [chatNotificationsOpen]);
 
   const logout = useCallback(() => {
@@ -191,14 +181,9 @@ export function PrivateLayout(props: Props) {
 
   const onNavClick = useCallback(
     (nav: Partial<Nav>) => {
-      if (nav.link) {
-        setPage(nav?.page || '');
-      }
-      if (nav.redirect) {
-        return window.open(nav.redirect);
-      }
+      if (nav.link && nav.page) setPage(nav.page);
+      if (nav.redirect) return window.open(nav.redirect);
     },
-    // eslint-disable-next-line
     [window],
   );
 
@@ -209,14 +194,12 @@ export function PrivateLayout(props: Props) {
       {!isMobile ? (
         <SidebarDesktop
           onNavClick={onNavClick}
-          setSidebarChatOpen={setSidebarChatOpen}
-          setSidebarNotificationsOpen={setSidebarNotificationsOpen}
+          defaultSelected={currentPage}
           chatNotificationsOpen={chatNotificationsOpen}
           openChat={openChat}
           logout={logout}
-          pages={pages}
           nav={nav}
-          user={user}
+          user={currentUser}
         />
       ) : (
         <SidebarMobile
@@ -228,7 +211,7 @@ export function PrivateLayout(props: Props) {
           logout={logout}
           pages={pages}
           nav={nav}
-          user={user}
+          user={currentUser}
         />
       )}
 

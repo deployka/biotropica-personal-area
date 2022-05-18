@@ -15,7 +15,7 @@ import {
   User,
 } from '../../../store/ducks/user/contracts/state';
 import {
-  selectUserData,
+  selectCurrentUserData,
   selectUserLoadingStatus,
   selectUserResponse,
 } from '../../../store/ducks/user/selectors';
@@ -40,7 +40,7 @@ const EditProfile = () => {
   const response = useSelector(selectUserResponse);
   const history = useHistory();
 
-  const user: User | undefined = useSelector(selectUserData);
+  const user: User | undefined = useSelector(selectCurrentUserData);
   const userImage = user?.profilePhoto && getMediaLink(user?.profilePhoto);
 
   const loader = LoadingStatus.LOADING === loadingStatus;
