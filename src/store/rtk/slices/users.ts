@@ -1,14 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ROLE } from '../../@types/User';
 
-import { ROLE, TARIFF, User } from '../types/user';
+import { TARIFF, User } from '../types/user';
 
 export interface UsersState {
   list: User[];
   q: string;
   filters: {
-    roles: ROLE[],
-    tariff: TARIFF[],
-  },
+    roles: ROLE[];
+    tariff: TARIFF[];
+  };
 }
 
 const initialState: UsersState = {
@@ -25,7 +26,6 @@ const UsersSlice = createSlice({
   initialState,
 
   reducers: {
-
     setUsers: (state, action: PayloadAction<User[]>) => {
       state.list = action.payload;
     },

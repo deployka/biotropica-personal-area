@@ -66,6 +66,9 @@
     .closeBtn {
       position: absolute;
       right: 0;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 
@@ -76,7 +79,7 @@
     flex-direction: column;
     align-items: center;
 
-    overflow: scroll;
+    overflow: auto;
   }
 
   &.hidden {

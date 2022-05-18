@@ -8,7 +8,8 @@ import {
 } from '../../helpers/usersHelper';
 import { UsersTableHeader } from './UsersTableHeader';
 import { UsersTable } from './UsersTable';
-import { ROLE, TARIFF, User } from '../../../../store/rtk/types/user';
+import { TARIFF, User } from '../../../../store/rtk/types/user';
+import { ROLE } from '../../../../store/@types/User';
 
 type Props = {
   users: User[];

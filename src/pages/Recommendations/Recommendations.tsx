@@ -45,6 +45,7 @@ export function Recommendations() {
   const [createRecommendation] = useCreateRecommendationMutation();
   const [deleteRecommendation] = useDeleteRecommendationMutation();
   const isDoctor = useSelector(selectIsDoctor);
+
   const history = useHistory();
 
   const [specializationsTypes, setSpecializationsTypes] = useState<
@@ -195,7 +196,7 @@ export function Recommendations() {
           />
         )}
       </div>
-      {!openedRecommendation && (
+      {!openedRecommendation && !isDoctor && (
         <p className={s.empty}>Рекомендаций пока нет</p>
       )}
     </div>

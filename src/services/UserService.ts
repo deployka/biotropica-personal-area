@@ -1,16 +1,12 @@
 import { AxiosResponse } from 'axios';
 import $api from '../http';
+import { ROLE } from '../store/@types/User';
 import { UpdateUserData, User } from '../store/ducks/user/contracts/state';
 
 interface Response {
   status: string;
   data: User;
   message: string;
-}
-export enum ROLE {
-  USER = 'USER',
-  SPECIALIST = 'SPECIALIST',
-  ADMIN = 'ADMIN',
 }
 
 export enum TARIFF {
@@ -21,7 +17,7 @@ export enum TARIFF {
 
 export type Role = {
   name: ROLE;
-}
+};
 
 interface UpdateEmailData {
   email: string;
@@ -42,13 +38,18 @@ export default class UserService {
     return $api.get(`/${UserService.route}/${userId}/answers`);
   }
 
-  static async update(payload: UpdateUserData): Promise<AxiosResponse<Response>> {
+  static async update(
+    payload: UpdateUserData,
+  ): Promise<AxiosResponse<Response>> {
     return await $api.patch<Response>(`/${UserService.route}/update`, payload);
   }
 
   static async updateEmail(
     payload: UpdateEmailData,
   ): Promise<AxiosResponse<Response>> {
-    return await $api.patch<Response>(`/${UserService.route}/update-email`, payload);
+    return await $api.patch<Response>(
+      `/${UserService.route}/update-email`,
+      payload,
+    );
   }
 }

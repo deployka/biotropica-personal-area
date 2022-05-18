@@ -2,14 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import authApi from '../requests/auth';
 import userApi from '../requests/user';
 import { RootState } from '../../store';
-
-type Role = 'USER' | 'ADMIN' | 'DOCTOR';
+import { ROLE } from '../../@types/User';
 
 type AuthState = {
   isAuthorized: boolean;
   token: string | null;
   accesses: string[];
-  roles: Role[];
+  roles: ROLE[];
   currentUser?: User;
 };
 
@@ -51,11 +50,11 @@ const slice = createSlice({
 
 export const selectUserAccesses = (state: RootState): string[] =>
   state.authSlice.accesses;
-export const selectUserRoles = (state: RootState): Role[] =>
+export const selectUserRoles = (state: RootState): ROLE[] =>
   state.authSlice.roles;
 export const selectIsAuthorized = (state: RootState): boolean =>
   state.authSlice.isAuthorized;
 export const selectIsDoctor = (state: RootState): boolean =>
-  state.authSlice.roles.includes('DOCTOR');
+  state.authSlice.roles.includes(ROLE.SPECIALIST);
 
 export default slice.reducer;

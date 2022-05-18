@@ -16,6 +16,7 @@ export const NotificationButtons = ({ onDiscard, onConfirm }: Props) => {
           marginBottom: '5px',
           marginTop: '5px',
           border: '1px solid #fff',
+          background: 'none ',
         }}
         name="discard"
         onClick={onConfirm}

@@ -1,4 +1,5 @@
-import { ROLE, User, TARIFF } from '../../../store/rtk/types/user';
+import { ROLE } from '../../../store/@types/User';
+import { User, TARIFF } from '../../../store/rtk/types/user';
 
 export function filterUsersByRoles(users: User[], roles: (ROLE | undefined)[]) {
   if (roles.length === 1 && !roles[0]) {
