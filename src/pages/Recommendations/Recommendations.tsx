@@ -92,7 +92,7 @@ export function Recommendations() {
   }, [specializations, recommendations]);
 
   if (!recommendations || !specializations) {
-    return <span>Loading</span>;
+    return <span>Loading...</span>;
   }
 
   async function handleSaveRecommendation(value: {

@@ -10,7 +10,7 @@
     width: 0;
   }
 
-  .container {
+  .filter_container {
     width: 200px;
     @include for-phone {
       width: calc(100% - 20px);

@@ -4,6 +4,7 @@ import s from '../../Users.module.scss';
 import { UsersFilter } from '../UserFilter/UsersFilter';
 import {
   filterUsersByQuery,
+  filterUsersByQuestionnaire,
   filterUsersByRoles,
   filterUsersByTariffs,
   usersFilters,
@@ -23,6 +24,7 @@ type Props = {
 type Filters = {
   roles: (ROLE | undefined)[];
   tariff: (TARIFF | undefined)[];
+  questionnaire: (boolean | undefined)[];
 };
 
 export function UserList({
@@ -36,6 +38,7 @@ export function UserList({
   const [filters, setFilters] = useState<Filters>({
     roles: [undefined],
     tariff: [undefined],
+    questionnaire: [undefined],
   });
 
   let filteredUsers = users;
@@ -45,6 +48,13 @@ export function UserList({
 
   if (filters.tariff.length) {
     filteredUsers = filterUsersByTariffs(filteredUsers, filters.tariff);
+  }
+
+  if (typeof filters.questionnaire[0] === 'boolean') {
+    filteredUsers = filterUsersByQuestionnaire(
+      filteredUsers,
+      filters.questionnaire[0],
+    );
   }
 
   if (query) {

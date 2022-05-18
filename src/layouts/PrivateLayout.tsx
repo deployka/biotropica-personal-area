@@ -22,7 +22,6 @@ import { eventBus, EventTypes } from '../services/EventBus';
 import { chatApi } from '../shared/Global/Chat/services/chatApi';
 import { selectUserRoles } from '../store/rtk/slices/authSlice';
 import { getCurrentPage } from '../utils/getCurrentPage';
-import { ROLE } from '../store/@types/User';
 
 interface Props {
   children: React.ReactNode;
@@ -103,6 +102,19 @@ const specialistNav: Nav[] = [
   },
 ];
 
+const adminNav: Nav[] = [
+  {
+    page: 'Пользователи',
+    link: '/',
+    svg: <SidebarSvgSelector id="home" />,
+  },
+  {
+    page: 'Логи',
+    link: '/logs',
+    svg: <SidebarSvgSelector id="logs" />,
+  },
+];
+
 async function sendMessage() {
   const dialogs = await chatApi.fetchDialogs();
   const dialog = dialogs.find(it => it.title === 'Техподдержка');
@@ -117,9 +129,17 @@ export function PrivateLayout(props: Props) {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const roles = useSelector(selectUserRoles);
-  const nav = roles.includes(ROLE.CLIENT) ? clientNav : specialistNav;
 
   const currentPage = useMemo(() => getCurrentPage(pathname), [pathname]);
+
+  let nav: Nav[] = [];
+  if (roles.includes('ADMIN')) {
+    nav = adminNav;
+  } else if (roles.includes('SPECIALIST')) {
+    nav = specialistNav;
+  } else {
+    nav = clientNav;
+  }
 
   const defaultPageName = nav
     .concat(pages)
