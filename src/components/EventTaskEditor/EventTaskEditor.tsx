@@ -1,5 +1,5 @@
-import React, { RefObject } from 'react';
-import { Formik, FormikProps } from 'formik';
+import React from 'react';
+import { Formik } from 'formik';
 import { CreateEventTask, EventTask } from '../../store/@types/Task';
 import { NEW_DATE } from '../../constants/dates';
 import Button from '../Button/Button';
@@ -20,23 +20,23 @@ export type EventTaskEditorProps = {
   isLoading: boolean;
   onClose(): void;
   onSave(task: CreateEventTask): void;
-  formikRef: RefObject<FormikProps<Partial<CreateEventTask>>>;
+  onSaveAsTemplate(task: Partial<CreateEventTask>): void;
 };
 
 export function EventTaskEditor({
   task,
   onClose,
   onSave,
+  onSaveAsTemplate,
   isLoading,
-  formikRef,
 }: EventTaskEditorProps) {
   function onSubmit(values: Partial<CreateEventTask>) {
-    onSave({ ...task, ...values });
+    if (values.isTemplate) onSaveAsTemplate({ ...task, ...values });
+    else onSave({ ...task, ...values });
   }
 
   return (
     <Formik
-      formikRef={formikRef}
       enableReinitialize
       initialValues={{
         title: task.title,
@@ -180,11 +180,20 @@ export function EventTaskEditor({
               isDisabled={isLoading}
               isLoading={isLoading}
               type="submit"
+              onClick={() => setFieldValue('isTemplate', true)}
               isPrimary={true}
             >
-              Сохранить
+              Сохранить как шаблон
             </Button>
           </div>
+          <Button
+            isDisabled={isLoading}
+            isLoading={isLoading}
+            type="submit"
+            isPrimary={true}
+          >
+            Сохранить
+          </Button>
         </form>
       )}
     </Formik>

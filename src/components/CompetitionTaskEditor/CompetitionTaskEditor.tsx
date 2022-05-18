@@ -33,8 +33,8 @@ import { NEW_DATE } from '../../constants/dates';
 export type CompetitionTaskEditorProps = {
   task: CompetitionTask | CreateCompetitionTask;
   isLoading: boolean;
-  formikRef: RefObject<FormikProps<Partial<CreateCompetitionTask>>>;
   onSave(task: CreateCompetitionTask): void;
+  onSaveAsTemplate(task: Partial<CreateCompetitionTask>): void;
   onClose(): void;
 };
 
@@ -42,7 +42,7 @@ export function CompetitionTaskEditor({
   task,
   isLoading,
   onSave,
-  formikRef,
+  onSaveAsTemplate,
   onClose,
 }: CompetitionTaskEditorProps) {
   function onSubmit(values: Partial<CreateCompetitionTask>) {
@@ -66,7 +66,6 @@ export function CompetitionTaskEditor({
 
   return (
     <Formik
-      formikRef={formikRef}
       enableReinitialize
       initialValues={{
         title: task.title,

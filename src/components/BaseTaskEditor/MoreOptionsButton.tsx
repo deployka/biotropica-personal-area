@@ -1,20 +1,16 @@
-import React, { RefObject, useState } from 'react';
+import React, { useState } from 'react';
 import s from './Header.module.scss';
 import MoreIcon from '../../assets/icons/global/more.svg';
 import Divider from '../Divider/Divider';
 import classNames from 'classnames';
-import { FormikProps } from 'formik';
-import { CreateSomeTask } from '../../store/@types/Task';
 
 interface MoreOptionsButtonProps {
   taskId: string;
-  saveTemplate: (task: Partial<CreateSomeTask>) => void;
   onDelete: () => void;
-  formikRef: RefObject<FormikProps<Partial<CreateSomeTask>>>;
 }
 
 export function MoreOptionsButton(props: MoreOptionsButtonProps) {
-  const { taskId, onDelete, saveTemplate } = props;
+  const { taskId, onDelete } = props;
 
   const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
 
@@ -24,22 +20,6 @@ export function MoreOptionsButton(props: MoreOptionsButtonProps) {
 
   const closeContextMenu = () => {
     setIsContextMenuVisible(false);
-  };
-
-  const handleClickSaveTemplate = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-    closeContextMenu();
-    const isDirty = props.formikRef.current?.dirty;
-    const isValid = props.formikRef.current?.isValid;
-    const values = props.formikRef.current?.values;
-    console.log(isValid, isDirty);
-
-    if (values && isValid && isDirty) {
-      saveTemplate(values);
-      props.formikRef.current?.resetForm();
-      return;
-    }
-    props.formikRef.current?.submitForm();
   };
 
   const handleClickDelete = (event: React.MouseEvent<HTMLElement>) => {
@@ -60,12 +40,6 @@ export function MoreOptionsButton(props: MoreOptionsButtonProps) {
         </button>
         {isContextMenuVisible && (
           <div className={s.contextMenu}>
-            <button
-              onMouseDown={handleClickSaveTemplate}
-              className={s.contextMenuOption}
-            >
-              Сохранить как шаблон
-            </button>
             {taskId && (
               <>
                 <Divider />

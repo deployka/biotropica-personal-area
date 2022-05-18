@@ -30,13 +30,15 @@ const Signup = () => {
   type SetFieldValue = (field: string, value: string) => void;
   const refSetFieldValue = useRef<SetFieldValue | null>(null);
   const refResetForm = useRef<(() => void) | null>(null);
-
   useEffect(() => {
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
-        if (!refSetFieldValue.current) return;
-        // TODO: refSetFieldValue.current(errorValue, '');
-        refSetFieldValue.current('verificationPassword', '');
+        // if (!refSetFieldValue.current) return;
+
+        // refSetFieldValue.current(errorValue, '');
+        console.log(res);
+
+        // refSetFieldValue.current('verificationPassword', '');
         break;
       case LoadingStatus.SUCCESS:
         if (!refResetForm.current) return;
@@ -64,9 +66,7 @@ const Signup = () => {
   ) {
     refSetFieldValue.current = options.setFieldValue;
     refResetForm.current = options.resetForm;
-    try {
-      dispatch(fetchSignup(values));
-    } catch (error) {}
+    dispatch(fetchSignup(values));
   }
   return (
     <div className="formContainer">

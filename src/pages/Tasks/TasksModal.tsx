@@ -50,7 +50,8 @@ export const TasksModal = ({
   let category = '';
   let title = '';
   let icon: string | undefined;
-  const formikRef = useRef<FormikProps<Partial<CreateSomeTask>>>(null);
+
+  console.log(123);
 
   if (task?.type) {
     switch (task.type) {
@@ -85,12 +86,10 @@ export const TasksModal = ({
   return (
     <BaseTaskEditor
       task={task}
-      formikRef={formikRef}
       taskId={taskId}
       title={title}
       icon={icon}
       onDeleteTask={onDeleteTask}
-      onSaveAsTemplate={onSaveAsTemplate}
       category={category}
       mode={mode}
       isOpened={isOpened}
@@ -99,11 +98,11 @@ export const TasksModal = ({
     >
       <TaskLayout
         task={task}
-        formikRef={formikRef}
         mode={mode}
         isLoading={isLoading}
         onSave={onSave}
         onClose={onClose}
+        onSaveAsTemplate={onSaveAsTemplate}
         onSendComment={onSendComment}
         onSaveFactValue={onSaveFactValue}
         onSaveFirstValue={onSaveFirstValue}

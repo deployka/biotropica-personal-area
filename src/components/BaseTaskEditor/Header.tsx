@@ -18,9 +18,7 @@ interface Props {
   onClose(): void;
   taskId: string;
   onEditBtnClick(): void;
-  onSaveAsTemplate: (task: Partial<CreateSomeTask>) => void;
   onDeleteTask(): void;
-  formikRef: RefObject<FormikProps<Partial<CreateSomeTask>>>;
 }
 
 export const Header = ({
@@ -28,12 +26,10 @@ export const Header = ({
   title,
   icon,
   type,
-  onSaveAsTemplate,
   onDeleteTask,
   category,
   taskId,
   onClose,
-  formikRef,
   onEditBtnClick,
 }: Props) => {
   let taskType = '';
@@ -87,12 +83,7 @@ export const Header = ({
 
         <div className={s.rightContent}>
           {mode === 'edit' && (
-            <MoreOptionsButton
-              formikRef={formikRef}
-              saveTemplate={onSaveAsTemplate}
-              onDelete={onDeleteTask}
-              taskId={taskId}
-            />
+            <MoreOptionsButton onDelete={onDeleteTask} taskId={taskId} />
           )}
           <img
             className={s.closeIcon}

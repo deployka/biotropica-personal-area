@@ -1,5 +1,5 @@
 import React, { RefObject } from 'react';
-import { Formik, FormikProps, FormikValues } from 'formik';
+import { Formik } from 'formik';
 import Input, { InputTypes } from '../Input/Input';
 import SelectCustom from '../Select/SelectCustom';
 import validationSchema from './validationSchema';
@@ -17,7 +17,6 @@ import {
 import s from './TrainingTaskEditor.module.scss';
 import { TimePickerValue } from 'react-time-picker';
 import { CreateTrainingTask, TrainingTask } from '../../store/@types/Task';
-import classNames from 'classnames';
 import { NEW_DATE } from '../../constants/dates';
 
 export type TrainingTaskEditorProps = {
@@ -25,15 +24,15 @@ export type TrainingTaskEditorProps = {
   isLoading: boolean;
   task: TrainingTask | CreateTrainingTask;
   onSave(task: CreateTrainingTask): void;
-  formikRef: RefObject<FormikProps<Partial<CreateTrainingTask>>>;
+  onSaveAsTemplate(task: Partial<CreateTrainingTask>): void;
 };
 
 export function TrainingTaskEditor({
   task,
   onClose,
   onSave,
+  onSaveAsTemplate,
   isLoading,
-  formikRef,
 }: TrainingTaskEditorProps) {
   function onSubmit(values: Partial<CreateTrainingTask>) {
     onSave({ ...task, ...values });
@@ -41,7 +40,6 @@ export function TrainingTaskEditor({
 
   return (
     <Formik
-      innerRef={formikRef}
       enableReinitialize
       initialValues={{
         title: task.title,

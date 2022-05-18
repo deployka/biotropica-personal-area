@@ -109,12 +109,13 @@ export function Tasks() {
   ];
 
   useEffect(() => {
-    if (!openedTask) return;
+    if (!openedTask || !comments.length) return;
     setOpenedTask({ ...openedTask, comments });
-  }, [comments]);
+  }, [comments, setOpenedTask]);
 
   function handleCloseTask() {
     setOpenedTaskId('');
+    setOpenedTask(null);
     setIsTaskModalOpen(false);
     setTaskModalMode('view');
   }
@@ -243,26 +244,21 @@ export function Tasks() {
   }
 
   async function handleSaveAsTemplate(task: Partial<CreateSomeTask>) {
-    console.log(123);
-
-    if (!task.isTemplate) {
-      const newTemplate = {
-        ...task,
-        isTemplate: true,
-        templateName: task.title,
-      };
-      try {
-        await createTask({ ...newTemplate, executorId: userId }).unwrap();
-        eventBus.emit(EventTypes.notification, {
-          type: NotificationType.SUCCESS,
-          message: 'Шаблон успешно создан!',
-        });
-      } catch (error) {
-        eventBus.emit(EventTypes.notification, {
-          type: NotificationType.DANGER,
-          message: 'Произошла ошибка при создании шаблона!',
-        });
-      }
+    const newTemplate = {
+      ...task,
+      templateName: task.title,
+    };
+    try {
+      await createTask({ ...newTemplate, executorId: userId }).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        type: NotificationType.SUCCESS,
+        message: 'Шаблон успешно создан!',
+      });
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        type: NotificationType.DANGER,
+        message: 'Произошла ошибка при создании шаблона!',
+      });
     }
 
     handleCloseTask();
@@ -318,9 +314,7 @@ export function Tasks() {
         templates={templates}
         isSpecialist={true} // TODO: передать сюда данные из стора
         isOpened={isTypeSelectModalOpened}
-        onClose={() => {
-          setIsTypeSelectModalOpened(false);
-        }}
+        onClose={() => setIsTypeSelectModalOpened(false)}
         onSelect={handleSelectTaskType}
       />
 

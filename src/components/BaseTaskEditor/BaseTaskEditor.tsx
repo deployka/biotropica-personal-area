@@ -20,11 +20,9 @@ export type BaseTaskEditorProps = {
   children: ReactNode;
   isOpened: boolean;
   onDeleteTask(): void;
-  onSaveAsTemplate: (task: Partial<CreateSomeTask>) => void;
   onClose(): void;
   taskId: string;
   onEditBtnClick(): void;
-  formikRef: RefObject<FormikProps<Partial<CreateSomeTask>>>;
 };
 
 export function BaseTaskEditor({
@@ -36,10 +34,8 @@ export function BaseTaskEditor({
   category,
   isOpened,
   onClose,
-  formikRef,
   taskId,
   onDeleteTask,
-  onSaveAsTemplate,
   onEditBtnClick,
 }: BaseTaskEditorProps) {
   return (
@@ -52,13 +48,11 @@ export function BaseTaskEditor({
         <Header
           taskId={taskId}
           mode={mode}
-          formikRef={formikRef}
           title={title}
           icon={icon}
           category={category}
           type={task?.type}
           onDeleteTask={onDeleteTask}
-          onSaveAsTemplate={onSaveAsTemplate}
           onClose={onClose}
           onEditBtnClick={onEditBtnClick}
         />

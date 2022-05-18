@@ -15,7 +15,7 @@ type Question = {
 
 const Questionnaire = () => {
   const [question, setQuestion] = useState<null | Question>(null);
-  const [index, setIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [total, setTotal] = useState(0);
   const history = useHistory();
 
@@ -27,13 +27,24 @@ const Questionnaire = () => {
       return history.push('/');
     }
     setQuestion(question);
-    setIndex(index);
+    setCurrentIndex(index);
     setTotal(total);
   }
+
+  console.log('_____________', currentIndex, question);
 
   useEffect(() => {
     fetchQuestion();
   }, []);
+
+  // async function updateQuestion() {
+  //   const question = await QuestionService.getOne(currentIndex);
+  //   setQuestion(question.data);
+  // }
+
+  // useEffect(() => {
+  //   updateQuestion();
+  // }, [currentIndex]);
 
   if (!question) {
     return null;
@@ -41,7 +52,7 @@ const Questionnaire = () => {
 
   async function giveAnswer(answer: CreateAnswerDto) {
     await QuestionService.answer(answer);
-    if (index === total) {
+    if (currentIndex === total) {
       return history.push('/');
     }
     await fetchQuestion();
@@ -49,16 +60,16 @@ const Questionnaire = () => {
 
   const options = question.allowedAnswers
     ? question.allowedAnswers.map(it => ({
-      value: it,
-      label: it,
-    }))
+        value: it,
+        label: it,
+      }))
     : [];
 
   return (
     <div className={s.questionnaire}>
       <QuestionComponent
         progress={{
-          currentIndex: index,
+          currentIndex,
           total,
         }}
         title={question.title}
@@ -71,7 +82,7 @@ const Questionnaire = () => {
           });
         }}
         onPrev={() => {
-        //   setIndex(index - 1);
+          setCurrentIndex(currentIndex - 1);
         }}
       />
     </div>
