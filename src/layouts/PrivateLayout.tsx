@@ -87,6 +87,7 @@ export function PrivateLayout(props: Props) {
     { page: 'Профиль пользователя', link: '/users' },
     { page: 'Специалист', link: '/specialists' },
     { page: 'Рекомендации', link: '/recommendations' },
+    { page: 'События', link: '/logs' },
   ];
 
   const clientNav: Nav[] = [
@@ -135,7 +136,27 @@ export function PrivateLayout(props: Props) {
     },
   ];
 
-  const nav = roles.includes('USER') ? clientNav : specialistNav;
+  const adminNav: Nav[] = [
+    {
+      page: 'Пользователи',
+      link: '/',
+      svg: <SidebarSvgSelector id="home" />,
+    },
+    {
+      page: 'Логи',
+      link: '/logs',
+      svg: <SidebarSvgSelector id="logs" />,
+    },
+  ];
+
+  let nav: Nav[] = [];
+  if (roles.includes('ADMIN')) {
+    nav = adminNav;
+  } else if (roles.includes('SPECIALIST')) {
+    nav = specialistNav;
+  } else {
+    nav = clientNav;
+  }
 
   const user = useSelector(selectUserData);
 

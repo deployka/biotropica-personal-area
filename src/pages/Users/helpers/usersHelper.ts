@@ -12,7 +12,11 @@ export const usersFilters: FilterConfig[] = [
       },
       {
         value: ROLE.USER,
-        label: 'Пользователь',
+        label: 'Клиент',
+      },
+      {
+        value: ROLE.SPECIALIST,
+        label: 'Специалист',
       },
       {
         value: ROLE.ADMIN,
@@ -42,6 +46,24 @@ export const usersFilters: FilterConfig[] = [
       },
     ],
   },
+  {
+    name: 'Анкета',
+    key: 'questionnaire',
+    filters: [
+      {
+        value: undefined,
+        label: 'Все',
+      },
+      {
+        value: true,
+        label: 'Заполнена',
+      },
+      {
+        value: false,
+        label: 'Не заполнена',
+      },
+    ],
+  },
 ];
 
 export function filterUsersByRoles(users: User[], roles: (ROLE|undefined)[]) {
@@ -57,6 +79,16 @@ export function filterUsersByRoles(users: User[], roles: (ROLE|undefined)[]) {
       }
     }
     return false;
+  });
+}
+
+export function filterUsersByQuestionnaire(users: User[], value: boolean) {
+  return users.filter(user => {
+    if (value) {
+      return user.questionHash === 'FINISHED';
+    } else {
+      return user.questionHash === null;
+    }
   });
 }
 

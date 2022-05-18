@@ -1,7 +1,7 @@
 import { Specialization } from '../requests/specializations';
 
 export enum ROLE {
-  USER = 'USER',
+  USER = 'CLIENT',
   SPECIALIST = 'SPECIALIST',
   ADMIN = 'ADMIN',
 }

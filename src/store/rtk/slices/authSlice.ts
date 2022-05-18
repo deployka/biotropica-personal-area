@@ -3,7 +3,7 @@ import authApi from '../requests/auth';
 import userApi from '../requests/user';
 import { RootState } from '../../store';
 
-type Role = 'USER'|'ADMIN'|'DOCTOR'
+type Role = 'CLIENT' | 'ADMIN' | 'SPECIALIST';
 
 type AuthState = {
     isAuthorized: boolean;
@@ -53,6 +53,6 @@ const slice = createSlice({
 export const selectUserAccesses = (state: RootState): string[] => state.authSlice.accesses;
 export const selectUserRoles = (state: RootState): Role[] => state.authSlice.roles;
 export const selectIsAuthorized = (state: RootState): boolean => state.authSlice.isAuthorized;
-export const selectIsDoctor = (state: RootState): boolean => state.authSlice.roles.includes('DOCTOR');
+export const selectIsDoctor = (state: RootState): boolean => state.authSlice.roles.includes('SPECIALIST');
 
 export default slice.reducer;

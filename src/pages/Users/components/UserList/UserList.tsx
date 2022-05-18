@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 
 import s from '../../Users.module.scss';
 import { UsersFilter } from '../UserFilter/UsersFilter';
-import { filterUsersByQuery, filterUsersByRoles, filterUsersByTariffs, usersFilters } from '../../helpers/usersHelper';
+import {
+  filterUsersByQuery,
+  filterUsersByQuestionnaire,
+  filterUsersByRoles,
+  filterUsersByTariffs,
+  usersFilters,
+} from '../../helpers/usersHelper';
 import { UsersTableHeader } from './UsersTableHeader';
 import { UsersTable } from './UsersTable';
 import { ROLE, TARIFF, User } from '../../../../store/rtk/types/user';
@@ -15,8 +21,9 @@ type Props = {
 }
 
 type Filters = {
-    roles: (ROLE|undefined)[],
-    tariff: (TARIFF|undefined)[]
+    roles: (ROLE|undefined)[];
+    tariff: (TARIFF|undefined)[];
+    questionnaire: (boolean|undefined)[];
 }
 
 export function UserList({ users, onCreateUser, onBlockUser, onWriteUser }: Props) {
@@ -25,6 +32,7 @@ export function UserList({ users, onCreateUser, onBlockUser, onWriteUser }: Prop
   const [filters, setFilters] = useState<Filters>({
     roles: [undefined],
     tariff: [undefined],
+    questionnaire: [undefined],
   });
 
   let filteredUsers = users;
@@ -34,6 +42,10 @@ export function UserList({ users, onCreateUser, onBlockUser, onWriteUser }: Prop
 
   if (filters.tariff.length) {
     filteredUsers = filterUsersByTariffs(filteredUsers, filters.tariff);
+  }
+
+  if (typeof filters.questionnaire[0] === 'boolean') {
+    filteredUsers = filterUsersByQuestionnaire(filteredUsers, filters.questionnaire[0]);
   }
 
   if (query) {

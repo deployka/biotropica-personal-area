@@ -60,6 +60,10 @@
   }
 
   .createBtn {
+    height: 32px;
+    padding: 0 7px !important;
+    margin: 0 7px;
+
     @include for-phone {
       width: calc(100% - 60px);
       height: 34px;
