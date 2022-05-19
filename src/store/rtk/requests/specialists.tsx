@@ -35,7 +35,7 @@ export const specialistsApi = baseApi.injectEndpoints({
 
     requestChangeCourses: builder.mutation<any, CourseDataToChange>({
       query: payload => ({
-        url: `/specialists/${payload.id}`,
+        url: '/specialists/me',
         data: {
           courses: payload.data,
         },
