@@ -200,12 +200,9 @@ const EditProfile = () => {
     });
 
     requestChangeSpecialistData({
-      id: user.specialist.id,
-      data: {
-        specializations: specializations,
-        experience: values.experience,
-        education: values.education,
-      },
+      specializations: specializations,
+      experience: values.experience,
+      education: values.education,
     });
 
     if (file) {

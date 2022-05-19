@@ -21,11 +21,20 @@ import { ISelect, SelectCustom } from '../../../../shared/Form/Select/SelectCust
 import { FormsSvgSelector } from '../../../../assets/icons/forms/FormsSvgSelector';
 import ru from 'date-fns/locale/ru';
 import { useMobile } from '../../../../hooks/useMobile';
+import { InputTypes } from '../../../../components/Input/Input';
+import { Specialist } from '../../../../store/rtk/types/user';
+import { SpecialistUpdateDto } from '../../../../store/rtk/requests/specialists';
+import MultiSelect from '../../../../components/MultiSelect/MultiSelect';
+import { Specialization, useGetSpecializationListQuery } from '../../../../store/rtk/requests/specializations';
+import { Option } from 'react-select/src/filters';
 
 registerLocale('ru', ru);
 
+type UpdateDto = UpdateUserData & Partial<SpecialistUpdateDto>
+
 interface Props {
   user: User | undefined;
+  specialist?: Specialist;
   loader: boolean;
   image: string | ArrayBuffer | null;
   options: ISelect<string>[];
@@ -33,17 +42,19 @@ interface Props {
     e: React.ChangeEvent<HTMLInputElement>,
     setFieldValue: (field: string, value: File) => void
   ) => void;
-  onSubmit: (values: UpdateUserData) => void;
+  onSubmit: (values: UpdateDto) => void;
 }
 
 export const EditProfileData = ({
   user,
+  specialist,
   loader,
   image,
   options,
   onAvatarLoaded,
   onSubmit,
 }: Props) => {
+  const { data: specializations } = useGetSpecializationListQuery();
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || loader;
   }
@@ -52,7 +63,13 @@ export const EditProfileData = ({
     return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
   }
 
+  const specializationOptions = (specializations || []).map(it => ({
+    label: it.title,
+    value: it.id.toString(),
+  }));
+
   const isMobile = useMobile();
+
   return (
     <div className={s.edit__password}>
       <Formik
@@ -71,9 +88,12 @@ export const EditProfileData = ({
           phone: user?.phone || '',
           dob: user?.dob,
           id: user?.id,
+          experience: specialist?.experience || '',
+          specializations: specialist?.specializations,
+          education: specialist?.education || '',
         }}
         validateOnBlur
-        onSubmit={(values: UpdateUserData) => onSubmit(values)}
+        onSubmit={(values: UpdateDto) => onSubmit(values)}
         validationSchema={validationSchema}
       >
         {({
@@ -222,6 +242,58 @@ export const EditProfileData = ({
                   settings={{ touched, errors }}
                 />
               </div>
+              {specialist ? (<>
+                <div className={s.input__wrapper}>
+                  <Input
+                    name="experience"
+                    placeholder="Опыт работы"
+                    label="Опты работы"
+                    value={values.experience}
+                    type={InputTypes.TEXT}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className={s.input__wrapper}>
+                  <Input
+                    name="education"
+                    placeholder="Образование"
+                    label="Образование"
+                    value={values.education}
+                    type={InputTypes.TEXT}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                  />
+                </div>
+                {console.log(values.specializations?.map(
+                  (it: Specialization) =>
+                    specializationOptions.find(
+                      so => so.value === it.id.toString(),
+                    ),
+                ))}
+                <div className={s.input__wrapper}>
+                  <MultiSelect
+                    name="specializations"
+                    placeholder="Специальность"
+                    options={specializationOptions}
+                    value={values.specializations?.map(
+                      (it: Specialization) =>
+                        specializationOptions.find(
+                          so => so.value === it.id.toString(),
+                        ),
+                    )}
+                    onBlur={handleBlur}
+                    onChange={(option: Option[]) => {
+                      setFieldValue(
+                        'specializations',
+                        option.map((item: Option) =>
+                          specializations?.find(s => s.id === +item.value),
+                        ),
+                      );
+                    }}
+                  />
+                </div>
+              </>) : null }
             </div>
 
             <div className={s.button__wrapper}>

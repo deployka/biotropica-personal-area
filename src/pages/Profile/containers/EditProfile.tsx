@@ -19,6 +19,7 @@ import {
   selectUserLoadingStatus,
   selectUserResponse,
 } from '../../../store/ducks/user/selectors';
+import { SpecialistUpdateDto, useRequestChangeSpecialistDataMutation } from '../../../store/rtk/requests/specialists';
 import { LoadingStatus } from '../../../store/types';
 import {
   checkFileSize,
@@ -43,10 +44,14 @@ const EditProfile = () => {
   const user: User | undefined = useSelector(selectCurrentUserData);
   const userImage = user?.profilePhoto && getMediaLink(user?.profilePhoto);
 
+  const isSpecialist = user?.roles?.includes('SPECIALIST');
+
   const loader = LoadingStatus.LOADING === loadingStatus;
   const [image, setImage] = useState<string | ArrayBuffer | null>(
     userImage || '',
   );
+
+  const [updateSpecialist] = useRequestChangeSpecialistDataMutation();
 
   useEffect(() => {
     if (!response) return;
@@ -67,7 +72,7 @@ const EditProfile = () => {
     }
   }, [loadingStatus, response]);
 
-  async function onSubmit(values: UpdateUserData) {
+  async function onSubmit(values: UpdateUserData & SpecialistUpdateDto) {
     if (values.email && user?.email !== values.email) {
       dispatch(fetchUpdateUserEmail({ email: values.email }));
     }
@@ -79,7 +84,24 @@ const EditProfile = () => {
       ...values,
       email: user?.email,
     };
-    dispatch(fetchUpdateUser(data));
+    dispatch(fetchUpdateUser({
+      profilePhoto: values?.profilePhoto || null,
+      lastname: values?.lastname,
+      name: values?.name,
+      email: values?.email,
+      gender: values?.gender,
+      patronymic: values?.patronymic,
+      phone: values?.phone,
+      dob: values?.dob,
+    }));
+
+    if (user?.specialist?.id) {
+      updateSpecialist({
+        specializations: values.specializations,
+        experience: values.experience,
+        education: values.education,
+      });
+    }
   }
 
   async function onAvatarLoaded(
@@ -116,6 +138,7 @@ const EditProfile = () => {
     <>
       {user && (
         <EditProfileData
+          specialist={user.specialist}
           options={options}
           image={image}
           onSubmit={onSubmit}
