@@ -19,7 +19,11 @@ import {
   selectUserLoadingStatus,
   selectUserResponse,
 } from '../../../store/ducks/user/selectors';
-import { SpecialistUpdateDto, useRequestChangeSpecialistDataMutation } from '../../../store/rtk/requests/specialists';
+import {
+  SpecialistUpdateDto,
+  useGetSpecialistQuery,
+  useRequestChangeSpecialistDataMutation,
+} from '../../../store/rtk/requests/specialists';
 import { LoadingStatus } from '../../../store/types';
 import {
   checkFileSize,
@@ -43,6 +47,7 @@ const EditProfile = () => {
 
   const user: User | undefined = useSelector(selectCurrentUserData);
   const userImage = user?.profilePhoto && getMediaLink(user?.profilePhoto);
+  const { data: specialist } = useGetSpecialistQuery();
 
   const isSpecialist = user?.roles?.includes('SPECIALIST');
 
@@ -137,9 +142,9 @@ const EditProfile = () => {
   }
   return (
     <>
-      {user && (
+      {user && (isSpecialist && specialist) && (
         <EditProfileData
-          specialist={user.specialist}
+          specialist={specialist}
           options={options}
           image={image}
           onSubmit={onSubmit}

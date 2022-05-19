@@ -1,6 +1,7 @@
 import { baseApi } from './baseApi';
 import { ISelect } from '../../../shared/Form/Select/SelectCustom';
 import { Specialization } from './specializations';
+import { Specialist } from '../types/user';
 
 interface SpecialistDataToChange {
   id: number,
@@ -39,6 +40,14 @@ export const specialistsApi = baseApi.injectEndpoints({
         },
         method: 'put',
       }),
+      invalidatesTags: ['Specialist'],
+    }),
+    getSpecialist: builder.query<Specialist, void>({
+      query: () => ({
+        url: '/specialists/me',
+        method: 'get',
+      }),
+      providesTags: ['Specialist'],
     }),
 
     requestChangeCourses: builder.mutation<any, CourseDataToChange>({
@@ -49,12 +58,14 @@ export const specialistsApi = baseApi.injectEndpoints({
         },
         method: 'put',
       }),
+      invalidatesTags: ['Specialist'],
     }),
   }),
 });
 
 export const {
   useRequestChangeSpecialistDataMutation,
+  useGetSpecialistQuery,
   useRequestChangeCoursesMutation,
 } = specialistsApi;
 
