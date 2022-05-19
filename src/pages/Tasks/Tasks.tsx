@@ -21,7 +21,6 @@ import {
   EventTask,
   KindOfSport,
   SomeTask,
-  Task,
   TaskTemplate,
   TaskType,
   TrainingCategory,
@@ -32,11 +31,11 @@ import { createTaskByType } from './CreateTaskHelper';
 import { useHistory, useParams } from 'react-router-dom';
 import { selectCurrentUserData } from '../../store/ducks/user/selectors';
 import s from './Tasks.module.scss';
-import classNames from 'classnames';
 import { Tabs } from '../../components/Tabs/Tabs';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { NotificationButtons } from './NotificationButtons';
+import { selectIsDoctor } from '../../store/rtk/slices/authSlice';
 
 export function Tasks() {
   const currentUser = useSelector(selectCurrentUserData);
@@ -59,7 +58,7 @@ export function Tasks() {
     history.push('/');
   }
 
-  const [isTypeSelectModalOpened, setIsTypeSelectModalOpened] = useState(true);
+  const [isTypeSelectModalOpened, setIsTypeSelectModalOpened] = useState(false);
 
   const [openedTaskId, setOpenedTaskId] = useState<string>('');
 
@@ -72,6 +71,8 @@ export function Tasks() {
   const [taskModalMode, setTaskModalMode] = useState<'edit' | 'view'>('view');
 
   const currentMonth = useAppSelector(selectTasksPageCurrentMonth);
+
+  const isSpecialist = useSelector(selectIsDoctor);
 
   const { data: tasks = [], isError } = useGetTaskListQuery({
     userId,
@@ -312,7 +313,7 @@ export function Tasks() {
       <TaskTypeSelectModal
         onChangeTemplateName={onChangeTemplateName}
         templates={templates}
-        isSpecialist={true} // TODO: передать сюда данные из стора
+        isSpecialist={isSpecialist}
         isOpened={isTypeSelectModalOpened}
         onClose={() => setIsTypeSelectModalOpened(false)}
         onSelect={handleSelectTaskType}

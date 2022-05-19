@@ -33,12 +33,9 @@ const Signup = () => {
   useEffect(() => {
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
-        // if (!refSetFieldValue.current) return;
-
+        if (!refSetFieldValue.current) return;
         // refSetFieldValue.current(errorValue, '');
-        console.log(res);
-
-        // refSetFieldValue.current('verificationPassword', '');
+        refSetFieldValue.current('verificationPassword', '');
         break;
       case LoadingStatus.SUCCESS:
         if (!refResetForm.current) return;

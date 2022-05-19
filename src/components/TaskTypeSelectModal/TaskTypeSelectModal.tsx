@@ -322,7 +322,7 @@ export function TaskTypeSelectModal({
     },
   ];
 
-  const [selectedTab, setSelectedTab] = useState<TabTypes>('templates');
+  const [selectedTab, setSelectedTab] = useState<TabTypes>('tasks');
 
   const onSelectTab = (currentTab: TabTypes) => setSelectedTab(currentTab);
   return (
