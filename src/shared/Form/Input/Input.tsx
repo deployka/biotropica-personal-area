@@ -20,13 +20,14 @@ interface Props {
   onPaste?: ClipboardEventHandler<HTMLInputElement>;
   onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
   onInput?: FormEventHandler<HTMLInputElement>;
-  onBlur: ChangeEventHandler<HTMLInputElement>;
+  onBlur?: ChangeEventHandler<HTMLInputElement>;
   autoComplete?: string;
-  placeholder: string;
+  placeholder?: string;
+  label?: string;
   name: string;
   value: string | number | readonly string[] | undefined;
-  type: string;
-  options: {
+  type?: string;
+  options?: {
     classes?: Classes;
     touched: FormikTouched<{ [key in string]: unknown }>;
     errors: FormikErrors<{ [key in string]: unknown }>;
@@ -36,7 +37,7 @@ interface Props {
 
 export const Input = (props: Props) => {
   const { options, ...inputProps } = props;
-  const { touched, errors, classes } = options;
+  const { touched, errors, classes } = options || { touched: {}, errors: {} };
 
   return (
     <>
@@ -49,9 +50,9 @@ export const Input = (props: Props) => {
           [s.error__input]: touched[props.name] && errors[props.name],
         })}
         {...inputProps}
-        placeholder=""
+        placeholder={props.placeholder}
       />
-      <Label active={false} value={props.placeholder} />
+      {props.label ? <Label active={false} value={props.label} /> : null }
       {touched[props.name] && errors[props.name] && (
         <ErrorMessage message={errors[props.name] || ''} />
       )}
