@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import { Formik } from 'formik';
 import { CreateEventTask, EventTask } from '../../store/@types/Task';
 import { NEW_DATE } from '../../constants/dates';
@@ -21,24 +20,19 @@ export type EventTaskEditorProps = {
   isLoading: boolean;
   onClose(): void;
   onSave(task: CreateEventTask): void;
-  onDelete(taskId: string): void;
+  onSaveAsTemplate(task: Partial<CreateEventTask>): void;
 };
 
 export function EventTaskEditor({
   task,
   onClose,
   onSave,
+  onSaveAsTemplate,
   isLoading,
-  onDelete,
 }: EventTaskEditorProps) {
   function onSubmit(values: Partial<CreateEventTask>) {
-    onSave({ ...task, ...values });
-  }
-
-  function onDeleteTask() {
-    if ('id' in task) {
-      onDelete(task.id);
-    }
+    if (values.isTemplate) onSaveAsTemplate({ ...task, ...values });
+    else onSave({ ...task, ...values });
   }
 
   return (
@@ -65,7 +59,7 @@ export function EventTaskEditor({
         handleSubmit,
         setFieldValue,
       }) => (
-        <form className={s.form} onSubmit={handleSubmit}>
+        <form id="task-form" className={s.form} onSubmit={handleSubmit}>
           <div className="line">
             <Input
               type={InputTypes.NAME}
@@ -186,19 +180,20 @@ export function EventTaskEditor({
               isDisabled={isLoading}
               isLoading={isLoading}
               type="submit"
+              onClick={() => setFieldValue('isTemplate', true)}
               isPrimary={true}
             >
-              Сохранить
+              Сохранить как шаблон
             </Button>
           </div>
-          {'id' in task && (
-            <div
-              className={classNames(s.line, s.delete)}
-              onClick={onDeleteTask}
-            >
-              Удалить задачу
-            </div>
-          )}
+          <Button
+            isDisabled={isLoading}
+            isLoading={isLoading}
+            type="submit"
+            isPrimary={true}
+          >
+            Сохранить
+          </Button>
         </form>
       )}
     </Formik>

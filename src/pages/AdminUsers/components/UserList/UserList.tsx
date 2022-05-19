@@ -11,22 +11,28 @@ import {
 } from '../../helpers/usersHelper';
 import { UsersTableHeader } from './UsersTableHeader';
 import { UsersTable } from './UsersTable';
-import { ROLE, TARIFF, User } from '../../../../store/rtk/types/user';
+import { TARIFF, User } from '../../../../store/rtk/types/user';
+import { ROLE } from '../../../../store/@types/User';
 
 type Props = {
-    users: User[]
-    onCreateUser(): void;
-    onBlockUser(user: User): void;
-    onWriteUser(user: User): void;
-}
+  users: User[];
+  onCreateUser(): void;
+  onBlockUser(user: User): void;
+  onWriteUser(user: User): void;
+};
 
 type Filters = {
-    roles: (ROLE|undefined)[];
-    tariff: (TARIFF|undefined)[];
-    questionnaire: (boolean|undefined)[];
-}
+  roles: (ROLE | undefined)[];
+  tariff: (TARIFF | undefined)[];
+  questionnaire: (boolean | undefined)[];
+};
 
-export function UserList({ users, onCreateUser, onBlockUser, onWriteUser }: Props) {
+export function UserList({
+  users,
+  onCreateUser,
+  onBlockUser,
+  onWriteUser,
+}: Props) {
   const [filterOpened, setFilterOpened] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const [filters, setFilters] = useState<Filters>({
@@ -45,34 +51,39 @@ export function UserList({ users, onCreateUser, onBlockUser, onWriteUser }: Prop
   }
 
   if (typeof filters.questionnaire[0] === 'boolean') {
-    filteredUsers = filterUsersByQuestionnaire(filteredUsers, filters.questionnaire[0]);
+    filteredUsers = filterUsersByQuestionnaire(
+      filteredUsers,
+      filters.questionnaire[0],
+    );
   }
 
   if (query) {
     filteredUsers = filterUsersByQuery(filteredUsers, query);
   }
 
-  return <div className={s.adminPanel}>
-    <UsersFilter
-      opened={filterOpened}
-      filters={usersFilters}
-      selectedFilters={filters}
-      onChange={(filters: Filters) => setFilters(filters)}
-    />
-    <div className={`${s.listPanel} ${filterOpened ? '' : s.full}`}>
-      <UsersTableHeader
-        userLength={filteredUsers.length}
-        onFilterBtnClick={() => setFilterOpened(!filterOpened)}
-        filterOpened={filterOpened}
-        query={query}
-        onSearch={setQuery}
-        onCreateUserBtnClick={onCreateUser}
+  return (
+    <div className={s.adminPanel}>
+      <UsersFilter
+        opened={filterOpened}
+        filters={usersFilters}
+        selectedFilters={filters}
+        onChange={(filters: Filters) => setFilters(filters)}
       />
-      <UsersTable
-        users={filteredUsers}
-        onBlock={onBlockUser}
-        onWrite={onWriteUser}
-      />
+      <div className={`${s.listPanel} ${filterOpened ? '' : s.full}`}>
+        <UsersTableHeader
+          userLength={filteredUsers.length}
+          onFilterBtnClick={() => setFilterOpened(!filterOpened)}
+          filterOpened={filterOpened}
+          query={query}
+          onSearch={setQuery}
+          onCreateUserBtnClick={onCreateUser}
+        />
+        <UsersTable
+          users={filteredUsers}
+          onBlock={onBlockUser}
+          onWrite={onWriteUser}
+        />
+      </div>
     </div>
-  </div>;
+  );
 }

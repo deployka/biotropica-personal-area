@@ -1,5 +1,6 @@
 import { FilterConfig } from '../components/UserFilter/UsersFilter';
-import { ROLE, User, TARIFF } from '../../../store/rtk/types/user';
+import { User, TARIFF } from '../../../store/rtk/types/user';
+import { ROLE } from '../../../store/@types/User';
 
 export const usersFilters: FilterConfig[] = [
   {
@@ -11,8 +12,8 @@ export const usersFilters: FilterConfig[] = [
         label: 'Все',
       },
       {
-        value: ROLE.USER,
-        label: 'Клиент',
+        value: ROLE.CLIENT,
+        label: 'Пользователь',
       },
       {
         value: ROLE.SPECIALIST,
@@ -66,7 +67,7 @@ export const usersFilters: FilterConfig[] = [
   },
 ];
 
-export function filterUsersByRoles(users: User[], roles: (ROLE|undefined)[]) {
+export function filterUsersByRoles(users: User[], roles: (ROLE | undefined)[]) {
   if (roles.length === 1 && !roles[0]) {
     return users;
   }
@@ -92,7 +93,10 @@ export function filterUsersByQuestionnaire(users: User[], value: boolean) {
   });
 }
 
-export function filterUsersByTariffs(users: User[], tariffs: (TARIFF|undefined)[]) {
+export function filterUsersByTariffs(
+  users: User[],
+  tariffs: (TARIFF | undefined)[],
+) {
   if (tariffs.length === 1 && !tariffs[0]) {
     return users;
   }
@@ -106,8 +110,10 @@ export function filterUsersByTariffs(users: User[], tariffs: (TARIFF|undefined)[
 export function filterUsersByQuery(users: User[], q: string) {
   const query = q.toLowerCase().trim();
   return users.filter(user => {
-    return user.name?.toLowerCase().includes(query) ||
-        user.lastname?.toLowerCase().includes(query) ||
-        user.email?.toLowerCase().includes(query);
+    return (
+      user.name?.toLowerCase().includes(query) ||
+      user.lastname?.toLowerCase().includes(query) ||
+      user.email?.toLowerCase().includes(query)
+    );
   });
 }

@@ -1,8 +1,10 @@
 import classNames from 'classnames';
-import React, { ReactNode } from 'react';
+import { FormikProps } from 'formik';
+import React, { ReactNode, RefObject } from 'react';
 import {
   CreateCompetitionTask,
   CreateEventTask,
+  CreateSomeTask,
   CreateTrainingTask,
 } from '../../store/@types/Task';
 
@@ -17,7 +19,9 @@ export type BaseTaskEditorProps = {
   category?: string;
   children: ReactNode;
   isOpened: boolean;
+  onDeleteTask(): void;
   onClose(): void;
+  taskId: string;
   onEditBtnClick(): void;
 };
 
@@ -30,6 +34,8 @@ export function BaseTaskEditor({
   category,
   isOpened,
   onClose,
+  taskId,
+  onDeleteTask,
   onEditBtnClick,
 }: BaseTaskEditorProps) {
   return (
@@ -40,11 +46,13 @@ export function BaseTaskEditor({
       ></div>
       <div className={classNames(s.editorWrapper, !isOpened ? s.hidden : '')}>
         <Header
+          taskId={taskId}
           mode={mode}
           title={title}
           icon={icon}
           category={category}
           type={task?.type}
+          onDeleteTask={onDeleteTask}
           onClose={onClose}
           onEditBtnClick={onEditBtnClick}
         />

@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 
 import classNames from 'classnames';
 import closeIcon from './../../assets/icons/close_white.svg';
 import editIcon from './../../assets/icons/edit_note.svg';
 
 import s from './Header.module.scss';
+import { MoreOptionsButton } from './MoreOptionsButton';
+import { CreateSomeTask } from '../../store/@types/Task';
+import { FormikProps } from 'formik';
 
 interface Props {
   mode: 'edit' | 'view';
@@ -13,7 +16,9 @@ interface Props {
   category?: string;
   type?: string;
   onClose(): void;
+  taskId: string;
   onEditBtnClick(): void;
+  onDeleteTask(): void;
 }
 
 export const Header = ({
@@ -21,7 +26,9 @@ export const Header = ({
   title,
   icon,
   type,
+  onDeleteTask,
   category,
+  taskId,
   onClose,
   onEditBtnClick,
 }: Props) => {
@@ -73,12 +80,18 @@ export const Header = ({
 
           {mode === 'edit' ? 'Редактирование задачи' : title}
         </div>
-        <img
-          className={s.closeIcon}
-          src={closeIcon}
-          alt=""
-          onClick={onCloseClick}
-        />
+
+        <div className={s.rightContent}>
+          {mode === 'edit' && (
+            <MoreOptionsButton onDelete={onDeleteTask} taskId={taskId} />
+          )}
+          <img
+            className={s.closeIcon}
+            src={closeIcon}
+            alt=""
+            onClick={onCloseClick}
+          />
+        </div>
       </div>
 
       {mode === 'view' ? (

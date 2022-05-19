@@ -2,16 +2,16 @@ import React from 'react';
 import s from './Tabs.module.scss';
 import classNames from 'classnames';
 
-export type TabsProps = {
-  value: string;
+export type TabsProps<T extends string> = {
+  value: T;
   options: {
-    value: string;
+    value: T;
     label: string;
   }[];
-  onSelect(value: string): void;
+  onSelect(value: T): void;
 };
 
-export function Tabs(props: TabsProps) {
+export function Tabs<T extends string>(props: TabsProps<T>) {
   return (
     <div className={s.center}>
       <div className={s.toggleButtons}>

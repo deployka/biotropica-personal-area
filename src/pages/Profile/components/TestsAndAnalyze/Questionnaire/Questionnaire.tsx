@@ -13,6 +13,8 @@ export const Questionnaire = ({ answers }: Props) => {
     try {
       return JSON.parse(answer.text)?.join(', ');
     } catch (error) {
+      console.log(answer.text);
+
       return answer.text;
     }
   }
@@ -32,11 +34,13 @@ export const Questionnaire = ({ answers }: Props) => {
         </div>
       </div>
       <div className={s.list}>
-        {answers.map((answer, i) => (
+        {answers.map(answer => (
           <div className={s.item} key={answer.id}>
             <p>
-              {answer.question.order}. {answer.question.title}:{' '}
-              <span className={s.answer}>{getCurrentAnswer(answer)}</span>
+              {answer.question.order + 1}. {answer.question.title}:{' '}
+              <span className={s.answer}>
+                {getCurrentAnswer(answer) || 'Вы не дали ответ'}
+              </span>
             </p>
           </div>
         ))}

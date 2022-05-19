@@ -9,8 +9,8 @@ type TaskLayoutProps = {
   mode: 'edit' | 'view';
   isLoading: boolean;
   onClose(): void;
-  onDelete(): void;
   onSave(task: CreateSomeTask): void;
+  onSaveAsTemplate(task: Partial<CreateSomeTask>): void;
   onSendComment(newCommentText: string): void;
   onSaveFactValue(value: number): void;
   onSaveFirstValue(value: number | undefined): void;
@@ -22,13 +22,15 @@ export function TaskLayout({
   mode,
   onClose,
   onSave,
-  onDelete,
+  onSaveAsTemplate,
   isLoading,
   onSendComment,
   onSaveFirstValue,
   onSaveSecondValue,
   onSaveFactValue,
 }: TaskLayoutProps) {
+  console.log(123);
+
   if (!task) return <></>;
   if (mode === 'view' && 'id' in task) {
     return (
@@ -46,8 +48,8 @@ export function TaskLayout({
       task={task}
       isLoading={isLoading}
       onSave={onSave}
+      onSaveAsTemplate={onSaveAsTemplate}
       onClose={onClose}
-      onDelete={onDelete}
     />
   );
 }

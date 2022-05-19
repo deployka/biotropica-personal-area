@@ -57,6 +57,7 @@ const EditProfile = () => {
     if (!response) return;
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
+        console.log('____________________', response);
         break;
       case LoadingStatus.SUCCESS:
         eventBus.emit(EventTypes.notification, {

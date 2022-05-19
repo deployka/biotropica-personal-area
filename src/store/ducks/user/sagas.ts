@@ -38,8 +38,8 @@ export function * fetchSigninRequest({ payload }: FetchSigninActionInterface) {
 export function * fetchSignupRequest({ payload }: FetchSignupActionInterface) {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-    const { data } = yield call(AuthService.signup, payload);
-    yield put(setUserResponse(data));
+    const { data, status } = yield call(AuthService.signup, payload);
+    yield put(setUserResponse({ message: data.message, statusCode: status }));
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } catch (error) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
@@ -141,8 +141,8 @@ export function * fetchUpdateUserEmailRequest({
 }: FetchUpdateUserEmailActionInterface) {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-    const { data } = yield call(UserService.updateEmail, payload);
-    yield put(setUserResponse(data));
+    const { data, status } = yield call(UserService.updateEmail, payload);
+    yield put(setUserResponse({ message: data.message, statusCode: status }));
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
     yield put(setUserLoadingStatus(LoadingStatus.LOADED));
   } catch (error) {

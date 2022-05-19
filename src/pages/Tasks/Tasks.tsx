@@ -19,8 +19,11 @@ import {
   CompetitionTask,
   CreateSomeTask,
   EventTask,
+  KindOfSport,
   SomeTask,
+  TaskTemplate,
   TaskType,
+  TrainingCategory,
   TrainingTask,
 } from '../../store/@types/Task';
 import { TasksModal } from './TasksModal';
@@ -28,10 +31,11 @@ import { createTaskByType } from './CreateTaskHelper';
 import { useHistory, useParams } from 'react-router-dom';
 import { selectCurrentUserData } from '../../store/ducks/user/selectors';
 import s from './Tasks.module.scss';
-import classNames from 'classnames';
 import { Tabs } from '../../components/Tabs/Tabs';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
+import { NotificationButtons } from './NotificationButtons';
+import { selectIsDoctor } from '../../store/rtk/slices/authSlice';
 
 export function Tasks() {
   const currentUser = useSelector(selectCurrentUserData);
@@ -68,6 +72,8 @@ export function Tasks() {
 
   const currentMonth = useAppSelector(selectTasksPageCurrentMonth);
 
+  const isSpecialist = useSelector(selectIsDoctor);
+
   const { data: tasks = [], isError } = useGetTaskListQuery({
     userId,
   });
@@ -79,14 +85,38 @@ export function Tasks() {
     },
   );
 
-  useEffect(() => {
-    if (!openedTask) return;
+  const templates: SomeTask[] = [
+    {
+      id: '06fce062-389f-4da5-a92e-81347b7f9d61',
+      authorId: 15,
+      executorId: 15,
+      title: 'Пробежка',
+      type: 'training',
+      date: '2022-04-23',
+      startTime: '12:12:00',
+      endTime: '',
+      status: 'init',
+      description: '',
+      isTemplate: true,
+      templateName: 'Тренировка для попы',
+      kindOfSport: KindOfSport.swimming,
+      comments: [],
+      category: TrainingCategory.power,
+      firstTargetType: 'time',
+      firstTargetValue: 12,
+      secondTargetType: 'pulse',
+      secondTargetValue: 12,
+    },
+  ];
 
+  useEffect(() => {
+    if (!openedTask || !comments.length) return;
     setOpenedTask({ ...openedTask, comments });
-  }, [comments]);
+  }, [comments, setOpenedTask]);
 
   function handleCloseTask() {
     setOpenedTaskId('');
+    setOpenedTask(null);
     setIsTaskModalOpen(false);
     setTaskModalMode('view');
   }
@@ -94,7 +124,7 @@ export function Tasks() {
   async function handleSaveTask(task: CreateSomeTask | SomeTask) {
     if ('id' in task) {
       try {
-        await updateTask({ ...task });
+        await updateTask({ ...task }).unwrap();
         eventBus.emit(EventTypes.notification, {
           type: NotificationType.SUCCESS,
           message: 'Задача успешно обновлена!',
@@ -107,7 +137,7 @@ export function Tasks() {
       }
     } else {
       try {
-        await createTask({ ...task, executorId: userId });
+        await createTask({ ...task, executorId: userId }).unwrap();
         eventBus.emit(EventTypes.notification, {
           type: NotificationType.SUCCESS,
           message: 'Задача успешно создана!',
@@ -122,13 +152,41 @@ export function Tasks() {
     handleCloseTask();
   }
 
+  async function onDelete() {
+    try {
+      eventBus.emit(EventTypes.removeNotification, 'delete-notification');
+      await deleteTask(openedTaskId);
+      eventBus.emit(EventTypes.notification, {
+        type: NotificationType.SUCCESS,
+        message: `Задача ${openedTask?.title} успешно удалена!`,
+      });
+      handleCloseTask();
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        type: NotificationType.DANGER,
+        message: 'При удалении произошла ошибка, попробуйте еще раз',
+      });
+    }
+  }
+
+  function onDiscard() {
+    eventBus.emit(EventTypes.removeNotification, 'delete-notification');
+  }
+
   async function handleDeleteTask() {
-    await deleteTask(openedTaskId);
-    handleCloseTask();
+    eventBus.emit(EventTypes.notification, {
+      type: NotificationType.WARNING,
+      title: `Удалить задачу ${openedTask?.title}?`,
+      dismiss: undefined,
+      message: (
+        <NotificationButtons onDelete={onDelete} onDiscard={onDiscard} />
+      ),
+    });
   }
 
   async function handleSendComment(commentText: string) {
-    await addComment({ taskId: openedTaskId, commentText });
+    // TODO: добавить обработку ошибок
+    await addComment({ taskId: openedTaskId, commentText }).unwrap();
   }
 
   function handelTaskClick(taskId: string) {
@@ -153,14 +211,14 @@ export function Tasks() {
     setIsTypeSelectModalOpened(true);
   }
 
-  function handleSelectTaskType(selectedType: TaskType) {
-    const newTask: CreateSomeTask | null = createTaskByType(
-      selectedType,
-      userId,
-    );
+  function handleSelectTaskType(selectedType: TaskType | TaskTemplate) {
+    const newTask =
+      'templateName' in selectedType
+        ? templates.find(t => t.id === selectedType.id)
+        : createTaskByType(selectedType, userId);
 
     setOpenedTaskId('');
-    setOpenedTask(newTask);
+    setOpenedTask(newTask || null);
     setIsTaskModalOpen(true);
     setIsTypeSelectModalOpened(false);
     setTaskModalMode('edit');
@@ -180,6 +238,31 @@ export function Tasks() {
 
   async function handleSaveFactValue(value: number) {
     await updateTask({ id: openedTaskId, factValue: value });
+  }
+
+  async function onChangeTemplateName(templateId: string, value: string) {
+    console.log(templateId, value);
+  }
+
+  async function handleSaveAsTemplate(task: Partial<CreateSomeTask>) {
+    const newTemplate = {
+      ...task,
+      templateName: task.title,
+    };
+    try {
+      await createTask({ ...newTemplate, executorId: userId }).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        type: NotificationType.SUCCESS,
+        message: 'Шаблон успешно создан!',
+      });
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        type: NotificationType.DANGER,
+        message: 'Произошла ошибка при создании шаблона!',
+      });
+    }
+
+    handleCloseTask();
   }
 
   if (isError) {
@@ -228,23 +311,26 @@ export function Tasks() {
       />
 
       <TaskTypeSelectModal
+        onChangeTemplateName={onChangeTemplateName}
+        templates={templates}
+        isSpecialist={isSpecialist}
         isOpened={isTypeSelectModalOpened}
-        onClose={() => {
-          setIsTypeSelectModalOpened(false);
-        }}
+        onClose={() => setIsTypeSelectModalOpened(false)}
         onSelect={handleSelectTaskType}
       />
 
       <TasksModal
         isLoading={isUpdateLoading || isCreateLoading}
         task={openedTask}
+        taskId={openedTaskId}
         mode={taskModalMode}
         isOpened={isTaskModalOpen}
         onClose={handleCloseTask}
         onEditBtnClick={handleEditClick}
         onSendComment={handleSendComment}
         onSave={handleSaveTask}
-        onDelete={handleDeleteTask}
+        onSaveAsTemplate={handleSaveAsTemplate}
+        onDeleteTask={handleDeleteTask}
         onSaveFirstValue={handleSaveFirstFactValue}
         onSaveSecondValue={handleSaveSecondFactValue}
         onSaveFactValue={handleSaveFactValue}

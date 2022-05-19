@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import s from './User.module.scss';
 import { format } from 'date-fns';
 import { PopUp } from './PopUp';
-import { ROLE, User } from '../../../../store/rtk/types/user';
+import { User } from '../../../../store/rtk/types/user';
+import { ROLE } from '../../../../store/@types/User';
+import { getFullName } from '../../../../utils/getFullName';
 
 interface Props {
   user: User;
@@ -12,7 +14,7 @@ interface Props {
 }
 
 export const ROLE_TRANSLATIONS = {
-  [ROLE.USER]: 'Пользователь',
+  [ROLE.CLIENT]: 'Пользователь',
   [ROLE.ADMIN]: 'Администратор',
   [ROLE.SPECIALIST]: 'Специалист',
 };
@@ -30,7 +32,7 @@ export const UserItem = ({ user, onBlock, onWrite }: Props) => {
     setVisible(!visible);
   }
 
-  const fullName = user.name + ' ' + user.lastname;
+  const fullName = getFullName(user.name, user.lastname);
   const registrationDate = format(new Date(user.createdAt), 'dd.MM.yyyy');
   let roleTranslation = '-';
   let role;
@@ -86,18 +88,22 @@ export const UserItem = ({ user, onBlock, onWrite }: Props) => {
             </svg>
           </div>
         </div>
-        {visible && <PopUp
-          onBlockClick={() => {
-            onBlock(user);
-            setVisible(false);
-          }}
-          onWriteClick={() => {
-            onWrite(user);
-            setVisible(false);
-          }}
-        />}
+        {visible && (
+          <PopUp
+            onBlockClick={() => {
+              onBlock(user);
+              setVisible(false);
+            }}
+            onWriteClick={() => {
+              onWrite(user);
+              setVisible(false);
+            }}
+          />
+        )}
       </div>
-      {visible && <div className={s.background} onClick={() => setVisible(false)}></div>}
+      {visible && (
+        <div className={s.background} onClick={() => setVisible(false)}></div>
+      )}
     </>
   );
 };

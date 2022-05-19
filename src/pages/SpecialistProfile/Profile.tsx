@@ -5,13 +5,13 @@ import s from './Profile.module.scss';
 
 import Card from './components/Card/Card';
 import { Post } from './components/Post/Post';
-import { ROLE } from '../../store/rtk/types/user';
 import Button from '../../components/Button/Button';
 import { chatApi } from '../../shared/Global/Chat/services/chatApi';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { useParams } from 'react-router-dom';
 import { selectCurrentUserData } from '../../store/ducks/user/selectors';
 import { useGetUserQuery } from '../../store/rtk/requests/user';
+import { ROLE } from '../../store/@types/User';
 
 const Profile = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,7 +24,7 @@ const Profile = () => {
   });
 
   const courses = user?.specialist?.courses;
-  const userClient = user?.roles.some(it => it.name === ROLE.USER);
+  const userClient = user?.roles.some(it => it.name === ROLE.CLIENT);
 
   async function sendMessage() {
     if (!user) return;

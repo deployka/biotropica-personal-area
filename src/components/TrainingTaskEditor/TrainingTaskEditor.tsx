@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import { Formik } from 'formik';
 import Input, { InputTypes } from '../Input/Input';
 import SelectCustom from '../Select/SelectCustom';
@@ -17,7 +17,6 @@ import {
 import s from './TrainingTaskEditor.module.scss';
 import { TimePickerValue } from 'react-time-picker';
 import { CreateTrainingTask, TrainingTask } from '../../store/@types/Task';
-import classNames from 'classnames';
 import { NEW_DATE } from '../../constants/dates';
 
 export type TrainingTaskEditorProps = {
@@ -25,15 +24,15 @@ export type TrainingTaskEditorProps = {
   isLoading: boolean;
   task: TrainingTask | CreateTrainingTask;
   onSave(task: CreateTrainingTask): void;
-  onDelete(): void;
+  onSaveAsTemplate(task: Partial<CreateTrainingTask>): void;
 };
 
 export function TrainingTaskEditor({
   task,
   onClose,
   onSave,
+  onSaveAsTemplate,
   isLoading,
-  onDelete,
 }: TrainingTaskEditorProps) {
   function onSubmit(values: Partial<CreateTrainingTask>) {
     onSave({ ...task, ...values });
@@ -67,7 +66,7 @@ export function TrainingTaskEditor({
         setFieldValue,
       }) => {
         return (
-          <form className={s.form} onSubmit={handleSubmit}>
+          <form id="task-form" className={s.form} onSubmit={handleSubmit}>
             <div className={s.line}>
               <Input
                 placeholder="Название"
@@ -206,11 +205,6 @@ export function TrainingTaskEditor({
                 Сохранить
               </Button>
             </div>
-            {'id' in task && (
-              <div className={classNames(s.line, s.delete)} onClick={onDelete}>
-                Удалить задачу
-              </div>
-            )}
           </form>
         );
       }}

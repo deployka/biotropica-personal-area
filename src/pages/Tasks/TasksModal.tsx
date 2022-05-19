@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { CreateSomeTask, SomeTask } from '../../store/@types/Task';
 import { BaseTaskEditor } from '../../components/BaseTaskEditor/BaseTaskEditor';
 import {
@@ -12,15 +12,18 @@ import {
   translatedKindOfSport,
 } from '../../components/TrainingTaskEditor/TraningTaskEditorConstants';
 import { TaskLayout } from './TaskLayout';
+import { FormikProps } from 'formik';
 
 type TasksModalProps = {
   task: SomeTask | CreateSomeTask | null;
   mode: 'edit' | 'view';
   isOpened: boolean;
   isLoading: boolean;
+  taskId: string;
   onClose(): void;
   onEditBtnClick(): void;
-  onDelete(): void;
+  onDeleteTask(): void;
+  onSaveAsTemplate: (task: Partial<CreateSomeTask>) => void;
   onSave(task: CreateSomeTask): void;
   onSendComment(newCommentText: string): void;
   onSaveFactValue(value: number): void;
@@ -30,12 +33,14 @@ type TasksModalProps = {
 
 export const TasksModal = ({
   task,
+  taskId,
   mode,
   isOpened,
   isLoading,
   onClose,
   onSave,
-  onDelete,
+  onSaveAsTemplate,
+  onDeleteTask,
   onEditBtnClick,
   onSendComment,
   onSaveFirstValue,
@@ -45,6 +50,8 @@ export const TasksModal = ({
   let category = '';
   let title = '';
   let icon: string | undefined;
+
+  console.log(123);
 
   if (task?.type) {
     switch (task.type) {
@@ -79,8 +86,10 @@ export const TasksModal = ({
   return (
     <BaseTaskEditor
       task={task}
+      taskId={taskId}
       title={title}
       icon={icon}
+      onDeleteTask={onDeleteTask}
       category={category}
       mode={mode}
       isOpened={isOpened}
@@ -93,7 +102,7 @@ export const TasksModal = ({
         isLoading={isLoading}
         onSave={onSave}
         onClose={onClose}
-        onDelete={onDelete}
+        onSaveAsTemplate={onSaveAsTemplate}
         onSendComment={onSendComment}
         onSaveFactValue={onSaveFactValue}
         onSaveFirstValue={onSaveFirstValue}

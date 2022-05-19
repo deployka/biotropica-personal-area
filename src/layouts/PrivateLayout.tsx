@@ -22,6 +22,7 @@ import { eventBus, EventTypes } from '../services/EventBus';
 import { chatApi } from '../shared/Global/Chat/services/chatApi';
 import { selectUserRoles } from '../store/rtk/slices/authSlice';
 import { getCurrentPage } from '../utils/getCurrentPage';
+import { ROLE } from '../store/rtk/types/user';
 
 interface Props {
   children: React.ReactNode;
@@ -133,9 +134,9 @@ export function PrivateLayout(props: Props) {
   const currentPage = useMemo(() => getCurrentPage(pathname), [pathname]);
 
   let nav: Nav[] = [];
-  if (roles.includes('ADMIN')) {
+  if (roles.includes(ROLE.ADMIN)) {
     nav = adminNav;
-  } else if (roles.includes('SPECIALIST')) {
+  } else if (roles.includes(ROLE.SPECIALIST)) {
     nav = specialistNav;
   } else {
     nav = clientNav;
