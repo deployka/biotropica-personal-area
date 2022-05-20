@@ -47,9 +47,10 @@ const EditProfile = () => {
 
   const user: User | undefined = useSelector(selectCurrentUserData);
   const userImage = user?.profilePhoto && getMediaLink(user?.profilePhoto);
-  const { data: specialist } = useGetSpecialistQuery();
-
   const isSpecialist = user?.roles?.includes('SPECIALIST');
+  const { data: specialist } = useGetSpecialistQuery(undefined, {
+    skip: !isSpecialist,
+  });
 
   const loader = LoadingStatus.LOADING === loadingStatus;
   const [image, setImage] = useState<string | ArrayBuffer | null>(
@@ -140,9 +141,15 @@ const EditProfile = () => {
       });
     }
   }
+
+  let readyToRender = !!user;
+  if (isSpecialist) {
+    readyToRender = readyToRender && !!specialist;
+  }
+
   return (
     <>
-      {user && (isSpecialist && specialist) && (
+      {readyToRender && (
         <EditProfileData
           specialist={specialist}
           options={options}

@@ -54,7 +54,9 @@ export const EditProfileData = ({
   onAvatarLoaded,
   onSubmit,
 }: Props) => {
-  const { data: specializations } = useGetSpecializationListQuery();
+  const { data: specializations } = useGetSpecializationListQuery(undefined, {
+    skip: !specialist,
+  });
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || loader;
   }
