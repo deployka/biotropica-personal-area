@@ -1,9 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { UserList } from './components/UserList/UserList';
-import { useGetAllUsersQuery } from '../../store/rtk/requests/user';
+import {
+  useGetAllUsersQuery,
+  useGetWaitingUsersQuery,
+} from '../../store/rtk/requests/user';
 
 export function SpecialistUsers() {
-  const { data: users } = useGetAllUsersQuery();
+  const [isWaitingUserOpen, setIsWaitingUserOpen] = useState(false);
 
-  return <div>{users ? <UserList users={users} /> : 'У вас нет доступа'}</div>;
+  const {
+    data: users = [],
+    isLoading: isUsersLoading,
+    isError: isUsersError,
+  } = useGetAllUsersQuery();
+  const {
+    data: waitingUsers = [],
+    isLoading: isWaitingUsersLoading = false,
+    isError: isWaitingUsersError,
+  } = useGetWaitingUsersQuery(undefined, {
+    skip: !isWaitingUserOpen,
+  });
+
+  return (
+    <div>
+      {!isUsersError ? (
+        <UserList
+          usersList={isWaitingUserOpen ? waitingUsers : users}
+          isLoading={isUsersLoading || isWaitingUsersLoading}
+          checked={isWaitingUserOpen}
+          setChecked={setIsWaitingUserOpen}
+        />
+      ) : (
+        'У вас нет доступа'
+      )}
+    </div>
+  );
 }

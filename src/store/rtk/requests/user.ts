@@ -61,11 +61,19 @@ const userApi = baseApi.injectEndpoints({
           url: 'users',
         };
       },
-      providesTags: result => ([
-        ...(result || []).map(({ id }) => ({ type: 'Users', id })),
-        { type: 'Users', id: 'LIST' },
-      ] as { type: 'Users', id: string | number }[]
-      ),
+      providesTags: result =>
+        [
+          ...(result || []).map(({ id }) => ({ type: 'Users', id })),
+          { type: 'Users', id: 'LIST' },
+        ] as { type: 'Users'; id: string | number }[],
+    }),
+    getWaitingUsers: builder.query<User[], void>({
+      query() {
+        return {
+          method: 'get',
+          url: 'recommendations/waiting',
+        };
+      },
     }),
   }),
 });
@@ -77,6 +85,7 @@ export const {
   useRequestUserDataQuery,
   useRequestUpdateUserDataMutation,
   useGetUserQuery,
+  useGetWaitingUsersQuery,
 } = userApi;
 
 export default userApi;

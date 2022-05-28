@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 
 import s from '../../Users.module.scss';
 import {
@@ -12,7 +12,10 @@ import { TARIFF, User } from '../../../../store/rtk/types/user';
 import { ROLE } from '../../../../store/@types/User';
 
 type Props = {
-  users: User[];
+  usersList: User[];
+  isLoading: boolean;
+  checked: boolean;
+  setChecked: Dispatch<SetStateAction<boolean>>;
 };
 
 type Filters = {
@@ -20,7 +23,7 @@ type Filters = {
   tariff: (TARIFF | undefined)[];
 };
 
-export function UserList({ users }: Props) {
+export function UserList({ usersList, checked, setChecked, isLoading }: Props) {
   const [filterOpened, setFilterOpened] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const [filters, setFilters] = useState<Filters>({
@@ -28,7 +31,7 @@ export function UserList({ users }: Props) {
     tariff: [undefined],
   });
 
-  let filteredUsers = users;
+  let filteredUsers = usersList;
   if (filters.roles.length) {
     filteredUsers = filterUsersByRoles(filteredUsers, filters.roles);
   }
@@ -40,8 +43,6 @@ export function UserList({ users }: Props) {
   if (query) {
     filteredUsers = filterUsersByQuery(filteredUsers, query);
   }
-
-  const [checked, setChecked] = useState(false);
 
   return (
     <div className={s.adminPanel}>
@@ -55,7 +56,8 @@ export function UserList({ users }: Props) {
           query={query}
           onSearch={setQuery}
         />
-        {!filteredUsers.length && (
+        {isLoading && <p className={s.empty}>Загрузка...</p>}
+        {!isLoading && !filteredUsers.length && (
           <p className={s.empty}>Пользователи не найдены</p>
         )}
         <UsersTable users={filteredUsers} />
