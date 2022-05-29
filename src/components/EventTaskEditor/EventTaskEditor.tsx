@@ -197,8 +197,16 @@ export function EventTaskEditor({
               />
             </div>
             <div className={s.buttons}>
-              <Button onClick={onClose}>Отмена</Button>
               <Button
+                isDisabled={isLoading}
+                isLoading={isLoading}
+                type="submit"
+                isPrimary={true}
+              >
+                Сохранить
+              </Button>
+              <Button onClick={onClose}>Отмена</Button>
+              {/* <Button
                 isDisabled={isLoading}
                 isLoading={isLoading}
                 type="submit"
@@ -206,16 +214,8 @@ export function EventTaskEditor({
                 isPrimary={true}
               >
                 Сохранить как шаблон
-              </Button>
+              </Button> */}
             </div>
-            <Button
-              isDisabled={isLoading}
-              isLoading={isLoading}
-              type="submit"
-              isPrimary={true}
-            >
-              Сохранить
-            </Button>
           </form>
         );
       }}
