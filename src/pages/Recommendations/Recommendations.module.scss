@@ -1,14 +1,38 @@
 .recommendationPage {
+  margin: 20px 0 0 0;
+  position: relative;
   width: 100%;
   display: flex;
   padding-top: 40px;
 
   .left {
+    position: absolute;
+    top: 0;
+    left: 0;
     margin: 0 70px 0 0;
+
+    transform: translateX(0);
+
+    transition: all 0.2s ease;
+
+    &.opened {
+      transform: translateX(calc(-100% - 20px));
+    }
   }
 
   .right {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+
+    transform: translateX(100%);
+
+    transition: all 0.2s ease;
+
+    &.opened {
+      transform: translateX(0);
+    }
   }
 }
 
