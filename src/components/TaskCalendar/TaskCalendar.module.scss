@@ -1,3 +1,5 @@
+@import "./../../styles/mixins.scss";
+
 * {
     margin: 0;
     padding: 0;
@@ -23,6 +25,12 @@
             width: calc(100% / 7);
             border: 1px solid #f7f6fb;
             padding: 12px;
+
+            @include for-tablet {
+                width: 100%;
+                padding: 30px 0 0 0;
+                border: none;
+            }
         }
 
         .tableHeader {
@@ -39,6 +47,10 @@
             text-transform: uppercase;
 
             color: #736f8b;
+
+            @include for-tablet {
+                display: none;
+            }
         }
 
         .calendarBody {

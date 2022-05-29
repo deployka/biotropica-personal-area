@@ -3,7 +3,6 @@ import { baseApi } from './baseApi';
 import { User } from '../types/user';
 
 export const usersApi = baseApi.injectEndpoints({
-
   endpoints: builder => ({
     requestUsersData: builder.query<User[], void>({
       query: () => ({
@@ -23,9 +22,6 @@ export const usersApi = baseApi.injectEndpoints({
   }),
 });
 
-export const {
-  useRequestUsersDataQuery,
-  useCreateUserMutation,
-} = usersApi;
+export const { useRequestUsersDataQuery, useCreateUserMutation } = usersApi;
 
 export default usersApi;

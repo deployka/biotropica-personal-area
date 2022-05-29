@@ -1,6 +1,8 @@
 import React from 'react';
 import { Recommendation, User } from '../../../store/rtk/types/user';
+import { getMediaLink } from '../../../utils/mediaHelper';
 import { RecommendationItem } from '../RecommendationItem/RecommendationItem';
+import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 
 import s from './RecommendationGroup.module.scss';
 
@@ -24,16 +26,12 @@ export const RecommendationGroup = ({
 }: RecommendationGroupProps) => {
   const { specialist, recommendationList } = recommendationGroup;
 
-  console.log(specialist.specialist.specializations);
-
   return (
     <div className={s.recommendationGroup}>
       <div className={s.header}>
         <div className={s.left}>
           <div className={s.specialistPhoto}>
-            <img
-              src={`https://master.bio-specialist.devshift.ru/api/static/${specialist.profilePhoto}`}
-            />
+            <img src={getMediaLink(specialist.profilePhoto) || defaultAvatar} />
           </div>
           {specialist.name} {specialist.lastname}
         </div>

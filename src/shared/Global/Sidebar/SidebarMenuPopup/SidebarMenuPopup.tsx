@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { SidebarSvgSelector } from '../../../../assets/icons/sidebar/SIdebarSvgSelector';
 import { useModal } from '../../../../hooks/useModal';
-import { Nav, Pages } from '../../../../layouts/PrivateLayout';
+import { Nav, Page } from '../../../../layouts/PrivateLayout';
 import { ModalName } from '../../../../providers/ModalProvider';
 import { PopupBackground } from '../../PopupBackground/PopupBackground';
 
@@ -17,7 +17,7 @@ interface Props {
   openChat: () => void;
   logout: () => void;
   user: User | undefined;
-  pages: Pages[];
+  pages: Page[];
   location: Location;
 }
 

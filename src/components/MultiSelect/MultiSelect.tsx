@@ -54,7 +54,7 @@ const MultiSelect = (props: Props) => {
       <Select
         isMulti
         name={name}
-        defaultValue={value}
+        value={value}
         placeholder=''
         styles={styles}
         options={options}

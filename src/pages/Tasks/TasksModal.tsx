@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { CreateSomeTask, SomeTask } from '../../store/@types/Task';
 import { BaseTaskEditor } from '../../components/BaseTaskEditor/BaseTaskEditor';
 import {
@@ -12,15 +12,20 @@ import {
   translatedKindOfSport,
 } from '../../components/TrainingTaskEditor/TraningTaskEditorConstants';
 import { TaskLayout } from './TaskLayout';
+import { FormikProps } from 'formik';
 
 type TasksModalProps = {
   task: SomeTask | CreateSomeTask | null;
   mode: 'edit' | 'view';
+  isSpecialist: boolean;
   isOpened: boolean;
   isLoading: boolean;
+  taskId: string;
+  currentUserId: number;
   onClose(): void;
   onEditBtnClick(): void;
-  onDelete(): void;
+  onDeleteTask(): void;
+  onSaveAsTemplate: (task: Partial<CreateSomeTask>) => void;
   onSave(task: CreateSomeTask): void;
   onSendComment(newCommentText: string): void;
   onSaveFactValue(value: number): void;
@@ -30,12 +35,16 @@ type TasksModalProps = {
 
 export const TasksModal = ({
   task,
+  taskId,
   mode,
+  isSpecialist,
   isOpened,
+  currentUserId,
   isLoading,
   onClose,
   onSave,
-  onDelete,
+  onSaveAsTemplate,
+  onDeleteTask,
   onEditBtnClick,
   onSendComment,
   onSaveFirstValue,
@@ -78,9 +87,12 @@ export const TasksModal = ({
 
   return (
     <BaseTaskEditor
+      isCurrentUser={task?.authorId === currentUserId}
       task={task}
+      taskId={taskId}
       title={title}
       icon={icon}
+      onDeleteTask={onDeleteTask}
       category={category}
       mode={mode}
       isOpened={isOpened}
@@ -88,12 +100,13 @@ export const TasksModal = ({
       onEditBtnClick={onEditBtnClick}
     >
       <TaskLayout
+        isSpecialist={isSpecialist}
         task={task}
         mode={mode}
         isLoading={isLoading}
         onSave={onSave}
         onClose={onClose}
-        onDelete={onDelete}
+        onSaveAsTemplate={onSaveAsTemplate}
         onSendComment={onSendComment}
         onSaveFactValue={onSaveFactValue}
         onSaveFirstValue={onSaveFirstValue}

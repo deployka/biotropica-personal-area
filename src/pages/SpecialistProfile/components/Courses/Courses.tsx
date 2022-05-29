@@ -15,8 +15,11 @@ import { useRequestChangeCoursesMutation } from '../../../../store/rtk/requests/
 import { Loader } from '../../../../shared/Global/Loader/Loader';
 import { useRequestUserDataQuery } from '../../../../store/rtk/requests/user';
 import { useRequestUsersDataQuery } from '../../../../store/rtk/requests/users';
-import Input from '../../../../components/Input/Input';
-import Textarea from '../../../../components/Textarea/Textarea';
+import { Textarea } from '../../../../shared/Form/Textarea/Textarea';
+import { Input } from '../../../../shared/Form/Input/Input';
+import Divider from '../../../../components/Divider/Divider';
+import { eventBus, EventTypes } from '../../../../services/EventBus';
+import { NotificationType } from '../../../../components/GlobalNotifications/GlobalNotifications';
 
 interface Course {
   id: number,
@@ -39,10 +42,11 @@ const Courses = () => {
       refetchUsersData();
 
       // TODO: добавить уведомление
-      // showSuccessMessage('Данные успешно сохранены');
-
-      !!user &&
-        history.push('/profile/' + user.id);
+      eventBus.emit(EventTypes.notification, {
+        title: 'Успешно',
+        message: 'Данные успешно сохранены',
+        type: NotificationType.SUCCESS,
+      });
     }
 
     // isError &&
@@ -167,35 +171,43 @@ const Courses = () => {
         <form onSubmit={handleSubmit}>
           <div className={s.form}>
             {courses.map((course: Course) => (
-              <div key={course.id} className={s.course}>
-                <div className={s.course__inputs}>
-                  <Input
-                    value={course.title}
-                    name="title"
-                    onChange={e => handleChange(
-                      course.id,
-                      e.target.value,
-                      course.description,
-                      course.date,
-                    )}
-                  />
-                  <Textarea
-                    value={course.description}
-                    name="description"
-                    onChange={e => handleChange(
-                      course.id,
-                      course.title,
-                      e.target.value,
-                      course.date,
-                    )}
-                  />
-                </div>
-                <Button
-                  className={s.course__closeBtn}
-                  onClick={() => handleClickDeleteBtn(course.id)}
-                >
+              <div key={course.id}>
+                <div className={s.course}>
+                  <div className={s.course__inputs}>
+                    <Input
+                      placeholder="Название"
+                      value={course.title || ''}
+                      name="title"
+                      onChange={e => handleChange(
+                        course.id,
+                        e.target.value,
+                        course.description,
+                        course.date,
+                      )}
+                    />
+                    <Textarea
+                      value={course.description}
+                      rows={5}
+                      placeholder="Описание"
+                      name="description"
+                      onChange={e => handleChange(
+                        course.id,
+                        course.title,
+                        e.target.value,
+                        course.date,
+                      )}
+                    />
+                  </div>
+                  <Button
+                    className={s.course__closeBtn}
+                    onClick={() => handleClickDeleteBtn(course.id)}
+                  >
                   x
-                </Button>
+                  </Button>
+                </div>
+                <div className={s.divider}>
+                  <Divider/>
+                </div>
               </div>
             ))}
             <Button

@@ -8,6 +8,7 @@ import s from './CalendarDay.module.scss';
 import { Task } from '../../store/@types/Task';
 
 export type CalendarDayType = {
+  isGrey: boolean;
   isCurrentDay: boolean;
   day: number; // Число месяца
   tasks: Task[]; // Задачи отображаемого дня
@@ -27,15 +28,17 @@ export function CalendarDay({ calendarDay, onClickTask }: CalendarDayProps) {
   });
 
   return (
-    <div className={s.calendarDay}>
-      <div
-        className={classNames(s.date, isCurrentDay ? s.currentDate : '')}
-      >
+    <div
+      className={classNames(s.calendarDay, calendarDay.isGrey ? s.grey : '')}
+    >
+      <div className={classNames(s.date, isCurrentDay ? s.currentDate : '')}>
         {day}
       </div>
-      {sortedTasks.map(task => (
-        <CalendarTask key={task.id} task={task} onClickTask={onClickTask} />
-      ))}
+      <div className={s.tasksList}>
+        {sortedTasks.map(task => (
+          <CalendarTask key={task.id} task={task} onClickTask={onClickTask} />
+        ))}
+      </div>
     </div>
   );
 }

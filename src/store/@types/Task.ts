@@ -9,10 +9,12 @@ export interface Task {
   endTime?: string; // format: hh:mm:ss
   status: TaskStatus;
   description?: string;
+  isTemplate?: boolean;
+  templateName?: string;
   comments: TaskComment[];
 }
 
-type CreateTask<T> = Omit<T, 'id'>
+type CreateTask<T> = Omit<T, 'id'>;
 
 export interface TrainingTask extends Task {
   type: 'training';
@@ -26,12 +28,15 @@ export interface TrainingTask extends Task {
   secondFactValue?: number;
 }
 
-export type CreateTrainingTask = CreateTask<TrainingTask>
-export type CreateEventTask = CreateTask<EventTask>
-export type CreateCompetitionTask = CreateTask<CompetitionTask>
+export type CreateTrainingTask = CreateTask<TrainingTask>;
+export type CreateEventTask = CreateTask<EventTask>;
+export type CreateCompetitionTask = CreateTask<CompetitionTask>;
 
-export type CreateSomeTask = CreateTrainingTask | CreateEventTask | CreateCompetitionTask
-export type SomeTask = TrainingTask | EventTask | CompetitionTask
+export type CreateSomeTask =
+  | CreateTrainingTask
+  | CreateEventTask
+  | CreateCompetitionTask;
+export type SomeTask = TrainingTask | EventTask | CompetitionTask;
 export interface EventTask extends Task {
   type: 'event';
   kindOfEvent: KindOfEvent;
@@ -64,8 +69,13 @@ export type TaskStatus =
 export interface TaskType {
   title: string;
   icon: string;
-  type: Task['type']
+  type: Task['type'];
   key: KindOfSport | KindOfEvent | KindOfCompetitionSport; // вспомогательное значения для упрощения работы с данными
+}
+
+export interface TaskTemplate extends Omit<TaskType, 'key'> {
+  templateName: string;
+  id: string;
 }
 
 export enum KindOfSport {

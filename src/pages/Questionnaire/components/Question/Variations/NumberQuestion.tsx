@@ -12,8 +12,8 @@ type Props = {
 export const NumberQuestion = ({ value, placeholder, onChange }: Props) => {
   return (
     <input
-      className={classNames(s.question__input, s.without__arrows)}
-      type='number'
+      className={classNames(s.textInput, s.without__arrows)}
+      type="number"
       value={value.toString()}
       placeholder={placeholder}
       onInput={(e: React.ChangeEvent<HTMLInputElement>) =>

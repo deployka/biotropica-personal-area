@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { HeaderSvgSelector } from '../../../../assets/icons/header/HeaderSvgSelector';
 import { useModal } from '../../../../hooks/useModal';
-import { Nav, Pages } from '../../../../layouts/PrivateLayout';
+import { Nav, Page } from '../../../../layouts/PrivateLayout';
 import { ModalName } from '../../../../providers/ModalProvider';
 import { PopupBackground } from '../../PopupBackground/PopupBackground';
 
@@ -16,7 +16,7 @@ interface Props {
   setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
   onNavClick: (nav: Partial<Nav>) => void;
   user: User | undefined;
-  pages: Pages[];
+  pages: Page[];
   location: Location;
 }
 

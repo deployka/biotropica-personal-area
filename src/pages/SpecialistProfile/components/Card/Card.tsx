@@ -8,12 +8,16 @@ import { useSelector } from 'react-redux';
 import s from './Card.module.scss';
 
 import editIcon from '../../../../assets/icons/edit.svg';
-import defaultAvatar from '../../../../assets/icons/default_avatar.png';
-import { User } from '../../../../store/rtk/types/user';
+import defaultAvatar from '../../../../assets/images/profile/default_avatar.png';
 import { RootState } from '../../../../store/store';
-import { SpecializationOptions, SpecializationOption } from '../../../../components/MultiSelect/MultiSelect';
+import {
+  SpecializationOptions,
+  SpecializationOption,
+} from '../../../../components/MultiSelect/MultiSelect';
 import { useRequestAvatarFileQuery } from '../../../../store/rtk/requests/avatar';
 import { Loader } from '../../../../shared/Global/Loader/Loader';
+import { User } from '../../../../store/@types/User';
+import { getMediaLink } from '../../../../utils/mediaHelper';
 
 moment.locale('ru');
 
@@ -21,7 +25,7 @@ export interface Props {
   user: User;
 }
 
-const Card = (props: Props) => {
+const Card = ({ user }: Props) => {
   const {
     id,
     email,
@@ -31,17 +35,24 @@ const Card = (props: Props) => {
     lastname,
     patronymic,
     specialist,
-  } = props.user;
+  } = user;
 
-  const { path, url } = useRouteMatch();
+  const { url } = useRouteMatch();
 
-  const { data, isLoading, isSuccess } = useRequestAvatarFileQuery(profilePhoto);
+  const { isLoading } = useRequestAvatarFileQuery(profilePhoto);
 
-  const currentUser = useSelector((state: RootState) => state.user.user);
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
 
-  const specializations = !!specialist && specialist.specializations.map((spec: string) => (
-    SpecializationOptions.find(option => option.value === spec)
-  ));
+  const specializations =
+    !!specialist &&
+    specialist.specializations
+      .map(
+        spec =>
+          SpecializationOptions.find(option => option.value === spec.key)
+            ?.label,
+      )
+      .filter(specialization => specialization)
+      .join(', ');
 
   if (!currentUser) {
     return <div></div>;
@@ -61,32 +72,23 @@ const Card = (props: Props) => {
               })}
             >
               <img
-                id='card_avatar'
+                id="card_avatar"
                 className={s.profile__avatar}
-                src={
-                  (!!profilePhoto && isSuccess) || isLoading
-                    ? 'https://master.bio-specialist.devshift.ru/api/static/' + profilePhoto
-                    : defaultAvatar
-                }
-                alt=''
+                src={getMediaLink(profilePhoto) || defaultAvatar}
+                alt="avatar"
               />
             </div>
             <div className={s.profile__data}>
-              {
-                !!specializations &&
-                  <div className={s.profile__specializations}>
-                    {specializations.map((spec: SpecializationOption | undefined) => spec?.label).join(', ')}
-                  </div>
-              }
+              {!!specializations && (
+                <div className={s.profile__specializations}>
+                  {specializations}
+                </div>
+              )}
               <div className={s.profile__name}>
                 <p>
-                  {lastname}
-                  {'  '}
-                  {name}
+                  {lastname} {name}
                 </p>
-                <p>
-                  {patronymic}
-                </p>
+                <p>{patronymic}</p>
               </div>
               <div className={s.profile__mail}>
                 <p>{email}</p>
@@ -94,57 +96,28 @@ const Card = (props: Props) => {
               <div className={s.profile__phone}>
                 <p>{phone}</p>
               </div>
-              {
-                specialist && specialist.experience &&
-                  <div className={s.profile__experience}>
-                    <p className={s.profile__experience_header}>
-                      Опыт работы:
-                    </p>
-                    <p>
-                      {specialist.experience}
-                    </p>
+              {specialist && specialist.experience && (
+                <div className={s.profile__experience}>
+                  <p className={s.profile__experience_header}>Опыт работы:</p>
+                  <p>{specialist.experience}</p>
+                </div>
+              )}
+              {specialist && specialist.education && (
+                <div className={s.profile__education}>
+                  <p className={s.profile__education_header}>Образование:</p>
+                  <p>{specialist.education}</p>
+                </div>
+              )}
+              {id === currentUser.id && (
+                <Link className={s.profile__edit} to={`${url}/edit`}>
+                  <div className={s.profile__editIcon}>
+                    <img src={editIcon} alt="редактировать" />
                   </div>
-              }
-              {
-                specialist && specialist.education &&
-                  <div className={s.profile__education}>
-                    <p className={s.profile__education_header}>
-                      Образование:
-                    </p>
-                    <p>
-                      {specialist.education}
-                    </p>
-                  </div>
-              }
-              {
-                id === currentUser.id &&
-                  <Link className={s.profile__edit} to={`${url}/edit`}>
-                    <div className={s.profile__editIcon}>
-                      <img src={editIcon} alt='редактировать' />
-                    </div>
-                    <span>редактировать</span>
-                  </Link>
-              }
+                  <span>редактировать</span>
+                </Link>
+              )}
             </div>
           </div>
-          {/* <Link style={{ textDecoration: 'none' }} to='/goals'>
-            <div className={s.goals}>
-              <span>Активных целей: </span>
-              {goalsCount}
-            </div>
-          </Link>
-          <Link style={{ textDecoration: 'none' }} to='/tariffs'>
-            <div className={s.tariff}>
-              <div className={s.tariff__name}>
-                Тариф {'  '}
-                {tariffData.name}
-              </div>
-              <div className={s.tariff__expires}>
-                до {'  '}
-                {tariffData.expires}
-              </div>
-            </div>
-          </Link> */}
         </div>
       </div>
     </>

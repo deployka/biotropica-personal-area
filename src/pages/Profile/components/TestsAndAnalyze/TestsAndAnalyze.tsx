@@ -172,28 +172,24 @@ export const TestsAndAnalyze = ({ user }: Props) => {
 
   return (
     <div className={s.tests__and__analyze}>
-      {answers.length
-        ? (
-          <Questionnaire
-            answers={answers.sort((a, b) => a.question.order - b.question.order)}
-          />
-        )
-        : (
-          <InfoBar infoBar={testInfoBar} />
-        )}
-      {analyzes.length
-        ? (
-          <AnalyzesCard
-            analyzeTypes={analyzeTypes}
-            onAddAnalyzeClick={addAnalyzeOpen}
-            analyzes={analyzes}
-            onShowMoreClick={onShowMoreClick}
-            isShowMore={isShowMore}
-          />
-        )
-        : (
-          <InfoBar infoBar={analyzesInfoBar} />
-        )}
+      {answers.length ? (
+        <Questionnaire
+          answers={answers.sort((a, b) => a.question.order - b.question.order)}
+        />
+      ) : (
+        <InfoBar infoBar={testInfoBar} />
+      )}
+      {analyzes.length ? (
+        <AnalyzesCard
+          analyzeTypes={analyzeTypes}
+          onAddAnalyzeClick={addAnalyzeOpen}
+          analyzes={analyzes}
+          onShowMoreClick={onShowMoreClick}
+          isShowMore={isShowMore}
+        />
+      ) : (
+        <InfoBar infoBar={analyzesInfoBar} />
+      )}
     </div>
   );
 };

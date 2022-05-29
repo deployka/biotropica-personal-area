@@ -1,6 +1,12 @@
 import classNames from 'classnames';
-import React, { ReactNode } from 'react';
-import { CreateCompetitionTask, CreateEventTask, CreateTrainingTask } from '../../store/@types/Task';
+import { FormikProps } from 'formik';
+import React, { ReactNode, RefObject, useEffect } from 'react';
+import {
+  CreateCompetitionTask,
+  CreateEventTask,
+  CreateSomeTask,
+  CreateTrainingTask,
+} from '../../store/@types/Task';
 
 import s from './BaseTaskEditor.module.scss';
 import { Header } from './Header';
@@ -9,11 +15,14 @@ export type BaseTaskEditorProps = {
   task: CreateTrainingTask | CreateEventTask | CreateCompetitionTask | null;
   title?: string;
   icon?: string;
+  isCurrentUser: boolean;
   mode: 'edit' | 'view';
   category?: string;
   children: ReactNode;
   isOpened: boolean;
+  onDeleteTask(): void;
   onClose(): void;
+  taskId: string;
   onEditBtnClick(): void;
 };
 
@@ -22,12 +31,23 @@ export function BaseTaskEditor({
   mode,
   icon,
   title,
+  isCurrentUser,
   children,
   category,
   isOpened,
   onClose,
+  taskId,
+  onDeleteTask,
   onEditBtnClick,
 }: BaseTaskEditorProps) {
+  useEffect(() => {
+    if (isOpened) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+  }, [isOpened]);
+
   return (
     <>
       <div
@@ -36,11 +56,14 @@ export function BaseTaskEditor({
       ></div>
       <div className={classNames(s.editorWrapper, !isOpened ? s.hidden : '')}>
         <Header
+          isCurrentUser={isCurrentUser}
+          taskId={taskId}
           mode={mode}
           title={title}
           icon={icon}
           category={category}
           type={task?.type}
+          onDeleteTask={onDeleteTask}
           onClose={onClose}
           onEditBtnClick={onEditBtnClick}
         />

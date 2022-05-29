@@ -3,6 +3,7 @@ import AuthService from '../../../services/AuthService';
 import UserService from '../../../services/UserService';
 import { LoadingStatus } from '../../types';
 import {
+  setCurrentUserData,
   setUserData,
   setUserLoadingStatus,
   setUserResponse,
@@ -37,8 +38,8 @@ export function * fetchSigninRequest({ payload }: FetchSigninActionInterface) {
 export function * fetchSignupRequest({ payload }: FetchSignupActionInterface) {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-    const { data } = yield call(AuthService.signup, payload);
-    yield put(setUserResponse(data));
+    const { data, status } = yield call(AuthService.signup, payload);
+    yield put(setUserResponse({ message: data.message, statusCode: status }));
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } catch (error) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
@@ -113,7 +114,7 @@ export function * fetchUserDataRequest() {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data } = yield call(UserService.getMe);
-    yield put(setUserData(data));
+    yield put(setCurrentUserData(data));
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
     yield put(setUserLoadingStatus(LoadingStatus.LOADED));
   } catch (error) {
@@ -140,8 +141,8 @@ export function * fetchUpdateUserEmailRequest({
 }: FetchUpdateUserEmailActionInterface) {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
-    const { data } = yield call(UserService.updateEmail, payload);
-    yield put(setUserResponse(data));
+    const { data, status } = yield call(UserService.updateEmail, payload);
+    yield put(setUserResponse({ message: data.message, statusCode: status }));
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
     yield put(setUserLoadingStatus(LoadingStatus.LOADED));
   } catch (error) {
@@ -157,7 +158,9 @@ export function * fetchUpdateUserRequest({
     yield put(setUserLoadingStatus(LoadingStatus.LOADING));
     const { data, status } = yield call(UserService.update, payload);
     yield put(setUserData(data));
-    yield put(setUserResponse({ statusCode: status, message: 'Данные обновлены' }));
+    yield put(
+      setUserResponse({ statusCode: status, message: 'Данные обновлены' }),
+    );
     yield put(setUserLoadingStatus(LoadingStatus.SUCCESS));
   } catch (error) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR));
@@ -190,5 +193,8 @@ export function * userSaga() {
     UserActionsType.FETCH_CREATE_PASSWORD,
     fetchCreatePasswordRequest,
   );
-  yield takeLatest(UserActionsType.FETCH_USER_DATA_BY_ID, fetchUserDataByIdRequest);
+  yield takeLatest(
+    UserActionsType.FETCH_USER_DATA_BY_ID,
+    fetchUserDataByIdRequest,
+  );
 }

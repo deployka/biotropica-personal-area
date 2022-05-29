@@ -36,6 +36,8 @@ import {
   useGetSpecializationListQuery,
 } from '../../../../store/rtk/requests/specializations';
 import { useDispatch } from 'react-redux';
+import { getMediaLink } from '../../../../utils/mediaHelper';
+import defaultAvatar from '../../../../assets/images/profile/default_avatar.png';
 
 type Option = { label: string; value: number };
 
@@ -61,10 +63,7 @@ const EditProfile = () => {
   React.useEffect(() => {
     isGetUserSuccess &&
       !!user.profilePhoto &&
-      setImage(
-        'https://master.bio-specialist.devshift.ru/api/static/' +
-          user.profilePhoto,
-      );
+      setImage(getMediaLink(user.profilePhoto) || defaultAvatar);
   }, [isGetUserSuccess]);
 
   const [file, setFile] = useState<File>();
@@ -201,23 +200,17 @@ const EditProfile = () => {
     });
 
     requestChangeSpecialistData({
-      id: user.specialist.id,
-      data: {
-        specializations: specializations,
-        experience: values.experience,
-        education: values.education,
-      },
+      specializations: specializations,
+      experience: values.experience,
+      education: values.education,
     });
 
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
-
       requestAddAvatar(formData);
     }
   };
-
-  // console.log('SPEC' , user.specialist?.specializations)
 
   return (
     <>

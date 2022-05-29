@@ -43,7 +43,7 @@ export const EditPassword = ({ loader, onSubmit, user, logout }: Props) => {
 
   function showLogoutConfirmation() {
     eventBus.emit(EventTypes.notification, {
-      title: 'Для восстановления пароля будет выполнен выход из аккаунт',
+      title: 'Для восстановления пароля будет выполнен выход из аккаунта',
       message: (
         <NotificationButtons onDiscard={onDiscard} onConfirm={onConfirm} />
       ),
