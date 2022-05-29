@@ -7,7 +7,8 @@ import { EventTaskPreview } from '../../components/EventTaskPreview/EventTaskPre
 import { TrainingTaskPreview } from '../../components/TrainingTaskPreview/TrainingTaskPreview';
 
 type TaskPreviewProps = {
-  task: SomeTask,
+  task: SomeTask;
+  isSpecialist: boolean;
   onSendComment(newCommentText: string): void;
   onSaveFactValue(value: number | undefined): void;
   onSaveFirstValue(value: number | undefined): void;
@@ -16,6 +17,7 @@ type TaskPreviewProps = {
 
 export const TaskPreview = ({
   task,
+  isSpecialist,
   onSendComment,
   onSaveFactValue,
   onSaveFirstValue,
@@ -25,6 +27,7 @@ export const TaskPreview = ({
     case 'training':
       return (
         <TrainingTaskPreview
+          isSpecialist={isSpecialist}
           task={task}
           onSaveFirstValue={onSaveFirstValue}
           onSaveSecondValue={onSaveSecondValue}
@@ -36,6 +39,7 @@ export const TaskPreview = ({
     case 'competition':
       return (
         <CompetitionTaskPreview
+          isSpecialist={isSpecialist}
           task={task}
           onSaveFactValue={onSaveFactValue}
           onSendComment={onSendComment}

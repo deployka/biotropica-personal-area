@@ -17,9 +17,11 @@ import { FormikProps } from 'formik';
 type TasksModalProps = {
   task: SomeTask | CreateSomeTask | null;
   mode: 'edit' | 'view';
+  isSpecialist: boolean;
   isOpened: boolean;
   isLoading: boolean;
   taskId: string;
+  currentUserId: number;
   onClose(): void;
   onEditBtnClick(): void;
   onDeleteTask(): void;
@@ -35,7 +37,9 @@ export const TasksModal = ({
   task,
   taskId,
   mode,
+  isSpecialist,
   isOpened,
+  currentUserId,
   isLoading,
   onClose,
   onSave,
@@ -50,8 +54,6 @@ export const TasksModal = ({
   let category = '';
   let title = '';
   let icon: string | undefined;
-
-  console.log(123);
 
   if (task?.type) {
     switch (task.type) {
@@ -85,6 +87,7 @@ export const TasksModal = ({
 
   return (
     <BaseTaskEditor
+      isCurrentUser={task?.authorId === currentUserId}
       task={task}
       taskId={taskId}
       title={title}
@@ -97,6 +100,7 @@ export const TasksModal = ({
       onEditBtnClick={onEditBtnClick}
     >
       <TaskLayout
+        isSpecialist={isSpecialist}
         task={task}
         mode={mode}
         isLoading={isLoading}

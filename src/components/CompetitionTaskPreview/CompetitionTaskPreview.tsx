@@ -13,12 +13,14 @@ import s from './CompetitionTaskPreview.module.scss';
 
 export type CompetitionTaskPreviewProps = {
   task: CompetitionTask;
+  isSpecialist: boolean;
   onSaveFactValue(value: number | undefined): void;
   onSendComment(newCommentText: string): void;
 };
 
 export function CompetitionTaskPreview({
   task,
+  isSpecialist,
   onSendComment,
   onSaveFactValue,
 }: CompetitionTaskPreviewProps) {
@@ -50,30 +52,38 @@ export function CompetitionTaskPreview({
           <div className={s.title}>План</div>
           <div className={s.fakeInput}>{task.targetValue}</div>
         </div>
-        <Formik
-          enableReinitialize
-          initialValues={{ factValue: task.factValue }}
-          onSubmit={values => onSave(values.factValue)}
-        >
-          {({ values, handleBlur, handleChange, handleSubmit }) => (
-            <form className={s.half} onSubmit={handleSubmit}>
-              <Input
-                type={InputTypes.NAME}
-                placeholder="Факт"
-                name="factValue"
-                label="Факт"
-                value={values.factValue}
-                onBlur={handleBlur}
-                onChange={handleChange}
-              />
-              {values.factValue !== task.factValue && (
-                <button className={s.submitButton} type="submit">
-                  <img src={submitIcon} />
-                </button>
-              )}
-            </form>
-          )}
-        </Formik>
+        {isSpecialist && (
+          <div className={s.half}>
+            <div className={s.title}>Факт</div>
+            <div className={s.fakeInput}>{task.factValue || 0}</div>
+          </div>
+        )}
+        {!isSpecialist && (
+          <Formik
+            enableReinitialize
+            initialValues={{ factValue: task.factValue }}
+            onSubmit={values => onSave(values.factValue)}
+          >
+            {({ values, handleBlur, handleChange, handleSubmit }) => (
+              <form className={s.half} onSubmit={handleSubmit}>
+                <Input
+                  type={InputTypes.NAME}
+                  placeholder="Факт"
+                  name="factValue"
+                  label="Факт"
+                  value={values.factValue}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                />
+                {values.factValue !== task.factValue && (
+                  <button className={s.submitButton} type="submit">
+                    <img src={submitIcon} />
+                  </button>
+                )}
+              </form>
+            )}
+          </Formik>
+        )}
       </div>
       {task.description && (
         <div className={s.line}>

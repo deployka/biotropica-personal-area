@@ -50,6 +50,8 @@ export function Tasks() {
 
   const id = rawUserId || currentUser?.id;
 
+  console.log('id', id);
+
   const history = useHistory();
 
   const userId = Number(id);
@@ -158,7 +160,7 @@ export function Tasks() {
       await deleteTask(openedTaskId);
       eventBus.emit(EventTypes.notification, {
         type: NotificationType.SUCCESS,
-        message: `Задача ${openedTask?.title} успешно удалена!`,
+        message: `Задача "${openedTask?.title}" успешно удалена!`,
       });
       handleCloseTask();
     } catch (error) {
@@ -320,6 +322,8 @@ export function Tasks() {
       />
 
       <TasksModal
+        currentUserId={currentUser?.id || 0}
+        isSpecialist={isSpecialist}
         isLoading={isUpdateLoading || isCreateLoading}
         task={openedTask}
         taskId={openedTaskId}

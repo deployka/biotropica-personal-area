@@ -14,8 +14,8 @@ export enum InputTypes {
   PATRONYMIC = 'patronymic',
   PASSWORD = 'password',
   EMAIL = 'email',
-  PHONE= 'phone',
-  NUMBER='number'
+  PHONE = 'phone',
+  NUMBER = 'number',
 }
 
 export interface Props {
@@ -35,12 +35,7 @@ export interface Props {
 }
 
 const Input = (props: Props) => {
-  const {
-    value,
-    classes,
-    label,
-    disabled,
-  } = props;
+  const { value, classes, label, disabled } = props;
 
   const [, meta] = useField(props);
   const isError = meta.touched && meta.error;
@@ -49,25 +44,24 @@ const Input = (props: Props) => {
     <div className={s.wrapperInput}>
       {label && <Label value={label} />}
       <input
-        className={classNames({
-          [s.input]: true,
-          [s.active]: !!value,
-          [s.disabled__input]: disabled,
-          [s.success__input]: meta.touched && !isError,
-          [s.error__input]: isError,
-        }, classes)}
+        className={classNames(
+          {
+            [s.input]: true,
+            [s.active]: !!value,
+            [s.disabled__input]: disabled,
+            [s.success__input]: meta.touched && !isError,
+            [s.error__input]: isError,
+          },
+          classes,
+        )}
         name={props.name}
+        value={value}
         onBlur={props.onBlur}
         onInput={props.onInput}
         onChange={props.onChange}
       />
 
-      {
-        meta.touched &&
-        meta.error && (
-          <ErrorMessage message={meta.error} />
-        )
-      }
+      {meta.touched && meta.error && <ErrorMessage message={meta.error} />}
     </div>
   );
 };

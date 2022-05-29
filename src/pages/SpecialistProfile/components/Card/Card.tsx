@@ -25,7 +25,7 @@ export interface Props {
   user: User;
 }
 
-const Card = (props: Props) => {
+const Card = ({ user }: Props) => {
   const {
     id,
     email,
@@ -35,7 +35,7 @@ const Card = (props: Props) => {
     lastname,
     patronymic,
     specialist,
-  } = props.user;
+  } = user;
 
   const { url } = useRouteMatch();
 
@@ -45,9 +45,14 @@ const Card = (props: Props) => {
 
   const specializations =
     !!specialist &&
-    specialist.specializations.map((spec: string) =>
-      SpecializationOptions.find(option => option.value === spec),
-    );
+    specialist.specializations
+      .map(
+        spec =>
+          SpecializationOptions.find(option => option.value === spec.key)
+            ?.label,
+      )
+      .filter(specialization => specialization)
+      .join(', ');
 
   if (!currentUser) {
     return <div></div>;
@@ -76,18 +81,12 @@ const Card = (props: Props) => {
             <div className={s.profile__data}>
               {!!specializations && (
                 <div className={s.profile__specializations}>
-                  {specializations
-                    .map(
-                      (spec: SpecializationOption | undefined) => spec?.label,
-                    )
-                    .join(', ')}
+                  {specializations}
                 </div>
               )}
               <div className={s.profile__name}>
                 <p>
-                  {lastname}
-                  {'  '}
-                  {name}
+                  {lastname} {name}
                 </p>
                 <p>{patronymic}</p>
               </div>

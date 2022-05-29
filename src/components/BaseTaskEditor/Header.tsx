@@ -11,6 +11,7 @@ import { FormikProps } from 'formik';
 
 interface Props {
   mode: 'edit' | 'view';
+  isCurrentUser: boolean;
   title?: string;
   icon?: string;
   category?: string;
@@ -31,6 +32,7 @@ export const Header = ({
   taskId,
   onClose,
   onEditBtnClick,
+  isCurrentUser,
 }: Props) => {
   let taskType = '';
   let headerColor = '';
@@ -106,12 +108,14 @@ export const Header = ({
               <p className={s.rowText}>{category}</p>
             </div>
           )}
-          <img
-            className={s.editIcon}
-            src={editIcon}
-            alt=""
-            onClick={onEditClick}
-          />
+          {isCurrentUser && (
+            <img
+              className={s.editIcon}
+              src={editIcon}
+              alt=""
+              onClick={onEditClick}
+            />
+          )}
         </div>
       ) : (
         ''

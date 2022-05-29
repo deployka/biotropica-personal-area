@@ -8,6 +8,7 @@ type TaskLayoutProps = {
   task: SomeTask | CreateSomeTask | null;
   mode: 'edit' | 'view';
   isLoading: boolean;
+  isSpecialist: boolean;
   onClose(): void;
   onSave(task: CreateSomeTask): void;
   onSaveAsTemplate(task: Partial<CreateSomeTask>): void;
@@ -21,6 +22,7 @@ export function TaskLayout({
   task,
   mode,
   onClose,
+  isSpecialist,
   onSave,
   onSaveAsTemplate,
   isLoading,
@@ -29,12 +31,11 @@ export function TaskLayout({
   onSaveSecondValue,
   onSaveFactValue,
 }: TaskLayoutProps) {
-  console.log(123);
-
   if (!task) return <></>;
   if (mode === 'view' && 'id' in task) {
     return (
       <TaskPreview
+        isSpecialist={isSpecialist}
         task={task}
         onSendComment={onSendComment}
         onSaveFactValue={onSaveFactValue}
