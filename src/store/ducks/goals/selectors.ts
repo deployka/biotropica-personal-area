@@ -3,11 +3,15 @@ import { GoalsState } from './contracts/state';
 
 export const selectGoalsState = (state: RootState): GoalsState => state.goals;
 
-export const selectGoalsData = (state: RootState): GoalsState['goals'] =>
-  selectGoalsState(state)
-    .goals.slice()
+export const selectGoalsData = (state: RootState): GoalsState['goals'] => {
+  const goals = selectGoalsState(state).goals.length
+    ? selectGoalsState(state).goals
+    : [];
+  return goals
+    .slice()
     .sort((a, b) => b.id - a.id)
     .filter(goal => !goal.completed);
+};
 
 export const selectGoalsResponse = (state: RootState): GoalsState['response'] =>
   selectGoalsState(state).response;

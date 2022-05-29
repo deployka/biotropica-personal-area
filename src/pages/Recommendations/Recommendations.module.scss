@@ -1,3 +1,5 @@
+@import "./../../styles/mixins.scss";
+
 .recommendationPage {
   margin: 20px 0 0 0;
   position: relative;
@@ -5,33 +7,53 @@
   display: flex;
   padding-top: 40px;
 
+  .buttons {
+    display: flex;
+  }
+
+  .addButton {
+    margin: 0 10px 0 0;
+  }
+
+  .backButton {
+    display: none;
+    @include for-tablet {
+      display: flex;
+    }
+  }
+
   .left {
-    position: absolute;
-    top: 0;
-    left: 0;
     margin: 0 70px 0 0;
-
-    transform: translateX(0);
-
     transition: all 0.2s ease;
 
-    &.opened {
-      transform: translateX(calc(-100% - 20px));
+    @include for-tablet {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      transform: translateX(0);
+
+      &.opened {
+        transform: translateX(calc(-100% - 40px));
+      }
     }
   }
 
   .right {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
 
-    transform: translateX(100%);
+    @include for-tablet {
+      position: absolute;
+      top: 0;
+      left: 0;
 
-    transition: all 0.2s ease;
+      transform: translateX(100%);
 
-    &.opened {
-      transform: translateX(0);
+      transition: all 0.2s ease;
+
+      &.opened {
+        transform: translateX(0);
+      }
     }
   }
 }

@@ -176,19 +176,25 @@ export function Recommendations() {
         >
           {selectedSpecialization && (
             <>
-              {isDoctor && (
-                <Button isPrimary onClick={handleCreateRecommendation}>
-                  Добавить рекомендацию
+              <div className={s.buttons}>
+                {isDoctor && (
+                  <Button
+                    className={s.addButton}
+                    isPrimary
+                    onClick={handleCreateRecommendation}
+                  >
+                    Добавить рекомендацию
+                  </Button>
+                )}
+                <Button
+                  className={s.backButton}
+                  onClick={() => {
+                    setSelectedSpecialization(null);
+                  }}
+                >
+                  Назад
                 </Button>
-              )}
-              <Button
-                isPrimary
-                onClick={() => {
-                  setSelectedSpecialization(null);
-                }}
-              >
-                Назад
-              </Button>
+              </div>
               <RecommendationList
                 currentSpecialistId={currentUserId || 0}
                 recommendations={
