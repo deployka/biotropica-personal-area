@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { FormikProps } from 'formik';
-import React, { ReactNode, RefObject } from 'react';
+import React, { ReactNode, RefObject, useEffect } from 'react';
 import {
   CreateCompetitionTask,
   CreateEventTask,
@@ -40,6 +40,14 @@ export function BaseTaskEditor({
   onDeleteTask,
   onEditBtnClick,
 }: BaseTaskEditorProps) {
+  useEffect(() => {
+    if (isOpened) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+  }, [isOpened]);
+
   return (
     <>
       <div

@@ -1,8 +1,8 @@
-@import '../../../styles/mixins.scss';
-@import '../../../styles/variables.scss';
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
 
 .sidebarNotifications {
-  position: absolute;
+  position: fixed;
   left: 100vw;
   top: 0;
 
