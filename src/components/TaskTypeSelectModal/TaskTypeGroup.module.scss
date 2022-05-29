@@ -1,3 +1,5 @@
+@import "./../../styles/mixins.scss";
+
 .taskGroup {
   padding: 0 0 12px 0;
   margin: 30px 0 0 0;
@@ -33,5 +35,13 @@
 
   .typeWrapper {
     width: calc(100% / 4);
+
+    @include for-tablet {
+      width: calc(100% / 2);
+    }
+
+    @include for-phone {
+      width: 100%;
+    }
   }
 }

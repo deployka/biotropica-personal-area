@@ -15,6 +15,7 @@ const Template: ComponentStory<typeof CalendarDay> = (
 export const DefaultCalendarDay = Template.bind({});
 const props: Partial<CalendarDayProps> = {
   calendarDay: {
+    isGrey: true,
     day: 15,
     tasks: [
       generateTask({

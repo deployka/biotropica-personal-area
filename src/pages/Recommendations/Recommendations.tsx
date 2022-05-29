@@ -27,6 +27,7 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUserData } from '../../store/ducks/user/selectors';
 import { Tabs } from '../../components/Tabs/Tabs';
 import { selectIsDoctor } from '../../store/rtk/slices/authSlice';
+import classNames from 'classnames';
 
 type CreateRecommendation = {
   title: string;
@@ -158,22 +159,42 @@ export function Recommendations() {
         }}
       />
       <div className={s.recommendationPage}>
-        <div className={s.left}>
+        <div
+          className={classNames(s.left, selectedSpecialization ? s.opened : '')}
+        >
           <SpecializationList
             types={specializationsTypes}
             onSelect={setSelectedSpecialization}
             selectedType={selectedSpecialization}
           />
         </div>
-        <div className={s.right}>
+        <div
+          className={classNames(
+            s.right,
+            selectedSpecialization ? s.opened : '',
+          )}
+        >
           {selectedSpecialization && (
             <>
-              {isDoctor && (
-                <Button isPrimary onClick={handleCreateRecommendation}>
-                  Добавить рекомендацию
+              <div className={s.buttons}>
+                {isDoctor && (
+                  <Button
+                    className={s.addButton}
+                    isPrimary
+                    onClick={handleCreateRecommendation}
+                  >
+                    Добавить рекомендацию
+                  </Button>
+                )}
+                <Button
+                  className={s.backButton}
+                  onClick={() => {
+                    setSelectedSpecialization(null);
+                  }}
+                >
+                  Назад
                 </Button>
-              )}
-
+              </div>
               <RecommendationList
                 currentSpecialistId={currentUserId || 0}
                 recommendations={

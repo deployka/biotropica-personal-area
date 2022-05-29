@@ -1,6 +1,10 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { CreateEventTask, EventTask } from '../../store/@types/Task';
+import {
+  CreateEventTask,
+  EventTask,
+  KindOfEvent,
+} from '../../store/@types/Task';
 import { NEW_DATE } from '../../constants/dates';
 import Button from '../Button/Button';
 import DatePickerCustom from '../DatePicker/DatePickerCustom';
@@ -45,11 +49,15 @@ export function EventTaskEditor({
       initialValues={{
         title: task.title,
         date: task.date,
-        kindOfEvent: task.kindOfEvent,
-        repeatType: task.repeatType,
-        completionType: task.completionType,
-        completionValue: task.completionValue,
+        kindOfEvent: KindOfEvent.restDay,
+        repeatType: 'daily',
+        completionType: 'byRepetitionsNumber',
+        completionValue: 1,
         description: task.description,
+        // kindOfEvent: task.kindOfEvent,
+        // repeatType: task.repeatType,
+        // completionType: task.completionType,
+        // completionValue: task.completionValue,
       }}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
@@ -109,7 +117,7 @@ export function EventTaskEditor({
                 onSelect={(date: Date) => setFieldValue('date', date)}
               />
             </div>
-            <div className={s.line}>
+            {/* <div className={s.line}>
               <SelectCustom
                 name="repeatType"
                 placeholder="Тип повторения"
@@ -123,8 +131,8 @@ export function EventTaskEditor({
                   setFieldValue('repeatType', repeatType);
                 }}
               />
-            </div>
-            <div className={s.line}>
+            </div> */}
+            {/* <div className={s.line}>
               <SelectCustom
                 name="completionType"
                 placeholder="Принцип завершения"
@@ -177,7 +185,7 @@ export function EventTaskEditor({
               ) : (
                 ''
               )}
-            </div>
+            </div> */}
             <div className={s.line}>
               <HtmlEditor
                 value={values.description || ''}
@@ -189,8 +197,16 @@ export function EventTaskEditor({
               />
             </div>
             <div className={s.buttons}>
-              <Button onClick={onClose}>Отмена</Button>
               <Button
+                isDisabled={isLoading}
+                isLoading={isLoading}
+                type="submit"
+                isPrimary={true}
+              >
+                Сохранить
+              </Button>
+              <Button onClick={onClose}>Отмена</Button>
+              {/* <Button
                 isDisabled={isLoading}
                 isLoading={isLoading}
                 type="submit"
@@ -198,16 +214,8 @@ export function EventTaskEditor({
                 isPrimary={true}
               >
                 Сохранить как шаблон
-              </Button>
+              </Button> */}
             </div>
-            <Button
-              isDisabled={isLoading}
-              isLoading={isLoading}
-              type="submit"
-              isPrimary={true}
-            >
-              Сохранить
-            </Button>
           </form>
         );
       }}

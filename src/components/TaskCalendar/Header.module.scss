@@ -1,3 +1,5 @@
+@import "./../../styles/mixins.scss";
+
 .header {
   margin: 24px 0;
   width: 100%;
@@ -14,7 +16,7 @@
     justify-content: flex-start;
     column-gap: 6px;
 
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
 
     font-weight: bold;
     font-size: 20px;
@@ -42,6 +44,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    @include for-tablet {
+      width: 100%;
+    }
   }
 
   .toggleButtons {
@@ -62,7 +68,7 @@
 
       background: #f7f6fb;
 
-      font-family: 'Montserrat', sans-serif;
+      font-family: "Montserrat", sans-serif;
       font-size: 13px;
       line-height: 20px;
 
@@ -84,6 +90,10 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
+    @include for-tablet {
+      width: 50%;
+    }
   }
 
   .addTaskButton {
@@ -100,7 +110,7 @@
     border: none;
     border-radius: 4px;
 
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-weight: 500;
     font-size: 13px;
     line-height: 120%;

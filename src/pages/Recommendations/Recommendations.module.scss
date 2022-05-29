@@ -1,14 +1,60 @@
+@import "./../../styles/mixins.scss";
+
 .recommendationPage {
+  margin: 20px 0 0 0;
+  position: relative;
   width: 100%;
   display: flex;
   padding-top: 40px;
 
+  .buttons {
+    display: flex;
+  }
+
+  .addButton {
+    margin: 0 10px 0 0;
+  }
+
+  .backButton {
+    display: none;
+    @include for-tablet {
+      display: flex;
+    }
+  }
+
   .left {
     margin: 0 70px 0 0;
+    transition: all 0.2s ease;
+
+    @include for-tablet {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      transform: translateX(0);
+
+      &.opened {
+        transform: translateX(calc(-100% - 40px));
+      }
+    }
   }
 
   .right {
     width: 100%;
+
+    @include for-tablet {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      transform: translateX(100%);
+
+      transition: all 0.2s ease;
+
+      &.opened {
+        transform: translateX(0);
+      }
+    }
   }
 }
 
