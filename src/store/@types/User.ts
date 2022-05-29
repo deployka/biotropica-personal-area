@@ -30,7 +30,7 @@ export interface Specialist {
   experience: string;
   id: number;
   price: number;
-  specializations: [];
+  specializations: { key: string; title: string }[];
   updatedAt: string;
 }
 

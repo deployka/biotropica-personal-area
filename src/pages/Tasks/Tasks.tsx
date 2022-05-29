@@ -158,7 +158,7 @@ export function Tasks() {
       await deleteTask(openedTaskId);
       eventBus.emit(EventTypes.notification, {
         type: NotificationType.SUCCESS,
-        message: `Задача ${openedTask?.title} успешно удалена!`,
+        message: `Задача "${openedTask?.title}" успешно удалена!`,
       });
       handleCloseTask();
     } catch (error) {
@@ -320,6 +320,7 @@ export function Tasks() {
       />
 
       <TasksModal
+        isSpecialist={isSpecialist}
         isLoading={isUpdateLoading || isCreateLoading}
         task={openedTask}
         taskId={openedTaskId}

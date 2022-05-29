@@ -35,6 +35,10 @@ export function EventTaskEditor({
     else onSave({ ...task, ...values });
   }
 
+  const onChange = (values: EventTask) => {
+    console.log(values);
+  };
+
   return (
     <Formik
       enableReinitialize
@@ -58,144 +62,155 @@ export function EventTaskEditor({
         handleBlur,
         handleSubmit,
         setFieldValue,
-      }) => (
-        <form id="task-form" className={s.form} onSubmit={handleSubmit}>
-          <div className="line">
-            <Input
-              type={InputTypes.NAME}
-              placeholder="Название"
-              label="Название"
-              name="title"
-              value={values.title}
-              onBlur={handleBlur}
-              onChange={handleChange}
-            />
-          </div>
-          <div className={s.line}>
+      }) => {
+        console.log('tasks', values);
+
+        return (
+          <form
+            id="task-form"
+            className={s.form}
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+          >
+            <div className="line">
+              <Input
+                type={InputTypes.TEXT}
+                placeholder="Название"
+                label="Название"
+                name="title"
+                value={values.title}
+                onBlur={handleBlur}
+                onChange={handleChange}
+              />
+            </div>
+            <div className={s.line}>
+              <div className={s.line}>
+                <SelectCustom
+                  name="kindOfEvent"
+                  placeholder="Тип события"
+                  label="Тип события"
+                  value={values.kindOfEvent || ''}
+                  options={eventTaskOptions}
+                  touched={!!touched.kindOfEvent}
+                  error={errors.kindOfEvent as string}
+                  onBlur={handleBlur}
+                  onChange={value => {
+                    setFieldValue('kindOfEvent', value);
+                  }}
+                />
+              </div>
+              <DatePickerCustom
+                name="date"
+                minDate={NEW_DATE}
+                selected={values.date ? new Date(values.date) : null}
+                label={'Дата'}
+                onBlur={handleBlur}
+                onChange={(date: Date) => setFieldValue('date', date)}
+                onSelect={(date: Date) => setFieldValue('date', date)}
+              />
+            </div>
             <div className={s.line}>
               <SelectCustom
-                name="kindOfEvent"
-                placeholder="Тип события"
-                label="Тип события"
-                value={values.kindOfEvent || ''}
-                options={eventTaskOptions}
-                touched={!!touched.kindOfEvent}
-                error={errors.kindOfEvent as string}
+                name="repeatType"
+                placeholder="Тип повторения"
+                label="Тип повторения"
+                value={values.repeatType || ''}
+                options={selectRepeatType}
+                touched={!!touched.repeatType}
+                error={errors.repeatType}
                 onBlur={handleBlur}
-                onChange={value => {
-                  setFieldValue('kindOfEvent', value);
+                onChange={repeatType => {
+                  setFieldValue('repeatType', repeatType);
                 }}
               />
             </div>
-            <DatePickerCustom
-              name="date"
-              minDate={NEW_DATE}
-              selected={values.date ? new Date(values.date) : null}
-              label={'Дата'}
-              onBlur={handleBlur}
-              onChange={(date: Date) => setFieldValue('date', date)}
-              onSelect={(date: Date) => setFieldValue('date', date)}
-            />
-          </div>
-          <div className={s.line}>
-            <SelectCustom
-              name="repeatType"
-              placeholder="Тип повторения"
-              label="Тип повторения"
-              value={values.repeatType || ''}
-              options={selectRepeatType}
-              touched={!!touched.repeatType}
-              error={errors.repeatType}
-              onBlur={handleBlur}
-              onChange={repeatType => {
-                setFieldValue('repeatType', repeatType);
-              }}
-            />
-          </div>
-          <div className={s.line}>
-            <SelectCustom
-              name="completionType"
-              placeholder="Принцип завершения"
-              label="Принцип завершения"
-              value={values.completionType}
-              options={selectCompletionType}
-              onBlur={handleBlur}
-              touched={!!touched.completionType}
-              error={errors.completionType as string}
-              onChange={option => {
-                values.completionValue = undefined;
-                setFieldValue('completionType', option);
-              }}
-            />
-          </div>
-          <div className={s.line}>
-            {values.completionType ? (
-              values.completionType === 'byDate' ? (
-                <DatePickerCustom
-                  name="completionDate"
-                  minDate={NEW_DATE}
-                  selected={
-                    typeof values.completionValue !== 'number' &&
-                    values.completionValue
-                      ? new Date(values.completionValue)
-                      : null
-                  }
-                  label={'Дата завершения'}
-                  onBlur={handleBlur}
-                  onChange={(date: Date) =>
-                    setFieldValue('completionValue', date)
-                  }
-                  onSelect={(date: Date) =>
-                    setFieldValue('completionValue', date)
-                  }
-                />
+            <div className={s.line}>
+              <SelectCustom
+                name="completionType"
+                placeholder="Принцип завершения"
+                label="Принцип завершения"
+                value={values.completionType}
+                options={selectCompletionType}
+                onBlur={handleBlur}
+                touched={!!touched.completionType}
+                error={errors.completionType as string}
+                onChange={option => {
+                  values.completionValue = undefined;
+                  setFieldValue('completionType', option);
+                }}
+              />
+            </div>
+            <div className={s.line}>
+              {values.completionType ? (
+                values.completionType === 'byDate' ? (
+                  <DatePickerCustom
+                    name="completionDate"
+                    minDate={NEW_DATE}
+                    selected={
+                      typeof values.completionValue !== 'number' &&
+                      values.completionValue
+                        ? new Date(values.completionValue)
+                        : null
+                    }
+                    label={'Дата завершения'}
+                    onBlur={handleBlur}
+                    onChange={(date: Date) =>
+                      setFieldValue('completionValue', date)
+                    }
+                    onSelect={(date: Date) =>
+                      setFieldValue('completionValue', date)
+                    }
+                  />
+                ) : (
+                  <Input
+                    type={InputTypes.NUMBER}
+                    placeholder="Количество повторений"
+                    label="Количество повторений"
+                    name="completionValue"
+                    value={
+                      values.completionValue ? +values.completionValue : ''
+                    }
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                  />
+                )
               ) : (
-                <Input
-                  type={InputTypes.NUMBER}
-                  placeholder="Количество повторений"
-                  label="Количество повторений"
-                  name="completionValue"
-                  value={values.completionValue ? +values.completionValue : ''}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                />
-              )
-            ) : (
-              ''
-            )}
-          </div>
-          <div className={s.line}>
-            <HtmlEditor
-              value={values.description || ''}
-              config={{ formats: [] }}
-              onChange={value => {
-                handleChange(value);
-                setFieldValue('description', value);
-              }}
-            />
-          </div>
-          <div className={s.buttons}>
-            <Button onClick={onClose}>Отмена</Button>
+                ''
+              )}
+            </div>
+            <div className={s.line}>
+              <HtmlEditor
+                value={values.description || ''}
+                config={{ formats: [] }}
+                onChange={value => {
+                  handleChange(value);
+                  setFieldValue('description', value);
+                }}
+              />
+            </div>
+            <div className={s.buttons}>
+              <Button onClick={onClose}>Отмена</Button>
+              <Button
+                isDisabled={isLoading}
+                isLoading={isLoading}
+                type="submit"
+                onClick={() => setFieldValue('isTemplate', true)}
+                isPrimary={true}
+              >
+                Сохранить как шаблон
+              </Button>
+            </div>
             <Button
               isDisabled={isLoading}
               isLoading={isLoading}
               type="submit"
-              onClick={() => setFieldValue('isTemplate', true)}
               isPrimary={true}
             >
-              Сохранить как шаблон
+              Сохранить
             </Button>
-          </div>
-          <Button
-            isDisabled={isLoading}
-            isLoading={isLoading}
-            type="submit"
-            isPrimary={true}
-          >
-            Сохранить
-          </Button>
-        </form>
-      )}
+          </form>
+        );
+      }}
     </Formik>
   );
 }

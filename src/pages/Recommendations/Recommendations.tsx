@@ -196,9 +196,6 @@ export function Recommendations() {
           />
         )}
       </div>
-      {!openedRecommendation && !isDoctor && (
-        <p className={s.empty}>Рекомендаций пока нет</p>
-      )}
     </div>
   );
 }
