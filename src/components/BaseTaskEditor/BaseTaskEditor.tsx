@@ -15,6 +15,7 @@ export type BaseTaskEditorProps = {
   task: CreateTrainingTask | CreateEventTask | CreateCompetitionTask | null;
   title?: string;
   icon?: string;
+  isCurrentUser: boolean;
   mode: 'edit' | 'view';
   category?: string;
   children: ReactNode;
@@ -30,6 +31,7 @@ export function BaseTaskEditor({
   mode,
   icon,
   title,
+  isCurrentUser,
   children,
   category,
   isOpened,
@@ -46,6 +48,7 @@ export function BaseTaskEditor({
       ></div>
       <div className={classNames(s.editorWrapper, !isOpened ? s.hidden : '')}>
         <Header
+          isCurrentUser={isCurrentUser}
           taskId={taskId}
           mode={mode}
           title={title}

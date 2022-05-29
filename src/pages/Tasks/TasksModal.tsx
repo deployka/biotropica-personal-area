@@ -21,6 +21,7 @@ type TasksModalProps = {
   isOpened: boolean;
   isLoading: boolean;
   taskId: string;
+  currentUserId: number;
   onClose(): void;
   onEditBtnClick(): void;
   onDeleteTask(): void;
@@ -38,6 +39,7 @@ export const TasksModal = ({
   mode,
   isSpecialist,
   isOpened,
+  currentUserId,
   isLoading,
   onClose,
   onSave,
@@ -85,6 +87,7 @@ export const TasksModal = ({
 
   return (
     <BaseTaskEditor
+      isCurrentUser={task?.authorId === currentUserId}
       task={task}
       taskId={taskId}
       title={title}

@@ -50,6 +50,8 @@ export function Tasks() {
 
   const id = rawUserId || currentUser?.id;
 
+  console.log('id', id);
+
   const history = useHistory();
 
   const userId = Number(id);
@@ -320,6 +322,7 @@ export function Tasks() {
       />
 
       <TasksModal
+        currentUserId={currentUser?.id || 0}
         isSpecialist={isSpecialist}
         isLoading={isUpdateLoading || isCreateLoading}
         task={openedTask}
