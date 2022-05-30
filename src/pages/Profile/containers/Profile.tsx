@@ -106,6 +106,8 @@ const Profile = ({ user }: Props) => {
           <div className={s.userInfo}>
             <Goals goalsLength={goals.length} />
             <Tariff tariff={tariffData} />
+          </div>
+          <div className={s.moveToTasks}>
             <Button onClick={moveToTasks}>Задачи и рекомендации</Button>
           </div>
         </div>

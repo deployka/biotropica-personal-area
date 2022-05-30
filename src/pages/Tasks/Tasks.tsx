@@ -100,7 +100,7 @@ export function Tasks() {
       status: 'init',
       description: '',
       isTemplate: true,
-      templateName: 'Тренировка для попы',
+      templateName: 'Тренировка для спины',
       kindOfSport: KindOfSport.swimming,
       comments: [],
       category: TrainingCategory.power,
