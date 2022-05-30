@@ -295,7 +295,9 @@ const Consultations = () => {
           onSearchChange={onSearchChange}
           searchValue={searchQuery}
         />
-        <Link to="/consultations/list">Мои видеоконсультации</Link>
+        <div className={s.link}>
+          <Link to="/consultations/list">Мои видеоконсультации</Link>
+        </div>
       </div>
       <SpecialistsList
         consultationsCount={consultationsCount}

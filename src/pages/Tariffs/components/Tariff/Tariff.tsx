@@ -17,7 +17,7 @@ export const Tariff = ({ tariff }: Props) => {
             <p>{price}₽</p>
           </div>
           <div className={s.subText}>
-            <p>/месяц</p>
+            <p>/ 3 месяца</p>
           </div>
         </div>
         <div className={s.title}>
