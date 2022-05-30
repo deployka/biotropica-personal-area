@@ -79,7 +79,7 @@ export const SidebarMenuPopup = ({
                   onNavClick(item);
                   closeModal(ModalName.MODAL_SIDEBAR_MENU);
                 }}
-                to={item.link}
+                to={item.link === '/' ? item.link : `/${item.link}`}
                 className={classNames(
                   item.link === '/' + location.pathname.split('/')[1]
                     ? s.active
