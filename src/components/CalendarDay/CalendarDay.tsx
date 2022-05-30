@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import classNames from 'classnames';
 
@@ -22,6 +22,14 @@ export type CalendarDayProps = {
 export function CalendarDay({ calendarDay, onClickTask }: CalendarDayProps) {
   const { isCurrentDay, day, tasks } = calendarDay;
 
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    ref?.current?.scrollIntoView({ block: 'center' });
+  }, [ref.current]);
+
+  console.log('render', ref.current);
+
   const sortedTasks = tasks.slice().sort((a: Task, b: Task) => {
     if ((a.startTime ?? '') > (b.startTime ?? '')) return 1;
     return -1;
@@ -29,6 +37,7 @@ export function CalendarDay({ calendarDay, onClickTask }: CalendarDayProps) {
 
   return (
     <div
+      ref={isCurrentDay ? ref : null}
       className={classNames(s.calendarDay, calendarDay.isGrey ? s.grey : '')}
     >
       <div className={classNames(s.date, isCurrentDay ? s.currentDate : '')}>

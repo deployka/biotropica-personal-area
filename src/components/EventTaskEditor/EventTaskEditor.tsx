@@ -39,10 +39,6 @@ export function EventTaskEditor({
     else onSave({ ...task, ...values });
   }
 
-  const onChange = (values: EventTask) => {
-    console.log(values);
-  };
-
   return (
     <Formik
       enableReinitialize
@@ -71,8 +67,6 @@ export function EventTaskEditor({
         handleSubmit,
         setFieldValue,
       }) => {
-        console.log('tasks', values);
-
         return (
           <form
             id="task-form"

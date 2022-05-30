@@ -87,9 +87,9 @@ export function Recommendations() {
 
     setSpecializationsTypes(newSpecializationsTypes);
 
-    if (newSpecializationsTypes.length) {
-      setSelectedSpecialization(newSpecializationsTypes[0].specialization);
-    }
+    // if (newSpecializationsTypes.length) {
+    // setSelectedSpecialization(newSpecializationsTypes[0].specialization);
+    // }
   }, [specializations, recommendations]);
 
   if (!recommendations || !specializations) {

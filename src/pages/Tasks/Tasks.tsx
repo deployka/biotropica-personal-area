@@ -50,8 +50,6 @@ export function Tasks() {
 
   const id = rawUserId || currentUser?.id;
 
-  console.log('id', id);
-
   const history = useHistory();
 
   const userId = Number(id);
@@ -95,7 +93,7 @@ export function Tasks() {
       title: 'Пробежка',
       type: 'training',
       date: '2022-04-23',
-      startTime: '12:12:00',
+      startTime: '12:00:00',
       endTime: '',
       status: 'init',
       description: '',
@@ -185,12 +183,10 @@ export function Tasks() {
       ),
     });
   }
-
   async function handleSendComment(commentText: string) {
     // TODO: добавить обработку ошибок
     await addComment({ taskId: openedTaskId, commentText }).unwrap();
   }
-
   function handelTaskClick(taskId: string) {
     setOpenedTaskId(taskId);
 
@@ -204,15 +200,12 @@ export function Tasks() {
       return setIsTaskModalOpen(true);
     }
   }
-
   function handleEditClick() {
     setTaskModalMode('edit');
   }
-
   function handleCreateNewTask() {
     setIsTypeSelectModalOpened(true);
   }
-
   function handleSelectTaskType(selectedType: TaskType | TaskTemplate) {
     const newTask =
       'templateName' in selectedType
@@ -225,27 +218,21 @@ export function Tasks() {
     setIsTypeSelectModalOpened(false);
     setTaskModalMode('edit');
   }
-
   function handleChangeMonth(month: string) {
     dispatch(setCurrentMonth(month));
   }
-
   async function handleSaveFirstFactValue(value: number | undefined) {
     await updateTask({ id: openedTaskId, firstFactValue: value });
   }
-
   async function handleSaveSecondFactValue(value: number | undefined) {
     await updateTask({ id: openedTaskId, secondFactValue: value });
   }
-
   async function handleSaveFactValue(value: number) {
     await updateTask({ id: openedTaskId, factValue: value });
   }
-
   async function onChangeTemplateName(templateId: string, value: string) {
     console.log(templateId, value);
   }
-
   async function handleSaveAsTemplate(task: Partial<CreateSomeTask>) {
     const newTemplate = {
       ...task,

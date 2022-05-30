@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { CalendarDay, CalendarDayType } from '../CalendarDay/CalendarDay';
 import { formatISO } from 'date-fns';
 
@@ -23,8 +23,6 @@ export const Calendar = ({ tasks, currentMonth, onClickTask }: Props) => {
       period.map(date => {
         const test = date.slice(0, 7);
         const day = date.slice(8, 10);
-        console.log(test === currentMonth);
-
         return {
           isGrey: test !== currentMonth,
           isCurrentDay: currentDate === date,
