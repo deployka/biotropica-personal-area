@@ -28,8 +28,6 @@ export function CalendarDay({ calendarDay, onClickTask }: CalendarDayProps) {
     ref?.current?.scrollIntoView({ block: 'center' });
   }, [ref.current]);
 
-  console.log('render', ref.current);
-
   const sortedTasks = tasks.slice().sort((a: Task, b: Task) => {
     if ((a.startTime ?? '') > (b.startTime ?? '')) return 1;
     return -1;

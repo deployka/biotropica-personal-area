@@ -125,5 +125,22 @@
     .buttonIcon {
       margin: 0 4px 0 0;
     }
+
+    @include for-phone {
+      padding: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      .desktopText {
+        display: none;
+      }
+
+      .buttonIcon {
+        margin: 0;
+      }
+    }
   }
 }
