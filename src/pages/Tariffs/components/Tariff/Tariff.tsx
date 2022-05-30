@@ -2,6 +2,7 @@ import React from 'react';
 import s from './Tariff.module.scss';
 import checkbox from './../../../../assets/icons/tariffs/checkbox.svg';
 import { Tariff as ITariff } from '../../containers/Tariffs';
+import classNames from 'classnames';
 
 interface Props {
   tariff: ITariff;
@@ -34,8 +35,8 @@ export const Tariff = ({ tariff }: Props) => {
         </ul>
       </div>
       <div className={s.bottom}>
-        <a href={prolongLink} className={s.button}>
-          <button>продлить тариф</button>
+        <a href={prolongLink} className={classNames(s.button, s.disabled)}>
+          <button disabled>продлить тариф</button>
         </a>
       </div>
     </div>
