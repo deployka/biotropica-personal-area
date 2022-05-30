@@ -5,6 +5,7 @@ import arrow from './../../../../assets/icons/tariffs/arrow.svg';
 
 import { Tariff } from '../../containers/Tariffs';
 import AnimateHeight from 'react-animate-height';
+import classNames from 'classnames';
 
 interface Props {
   tariff: Tariff;
@@ -48,9 +49,7 @@ export const TariffMobile = ({ tariff }: Props) => {
       </AnimateHeight>
 
       <div className={s.bottom}>
-        <a href={prolongLink} className={s.button}>
-          продлить тариф
-        </a>
+        <a className={classNames(s.button, s.disabled)}>продлить тариф</a>
         <button
           className={s.hideBtn}
           onClick={() => {
