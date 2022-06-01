@@ -4,7 +4,7 @@ import React from 'react';
 import Button from '../../Button/Button';
 import { HtmlEditor } from '../../HtmlEditor/HtmlEditor';
 import Input, { InputTypes } from '../../Input/Input';
-import s from './RecommendationEditor.module.scss';
+import s from './Editor.module.scss';
 import validationSchema from './validationSchema';
 
 export type RecommendationEditorProps = {
@@ -22,13 +22,8 @@ export function RecommendationEditor({
 }: RecommendationEditorProps) {
   return (
     <>
-      <div
-        className={classNames(s.popupBg)}
-        onClick={onClose}
-      ></div>
-      <div
-        className={classNames(s.recommendationEditor)}
-      >
+      <div className={classNames(s.popupBg)} onClick={onClose}></div>
+      <div className={classNames(s.recommendationEditor)}>
         <Formik
           enableReinitialize
           initialValues={{ title: title, description: description }}

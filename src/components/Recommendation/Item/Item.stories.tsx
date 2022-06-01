@@ -1,15 +1,16 @@
 import React from 'react';
 
 import { ComponentStory, Meta } from '@storybook/react';
-import { RecommendationItem, RecommendationItemProps } from './RecommendationItem';
+import { RecommendationItem, RecommendationItemProps } from './Item';
 
 export default {
   component: RecommendationItem,
   title: 'src/components/recommendations/RecommendationItem',
 } as Meta;
 
-const Template: ComponentStory<typeof RecommendationItem> = (args: RecommendationItemProps) =>
-  <RecommendationItem {...args} />;
+const Template: ComponentStory<typeof RecommendationItem> = (
+  args: RecommendationItemProps,
+) => <RecommendationItem {...args} />;
 export const DefaultRecommendationItem = Template.bind({});
 const props: Partial<RecommendationItemProps> = {
   title: 'Как правильно какать',

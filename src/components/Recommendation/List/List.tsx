@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {
-  RecommendationGroup,
-  RecommendationGroupType,
-} from '../../components/recommendations/RecommendationGroup/RecommendationGroup';
-import { RecommendationItem } from '../../components/recommendations/RecommendationItem/RecommendationItem';
-import { Recommendation, User } from '../../store/rtk/types/user';
 
-import s from './Recommendations.module.scss';
+import { RecommendationGroup, RecommendationGroupType } from './../Group/Group';
+import { Recommendation, User } from '../../../store/rtk/types/user';
+
+import s from './List.module.scss';
 
 type RecommendationListProps = {
   currentSpecialistId: number;

@@ -3,8 +3,8 @@ import React from 'react';
 import classNames from 'classnames';
 import { getWordCounterText } from '../../../helpers/wordHelper';
 
-import s from './SpecializationItem.module.scss';
-import { SpecializationListProps } from './SpecializationList';
+import s from './Item.module.scss';
+import { SpecializationListProps } from './../List/List';
 import { Specialization } from '../../../store/rtk/requests/specializations';
 
 export type SpecializationItemProps = {

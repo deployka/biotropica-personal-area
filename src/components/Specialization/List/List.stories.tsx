@@ -1,10 +1,7 @@
 import React from 'react';
 
 import { ComponentStory, Meta } from '@storybook/react';
-import {
-  SpecializationList,
-  SpecializationListProps,
-} from './SpecializationList';
+import { SpecializationList, SpecializationListProps } from './List';
 import { Specialization } from '../../../store/rtk/requests/specializations';
 
 export default {

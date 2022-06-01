@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ComponentStory, Meta } from '@storybook/react';
-import { SpecializationItem, SpecializationItemProps } from './SpecializationItem';
+import { SpecializationItem, SpecializationItemProps } from './Item';
 import { Specialization } from '../../../store/rtk/requests/specializations';
 
 export default {
@@ -15,8 +15,9 @@ const specialization: Specialization = {
   key: '15',
 };
 
-const Template: ComponentStory<typeof SpecializationItem> = (args: SpecializationItemProps) =>
-  <SpecializationItem {...args} />;
+const Template: ComponentStory<typeof SpecializationItem> = (
+  args: SpecializationItemProps,
+) => <SpecializationItem {...args} />;
 export const DefaultRecommendationType = Template.bind({});
 export const SelectedRecommendationType = Template.bind({});
 const props: Partial<SpecializationItemProps> = {

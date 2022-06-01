@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { Specialization } from '../../../store/rtk/requests/specializations';
-import { SpecializationItem } from './SpecializationItem';
+import { SpecializationItem } from './../Item/Item';
 
-import s from './SpecializationList.module.scss';
+import s from './List.module.scss';
 
 export type SpecializationListProps = {
   types: {
