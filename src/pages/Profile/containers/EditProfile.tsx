@@ -63,7 +63,6 @@ const EditProfile = () => {
     if (!response) return;
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
-        console.log('____________________', response);
         break;
       case LoadingStatus.SUCCESS:
         eventBus.emit(EventTypes.notification, {
@@ -91,16 +90,18 @@ const EditProfile = () => {
       ...values,
       email: user?.email,
     };
-    dispatch(fetchUpdateUser({
-      profilePhoto: values?.profilePhoto || null,
-      lastname: values?.lastname,
-      name: values?.name,
-      email: values?.email,
-      gender: values?.gender,
-      patronymic: values?.patronymic,
-      phone: values?.phone,
-      dob: values?.dob,
-    }));
+    dispatch(
+      fetchUpdateUser({
+        profilePhoto: values?.profilePhoto || null,
+        lastname: values?.lastname,
+        name: values?.name,
+        email: values?.email,
+        gender: values?.gender,
+        patronymic: values?.patronymic,
+        phone: values?.phone,
+        dob: values?.dob,
+      }),
+    );
 
     if (user?.specialist?.id) {
       updateSpecialist({
