@@ -134,7 +134,6 @@ async function sendMessage() {
 
 export function PrivateLayout(props: Props) {
   const currentUser = useSelector(selectCurrentUserData);
-  const history = useHistory();
 
   const dispatch = useDispatch();
   const { pathname } = useLocation();
@@ -190,6 +189,7 @@ export function PrivateLayout(props: Props) {
   const logout = useCallback(() => {
     dispatch(fetchSignout());
     dispatch(setUserData(undefined));
+    document.location.reload();
   }, [dispatch]);
 
   const onNavClick = useCallback(
@@ -234,7 +234,7 @@ export function PrivateLayout(props: Props) {
           onClose={() => setSidebarChatOpen(false)}
         >
           <Chat
-            token={localStorage.getItem('token') as string}
+            token={localStorage.getItem('token') || ''}
             activeDialogId={openedDialog}
             currentUser={currentUser as ChatUser}
             onClose={() => setSidebarChatOpen(false)}

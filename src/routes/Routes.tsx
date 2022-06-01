@@ -1,9 +1,4 @@
-import React, {
-  ElementType,
-  FunctionComponent,
-  ReactElement,
-  Suspense,
-} from 'react';
+import React, { ElementType, ReactElement, Suspense } from 'react';
 
 import { Route, Switch } from 'react-router';
 import routes from './routesList';
@@ -16,6 +11,7 @@ import {
   selectIsClient,
 } from '../store/rtk/slices/authSlice';
 import ErrorPage from '../pages/ErrorPage/containers/ErrorPage';
+import { useRequestUserDataQuery } from '../store/rtk/requests/user';
 
 type Props = {
   DefaultComponent?: ElementType;
@@ -30,6 +26,7 @@ function RoleComponent({
   Specialist,
   Admin,
 }: Props): ReactElement {
+  useRequestUserDataQuery();
   const isSpecialist = useSelector(selectIsDoctor);
   const isAdmin = useSelector(selectIsAdmin);
   const isClient = useSelector(selectIsClient);

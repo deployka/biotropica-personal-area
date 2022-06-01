@@ -69,18 +69,17 @@ const routes = [
   },
   {
     path: 'users/:id',
-    component: ProfileLayout,
     specialistComponent: PublicProfile,
     exact: true,
   },
   {
     path: 'users/:userId/tasks',
-    clientComponent: Tasks,
+    specialistComponent: Tasks,
     exact: true,
   },
   {
     path: 'users/:userId/recommendations',
-    clientComponent: Recommendations,
+    specialistComponent: Recommendations,
     exact: true,
   },
   {

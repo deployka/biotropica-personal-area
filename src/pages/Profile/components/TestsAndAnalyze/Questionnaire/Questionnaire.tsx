@@ -13,8 +13,6 @@ export const Questionnaire = ({ answers }: Props) => {
     try {
       return JSON.parse(answer.text)?.join(', ');
     } catch (error) {
-      console.log(answer.text);
-
       return answer.text;
     }
   }

@@ -31,8 +31,6 @@ const Questionnaire = () => {
     setTotal(total);
   }
 
-  console.log('_____________', currentIndex, question);
-
   useEffect(() => {
     fetchQuestion();
   }, []);
@@ -60,9 +58,9 @@ const Questionnaire = () => {
 
   const options = question.allowedAnswers
     ? question.allowedAnswers.map(it => ({
-      value: it,
-      label: it,
-    }))
+        value: it,
+        label: it,
+      }))
     : [];
 
   return (
