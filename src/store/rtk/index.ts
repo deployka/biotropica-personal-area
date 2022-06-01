@@ -20,10 +20,12 @@ import { taskApi } from './requests/tasks';
 import tasksPageSlice from './slices/tasksPageSlice';
 import { specializationApi } from './requests/specializations';
 import { recommendationApi } from './requests/recommendations';
+import userEventsApi from './requests/user-events';
 
 const rootReducer = combineReducers({
   [userApi.reducerPath]: userApi.reducer,
   [usersApi.reducerPath]: usersApi.reducer,
+  [userEventsApi.reducerPath]: userEventsApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [avatarApi.reducerPath]: avatarApi.reducer,
   [taskApi.reducerPath]: taskApi.reducer,
@@ -62,6 +64,7 @@ const middlewareHandler = (getDefaultMiddleware: any) => {
       tariffsApi.middleware,
       specializationApi.middleware,
       recommendationApi.middleware,
+      userEventsApi.middleware,
     ),
   ];
 

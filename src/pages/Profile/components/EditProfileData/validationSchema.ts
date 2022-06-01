@@ -5,12 +5,20 @@ const phoneRegExp =
   /^(\+7)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
 
 export const validationSchema = yup.object().shape({
-  name: yup.string().typeError('Должно быть строкой').required('Введите имя'),
+  name: yup
+    .string()
+    .typeError('Должно быть строкой')
+    .required('Введите имя')
+    .max(24, 'Максимальная длина 24 символа'),
   lastname: yup
     .string()
     .typeError('Должно быть строкой')
-    .required('Введите фамилию'),
-  patronymic: yup.string().typeError('Должно быть строкой'),
+    .required('Введите фамилию')
+    .max(24, 'Максимальная длина 24 символа'),
+  patronymic: yup
+    .string()
+    .typeError('Должно быть строкой')
+    .max(35, 'Максимальная длина 35 символов'),
   dob: yup.mixed<Date | null>().typeError('Должно быть датой'),
   gender: yup.array().of(
     yup.object().shape({

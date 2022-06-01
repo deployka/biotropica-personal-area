@@ -1,12 +1,25 @@
-@import '../../../styles/mixins.scss';
-@import '../../../styles/variables.scss';
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
 
 .headerWrapper {
+  width: 100%;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
 
+  @include for-tablet {
+    display: flex;
+    flex-direction: column;
+
+    .link {
+      margin: 10px 0 0 0;
+      width: 100%;
+    }
+  }
+
   a {
+    padding: 0 15px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -21,6 +34,12 @@
     background: #fff;
     color: #9e97be;
     &:hover {
+      background-color: #6f61d0;
+      border-color: #6f61d0;
+      color: #fff;
+    }
+
+    @include for-tablet {
       background-color: #6f61d0;
       border-color: #6f61d0;
       color: #fff;
@@ -127,12 +146,18 @@
     }
   }
 
+  .tableContainer {
+    width: 100%;
+    overflow-x: scroll;
+  }
+
   .table {
     position: relative;
     max-height: 70vh;
     overflow: hidden;
     overflow-y: scroll;
     border-collapse: collapse;
+    min-width: 800px;
     width: 100%;
     padding: 0 10px;
 
@@ -453,4 +478,9 @@
       opacity: 0.8;
     }
   }
+}
+.consultations {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 20px;
 }

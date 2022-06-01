@@ -10,7 +10,7 @@ import {
 } from '../../../store/ducks/user/actionCreators';
 import { ChangePasswordData } from '../../../store/ducks/user/contracts/state';
 import {
-  selectUserData,
+  selectCurrentUserData,
   selectUserLoadingStatus,
   selectUserResponse,
 } from '../../../store/ducks/user/selectors';
@@ -21,7 +21,7 @@ export const Security = () => {
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectUserLoadingStatus);
   const response = useSelector(selectUserResponse);
-  const user = useSelector(selectUserData);
+  const user = useSelector(selectCurrentUserData);
   type SetFieldValue = (field: string, value: string) => void;
   const refSetFieldValue = useRef<SetFieldValue | null>(null);
   const refResetForm = useRef<(() => void) | null>(null);

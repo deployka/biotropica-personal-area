@@ -5,7 +5,7 @@ import { Goals } from '../components/Goals/Goals';
 import { Progress } from '../components/Progress/Progress';
 import { Recommended } from '../components/Recommended/Recommended';
 import { TestsAndAnalyze } from '../components/TestsAndAnalyze/TestsAndAnalyze';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 import { getTabByKey } from '../../../utils/tabsHelper';
 
@@ -17,11 +17,14 @@ import {
 } from '../../../store/ducks/analyze/contracts/state';
 import { Progress as IProgress } from '../../../store/ducks/progress/contracts/state';
 import { LoadingStatus } from '../../../store/types';
+import { Button } from '../components/Button/Button';
+import { eventBus, EventTypes } from '../../../services/EventBus';
+import { chatApi } from '../../../shared/Global/Chat/services/chatApi';
+import { NotificationType } from '../../GlobalNotifications/GlobalNotifications';
 
 interface Props {
   user: User;
   goalsLength: number;
-  recommendations: SortedRecommendations;
   analyzeTypes: Analyze[];
   analyzes: AnalyzeAnswer[];
   questionnaireAnswers: Answer[];
@@ -39,7 +42,6 @@ export interface Param {
 export const Profile = ({
   user,
   goalsLength,
-  recommendations,
   questionnaireAnswers,
   analyzes,
   analyzeTypes,
@@ -51,10 +53,6 @@ export const Profile = ({
 }: Props) => {
   const tabs: Tab[] = [
     {
-      key: 'recommended',
-      value: 'Рекомендации',
-    },
-    {
       key: 'test-analyzes',
       value: 'Тестирование и Анализы',
     },
@@ -65,6 +63,7 @@ export const Profile = ({
   ];
 
   const { active } = useParams<Param>();
+  const history = useHistory();
 
   const [activeTab, setActiveTab] = useState<string>(
     getTabByKey(active, tabs)?.key || tabs[0].key,
@@ -75,6 +74,27 @@ export const Profile = ({
     expires: '9 июля 2021',
   }; // TODO: добавить нормальные данные
 
+  function moveToTasks() {
+    history.push(`/users/${user.id}/tasks`);
+  }
+
+  async function createChat() {
+    if (!user) return;
+    try {
+      const dialog = await chatApi.create(user.id);
+      eventBus.emit(EventTypes.chatOpen, dialog.id);
+      eventBus.emit(EventTypes.notification, {
+        message: 'Чат создан!',
+        type: NotificationType.SUCCESS,
+      });
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        message: 'Ошибка при создании чата',
+        type: NotificationType.DANGER,
+      });
+    }
+  }
+
   return (
     <>
       <div className={s.profile}>
@@ -83,6 +103,8 @@ export const Profile = ({
           <div className={s.userInfo}>
             <Goals goalsLength={goalsLength} />
             <Tariff tariff={tariffData} />
+            <Button onClick={moveToTasks}>Задачи и рекомендации</Button>
+            <Button onClick={createChat}>Начать чат</Button>
           </div>
         </div>
         <div className={s.content}>
@@ -97,9 +119,6 @@ export const Profile = ({
             </div>
           </div>
           {activeTab === tabs[0].key && (
-            <Recommended recommendations={recommendations} />
-          )}
-          {activeTab === tabs[1].key && (
             <TestsAndAnalyze
               onDeleteComment={onDeleteComment}
               isLoadingComment={isLoadingComment}
@@ -109,7 +128,7 @@ export const Profile = ({
               analyzeTypes={analyzeTypes}
             />
           )}
-          {activeTab === tabs[2].key && (
+          {activeTab === tabs[1].key && (
             <Progress
               progress={progress}
               loadingStatus={progressLoadingStatus}

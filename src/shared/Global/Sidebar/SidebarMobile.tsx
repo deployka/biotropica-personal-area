@@ -7,7 +7,7 @@ import s from './SidebarMobile.module.scss';
 import { useModal } from '../../../hooks/useModal';
 import { SidebarSvgSelector } from '../../../assets/icons/sidebar/SIdebarSvgSelector';
 import { ModalName } from '../../../providers/ModalProvider';
-import { Nav, Pages } from '../../../layouts/PrivateLayout';
+import { Nav, Page } from '../../../layouts/PrivateLayout';
 
 interface Props {
   onNavClick: (nav: Partial<Nav>) => void;
@@ -16,7 +16,7 @@ interface Props {
   chatNotificationsOpen: boolean;
   openChat: () => void;
   logout: () => void;
-  pages: Pages[];
+  pages: Page[];
   nav: Nav[];
   user: User | undefined;
 }

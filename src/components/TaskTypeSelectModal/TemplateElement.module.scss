@@ -1,0 +1,62 @@
+.taskType {
+  width: 100%;
+
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+
+  border: 1px solid #f7f6fb;
+
+  cursor: pointer;
+  box-sizing: border-box;
+  border-radius: 6px;
+  padding: 12px;
+
+  & input {
+    font-family: 'Montserrat';
+    font-style: normal;
+    width: 100%;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    &::placeholder {
+      color: #dadada;
+    }
+
+    color: #736f8b;
+    border: none;
+  }
+
+  & p {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 120%;
+    color: #1e174d;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .iconBg {
+    margin: 0 10px 0 0;
+
+    min-width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50px;
+  }
+
+  .content {
+    display: flex;
+    align-items: center;
+
+    margin-top: 8px;
+    max-width: 100%;
+  }
+}

@@ -15,16 +15,12 @@ interface Props {
 }
 
 export const Tariff = (props: Props) => {
-  const {
-    id,
-    cost,
-    title,
-    includedFields,
-  } = props.tariff;
+  const { id, cost, title, includedFields } = props.tariff;
 
   const refetchTariffs = props.refetchTariffs;
 
-  const [isEditTariffModalVisible, setIsEditTariffModalVisible] = React.useState(false);
+  const [isEditTariffModalVisible, setIsEditTariffModalVisible] =
+    React.useState(false);
 
   const roles = useSelector(selectUserRoles);
 
@@ -43,9 +39,7 @@ export const Tariff = (props: Props) => {
                 <p>/месяц</p>
               </div>
             </div>
-            <div>
-
-            </div>
+            <div></div>
           </div>
           <div className={s.title}>
             <h3>{title}</h3>
@@ -61,21 +55,19 @@ export const Tariff = (props: Props) => {
           </ul>
         </div>
         <div className={s.bottom}>
-          {
-            isAdmin ? (
-              <Button
-                isFunctional
-                className={s.editBtn}
-                onClick={() => setIsEditTariffModalVisible(true)}
-              >
-                Редактировать
-              </Button>
-            ) : (
-              <a href='#' className={s.button}>
-                <button>продлить тариф</button>
-              </a>
-            )
-          }
+          {isAdmin ? (
+            <Button
+              isFunctional
+              className={s.editBtn}
+              onClick={() => setIsEditTariffModalVisible(true)}
+            >
+              Редактировать
+            </Button>
+          ) : (
+            <a href="#" className={s.button}>
+              <button>продлить тариф</button>
+            </a>
+          )}
         </div>
       </div>
       <EditTariffModal

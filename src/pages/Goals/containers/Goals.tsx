@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import {
   fetchGoalData,
+  setGoalData,
   updateGoalData,
 } from '../../../store/ducks/goal/actionCreators';
 import {
@@ -17,7 +18,10 @@ import { LoadingStatus } from '../../../store/types';
 import s from './Goals.module.scss';
 import { Header } from './Header';
 import { Goal } from './Goal';
-import { setGoalsData } from '../../../store/ducks/goals/actionCreators';
+import {
+  fetchGoalsData,
+  setGoalsData,
+} from '../../../store/ducks/goals/actionCreators';
 import { eventBus, EventTypes } from '../../../services/EventBus';
 import {
   getProgressValueByTypeAndUnit,
@@ -36,10 +40,6 @@ export enum GoalState {
   UPDATED = 'UPDATED',
   DELETED = 'DELETED',
   COMPLETED = 'COMPLETED',
-}
-
-interface Params {
-  id: string;
 }
 
 const Goals = () => {

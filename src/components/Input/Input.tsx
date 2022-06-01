@@ -17,7 +17,7 @@ export enum InputTypes {
   PASSWORD = 'password',
   EMAIL = 'email',
   PHONE = 'phone',
-  NUMBER = 'number'
+  NUMBER = 'number',
 }
 
 export interface Props {
@@ -65,12 +65,16 @@ const Input = (props: Props) => {
     <div className={s.mainWrapper}>
       {label && <Label value={label} />}
 
-      <div className={classNames({
-        [s.inputWrapper]: true,
-        [s.success__input]: meta.touched && !isError,
-        [s.error__input]: isError,
-      }, classes)
-      }>
+      <div
+        className={classNames(
+          {
+            [s.inputWrapper]: true,
+            [s.success__input]: meta.touched && !isError,
+            [s.error__input]: isError,
+          },
+          classes,
+        )}
+      >
         <input
           className={classNames({
             [s.input]: true,
@@ -93,45 +97,30 @@ const Input = (props: Props) => {
         />
 
         <div className={s.icons}>
-          {
-            withAccept && !iconIsHidden && (
-              <img
-                src={checkIcon}
-                className={s.icon}
-                alt=""
-                onClick={onAccept}
-                onMouseDown={e => e.preventDefault()}
-              />
-            )
-          }
-          {
-            withCancel && !iconIsHidden && (
-              <img
-                src={cancelIcon}
-                className={s.icon}
-                alt=""
-                onClick={onCancel}
-                onMouseDown={e => e.preventDefault()}
-              />
-            )
-          }
+          {withAccept && !iconIsHidden && (
+            <img
+              src={checkIcon}
+              className={s.icon}
+              alt=""
+              onClick={onAccept}
+              onMouseDown={e => e.preventDefault()}
+            />
+          )}
+          {withCancel && !iconIsHidden && (
+            <img
+              src={cancelIcon}
+              className={s.icon}
+              alt=""
+              onClick={onCancel}
+              onMouseDown={e => e.preventDefault()}
+            />
+          )}
         </div>
 
-        {
-          suffix && (
-            <div className={s.suffix}>
-              {suffix}
-            </div>
-          )
-        }
+        {suffix && <div className={s.suffix}>{suffix}</div>}
       </div>
 
-      {
-        meta.touched &&
-        meta.error && (
-          <ErrorMessage message={meta.error} />
-        )
-      }
+      {meta.touched && meta.error && <ErrorMessage message={meta.error} />}
     </div>
   );
 };

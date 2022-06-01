@@ -1,5 +1,5 @@
-@import '../../../../styles/mixins.scss';
-@import '../../../../styles/variables.scss';
+@import "../../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
 .tariff {
   padding: 20px 30px;
   width: 100%;
@@ -7,6 +7,11 @@
   border: 1px solid #6f61d0;
   box-sizing: border-box;
   border-radius: 5px;
+  margin-bottom: 22px;
+
+  @include for-phone {
+    margin: 0;
+  }
 
   transition: all 0.2s ease;
 

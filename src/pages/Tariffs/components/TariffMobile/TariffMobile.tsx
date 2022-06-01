@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { useSelector } from 'react-redux';
 import AnimateHeight from 'react-animate-height';
 import { Tariff } from '../../../../store/rtk/types/tariff';
@@ -17,18 +16,14 @@ interface Props {
 }
 
 export const TariffMobile = (props: Props) => {
-  const {
-    id,
-    cost,
-    title,
-    includedFields,
-  } = props.tariff;
+  const { id, cost, title, includedFields } = props.tariff;
 
   const refetchTariffs = props.refetchTariffs;
 
   const [height, setHeight] = useState<number | string>(0);
 
-  const [isEditTariffModalVisible, setIsEditTariffModalVisible] = useState(false);
+  const [isEditTariffModalVisible, setIsEditTariffModalVisible] =
+    useState(false);
 
   function toggle() {
     height === 0 ? setHeight('auto') : setHeight(0);
@@ -82,21 +77,19 @@ export const TariffMobile = (props: Props) => {
             />
           </button>
           <div className={s.editBtn}>
-            {
-              !isAdmin ? (
-                <Button
-                  isFunctional
-                  className={s.editBtn}
-                  onClick={() => setIsEditTariffModalVisible(true)}
-                >
-                  Редактировать
-                </Button>
-              ) : (
-                <a href='#' className={s.button}>
-                  <button>продлить тариф</button>
-                </a>
-              )
-            }
+            {!isAdmin ? (
+              <Button
+                isFunctional
+                className={s.editBtn}
+                onClick={() => setIsEditTariffModalVisible(true)}
+              >
+                Редактировать
+              </Button>
+            ) : (
+              <a href="#" className={s.button}>
+                <button>продлить тариф</button>
+              </a>
+            )}
           </div>
         </div>
       </div>

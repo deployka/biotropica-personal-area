@@ -56,7 +56,8 @@ export const Header = ({
       </div>
       <div className={s.right}>
         <button className={s.addTaskButton} onClick={onAddTask}>
-          <img className={s.buttonIcon} src={addIcon} alt="" /> Добавить задачу
+          <img className={s.buttonIcon} src={addIcon} alt="" />{' '}
+          <span className={s.desktopText}>Добавить задачу</span>
         </button>
       </div>
     </div>

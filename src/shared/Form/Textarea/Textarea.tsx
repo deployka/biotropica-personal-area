@@ -17,13 +17,15 @@ interface Props {
   onPaste?: ClipboardEventHandler<HTMLTextAreaElement>;
   onKeyDown?: KeyboardEventHandler<HTMLTextAreaElement>;
   onInput?: FormEventHandler<HTMLTextAreaElement>;
-  onBlur: ChangeEventHandler<HTMLTextAreaElement>;
+  onBlur?: ChangeEventHandler<HTMLTextAreaElement>;
   autoComplete?: string;
-  placeholder: string;
+  placeholder?: string;
   name: string;
+  rows?: number;
+  height?: string;
   value: string | number | readonly string[] | undefined;
-  type: string;
-  options: {
+  type?: string;
+  options?: {
     classes?: Classes;
     touched: FormikTouched<{ [key in string]: unknown }>;
     errors: FormikErrors<{ [key in string]: unknown }>;
@@ -33,7 +35,7 @@ interface Props {
 
 export const Textarea = (props: Props) => {
   const { options, ...inputProps } = props;
-  const { touched, errors, classes } = options;
+  const { touched, errors, classes } = options || { touched: {}, errors: {} };
   return (
     <>
       <textarea
@@ -45,9 +47,9 @@ export const Textarea = (props: Props) => {
           [s.error__textarea]: touched[props.name] && errors[props.name],
         })}
         {...inputProps}
-        placeholder=""
+        placeholder={props.placeholder}
       />
-      <Label active={false} value={props.placeholder} />
+      {props.placeholder ? <Label active={false} value={props.placeholder} /> : null}
       {touched[props.name] && errors[props.name] && (
         <ErrorMessage message={errors[props.name] || ''} />
       )}

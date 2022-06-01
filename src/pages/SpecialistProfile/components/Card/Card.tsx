@@ -17,6 +17,7 @@ import {
 import { useRequestAvatarFileQuery } from '../../../../store/rtk/requests/avatar';
 import { Loader } from '../../../../shared/Global/Loader/Loader';
 import { User } from '../../../../store/@types/User';
+import { getMediaLink } from '../../../../utils/mediaHelper';
 
 moment.locale('ru');
 
@@ -24,7 +25,7 @@ export interface Props {
   user: User;
 }
 
-const Card = (props: Props) => {
+const Card = ({ user }: Props) => {
   const {
     id,
     email,
@@ -34,20 +35,24 @@ const Card = (props: Props) => {
     lastname,
     patronymic,
     specialist,
-  } = props.user;
+  } = user;
 
-  const { path, url } = useRouteMatch();
+  const { url } = useRouteMatch();
 
-  const { data, isLoading, isSuccess } =
-    useRequestAvatarFileQuery(profilePhoto);
+  const { isLoading } = useRequestAvatarFileQuery(profilePhoto);
 
-  const currentUser = useSelector((state: RootState) => state.user.user);
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
 
   const specializations =
     !!specialist &&
-    specialist.specializations.map((spec: string) =>
-      SpecializationOptions.find(option => option.value === spec),
-    );
+    specialist.specializations
+      .map(
+        spec =>
+          SpecializationOptions.find(option => option.value === spec.key)
+            ?.label,
+      )
+      .filter(specialization => specialization)
+      .join(', ');
 
   if (!currentUser) {
     return <div></div>;
@@ -69,30 +74,19 @@ const Card = (props: Props) => {
               <img
                 id="card_avatar"
                 className={s.profile__avatar}
-                src={
-                  (!!profilePhoto && isSuccess) || isLoading
-                    ? 'https://master.bio-specialist.devshift.ru/api/static/' +
-                      profilePhoto
-                    : defaultAvatar
-                }
-                alt=""
+                src={getMediaLink(profilePhoto) || defaultAvatar}
+                alt="avatar"
               />
             </div>
             <div className={s.profile__data}>
               {!!specializations && (
                 <div className={s.profile__specializations}>
-                  {specializations
-                    .map(
-                      (spec: SpecializationOption | undefined) => spec?.label,
-                    )
-                    .join(', ')}
+                  {specializations}
                 </div>
               )}
               <div className={s.profile__name}>
                 <p>
-                  {lastname}
-                  {'  '}
-                  {name}
+                  {lastname} {name}
                 </p>
                 <p>{patronymic}</p>
               </div>
@@ -124,24 +118,6 @@ const Card = (props: Props) => {
               )}
             </div>
           </div>
-          {/* <Link style={{ textDecoration: 'none' }} to='/goals'>
-            <div className={s.goals}>
-              <span>Активных целей: </span>
-              {goalsCount}
-            </div>
-          </Link>
-          <Link style={{ textDecoration: 'none' }} to='/tariffs'>
-            <div className={s.tariff}>
-              <div className={s.tariff__name}>
-                Тариф {'  '}
-                {tariffData.name}
-              </div>
-              <div className={s.tariff__expires}>
-                до {'  '}
-                {tariffData.expires}
-              </div>
-            </div>
-          </Link> */}
         </div>
       </div>
     </>

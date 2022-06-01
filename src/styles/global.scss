@@ -15,6 +15,10 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
+.no-scroll {
+  overflow: hidden !important;
+}
+
 button {
   padding: 0;
   margin: 0;
@@ -129,6 +133,10 @@ button {
   @include for-tablet {
     width: 100%;
   }
+}
+
+.react-time-picker__wrapper {
+  border: none !important;
 }
 
 .rah-static,

@@ -97,6 +97,18 @@
 
             transition: all 0.15s ease-in;
 
+            &.disabled {
+                background-color: rgba(113, 98, 208, 0.1);
+                border: 1px solid #7061d046;
+                color: #7061d046;
+
+                &:hover {
+                    background-color: rgba(113, 98, 208, 0.1);
+                    border: 1px solid #7061d046;
+                    color: #7061d046;
+                }
+            }
+
             &:hover {
                 background-color: #6f61d0;
                 color: #ffffff;

@@ -1,7 +1,8 @@
 import { Specialization } from '../requests/specializations';
 
+// FIXME: оставить один тип роли и тарифов
 export enum ROLE {
-  USER = 'USER',
+  CLIENT = 'CLIENT',
   SPECIALIST = 'SPECIALIST',
   ADMIN = 'ADMIN',
 }

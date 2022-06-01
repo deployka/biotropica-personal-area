@@ -114,7 +114,12 @@ const Consultations = () => {
       default:
         break;
     }
-  }, [onErrorCreateNotification, onSuccessCreateNotification, loadingStatus, response]);
+  }, [
+    onErrorCreateNotification,
+    onSuccessCreateNotification,
+    loadingStatus,
+    response,
+  ]);
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedSort, setSelectedSort] = useState<
@@ -290,7 +295,9 @@ const Consultations = () => {
           onSearchChange={onSearchChange}
           searchValue={searchQuery}
         />
-        <Link to="/consultations/list">Мои видеоконсультации</Link>
+        <div className={s.link}>
+          <Link to="/consultations/list">Мои видеоконсультации</Link>
+        </div>
       </div>
       <SpecialistsList
         consultationsCount={consultationsCount}

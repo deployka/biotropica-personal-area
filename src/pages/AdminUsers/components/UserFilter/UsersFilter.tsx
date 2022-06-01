@@ -57,7 +57,7 @@ export function UsersFilter(props: UsersFilterProps) {
   }
 
   return <div className={`${s.filter} ${props.opened ? '' : s.hidden}`}>
-    <div className={s.container}>
+    <div className={s.filter_container}>
       {props.filters.map((field, i) => (
         <div key={`filter_${i}`} className={`${s.field} ${openedFilters.includes(field.key) ? s.hidden : {}}`}>
           <UserFilterHeader

@@ -35,7 +35,6 @@ export const PublicProfile = () => {
   const user = useSelector(selectUserData);
   const progress = useSelector(selectProgressData) || [];
   const goalsLength = useSelector(selectGoalsData).length;
-  const recommendations = useSelector(selectSortedRecommendationsData);
   const progressLoadingStatus = useSelector(selectProgressLoadingStatus);
   const analyzes = useSelector(selectAnalyzesData);
 
@@ -121,7 +120,6 @@ export const PublicProfile = () => {
       progress={progress}
       progressLoadingStatus={progressLoadingStatus}
       goalsLength={goalsLength}
-      recommendations={recommendations}
       questionnaireAnswers={answers}
       analyzeTypes={analyzeTypes}
       analyzes={analyzes}

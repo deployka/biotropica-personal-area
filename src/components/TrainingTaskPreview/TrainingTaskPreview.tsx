@@ -16,6 +16,7 @@ import s from './TrainingTaskPreview.module.scss';
 
 export type TrainingTaskPreviewProps = {
   task: TrainingTask;
+  isSpecialist: boolean;
   onSaveFirstValue(value: number | undefined): void;
   onSaveSecondValue(value: number | undefined): void;
   onSendComment(newCommentText: string): void;
@@ -23,6 +24,7 @@ export type TrainingTaskPreviewProps = {
 
 export function TrainingTaskPreview({
   task,
+  isSpecialist,
   onSaveFirstValue,
   onSaveSecondValue,
   onSendComment,
@@ -60,30 +62,40 @@ export function TrainingTaskPreview({
           </div>
           <div className={s.fakeInput}>{task.firstTargetValue}</div>
         </div>
-        <Formik
-          enableReinitialize
-          initialValues={{ firstFactValue: task.firstFactValue }}
-          onSubmit={values => onSaveFirstValue(values.firstFactValue)}
-        >
-          {({ values, handleBlur, handleChange, handleSubmit }) => (
-            <form className={s.half} onSubmit={handleSubmit}>
-              <Input
-                type={InputTypes.NAME}
-                placeholder="Факт"
-                name="firstFactValue"
-                label="Факт"
-                value={values.firstFactValue}
-                onBlur={handleBlur}
-                onChange={handleChange}
-              />
-              {values.firstFactValue !== task.firstFactValue && (
-                <button className={s.submitButton} type="submit">
-                  <img src={submitIcon} />
-                </button>
-              )}
-            </form>
-          )}
-        </Formik>
+        {isSpecialist && (
+          <div className={s.half}>
+            <div className={s.title}>
+              Факт ({translatedFirstTargetType[task.firstTargetType]})
+            </div>
+            <div className={s.fakeInput}>{task.firstFactValue || 0}</div>
+          </div>
+        )}
+        {!isSpecialist && (
+          <Formik
+            enableReinitialize
+            initialValues={{ firstFactValue: task.firstFactValue }}
+            onSubmit={values => onSaveFirstValue(values.firstFactValue)}
+          >
+            {({ values, handleBlur, handleChange, handleSubmit }) => (
+              <form className={s.half} onSubmit={handleSubmit}>
+                <Input
+                  type={InputTypes.NAME}
+                  placeholder="Факт"
+                  name="firstFactValue"
+                  label="Факт"
+                  value={values.firstFactValue}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                />
+                {values.firstFactValue !== task.firstFactValue && (
+                  <button className={s.submitButton} type="submit">
+                    <img src={submitIcon} />
+                  </button>
+                )}
+              </form>
+            )}
+          </Formik>
+        )}
       </div>
       <div className={s.line}>
         <div className={s.half}>
@@ -92,30 +104,40 @@ export function TrainingTaskPreview({
           </div>
           <div className={s.fakeInput}>{task.secondTargetValue}</div>
         </div>
-        <Formik
-          enableReinitialize
-          initialValues={{ secondFactValue: task.secondFactValue }}
-          onSubmit={values => onSaveSecondValue(values.secondFactValue)}
-        >
-          {({ values, handleBlur, handleChange, handleSubmit }) => (
-            <form className={s.half} onSubmit={handleSubmit}>
-              <Input
-                type={InputTypes.NAME}
-                placeholder="Факт"
-                name="secondFactValue"
-                label="Факт"
-                value={values.secondFactValue}
-                onBlur={handleBlur}
-                onChange={handleChange}
-              />
-              {values.secondFactValue !== task.secondFactValue && (
-                <button className={s.submitButton} type="submit">
-                  <img src={submitIcon} />
-                </button>
-              )}
-            </form>
-          )}
-        </Formik>
+        {isSpecialist && (
+          <div className={s.half}>
+            <div className={s.title}>
+              Факт ({translatedSecondTargetType[task.secondTargetType]})
+            </div>
+            <div className={s.fakeInput}>{task.secondFactValue || 0}</div>
+          </div>
+        )}
+        {!isSpecialist && (
+          <Formik
+            enableReinitialize
+            initialValues={{ secondFactValue: task.secondFactValue }}
+            onSubmit={values => onSaveSecondValue(values.secondFactValue)}
+          >
+            {({ values, handleBlur, handleChange, handleSubmit }) => (
+              <form className={s.half} onSubmit={handleSubmit}>
+                <Input
+                  type={InputTypes.NAME}
+                  placeholder="Факт"
+                  name="secondFactValue"
+                  label="Факт"
+                  value={values.secondFactValue}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                />
+                {values.secondFactValue !== task.secondFactValue && (
+                  <button className={s.submitButton} type="submit">
+                    <img src={submitIcon} />
+                  </button>
+                )}
+              </form>
+            )}
+          </Formik>
+        )}
       </div>
       {task.description && (
         <div className={s.line}>

@@ -39,7 +39,11 @@ export function TaskCalendar({
             </div>
           ))}
         </div>
-        <Calendar tasks={tasks} currentMonth={currentMonth} onClickTask={onClickTask}/>
+        <Calendar
+          tasks={tasks}
+          currentMonth={currentMonth}
+          onClickTask={onClickTask}
+        />
       </div>
     </div>
   );

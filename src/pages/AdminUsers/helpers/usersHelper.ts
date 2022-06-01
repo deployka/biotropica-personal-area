@@ -1,5 +1,6 @@
 import { FilterConfig } from '../components/UserFilter/UsersFilter';
-import { ROLE, User, TARIFF } from '../../../store/rtk/types/user';
+import { User, TARIFF } from '../../../store/rtk/types/user';
+import { ROLE } from '../../../store/@types/User';
 
 export const usersFilters: FilterConfig[] = [
   {
@@ -11,8 +12,12 @@ export const usersFilters: FilterConfig[] = [
         label: 'Все',
       },
       {
-        value: ROLE.USER,
+        value: ROLE.CLIENT,
         label: 'Пользователь',
+      },
+      {
+        value: ROLE.SPECIALIST,
+        label: 'Специалист',
       },
       {
         value: ROLE.ADMIN,
@@ -42,9 +47,27 @@ export const usersFilters: FilterConfig[] = [
       },
     ],
   },
+  {
+    name: 'Анкета',
+    key: 'questionnaire',
+    filters: [
+      {
+        value: undefined,
+        label: 'Все',
+      },
+      {
+        value: true,
+        label: 'Заполнена',
+      },
+      {
+        value: false,
+        label: 'Не заполнена',
+      },
+    ],
+  },
 ];
 
-export function filterUsersByRoles(users: User[], roles: (ROLE|undefined)[]) {
+export function filterUsersByRoles(users: User[], roles: (ROLE | undefined)[]) {
   if (roles.length === 1 && !roles[0]) {
     return users;
   }
@@ -60,7 +83,20 @@ export function filterUsersByRoles(users: User[], roles: (ROLE|undefined)[]) {
   });
 }
 
-export function filterUsersByTariffs(users: User[], tariffs: (TARIFF|undefined)[]) {
+export function filterUsersByQuestionnaire(users: User[], value: boolean) {
+  return users.filter(user => {
+    if (value) {
+      return user.questionHash === 'FINISHED';
+    } else {
+      return user.questionHash === null;
+    }
+  });
+}
+
+export function filterUsersByTariffs(
+  users: User[],
+  tariffs: (TARIFF | undefined)[],
+) {
   if (tariffs.length === 1 && !tariffs[0]) {
     return users;
   }
@@ -74,8 +110,10 @@ export function filterUsersByTariffs(users: User[], tariffs: (TARIFF|undefined)[
 export function filterUsersByQuery(users: User[], q: string) {
   const query = q.toLowerCase().trim();
   return users.filter(user => {
-    return user.name?.toLowerCase().includes(query) ||
-        user.lastname?.toLowerCase().includes(query) ||
-        user.email?.toLowerCase().includes(query);
+    return (
+      user.name?.toLowerCase().includes(query) ||
+      user.lastname?.toLowerCase().includes(query) ||
+      user.email?.toLowerCase().includes(query)
+    );
   });
 }

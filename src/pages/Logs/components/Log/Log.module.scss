@@ -1,0 +1,39 @@
+@import "./../../../../styles/global.scss";
+
+.log {
+    margin: 0 0 15px 0;
+    .info {
+        margin: 0 10px 0 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .date,
+    .time {
+        p {
+            color: #323232;
+            font-size: 15px;
+        }
+    }
+
+    .date {
+        margin: 0 10px 0 0;
+        p {
+            font-size: 15px;
+        }
+    }
+
+    .user {
+        margin: 0 10px 0 0;
+        p {
+            font-size: 15px;
+        }
+    }
+
+    .action {
+        p {
+            font-size: 15px;
+        }
+    }
+}

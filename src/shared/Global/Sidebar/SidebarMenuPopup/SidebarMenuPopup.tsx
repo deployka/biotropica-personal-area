@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { SidebarSvgSelector } from '../../../../assets/icons/sidebar/SIdebarSvgSelector';
 import { useModal } from '../../../../hooks/useModal';
-import { Nav, Pages } from '../../../../layouts/PrivateLayout';
+import { Nav, Page } from '../../../../layouts/PrivateLayout';
 import { ModalName } from '../../../../providers/ModalProvider';
 import { PopupBackground } from '../../PopupBackground/PopupBackground';
 
@@ -17,7 +17,7 @@ interface Props {
   openChat: () => void;
   logout: () => void;
   user: User | undefined;
-  pages: Pages[];
+  pages: Page[];
   location: Location;
 }
 
@@ -79,7 +79,7 @@ export const SidebarMenuPopup = ({
                   onNavClick(item);
                   closeModal(ModalName.MODAL_SIDEBAR_MENU);
                 }}
-                to={item.link}
+                to={item.link === '/' ? item.link : `/${item.link}`}
                 className={classNames(
                   item.link === '/' + location.pathname.split('/')[1]
                     ? s.active

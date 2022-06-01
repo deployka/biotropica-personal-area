@@ -61,16 +61,17 @@ export const ConsultationsList = () => {
         </div>
         <div className={s.headerRight}></div>
       </div>
-      <table className={s.table}>
-        <tr className={s.tableHeaderRow}>
-          <th>Дата</th>
-          <th>Время</th>
-          <th>Специалист</th>
-          <th></th>
-        </tr>
-        {activeConsultations.length !== 0
-          ? (
-              activeConsultations.map((consultation: Consultation) => (
+
+      <div className={s.tableContainer}>
+        <table className={s.table}>
+          <tr className={s.tableHeaderRow}>
+            <th>Дата</th>
+            <th>Время</th>
+            <th>Специалист</th>
+            <th></th>
+          </tr>
+          {activeConsultations.length !== 0 ? (
+            activeConsultations.map((consultation: Consultation) => (
               <tr key={consultation.id} className={s.tableRow}>
                 <td>{moment(consultation.date).format('LL')}</td>
                 <td>{moment(consultation.date).format('LT')}</td>
@@ -88,26 +89,27 @@ export const ConsultationsList = () => {
                   }}
                   onClick={moveToConsultation(consultation.id)}
                 >
-                перейти
+                  перейти
                 </td>
               </tr>
-              ))
-            )
-          : (
+            ))
+          ) : (
             <tr className={s.tableRow}>
               <td className={s.tableNoData}>Нет данных</td>
             </tr>
-            )}
-        <tr className={s.tableHeaderRow}>
-          <th>Без даты</th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-        {consultationsWithoutData.length !== 0
-          ? (
-              consultationsWithoutData.map((consultation: Consultation) => (
-              <tr key={consultation.id} className={s.tableRowOfPastConsultations}>
+          )}
+          <tr className={s.tableHeaderRow}>
+            <th>Без даты</th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+          {consultationsWithoutData.length !== 0 ? (
+            consultationsWithoutData.map((consultation: Consultation) => (
+              <tr
+                key={consultation.id}
+                className={s.tableRowOfPastConsultations}
+              >
                 <td>укажет специалист</td>
                 <td>укажет специалист</td>
                 <td>
@@ -127,26 +129,27 @@ export const ConsultationsList = () => {
                       ?.userId,
                   )}
                 >
-                открыть диалог
+                  открыть диалог
                 </td>
               </tr>
-              ))
-            )
-          : (
+            ))
+          ) : (
             <tr className={s.tableRow}>
               <td className={s.tableNoData}>Нет данных</td>
             </tr>
-            )}
-        <tr className={s.tableHeaderRow}>
-          <th>Прошедшие</th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-        {inactiveConsultations.length !== 0
-          ? (
-              inactiveConsultations.map((consultation: Consultation) => (
-              <tr key={consultation.id} className={s.tableRowOfPastConsultations}>
+          )}
+          <tr className={s.tableHeaderRow}>
+            <th>Прошедшие</th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+          {inactiveConsultations.length !== 0 ? (
+            inactiveConsultations.map((consultation: Consultation) => (
+              <tr
+                key={consultation.id}
+                className={s.tableRowOfPastConsultations}
+              >
                 <td>{moment(consultation.date).format('LL')}</td>
                 <td>{moment(consultation.date).format('LT')}</td>
                 <td>
@@ -156,14 +159,14 @@ export const ConsultationsList = () => {
                   }
                 </td>
               </tr>
-              ))
-            )
-          : (
+            ))
+          ) : (
             <tr className={s.tableRow}>
               <td className={s.tableNoData}>Нет данных</td>
             </tr>
-            )}
-      </table>
+          )}
+        </table>
+      </div>
     </div>
   );
 };

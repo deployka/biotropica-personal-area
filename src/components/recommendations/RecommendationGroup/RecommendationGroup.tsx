@@ -1,8 +1,12 @@
 import React from 'react';
 import { Recommendation, User } from '../../../store/rtk/types/user';
+import { getMediaLink } from '../../../utils/mediaHelper';
 import { RecommendationItem } from '../RecommendationItem/RecommendationItem';
+import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 
 import s from './RecommendationGroup.module.scss';
+import Button from '../../Button/Button';
+import { useHistory } from 'react-router';
 
 export type RecommendationGroupType = {
   specialist: User;
@@ -24,20 +28,22 @@ export const RecommendationGroup = ({
 }: RecommendationGroupProps) => {
   const { specialist, recommendationList } = recommendationGroup;
 
+  const history = useHistory();
+
+  function moveToSpecialist() {
+    history.push('/specialists/' + specialist.id);
+  }
+
   return (
     <div className={s.recommendationGroup}>
       <div className={s.header}>
         <div className={s.left}>
-          <div className={s.specialistPhoto}>
-            <img
-              src={`https://master.bio-specialist.devshift.ru/api/static/${specialist.profilePhoto}`}
-            />
+          <div onClick={moveToSpecialist} className={s.specialistPhoto}>
+            <img src={getMediaLink(specialist.profilePhoto) || defaultAvatar} />
           </div>
           {specialist.name} {specialist.lastname}
         </div>
-        <div className={s.right}>
-          <div className={s.link}></div>
-        </div>
+        <div className={s.right}></div>
       </div>
       <div className={s.divider}></div>
       <div className={s.recommendationsList}>

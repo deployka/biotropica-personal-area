@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { SchemaOf } from 'yup';
 import { ModalContext } from '../context/ModalContext';
-import { Nav, Pages } from '../layouts/PrivateLayout';
+import { Nav, Page } from '../layouts/PrivateLayout';
 
 import { CreateAnalyzeAnswerData } from '../store/ducks/analyze/contracts/state';
 import { Photo } from '../store/ducks/progress/contracts/state';
@@ -44,7 +44,7 @@ export type Modals = {
     openChat: () => void;
     logout: () => void;
     user: User | undefined;
-    pages: Pages[];
+    pages: Page[];
     location: Location;
   }>;
   [ModalName.MODAL_NOTIFICATIONS_MENU]: Modal<{
@@ -52,7 +52,7 @@ export type Modals = {
     setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
     onNavClick: (nav: Partial<Nav>) => void;
     user: User | undefined;
-    pages: Pages[];
+    pages: Page[];
     location: Location;
   }>;
 };

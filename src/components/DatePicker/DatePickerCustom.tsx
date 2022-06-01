@@ -63,6 +63,7 @@ const DatePickerCustom = (props: Props) => {
         {...inputProps}
         locale={'ru'}
         showYearDropdown
+        showMonthDropdown
         scrollableYearDropdown
         dateFormat={'dd.MM.yyyy'}
         customInput={<MaskedInput mask="11.11.1111" placeholder="dd.mm.yyyy" />}

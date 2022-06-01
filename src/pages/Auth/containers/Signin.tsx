@@ -34,6 +34,13 @@ const Signin = () => {
           message: 'Вход выполнен!',
           type: NotificationType.SUCCESS,
         });
+        eventBus.emit(EventTypes.notification, {
+          title: 'Внимание!',
+          message:
+            'Проводятся технические работы с системой оплаты тарифных планов. Вам доступны основные функции личного кабинета, кроме взаимодействия со специалистами Biotropika. Мы работаем над устранением проблемы',
+          dismiss: undefined,
+          type: NotificationType.INFO,
+        });
         break;
       default:
         break;

@@ -24,7 +24,8 @@ export const Safety = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [requestChangePassword, { isLoading, isSuccess, isError }] = useRequestChangePasswordMutation();
+  const [requestChangePassword, { isLoading, isSuccess, isError }] =
+    useRequestChangePasswordMutation();
 
   const user = useSelector((state: RootState) => state.user.user);
 
@@ -63,13 +64,7 @@ export const Safety = () => {
           onSubmit={(values: ChangePasswordData) => handleSubmit(values)}
           validationSchema={validationSchema}
         >
-          {({
-            values,
-            isValid,
-            dirty,
-            handleBlur,
-            handleChange,
-          }) => (
+          {({ values, isValid, dirty, handleBlur, handleChange }) => (
             <Form>
               <div className={s.form}>
                 <div className={s.input__wrapper}>
@@ -111,9 +106,7 @@ export const Safety = () => {
                 </div>
                 <div className={s.button__wrapper}>
                   <Button className={s.cancelBtn}>
-                    <Link to={'/profile/' + user.id}>
-                      Отмена
-                    </Link>
+                    <Link to={'/profile/' + user.id}>Отмена</Link>
                   </Button>
                   <Button
                     type="submit"
