@@ -11,8 +11,12 @@
     max-width: 1200px;
     width: 100%;
 
-    max-height: calc(100vh - 133px - 54px);
-    overflow-y: scroll;
+    overflow: hidden;
+
+    @include for-tablet {
+        max-height: calc(100vh - 133px - 54px);
+        overflow-y: scroll;
+    }
 
     display: flex;
     flex-direction: column;
