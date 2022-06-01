@@ -8,7 +8,6 @@ import Edit from '../pages/Profile/containers/Edit';
 import { ProfileLayout } from '../layouts/ProfileLayout';
 import Questionnaire from '../pages/Questionnaire/containers/Questionnaire';
 import Tariffs from '../pages/Tariffs/containers/Tariffs';
-import { Specialist } from '../pages/Specialist/Specialist';
 import { ConsultationsList } from '../pages/Consultations/containers/ConsultationsList';
 import { ConsultationPage } from '../pages/Consultation/Consultation';
 import { Tasks } from '../pages/Tasks/Tasks';
@@ -19,12 +18,14 @@ import { PublicProfile } from '../components/PublicProfile/containers/PublicProf
 import { SpecialistUsers } from '../pages/SpecialistUsers/SpecialistUsers';
 import VideoConsultationsList from '../pages/SpecialistVideoConsultationsList/VideoConsultationsList';
 import EditSpecialistProfile from '../pages/SpecialistProfile/Edit/Edit';
+import { Logs } from '../pages/Logs/containers/Logs';
 
 const routes = [
   {
     path: '/',
-    component: Tasks,
+    clientComponent: Tasks,
     specialistComponent: SpecialistUsers,
+    adminComponent: AdminUsers,
     exact: true,
   },
   {
@@ -34,18 +35,18 @@ const routes = [
   },
   {
     path: 'consultations',
-    component: Consultations,
+    clientComponent: Consultations,
     specialistComponent: VideoConsultationsList,
     exact: true,
   },
   {
     path: 'consultations/list',
-    component: ConsultationsList,
+    clientComponent: ConsultationsList,
     exact: true,
   },
   {
     path: 'consultations/list/:id',
-    component: ConsultationPage,
+    clientComponent: ConsultationPage,
     exact: true,
   },
   {
@@ -74,17 +75,17 @@ const routes = [
   },
   {
     path: 'users/:userId/tasks',
-    component: Tasks,
+    clientComponent: Tasks,
     exact: true,
   },
   {
     path: 'users/:userId/recommendations',
-    component: Recommendations,
+    clientComponent: Recommendations,
     exact: true,
   },
   {
-    path: 'admin/users',
-    component: AdminUsers,
+    path: 'logs',
+    adminComponent: Logs,
     exact: true,
   },
   {
@@ -109,22 +110,22 @@ const routes = [
   },
   {
     path: 'goals/add',
-    component: AddGoal,
+    clientComponent: AddGoal,
     exact: true,
   },
   {
     path: 'goals',
-    component: Goals,
+    clientComponent: Goals,
     exact: true,
   },
   {
     path: 'goals/:id',
-    component: Goals,
+    clientComponent: Goals,
     exact: true,
   },
   {
     path: 'goals/edit/:id',
-    component: EditGoalForm,
+    clientComponent: EditGoalForm,
     exact: true,
   },
   {
@@ -134,7 +135,7 @@ const routes = [
   },
   {
     path: 'questionnaire',
-    component: Questionnaire,
+    clientComponent: Questionnaire,
     exact: true,
   },
   {

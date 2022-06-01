@@ -1,0 +1,45 @@
+@import '../../../styles/global.scss';
+@import '../../../styles/mixins.scss';
+
+.form {
+	max-width: 350px;
+}
+
+.input {
+	margin-bottom: 12px;
+}
+
+.addFieldBtn {
+	width: 350px;
+	margin-bottom: 10px;
+
+	@include for-phone {
+		width: 100%;
+	}
+}
+
+.closeAndSave {
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 10px;
+
+	.closeBtn {
+		margin-right: 10px;
+	}
+
+	button {
+		width: 100%;
+	}
+}
+
+.deleteBtn {
+	@include link;
+
+	text-decoration: none;
+
+	color: $color-link;
+
+	&:hover {
+		color: $color-primary;
+	}
+}

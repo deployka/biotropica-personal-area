@@ -43,7 +43,6 @@ const Button = (props: Props) => {
       onClick={onClick}
     >
       {isLoading ? <Loader /> : ''}
-      &nbsp;
       {children}
     </button>
   );

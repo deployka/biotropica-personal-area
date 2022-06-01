@@ -61,6 +61,7 @@ export const ConsultationsList = () => {
         </div>
         <div className={s.headerRight}></div>
       </div>
+
       <div className={s.tableContainer}>
         <table className={s.table}>
           <tr className={s.tableHeaderRow}>

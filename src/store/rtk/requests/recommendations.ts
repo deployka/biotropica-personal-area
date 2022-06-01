@@ -29,9 +29,9 @@ export const recommendationApi = createApi({
         providesTags: result =>
           result
             ? [
-              ...result.map(({ id }) => ({ type: 'Recommendation', id } as const)),
-              { type: 'Recommendation', id: 'LIST' },
-            ]
+                ...result.map(({ id }) => ({ type: 'Recommendation', id } as const)),
+                { type: 'Recommendation', id: 'LIST' },
+              ]
             : [{ type: 'Recommendation', id: 'LIST' }],
       }),
       getRecommendation: builder.query<Recommendation, number>({

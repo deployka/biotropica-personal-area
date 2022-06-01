@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import s from './Tariff.module.scss';
 
-interface Tariff {
+export interface Tariff {
   name: string;
   expires: string;
 }

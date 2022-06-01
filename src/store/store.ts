@@ -73,8 +73,7 @@ const middlewareHandler = (getDefaultMiddleware: any) => {
 export const store = configureStore({
   reducer: rootReducer,
   // composeEnhancers(applyMiddleware(sagaMiddleware)),
-  middleware: getDefaultMiddleware =>
-    middlewareHandler(getDefaultMiddleware),
+  middleware: getDefaultMiddleware => middlewareHandler(getDefaultMiddleware),
 });
 
 sagaMiddleware.run(rootSaga);
@@ -82,6 +81,6 @@ sagaMiddleware.run(rootSaga);
 setupListeners(store.dispatch);
 
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;
 
 export default store;

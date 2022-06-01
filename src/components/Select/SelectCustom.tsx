@@ -84,9 +84,9 @@ function SelectCustom<V>({ touched, error, ...props }: Props<V>) {
 
   const selectValue = value
     ? {
-      value,
-      label: options.find(it => it.value === value)?.label,
-    }
+        value,
+        label: options.find(it => it.value === value)?.label,
+      }
     : null;
 
   return (

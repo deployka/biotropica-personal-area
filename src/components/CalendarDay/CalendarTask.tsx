@@ -27,10 +27,10 @@ export const CalendarTask = ({ task, onClickTask }: Props) => {
                 {startTime} {task.endTime ? `– ${endTime}` : ''}
               </p>
             </div>
-          )
+            )
           : (
-            ''
-          )}
+              ''
+            )}
         <div className={classNames(s.title, s[task.status])}>{task.title}</div>
       </div>
     </div>

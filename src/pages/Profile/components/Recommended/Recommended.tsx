@@ -93,7 +93,7 @@ export const Recommended = ({ user }: Props) => {
             getAmountByType={getAmountByType}
             getProfilesByType={getProfilesByType}
           />
-        )
+          )
         : (
           <DesktopRecommended
             recTypes={recTypes}
@@ -103,7 +103,7 @@ export const Recommended = ({ user }: Props) => {
             getAmountByType={getAmountByType}
             activeProfiles={activeProfiles}
           />
-        )}
+          )}
     </div>
   );
 };

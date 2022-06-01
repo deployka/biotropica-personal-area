@@ -33,9 +33,9 @@ export const taskApi = createApi({
         providesTags: result =>
           result
             ? [
-              ...result.map(({ id }) => ({ type: 'Task', id } as const)),
-              { type: 'Task', id: 'LIST' },
-            ]
+                ...result.map(({ id }) => ({ type: 'Task', id } as const)),
+                { type: 'Task', id: 'LIST' },
+              ]
             : [{ type: 'Task', id: 'LIST' }],
       }),
       getTask: builder.query<Task, number>({

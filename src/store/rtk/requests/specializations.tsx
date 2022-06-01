@@ -23,9 +23,9 @@ export const specializationApi = createApi({
         providesTags: result =>
           result
             ? [
-              ...result.map(({ id }) => ({ type: 'Specialization', id } as const)),
-              { type: 'Specialization', id: 'LIST' },
-            ]
+                ...result.map(({ id }) => ({ type: 'Specialization', id } as const)),
+                { type: 'Specialization', id: 'LIST' },
+              ]
             : [{ type: 'Specialization', id: 'LIST' }],
       }),
       getSpecialization: builder.query<Specialization, number>({

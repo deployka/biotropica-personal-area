@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import classNames from 'classnames';
 import moment from 'moment';
 
 import s from './Courses.module.scss';
 
 import Button from '../../../../components/Button/Button';
-import Label from '../../../../components/Label/Label';
-import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage';
 import Modal from '../../../../shared/Global/Modal/Modal';
 import Confirm from '../../../../shared/Global/Modal/Confirm/Confirm';
 import { useRequestChangeCoursesMutation } from '../../../../store/rtk/requests/specialists';
@@ -15,6 +12,7 @@ import { useRequestChangeCoursesMutation } from '../../../../store/rtk/requests/
 import { Loader } from '../../../../shared/Global/Loader/Loader';
 import { useRequestUserDataQuery } from '../../../../store/rtk/requests/user';
 import { useRequestUsersDataQuery } from '../../../../store/rtk/requests/users';
+
 import { Textarea } from '../../../../shared/Form/Textarea/Textarea';
 import { Input } from '../../../../shared/Form/Input/Input';
 import Divider from '../../../../components/Divider/Divider';
@@ -22,19 +20,29 @@ import { eventBus, EventTypes } from '../../../../services/EventBus';
 import { NotificationType } from '../../../../components/GlobalNotifications/GlobalNotifications';
 
 interface Course {
-  id: number,
-  title: string,
-  description: string,
-  date: string,
+  id: number;
+  title: string;
+  description: string;
+  date: string;
 }
 
 const Courses = () => {
   const history = useHistory();
 
-  const { data: user, refetch: refetchUserData, isLoading: isGetUserLoading } = useRequestUserDataQuery();
-  const { data: users, refetch: refetchUsersData, isLoading: isGetUsersLoading } = useRequestUsersDataQuery();
+  const {
+    data: user,
+    refetch: refetchUserData,
+    isLoading: isGetUserLoading,
+  } = useRequestUserDataQuery();
 
-  const [requestChangeCourses, { isLoading, isSuccess, isError }] = useRequestChangeCoursesMutation();
+  const {
+    data: users,
+    refetch: refetchUsersData,
+    isLoading: isGetUsersLoading,
+  } = useRequestUsersDataQuery();
+
+  const [requestChangeCourses, { isLoading, isSuccess, isError }] =
+    useRequestChangeCoursesMutation();
 
   React.useEffect(() => {
     if (isSuccess) {
@@ -81,10 +89,17 @@ const Courses = () => {
     setIsDeleteModalVisible(false);
   };
 
-  const handleChange = (id: number, title: string, description: string, date: string) => {
+  const handleChange = (
+    id: number,
+    title: string,
+    description: string,
+    date: string,
+  ) => {
     setIsDataChanged(true);
 
-    const filteredCourses = courses.filter((course: Course) => course.id !== id);
+    const filteredCourses = courses.filter(
+      (course: Course) => course.id !== id,
+    );
 
     let editedCourse = courses.find((course: Course) => course.id === id);
 
@@ -95,10 +110,9 @@ const Courses = () => {
       date: date,
     };
 
-    const newCourses = [
-      ...filteredCourses,
-      editedCourse,
-    ].sort((a, b) => a.id - b.id);
+    const newCourses = [...filteredCourses, editedCourse].sort(
+      (a, b) => a.id - b.id,
+    );
 
     setCourses(newCourses);
   };
@@ -120,7 +134,9 @@ const Courses = () => {
       setCourseIdToDelete(id);
       showDeleteModal();
     } else {
-      const editedCourses = courses.filter((course: Course) => course.id !== id);
+      const editedCourses = courses.filter(
+        (course: Course) => course.id !== id,
+      );
       setCourses(editedCourses);
     }
   };
@@ -159,14 +175,13 @@ const Courses = () => {
     });
   };
 
-  const isSubmitDisabled = !!courses.find((course: Course) => course.title === '' || course.description === '');
+  const isSubmitDisabled = !!courses.find(
+    (course: Course) => course.title === '' || course.description === '',
+  );
 
   return (
     <>
-      {
-        (isLoading || isGetUserLoading || isGetUsersLoading) &&
-          <Loader />
-      }
+      {(isLoading || isGetUserLoading || isGetUsersLoading) && <Loader />}
       <div className={s.courses}>
         <form onSubmit={handleSubmit}>
           <div className={s.form}>
@@ -178,35 +193,39 @@ const Courses = () => {
                       placeholder="Название"
                       value={course.title || ''}
                       name="title"
-                      onChange={e => handleChange(
-                        course.id,
-                        e.target.value,
-                        course.description,
-                        course.date,
-                      )}
+                      onChange={e =>
+                        handleChange(
+                          course.id,
+                          e.target.value,
+                          course.description,
+                          course.date,
+                        )
+                      }
                     />
                     <Textarea
                       value={course.description}
                       rows={5}
                       placeholder="Описание"
                       name="description"
-                      onChange={e => handleChange(
-                        course.id,
-                        course.title,
-                        e.target.value,
-                        course.date,
-                      )}
+                      onChange={e =>
+                        handleChange(
+                          course.id,
+                          course.title,
+                          e.target.value,
+                          course.date,
+                        )
+                      }
                     />
                   </div>
                   <Button
                     className={s.course__closeBtn}
                     onClick={() => handleClickDeleteBtn(course.id)}
                   >
-                  x
+                    x
                   </Button>
                 </div>
                 <div className={s.divider}>
-                  <Divider/>
+                  <Divider />
                 </div>
               </div>
             ))}
@@ -215,18 +234,12 @@ const Courses = () => {
               className={s.addButton}
               onClick={handleClickAddCourse}
             >
-              <span>
-                +
-              </span>
-              <span>
-                Добавить курс
-              </span>
+              <span>+</span>
+              <span>Добавить курс</span>
             </Button>
             <div className={s.button__wrapper}>
               <Button className={s.cancelBtn}>
-                <Link to={'/profile/' + user?.id}>
-                  Отмена
-                </Link>
+                <Link to={'/profile/' + user?.id}>Отмена</Link>
               </Button>
               <Button
                 type="submit"
@@ -242,8 +255,10 @@ const Courses = () => {
       </div>
       <Modal isOpened={isDeleteModalVisible} close={() => closeDeleteModal()}>
         <Confirm
-          helpMessage='Вы уверены, что хотите удалить курс?'
-          accept={() => { !!courseIdToDelete && handleClickDeleteCourse(courseIdToDelete); }}
+          helpMessage="Вы уверены, что хотите удалить курс?"
+          accept={() => {
+            !!courseIdToDelete && handleClickDeleteCourse(courseIdToDelete);
+          }}
           reject={() => closeDeleteModal()}
         />
       </Modal>

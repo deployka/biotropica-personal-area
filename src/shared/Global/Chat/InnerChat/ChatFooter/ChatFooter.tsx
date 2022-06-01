@@ -79,10 +79,10 @@ export function ChatFooter({ onSubmit, onFocus, onBlur }: Props) {
             onImageLoaded={onImageLoadedHandler}
             onDocumentLoaded={onDocumentLoadedHandler}
           />
-        )
+          )
         : (
-          ''
-        )}
+            ''
+          )}
 
       <button className={s.submitBtn} type="submit">
         <div className={s.form__submit__btn__img}>
