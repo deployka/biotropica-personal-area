@@ -9,6 +9,8 @@ import { useHistory, useParams } from 'react-router';
 import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 import { getTabByKey } from '../../../utils/tabsHelper';
 
+import ChatIcon from './../../../assets/icons/ChatLight.svg';
+
 import s from './Profile.module.scss';
 import { SortedRecommendations } from '../../../store/ducks/recommendations/selectors';
 import {
@@ -17,10 +19,11 @@ import {
 } from '../../../store/ducks/analyze/contracts/state';
 import { Progress as IProgress } from '../../../store/ducks/progress/contracts/state';
 import { LoadingStatus } from '../../../store/types';
-import { Button } from '../components/Button/Button';
 import { eventBus, EventTypes } from '../../../services/EventBus';
 import { chatApi } from '../../../shared/Global/Chat/services/chatApi';
 import { NotificationType } from '../../GlobalNotifications/GlobalNotifications';
+import { SidebarSvgSelector } from '../../../assets/icons/sidebar/SIdebarSvgSelector';
+import classNames from 'classnames';
 
 interface Props {
   user: User;
@@ -103,8 +106,18 @@ export const Profile = ({
           <div className={s.userInfo}>
             <Goals goalsLength={goalsLength} />
             <Tariff tariff={tariffData} />
-            <Button onClick={moveToTasks}>Задачи и рекомендации</Button>
-            <Button onClick={createChat}>Начать чат</Button>
+          </div>
+          <div className={s.userActions}>
+            <button className={s.button} onClick={moveToTasks}>
+              Задачи и рекомендации
+            </button>
+            <button
+              className={classNames(s.button, s.small)}
+              onClick={createChat}
+            >
+              <img className={s.icon} src={ChatIcon} />
+              <span className={s.text}>Начать чат</span>
+            </button>
           </div>
         </div>
         <div className={s.content}>
