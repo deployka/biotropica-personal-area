@@ -8,6 +8,7 @@ import { Tariff as ITariff } from '../../../../store/rtk/types/tariff';
 import { selectUserRoles } from '../../../../store/rtk/slices/authSlice';
 
 import s from './Tariff.module.scss';
+import { ROLE } from '../../../../store/rtk/types/user';
 
 interface Props {
   tariff: ITariff;
@@ -24,7 +25,7 @@ export const Tariff = (props: Props) => {
 
   const roles = useSelector(selectUserRoles);
 
-  const isAdmin = roles.includes('ADMIN');
+  const isAdmin = roles.includes(ROLE.ADMIN);
 
   return (
     <>

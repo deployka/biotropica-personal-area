@@ -12,7 +12,7 @@ import { selectCurrentUserData } from '../store/ducks/user/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMobile } from '../hooks/useMobile';
 import { SidebarSvgSelector } from '../assets/icons/sidebar/SIdebarSvgSelector';
-import { useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { fetchSignout, setUserData } from '../store/ducks/user/actionCreators';
 import { SidebarDesktop } from '../shared/Global/Sidebar/SidebarDesktop';
 import { SidebarMobile } from '../shared/Global/Sidebar/SidebarMobile';
@@ -20,7 +20,12 @@ import { SidebarWrapper } from '../shared/Global/SidebarWrapper/SidebarWrapper';
 import { Chat } from '../shared/Modules/Chat';
 import { eventBus, EventTypes } from '../services/EventBus';
 import { chatApi } from '../shared/Global/Chat/services/chatApi';
-import { selectUserRoles } from '../store/rtk/slices/authSlice';
+import {
+  selectIsAdmin,
+  selectIsClient,
+  selectIsDoctor,
+  selectUserRoles,
+} from '../store/rtk/slices/authSlice';
 import { getCurrentPage } from '../utils/getCurrentPage';
 import { ROLE } from '../store/rtk/types/user';
 
@@ -51,9 +56,10 @@ const pages = [
   },
   { page: 'Анкета', link: 'questionnaire' },
   { page: 'Пользователи', link: 'users' },
-  { page: 'Пользователи', link: 'admin' },
+  { page: 'Пользователи', link: '/' },
   { page: 'Специалист', link: 'specialists' },
   { page: 'Рекомендации', link: 'recommendations' },
+  { page: 'Логи', link: 'logs' },
 ];
 
 const clientNav: Nav[] = [
@@ -105,14 +111,16 @@ const specialistNav: Nav[] = [
 
 const adminNav: Nav[] = [
   {
-    page: 'Пользователи',
-    link: '/',
-    svg: <SidebarSvgSelector id="home" />,
+    ...pages[9],
+    svg: <SidebarSvgSelector id="users" />,
   },
   {
-    page: 'Логи',
-    link: '/logs',
+    ...pages[12],
     svg: <SidebarSvgSelector id="logs" />,
+  },
+  {
+    ...pages[3],
+    svg: <SidebarSvgSelector id="tariffs" />,
   },
 ];
 
@@ -126,30 +134,34 @@ async function sendMessage() {
 
 export function PrivateLayout(props: Props) {
   const currentUser = useSelector(selectCurrentUserData);
+  const history = useHistory();
 
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  const roles = useSelector(selectUserRoles);
+  const isAdmin = useSelector(selectIsAdmin);
+  const isClient = useSelector(selectIsClient);
+  const isSpecialist = useSelector(selectIsDoctor);
 
   const currentPage = useMemo(() => getCurrentPage(pathname), [pathname]);
 
   let nav: Nav[] = [];
-  if (roles.includes(ROLE.ADMIN)) {
+  if (isAdmin) {
     nav = adminNav;
-  } else if (roles.includes(ROLE.SPECIALIST)) {
+  } else if (isSpecialist) {
     nav = specialistNav;
   } else {
     nav = clientNav;
   }
 
-  const defaultPageName = nav
+  const currentPageName = nav
     .concat(pages)
     .find(p => p.link === currentPage)?.page;
-  const [page, setPage] = useState<string>(defaultPageName || 'Страница 404');
+
+  const [page, setPage] = useState<string>(currentPageName || 'Страница 404');
 
   useEffect(() => {
-    setPage(defaultPageName || 'Страница 404');
-  }, [defaultPageName]);
+    setPage(currentPageName || 'Страница 404');
+  }, [currentPageName]);
 
   const isMobile = useMobile();
 

@@ -11,6 +11,7 @@ import AddTariffModal from '../components/AddTariffModal/AddTariffModal';
 import { useRequestTariffsQuery } from '../../../store/rtk/requests/tariffs';
 
 import s from './Tariffs.module.scss';
+import { ROLE } from '../../../store/rtk/types/user';
 
 const Tariffs = () => {
   // FIXME: refetch
@@ -22,7 +23,7 @@ const Tariffs = () => {
 
   const roles = useSelector(selectUserRoles);
 
-  const isAdmin = roles.includes('ADMIN');
+  const isAdmin = roles.includes(ROLE.ADMIN);
 
   useEffect(() => {
     if (document.documentElement.clientWidth <= 500) {

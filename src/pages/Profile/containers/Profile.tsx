@@ -98,6 +98,7 @@ const Profile = ({ user }: Props) => {
   function moveToTasks() {
     history.push('/');
   }
+
   return (
     <>
       <div className={s.profile}>

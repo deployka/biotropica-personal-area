@@ -56,5 +56,9 @@ export const selectIsAuthorized = (state: RootState): boolean =>
   state.authSlice.isAuthorized;
 export const selectIsDoctor = (state: RootState): boolean =>
   state.authSlice.roles.includes(ROLE.SPECIALIST);
+export const selectIsAdmin = (state: RootState): boolean =>
+  state.authSlice.roles.includes(ROLE.ADMIN);
+export const selectIsClient = (state: RootState): boolean =>
+  state.authSlice.roles.includes(ROLE.CLIENT);
 
 export default slice.reducer;

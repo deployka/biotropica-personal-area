@@ -9,6 +9,7 @@ import EditTariffModal from '../EditTariffModal/EditTariffModal';
 import Button from '../../../../components/Button/Button';
 
 import s from './TariffMobile.module.scss';
+import { ROLE } from '../../../../store/rtk/types/user';
 
 interface Props {
   tariff: Tariff;
@@ -31,7 +32,7 @@ export const TariffMobile = (props: Props) => {
 
   const roles = useSelector(selectUserRoles);
 
-  const isAdmin = roles.includes('ADMIN');
+  const isAdmin = roles.includes(ROLE.ADMIN);
 
   return (
     <>
