@@ -15,7 +15,7 @@ import {
   selectUserResponse,
 } from '../../../store/ducks/user/selectors';
 import { LoadingStatus } from '../../../store/types';
-import { EditPassword } from '../components/EditPassword/EditPassword';
+import { ProfileEditPassword } from '../../../components/EditClient/Password/Password';
 
 export const Security = () => {
   const dispatch = useDispatch();
@@ -61,7 +61,7 @@ export const Security = () => {
     dispatch(fetchSignout());
   }
   return (
-    <EditPassword
+    <ProfileEditPassword
       onSubmit={onSubmit}
       logout={logout}
       loader={loader}

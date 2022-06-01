@@ -1,0 +1,55 @@
+@import "./../../../styles/variables.scss";
+
+.documentsList {
+    padding: 0 0 20px 0;
+    margin: 0 0 15px 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    row-gap: 17px;
+
+    .document {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content {
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        column-gap: 15px;
+    }
+
+    .icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .name {
+        padding: 0 0 2px 0;
+        border-bottom: 1px solid $color-secondary;
+        a {
+            font-size: 16px;
+            line-height: 120%;
+            text-decoration: none;
+
+            color: #1e174d;
+
+            color: $color-black;
+        }
+    }
+
+    .createdAt {
+        margin-top: 8px;
+        color: $color-secondary;
+    }
+    .commentsCount {
+        margin-top: 8px;
+        cursor: pointer;
+        color: $color-secondary;
+    }
+}

@@ -4,11 +4,9 @@ import {
   selectUserLoadingStatus,
   selectUserResponse,
 } from '../../../store/ducks/user/selectors';
-import { Card } from '../components/Card/Card';
-import { Tariff } from '../components/Tariff/Tariff';
-import { Goals } from '../components/Goals/Goals';
+
 import { Progress } from '../components/Progress/Progress';
-import { Recommended } from '../components/Recommended/Recommended';
+
 import { TestsAndAnalyze } from '../components/TestsAndAnalyze/TestsAndAnalyze';
 
 import s from './Profile.module.scss';
@@ -23,25 +21,28 @@ import { eventBus, EventTypes } from '../../../services/EventBus';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { setUserResponse } from '../../../store/ducks/user/actionCreators';
 import { selectGoalsData } from '../../../store/ducks/goals/selectors';
-import { Button } from '../components/Button/Button';
+
+import { ProfileCard } from '../../../components/Profile/Card/Card';
+import { ProfileGoals } from '../../../components/Profile/Goals/Goals';
+import { ProfileTariff } from '../../../components/Profile/Tariff/Tariff';
 
 interface Props {
   user: User;
 }
 
+const tabs: Tab[] = [
+  {
+    key: 'test-analyzes',
+    value: 'Тестирование и Анализы',
+  },
+  {
+    key: 'progress',
+    value: 'Прогресс',
+  },
+];
+
 const Profile = ({ user }: Props) => {
   const { openModal } = useModal();
-
-  const tabs: Tab[] = [
-    {
-      key: 'test-analyzes',
-      value: 'Тестирование и Анализы',
-    },
-    {
-      key: 'progress',
-      value: 'Прогресс',
-    },
-  ];
 
   const dispatch = useDispatch();
 
@@ -99,40 +100,38 @@ const Profile = ({ user }: Props) => {
     history.push('/');
   }
   return (
-    <>
-      <div className={s.profile}>
-        <div className={s.info}>
-          <Card user={user} />
-          <div className={s.userInfo}>
-            <Goals goalsLength={goals.length} />
-            <Tariff tariff={tariffData} />
-          </div>
-          <div className={s.moveToTasks}>
-            <Button onClick={moveToTasks}>Задачи и рекомендации</Button>
-          </div>
+    <div className={s.profile}>
+      <div className={s.info}>
+        <ProfileCard user={user} />
+        <div className={s.userInfo}>
+          <ProfileGoals goalsLength={goals.length} />
+          <ProfileTariff tariff={tariffData} />
         </div>
-        <div className={s.content}>
-          <div className={s.tabs__container}>
-            <div className={s.horizontalScroll}>
-              <Tabs
-                tabs={tabs}
-                activeTab={activeTab}
-                onActiveTabChanged={setActiveTab}
-                spaceBetween={50}
-                onTabClick={onTabClick}
-              />
-            </div>
-          </div>
-          {activeTab === tabs[0].key && <TestsAndAnalyze user={user} />}
-          {activeTab === tabs[1].key && (
-            <button onClick={openModalHandler} className={s.btn__add__photo}>
-              добавить фото
-            </button>
-          )}
-          {activeTab === tabs[1].key && <Progress user={user} />}
+        <div className={s.moveToTasks}>
+          <button onClick={moveToTasks}>Задачи и рекомендации</button>
         </div>
       </div>
-    </>
+      <div className={s.content}>
+        <div className={s.tabs__container}>
+          <div className={s.horizontalScroll}>
+            <Tabs
+              tabs={tabs}
+              activeTab={activeTab}
+              onActiveTabChanged={setActiveTab}
+              spaceBetween={50}
+              onTabClick={onTabClick}
+            />
+          </div>
+        </div>
+        {activeTab === tabs[0].key && <TestsAndAnalyze user={user} />}
+        {activeTab === tabs[1].key && (
+          <button onClick={openModalHandler} className={s.btn__add__photo}>
+            добавить фото
+          </button>
+        )}
+        {activeTab === tabs[1].key && <Progress user={user} />}
+      </div>
+    </div>
   );
 };
 

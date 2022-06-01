@@ -1,0 +1,188 @@
+@import "./../../../styles//mixins.scss";
+
+.modal {
+  position: absolute;
+  z-index: 500;
+  top: 20%;
+  left: 50%;
+  transform: translateY(-50%);
+  transform: translateX(-50%);
+
+  padding: 21px 0px 30px;
+
+  width: calc(100% - 60px);
+  max-width: 840px;
+  height: 481px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #ffffff;
+  box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+  border-radius: 5px;
+
+  @include for-phone {
+    padding: 20px 0 0 0;
+    position: fixed;
+    top: unset;
+    bottom: 0;
+    left: 0;
+
+    height: unset;
+
+    border-radius: 20px 20px 0 0;
+
+    width: 100%;
+
+    transform: translate(0);
+  }
+
+  .title {
+    margin-top: 0;
+
+    max-height: 53px;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-bottom: 1px solid #f7f6fb;
+
+    @include for-phone {
+      padding: 0 0 20px 0;
+      p {
+        font-size: 18px;
+        line-height: 22px;
+      }
+    }
+
+    p {
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 120%;
+      letter-spacing: 0.0075em;
+
+      color: #000000;
+    }
+  }
+  .items {
+    position: relative;
+
+    max-width: 570px;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include for-phone {
+      width: 100%;
+      height: unset;
+      margin: 20px 0 0 0;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      column-gap: 10px;
+      row-gap: 10px;
+    }
+  }
+
+  .input__container {
+    position: relative;
+    width: 170px;
+    height: 246px;
+    padding: 15px;
+
+    @include for-phone {
+      width: 100%;
+      height: unset;
+    }
+  }
+
+  .input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    display: none;
+  }
+
+  .label {
+    position: relative;
+
+    width: 170px;
+    height: 246px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f7f6fb;
+    border-radius: 5px;
+    border: none;
+
+    cursor: pointer;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    @include for-phone {
+      width: 144px;
+      height: 30vh;
+    }
+
+    p {
+      position: absolute;
+      bottom: 15px;
+      font-weight: 500;
+      font-size: 14px;
+
+      line-height: 130%;
+      letter-spacing: 0.25px;
+
+      color: #736f8b;
+      margin-bottom: 0;
+    }
+
+    transition: all 0.15s ease;
+
+    &:hover {
+      box-shadow: 0px 0px 6px rgba(210, 204, 233, 0.5);
+    }
+  }
+
+  .buttons {
+    width: 216px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @include for-phone {
+      margin: 20px 0 0 0;
+      width: calc(100% - 20px);
+
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      column-gap: 20px;
+    }
+  }
+}
+
+.error__input {
+  border: 2px solid tomato;
+}
+
+.success__input {
+  border: 2px solid green;
+}
+
+.error {
+  position: absolute;
+}

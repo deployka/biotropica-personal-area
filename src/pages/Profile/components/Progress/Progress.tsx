@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
-import { ProgressCard } from './ProgressCard/ProgressCard';
+import { ProgressCard } from './../../../../components/Progress/Card/Card';
 
 import s from './Progress.module.scss';
 import { useDispatch, useSelector } from 'react-redux';

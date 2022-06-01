@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import s from './TestsAndAnalyze.module.scss';
-import { AnalyzesCard } from './AnalyzesCard/AnalyzesCard';
+
 import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
 import { ModalName } from '../../../../providers/ModalProvider';
 import { useModal } from '../../../../hooks/useModal';
@@ -36,8 +35,12 @@ import { NEXT_FETCH_LIMIT, MIN_LIMIT } from '../../../../constants/analyzes';
 import { MAX_PDF_SIZE } from '../../../../constants/files';
 import { eventBus, EventTypes } from '../../../../services/EventBus';
 import { NotificationType } from '../../../../components/GlobalNotifications/GlobalNotifications';
-import { Questionnaire } from './Questionnaire/Questionnaire';
+
 import UserService from '../../../../services/UserService';
+
+import s from './TestsAndAnalyze.module.scss';
+import { AnalyzesCard } from '../../../../components/Analyzes/Card/Card';
+import { QuestionnaireResults } from '../../../../components/QuestionnaireResults/Questionnaire';
 
 interface Props {
   user: User;
@@ -92,7 +95,7 @@ export const TestsAndAnalyze = ({ user }: Props) => {
           message: response?.message || 'Анализ успешно загружен!',
           type: NotificationType.SUCCESS,
         });
-        closeModal(ModalName.MODAL_ADD_ANALYZ_FILE);
+        closeModal(ModalName.MODAL_ADD_ANALYZE_FILE);
         dispatch(fetchAnalyzesData(user.id));
         setIsShowMore(true);
         dispatch(setAnalyzeResponse(undefined));
@@ -124,7 +127,7 @@ export const TestsAndAnalyze = ({ user }: Props) => {
   }
 
   function addAnalyzeOpen() {
-    return openModal(ModalName.MODAL_ADD_ANALYZ_FILE, {
+    return openModal(ModalName.MODAL_ADD_ANALYZE_FILE, {
       onSubmit,
       validationSchema,
       onErrorFileLoaded: () => {
@@ -173,7 +176,7 @@ export const TestsAndAnalyze = ({ user }: Props) => {
   return (
     <div className={s.tests__and__analyze}>
       {answers.length ? (
-        <Questionnaire
+        <QuestionnaireResults
           answers={answers.sort((a, b) => a.question.order - b.question.order)}
         />
       ) : (

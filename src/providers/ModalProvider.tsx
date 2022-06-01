@@ -13,7 +13,7 @@ interface Props {
 export enum ModalName {
   MODAL_ADD_PROGRESS_PHOTO = 'MODAL_ADD_PROGRESS_PHOTO',
   MODAL_PROGRESS_PHOTO_SLIDER = 'MODAL_PROGRESS_PHOTO_SLIDER',
-  MODAL_ADD_ANALYZ_FILE = 'MODAL_ADD_ANALYZ_FILE',
+  MODAL_ADD_ANALYZE_FILE = 'MODAL_ADD_ANALYZE_FILE',
   MODAL_SIDEBAR_MENU = 'MODAL_SIDEBAR_MENU',
   MODAL_NOTIFICATIONS_MENU = 'MODAL_NOTIFICATIONS_MENU',
 }
@@ -27,7 +27,7 @@ export type Modals = {
   [ModalName.MODAL_ADD_PROGRESS_PHOTO]: Modal<{
     user: User;
   }>;
-  [ModalName.MODAL_ADD_ANALYZ_FILE]: Modal<{
+  [ModalName.MODAL_ADD_ANALYZE_FILE]: Modal<{
     onSubmit: (values: CreateAnalyzeAnswerData) => void;
     validationSchema: SchemaOf<Omit<CreateAnalyzeAnswerData, 'analyzeId'>>;
     onErrorFileLoaded: () => void;

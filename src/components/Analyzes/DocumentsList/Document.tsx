@@ -1,0 +1,46 @@
+import React, { useState } from 'react';
+import moment from 'moment';
+import { AnalyzeAnswer } from '../../../store/ducks/analyze/contracts/state';
+import { getMediaLink } from '../../../utils/mediaHelper';
+import documentSvg from '../../../assets/icons/profile/document.svg';
+import { Comments } from '../../../components/Comments/Comments';
+import { CommentsInfo } from '../../../components/Comments/CommentsInfo';
+import s from './DocumentsList.module.scss';
+
+interface Props {
+  analyze: AnalyzeAnswer;
+}
+
+export const Document = ({ analyze }: Props) => {
+  const [isCommentsOpen, setIsCommentsOpen] = useState(false);
+
+  return (
+    <div className={s.document}>
+      <div className={s.content}>
+        <div className={s.icon}>
+          <img src={documentSvg} />
+        </div>
+        <div className={s.name}>
+          <a
+            target="_blank"
+            href={getMediaLink(analyze.filePath)}
+            rel="noreferrer"
+          >
+            {analyze.text}
+          </a>
+        </div>
+      </div>
+      <div className={s.analyze_footer}>
+        <div className={s.createdAt}>
+          {moment(analyze.createdAt).format('LL')}
+        </div>
+        <CommentsInfo
+          isOpen={isCommentsOpen}
+          onToggle={() => setIsCommentsOpen(!isCommentsOpen)}
+          length={analyze.comments.length}
+        />
+      </div>
+      {isCommentsOpen && <Comments comments={analyze.comments} />}
+    </div>
+  );
+};

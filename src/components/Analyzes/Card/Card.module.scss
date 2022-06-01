@@ -1,0 +1,93 @@
+@import "./../../../styles//mixins.scss";
+@import "./../../../styles/variables.scss";
+
+.analyzesCard {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 30px 30px 30px;
+  width: 100%;
+  max-height: 345px;
+  border: 1px solid $color-secondary;
+  border-radius: 5px;
+
+  @include for-phone {
+    max-height: unset;
+  }
+
+  .header {
+    position: sticky;
+    top: 0px;
+    opacity: 0.7;
+    padding: 30px 0 20px 0;
+
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: #fff;
+
+    .title {
+      p {
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 120%;
+        color: $color-black;
+      }
+    }
+  }
+
+  .updateBtn {
+    padding: 0 0 2px 0;
+
+    display: inline-block;
+
+    font-size: 16px;
+    line-height: 120%;
+    color: $color-grey-2;
+
+    border-bottom: 1px solid $color-grey-2;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    img {
+      display: none;
+    }
+
+    @include for-phone {
+      border: none;
+      p {
+        display: none;
+      }
+
+      img {
+        display: block;
+
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+  .moreBtn {
+    padding: 0 0 2px 0;
+
+    font-size: 16px;
+    line-height: 120%;
+
+    color: $color-primary;
+    border-bottom: 1px solid $color-primary;
+
+    cursor: pointer;
+  }
+}
+
+.analyze_footer {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  justify-content: space-between;
+}

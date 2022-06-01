@@ -1,0 +1,166 @@
+@import "./../../../styles//mixins.scss";
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 100%;
+  max-width: 780px;
+  margin-top: 34px;
+
+  @include for-tablet {
+    flex-direction: column;
+  }
+
+  @include for-phone {
+    width: 100%;
+  }
+
+  button {
+    margin-right: 20px;
+  }
+
+  .text__inputs__wrapper {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+    justify-content: space-between;
+
+    @include for-tablet {
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+  }
+
+  .image__loader__wrapper {
+    position: relative;
+    height: 155px;
+    width: 155px;
+    overflow: hidden;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid #f2f2f7;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 23px;
+
+    &.error__image__wrapper {
+      border: 3px solid #d06361;
+    }
+    &:after {
+      content: "";
+      position: absolute;
+
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    input {
+      width: 100%;
+      opacity: 0;
+      position: absolute;
+      height: 100%;
+      cursor: pointer;
+      z-index: 100;
+    }
+    svg {
+      z-index: 99;
+      margin-bottom: 6px;
+    }
+    span {
+      font-size: 16px;
+      z-index: 99;
+      color: #ffffff;
+    }
+  }
+
+  .input__wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 47.4%;
+    margin-bottom: 15px;
+
+    @include for-tablet {
+      width: 60%;
+    }
+
+    @include for-phone {
+      width: 100%;
+    }
+
+    .forgot {
+      position: absolute;
+      top: 19px;
+      right: 20px;
+      font-size: 12px;
+      color: #6f61d0;
+      cursor: pointer;
+      z-index: 100;
+      text-decoration: none;
+    }
+    input {
+      width: 100%;
+    }
+  }
+
+  .button__wrapper {
+    display: flex;
+    width: 47.4%;
+
+    @include for-phone {
+      width: 100%;
+
+      button {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .small__input__wrapper {
+    width: 47.5%;
+    display: flex;
+    justify-content: space-between;
+
+    @include for-tablet {
+      width: 100%;
+      display: flex;
+      flex-direction: column-reverse;
+    }
+  }
+
+  .error__server,
+  .success__server,
+  .message__server {
+    width: 50%;
+    font-size: 15px;
+    border-radius: 10px;
+    font-weight: normal;
+    padding: 8px 20px;
+    margin-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: none;
+  }
+
+  .error__server {
+    background: #ffd8d7;
+    color: #d06361;
+    display: initial;
+  }
+
+  .success__server {
+    background: #309a74;
+    color: #fff;
+    display: initial;
+  }
+}

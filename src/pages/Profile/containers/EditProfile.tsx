@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { EditProfileData } from '../../../components/EditClient/ProfileData/ProfileData';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { MAX_IMAGE_SIZE } from '../../../constants/files';
 import { eventBus, EventTypes } from '../../../services/EventBus';
@@ -32,7 +33,6 @@ import {
   uploadFiles,
 } from '../../../utils/filesHelper';
 import { getMediaLink } from '../../../utils/mediaHelper';
-import { EditProfileData } from '../components/EditProfileData/EditProfileData';
 
 const EditProfile = () => {
   const options = [
@@ -91,16 +91,18 @@ const EditProfile = () => {
       ...values,
       email: user?.email,
     };
-    dispatch(fetchUpdateUser({
-      profilePhoto: values?.profilePhoto || null,
-      lastname: values?.lastname,
-      name: values?.name,
-      email: values?.email,
-      gender: values?.gender,
-      patronymic: values?.patronymic,
-      phone: values?.phone,
-      dob: values?.dob,
-    }));
+    dispatch(
+      fetchUpdateUser({
+        profilePhoto: values?.profilePhoto || null,
+        lastname: values?.lastname,
+        name: values?.name,
+        email: values?.email,
+        gender: values?.gender,
+        patronymic: values?.patronymic,
+        phone: values?.phone,
+        dob: values?.dob,
+      }),
+    );
 
     if (user?.specialist?.id) {
       updateSpecialist({
