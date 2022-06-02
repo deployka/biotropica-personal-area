@@ -13,8 +13,8 @@ import {
   setCurrentMonth,
 } from '../../store/rtk/slices/tasksPageSlice';
 import { useAppSelector } from '../../store/rtk/storeHooks';
-import { TaskCalendar } from '../../components/TaskCalendar/TaskCalendar';
-import { TaskTypeSelectModal } from '../../components/TaskTypeSelectModal/TaskTypeSelectModal';
+import { TaskCalendar } from '../../components/Calendar/TaskCalendar';
+import { TaskTypeSelectModal } from '../../components/Task/TypeSelectModal/TypeSelectModal';
 import {
   CompetitionTask,
   CreateSomeTask,
@@ -26,16 +26,17 @@ import {
   TrainingCategory,
   TrainingTask,
 } from '../../store/@types/Task';
-import { TasksModal } from './TasksModal';
+
 import { createTaskByType } from './CreateTaskHelper';
 import { useHistory, useParams } from 'react-router-dom';
 import { selectCurrentUserData } from '../../store/ducks/user/selectors';
-import s from './Tasks.module.scss';
-import { Tabs } from '../../components/Tabs/Tabs';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { NotificationButtons } from './NotificationButtons';
 import { selectIsDoctor } from '../../store/rtk/slices/authSlice';
+
+import { Tabs } from '../../components/Tabs/Tabs';
+import { TasksModal } from '../../components/Task/Modal/Modal';
 
 export function Tasks() {
   const currentUser = useSelector(selectCurrentUserData);
