@@ -1,4 +1,4 @@
-import Consultations from '../pages/Consultations/containers/Consultations';
+import Consultations from '../pages/Consultations/Consultations';
 import ErrorPage from '../pages/ErrorPage/containers/ErrorPage';
 import AddGoal from '../pages/Goals/components/AddGoal/AddGoal';
 import EditGoalForm from '../pages/Goals/components/EditGoalForm/EditGoalForm';
@@ -8,7 +8,7 @@ import Edit from '../pages/Profile/containers/Edit';
 import { ProfileLayout } from '../layouts/ProfileLayout';
 import Questionnaire from '../pages/Questionnaire/containers/Questionnaire';
 import Tariffs from '../pages/Tariffs/containers/Tariffs';
-import { ConsultationsList } from '../pages/Consultations/containers/ConsultationsList';
+import { ConsultationsList } from '../pages/Consultations/ConsultationsList';
 import { ConsultationPage } from '../pages/Consultation/Consultation';
 import { Tasks } from '../pages/Tasks/Tasks';
 import { Recommendations } from '../pages/Recommendations/Recommendations';

@@ -1,42 +1,42 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { SpecialistsList } from '../components/SpecialistsList/SpecialistsList';
-import { SearchForm } from '../components/SearchForm/SortForm';
 
-import { ISelect } from '../../../shared/Form/Select/SelectCustom';
-import { Specialist } from '../../../store/ducks/specialist/contracts/state';
-import { fetchSpecialistsData } from '../../../store/ducks/specialists/actionCreators';
+import { ISelect } from '../../shared/Form/Select/SelectCustom';
+import { Specialist } from '../../store/ducks/specialist/contracts/state';
+import { fetchSpecialistsData } from '../../store/ducks/specialists/actionCreators';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectFilteredSpecialistsData } from '../../../store/ducks/specialists/selectors';
-import { InfoBar } from '../../../shared/Global/InfoBar/InfoBar';
+import { selectFilteredSpecialistsData } from '../../store/ducks/specialists/selectors';
+import { InfoBar } from '../../shared/Global/InfoBar/InfoBar';
 import {
   createConsultationData,
   fetchClosestConsultationData,
   setConsultationResponse,
-} from '../../../store/ducks/consultation/actionCreators';
+} from '../../store/ducks/consultation/actionCreators';
 import {
   selectClosestConsultationData,
   selectConsultationData,
   selectConsultationLoadingStatus,
   selectConsultationResponse,
-} from '../../../store/ducks/consultation/selectors';
+} from '../../store/ducks/consultation/selectors';
 import {
   ClosestConsultation,
   Consultation,
-} from '../../../store/ducks/consultation/contracts/state';
+} from '../../store/ducks/consultation/contracts/state';
 import moment from 'moment';
-import { useQuery } from '../../../hooks/useQuery';
+import { useQuery } from '../../hooks/useQuery';
 import { useHistory, useLocation } from 'react-router';
 
-import s from './Consultations.module.scss';
-import { LoadingStatus, Response } from '../../../store/types';
-
-import { eventBus, EventTypes } from '../../../services/EventBus';
-import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
-import ConsultationService from '../../../services/ConsultationService';
-import { Button } from '../../../shared/Form/Button/Button';
-import { FREE_CONSULTATIONS_COUNT } from '../../../constants/consultations';
-import { chatApi } from '../../../shared/Global/Chat/services/chatApi';
+import { LoadingStatus, Response } from '../../store/types';
+import { eventBus, EventTypes } from '../../services/EventBus';
+import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
+import ConsultationService from '../../services/ConsultationService';
+import { Button } from '../../shared/Form/Button/Button';
+import { FREE_CONSULTATIONS_COUNT } from '../../constants/consultations';
+import { chatApi } from '../../shared/Global/Chat/services/chatApi';
 import { Link } from 'react-router-dom';
+
+import s from './Consultations.module.scss';
+import { ConsultationsSearchForm } from '../../components/Consultations/SortForm/SortForm';
+import { ConsultationsList } from '../../components/Consultations/List/List';
 
 async function sendMessage(userId: number) {
   const dialog = await chatApi.create(userId);
@@ -182,7 +182,6 @@ const Consultations = () => {
       return sendMessage(specialist.userId);
     },
   };
-
   const InfoBarLastConsultationOptions = {
     title: 'Консультация без даты!',
     text: `Вы записались на консультацию к специалисту  ${
@@ -202,7 +201,6 @@ const Consultations = () => {
       return sendMessage(specialist.userId);
     },
   };
-
   function onSelectChange(sort: ISelect<string>[] | undefined) {
     setSelectedSort(sort);
     queryParam.set('sort', sort?.[0]?.label || '');
@@ -289,7 +287,7 @@ const Consultations = () => {
         <InfoBar infoBar={InfoBarLastConsultationOptions} />
       )}
       <div className={s.headerWrapper}>
-        <SearchForm
+        <ConsultationsSearchForm
           onSelectChange={onSelectChange}
           selectValue={selectedSort}
           onSearchChange={onSearchChange}
@@ -299,7 +297,7 @@ const Consultations = () => {
           <Link to="/consultations/list">Мои видеоконсультации</Link>
         </div>
       </div>
-      <SpecialistsList
+      <ConsultationsList
         consultationsCount={consultationsCount}
         isLoadingSignUp={isLoading}
         onSignUpClick={onSignUpClick}
