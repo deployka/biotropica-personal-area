@@ -7,7 +7,7 @@ import Policy from '../pages/Policy/containers/Policy';
 import Edit from '../pages/Profile/containers/Edit';
 import { ProfileLayout } from '../layouts/ProfileLayout';
 import Questionnaire from '../pages/Questionnaire/containers/Questionnaire';
-import Tariffs from '../pages/Tariffs/containers/Tariffs';
+import Tariffs from '../pages/Tariffs/Tariffs';
 import { ConsultationsList } from '../pages/Consultations/containers/ConsultationsList';
 import { ConsultationPage } from '../pages/Consultation/Consultation';
 import { Tasks } from '../pages/Tasks/Tasks';

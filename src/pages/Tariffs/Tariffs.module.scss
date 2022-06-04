@@ -1,4 +1,4 @@
-@import "./../../../styles/mixins.scss";
+@import "./../../styles/mixins.scss";
 
 * {
   margin: 0;
@@ -7,7 +7,7 @@
 
 .header {
   margin-bottom: 31px;
-  
+
   @include for-phone {
     margin-bottom: 10px;
   }

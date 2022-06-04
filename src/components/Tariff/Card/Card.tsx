@@ -1,21 +1,21 @@
 import React from 'react';
 
 import { useSelector } from 'react-redux';
-import Button from '../../../../components/Button/Button';
-import EditTariffModal from '../EditTariffModal/EditTariffModal';
-import checkbox from './../../../../assets/icons/tariffs/checkbox.svg';
-import { Tariff as ITariff } from '../../../../store/rtk/types/tariff';
-import { selectUserRoles } from '../../../../store/rtk/slices/authSlice';
+import Button from '../../Button/Button';
+import EditTariffModal from '../EditModal/EditModal';
+import checkbox from './../../../assets/icons/tariffs/checkbox.svg';
+import { Tariff as ITariff } from '../../../store/rtk/types/tariff';
+import { selectUserRoles } from '../../../store/rtk/slices/authSlice';
+import { ROLE } from '../../../store/rtk/types/user';
 
-import s from './Tariff.module.scss';
-import { ROLE } from '../../../../store/rtk/types/user';
+import s from './Card.module.scss';
 
 interface Props {
   tariff: ITariff;
   refetchTariffs(): void;
 }
 
-export const Tariff = (props: Props) => {
+export const TariffCard = (props: Props) => {
   const { id, cost, title, includedFields } = props.tariff;
 
   const refetchTariffs = props.refetchTariffs;

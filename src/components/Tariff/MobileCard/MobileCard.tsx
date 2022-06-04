@@ -1,25 +1,23 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import AnimateHeight from 'react-animate-height';
-import { Tariff } from '../../../../store/rtk/types/tariff';
-import arrow from './../../../../assets/icons/tariffs/arrow.svg';
-import checkbox from './../../../../assets/icons/tariffs/checkbox.svg';
-import { selectUserRoles } from '../../../../store/rtk/slices/authSlice';
-import EditTariffModal from '../EditTariffModal/EditTariffModal';
-import Button from '../../../../components/Button/Button';
+import { Tariff } from '../../../store/rtk/types/tariff';
+import arrow from './../../../assets/icons/tariffs/arrow.svg';
+import checkbox from './../../../assets/icons/tariffs/checkbox.svg';
+import { selectUserRoles } from '../../../store/rtk/slices/authSlice';
+import EditTariffModal from '../EditModal/EditModal';
+import Button from '../../Button/Button';
 
-import s from './TariffMobile.module.scss';
-import { ROLE } from '../../../../store/rtk/types/user';
+import s from './MobileCard.module.scss';
+import { ROLE } from '../../../store/rtk/types/user';
 
 interface Props {
   tariff: Tariff;
   refetchTariffs(): void;
 }
 
-export const TariffMobile = (props: Props) => {
-  const { id, cost, title, includedFields } = props.tariff;
-
-  const refetchTariffs = props.refetchTariffs;
+export const TariffMobileCard = ({ tariff, refetchTariffs }: Props) => {
+  const { id, cost, title, includedFields } = tariff;
 
   const [height, setHeight] = useState<number | string>(0);
 
