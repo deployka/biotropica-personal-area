@@ -1,4 +1,5 @@
 import React from 'react';
+
 import s from './Progress.module.scss';
 
 interface Progress {
@@ -7,7 +8,7 @@ interface Progress {
     total: number;
   };
 }
-export const Progress = ({ options }: Progress) => {
+export const QuestionnaireProgress = ({ options }: Progress) => {
   const { currentIndex, total } = options;
   const percantage = Math.round(((currentIndex + 1) / total) * 100);
   return (
@@ -23,7 +24,11 @@ export const Progress = ({ options }: Progress) => {
           <p>{percantage}%</p>
         </div>
       </div>
-      <progress value={percantage} max="100" className={s.progressBar}></progress>
+      <progress
+        value={percantage}
+        max="100"
+        className={s.progressBar}
+      ></progress>
     </div>
   );
 };

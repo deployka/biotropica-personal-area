@@ -1,6 +1,6 @@
 import React from 'react';
 
-import s from '../Question.module.scss';
+import s from './Text.module.scss';
 
 type Props = {
   value: string;
@@ -8,7 +8,7 @@ type Props = {
   onChange(val: string): void;
 };
 
-export const TextQuestion = ({ value, placeholder, onChange }: Props) => {
+export const QuestionText = ({ value, placeholder, onChange }: Props) => {
   return (
     <input
       className={s.textInput}

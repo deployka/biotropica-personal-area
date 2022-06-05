@@ -1,6 +1,6 @@
 import React from 'react';
 
-import s from '../Question.module.scss';
+import s from './MultiSelect.module.scss';
 
 type Props = {
   value: string[];
@@ -11,7 +11,7 @@ type Props = {
   onChange(val: string[]): void;
 };
 
-export const MultiSelectQuestion = ({ value, options, onChange }: Props) => {
+export const QuestionMultiSelect = ({ value, options, onChange }: Props) => {
   return (
     <div className={s.multiSelect}>
       {options &&
