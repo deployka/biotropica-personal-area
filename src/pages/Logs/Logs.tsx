@@ -2,14 +2,14 @@ import React from 'react';
 
 import s from './Logs.module.scss';
 
-import { Log } from '../components/Log/Log';
-import { useRequestUserEventsQuery } from '../../../store/rtk/requests/user-events';
+import { useRequestUserEventsQuery } from '../../store/rtk/requests/user-events';
+import { Log } from '../../components/Log/Log';
 
 export const Logs = () => {
   const { data: events } = useRequestUserEventsQuery();
 
   if (!events) {
-    return <div/>;
+    return <div />;
   }
 
   return (
@@ -17,7 +17,7 @@ export const Logs = () => {
       <table className={s.logsContainer}>
         <tbody>
           {events.map(log => (
-            <Log key={log.id} log={log}/>
+            <Log key={log.id} log={log} />
           ))}
         </tbody>
       </table>
