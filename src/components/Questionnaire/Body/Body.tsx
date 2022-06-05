@@ -56,6 +56,7 @@ export const QuestionnaireBody = (props: Props) => {
         answer={answer}
         multiAnswer={multiAnswer}
         setAnswer={setAnswer}
+        options={options}
         setMultiAnswer={setMultiAnswer}
         type={type}
       />
