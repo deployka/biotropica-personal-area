@@ -1,0 +1,100 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+
+.header {
+    position: relative;
+
+    margin: 0 0 20px 0;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .right,
+    .left {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+
+        width: 32px;
+        height: 32px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background: #ffffff;
+        filter: drop-shadow(0px 3px 16px rgba(233, 229, 247, 0.5));
+        border-radius: 50%;
+
+        z-index: 21;
+
+        cursor: pointer;
+
+        transition: all 0.2s ease;
+
+        @include for-tablet {
+            display: none;
+        }
+
+        &:hover {
+            svg {
+                path {
+                    stroke: $color-white;
+                }
+            }
+            background: $color-primary;
+        }
+    }
+    .right {
+        right: -16px;
+    }
+    .left {
+        left: -16px;
+    }
+
+    .container {
+        position: relative;
+        width: 75%;
+        max-width: 890px;
+
+        display: flex;
+        align-items: center;
+
+        @include for-phone {
+            width: 100%;
+        }
+    }
+
+    .createBtn {
+        width: 23%;
+        max-width: 275px;
+        height: 60px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color: $color-primary;
+        border: 1px solid $color-primary;
+        box-shadow: 0px 0px 4px rgba(111, 97, 208, 0.14);
+        border-radius: 5px;
+
+        font-weight: 500;
+        user-select: none;
+
+        text-decoration: none;
+        font-size: 16px;
+        line-height: 120%;
+
+        @include for-tablet {
+            font-size: 14px;
+            text-align: center;
+        }
+
+        @include for-phone {
+            display: none;
+        }
+    }
+}

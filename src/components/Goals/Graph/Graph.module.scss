@@ -1,0 +1,65 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.container {
+  width: 100%;
+  display: flex;
+
+  overflow: auto;
+
+  @include for-phone {
+    padding: 0 0 5px 0;
+  }
+}
+
+.graph {
+  width: 100%;
+  text-align: right;
+
+  @include for-phone {
+    width: 700px;
+  }
+}
+
+.graph__dates {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  .graph__date {
+    cursor: pointer;
+    font-size: 14px;
+    color: $color-secondary;
+    transition: 0.3s;
+    height: 19px;
+    width: 19px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      color: #fff;
+      border-radius: 50%;
+      background-color: $color-primary;
+    }
+    &.active {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 19px;
+      width: 19px;
+      color: #fff;
+      border-radius: 50%;
+      background-color: $color-primary;
+    }
+  }
+}
+
+.graph__y {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 20px;
+  .graph__y__value {
+    font-size: 14px;
+    color: $color-secondary;
+  }
+}

@@ -1,14 +1,14 @@
 import Consultations from '../pages/Consultations/Consultations';
 import ErrorPage from '../pages/ErrorPage/containers/ErrorPage';
-import AddGoal from '../pages/Goals/components/AddGoal/AddGoal';
-import EditGoalForm from '../pages/Goals/components/EditGoalForm/EditGoalForm';
-import Goals from '../pages/Goals/containers/Goals';
+import AddGoal from '../pages/Goals/AddGoal';
+import EditGoal from '../pages/Goals/EditGoal';
+import Goals from '../pages/Goals/Goals';
 import Policy from '../pages/Policy/containers/Policy';
 import Edit from '../pages/Profile/containers/Edit';
 import { ProfileLayout } from '../layouts/ProfileLayout';
 import Questionnaire from '../pages/Questionnaire/containers/Questionnaire';
-import Tariffs from '../pages/Tariffs/containers/Tariffs';
 import { ConsultationsList } from '../pages/Consultations/ConsultationsList';
+import Tariffs from '../pages/Tariffs/Tariffs';
 import { ConsultationPage } from '../pages/Consultation/Consultation';
 import { Tasks } from '../pages/Tasks/Tasks';
 import { Recommendations } from '../pages/Recommendations/Recommendations';
@@ -124,7 +124,7 @@ const routes = [
   },
   {
     path: 'goals/edit/:id',
-    clientComponent: EditGoalForm,
+    clientComponent: EditGoal,
     exact: true,
   },
   {
