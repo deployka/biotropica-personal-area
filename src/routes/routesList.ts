@@ -18,7 +18,7 @@ import { PublicProfile } from '../components/PublicProfile/containers/PublicProf
 import { SpecialistUsers } from '../pages/SpecialistUsers/SpecialistUsers';
 import VideoConsultationsList from '../pages/SpecialistVideoConsultationsList/VideoConsultationsList';
 import EditSpecialistProfile from '../pages/SpecialistProfile/Edit/Edit';
-import { Logs } from '../pages/Logs/containers/Logs';
+import { Logs } from '../pages/Logs/Logs';
 
 const routes = [
   {
