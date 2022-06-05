@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
-import { QuestionnaireSvgSelector } from '../../../../assets/icons/questionnaire/QuestionnaireSvgSelector';
-import s from './Question.module.scss';
+import { QuestionnaireSvgSelector } from '../../../assets/icons/questionnaire/QuestionnaireSvgSelector';
+
+import s from './Nav.module.scss';
 
 type Props = {
   progress: {
@@ -11,7 +12,7 @@ type Props = {
   onPrev(): void;
 };
 
-export const QuestionNav = ({ onNext, onPrev, progress }: Props) => {
+export const QuestionnaireNav = ({ onNext, onPrev, progress }: Props) => {
   const handlerKeyPress = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Enter') onNext();

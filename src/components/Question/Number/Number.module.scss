@@ -1,0 +1,12 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+
+.without__arrows::-webkit-outer-spin-button,
+.without__arrows::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.without__arrows {
+  -moz-appearance: textfield;
+}

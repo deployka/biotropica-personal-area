@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import { QuestionnaireBody } from '../../components/Questionnaire/Body/Body';
 
-import { Question as QuestionComponent } from '../components/Question/Question';
-import QuestionService from '../../../services/QuestionService';
+import QuestionService from '../../services/QuestionService';
 
 import s from './Questionnaire.module.scss';
 
@@ -65,7 +65,7 @@ const Questionnaire = () => {
 
   return (
     <div className={s.questionnaire}>
-      <QuestionComponent
+      <QuestionnaireBody
         progress={{
           currentIndex,
           total,
@@ -73,9 +73,9 @@ const Questionnaire = () => {
         title={question.title}
         type={question.type as Question['type']}
         options={options}
-        onNext={text => {
+        onNext={(answer: string) => {
           giveAnswer({
-            text: text as string,
+            text: answer,
             questionKey: question.key,
           });
         }}

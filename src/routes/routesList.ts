@@ -6,7 +6,7 @@ import Goals from '../pages/Goals/Goals';
 import Policy from '../pages/Policy/containers/Policy';
 import Edit from '../pages/Profile/containers/Edit';
 import { ProfileLayout } from '../layouts/ProfileLayout';
-import Questionnaire from '../pages/Questionnaire/containers/Questionnaire';
+import Questionnaire from '../pages/Questionnaire/Questionnaire';
 import { ConsultationsList } from '../pages/Consultations/ConsultationsList';
 import Tariffs from '../pages/Tariffs/Tariffs';
 import { ConsultationPage } from '../pages/Consultation/Consultation';

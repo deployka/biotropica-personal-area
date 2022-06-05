@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import s from '../Question.module.scss';
+import s from './Number.module.scss';
 
 type Props = {
   value: number;
@@ -9,7 +9,7 @@ type Props = {
   onChange(val: number): void;
 };
 
-export const NumberQuestion = ({ value, placeholder, onChange }: Props) => {
+export const QuestionNumber = ({ value, placeholder, onChange }: Props) => {
   return (
     <input
       className={classNames(s.textInput, s.without__arrows)}

@@ -1,0 +1,44 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+
+.header {
+    .number {
+        margin: 0 0 40px 0;
+
+        p {
+            font-weight: 600;
+            font-size: 30px;
+            line-height: 120%;
+            color: #6f61d0;
+        }
+
+        @include for-phone {
+            margin: 0 0 20px 0;
+
+            p {
+                font-size: 24px;
+            }
+        }
+    }
+
+    .title {
+        margin: 0 0 30px 0;
+
+        p {
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 120%;
+            max-width: 525px;
+
+            text-align: center;
+
+            color: $color-black;
+        }
+
+        @include for-phone {
+            p {
+                font-size: 15px;
+            }
+        }
+    }
+}
