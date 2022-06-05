@@ -1,22 +1,23 @@
 import React from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import s from './SpecialistsList.module.scss';
-import { Specialist as ISpecialist } from '../../../../store/ducks/specialist/contracts/state';
-import { Specialist } from './Specialist';
+import { Specialist } from '../../../store/ducks/specialist/contracts/state';
+import { ConsultationItem } from '../Item/Item';
+
+import s from './List.module.scss';
 
 interface Props {
-  specialists: ISpecialist[];
+  specialists: Specialist[];
   searchQuery: string;
   onSignUpClick: (
     specialistId: number,
     userId: number,
-    setClick: (click: boolean) => void
+    setClick: (click: boolean) => void,
   ) => void;
   isLoadingSignUp: boolean;
   consultationsCount: number;
 }
 
-export const SpecialistsList = ({
+export const ConsultationsList = ({
   specialists,
   searchQuery,
   onSignUpClick,
@@ -44,7 +45,7 @@ export const SpecialistsList = ({
         <div className={s.list}>
           {!!specialists.length &&
             specialists.map(specialist => (
-              <Specialist
+              <ConsultationItem
                 consultationsCount={consultationsCount}
                 isLoadingSignUp={isLoadingSignUp}
                 onSignUpClick={onSignUpClick}

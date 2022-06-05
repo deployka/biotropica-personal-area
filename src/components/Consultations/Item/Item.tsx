@@ -1,12 +1,13 @@
 import React, { ReactElement, useCallback, useEffect, useState } from 'react';
-import { Specialist as ISpecialist } from '../../../../store/ducks/specialist/contracts/state';
-import { getMediaLink } from '../../../../utils/mediaHelper';
-import defaultAvatar from '../../../../assets/images/profile/default_avatar.png';
-import s from './Specialist.module.scss';
-import { Button } from '../../../../shared/Form/Button/Button';
-import { Loader } from '../../../../shared/Form/Loader/Loader';
-import { FREE_CONSULTATIONS_COUNT } from '../../../../constants/consultations';
+import { Specialist as ISpecialist } from '../../../store/ducks/specialist/contracts/state';
+import { getMediaLink } from '../../../utils/mediaHelper';
+import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
+import { Button } from '../../../shared/Form/Button/Button';
+import { Loader } from '../../../shared/Form/Loader/Loader';
+import { FREE_CONSULTATIONS_COUNT } from '../../../constants/consultations';
 import { useHistory } from 'react-router';
+
+import s from './Item.module.scss';
 
 interface Props {
   specialist: ISpecialist;
@@ -15,18 +16,19 @@ interface Props {
   onSignUpClick: (
     specialistId: number,
     userId: number,
-    setClick: (click: boolean) => void
+    setClick: (click: boolean) => void,
   ) => void;
   consultationsCount: number;
 }
 
-export const Specialist = ({
+export const ConsultationItem = ({
   specialist,
   searchQuery,
   onSignUpClick,
   isLoadingSignUp,
   consultationsCount,
 }: Props) => {
+  // FIXME: вынести логику из компонента
   const { experience, specializations, price, name, profilePhoto, id, userId } =
     specialist;
 
@@ -112,9 +114,7 @@ export const Specialist = ({
           type="submit"
           onClick={signUpClick}
           options={{
-            content: isLoadingSignUp && click
-              ? <Loader />
-              : 'Записаться',
+            content: isLoadingSignUp && click ? <Loader /> : 'Записаться',
             setDisabledStyle: isLoadingSignUp || click,
           }}
         />
