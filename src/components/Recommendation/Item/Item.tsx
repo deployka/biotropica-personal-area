@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import s from './RecommendationItem.module.scss';
+import s from './Item.module.scss';
 
 import AnimateHeight from 'react-animate-height';
 
@@ -32,7 +32,7 @@ const ActionSelect = ({ onDelete, onEdit, onClose }: ActionSelectProps) => {
             onClose();
           }}
         >
-                    Редактировать
+          Редактировать
         </div>
         <div
           className={`${s.action} ${s.red}`}
@@ -41,7 +41,7 @@ const ActionSelect = ({ onDelete, onEdit, onClose }: ActionSelectProps) => {
             onClose();
           }}
         >
-                    Удалить
+          Удалить
         </div>
       </div>
     </>

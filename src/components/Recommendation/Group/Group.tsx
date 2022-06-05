@@ -1,11 +1,10 @@
 import React from 'react';
 import { Recommendation, User } from '../../../store/rtk/types/user';
 import { getMediaLink } from '../../../utils/mediaHelper';
-import { RecommendationItem } from '../RecommendationItem/RecommendationItem';
+import { RecommendationItem } from '../Item/Item';
 import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 
-import s from './RecommendationGroup.module.scss';
-import Button from '../../Button/Button';
+import s from './Group.module.scss';
 import { useHistory } from 'react-router';
 
 export type RecommendationGroupType = {

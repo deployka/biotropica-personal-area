@@ -17,12 +17,12 @@ import { useHistory, useParams } from 'react-router-dom';
 import {
   SpecializationList,
   SpecializationListProps,
-} from '../../components/recommendations/SpecializationList/SpecializationList';
-import { RecommendationList } from './RecommendationList';
+} from './../../components/Specialization/List/List';
+import { RecommendationList } from '../../components/Recommendation/List/List';
 
 import s from './Recommendations.module.scss';
 import Button from '../../components/Button/Button';
-import { RecommendationEditor } from '../../components/recommendations/RecommendationEditor/RecommendationEditor';
+import { RecommendationEditor } from '../../components/Recommendation/Editor/Editor';
 import { useSelector } from 'react-redux';
 import { selectCurrentUserData } from '../../store/ducks/user/selectors';
 import { Tabs } from '../../components/Tabs/Tabs';
@@ -124,14 +124,12 @@ export function Recommendations() {
   function handleClickEditRecommendation(recommendation: Recommendation) {
     setOpenedRecommendation(recommendation);
   }
-
   function handleCreateRecommendation() {
     setOpenedRecommendation({
       title: '',
       description: '',
     });
   }
-
   function handleDeleteTask(id: number) {
     deleteRecommendation(id);
   }
