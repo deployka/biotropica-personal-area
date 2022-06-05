@@ -6,7 +6,7 @@ import ru from 'date-fns/locale/ru';
 import s from './Calendar.module.scss';
 import moment, { Moment } from 'moment';
 import 'react-dates/initialize';
-import { Dates } from '../../../pages/Goals/containers/Goals';
+import { Dates } from '../../../pages/Goals/Goals';
 
 registerLocale('ru', ru);
 interface Props {
