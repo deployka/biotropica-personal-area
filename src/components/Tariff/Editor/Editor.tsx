@@ -5,7 +5,7 @@ import Input, { InputTypes } from '../../Input/Input';
 import Button from '../../Button/Button';
 import { Tariff, NewTariff } from '../../../types/entities/Tariff';
 
-import s from './TariffEditor.module.scss';
+import s from './Editor.module.scss';
 
 export type TariffEditorProps = {
   id?: number;

@@ -1,14 +1,16 @@
 import React from 'react';
 
 import { ComponentStory, Meta } from '@storybook/react';
-import { TariffEditor, TariffEditorProps } from './TariffEditor';
+import { TariffEditor, TariffEditorProps } from './Editor';
 
 export default {
   component: TariffEditor,
-  title: 'src/components/tariff/TariffEditor',
+  title: 'src/components/tariff/Editor',
 } as Meta;
 
-const Template: ComponentStory<typeof TariffEditor> = (args: TariffEditorProps) => <TariffEditor {...args} />;
+const Template: ComponentStory<typeof TariffEditor> = (
+  args: TariffEditorProps,
+) => <TariffEditor {...args} />;
 export const DefaultTariffEditor = Template.bind({});
 const props: Partial<TariffEditorProps> = {
   cost: 15999,
