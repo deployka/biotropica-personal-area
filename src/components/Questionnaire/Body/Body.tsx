@@ -7,37 +7,33 @@ import { Question } from '../../Question/Question';
 import s from './Body.module.scss';
 
 type Props = {
-  title: string;
-  type: 'select' | 'multiselect' | 'text' | 'number';
+  question: Question;
   progress: {
     currentIndex: number;
     total: number;
   };
-  placeholder?: string;
-  options?: {
-    value: string;
-    label: string;
-  }[];
   onNext(value: string): void;
   onPrev(): void;
 };
 
-export const QuestionnaireBody = (props: Props) => {
-  const {
-    title,
-    type,
-    progress,
-    placeholder = 'Введите ответ',
-    options = [],
-    onNext,
-    onPrev,
-  } = props;
+export const QuestionnaireBody = ({
+  question,
+  progress,
+  onNext,
+  onPrev,
+}: Props) => {
+  const { title, type } = question;
+
   const [answer, setAnswer] = useState<string>('');
   const [multiAnswer, setMultiAnswer] = useState<string[]>([]);
 
   const handleClickNext = () => {
-    if (['select', 'number', 'text'].includes(type)) onNext(answer);
-    if (type === 'multiselect') onNext(JSON.stringify(multiAnswer));
+    if (['select', 'number', 'text'].includes(type) && answer) {
+      onNext(answer);
+    }
+    if (type === 'multiselect') {
+      onNext(JSON.stringify(multiAnswer));
+    }
   };
 
   useEffect(() => {
@@ -45,17 +41,28 @@ export const QuestionnaireBody = (props: Props) => {
     if (multiAnswer.length) setMultiAnswer([]);
   }, [progress]);
 
+  useEffect(() => {
+    console.log('effectAnswer', answer);
+  }, [answer]);
+
+  const options = question.allowedAnswers
+    ? question.allowedAnswers.map(it => ({
+        value: it,
+        label: it,
+      }))
+    : [];
+
   return (
     <div className={s.questionnaire}>
       <QuestionnaireProgress options={progress} />
 
       <Question
         title={title}
-        placeholder={placeholder}
+        placeholder={title}
         questionNumber={progress.currentIndex + 1}
         answer={answer}
         multiAnswer={multiAnswer}
-        setAnswer={setAnswer}
+        setAnswer={value => setAnswer(value)}
         options={options}
         setMultiAnswer={setMultiAnswer}
         type={type}

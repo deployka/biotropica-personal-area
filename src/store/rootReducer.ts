@@ -20,6 +20,7 @@ import { specializationApi } from './rtk/requests/specializations';
 import authApi from './rtk/requests/auth';
 import authSlice from './rtk/slices/authSlice';
 import users from './rtk/slices/users';
+import { questionsApi } from './rtk/requests/questions';
 
 export const rootReducer = combineReducers({
   user: userReducer,
@@ -37,6 +38,7 @@ export const rootReducer = combineReducers({
   notification: notificationReducer,
   [taskApi.reducerPath]: taskApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
+  [questionsApi.reducerPath]: questionsApi.reducer,
   tasksPageSlice: tasksPageSlice,
   authSlice,
   [recommendationApi.reducerPath]: recommendationApi.reducer,
