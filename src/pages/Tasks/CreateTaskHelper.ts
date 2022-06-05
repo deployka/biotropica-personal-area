@@ -1,7 +1,21 @@
-import { CompetitionTask, CreateCompetitionTask, CreateEventTask, CreateSomeTask, CreateTrainingTask, EventTask, TaskPriority, TaskType, TrainingCategory, TrainingTask } from '../../store/@types/Task';
-import { getDefaultCompetitionType } from '../../components/CompetitionTaskEditor/CompetitionTaskEditorConstants';
+import {
+  CompetitionTask,
+  CreateCompetitionTask,
+  CreateEventTask,
+  CreateSomeTask,
+  CreateTrainingTask,
+  EventTask,
+  TaskPriority,
+  TaskType,
+  TrainingCategory,
+  TrainingTask,
+} from '../../store/@types/Task';
+import { getDefaultCompetitionType } from '../../components/TaskEditor/Competition/CompetitionConstants';
 
-export function createTaskByType(selectedTaskType: TaskType, executorId: number): CreateSomeTask | null {
+export function createTaskByType(
+  selectedTaskType: TaskType,
+  executorId: number,
+): CreateSomeTask | null {
   switch (selectedTaskType.type) {
     case 'event':
       return {
