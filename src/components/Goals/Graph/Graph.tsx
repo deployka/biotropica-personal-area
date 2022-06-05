@@ -41,10 +41,22 @@ export const Graph = ({ startDate, endDate }: Props) => {
           datasets: [
             {
               borderColor: '#6f61d0',
+              backgroundColor: () => {
+                const gradient = ctx.current
+                  ?.getContext('2d')
+                  ?.createLinearGradient(0, 0, 0, 500);
+                if (gradient) {
+                  gradient.addColorStop(0, 'rgba(111, 97, 208, 0.8)');
+                  gradient.addColorStop(1, '#ffffff00');
+                  return gradient;
+                }
+                return 'rgba(112, 97, 208, 0.1)';
+              },
               label: 'Не определен',
               data: [],
               borderWidth: 2,
               tension: 0.5,
+              fill: 'start',
             },
           ],
         },
