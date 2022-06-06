@@ -1,4 +1,3 @@
-export type DeleteAnalyzeDto = {
-  text: string;
-  filePath: string;
+export type DeleteAnalyzeAnswerDto = {
+  id: UniqueId;
 };

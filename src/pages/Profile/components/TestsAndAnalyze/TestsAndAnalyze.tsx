@@ -10,7 +10,6 @@ import {
   selectAnalyzeResponse,
 } from '../../../../store/ducks/analyze/selectors';
 
-import { LoadingStatus } from '../../../../store/types';
 import {
   createAnalyzeAnswerData,
   setAnalyzeLoadingStatus,
@@ -38,79 +37,41 @@ import { eventBus, EventTypes } from '../../../../services/EventBus';
 import { NotificationType } from '../../../../components/GlobalNotifications/GlobalNotifications';
 import { Questionnaire } from './Questionnaire/Questionnaire';
 import UserService from '../../../../services/UserService';
+import { Client } from '../../../../@types/entities/Client';
+import { useGetAnalyzesQuery } from '../../../../api/analyzes';
+import {
+  useCreateAnalyzeAnswerMutation,
+  useGetAnalyzeAnswersQuery,
+} from '../../../../api/analyze-answers';
+import { CreateAnalyzeAnswerDto } from '../../../../@types/dto/analyzes/create.dto';
 
 interface Props {
-  user: User;
+  user: Client;
 }
 
 export const TestsAndAnalyze = ({ user }: Props) => {
   const { openModal, closeModal } = useModal();
-  const [answers, setAnswers] = useState<Answer[]>([]);
+  const [isShowMore, setIsShowMore] = useState(false);
 
-  const dispatch = useDispatch();
-  const loadingStatus = useSelector(selectAnalyzeLoadingStatus);
-  const response = useSelector(selectAnalyzeResponse);
-  const offsetData = useSelector(selectAnalyzesResponse);
+  const [fetchCreateAnalyzeAnswer] = useCreateAnalyzeAnswerMutation();
+  const { data: analyzeTypes = [] } = useGetAnalyzesQuery();
+  const { data: analyzes = [] } = useGetAnalyzeAnswersQuery({
+    userId: user.id,
+  });
 
-  const [isShowMore, setIsShowMore] = useState(true);
-
-  const [analyzeTypes, setAnalyzeTypes] = useState<Analyze[]>([]);
-  const analyzes: AnalyzeAnswer[] = useSelector(selectAnalyzesData);
-
-  const offset: number = analyzes.length;
-
-  function fetchAnalyzesByLimitAndOffset(offset: number, limit?: number) {
-    dispatch(fetchAnalyzesData(user.id, offset, limit));
-  }
-
-  useEffect(() => {
-    dispatch(fetchAnalyzesData(user.id));
-    const fetchAnswers = () => {
-      UserService.answers(user.id).then(({ data }) => setAnswers(data));
-    };
-    function fetchAllTypes() {
-      AnalyzeService.geAllTypes().then(({ data }) => setAnalyzeTypes(data));
-    }
-    fetchAllTypes();
-    fetchAnswers();
-  }, []);
-
-  useEffect(() => {
-    if (analyzes.length && !offsetData && isShowMore) {
-      setIsShowMore(false);
-    }
-  }, [offsetData]);
-
-  useEffect(() => {
-    if (!response) return;
-    switch (loadingStatus) {
-      case LoadingStatus.ERROR:
-        break;
-      case LoadingStatus.SUCCESS:
-        eventBus.emit(EventTypes.notification, {
-          title: 'Успешно!',
-          message: response?.message || 'Анализ успешно загружен!',
-          type: NotificationType.SUCCESS,
-        });
-        closeModal(ModalName.MODAL_ADD_ANALYZ_FILE);
-        dispatch(fetchAnalyzesData(user.id));
-        setIsShowMore(true);
-        dispatch(setAnalyzeResponse(undefined));
-        break;
-      default:
-        break;
-    }
-  }, [loadingStatus, response]);
-
-  async function onSubmit(values: CreateAnalyzeAnswerData) {
+  const handleCreateAnalyzeAnswer = async (values: CreateAnalyzeAnswerDto) => {
     try {
-      dispatch(setAnalyzeLoadingStatus(LoadingStatus.LOADING));
-      if (values.filePath instanceof File) {
-        const res = await FileService.upload(values.filePath);
-        values.filePath = res.data.name;
-      }
-      dispatch(createAnalyzeAnswerData(values));
+      await fetchCreateAnalyzeAnswer(values).unwrap;
+      eventBus.emit(EventTypes.notification, {
+        message: 'Анализ успешно загружен',
+        type: NotificationType.SUCCESS,
+        dismiss: {
+          duration: 5000,
+          onScreen: true,
+        },
+      });
     } catch (error) {
+      console.log(error);
       eventBus.emit(EventTypes.notification, {
         title: 'Ошибка!',
         message: 'Произошла непредвиденная ошибка!',
@@ -121,11 +82,11 @@ export const TestsAndAnalyze = ({ user }: Props) => {
         },
       });
     }
-  }
+  };
 
-  function addAnalyzeOpen() {
+  const handleAddAnalyze = () => {
     return openModal(ModalName.MODAL_ADD_ANALYZ_FILE, {
-      onSubmit,
+      onSubmit: handleCreateAnalyzeAnswer,
       validationSchema,
       onErrorFileLoaded: () => {
         eventBus.emit(EventTypes.notification, {
@@ -143,6 +104,10 @@ export const TestsAndAnalyze = ({ user }: Props) => {
       onSuccessFileLoaded: () =>
         eventBus.emit(EventTypes.removeNotification, 'file_type_error'),
     });
+  };
+
+  function addAnalyzeOpen() {
+    return;
   }
 
   const testInfoBar: IInfoBar = {
@@ -157,28 +122,23 @@ export const TestsAndAnalyze = ({ user }: Props) => {
     text: 'У вас нет загруженных анализов.',
     bottomLink: 'Загрузить анализы',
     onClick: () => {
-      addAnalyzeOpen();
+      handleAddAnalyze();
     },
   };
 
   function onShowMoreClick() {
-    if (!offsetData && !isShowMore) {
-      dispatch(setAnalyzesData(analyzes.filter((_, i) => i < MIN_LIMIT)));
-      setIsShowMore(true);
-    } else {
-      fetchAnalyzesByLimitAndOffset(offset, NEXT_FETCH_LIMIT);
-    }
+    setIsShowMore(!isShowMore);
   }
 
   return (
     <div className={s.tests__and__analyze}>
-      {answers.length ? (
+      {/* {answers.length ? (
         <Questionnaire
           answers={answers.sort((a, b) => a.question.order - b.question.order)}
         />
       ) : (
         <InfoBar infoBar={testInfoBar} />
-      )}
+      )} */}
       {analyzes.length ? (
         <AnalyzesCard
           analyzeTypes={analyzeTypes}

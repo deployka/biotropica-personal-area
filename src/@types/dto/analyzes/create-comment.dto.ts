@@ -1,4 +1,4 @@
-export type CreateCommentDto = Readonly<{
+export type CreateAnalyzeAnswerCommentDto = Readonly<{
   text: string;
   analyzeAnswerId: UniqueId;
 }>;
