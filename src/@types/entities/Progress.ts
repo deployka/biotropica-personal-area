@@ -1,10 +1,10 @@
 import { BaseEntity } from './BaseEntity';
 
 export type Progress = BaseEntity & {
-  photos: Photo[];
+  photos: ProgressPhoto[];
 };
 
-type Photo = {
+export type ProgressPhoto = {
   type: 'front' | 'back' | 'side';
   filename: string;
 };
