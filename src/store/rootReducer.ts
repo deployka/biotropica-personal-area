@@ -13,6 +13,8 @@ import tasksPageSlice from './slices/tasksPageSlice';
 import userReducer from './slices/user';
 import usersReducer from './slices/users';
 import avatarReducer from './slices/avatar';
+import analyzesApi from '../api/analyzes';
+import analyzeAnswersApi from '../api/analyze-answers';
 
 export const rootReducer = combineReducers({
   [userApi.reducerPath]: userApi.reducer,
@@ -24,6 +26,8 @@ export const rootReducer = combineReducers({
   [tariffsApi.reducerPath]: tariffsApi.reducer,
   [specializationApi.reducerPath]: specializationApi.reducer,
   [recommendationApi.reducerPath]: recommendationApi.reducer,
+  [analyzesApi.reducerPath]: analyzesApi.reducer,
+  [analyzeAnswersApi.reducerPath]: analyzeAnswersApi.reducer,
   authSlice: authSlice,
   tasksPageSlice: tasksPageSlice,
   user: userReducer,
