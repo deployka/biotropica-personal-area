@@ -1,3 +1,4 @@
+import { ISelect } from '../../shared/Form/Select/SelectCustom';
 import { BaseEntity } from './BaseEntity';
 
 export enum GoalType {
@@ -37,7 +38,8 @@ export type GoalValue = {
 export type Goal = BaseEntity & {
   name: string;
   type: GoalType;
-  units: GoalUnits[];
+  // FIXME: сделать валидатор для целей
+  units: ISelect<Partial<GoalUnits> | null>[];
   description: string;
   values: GoalValue[];
   startResult: number;

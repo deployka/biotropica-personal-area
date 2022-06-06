@@ -1,8 +1,7 @@
 import { NotificationType } from '../components/GlobalNotifications/GlobalNotifications';
 import { eventBus, EventTypes } from '../services/EventBus';
 import { ISelect } from '../shared/Form/Select/SelectCustom';
-import { GoalType, RunUnits } from '../store/ducks/goal/contracts/state';
-import { Goal, GoalUnits } from '../@types/entities/Goal';
+import { Goal, GoalType, GoalUnits, RunUnits } from '../@types/entities/Goal';
 
 export function getMaxValueFromGoalValues(goal: Goal): number {
   const values = goal.values?.map(value => value.value) || [];

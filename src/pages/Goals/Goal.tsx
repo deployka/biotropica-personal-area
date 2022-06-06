@@ -1,37 +1,34 @@
 import React, { useRef, useState } from 'react';
 import { FormikHelpers } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { eventBus, EventTypes } from '../../services/EventBus';
-import {
-  deleteGoalData,
-  updateGoalData,
-} from '../../store/ducks/goal/actionCreators';
-import { selectGoalLoadingStatus } from '../../store/ducks/goal/selectors';
-import { LoadingStatus } from '../../store/types';
-
-import { Dates, GoalState } from './Goals';
-import s from './Goals.module.scss';
+import { Dates } from './Goals';
 import { GraphHeader } from '../../components/Goals/GraphHeader/GraphHeader';
 import { UpdateGoalValues } from '../../store/ducks/goal/contracts/state';
-
 import { ProgressForm } from '../../components/Goals/ProgressForm/ProgressForm';
 import { progressBarOptions } from '../../components/Goals/ProgressBar/ProgressBar';
 import { NotificationButtons } from '../../components/Goals/ProgressForm/NotificationButtons';
 import { Graph } from '../../components/Goals/Graph/Graph';
+import { Goal as IGoal } from '../../@types/entities/Goal';
+
+import s from './Goals.module.scss';
 
 type Props = {
-  goal: Goal | undefined;
+  goal: IGoal | undefined;
+  isLoading: boolean;
+  onDelete: (id: UniqueId, name: string) => void;
+  onUpdate: (values: UpdateGoalValues, id: UniqueId, name: string) => void;
   progressBarOptions: progressBarOptions;
-  onChangeGoal: (goalState: GoalState, goal: Goal) => void;
 };
 
-export const Goal = ({ goal, onChangeGoal, progressBarOptions }: Props) => {
-  const dispatch = useDispatch();
-
+export const Goal = ({
+  goal,
+  progressBarOptions,
+  isLoading,
+  onDelete,
+  onUpdate,
+}: Props) => {
   const refResetForm = useRef<(() => void) | null>(null);
-
-  const loading = useSelector(selectGoalLoadingStatus);
 
   const [visibleDeleteNotification, setVisibleDeleteNotification] =
     useState<boolean>(false);
@@ -46,10 +43,9 @@ export const Goal = ({ goal, onChangeGoal, progressBarOptions }: Props) => {
     endDate: new Date(),
   });
 
-  function onDelete(goal: Goal) {
+  function onDeleteGoal(goal: IGoal) {
     return () => {
-      onChangeGoal(GoalState.DELETED, goal);
-      dispatch(deleteGoalData(goal.id));
+      onDelete(goal.id, goal.name);
       setVisibleDeleteNotification(false);
     };
   }
@@ -64,7 +60,10 @@ export const Goal = ({ goal, onChangeGoal, progressBarOptions }: Props) => {
     eventBus.emit(EventTypes.notification, {
       title: `Удалить цель «${goal.name}»?`,
       message: (
-        <NotificationButtons onDiscard={onDiscard} onDelete={onDelete(goal)} />
+        <NotificationButtons
+          onDiscard={onDiscard}
+          onDelete={onDeleteGoal(goal)}
+        />
       ),
       type: NotificationType.DANGER,
       dismiss: undefined,
@@ -76,24 +75,12 @@ export const Goal = ({ goal, onChangeGoal, progressBarOptions }: Props) => {
   }
 
   async function onSubmitUpdateGoal(
-    { value, createdAt }: UpdateGoalValues,
+    values: UpdateGoalValues,
     options: FormikHelpers<UpdateGoalValues>,
   ) {
     if (!goal) return;
-    onChangeGoal(GoalState.UPDATED, goal);
     refResetForm.current = options.resetForm;
-
-    dispatch(
-      updateGoalData({
-        id: goal.id,
-        values: [
-          {
-            value: +value,
-            createdAt,
-          },
-        ],
-      }),
-    );
+    onUpdate(values, goal.id, goal.name);
   }
 
   return (
@@ -112,7 +99,7 @@ export const Goal = ({ goal, onChangeGoal, progressBarOptions }: Props) => {
             progressBarOptions={progressBarOptions}
             onDeleteGoal={showDeleteGoalConfirmation}
             onSubmit={onSubmitUpdateGoal}
-            isLoading={loading === LoadingStatus.LOADING}
+            isLoading={isLoading}
             goal={goal}
           />
         )}

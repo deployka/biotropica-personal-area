@@ -2,22 +2,18 @@ import React from 'react';
 import classNames from 'classnames';
 
 import s from './Goal.module.scss';
+import { Goal as IGoal } from '../../../@types/entities/Goal';
 
 interface Props {
-  goal: Goal;
+  goal: IGoal;
   active: number;
-  onClick: (id: number) => void;
 }
 
-export const Goal = ({ goal, active, onClick }: Props) => {
-  function clickHandler(id: number) {
-    return () => onClick(id);
-  }
+export const Goal = ({ goal, active }: Props) => {
   return (
     <>
       {goal && (
         <div
-          onClick={clickHandler(goal.id)}
           className={classNames(s.goal, {
             [s.active]: goal.id === active,
           })}

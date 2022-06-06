@@ -1,5 +1,5 @@
 import { BaseEntity } from './BaseEntity';
-import { Role } from './Role';
+import { ROLE } from './Role';
 
 export type BaseUser = BaseEntity & {
   email: Email;
@@ -10,7 +10,8 @@ export type BaseUser = BaseEntity & {
   patronymic: string | null;
   phone: string;
   confirmed: boolean;
-  roles: Role[];
+  roles: ROLE[];
+  accesses: [];
   confirmedHash: string | null;
   restoreToken: string | null;
 };

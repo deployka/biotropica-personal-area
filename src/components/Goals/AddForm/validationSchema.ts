@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { GoalType } from '../../../store/ducks/goal/contracts/state';
+import { GoalType, GoalUnits } from '../../../@types/entities/Goal';
 
 export const validationSchema = (type: GoalType) => () => {
   const isWeight = type === GoalType.WEIGHT;
@@ -15,9 +15,9 @@ export const validationSchema = (type: GoalType) => () => {
   const endResult = isWeight
     ? template
     : template.moreThan(
-        yup.ref('startResult'),
-        'Не может быть меньше стартового результата',
-      );
+      yup.ref('startResult'),
+      'Не может быть меньше стартового результата',
+    );
 
   return yup.object().shape({
     name: yup

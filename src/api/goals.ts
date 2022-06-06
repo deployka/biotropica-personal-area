@@ -12,6 +12,13 @@ export const goalsApi = baseApi.injectEndpoints({
         url: '/goals',
         method: 'GET',
       }),
+      providesTags: result =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: 'Goal', id } as const)),
+              { type: 'Goal', id: 'LIST' },
+            ]
+          : [{ type: 'Goal', id: 'LIST' }],
     }),
 
     getGoal: builder.query<Goal, GetOneGoalDto>({
@@ -29,7 +36,7 @@ export const goalsApi = baseApi.injectEndpoints({
       }),
     }),
 
-    updateGoal: builder.mutation<void, UpdateGoalDto>({
+    updateGoal: builder.mutation<Goal, UpdateGoalDto>({
       query: dto => ({
         url: `/goals/${dto.id}`,
         data: dto,
