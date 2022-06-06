@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 
-import s from '../../Users.module.scss';
-import { UsersFilter } from '../UserFilter/UsersFilter';
+import { Filter } from '../../Filter/Filter';
 import {
   filterUsersByQuery,
   filterUsersByQuestionnaire,
   filterUsersByRoles,
   filterUsersByTariffs,
   usersFilters,
-} from '../../helpers/usersHelper';
-import { UsersTableHeader } from './UsersTableHeader';
-import { UsersTable } from './UsersTable';
-import { TARIFF, User } from '../../../../store/rtk/types/user';
-import { ROLE } from '../../../../store/@types/User';
+} from '../adminUsersHelper';
+import { AdminUsersHeader } from '../Header/Header';
+import { AdminUsersTable } from '../Table/Table';
+import { TARIFF, User } from '../../../store/rtk/types/user';
+import { ROLE } from '../../../store/@types/User';
+
+import s from './List.module.scss';
 
 type Props = {
   users: User[];
@@ -27,7 +28,7 @@ type Filters = {
   questionnaire: (boolean | undefined)[];
 };
 
-export function UserList({
+export function AdminUsersList({
   users,
   onCreateUser,
   onBlockUser,
@@ -63,14 +64,14 @@ export function UserList({
 
   return (
     <div className={s.adminPanel}>
-      <UsersFilter
+      <Filter
         opened={filterOpened}
         filters={usersFilters}
         selectedFilters={filters}
         onChange={(filters: Filters) => setFilters(filters)}
       />
       <div className={`${s.listPanel} ${filterOpened ? '' : s.full}`}>
-        <UsersTableHeader
+        <AdminUsersHeader
           userLength={filteredUsers.length}
           onFilterBtnClick={() => setFilterOpened(!filterOpened)}
           filterOpened={filterOpened}
@@ -78,7 +79,7 @@ export function UserList({
           onSearch={setQuery}
           onCreateUserBtnClick={onCreateUser}
         />
-        <UsersTable
+        <AdminUsersTable
           users={filteredUsers}
           onBlock={onBlockUser}
           onWrite={onWriteUser}

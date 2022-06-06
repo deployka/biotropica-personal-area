@@ -1,12 +1,13 @@
-import s from './User.module.scss';
 import React from 'react';
 
-export type PopUpProps = {
-    onBlockClick: () => void;
-    onWriteClick: () => void;
-}
+import s from './Item.module.scss';
 
-export function PopUp({ onBlockClick, onWriteClick }: PopUpProps) {
+export type PopUpProps = {
+  onBlockClick: () => void;
+  onWriteClick: () => void;
+};
+
+export function ItemPopup({ onBlockClick, onWriteClick }: PopUpProps) {
   return (
     <div className={s.popup}>
       <div className={s.element} onClick={onBlockClick}>

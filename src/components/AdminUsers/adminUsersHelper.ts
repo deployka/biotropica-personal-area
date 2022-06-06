@@ -1,6 +1,6 @@
-import { FilterConfig } from '../components/UserFilter/UsersFilter';
-import { User, TARIFF } from '../../../store/rtk/types/user';
-import { ROLE } from '../../../store/@types/User';
+import { FilterConfig } from '../Filter/Filter';
+import { User, TARIFF } from '../../store/rtk/types/user';
+import { ROLE } from '../../store/@types/User';
 
 export const usersFilters: FilterConfig[] = [
   {
