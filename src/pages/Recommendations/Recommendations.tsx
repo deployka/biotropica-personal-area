@@ -1,33 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import {
-  useCreateRecommendationMutation,
-  useDeleteRecommendationMutation,
-  useGetRecommendationListQuery,
-  useUpdateRecommendationMutation,
-} from '../../store/rtk/requests/recommendations';
-import {
-  Specialization,
-  useGetSpecializationListQuery,
-} from '../../store/rtk/requests/specializations';
-import {
-  Recommendation,
-  RecommendationStatus,
-} from '../../store/rtk/types/user';
 import { useHistory, useParams } from 'react-router-dom';
 import {
   SpecializationList,
   SpecializationListProps,
 } from './../../components/Specialization/List/List';
 import { RecommendationList } from '../../components/Recommendation/List/List';
-
-import s from './Recommendations.module.scss';
 import Button from '../../components/Button/Button';
 import { RecommendationEditor } from '../../components/Recommendation/Editor/Editor';
 import { useSelector } from 'react-redux';
 import { Tabs } from '../../components/Tabs/Tabs';
-import { selectIsDoctor } from '../../store/slices/authSlice';
 import classNames from 'classnames';
-import { useRequestUserDataQuery } from '../../store/rtk/requests/user';
+
+import s from './Recommendations.module.scss';
+import { useRequestUserDataQuery } from '../../api/user';
+import {
+  useCreateRecommendationMutation,
+  useDeleteRecommendationMutation,
+  useGetRecommendationListQuery,
+  useUpdateRecommendationMutation,
+} from '../../api/recommendations';
+import { useGetSpecializationListQuery } from '../../api/specializations';
+import { Specialization } from '../../@types/entities/Specialization';
+import {
+  Recommendation,
+  RecommendationStatus,
+} from '../../@types/entities/Recommendation';
+import { selectIsDoctor } from '../../store/slices/authSlice';
 
 type CreateRecommendation = {
   title: string;
@@ -56,9 +54,10 @@ export function Recommendations() {
   const [selectedSpecialization, setSelectedSpecialization] =
     useState<Specialization | null>(null);
 
-  const [filteredRecommendation, setFilteredRecommendation] = useState<
-    Record<Specialization['key'], Recommendation[]>
-  >({});
+  const [filteredRecommendation, setFilteredRecommendation] = useState<Record<
+    Specialization['key'],
+    Recommendation[]
+  > | null>(null);
 
   const [openedRecommendation, setOpenedRecommendation] = useState<
     Recommendation | CreateRecommendation | null
@@ -196,7 +195,7 @@ export function Recommendations() {
               <RecommendationList
                 currentSpecialistId={currentUserId || 0}
                 recommendations={
-                  filteredRecommendation[selectedSpecialization.key] || []
+                  filteredRecommendation?.[selectedSpecialization.key] || []
                 }
                 onDelete={handleDeleteTask}
                 onEdit={handleClickEditRecommendation}
