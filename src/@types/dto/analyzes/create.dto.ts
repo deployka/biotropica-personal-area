@@ -1,4 +1,4 @@
-export type CreateAnalyzeDto = {
+export type CreateAnalyzeAnswerDto = {
   text: string;
   filePath: string;
 };
