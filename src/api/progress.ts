@@ -1,5 +1,5 @@
 import { CreateProgressDto } from '../@types/dto/progress/create.dto';
-import { GetAllProgressPostsDto } from '../@types/dto/progress/getAll.dto';
+import { GetAllProgressPostsDto } from '../@types/dto/progress/get-all.dto';
 import { UpdateProgressDto } from '../@types/dto/progress/update.dto';
 import { Progress } from '../@types/entities/Progress';
 import { baseApi } from './base-api';
