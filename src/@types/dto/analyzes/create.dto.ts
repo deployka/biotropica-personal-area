@@ -1,4 +1,4 @@
-export type CreateAnalyzeDto = Readonly<{
+export type CreateAnalyzeAnswerDto = Readonly<{
   text: string;
   filePath: string;
 }>;

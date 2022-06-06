@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { SchemaOf } from 'yup';
+import { CreateAnalyzeAnswerDto } from '../@types/dto/analyzes/create.dto';
 import { ModalContext } from '../context/ModalContext';
 import { Nav, Page } from '../layouts/PrivateLayout';
 
@@ -28,7 +29,7 @@ export type Modals = {
     user: User;
   }>;
   [ModalName.MODAL_ADD_ANALYZ_FILE]: Modal<{
-    onSubmit: (values: CreateAnalyzeAnswerData) => void;
+    onSubmit: (values: CreateAnalyzeAnswerDto) => void;
     validationSchema: SchemaOf<Omit<CreateAnalyzeAnswerData, 'analyzeId'>>;
     onErrorFileLoaded: () => void;
     onSuccessFileLoaded: () => void;

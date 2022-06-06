@@ -1,3 +1,3 @@
-export type DeleteAnalyzeDto = Readonly<{
+export type DeleteAnalyzeAnswerDto = Readonly<{
   id: UniqueId;
 }>;
