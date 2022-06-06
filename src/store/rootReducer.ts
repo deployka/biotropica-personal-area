@@ -7,12 +7,15 @@ import { specializationApi } from '../api/specializations';
 import tariffsApi from '../api/tariffs';
 import { taskApi } from '../api/tasks';
 import userApi from '../api/user';
+import goalsApi from '../api/goals';
 import userEventsApi from '../api/user-events';
+
 import authSlice from './slices/authSlice';
 import tasksPageSlice from './slices/tasksPageSlice';
 import userReducer from './slices/user';
 import usersReducer from './slices/users';
 import avatarReducer from './slices/avatar';
+import goalsReducer from './slices/goals';
 
 export const rootReducer = combineReducers({
   [userApi.reducerPath]: userApi.reducer,
@@ -24,9 +27,11 @@ export const rootReducer = combineReducers({
   [tariffsApi.reducerPath]: tariffsApi.reducer,
   [specializationApi.reducerPath]: specializationApi.reducer,
   [recommendationApi.reducerPath]: recommendationApi.reducer,
+  [goalsApi.reducerPath]: goalsApi.reducer,
   authSlice: authSlice,
   tasksPageSlice: tasksPageSlice,
   user: userReducer,
   users: usersReducer,
   avatar: avatarReducer,
+  goals: goalsReducer,
 });

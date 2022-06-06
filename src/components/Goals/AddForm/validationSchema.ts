@@ -15,9 +15,9 @@ export const validationSchema = (type: GoalType) => () => {
   const endResult = isWeight
     ? template
     : template.moreThan(
-        yup.ref('startResult'),
-        'Не может быть меньше стартового результата',
-      );
+      yup.ref('startResult'),
+      'Не может быть меньше стартового результата',
+    );
 
   return yup.object().shape({
     name: yup
