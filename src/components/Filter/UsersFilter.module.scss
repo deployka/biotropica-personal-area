@@ -1,5 +1,6 @@
-@import "../../../../styles/global";
-@import "../../../../styles/breakpoints";
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+@import "../../styles/breakpoints";
 
 .filter {
   width: 200px;
@@ -38,8 +39,6 @@
     background-color: #fff;
   }
 }
-
-
 
 .field {
   width: 100%;

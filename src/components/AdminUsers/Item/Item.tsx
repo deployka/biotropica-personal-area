@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
-import s from './User.module.scss';
 import { format } from 'date-fns';
-import { PopUp } from './PopUp';
-import { User } from '../../../../store/rtk/types/user';
-import { ROLE } from '../../../../store/@types/User';
-import { getFullName } from '../../../../utils/getFullName';
+import { ItemPopup } from './ItemPopup';
+import { User } from '../../../store/rtk/types/user';
+import { ROLE } from '../../../store/@types/User';
+import { getFullName } from '../../../utils/getFullName';
+
+import s from './Item.module.scss';
 
 interface Props {
   user: User;
@@ -57,8 +58,8 @@ export const UserItem = ({ user, onBlock, onWrite }: Props) => {
               role === ROLE.SPECIALIST
                 ? { color: '#309A74' }
                 : role === ROLE.ADMIN
-                  ? { color: '#D06361' }
-                  : {}
+                ? { color: '#D06361' }
+                : {}
             }
           >
             {roleTranslation}
@@ -89,7 +90,7 @@ export const UserItem = ({ user, onBlock, onWrite }: Props) => {
           </div>
         </div>
         {visible && (
-          <PopUp
+          <ItemPopup
             onBlockClick={() => {
               onBlock(user);
               setVisible(false);

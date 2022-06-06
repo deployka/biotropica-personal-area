@@ -1,7 +1,5 @@
-import { CreateUserModal } from './components/CreateUserModal/CreateUserModal';
 import React, { useState } from 'react';
-import { BlockUserConfirmModal } from './components/BlockUserConfirmModal';
-import { UserList } from './components/UserList/UserList';
+
 import { eventBus, EventTypes } from '../../services/EventBus';
 import {
   useBlockUserMutation,
@@ -11,6 +9,9 @@ import {
 import ChatService from '../../services/ChatService';
 import { useGetAllRolesQuery } from '../../store/rtk/requests/roles';
 import { User } from '../../store/rtk/types/user';
+import { CreateUserModal } from '../../components/AdminUsers/CreateModal/CreateUserModal';
+import { BlockUserConfirmModal } from '../../components/AdminUsers/BlockModal/BlockUserModal';
+import { AdminUsersList } from '../../components/AdminUsers/List/List';
 
 export function AdminUsers() {
   const [popup, setPopup] = useState<boolean>(false);
@@ -63,7 +64,7 @@ export function AdminUsers() {
         onAgreed={handleBlockUser}
       />
       {users ? (
-        <UserList
+        <AdminUsersList
           users={users}
           onCreateUser={() => setPopup(true)}
           onWriteUser={(user: User) => writeUser(user)}

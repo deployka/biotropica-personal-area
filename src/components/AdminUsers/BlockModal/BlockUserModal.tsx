@@ -3,10 +3,10 @@ import ConfirmModal from '../../../shared/Global/Modal/Confirm/Confirm';
 import Modal from '../../../shared/Global/Modal/Modal';
 
 type Props = {
-    opened: boolean;
-    onDisagreed: () => void;
-    onAgreed: () => void;
-}
+  opened: boolean;
+  onDisagreed: () => void;
+  onAgreed: () => void;
+};
 
 export function BlockUserConfirmModal(props: Props) {
   const buttons = [
@@ -36,11 +36,13 @@ export function BlockUserConfirmModal(props: Props) {
   //     sdfa
   // </Modal>
   //
-  return <Modal isOpened={props.opened} close={props.onDisagreed}>
-    <ConfirmModal
-      helpMessage={'Вы уверены, что хотите заблокировать пользователя?'}
-      accept={props.onAgreed}
-      reject={props.onDisagreed}
-    />
-  </Modal>;
+  return (
+    <Modal isOpened={props.opened} close={props.onDisagreed}>
+      <ConfirmModal
+        helpMessage={'Вы уверены, что хотите заблокировать пользователя?'}
+        accept={props.onAgreed}
+        reject={props.onDisagreed}
+      />
+    </Modal>
+  );
 }
