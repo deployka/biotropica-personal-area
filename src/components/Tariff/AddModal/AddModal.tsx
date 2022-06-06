@@ -5,7 +5,7 @@ import {
   showSuccessNotificationAfterAddTariff,
 } from '../../../utils/tariffHelper';
 import Modal from '../../../shared/Global/Modal/Modal';
-import { NewTariff } from '../../../types/entities/Tariff';
+import { NewTariff } from '../../../@types/entities/Tariff';
 import { useRequestAddTariffMutation } from '../../../store/rtk/requests/tariffs';
 import { TariffEditor } from '../Editor/Editor';
 

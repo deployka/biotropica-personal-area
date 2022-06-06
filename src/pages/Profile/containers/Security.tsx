@@ -10,18 +10,18 @@ import {
 } from '../../../store/ducks/user/actionCreators';
 import { ChangePasswordData } from '../../../store/ducks/user/contracts/state';
 import {
-  selectCurrentUserData,
   selectUserLoadingStatus,
   selectUserResponse,
 } from '../../../store/ducks/user/selectors';
 import { LoadingStatus } from '../../../store/types';
 import { EditPassword } from '../components/EditPassword/EditPassword';
+import { useRequestUserDataQuery } from '../../../store/rtk/requests/user';
 
 export const Security = () => {
   const dispatch = useDispatch();
   const loadingStatus = useSelector(selectUserLoadingStatus);
   const response = useSelector(selectUserResponse);
-  const user = useSelector(selectCurrentUserData);
+  const { data: user } = useRequestUserDataQuery();
   type SetFieldValue = (field: string, value: string) => void;
   const refSetFieldValue = useRef<SetFieldValue | null>(null);
   const refResetForm = useRef<(() => void) | null>(null);

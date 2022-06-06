@@ -24,10 +24,10 @@ import s from './Recommendations.module.scss';
 import Button from '../../components/Button/Button';
 import { RecommendationEditor } from '../../components/Recommendation/Editor/Editor';
 import { useSelector } from 'react-redux';
-import { selectCurrentUserData } from '../../store/ducks/user/selectors';
 import { Tabs } from '../../components/Tabs/Tabs';
-import { selectIsDoctor } from '../../store/rtk/slices/authSlice';
+import { selectIsDoctor } from '../../store/slices/authSlice';
 import classNames from 'classnames';
+import { useRequestUserDataQuery } from '../../store/rtk/requests/user';
 
 type CreateRecommendation = {
   title: string;
@@ -35,7 +35,7 @@ type CreateRecommendation = {
 };
 
 export function Recommendations() {
-  const currentUser = useSelector(selectCurrentUserData);
+  const { data: currentUser } = useRequestUserDataQuery();
   const currentUserId = currentUser?.id || 0;
   const { userId } = useParams<{ userId: string }>();
   const { data: recommendations } = useGetRecommendationListQuery({

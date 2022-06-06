@@ -1,10 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Redirect, Route } from 'react-router';
-import { useAppSelector } from '../store/rtk/storeHooks';
-import {
-  selectUserAccesses,
-  selectUserRoles,
-} from '../store/rtk/slices/authSlice';
+import { useAppSelector } from '../store/storeHooks';
+import { selectUserAccesses, selectUserRoles } from '../store/slices/authSlice';
 import { useSelector } from 'react-redux';
 import { selectIsAuth } from '../store/ducks/user/selectors';
 import { PrivateLayout } from '../layouts/PrivateLayout';

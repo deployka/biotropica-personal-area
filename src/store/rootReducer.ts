@@ -1,45 +1,32 @@
-import { userReducer } from './ducks/user/reducer';
-import { goalReducer } from './ducks/goal/reducer';
-import { goalsReducer } from './ducks/goals/reducer';
-import { progressReducer } from './ducks/progress/reducer';
-import { recommendationsReducer } from './ducks/recommendations/reducer';
-import { recommendationReducer } from './ducks/recommendation/reducer';
-import { analyzesReducer } from './ducks/analyzes/reducer';
-import { analyzeReducer } from './ducks/analyze/reducer';
-import { specialistReducer } from './ducks/specialist/reducer';
-import { specialistsReducer } from './ducks/specialists/reducer';
-import { consultationReducer } from './ducks/consultation/reducer';
-import { consultationsReducer } from './ducks/consultations/reducer';
-import { taskApi } from './rtk/requests/tasks';
-import tasksPageSlice from './rtk/slices/tasksPageSlice';
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query';
-import { notificationReducer } from './ducks/notification/reducer';
-import { recommendationApi } from './rtk/requests/recommendations';
-import { specializationApi } from './rtk/requests/specializations';
-import authApi from './rtk/requests/auth';
-import authSlice from './rtk/slices/authSlice';
-import users from './rtk/slices/users';
+import { combineReducers } from 'redux';
+import authApi from '../api/auth';
+import avatarApi from '../api/avatar';
+import { recommendationApi } from '../api/recommendations';
+import usersApi from '../api/roles';
+import { specializationApi } from '../api/specializations';
+import tariffsApi from '../api/tariffs';
+import { taskApi } from '../api/tasks';
+import userApi from '../api/user';
+import userEventsApi from '../api/user-events';
+import authSlice from './slices/authSlice';
+import tasksPageSlice from './slices/tasksPageSlice';
+import userReducer from './slices/user';
+import usersReducer from './slices/users';
+import avatarReducer from './slices/avatar';
 
 export const rootReducer = combineReducers({
-  user: userReducer,
-  specialist: specialistReducer,
-  specialists: specialistsReducer,
-  consultation: consultationReducer,
-  consultations: consultationsReducer,
-  goal: goalReducer,
-  goals: goalsReducer,
-  progress: progressReducer,
-  recommendations: recommendationsReducer,
-  recommendation: recommendationReducer,
-  analyze: analyzeReducer,
-  analyzes: analyzesReducer,
-  notification: notificationReducer,
-  [taskApi.reducerPath]: taskApi.reducer,
+  [userApi.reducerPath]: userApi.reducer,
+  [usersApi.reducerPath]: usersApi.reducer,
+  [userEventsApi.reducerPath]: userEventsApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
-  tasksPageSlice: tasksPageSlice,
-  authSlice,
-  [recommendationApi.reducerPath]: recommendationApi.reducer,
+  [avatarApi.reducerPath]: avatarApi.reducer,
+  [taskApi.reducerPath]: taskApi.reducer,
+  [tariffsApi.reducerPath]: tariffsApi.reducer,
   [specializationApi.reducerPath]: specializationApi.reducer,
-  users: users,
+  [recommendationApi.reducerPath]: recommendationApi.reducer,
+  authSlice: authSlice,
+  tasksPageSlice: tasksPageSlice,
+  user: userReducer,
+  users: usersReducer,
+  avatar: avatarReducer,
 });

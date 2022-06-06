@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import s from './Consultation.module.scss';
 import { Zoom } from '../../shared/Modules/Zoom';
-import { useSelector } from 'react-redux';
-import { selectCurrentUserData } from '../../store/ducks/user/selectors';
 import { useHistory, useParams } from 'react-router';
 import ConsultationService from '../../services/ConsultationService';
 import { Consultation } from '../../store/ducks/consultation/contracts/state';
+import { useRequestUserDataQuery } from '../../store/rtk/requests/user';
 
 export function ConsultationPage() {
   const history = useHistory();
@@ -17,7 +16,7 @@ export function ConsultationPage() {
     });
   }, [id]);
 
-  const currentUser = useSelector(selectCurrentUserData);
+  const { data: currentUser } = useRequestUserDataQuery();
   if (!currentUser || !consultation) {
     return null;
   }

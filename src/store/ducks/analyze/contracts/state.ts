@@ -1,4 +1,4 @@
-import { Comment } from '../../../../types/entities/Comment';
+import { Comment } from '../../../../@types/entities/Comment';
 import { LoadingStatus, Response } from '../../../types';
 
 export interface Analyze {

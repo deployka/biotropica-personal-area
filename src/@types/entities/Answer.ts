@@ -1,0 +1,12 @@
+import { Client } from './Client';
+import { Question } from './Question';
+
+export type Answer = {
+  id: number;
+  text: string;
+  questionSessionHash: string;
+  question: Question;
+  userId: UniqueId;
+  questionKey: string;
+  user: Client;
+};

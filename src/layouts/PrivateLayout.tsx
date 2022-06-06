@@ -8,11 +8,10 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { selectCurrentUserData } from '../store/ducks/user/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMobile } from '../hooks/useMobile';
 import { SidebarSvgSelector } from '../assets/icons/sidebar/SIdebarSvgSelector';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import { fetchSignout, setUserData } from '../store/ducks/user/actionCreators';
 import { SidebarDesktop } from '../shared/Global/Sidebar/SidebarDesktop';
 import { SidebarMobile } from '../shared/Global/Sidebar/SidebarMobile';
@@ -20,14 +19,9 @@ import { SidebarWrapper } from '../shared/Global/SidebarWrapper/SidebarWrapper';
 import { Chat } from '../shared/Modules/Chat';
 import { eventBus, EventTypes } from '../services/EventBus';
 import { chatApi } from '../shared/Global/Chat/services/chatApi';
-import {
-  selectIsAdmin,
-  selectIsClient,
-  selectIsDoctor,
-  selectUserRoles,
-} from '../store/rtk/slices/authSlice';
+import { selectIsAdmin, selectIsDoctor } from '../store/slices/authSlice';
 import { getCurrentPage } from '../utils/getCurrentPage';
-import { ROLE } from '../store/rtk/types/user';
+import { useRequestUserDataQuery } from '../store/rtk/requests/user';
 
 interface Props {
   children: React.ReactNode;
@@ -133,12 +127,11 @@ async function sendMessage() {
 }
 
 export function PrivateLayout(props: Props) {
-  const currentUser = useSelector(selectCurrentUserData);
+  const { refetch, data: currentUser } = useRequestUserDataQuery();
 
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const isAdmin = useSelector(selectIsAdmin);
-  const isClient = useSelector(selectIsClient);
   const isSpecialist = useSelector(selectIsDoctor);
 
   const currentPage = useMemo(() => getCurrentPage(pathname), [pathname]);
@@ -189,6 +182,7 @@ export function PrivateLayout(props: Props) {
   const logout = useCallback(() => {
     dispatch(fetchSignout());
     dispatch(setUserData(undefined));
+    refetch();
     document.location.reload();
   }, [dispatch]);
 

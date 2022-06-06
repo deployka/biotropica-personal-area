@@ -1,6 +1,6 @@
 import React from 'react';
 import { Comment } from './Comment';
-import { Comment as CommentType } from '../../types/entities/Comment';
+import { Comment as CommentType } from '../../@types/entities/Comment';
 
 import s from './Comments.module.scss';
 

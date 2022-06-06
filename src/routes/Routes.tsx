@@ -9,9 +9,8 @@ import {
   selectIsDoctor,
   selectIsAdmin,
   selectIsClient,
-} from '../store/rtk/slices/authSlice';
+} from '../store/slices/authSlice';
 import ErrorPage from '../pages/ErrorPage/containers/ErrorPage';
-import { useRequestUserDataQuery } from '../store/rtk/requests/user';
 
 type Props = {
   DefaultComponent?: ElementType;
@@ -26,7 +25,6 @@ function RoleComponent({
   Specialist,
   Admin,
 }: Props): ReactElement {
-  useRequestUserDataQuery();
   const isSpecialist = useSelector(selectIsDoctor);
   const isAdmin = useSelector(selectIsAdmin);
   const isClient = useSelector(selectIsClient);

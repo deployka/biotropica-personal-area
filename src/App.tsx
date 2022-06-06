@@ -33,7 +33,6 @@ function App(): ReactElement {
   const getGlobalLoading = useSelector(selectGlobalLoadingStatus);
 
   useEffect(() => {
-    dispatch(fetchUserData());
     if (isAuth) {
       dispatch(fetchGoalsData());
     }

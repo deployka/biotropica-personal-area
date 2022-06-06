@@ -15,7 +15,6 @@ import {
   User,
 } from '../../../store/ducks/user/contracts/state';
 import {
-  selectCurrentUserData,
   selectUserLoadingStatus,
   selectUserResponse,
 } from '../../../store/ducks/user/selectors';
@@ -24,6 +23,7 @@ import {
   useGetSpecialistQuery,
   useRequestChangeSpecialistDataMutation,
 } from '../../../store/rtk/requests/specialists';
+import { useRequestUserDataQuery } from '../../../store/rtk/requests/user';
 import { LoadingStatus } from '../../../store/types';
 import {
   checkFileSize,
@@ -45,7 +45,7 @@ const EditProfile = () => {
   const response = useSelector(selectUserResponse);
   const history = useHistory();
 
-  const user: User | undefined = useSelector(selectCurrentUserData);
+  const { data: user } = useRequestUserDataQuery();
   const userImage = user?.profilePhoto && getMediaLink(user?.profilePhoto);
   const isSpecialist = user?.roles?.includes('SPECIALIST');
   const { data: specialist } = useGetSpecialistQuery(undefined, {

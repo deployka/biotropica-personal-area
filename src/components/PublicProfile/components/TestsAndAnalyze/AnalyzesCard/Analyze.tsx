@@ -9,7 +9,7 @@ import { Comments } from '../../../../../components/Comments/Comments';
 import { CommentsInfo } from '../../../../Comments/CommentsInfo';
 import { AddCommentForm } from './AddCommentForm';
 import { useSort } from './useSort';
-import { Order } from '../../../../../types/constants/Order';
+import { Order } from '../../../../../@types/constants/Order';
 
 interface Props {
   analyze: AnalyzeAnswer;

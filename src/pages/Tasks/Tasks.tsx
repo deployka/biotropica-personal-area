@@ -11,8 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectTasksPageCurrentMonth,
   setCurrentMonth,
-} from '../../store/rtk/slices/tasksPageSlice';
-import { useAppSelector } from '../../store/rtk/storeHooks';
+} from '../../store/slices/tasksPageSlice';
+import { useAppSelector } from '../../store/storeHooks';
 import { TaskCalendar } from '../../components/Calendar/TaskCalendar';
 import { TaskTypeSelectModal } from '../../components/Task/TypeSelectModal/TypeSelectModal';
 import {
@@ -29,17 +29,17 @@ import {
 
 import { createTaskByType } from './CreateTaskHelper';
 import { useHistory, useParams } from 'react-router-dom';
-import { selectCurrentUserData } from '../../store/ducks/user/selectors';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { NotificationButtons } from './NotificationButtons';
-import { selectIsDoctor } from '../../store/rtk/slices/authSlice';
+import { selectIsDoctor } from '../../store/slices/authSlice';
 
 import { Tabs } from '../../components/Tabs/Tabs';
 import { TasksModal } from '../../components/Task/Modal/Modal';
+import { useRequestUserDataQuery } from '../../store/rtk/requests/user';
 
 export function Tasks() {
-  const currentUser = useSelector(selectCurrentUserData);
+  const { data: currentUser } = useRequestUserDataQuery();
   const dispatch = useDispatch();
   const [updateTask, { isLoading: isUpdateLoading }] = useUpdateTaskMutation();
   const [createTask, { isLoading: isCreateLoading }] = useCreateTaskMutation();

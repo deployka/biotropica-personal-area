@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
-import { useSelector } from 'react-redux';
-
 import s from './Profile.module.scss';
-import { selectCurrentUserData } from '../../../store/ducks/user/selectors';
+
 import EditProfile from './EditProfile';
 import { Security } from './Security';
 import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 import { getTabByKey } from '../../../utils/tabsHelper';
+import { useRequestUserDataQuery } from '../../../store/rtk/requests/user';
 
 export interface Param {
   active: string;
@@ -27,7 +26,7 @@ const Edit = () => {
   ];
 
   const history = useHistory();
-  const user = useSelector(selectCurrentUserData);
+  const { data: user } = useRequestUserDataQuery();
 
   const { active } = useParams<Param>();
   const [activeTab, setActiveTab] = useState<string>(

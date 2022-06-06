@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 
 import s from './Profile.module.scss';
 
@@ -9,14 +8,16 @@ import Button from '../../components/Button/Button';
 import { chatApi } from '../../shared/Global/Chat/services/chatApi';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { useParams } from 'react-router-dom';
-import { selectCurrentUserData } from '../../store/ducks/user/selectors';
-import { useGetUserQuery } from '../../store/rtk/requests/user';
+import {
+  useGetUserQuery,
+  useRequestUserDataQuery,
+} from '../../store/rtk/requests/user';
 import { ROLE } from '../../store/@types/User';
 
 const Profile = () => {
   const { id } = useParams<{ id: string }>();
 
-  const currentUser = useSelector(selectCurrentUserData);
+  const { data: currentUser } = useRequestUserDataQuery();
 
   const userId = Number(id || currentUser?.id);
   const { data: user } = useGetUserQuery(userId, {
@@ -36,7 +37,7 @@ const Profile = () => {
     <div className={s.backgroundWrapper}>
       <div className={s.profile}>
         <div className={s.info}>
-          {!!user && <Card user={user} />}
+          {user && <Card user={user} />}
           {userClient ? (
             <Button
               isPrimary={true}

@@ -6,9 +6,9 @@ import {
   AnalyzeAnswer,
   Analyze,
 } from '../store/ducks/analyze/contracts/state';
-import { CreateCommentDto } from '../types/dto/analyzes/create-comment.dto';
-import { DeleteCommentDto } from '../types/dto/analyzes/delete-comment.dto';
-import { Comment } from '../types/entities/Comment';
+import { CreateCommentDto } from '../@types/dto/analyzes/create-comment.dto';
+import { DeleteCommentDto } from '../@types/dto/analyzes/delete-comment.dto';
+import { Comment } from '../@types/entities/Comment';
 
 interface Response {
   status: string;

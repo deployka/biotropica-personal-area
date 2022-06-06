@@ -8,11 +8,11 @@ import s from './Safety.module.scss';
 import Button from '../../../../components/Button/Button';
 import Input, { InputTypes } from '../../../../components/Input/Input';
 import validationSchema from './editPassword';
-import { useRequestChangePasswordMutation } from '../../../../store/rtk/requests/auth';
+import { useRequestChangePasswordMutation } from '../../../../api/auth';
 import { RootState } from '../../../../store/store';
 // import { showSuccessMessage, showErrorMessage } from '../../../../components/notification/messages';
 import { Loader } from '../../../../shared/Global/Loader/Loader';
-import { setIsLoggedOut } from '../../../../store/rtk/slices/user';
+import { setIsLoggedOut } from '../../../../store/slices/user';
 
 interface ChangePasswordData {
   currentPassword: string;

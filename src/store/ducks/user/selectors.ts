@@ -4,9 +4,6 @@ import { UserState } from './contracts/state';
 
 export const selectUserState = (state: RootState): UserState => state.user;
 
-export const selectCurrentUserData = (state: RootState): UserState['user'] =>
-  selectUserState(state).currentUser;
-
 export const selectUserData = (state: RootState): UserState['user'] =>
   selectUserState(state).user;
 

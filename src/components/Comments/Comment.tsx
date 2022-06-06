@@ -1,5 +1,5 @@
 import React from 'react';
-import { Comment as CommentType } from '../../types/entities/Comment';
+import { Comment as CommentType } from '../../@types/entities/Comment';
 import s from './Comments.module.scss';
 import defaultAvatar from '../../assets/images/profile/default_avatar.png';
 import moment from 'moment';

@@ -5,7 +5,7 @@ import Button from '../../Button/Button';
 import EditTariffModal from '../EditModal/EditModal';
 import checkbox from './../../../assets/icons/tariffs/checkbox.svg';
 import { Tariff as ITariff } from '../../../store/rtk/types/tariff';
-import { selectUserRoles } from '../../../store/rtk/slices/authSlice';
+import { selectUserRoles } from '../../../store/slices/authSlice';
 import { ROLE } from '../../../store/rtk/types/user';
 
 import s from './Card.module.scss';

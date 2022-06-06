@@ -3,6 +3,7 @@ import { useHistory } from 'react-router';
 import { QuestionnaireBody } from '../../components/Questionnaire/Body/Body';
 
 import QuestionService from '../../services/QuestionService';
+import { CreateAnswerDto } from '../../@types/dto/questionnaire/create-answer.dto';
 
 import s from './Questionnaire.module.scss';
 

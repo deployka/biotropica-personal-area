@@ -3,7 +3,7 @@ import { Formik, Form } from 'formik';
 
 import Input, { InputTypes } from '../../Input/Input';
 import Button from '../../Button/Button';
-import { Tariff, NewTariff } from '../../../types/entities/Tariff';
+import { Tariff, NewTariff } from '../../../@types/entities/Tariff';
 
 import s from './Editor.module.scss';
 

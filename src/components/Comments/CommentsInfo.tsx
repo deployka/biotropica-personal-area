@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import { GlobalSvgSelector } from '../../assets/icons/global/GlobalSvgSelector';
-import { Order } from '../../types/constants/Order';
+import { Order } from '../../@types/constants/Order';
 
 import s from './Comments.module.scss';
 

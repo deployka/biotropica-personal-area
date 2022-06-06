@@ -4,7 +4,7 @@ import AnimateHeight from 'react-animate-height';
 import { Tariff } from '../../../store/rtk/types/tariff';
 import arrow from './../../../assets/icons/tariffs/arrow.svg';
 import checkbox from './../../../assets/icons/tariffs/checkbox.svg';
-import { selectUserRoles } from '../../../store/rtk/slices/authSlice';
+import { selectUserRoles } from '../../../store/slices/authSlice';
 import EditTariffModal from '../EditModal/EditModal';
 import Button from '../../Button/Button';
 

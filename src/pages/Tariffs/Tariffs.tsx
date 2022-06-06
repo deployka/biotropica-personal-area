@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PlusIcon from '../../assets/icons/plus.svg';
 import Button from '../../components/Button/Button';
-import { selectUserRoles } from '../../store/rtk/slices/authSlice';
+import { selectUserRoles } from '../../store/slices/authSlice';
 import { useRequestTariffsQuery } from '../../store/rtk/requests/tariffs';
 import { ROLE } from '../../store/rtk/types/user';
 import { TariffAddModal } from '../../components/Tariff/AddModal/AddModal';

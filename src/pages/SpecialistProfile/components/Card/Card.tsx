@@ -3,21 +3,16 @@ import 'moment/locale/ru';
 import moment from 'moment';
 import classNames from 'classnames';
 import { Link, useRouteMatch } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 import s from './Card.module.scss';
 
 import editIcon from '../../../../assets/icons/edit.svg';
 import defaultAvatar from '../../../../assets/images/profile/default_avatar.png';
-import { RootState } from '../../../../store/store';
-import {
-  SpecializationOptions,
-  SpecializationOption,
-} from '../../../../components/MultiSelect/MultiSelect';
+import { SpecializationOptions } from '../../../../components/MultiSelect/MultiSelect';
 import { useRequestAvatarFileQuery } from '../../../../store/rtk/requests/avatar';
-import { Loader } from '../../../../shared/Global/Loader/Loader';
 import { User } from '../../../../store/@types/User';
 import { getMediaLink } from '../../../../utils/mediaHelper';
+import { useRequestUserDataQuery } from '../../../../store/rtk/requests/user';
 
 moment.locale('ru');
 
@@ -41,7 +36,7 @@ const Card = ({ user }: Props) => {
 
   const { isLoading } = useRequestAvatarFileQuery(profilePhoto);
 
-  const currentUser = useSelector((state: RootState) => state.user.currentUser);
+  const { data: currentUser } = useRequestUserDataQuery();
 
   const specializations =
     !!specialist &&
@@ -54,13 +49,8 @@ const Card = ({ user }: Props) => {
       .filter(specialization => specialization)
       .join(', ');
 
-  if (!currentUser) {
-    return <div></div>;
-  }
-
   return (
     <>
-      {isLoading && <Loader />}
       <div className={s.user}>
         <div>
           <div className={s.profile__card}>

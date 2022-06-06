@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Profile from '../pages/Profile/containers/Profile';
 import { fetchUserData } from '../store/ducks/user/actionCreators';
-import { selectCurrentUserData } from '../store/ducks/user/selectors';
+import { useRequestUserDataQuery } from '../store/rtk/requests/user';
 
 interface Props {
   isAuth?: boolean;
@@ -11,7 +11,7 @@ interface Props {
 export const ProfileLayout = ({ isAuth = true }: Props) => {
   const dispatch = useDispatch();
 
-  const user = useSelector(selectCurrentUserData);
+  const { data: user } = useRequestUserDataQuery();
 
   useEffect(() => {
     dispatch(fetchUserData());
