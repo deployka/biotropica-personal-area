@@ -15,6 +15,7 @@ import usersReducer from './slices/users';
 import avatarReducer from './slices/avatar';
 import analyzesApi from '../api/analyzes';
 import analyzeAnswersApi from '../api/analyze-answers';
+import progressApi from '../api/progress';
 
 export const rootReducer = combineReducers({
   [userApi.reducerPath]: userApi.reducer,
@@ -28,6 +29,7 @@ export const rootReducer = combineReducers({
   [recommendationApi.reducerPath]: recommendationApi.reducer,
   [analyzesApi.reducerPath]: analyzesApi.reducer,
   [analyzeAnswersApi.reducerPath]: analyzeAnswersApi.reducer,
+  [progressApi.reducerPath]: progressApi.reducer,
   authSlice: authSlice,
   tasksPageSlice: tasksPageSlice,
   user: userReducer,
