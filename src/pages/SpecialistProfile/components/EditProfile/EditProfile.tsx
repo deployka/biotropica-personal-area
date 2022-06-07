@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { Formik } from 'formik';
@@ -53,10 +53,11 @@ const EditProfile = () => {
     value: it.id.toString(),
   }));
 
-  React.useEffect(() => {
+  useEffect(() => {
     isGetUserSuccess &&
+      user &&
       !!user.profilePhoto &&
-      setImage(getMediaLink(user.profilePhoto) || defaultAvatar);
+      setImage(getMediaLink(user.profilePhoto || '') || defaultAvatar);
   }, [isGetUserSuccess]);
 
   const [file, setFile] = useState<File>();
