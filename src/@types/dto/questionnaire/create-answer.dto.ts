@@ -1,4 +1,4 @@
-export type CreateAnswerDto = Readonly<{
+export type CreateAnswerDto = {
   text: string;
   questionKey: string;
-}>;
+};

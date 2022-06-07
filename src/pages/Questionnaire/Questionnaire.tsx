@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
-import { QuestionnaireBody } from '../../components/Questionnaire/Body/Body';
-
-import QuestionService from '../../services/QuestionService';
 import { CreateAnswerDto } from '../../@types/dto/questionnaire/create-answer.dto';
+import {
+  useCreateAnswerMutation,
+  useGetCurrentQuestionQuery,
+} from '../../api/questions';
+import { QuestionnaireBody } from '../../components/Questionnaire/Body/Body';
 
 import s from './Questionnaire.module.scss';
 
@@ -15,65 +17,48 @@ type Question = {
 };
 
 const Questionnaire = () => {
-  const [question, setQuestion] = useState<null | Question>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [total, setTotal] = useState(0);
   const history = useHistory();
 
-  async function fetchQuestion() {
-    const {
-      data: { question, index, total },
-    } = await QuestionService.getCurrentQuestion();
-    if (!question) {
-      return history.push('/');
-    }
-    setQuestion(question);
-    setCurrentIndex(index);
-    setTotal(total);
+  const {
+    data: currentQuestionData,
+    isLoading,
+    isError,
+    refetch: refetchCurrentQuestionData,
+  } = useGetCurrentQuestionQuery();
+
+  const [fetchCreateAnswer] = useCreateAnswerMutation();
+
+  if (isLoading) {
+    return <p>Загрузка...</p>;
   }
 
-  useEffect(() => {
-    fetchQuestion();
-  }, []);
-
-  // async function updateQuestion() {
-  //   const question = await QuestionService.getOne(currentIndex);
-  //   setQuestion(question.data);
-  // }
-
-  // useEffect(() => {
-  //   updateQuestion();
-  // }, [currentIndex]);
-
-  if (!question) {
-    return null;
+  if (!isLoading && isError) {
+    return <p>Произошла ошибка</p>;
   }
+
+  if (!currentQuestionData) {
+    return <div>Ошибка</div>;
+  }
+
+  const { question, index, total } = currentQuestionData;
 
   async function giveAnswer(answer: CreateAnswerDto) {
-    await QuestionService.answer(answer);
-    if (currentIndex === total) {
-      return history.push('/');
+    try {
+      await fetchCreateAnswer(answer).unwrap();
+      if (index === total) {
+        // return history.push('/');
+      }
+      refetchCurrentQuestionData();
+    } catch (error) {
+      console.log(error);
     }
-    await fetchQuestion();
   }
-
-  const options = question.allowedAnswers
-    ? question.allowedAnswers.map(it => ({
-        value: it,
-        label: it,
-      }))
-    : [];
 
   return (
     <div className={s.questionnaire}>
       <QuestionnaireBody
-        progress={{
-          currentIndex,
-          total,
-        }}
-        title={question.title}
-        type={question.type as Question['type']}
-        options={options}
+        question={question}
+        progress={{ currentIndex: index, total }}
         onNext={(answer: string) => {
           giveAnswer({
             text: answer,
@@ -81,7 +66,7 @@ const Questionnaire = () => {
           });
         }}
         onPrev={() => {
-          setCurrentIndex(currentIndex - 1);
+          console.log('prev');
         }}
       />
     </div>

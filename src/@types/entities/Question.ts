@@ -18,3 +18,9 @@ export type Question = BaseEntity & {
   extended: boolean;
   type: QuestionType;
 };
+
+export type CurrentQuestion = {
+  question: Question;
+  index: number;
+  total: number;
+};
