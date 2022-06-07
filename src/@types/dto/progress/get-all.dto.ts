@@ -1,3 +1,3 @@
-export type GetAllProgressPostsDto = {
+export type GetAllProgressPostsDto = Readonly<{
   userId: UniqueId;
-};
+}>;

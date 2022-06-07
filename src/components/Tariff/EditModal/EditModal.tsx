@@ -1,9 +1,5 @@
 import React from 'react';
 
-import {
-  useRequestChangeTariffMutation,
-  useRequestDeleteTariffMutation,
-} from '../../../store/rtk/requests/tariffs';
 import Modal from '../../../shared/Global/Modal/Modal';
 import { Tariff } from '../../../@types/entities/Tariff';
 import { TariffEditor } from '../Editor/Editor';
@@ -15,6 +11,10 @@ import {
 } from '../../../utils/tariffHelper';
 
 import s from './EditModal.module.scss';
+import {
+  useRequestChangeTariffMutation,
+  useRequestDeleteTariffMutation,
+} from '../../../api/tariffs';
 
 interface Props {
   id: Tariff['id'];

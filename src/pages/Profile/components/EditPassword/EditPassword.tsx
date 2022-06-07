@@ -4,24 +4,22 @@ import { Link, useHistory } from 'react-router-dom';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
-import {
-  ChangePasswordData,
-  User,
-} from '../../../../store/ducks/user/contracts/state';
 
 import s from './EditPassword.module.scss';
 import { validationSchema } from './validationSchema';
 import { eventBus, EventTypes } from '../../../../services/EventBus';
 import { NotificationButtons } from './NotificationButtons';
 import { NotificationType } from '../../../../components/GlobalNotifications/GlobalNotifications';
+import { ChangePasswordDto } from '../../../../@types/dto/auth/change-password.dto';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
 
 interface Props {
-  user: User | undefined;
+  user: BaseUser | undefined;
   loader: boolean;
   logout: () => void;
   onSubmit: (
-    values: ChangePasswordData,
-    options: FormikHelpers<ChangePasswordData>,
+    values: ChangePasswordDto,
+    options: FormikHelpers<ChangePasswordDto>,
   ) => void;
 }
 
@@ -63,8 +61,8 @@ export const EditPassword = ({ loader, onSubmit, user, logout }: Props) => {
         }}
         validateOnBlur
         onSubmit={(
-          values: ChangePasswordData,
-          options: FormikHelpers<ChangePasswordData>,
+          values: ChangePasswordDto,
+          options: FormikHelpers<ChangePasswordDto>,
         ) => onSubmit(values, options)}
         validationSchema={validationSchema}
       >

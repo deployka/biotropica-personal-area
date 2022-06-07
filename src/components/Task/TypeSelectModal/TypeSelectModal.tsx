@@ -18,7 +18,7 @@ import {
   Task,
   TaskTemplate,
   TaskType,
-} from '../../../store/@types/Task';
+} from '../../../@types/entities/Task';
 
 import bikeIcon from './taskType/bike.svg';
 import chairIcon from './taskType/chair.svg';

@@ -1,9 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Redirect, Route } from 'react-router';
-import { useAppSelector } from '../store/storeHooks';
 import { selectUserAccesses, selectUserRoles } from '../store/slices/authSlice';
 import { useSelector } from 'react-redux';
-import { selectIsAuth } from '../store/ducks/user/selectors';
 import { PrivateLayout } from '../layouts/PrivateLayout';
 
 type GuardRouteProps = {
@@ -22,7 +20,6 @@ export const GuardRoute = ({
 }: GuardRouteProps) => {
   const userAccesses = useSelector(selectUserAccesses);
   const userRoles = useSelector(selectUserRoles);
-  const isAuth = useSelector(selectIsAuth);
 
   const isAllowed = access
     ? userAccesses.includes(access)
@@ -35,7 +32,7 @@ export const GuardRoute = ({
         render={({ location }) => (
           <Redirect
             to={{
-              pathname: isAuth ? '/signin' : '/signin',
+              pathname: '/signin',
               state: { from: location },
             }}
           />

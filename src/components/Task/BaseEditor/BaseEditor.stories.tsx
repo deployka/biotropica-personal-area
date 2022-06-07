@@ -10,7 +10,7 @@ import {
   RunCompetitionType,
   TaskPriority,
   TrainingCategory,
-} from '../../../store/@types/Task';
+} from '../../../@types/entities/Task';
 
 export default {
   component: TaskBaseEditor,

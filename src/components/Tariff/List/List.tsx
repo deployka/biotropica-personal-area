@@ -1,7 +1,7 @@
 import React from 'react';
+import { Tariff } from '../../../@types/entities/Tariff';
 import { TariffCard } from '../Card/Card';
 import { TariffMobileCard } from '../MobileCard/MobileCard';
-import { Tariff } from '../../../store/rtk/types/tariff';
 
 import s from './List.module.scss';
 

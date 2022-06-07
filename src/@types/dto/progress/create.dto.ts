@@ -1,5 +1,5 @@
 import { ProgressPhoto } from '../../entities/Progress';
 
-export type CreateProgressDto = {
+export type CreateProgressDto = Readonly<{
   photos: ProgressPhoto[];
-};
+}>;

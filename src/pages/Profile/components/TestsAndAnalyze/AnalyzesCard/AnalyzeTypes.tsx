@@ -1,5 +1,5 @@
 import React from 'react';
-import { Analyze } from '../../../../../store/ducks/analyze/contracts/state';
+import { Analyze } from '../../../../../@types/entities/Analyze';
 
 import s from './AnalyzesCard.module.scss';
 

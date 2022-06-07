@@ -1,27 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Formik, FormikHelpers } from 'formik';
 
-import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../../../../hooks/useModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
 import classNames from 'classnames';
-import FileService from '../../../../../services/FileService';
 import { Button } from '../../../../../shared/Form/Button/Button';
 import { Loader } from '../../../../../shared/Form/Loader/Loader';
 import { PopupBackground } from '../../../../../shared/Global/PopupBackground/PopupBackground';
-import {
-  createProgressData,
-  fetchProgressData,
-  setProgressLoadingStatus,
-  setProgressResponse,
-} from '../../../../../store/ducks/progress/actionCreators';
-import {
-  CreateProgressData,
-  TypePhoto,
-} from '../../../../../store/ducks/progress/contracts/state';
-import { selectProgressLoadingStatus } from '../../../../../store/ducks/progress/selectors';
-import { LoadingStatus } from '../../../../../store/types';
-import s from './AddPhotoModal.module.scss';
+
 import { validationSchema } from './validationSchema';
 import { ErrorMessage } from '../../../../../shared/Form/ErrorMessage/ErrorMessage';
 import { ProfileSvgSelector } from '../../../../../assets/icons/profile/ProfileSvgSelector';
@@ -35,103 +21,120 @@ import { MAX_IMAGE_SIZE } from '../../../../../constants/files';
 import { eventBus, EventTypes } from '../../../../../services/EventBus';
 import { NotificationType } from '../../../../../components/GlobalNotifications/GlobalNotifications';
 
+import s from './AddPhotoModal.module.scss';
+import { ProgressPhotoType } from '../../../../../@types/entities/Progress';
+import { Client } from '../../../../../@types/entities/Client';
+import { useUploadFilesMutation } from '../../../../../api/files';
+import { CreateProgressDto } from '../../../../../@types/dto/progress/create.dto';
+import { useCreateProgressPostMutation } from '../../../../../api/progress';
 interface PhotoInput {
   src: string;
 }
 
 type Inputs = {
-  [key in TypePhoto]: PhotoInput;
+  [key in ProgressPhotoType]: PhotoInput;
 };
 
 type Files = {
-  [key in TypePhoto]: File | null;
+  [key in ProgressPhotoType]: File | null;
 };
 
 interface Props {
-  user: User;
+  user: Client;
 }
 
 export const AddPhotoModal = ({ user }: Props) => {
   const [inputs, setInputs] = useState<Inputs>({
-    [TypePhoto.SIDE]: {
+    side: {
       src: '',
     },
-    [TypePhoto.FRONT]: {
+    front: {
       src: '',
     },
-    [TypePhoto.BACK]: {
+    back: {
       src: '',
     },
   });
 
-  const dispatch = useDispatch();
-  const loadingStatus = useSelector(selectProgressLoadingStatus);
-  const refResetForm = useRef<(() => void) | null>(null);
-
   const { closeModal, modals } = useModal();
-  const loader = loadingStatus === LoadingStatus.LOADING;
 
-  useEffect(() => {
-    switch (loadingStatus) {
-      case LoadingStatus.ERROR:
-        break;
-      case LoadingStatus.SUCCESS:
-        if (!refResetForm.current) return;
-        eventBus.emit(EventTypes.notification, {
-          title: 'Успешно!',
-          message: 'Фотографии успешно загружены!',
-          type: NotificationType.SUCCESS,
-        });
-        refResetForm.current();
-        closeModal(ModalName.MODAL_ADD_PROGRESS_PHOTO);
-        dispatch(fetchProgressData(user.id));
-        break;
-      default:
-        break;
-    }
-    dispatch(setProgressResponse(undefined));
-  }, [loadingStatus]);
+  // useEffect(() => {
+  //   switch (loadingStatus) {
+  //     case LoadingStatus.ERROR:
+  //       break;
+  //     case LoadingStatus.SUCCESS:
+  //       if (!refResetForm.current) return;
+  //       eventBus.emit(EventTypes.notification, {
+  //         title: 'Успешно!',
+  //         message: 'Фотографии успешно загружены!',
+  //         type: NotificationType.SUCCESS,
+  //       });
+  //       refResetForm.current();
+  //       closeModal(ModalName.MODAL_ADD_PROGRESS_PHOTO);
+  //       dispatch(fetchProgressData(user.id));
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  //   dispatch(setProgressResponse(undefined));
+  // }, [loadingStatus]);
+
+  const [fetchUploadFiles, { isLoading: isFilesLoading }] =
+    useUploadFilesMutation();
+  const [createProgress, { isLoading: isProgressLoading }] =
+    useCreateProgressPostMutation();
+
+  const isLoading = isFilesLoading || isProgressLoading;
 
   async function onSubmit(values: Files, options: FormikHelpers<Files>) {
-    if (!values.BACK || !values.SIDE || !values.FRONT) {
+    if (!values.back || !values.front || !values.side) {
       return;
     }
-    refResetForm.current = options.resetForm;
     try {
-      dispatch(setProgressLoadingStatus(LoadingStatus.LOADING));
-      const { data: files } = await FileService.uploadFiles([
-        values.BACK,
-        values.FRONT,
-        values.SIDE,
-      ]);
-      dispatch(setProgressLoadingStatus(LoadingStatus.LOADED));
-      const data: CreateProgressData = {
+      const files = await fetchUploadFiles({
+        files: [values.back, values.front, values.side],
+      }).unwrap();
+
+      const data: CreateProgressDto = {
         photos: [
           {
             filename: files[0].name,
-            type: TypePhoto.BACK,
+            type: 'back',
           },
           {
             filename: files[1].name,
-            type: TypePhoto.FRONT,
+            type: 'front',
           },
           {
             filename: files[2].name,
-            type: TypePhoto.SIDE,
+            type: 'side',
           },
         ],
       };
-      dispatch(createProgressData(data));
-    } catch (error) {}
+      await createProgress(data).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        title: 'Успешно!',
+        message: 'Фотографии успешно загружены!',
+        type: NotificationType.SUCCESS,
+      });
+      options.resetForm();
+      closeModal(ModalName.MODAL_ADD_PROGRESS_PHOTO);
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        title: 'Ошибка!',
+        message: (error as { message: string }).message,
+        type: NotificationType.DANGER,
+      });
+    }
   }
 
   function isDisabled(isValid: boolean, dirty: boolean) {
-    return (!isValid && !dirty) || loader;
+    return (!isValid && !dirty) || isLoading;
   }
 
   async function loadFile(
     e: React.ChangeEvent<HTMLInputElement>,
-    type: TypePhoto,
+    type: ProgressPhotoType,
     setFieldValue: (field: string, value: File) => void,
   ) {
     try {
@@ -165,13 +168,13 @@ export const AddPhotoModal = ({ user }: Props) => {
     }
   }
 
-  function getInputNameByType(type: TypePhoto): string {
+  function getInputNameByType(type: ProgressPhotoType): string {
     switch (type) {
-      case TypePhoto.BACK:
+      case 'back':
         return 'Вид сзади';
-      case TypePhoto.FRONT:
+      case 'front':
         return 'Вид спереди';
-      case TypePhoto.SIDE:
+      case 'side':
         return 'Вид сбоку';
     }
   }
@@ -183,9 +186,9 @@ export const AddPhotoModal = ({ user }: Props) => {
       </div>
       <Formik
         initialValues={{
-          [TypePhoto.BACK]: null,
-          [TypePhoto.FRONT]: null,
-          [TypePhoto.SIDE]: null,
+          back: null,
+          front: null,
+          side: null,
         }}
         validateOnBlur
         onSubmit={(values: Files, options) => onSubmit(values, options)}
@@ -206,7 +209,7 @@ export const AddPhotoModal = ({ user }: Props) => {
             </div>
             <div className={s.items}>
               {Object.keys(inputs).map((typeStr: string, i) => {
-                const type = typeStr as TypePhoto;
+                const type = typeStr as ProgressPhotoType;
                 return (
                   <div key={type}>
                     <input
@@ -264,7 +267,7 @@ export const AddPhotoModal = ({ user }: Props) => {
                 options={{
                   width: '109px',
                   height: '32px',
-                  content: loader ? <Loader /> : 'Сохранить',
+                  content: isLoading ? <Loader /> : 'Сохранить',
                   setDisabledStyle: isDisabled(isValid, dirty),
                 }}
               />

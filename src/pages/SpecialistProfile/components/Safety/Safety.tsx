@@ -8,11 +8,11 @@ import s from './Safety.module.scss';
 import Button from '../../../../components/Button/Button';
 import Input, { InputTypes } from '../../../../components/Input/Input';
 import validationSchema from './editPassword';
-import { useRequestChangePasswordMutation } from '../../../../api/auth';
-import { RootState } from '../../../../store/store';
 // import { showSuccessMessage, showErrorMessage } from '../../../../components/notification/messages';
 import { Loader } from '../../../../shared/Global/Loader/Loader';
 import { setIsLoggedOut } from '../../../../store/slices/user';
+import { useCurrentUserQuery } from '../../../../api/user';
+import { useChangePasswordMutation } from '../../../../api/auth';
 
 interface ChangePasswordData {
   currentPassword: string;
@@ -25,9 +25,9 @@ export const Safety = () => {
   const dispatch = useDispatch();
 
   const [requestChangePassword, { isLoading, isSuccess, isError }] =
-    useRequestChangePasswordMutation();
+    useChangePasswordMutation();
 
-  const user = useSelector((state: RootState) => state.user.user);
+  const { data: user } = useCurrentUserQuery();
 
   React.useEffect(() => {
     if (isSuccess) {

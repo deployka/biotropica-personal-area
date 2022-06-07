@@ -12,16 +12,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useMobile } from '../hooks/useMobile';
 import { SidebarSvgSelector } from '../assets/icons/sidebar/SIdebarSvgSelector';
 import { useLocation } from 'react-router';
-import { fetchSignout, setUserData } from '../store/ducks/user/actionCreators';
 import { SidebarDesktop } from '../shared/Global/Sidebar/SidebarDesktop';
 import { SidebarMobile } from '../shared/Global/Sidebar/SidebarMobile';
 import { SidebarWrapper } from '../shared/Global/SidebarWrapper/SidebarWrapper';
 import { Chat } from '../shared/Modules/Chat';
 import { eventBus, EventTypes } from '../services/EventBus';
-import { chatApi } from '../shared/Global/Chat/services/chatApi';
 import { selectIsAdmin, selectIsDoctor } from '../store/slices/authSlice';
 import { getCurrentPage } from '../utils/getCurrentPage';
-import { useRequestUserDataQuery } from '../store/rtk/requests/user';
+import { useCurrentUserQuery } from '../api/user';
+import { useGetAllDialogsQuery } from '../api/chat';
+import { useSignOutMutation } from '../api/auth';
 
 interface Props {
   children: React.ReactNode;
@@ -118,16 +118,17 @@ const adminNav: Nav[] = [
   },
 ];
 
-async function sendMessage() {
-  const dialogs = await chatApi.fetchDialogs();
-  const dialog = dialogs.find(it => it.title === 'Техподдержка');
-  if (dialog) {
-    eventBus.emit(EventTypes.chatOpen, dialog.id);
-  }
-}
-
 export function PrivateLayout(props: Props) {
-  const { refetch, data: currentUser } = useRequestUserDataQuery();
+  const { refetch, data: currentUser } = useCurrentUserQuery();
+  const { data: dialogs = [] } = useGetAllDialogsQuery();
+  const [fetchLogout] = useSignOutMutation();
+
+  async function sendMessage() {
+    const dialog = dialogs.find(it => it.title === 'Техподдержка');
+    if (dialog) {
+      eventBus.emit(EventTypes.chatOpen, dialog.id);
+    }
+  }
 
   const dispatch = useDispatch();
   const { pathname } = useLocation();
@@ -179,9 +180,8 @@ export function PrivateLayout(props: Props) {
     });
   }, [chatNotificationsOpen]);
 
-  const logout = useCallback(() => {
-    dispatch(fetchSignout());
-    dispatch(setUserData(undefined));
+  const logout = useCallback(async () => {
+    await fetchLogout().unwrap();
     refetch();
     document.location.reload();
   }, [dispatch]);
@@ -230,7 +230,7 @@ export function PrivateLayout(props: Props) {
           <Chat
             token={localStorage.getItem('token') || ''}
             activeDialogId={openedDialog}
-            currentUser={currentUser as ChatUser}
+            currentUser={currentUser}
             onClose={() => setSidebarChatOpen(false)}
           />
         </SidebarWrapper>

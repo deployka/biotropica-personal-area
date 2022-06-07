@@ -1,4 +1,4 @@
-import { SignInResponse } from '../@types/api/response';
+import { Response, SignInResponse } from '../@types/api/response';
 import { ChangePasswordDto } from '../@types/dto/auth/change-password.dto';
 import { ForgotPasswordDto } from '../@types/dto/auth/forgot-password.dto';
 import { RestorePasswordDto } from '../@types/dto/auth/restore-password.dto';
@@ -8,7 +8,7 @@ import { baseApi } from './base-api';
 
 const authApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    requestSignIn: builder.mutation<SignInResponse, SignInDto>({
+    signIn: builder.mutation<SignInResponse, SignInDto>({
       query: payload => ({
         url: '/auth/signin',
         data: payload,
@@ -16,21 +16,21 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    requestSignOut: builder.mutation<void, void>({
+    signOut: builder.mutation<void, void>({
       query: () => ({
         url: '/auth/signout',
         method: 'POST',
       }),
     }),
 
-    requestRefresh: builder.mutation<void, void>({
+    refresh: builder.mutation<void, void>({
       query: () => ({
         url: '/auth/refresh',
         method: 'POST',
       }),
     }),
 
-    requestRestorePassword: builder.mutation<void, RestorePasswordDto>({
+    restorePassword: builder.mutation<Response, RestorePasswordDto>({
       query: payload => ({
         url: '/auth/restore-password',
         params: payload,
@@ -38,7 +38,7 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    requestSignUp: builder.mutation<
+    signUp: builder.mutation<
       {
         token: string;
         apiUser: {
@@ -58,7 +58,7 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    requestForgotPassword: builder.mutation<void, ForgotPasswordDto>({
+    forgotPassword: builder.mutation<Response, ForgotPasswordDto>({
       query: payload => ({
         url: '/auth/forgot-password',
         params: payload,
@@ -66,9 +66,17 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    requestChangePassword: builder.mutation<void, ChangePasswordDto>({
+    changePassword: builder.mutation<Response, ChangePasswordDto>({
       query: payload => ({
         url: '/auth/change-password',
+        data: payload,
+        method: 'PATCH',
+      }),
+    }),
+
+    createPassword: builder.mutation<Response, RestorePasswordDto>({
+      query: payload => ({
+        url: '/auth/create-password',
         data: payload,
         method: 'PATCH',
       }),
@@ -77,13 +85,14 @@ const authApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useRequestSignInMutation,
-  useRequestSignOutMutation,
-  useRequestRefreshMutation,
-  useRequestSignUpMutation,
-  useRequestRestorePasswordMutation,
-  useRequestForgotPasswordMutation,
-  useRequestChangePasswordMutation,
+  useSignInMutation,
+  useSignOutMutation,
+  useRefreshMutation,
+  useSignUpMutation,
+  useRestorePasswordMutation,
+  useForgotPasswordMutation,
+  useChangePasswordMutation,
+  useCreatePasswordMutation,
 } = authApi;
 
 export default authApi;

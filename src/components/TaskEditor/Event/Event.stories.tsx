@@ -3,7 +3,7 @@ import React from 'react';
 import { ComponentStory, Meta } from '@storybook/react';
 import { EventTaskEditor, EventTaskEditorProps } from './Event';
 import { generateUniqueID } from 'web-vitals/dist/modules/lib/generateUniqueID';
-import { EventTask, KindOfEvent } from '../../../store/@types/Task';
+import { EventTask, KindOfEvent } from '../../../@types/entities/Task';
 
 export default {
   component: EventTaskEditor,

@@ -2,11 +2,11 @@ import React from 'react';
 import moment from 'moment';
 import { useModal } from '../../../../../hooks/useModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
-import {
-  Photo,
-  Progress,
-} from '../../../../../store/ducks/progress/contracts/state';
 import s from './ProgressCard.module.scss';
+import {
+  Progress,
+  ProgressPhoto,
+} from '../../../../../@types/entities/Progress';
 
 interface Props {
   card: Progress;
@@ -15,18 +15,18 @@ interface Props {
 export const ProgressCard = ({ card }: Props) => {
   const { openModal } = useModal();
 
-  const photos: Photo[] = card.photos;
+  const photos: ProgressPhoto[] = card.photos;
 
   return (
     <div className={s.card}>
       <div className={s.imagesWrapper}>
-        {card.photos.map((image: Photo, i: number) => (
+        {card.photos.map((image: ProgressPhoto, i: number) => (
           <div key={image.filename} className={s.img}>
             <img
               onClick={() =>
                 openModal(ModalName.MODAL_PROGRESS_PHOTO_SLIDER, {
                   photos,
-                  createdAt: card.createdAt,
+                  createdAt: new Date(card.createdAt),
                   i,
                 })
               }

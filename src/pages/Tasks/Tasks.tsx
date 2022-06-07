@@ -6,7 +6,7 @@ import {
   useGetTaskCommentsQuery,
   useGetTaskListQuery,
   useUpdateTaskMutation,
-} from '../../store/rtk/requests/tasks';
+} from '../../api/tasks';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectTasksPageCurrentMonth,
@@ -25,7 +25,7 @@ import {
   TaskType,
   TrainingCategory,
   TrainingTask,
-} from '../../store/@types/Task';
+} from '../../@types/entities/Task';
 
 import { createTaskByType } from './CreateTaskHelper';
 import { useHistory, useParams } from 'react-router-dom';
@@ -33,13 +33,13 @@ import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { NotificationButtons } from './NotificationButtons';
 import { selectIsDoctor } from '../../store/slices/authSlice';
+import { useCurrentUserQuery } from '../../api/user';
 
 import { Tabs } from '../../components/Tabs/Tabs';
 import { TasksModal } from '../../components/Task/Modal/Modal';
-import { useRequestUserDataQuery } from '../../store/rtk/requests/user';
 
 export function Tasks() {
-  const { data: currentUser } = useRequestUserDataQuery();
+  const { data: currentUser } = useCurrentUserQuery();
   const dispatch = useDispatch();
   const [updateTask, { isLoading: isUpdateLoading }] = useUpdateTaskMutation();
   const [createTask, { isLoading: isCreateLoading }] = useCreateTaskMutation();

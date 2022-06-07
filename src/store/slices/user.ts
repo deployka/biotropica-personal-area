@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { TARIFF } from '../../services/UserService';
 import { Admin } from '../../@types/entities/Admin';
 import { Client } from '../../@types/entities/Client';
 import { Specialist } from '../../@types/entities/Specialist';

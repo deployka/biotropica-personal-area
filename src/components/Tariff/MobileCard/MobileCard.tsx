@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import AnimateHeight from 'react-animate-height';
-import { Tariff } from '../../../store/rtk/types/tariff';
 import arrow from './../../../assets/icons/tariffs/arrow.svg';
 import checkbox from './../../../assets/icons/tariffs/checkbox.svg';
 import { selectUserRoles } from '../../../store/slices/authSlice';
@@ -9,7 +8,8 @@ import EditTariffModal from '../EditModal/EditModal';
 import Button from '../../Button/Button';
 
 import s from './MobileCard.module.scss';
-import { ROLE } from '../../../store/rtk/types/user';
+import { Tariff } from '../../../@types/entities/Tariff';
+import { ROLE } from '../../../@types/entities/Role';
 
 interface Props {
   tariff: Tariff;

@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react';
+import React from 'react';
 import { Formik } from 'formik';
 import Input, { InputTypes } from '../../Input/Input';
 import SelectCustom from '../../Select/SelectCustom';
@@ -14,10 +14,13 @@ import {
   trainingCategoryOptions,
 } from './TrainingConstants';
 import { TimePickerValue } from 'react-time-picker';
-import { CreateTrainingTask, TrainingTask } from '../../../store/@types/Task';
 import { NEW_DATE } from '../../../constants/dates';
 
 import s from './Training.module.scss';
+import {
+  CreateTrainingTask,
+  TrainingTask,
+} from '../../../@types/entities/Task';
 
 export type TrainingTaskEditorProps = {
   onClose(): void;

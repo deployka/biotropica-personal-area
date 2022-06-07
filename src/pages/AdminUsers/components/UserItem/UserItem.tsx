@@ -3,14 +3,15 @@ import React, { useState } from 'react';
 import s from './User.module.scss';
 import { format } from 'date-fns';
 import { PopUp } from './PopUp';
-import { User } from '../../../../store/rtk/types/user';
-import { ROLE } from '../../../../store/@types/User';
 import { getFullName } from '../../../../utils/getFullName';
+import { ROLE } from '../../../../@types/entities/Role';
+import { Client } from '../../../../@types/entities/Client';
+import { Specialist } from '../../../../@types/entities/Specialist';
 
 interface Props {
-  user: User;
-  onBlock: (user: User) => void;
-  onWrite: (user: User) => void;
+  user: Client | Specialist;
+  onBlock: (user: Client | Specialist) => void;
+  onWrite: (user: Client | Specialist) => void;
 }
 
 export const ROLE_TRANSLATIONS = {
@@ -38,7 +39,7 @@ export const UserItem = ({ user, onBlock, onWrite }: Props) => {
   let role;
 
   if (user.roles && user.roles[0]) {
-    role = user.roles[0].name;
+    role = user.roles[0];
     roleTranslation = ROLE_TRANSLATIONS[role];
   }
 
@@ -57,15 +58,19 @@ export const UserItem = ({ user, onBlock, onWrite }: Props) => {
               role === ROLE.SPECIALIST
                 ? { color: '#309A74' }
                 : role === ROLE.ADMIN
-                  ? { color: '#D06361' }
-                  : {}
+                ? { color: '#D06361' }
+                : {}
             }
           >
             {roleTranslation}
           </p>
         </div>
         <div className={s.tariff}>
-          <p>{TARIFF_TRANSLATIONS[user.tariff]}</p>
+          <p>
+            {user.roles.includes(ROLE.CLIENT)
+              ? TARIFF_TRANSLATIONS[(user as Client).tariff]
+              : 'Нет тарифа'}
+          </p>
           <div
             className={s.dots}
             onClick={showPopUp}

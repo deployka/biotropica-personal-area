@@ -1,62 +1,52 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { ISelect } from '../../shared/Form/Select/SelectCustom';
-import { Specialist } from '../../store/ducks/specialist/contracts/state';
-import { fetchSpecialistsData } from '../../store/ducks/specialists/actionCreators';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectFilteredSpecialistsData } from '../../store/ducks/specialists/selectors';
 import { InfoBar } from '../../shared/Global/InfoBar/InfoBar';
-import {
-  createConsultationData,
-  fetchClosestConsultationData,
-  setConsultationResponse,
-} from '../../store/ducks/consultation/actionCreators';
-import {
-  selectClosestConsultationData,
-  selectConsultationData,
-  selectConsultationLoadingStatus,
-  selectConsultationResponse,
-} from '../../store/ducks/consultation/selectors';
-import {
-  ClosestConsultation,
-  Consultation,
-} from '../../store/ducks/consultation/contracts/state';
+
 import moment from 'moment';
 import { useQuery } from '../../hooks/useQuery';
 import { useHistory, useLocation } from 'react-router';
 
-import { LoadingStatus, Response } from '../../store/types';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
-import ConsultationService from '../../services/ConsultationService';
 import { Button } from '../../shared/Form/Button/Button';
 import { FREE_CONSULTATIONS_COUNT } from '../../constants/consultations';
-import { chatApi } from '../../shared/Global/Chat/services/chatApi';
 import { Link } from 'react-router-dom';
 
 import s from './Consultations.module.scss';
 import { ConsultationsSearchForm } from '../../components/Consultations/SortForm/SortForm';
 import { ConsultationsList } from '../../components/Consultations/List/List';
-
-async function sendMessage(userId: number) {
-  const dialog = await chatApi.create(userId);
-  eventBus.emit(EventTypes.chatOpen, dialog.id);
-}
+import { useGetSpecialistsQuery } from '../../api/specialists';
+import {
+  useCreateConsultationMutation,
+  useGetClosestConsultationQuery,
+  useGetConsultationsQuery,
+  useGetLastConsultationQuery,
+} from '../../api/consultations';
+import { Specialist } from '../../@types/entities/Specialist';
+import { useCreateDialogMutation } from '../../api/chat';
 
 const Consultations = () => {
-  const dispatch = useDispatch();
   const queryParam = useQuery();
   const history = useHistory();
   const location = useLocation();
   const sort = queryParam.get('sort');
 
-  const [consultationsCount, setConsultationsCount] = useState(0);
   const [notificationId, setNotificationId] = useState('');
+  const [createDialog] = useCreateDialogMutation();
 
-  useEffect(() => {
-    dispatch(fetchSpecialistsData());
-    dispatch(fetchClosestConsultationData());
-  }, [dispatch]);
+  async function sendMessage(userId: number) {
+    try {
+      const dialog = await createDialog({ userId }).unwrap();
+      eventBus.emit(EventTypes.chatOpen, dialog.id);
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        title: `Произошла ошибка!`,
+        message: (error as { message: string }).message,
+        type: NotificationType.DANGER,
+      });
+    }
+  }
 
   useEffect(() => {
     return () => {
@@ -64,62 +54,14 @@ const Consultations = () => {
     };
   }, [notificationId]);
 
-  const loadingStatus = useSelector(selectConsultationLoadingStatus);
-  const isLoading = loadingStatus === LoadingStatus.LOADING;
-  const response: Response | undefined = useSelector(
-    selectConsultationResponse,
-  );
+  const { data: specialists = [] } = useGetSpecialistsQuery();
+  const { data: consultations = [], refetch: refetchConsultations } =
+    useGetConsultationsQuery();
 
-  const specialists: Specialist[] = useSelector(selectFilteredSpecialistsData);
-  const closestConsultation: ClosestConsultation | undefined = useSelector(
-    selectClosestConsultationData,
-  );
-  const LastAddedConsultation: Consultation | undefined = useSelector(
-    selectConsultationData,
-  );
+  const { data: closestConsultation } = useGetClosestConsultationQuery();
+  const { data: LastAddedConsultation } = useGetLastConsultationQuery();
 
-  useEffect(() => {
-    function getAllConsultations() {
-      ConsultationService.geAll().then(({ data }) => {
-        setConsultationsCount(data.length);
-      });
-    }
-    getAllConsultations();
-  }, [closestConsultation, LastAddedConsultation]);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  function onSuccessCreateNotification() {
-    eventBus.emit(EventTypes.notification, {
-      title: 'Успешно!',
-      message: response?.message || 'Успешно!',
-      type: NotificationType.SUCCESS,
-    });
-    dispatch(setConsultationResponse(undefined));
-  }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  function onErrorCreateNotification() {
-    dispatch(setConsultationResponse(undefined));
-  }
-
-  useEffect(() => {
-    if (!response) return;
-    switch (loadingStatus) {
-      case LoadingStatus.SUCCESS:
-        onSuccessCreateNotification();
-        break;
-      case LoadingStatus.ERROR:
-        onErrorCreateNotification();
-        break;
-      default:
-        break;
-    }
-  }, [
-    onErrorCreateNotification,
-    onSuccessCreateNotification,
-    loadingStatus,
-    response,
-  ]);
+  const [createConsultation, { isLoading }] = useCreateConsultationMutation();
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedSort, setSelectedSort] = useState<
@@ -129,7 +71,10 @@ const Consultations = () => {
   const filteredSpecialists = useMemo(() => {
     if (!selectedSort?.[0]) return [];
     return specialists.filter(spec =>
-      spec.specializations.includes(selectedSort[0].label),
+      spec.specializations.reduce(
+        (_, s) => s.key === selectedSort[0].value,
+        false as boolean,
+      ),
     );
   }, [selectedSort, specialists]);
 
@@ -157,11 +102,11 @@ const Consultations = () => {
   }, [filteredSpecialists, searchQuery, selectedSort, specialists]);
 
   const getFreeConsultationsCount = useCallback(() => {
-    if (FREE_CONSULTATIONS_COUNT - consultationsCount > 0) {
-      return FREE_CONSULTATIONS_COUNT - consultationsCount;
+    if (FREE_CONSULTATIONS_COUNT - consultations.length > 0) {
+      return FREE_CONSULTATIONS_COUNT - consultations.length;
     }
     return 0;
-  }, [consultationsCount]);
+  }, [consultations.length]);
 
   const InfoBarClosestConsultationOptions = {
     title: 'Ближайшая запись',
@@ -211,6 +156,29 @@ const Consultations = () => {
     setSearchQuery(query);
   }
 
+  async function onCreateConsultation(specialistId: number) {
+    try {
+      if (consultations.length < FREE_CONSULTATIONS_COUNT) {
+        await createConsultation({ specialistId }).unwrap();
+        eventBus.emit(EventTypes.notification, {
+          title: 'Успешно!',
+          message: 'Вы успешно записались на консультацию!',
+          type: NotificationType.SUCCESS,
+        });
+        refetchConsultations();
+      } else {
+        console.log('pay');
+        // TODO: перенаправление на оплату
+      }
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        title: `Произошла ошибка!`,
+        message: (error as { message: string }).message,
+        type: NotificationType.DANGER,
+      });
+    }
+  }
+
   const onSignUpClick = (
     specialistId: number,
     userId: number,
@@ -230,16 +198,7 @@ const Consultations = () => {
               background: '#fff',
               color: '#000',
             }}
-            onClick={() => {
-              ConsultationService.geAll().then(({ data }) => {
-                if (data.length < FREE_CONSULTATIONS_COUNT) {
-                  dispatch(createConsultationData({ specialistId }));
-                } else {
-                  console.log('pay');
-                  // TODO: перенаправление на оплату
-                }
-              });
-            }}
+            onClick={() => onCreateConsultation(specialistId)}
             options={{
               content: 'Записаться',
               width: '100px',
@@ -298,7 +257,7 @@ const Consultations = () => {
         </div>
       </div>
       <ConsultationsList
-        consultationsCount={consultationsCount}
+        consultationsCount={consultations.length}
         isLoadingSignUp={isLoading}
         onSignUpClick={onSignUpClick}
         searchQuery={searchQuery}

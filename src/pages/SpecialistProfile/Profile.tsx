@@ -5,31 +5,33 @@ import s from './Profile.module.scss';
 import Card from './components/Card/Card';
 import { Post } from './components/Post/Post';
 import Button from '../../components/Button/Button';
-import { chatApi } from '../../shared/Global/Chat/services/chatApi';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { useParams } from 'react-router-dom';
-import {
-  useGetUserQuery,
-  useRequestUserDataQuery,
-} from '../../store/rtk/requests/user';
-import { ROLE } from '../../store/@types/User';
+import { useCurrentUserQuery } from '../../api/user';
+import { useGetOneSpecialistQuery } from '../../api/specialists';
+import { ROLE } from '../../@types/entities/Role';
+import { useCreateDialogMutation } from '../../api/chat';
 
 const Profile = () => {
   const { id } = useParams<{ id: string }>();
 
-  const { data: currentUser } = useRequestUserDataQuery();
+  const { data: currentUser } = useCurrentUserQuery();
+  const [createDialog] = useCreateDialogMutation();
 
   const userId = Number(id || currentUser?.id);
-  const { data: user } = useGetUserQuery(userId, {
-    skip: Number.isNaN(userId),
-  });
+  const { data: user } = useGetOneSpecialistQuery(
+    { id: userId },
+    {
+      skip: Number.isNaN(userId),
+    },
+  );
 
-  const courses = user?.specialist?.courses;
-  const userClient = user?.roles.some(it => it.name === ROLE.CLIENT);
+  const courses = user?.courses;
+  const userClient = user?.roles.some(it => it === ROLE.CLIENT);
 
   async function sendMessage() {
     if (!user) return;
-    const dialog = await chatApi.create(user.id as number);
+    const dialog = await createDialog({ userId }).unwrap();
     eventBus.emit(EventTypes.chatOpen, dialog.id);
   }
 

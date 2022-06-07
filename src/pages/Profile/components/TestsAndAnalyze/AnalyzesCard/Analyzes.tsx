@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { AnalyzeAnswer } from '../../../../../store/ducks/analyze/contracts/state';
+import React from 'react';
+import { AnalyzeAnswer } from '../../../../../@types/entities/AnalyzeAnswer';
 import { Analyze } from './Analyze';
 
 import s from './AnalyzesCard.module.scss';

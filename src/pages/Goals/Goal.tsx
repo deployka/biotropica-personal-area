@@ -4,12 +4,12 @@ import { NotificationType } from '../../components/GlobalNotifications/GlobalNot
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { Dates } from './Goals';
 import { GraphHeader } from '../../components/Goals/GraphHeader/GraphHeader';
-import { UpdateGoalValues } from '../../store/ducks/goal/contracts/state';
 import { ProgressForm } from '../../components/Goals/ProgressForm/ProgressForm';
 import { progressBarOptions } from '../../components/Goals/ProgressBar/ProgressBar';
 import { NotificationButtons } from '../../components/Goals/ProgressForm/NotificationButtons';
 import { Graph } from '../../components/Goals/Graph/Graph';
 import { Goal as IGoal } from '../../@types/entities/Goal';
+import { UpdateGoalValuesDto } from '../../@types/dto/goals/update-values.dto';
 
 import s from './Goals.module.scss';
 
@@ -17,7 +17,7 @@ type Props = {
   goal: IGoal | undefined;
   isLoading: boolean;
   onDelete: (id: UniqueId, name: string) => void;
-  onUpdate: (values: UpdateGoalValues, id: UniqueId, name: string) => void;
+  onUpdate: (values: UpdateGoalValuesDto, id: UniqueId, name: string) => void;
   progressBarOptions: progressBarOptions;
 };
 
@@ -75,8 +75,8 @@ export const Goal = ({
   }
 
   async function onSubmitUpdateGoal(
-    values: UpdateGoalValues,
-    options: FormikHelpers<UpdateGoalValues>,
+    values: UpdateGoalValuesDto,
+    options: FormikHelpers<UpdateGoalValuesDto>,
   ) {
     if (!goal) return;
     refResetForm.current = options.resetForm;
@@ -87,11 +87,16 @@ export const Goal = ({
     <div className={s.content}>
       <div className={s.graph}>
         <GraphHeader
+          goal={goal}
           setDates={setDates}
           setGraphDates={setGraphDates}
           dates={dates}
         />
-        <Graph startDate={graphDates.startDate} endDate={graphDates.endDate} />
+        <Graph
+          goal={goal}
+          startDate={graphDates.startDate}
+          endDate={graphDates.endDate}
+        />
       </div>
       <div className={s.edit}>
         {goal && (

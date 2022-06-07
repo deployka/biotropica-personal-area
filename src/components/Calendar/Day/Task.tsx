@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Task } from '../../../store/@types/Task';
+import { Task } from '../../../@types/entities/Task';
 
 import s from './Task.module.scss';
 

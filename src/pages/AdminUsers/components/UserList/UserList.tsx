@@ -11,14 +11,17 @@ import {
 } from '../../helpers/usersHelper';
 import { UsersTableHeader } from './UsersTableHeader';
 import { UsersTable } from './UsersTable';
-import { TARIFF, User } from '../../../../store/rtk/types/user';
-import { ROLE } from '../../../../store/@types/User';
+import { ROLE } from '../../../../@types/entities/Role';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
+import { TARIFF } from '../../../../@types/entities/Tariff';
+import { Specialist } from '../../../../@types/entities/Specialist';
+import { Client } from '../../../../@types/entities/Client';
 
 type Props = {
-  users: User[];
+  users: Array<Client | Specialist>;
   onCreateUser(): void;
-  onBlockUser(user: User): void;
-  onWriteUser(user: User): void;
+  onBlockUser(user: Client | Specialist): void;
+  onWriteUser(user: BaseUser): void;
 };
 
 type Filters = {

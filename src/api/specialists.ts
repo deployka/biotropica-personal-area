@@ -9,12 +9,12 @@ interface CourseDataToChange {
     title: string;
     description: string;
     date: string;
-  };
+  }[];
 }
 
 export const specialistsApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    requestChangeSpecialistData: builder.mutation<void, UpdateSpecialistDto>({
+    changeSpecialistData: builder.mutation<void, UpdateSpecialistDto>({
       query: payload => ({
         url: '/specialists/me',
         data: {
@@ -26,7 +26,15 @@ export const specialistsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['Specialist'],
     }),
-    getSpecialist: builder.query<Specialist, void>({
+
+    getOneSpecialist: builder.query<Specialist, { id: number }>({
+      query: dto => ({
+        url: `/specialists/${dto.id}`,
+        method: 'GET',
+      }),
+    }),
+
+    getCurrentSpecialist: builder.query<Specialist, void>({
       query: () => ({
         url: '/specialists/me',
         method: 'GET',
@@ -34,7 +42,15 @@ export const specialistsApi = baseApi.injectEndpoints({
       providesTags: ['Specialist'],
     }),
 
-    requestChangeCourses: builder.mutation<void, CourseDataToChange>({
+    getSpecialists: builder.query<Specialist[], void>({
+      query: () => ({
+        url: '/specialists',
+        method: 'GET',
+      }),
+      providesTags: ['Specialist'],
+    }),
+
+    changeCourses: builder.mutation<void, CourseDataToChange>({
       query: payload => ({
         url: '/specialists/me',
         data: {
@@ -48,9 +64,11 @@ export const specialistsApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useRequestChangeSpecialistDataMutation,
-  useGetSpecialistQuery,
-  useRequestChangeCoursesMutation,
+  useChangeSpecialistDataMutation,
+  useGetCurrentSpecialistQuery,
+  useGetOneSpecialistQuery,
+  useGetSpecialistsQuery,
+  useChangeCoursesMutation,
 } = specialistsApi;
 
 export default specialistsApi;

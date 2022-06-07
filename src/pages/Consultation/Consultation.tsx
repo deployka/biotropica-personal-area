@@ -1,22 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import s from './Consultation.module.scss';
 import { Zoom } from '../../shared/Modules/Zoom';
 import { useHistory, useParams } from 'react-router';
-import ConsultationService from '../../services/ConsultationService';
-import { Consultation } from '../../store/ducks/consultation/contracts/state';
-import { useRequestUserDataQuery } from '../../store/rtk/requests/user';
+import { useCurrentUserQuery } from '../../api/user';
+import { useGetConsultationQuery } from '../../api/consultations';
 
 export function ConsultationPage() {
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
-  const [consultation, setConsultation] = useState<Consultation | null>();
-  useEffect(() => {
-    ConsultationService.getOne(+id).then(res => {
-      setConsultation(res.data);
-    });
-  }, [id]);
 
-  const { data: currentUser } = useRequestUserDataQuery();
+  const { data: consultation } = useGetConsultationQuery({ id: +id });
+
+  const { data: currentUser } = useCurrentUserQuery();
   if (!currentUser || !consultation) {
     return null;
   }

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { Recommendation } from '../../../@types/entities/Recommendation';
+import { Specialist } from '../../../@types/entities/Specialist';
 
 import { RecommendationGroup, RecommendationGroupType } from './../Group/Group';
-import { Recommendation, User } from '../../../store/rtk/types/user';
 
 import s from './List.module.scss';
 
@@ -24,7 +25,7 @@ export const RecommendationList = ({
 
   useEffect(() => {
     setRecommendationsGroups([]);
-    const specialists: User[] = [];
+    const specialists: Specialist[] = [];
     recommendations.forEach(recommendation => {
       if (
         !specialists.find(
@@ -35,7 +36,7 @@ export const RecommendationList = ({
       }
     });
 
-    specialists.forEach((specialist: User) => {
+    specialists.forEach((specialist: Specialist) => {
       const specialistRecommendations: Recommendation[] =
         recommendations.filter(
           recommendation => recommendation.specialist.id === specialist.id,

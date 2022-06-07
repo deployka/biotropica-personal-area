@@ -1,11 +1,10 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { SchemaOf } from 'yup';
 import { CreateAnalyzeAnswerDto } from '../@types/dto/analyzes/create.dto';
+import { Client } from '../@types/entities/Client';
+import { ProgressPhoto } from '../@types/entities/Progress';
 import { ModalContext } from '../context/ModalContext';
 import { Nav, Page } from '../layouts/PrivateLayout';
-
-import { CreateAnalyzeAnswerData } from '../store/ducks/analyze/contracts/state';
-import { Photo } from '../store/ducks/progress/contracts/state';
 
 interface Props {
   children: React.ReactNode;
@@ -26,16 +25,16 @@ export type Modal<props> = {
 
 export type Modals = {
   [ModalName.MODAL_ADD_PROGRESS_PHOTO]: Modal<{
-    user: User;
+    user: Client;
   }>;
   [ModalName.MODAL_ADD_ANALYZ_FILE]: Modal<{
     onSubmit: (values: CreateAnalyzeAnswerDto) => void;
-    validationSchema: SchemaOf<Omit<CreateAnalyzeAnswerData, 'analyzeId'>>;
+    validationSchema: SchemaOf<Omit<CreateAnalyzeAnswerDto, 'analyzeId'>>;
     onErrorFileLoaded: () => void;
     onSuccessFileLoaded: () => void;
   }>;
   [ModalName.MODAL_PROGRESS_PHOTO_SLIDER]: Modal<{
-    photos: Photo[];
+    photos: ProgressPhoto[];
     createdAt: Date;
     i?: number;
   }>;
@@ -44,7 +43,7 @@ export type Modals = {
     onNavClick: (nav: Partial<Nav>) => void;
     openChat: () => void;
     logout: () => void;
-    user: User | undefined;
+    user: Client | undefined;
     pages: Page[];
     location: Location;
   }>;
@@ -52,7 +51,7 @@ export type Modals = {
     setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
     setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
     onNavClick: (nav: Partial<Nav>) => void;
-    user: User | undefined;
+    user: Client | undefined;
     pages: Page[];
     location: Location;
   }>;

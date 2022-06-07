@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreateSomeTask, SomeTask } from '../../../store/@types/Task';
+import { CreateSomeTask, SomeTask } from '../../../@types/entities/Task';
 import { TaskEditor } from '../../TaskEditor/Editor';
 import { TaskPreview } from '../../TaskPreview/Preview';
 

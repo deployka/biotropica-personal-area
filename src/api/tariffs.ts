@@ -10,7 +10,10 @@ export const tariffsApi = baseApi.injectEndpoints({
       }),
     }),
 
-    requestAddTariff: builder.mutation<Tariff, NewTariff>({
+    requestAddTariff: builder.mutation<
+      Tariff,
+      Omit<NewTariff, 'createdAt' | 'updatedAt'>
+    >({
       query: payload => ({
         url: '/tariffs',
         data: payload,

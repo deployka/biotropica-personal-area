@@ -10,7 +10,7 @@ import {
   KindOfCompetitionSport,
   RunCompetitionType,
   TaskPriority,
-} from '../../../store/@types/Task';
+} from '../../../@types/entities/Task';
 
 export default {
   component: CompetitionTaskEditor,

@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { CreateSomeTask, SomeTask } from '../../../store/@types/Task';
+import React from 'react';
+import { CreateSomeTask, SomeTask } from '../../../@types/entities/Task';
 
 import {
   getTranslatedCompetitionType,

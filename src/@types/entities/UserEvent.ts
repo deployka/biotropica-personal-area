@@ -1,6 +1,8 @@
+import { BaseEntity } from './BaseEntity';
 import { Client } from './Client';
 
-export interface UserEvent {
+export type UserEvent = BaseEntity & {
   text: string;
+  description: string;
   user: Client;
-}
+};

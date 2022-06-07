@@ -3,7 +3,7 @@ import {
   CreateCompetitionTask,
   CreateEventTask,
   CreateTrainingTask,
-} from '../../../store/@types/Task';
+} from '../../../@types/entities/Task';
 import classNames from 'classnames';
 import { Header } from './Header';
 

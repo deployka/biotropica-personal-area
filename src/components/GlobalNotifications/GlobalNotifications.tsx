@@ -3,14 +3,14 @@ import { useHistory, useLocation } from 'react-router';
 import { notification } from '../../config/notification/notificationForm';
 import { useQuery } from '../../hooks/useQuery';
 import { eventBus, EventTypes } from '../../services/EventBus';
-import NotificationService from '../../services/NotificationService';
-import { useSelector } from 'react-redux';
-import { selectIsAuth } from '../../store/ducks/user/selectors';
 import {
   iNotification,
   iNotificationDismiss,
   Store,
 } from 'react-notifications-component';
+import { selectIsAuthorized } from '../../store/slices/authSlice';
+import { useAppSelector } from '../../store/storeHooks';
+import { useGetNotificationsQuery } from '../../api/notifications';
 
 export enum NotificationType {
   DANGER = 'danger',
@@ -30,7 +30,8 @@ const GlobalNotifications = (): ReactElement => {
   const query = useQuery();
   const history = useHistory();
   const location = useLocation();
-  const isAuth = useSelector(selectIsAuth);
+  const isAuth = useAppSelector(selectIsAuthorized);
+  const { data: notifications = [] } = useGetNotificationsQuery();
 
   useEffect(() => {
     const message = query.get('message');
@@ -84,23 +85,21 @@ const GlobalNotifications = (): ReactElement => {
     if (!isAuth) {
       return;
     }
-    NotificationService.getNow().then(nowNotifications => {
-      nowNotifications.forEach(notification => {
-        eventBus.emit(EventTypes.notification, {
-          container: 'top-right',
-          message: (
-            <div>
-              {notification.message}
-              <button
-                style={{ marginLeft: '10px' }}
-                onClick={() => history.push(notification.link)}
-              >
-                перейти
-              </button>
-            </div>
-          ),
-          type: NotificationType.DEFAULT,
-        });
+    notifications.forEach(notification => {
+      eventBus.emit(EventTypes.notification, {
+        container: 'top-right',
+        message: (
+          <div>
+            {notification.message}
+            <button
+              style={{ marginLeft: '10px' }}
+              onClick={() => history.push(notification.link)}
+            >
+              перейти
+            </button>
+          </div>
+        ),
+        type: NotificationType.DEFAULT,
       });
     });
   }, [history, isAuth]);

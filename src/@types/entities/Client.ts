@@ -2,8 +2,8 @@ import { BaseUser } from './BaseUser';
 import { TARIFF } from './Tariff';
 
 export type Client = BaseUser & {
-  dob: DateTimeString | null;
-  gender: string | null;
+  dob?: DateTimeString;
+  gender: { value: string; label: string }[];
   isOnline: boolean | null;
   banned: boolean;
   banReason: string | null;

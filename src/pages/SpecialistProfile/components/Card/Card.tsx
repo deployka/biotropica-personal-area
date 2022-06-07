@@ -9,15 +9,15 @@ import s from './Card.module.scss';
 import editIcon from '../../../../assets/icons/edit.svg';
 import defaultAvatar from '../../../../assets/images/profile/default_avatar.png';
 import { SpecializationOptions } from '../../../../components/MultiSelect/MultiSelect';
-import { useRequestAvatarFileQuery } from '../../../../store/rtk/requests/avatar';
-import { User } from '../../../../store/@types/User';
 import { getMediaLink } from '../../../../utils/mediaHelper';
-import { useRequestUserDataQuery } from '../../../../store/rtk/requests/user';
+import { useRequestAvatarFileQuery } from '../../../../api/avatar';
+import { useGetCurrentSpecialistQuery } from '../../../../api/specialists';
+import { Specialist } from '../../../../@types/entities/Specialist';
 
 moment.locale('ru');
 
 export interface Props {
-  user: User;
+  user: Specialist;
 }
 
 const Card = ({ user }: Props) => {
@@ -29,25 +29,24 @@ const Card = ({ user }: Props) => {
     profilePhoto,
     lastname,
     patronymic,
-    specialist,
+    education,
+    experience,
+    specializations: spc,
   } = user;
 
   const { url } = useRouteMatch();
 
-  const { isLoading } = useRequestAvatarFileQuery(profilePhoto);
+  const { isLoading } = useRequestAvatarFileQuery(profilePhoto || '');
 
-  const { data: currentUser } = useRequestUserDataQuery();
+  const { data: currentUser } = useGetCurrentSpecialistQuery();
 
-  const specializations =
-    !!specialist &&
-    specialist.specializations
-      .map(
-        spec =>
-          SpecializationOptions.find(option => option.value === spec.key)
-            ?.label,
-      )
-      .filter(specialization => specialization)
-      .join(', ');
+  const specializations = spc
+    .map(
+      spec =>
+        SpecializationOptions.find(option => option.value === spec.key)?.label,
+    )
+    .filter(specialization => specialization)
+    .join(', ');
 
   return (
     <>
@@ -64,7 +63,7 @@ const Card = ({ user }: Props) => {
               <img
                 id="card_avatar"
                 className={s.profile__avatar}
-                src={getMediaLink(profilePhoto) || defaultAvatar}
+                src={getMediaLink(profilePhoto || '') || defaultAvatar}
                 alt="avatar"
               />
             </div>
@@ -86,19 +85,19 @@ const Card = ({ user }: Props) => {
               <div className={s.profile__phone}>
                 <p>{phone}</p>
               </div>
-              {specialist && specialist.experience && (
+              {experience && (
                 <div className={s.profile__experience}>
                   <p className={s.profile__experience_header}>Опыт работы:</p>
-                  <p>{specialist.experience}</p>
+                  <p>{experience}</p>
                 </div>
               )}
-              {specialist && specialist.education && (
+              {education && (
                 <div className={s.profile__education}>
                   <p className={s.profile__education_header}>Образование:</p>
-                  <p>{specialist.education}</p>
+                  <p>{education}</p>
                 </div>
               )}
-              {id === currentUser.id && (
+              {id === currentUser?.id && (
                 <Link className={s.profile__edit} to={`${url}/edit`}>
                   <div className={s.profile__editIcon}>
                     <img src={editIcon} alt="редактировать" />

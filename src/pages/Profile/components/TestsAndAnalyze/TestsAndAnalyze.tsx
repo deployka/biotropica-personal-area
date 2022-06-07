@@ -5,7 +5,6 @@ import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
 import { ModalName } from '../../../../providers/ModalProvider';
 import { useModal } from '../../../../hooks/useModal';
 
-import {} from '../../../../store/ducks/analyze/contracts/state';
 import { validationSchema } from './validationSchema';
 
 import { MAX_PDF_SIZE } from '../../../../constants/files';

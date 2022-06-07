@@ -3,9 +3,9 @@ import React from 'react';
 import { Formik } from 'formik';
 import Input, { InputTypes } from '../../Input/Input';
 import { TaskPreviewComments } from '../../Task/PreviewComments/PreviewComments';
-import { CompetitionTask } from '../../../store/@types/Task';
 import { intlFormat } from 'date-fns';
 import { TaskValuePreview } from '../../Task/ValuePreview/ValuePreview';
+import { CompetitionTask } from '../../../@types/entities/Task';
 
 import submitIcon from './../../../assets/icons/submit.svg';
 

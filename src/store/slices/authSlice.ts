@@ -27,14 +27,14 @@ const slice = createSlice({
   extraReducers: builder => {
     builder
       .addMatcher(
-        authApi.endpoints.requestSignIn.matchFulfilled,
+        authApi.endpoints.signIn.matchFulfilled,
         (state, { payload }) => {
           state.token = payload.token;
           localStorage.setItem('token', payload.token);
         },
       )
       .addMatcher(
-        userApi.endpoints.requestUserData.matchFulfilled,
+        userApi.endpoints.currentUser.matchFulfilled,
         (state, { payload }) => {
           state.accesses = payload.accesses;
           state.roles = payload.roles;
@@ -42,7 +42,7 @@ const slice = createSlice({
           state.isAuthorized = true;
         },
       )
-      .addMatcher(userApi.endpoints.requestUserData.matchRejected, state => {
+      .addMatcher(userApi.endpoints.currentUser.matchRejected, state => {
         state.isAuthorized = false;
       });
   },

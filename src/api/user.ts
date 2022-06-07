@@ -1,31 +1,43 @@
+import { ChangeEmailDto } from '../@types/dto/auth/change-email.dto';
 import { Admin } from '../@types/entities/Admin';
 import { Client } from '../@types/entities/Client';
 import { Specialist } from '../@types/entities/Specialist';
 import { baseApi } from './base-api';
+import { Response } from '../@types/api/response';
+import { UpdateUserDto } from '../@types/dto/users/update.dto';
 
 const userApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    requestUserData: builder.query<Client | Admin | Specialist, void>({
+    currentUser: builder.query<Client & Admin & Specialist, void>({
       query: () => ({
         url: '/users/me',
         method: 'GET',
       }),
     }),
 
-    getUser: builder.query<Client | Admin | Specialist, number>({
+    getUser: builder.query<Client & Admin & Specialist, number>({
       query: (id: number) => ({
         url: `/users/${id}`,
         method: 'GET',
       }),
     }),
 
-    requestUpdateUserData: builder.mutation<void, void>({
+    updateUser: builder.mutation<void, UpdateUserDto>({
       query: payload => ({
         url: '/currentUser',
         data: payload,
         method: 'PUT',
       }),
     }),
+
+    updateEmail: builder.mutation<Response, ChangeEmailDto>({
+      query: dto => ({
+        url: '/users/update-email',
+        data: dto,
+        method: 'PUT',
+      }),
+    }),
+
     createUser: builder.mutation<
       Client | Admin | Specialist,
       Partial<Client | Admin | Specialist>
@@ -48,7 +60,7 @@ const userApi = baseApi.injectEndpoints({
       invalidatesTags: [{ type: 'Users', id: 'LIST' }],
     }),
 
-    getAllUsers: builder.query<(Client | Admin | Specialist)[], void>({
+    getAllUsers: builder.query<(Client & Admin & Specialist)[], void>({
       query() {
         return {
           method: 'GET',
@@ -68,8 +80,9 @@ export const {
   useBlockUserMutation,
   useGetAllUsersQuery,
   useCreateUserMutation,
-  useRequestUserDataQuery,
-  useRequestUpdateUserDataMutation,
+  useCurrentUserQuery,
+  useUpdateEmailMutation,
+  useUpdateUserMutation,
   useGetUserQuery,
 } = userApi;
 

@@ -3,6 +3,7 @@ import s from './Questionnaire.module.scss';
 
 import editSvg from '../../../../../assets/icons/profile/edit.svg';
 import { Link } from 'react-router-dom';
+import { Answer } from '../../../../../@types/entities/Answer';
 
 interface Props {
   answers: Answer[];

@@ -1,6 +1,5 @@
 import React from 'react';
-
-import { SomeTask } from '../../store/@types/Task';
+import { SomeTask } from '../../@types/entities/Task';
 
 import { CompetitionTaskPreview } from './Competition/Competition';
 import { EventTaskPreview } from './Event/Event';

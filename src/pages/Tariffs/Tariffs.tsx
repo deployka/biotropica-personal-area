@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
-import PlusIcon from '../../assets/icons/plus.svg';
-import Button from '../../components/Button/Button';
 import { selectUserRoles } from '../../store/slices/authSlice';
-import { useRequestTariffsQuery } from '../../store/rtk/requests/tariffs';
-import { ROLE } from '../../store/rtk/types/user';
 import { TariffAddModal } from '../../components/Tariff/AddModal/AddModal';
 import { TariffsList } from '../../components/Tariff/List/List';
+import { TariffAdminHeader } from '../../components/Tariff/AdminHeader/AdminHeader';
+import { useRequestTariffsQuery } from '../../api/tariffs';
+import { ROLE } from '../../@types/entities/Role';
 
 import s from './Tariffs.module.scss';
-import { TariffAdminHeader } from '../../components/Tariff/AdminHeader/AdminHeader';
 
 const Tariffs = () => {
   // FIXME: refetch

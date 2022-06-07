@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import s from './User.module.scss';
-import { User } from '../../../../store/rtk/types/user';
 import { Link } from 'react-router-dom';
 import { getFullName } from '../../../../utils/getFullName';
+import { Client } from '../../../../@types/entities/Client';
 
 interface Props {
-  user: User;
+  user: Client;
 }
 
 export const UserItem = ({ user }: Props) => {

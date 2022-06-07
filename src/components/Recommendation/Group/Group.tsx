@@ -1,14 +1,15 @@
 import React from 'react';
-import { Recommendation, User } from '../../../store/rtk/types/user';
 import { getMediaLink } from '../../../utils/mediaHelper';
 import { RecommendationItem } from '../Item/Item';
 import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 
 import s from './Group.module.scss';
 import { useHistory } from 'react-router';
+import { Recommendation } from '../../../@types/entities/Recommendation';
+import { Specialist } from '../../../@types/entities/Specialist';
 
 export type RecommendationGroupType = {
-  specialist: User;
+  specialist: Specialist;
   recommendationList: Recommendation[];
 };
 
@@ -38,7 +39,9 @@ export const RecommendationGroup = ({
       <div className={s.header}>
         <div className={s.left}>
           <div onClick={moveToSpecialist} className={s.specialistPhoto}>
-            <img src={getMediaLink(specialist.profilePhoto) || defaultAvatar} />
+            <img
+              src={getMediaLink(specialist.profilePhoto || '') || defaultAvatar}
+            />
           </div>
           {specialist.name} {specialist.lastname}
         </div>

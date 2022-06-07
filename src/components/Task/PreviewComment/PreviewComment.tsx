@@ -2,21 +2,20 @@ import React from 'react';
 import { formatDate } from './PreviewCommentHelper';
 
 import s from './PreviewComment.module.scss';
+import { Comment } from '../../../@types/entities/Comment';
 
 export type TaskPreviewCommentProps = {
-  comment: TaskComment;
+  comment: Comment;
 };
 
 export function TaskPreviewComment({ comment }: TaskPreviewCommentProps) {
   const { datetime, text, author } = comment;
-  // eslint-disable-next-line camelcase
   const { lastname, name, profilePhoto } = author;
 
   return (
     <div className={s.comment}>
       <div className={s.photo}>
-        {/* eslint-disable-next-line camelcase */}
-        <img src={profilePhoto} alt="" />
+        <img src={profilePhoto || ''} alt="" />
       </div>
       <div className={s.body}>
         <div className={s.header}>

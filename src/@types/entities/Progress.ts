@@ -4,7 +4,9 @@ export type Progress = BaseEntity & {
   photos: ProgressPhoto[];
 };
 
+export type ProgressPhotoType = 'front' | 'back' | 'side';
+
 export type ProgressPhoto = {
-  type: 'front' | 'back' | 'side';
+  type: ProgressPhotoType;
   filename: string;
 };

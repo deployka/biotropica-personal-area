@@ -28,7 +28,7 @@ export const goalsApi = baseApi.injectEndpoints({
       }),
     }),
 
-    createGoal: builder.mutation<void, CreateGoalDto>({
+    createGoal: builder.mutation<Goal, CreateGoalDto>({
       query: dto => ({
         url: '/goals',
         data: dto,

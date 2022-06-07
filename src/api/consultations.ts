@@ -1,26 +1,63 @@
+import { CreateConsultationDto } from '../@types/dto/consultations/create.dto';
 import { Consultation } from '../@types/entities/Consultation';
 import { baseApi } from './base-api';
 
 export const consultationsApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    requestConsultations: builder.query<Consultation[], void>({
+    getSpecialistConsultations: builder.query<Consultation[], void>({
       query: () => ({
-        url: '/specialist-consultations',
+        url: '/consultations/specialist-consultations',
         method: 'GET',
       }),
     }),
 
-    requestChangeConsultationDatetime: builder.mutation<void, Consultation>({
+    getConsultations: builder.query<Consultation[], void>({
+      query: () => ({
+        url: '/consultations',
+        method: 'GET',
+      }),
+    }),
+
+    getConsultation: builder.query<Consultation, { id: number }>({
+      query: dto => ({
+        url: `/consultations/${dto.id}`,
+        method: 'GET',
+      }),
+    }),
+
+    getClosestConsultation: builder.query<Consultation, void>({
+      query: () => ({
+        url: '/consultations/closest',
+        method: 'GET',
+      }),
+    }),
+
+    getLastConsultation: builder.query<Consultation, void>({
+      query: () => ({
+        url: '/consultations/closest',
+        method: 'GET',
+      }),
+    }),
+
+    createConsultation: builder.mutation<Consultation, CreateConsultationDto>({
+      query: dto => ({
+        url: '/consultations',
+        method: 'POST',
+        body: dto,
+      }),
+    }),
+
+    changeConsultationDatetime: builder.mutation<void, Consultation>({
       query: payload => ({
-        url: `/specialist-consultations/${payload.id}`,
+        url: `/consultations/specialist-consultations/${payload.id}`,
         data: payload,
         method: 'PUT',
       }),
     }),
 
-    requestDeleteConsultation: builder.mutation<void, { id: number }>({
+    deleteConsultation: builder.mutation<void, { id: number }>({
       query: payload => ({
-        url: `/specialist-consultations/${payload.id}`,
+        url: `/consultations/specialist-consultations/${payload.id}`,
         method: 'DELETE',
       }),
     }),
@@ -28,9 +65,14 @@ export const consultationsApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useRequestConsultationsQuery,
-  useRequestChangeConsultationDatetimeMutation,
-  useRequestDeleteConsultationMutation,
+  useGetConsultationsQuery,
+  useGetSpecialistConsultationsQuery,
+  useChangeConsultationDatetimeMutation,
+  useDeleteConsultationMutation,
+  useCreateConsultationMutation,
+  useGetClosestConsultationQuery,
+  useGetLastConsultationQuery,
+  useGetConsultationQuery,
 } = consultationsApi;
 
 export default consultationsApi;

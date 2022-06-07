@@ -6,6 +6,7 @@ import { useModal } from '../../../../hooks/useModal';
 import { Nav, Page } from '../../../../layouts/PrivateLayout';
 import { ModalName } from '../../../../providers/ModalProvider';
 import { PopupBackground } from '../../PopupBackground/PopupBackground';
+import { Client } from '../../../../@types/entities/Client';
 
 import defaultAvatar from './../../../../assets/images/profile/default_avatar.png';
 
@@ -16,7 +17,7 @@ interface Props {
   onNavClick: (nav: Partial<Nav>) => void;
   openChat: () => void;
   logout: () => void;
-  user: User | undefined;
+  user: Client | undefined;
   pages: Page[];
   location: Location;
 }

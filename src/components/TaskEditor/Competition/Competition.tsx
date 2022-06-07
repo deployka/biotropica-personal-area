@@ -24,7 +24,7 @@ import {
   SkisCompetitionType,
   SwimCompetitionType,
   TriathlonCompetitionType,
-} from '../../../store/@types/Task';
+} from '../../../@types/entities/Task';
 import { NEW_DATE } from '../../../constants/dates';
 
 import s from './Competition.module.scss';

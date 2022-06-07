@@ -11,7 +11,7 @@ export const avatarApi = baseApi.injectEndpoints({
       providesTags: ['Avatar'],
     }),
 
-    requestAddAvatar: builder.mutation<any, any>({
+    requestAddAvatar: builder.mutation<void, FormData>({
       query: payload => ({
         url: '/files/upload-file',
         data: payload,
@@ -29,7 +29,7 @@ export const avatarApi = baseApi.injectEndpoints({
       },
     }),
 
-    requestAvatarFile: builder.query<any, string>({
+    requestAvatarFile: builder.query<void, string>({
       query: payload => ({
         url: `/static/${payload}`,
         method: 'GET',

@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { Formik } from 'formik';
 import React, { useState } from 'react';
 import { SchemaOf } from 'yup';
+import { CreateAnalyzeAnswerDto } from '../../../../../@types/dto/analyzes/create.dto';
 
 import { ProfileSvgSelector } from '../../../../../assets/icons/profile/ProfileSvgSelector';
 
@@ -11,7 +12,6 @@ import { ModalName } from '../../../../../providers/ModalProvider';
 import { Button } from '../../../../../shared/Form/Button/Button';
 import { Loader } from '../../../../../shared/Form/Loader/Loader';
 import { PopupBackground } from '../../../../../shared/Global/PopupBackground/PopupBackground';
-import { CreateAnalyzeAnswerData } from '../../../../../store/ducks/analyze/contracts/state';
 import {
   checkFileSize,
   checkFileType,
@@ -23,8 +23,8 @@ import { Input } from './../../../../../shared/Form/Input/Input';
 import s from './AddAnalyzeModal.module.scss';
 
 interface Props {
-  onSubmit: (values: CreateAnalyzeAnswerData) => void;
-  validationSchema: SchemaOf<Omit<CreateAnalyzeAnswerData, 'analyzeId'>>;
+  onSubmit: (values: CreateAnalyzeAnswerDto) => void;
+  validationSchema: SchemaOf<Omit<CreateAnalyzeAnswerDto, 'analyzeId'>>;
   onErrorFileLoaded: () => void;
   onSuccessFileLoaded: () => void;
 }
@@ -76,7 +76,7 @@ export const AddAnalyzeModal = ({
           analyzeId: 1,
         }}
         validateOnBlur
-        onSubmit={(values: CreateAnalyzeAnswerData) => {
+        onSubmit={(values: CreateAnalyzeAnswerDto) => {
           setLoading(true);
           onSubmit(values);
         }}

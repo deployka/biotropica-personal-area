@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import { AnalyzeAnswer } from '../../../../../store/ducks/analyze/contracts/state';
 import { getMediaLink } from '../../../../../utils/mediaHelper';
 import documentSvg from '../../../../../assets/icons/profile/document.svg';
 
 import s from './AnalyzesCard.module.scss';
 import { Comments } from '../../../../../components/Comments/Comments';
 import { CommentsInfo } from '../../../../../components/Comments/CommentsInfo';
+import { AnalyzeAnswer } from '../../../../../@types/entities/AnalyzeAnswer';
 
 interface Props {
   analyze: AnalyzeAnswer;

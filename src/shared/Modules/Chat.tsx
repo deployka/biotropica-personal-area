@@ -1,10 +1,11 @@
 import React, { Suspense } from 'react';
+import { BaseUser } from '../../@types/entities/BaseUser';
 
 const ChatApp: React.FC<{
   isOpened: boolean;
   isAuth: boolean;
   token: string;
-  currentUser: ChatUser;
+  currentUser: BaseUser;
   isUnread: boolean;
   activeDialogId?: number;
 
@@ -16,7 +17,7 @@ const ChatApp: React.FC<{
 
 export type ChatProps = {
   token: string;
-  currentUser: ChatUser;
+  currentUser: BaseUser;
   activeDialogId?: number;
   onClose(): void;
 };

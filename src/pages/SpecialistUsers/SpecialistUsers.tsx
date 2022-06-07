@@ -1,6 +1,6 @@
 import React from 'react';
+import { useGetAllUsersQuery } from '../../api/user';
 import { UserList } from './components/UserList/UserList';
-import { useGetAllUsersQuery } from '../../store/rtk/requests/user';
 
 export function SpecialistUsers() {
   const { data: users } = useGetAllUsersQuery();

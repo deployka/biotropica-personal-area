@@ -6,7 +6,7 @@ import {
   SwimCompetitionType,
   TaskPriority,
   TriathlonCompetitionType,
-} from '../../../store/@types/Task';
+} from '../../../@types/entities/Task';
 import { SelectOptions } from '../../Select/SelectCustom';
 
 export const translatedKindOfCompetitionSport: Record<

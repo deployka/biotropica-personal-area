@@ -35,6 +35,7 @@ export const recommendationApi = baseApi.injectEndpoints({
               ]
             : [{ type: 'Recommendation', id: 'LIST' }],
       }),
+
       getRecommendation: builder.query<Recommendation, number>({
         query(id) {
           return {
@@ -44,6 +45,7 @@ export const recommendationApi = baseApi.injectEndpoints({
         },
         providesTags: (result, error, id) => [{ type: 'Recommendation', id }],
       }),
+
       createRecommendation: builder.mutation<
         Recommendation,
         CreateRecommendationDto
@@ -57,6 +59,7 @@ export const recommendationApi = baseApi.injectEndpoints({
         },
         invalidatesTags: [{ type: 'Recommendation', id: 'LIST' }],
       }),
+
       updateRecommendation: builder.mutation<
         Recommendation,
         Partial<Recommendation> & Pick<Recommendation, 'id'>
@@ -70,6 +73,7 @@ export const recommendationApi = baseApi.injectEndpoints({
         },
         invalidatesTags: (r, e, { id }) => [{ type: 'Recommendation', id }],
       }),
+
       deleteRecommendation: builder.mutation<Recommendation, number>({
         query(id) {
           return {

@@ -1,20 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { RestorePasswordData } from '../../../../store/ducks/user/contracts/state';
 import { Formik, FormikHelpers } from 'formik';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
 import s from './RestoreForm.module.scss';
 import { SchemaOf } from 'yup';
+import { RestorePasswordDto } from '../../../../@types/dto/auth/restore-password.dto';
 
 interface Props {
   onSubmit: (
-    values: RestorePasswordData,
-    options: FormikHelpers<RestorePasswordData>
+    values: RestorePasswordDto,
+    options: FormikHelpers<RestorePasswordDto>,
   ) => void;
   loader: boolean;
-  validationSchema: SchemaOf<Omit<RestorePasswordData, 'restoreToken'>>;
+  validationSchema: SchemaOf<Omit<RestorePasswordDto, 'restoreToken'>>;
   type: Type;
   token: string;
 }
@@ -44,8 +44,8 @@ export const RestoreForm = ({
         }}
         validateOnBlur
         onSubmit={(
-          values: RestorePasswordData,
-          options: FormikHelpers<RestorePasswordData>,
+          values: RestorePasswordDto,
+          options: FormikHelpers<RestorePasswordDto>,
         ) => onSubmit(values, options)}
         validationSchema={validationSchema}
       >
@@ -61,9 +61,7 @@ export const RestoreForm = ({
         }) => (
           <div className={s.form__wrapper}>
             <h1 className={s.title}>
-              {type === Type.CHANGE
-                ? 'Смена пароля'
-                : 'Создание пароля'}
+              {type === Type.CHANGE ? 'Смена пароля' : 'Создание пароля'}
             </h1>
             <div className={s.form}>
               <h2 className={s.subtitle}>Введите пароли</h2>
@@ -98,17 +96,13 @@ export const RestoreForm = ({
                 type="submit"
                 onClick={() => handleSubmit()}
                 options={{
-                  content: loader
-                    ? (
-                      <Loader />
-                      )
-                    : type === Type.CHANGE
-                      ? (
-                          'Сменить пароль'
-                        )
-                      : (
-                          'Создать пароль'
-                        ),
+                  content: loader ? (
+                    <Loader />
+                  ) : type === Type.CHANGE ? (
+                    'Сменить пароль'
+                  ) : (
+                    'Создать пароль'
+                  ),
                   setDisabledStyle: isDisabled(isValid, dirty),
                   width: '100%',
                   height: '50px',

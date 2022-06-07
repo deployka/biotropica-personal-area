@@ -9,7 +9,8 @@ import {
   TaskType,
   TrainingCategory,
   TrainingTask,
-} from '../../store/@types/Task';
+} from '../../@types/entities/Task';
+
 import { getDefaultCompetitionType } from '../../components/TaskEditor/Competition/CompetitionConstants';
 
 export function createTaskByType(

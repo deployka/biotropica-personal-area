@@ -3,18 +3,22 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import s from './CreateUserModal.module.scss';
 import { CreateUserInput } from './CreateUserInput';
 import { CreateUserSelect } from './CreateUserSelect';
-import { Role, User } from '../../../../store/rtk/types/user';
 import Button from '../../../../components/Button/Button';
 import Modal from '../../../../shared/Global/Modal/Modal';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
+import { Role } from '../../../../@types/entities/Role';
 
 interface Props {
-    setPopup: Dispatch<SetStateAction<boolean>>;
-    popup: boolean;
-    roles: Role[];
-    onUserCreate(user: Partial<User>): void;
+  setPopup: Dispatch<SetStateAction<boolean>>;
+  popup: boolean;
+  roles: Role[];
+  onUserCreate(user: Partial<BaseUser>): void;
 }
 
-type UserEditable = Pick<User, 'name'|'lastname' | 'email' | 'phone' | 'roles'>
+type UserEditable = Pick<
+  BaseUser,
+  'name' | 'lastname' | 'email' | 'phone' | 'roles'
+>;
 
 export const CreateUserModal = (props: Props) => {
   const [user, setUser] = useState<UserEditable>({
@@ -29,7 +33,10 @@ export const CreateUserModal = (props: Props) => {
     props.setPopup(false);
   }
 
-  function setUserField<K extends keyof UserEditable, V extends UserEditable[K]>(key: K, value: V) {
+  function setUserField<
+    K extends keyof UserEditable,
+    V extends UserEditable[K],
+  >(key: K, value: V) {
     setUser({
       ...user,
       [key]: value,
@@ -43,7 +50,7 @@ export const CreateUserModal = (props: Props) => {
   function roleChangeHandler(id: number) {
     const foundRole = props.roles.find(it => it.id === id);
     if (foundRole) {
-      return setUserField('roles', [foundRole]);
+      return setUserField('roles', [foundRole.name]);
     }
   }
 
@@ -53,7 +60,7 @@ export const CreateUserModal = (props: Props) => {
         <div className={s.title}>
           <h2>Новый пользователь</h2>
         </div>
-        <div className={s.divider}/>
+        <div className={s.divider} />
         <div className={s.inputs}>
           <CreateUserInput
             value={user.name}
@@ -83,7 +90,7 @@ export const CreateUserModal = (props: Props) => {
           />
           <CreateUserSelect
             title="Роль"
-            value={user.roles[0]?.id}
+            value={user.roles[0]}
             placeholder="Роль"
             options={props.roles.map(it => ({ label: it.name, value: it.id }))}
             onChange={roleChangeHandler}
@@ -91,10 +98,10 @@ export const CreateUserModal = (props: Props) => {
         </div>
         <div className={s.btns}>
           <Button type="button" className={s.saveBtn} onClick={closePopUp}>
-                            Отмена
+            Отмена
           </Button>
           <Button type="button" onClick={create}>
-                            Сохранить
+            Сохранить
           </Button>
         </div>
       </form>

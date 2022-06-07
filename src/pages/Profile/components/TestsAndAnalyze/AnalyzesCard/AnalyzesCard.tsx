@@ -1,13 +1,11 @@
 import React from 'react';
 import s from './AnalyzesCard.module.scss';
-import {
-  Analyze,
-  AnalyzeAnswer,
-} from '../../../../../store/ducks/analyze/contracts/state';
 import { AnalyzeTypes } from './AnalyzeTypes';
 import { Analyzes } from './Analyzes';
 
 import editSvg from '../../../../../assets/icons/profile/edit.svg';
+import { AnalyzeAnswer } from '../../../../../@types/entities/AnalyzeAnswer';
+import { Analyze } from '../../../../../@types/entities/Analyze';
 
 interface Props {
   analyzes: AnalyzeAnswer[];

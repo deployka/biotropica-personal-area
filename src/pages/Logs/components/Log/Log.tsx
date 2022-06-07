@@ -2,10 +2,9 @@ import React from 'react';
 
 import s from './Log.module.scss';
 import { format } from 'date-fns';
-import { UserEvent } from '../../../../store/rtk/requests/user-events';
-
+import { UserEvent } from '../../../../@types/entities/UserEvent';
 interface Props {
-    log: UserEvent;
+  log: UserEvent;
 }
 
 export const Log = ({ log }: Props) => {
@@ -18,7 +17,9 @@ export const Log = ({ log }: Props) => {
     <tr className={s.log}>
       <td className={s.info}>
         <div className={s.date}>
-          <p>{date} {time}</p>
+          <p>
+            {date} {time}
+          </p>
         </div>
       </td>
       <td className={s.user}>

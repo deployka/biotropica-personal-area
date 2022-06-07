@@ -7,7 +7,7 @@ import EditProfile from './EditProfile';
 import { Security } from './Security';
 import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 import { getTabByKey } from '../../../utils/tabsHelper';
-import { useRequestUserDataQuery } from '../../../store/rtk/requests/user';
+import { useCurrentUserQuery } from '../../../api/user';
 
 export interface Param {
   active: string;
@@ -26,7 +26,7 @@ const Edit = () => {
   ];
 
   const history = useHistory();
-  const { data: user } = useRequestUserDataQuery();
+  const { data: user } = useCurrentUserQuery();
 
   const { active } = useParams<Param>();
   const [activeTab, setActiveTab] = useState<string>(

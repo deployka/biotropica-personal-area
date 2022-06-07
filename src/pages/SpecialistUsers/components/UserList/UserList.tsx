@@ -8,11 +8,12 @@ import {
 } from '../../helpers/usersHelper';
 import { UsersTableHeader } from './UsersTableHeader';
 import { UsersTable } from './UsersTable';
-import { TARIFF, User } from '../../../../store/rtk/types/user';
-import { ROLE } from '../../../../store/@types/User';
+import { ROLE } from '../../../../@types/entities/Role';
+import { TARIFF } from '../../../../@types/entities/Tariff';
+import { Client } from '../../../../@types/entities/Client';
 
 type Props = {
-  users: User[];
+  users: Client[];
 };
 
 type Filters = {

@@ -2,7 +2,7 @@ import {
   KindOfSport,
   TrainingCategory,
   TrainingTask,
-} from '../../../store/@types/Task';
+} from '../../../@types/entities/Task';
 import { SelectOptions } from '../../Select/SelectCustom';
 
 export const translatedKindOfSport: Record<KindOfSport, string> = {

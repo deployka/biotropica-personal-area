@@ -6,7 +6,7 @@ import {
   KindOfSport,
   TrainingCategory,
   TrainingTask,
-} from '../../../store/@types/Task';
+} from '../../../@types/entities/Task';
 
 export default {
   component: TrainingTaskPreview,

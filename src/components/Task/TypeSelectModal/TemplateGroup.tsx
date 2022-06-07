@@ -1,5 +1,5 @@
 import React from 'react';
-import { TaskTemplate } from '../../../store/@types/Task';
+import { TaskTemplate } from '../../../@types/entities/Task';
 import { TemplateElement } from './TemplateElement';
 
 import s from './TemplateGroup.module.scss';

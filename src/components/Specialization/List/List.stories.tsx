@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ComponentStory, Meta } from '@storybook/react';
 import { SpecializationList, SpecializationListProps } from './List';
-import { Specialization } from '../../../store/rtk/requests/specializations';
+import { Specialization } from '../../../@types/entities/Specialization';
 
 export default {
   component: SpecializationList,
@@ -12,7 +12,9 @@ export default {
 const specialization: Specialization = {
   id: 0,
   title: 'Test',
-  key: '15',
+  createdAt: '',
+  updatedAt: '',
+  key: 'ALLERGIST_IMMUNOLOGIST',
 };
 
 const Template: ComponentStory<typeof SpecializationList> = (

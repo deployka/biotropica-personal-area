@@ -4,10 +4,6 @@ import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
 import {
-  UpdateUserData,
-  User,
-} from '../../../../store/ducks/user/contracts/state';
-import {
   onPhoneInput,
   onPhoneKeyDown,
   onPhonePaste,
@@ -27,23 +23,13 @@ import {
 import { FormsSvgSelector } from '../../../../assets/icons/forms/FormsSvgSelector';
 import ru from 'date-fns/locale/ru';
 import { useMobile } from '../../../../hooks/useMobile';
-import { InputTypes } from '../../../../components/Input/Input';
-import { Specialist } from '../../../../store/rtk/types/user';
-import { SpecialistUpdateDto } from '../../../../store/rtk/requests/specialists';
-import MultiSelect from '../../../../components/MultiSelect/MultiSelect';
-import {
-  Specialization,
-  useGetSpecializationListQuery,
-} from '../../../../store/rtk/requests/specializations';
-import { Option } from 'react-select/src/filters';
+import { Client } from '../../../../@types/entities/Client';
+import { UpdateUserDto } from '../../../../@types/dto/users/update.dto';
 
 registerLocale('ru', ru);
 
-type UpdateDto = UpdateUserData & Partial<SpecialistUpdateDto>;
-
 interface Props {
-  user: User | undefined;
-  specialist?: Specialist;
+  user: Client | undefined;
   loader: boolean;
   image: string | ArrayBuffer | null;
   options: ISelect<string>[];
@@ -51,21 +37,17 @@ interface Props {
     e: React.ChangeEvent<HTMLInputElement>,
     setFieldValue: (field: string, value: File) => void,
   ) => void;
-  onSubmit: (values: UpdateDto) => void;
+  onSubmit: (values: UpdateUserDto) => void;
 }
 
 export const EditProfileData = ({
   user,
-  specialist,
   loader,
   image,
   options,
   onAvatarLoaded,
   onSubmit,
 }: Props) => {
-  const { data: specializations } = useGetSpecializationListQuery(undefined, {
-    skip: !specialist,
-  });
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || loader;
   }
@@ -75,11 +57,6 @@ export const EditProfileData = ({
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
     );
   }
-
-  const specializationOptions = (specializations || []).map(it => ({
-    label: it.title,
-    value: it.id.toString(),
-  }));
 
   const isMobile = useMobile();
 
@@ -93,20 +70,17 @@ export const EditProfileData = ({
           email: user?.email || '',
           gender: [
             {
-              value: user?.gender?.[0].value || '',
               label: user?.gender?.[0].label || '',
+              value: user?.gender?.[0].value || '',
             },
           ],
           patronymic: user?.patronymic || '',
           phone: user?.phone || '',
           dob: user?.dob,
-          id: user?.id,
-          experience: specialist?.experience || '',
-          specializations: specialist?.specializations,
-          education: specialist?.education || '',
+          id: Number(user?.id),
         }}
         validateOnBlur
-        onSubmit={(values: UpdateDto) => onSubmit(values)}
+        onSubmit={(values: UpdateUserDto) => onSubmit(values)}
         validationSchema={validationSchema}
       >
         {({
@@ -257,54 +231,6 @@ export const EditProfileData = ({
                   settings={{ touched, errors }}
                 />
               </div>
-              {specialist ? (
-                <>
-                  <div className={s.input__wrapper}>
-                    <Input
-                      name="experience"
-                      placeholder="Опыт работы"
-                      label="Опты работы"
-                      value={values.experience}
-                      type={InputTypes.TEXT}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className={s.input__wrapper}>
-                    <Input
-                      name="education"
-                      placeholder="Образование"
-                      label="Образование"
-                      value={values.education}
-                      type={InputTypes.TEXT}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                    />
-                  </div>
-
-                  <div className={s.input__wrapper}>
-                    <MultiSelect
-                      name="specializations"
-                      placeholder="Специальность"
-                      options={specializationOptions}
-                      value={values.specializations?.map((it: Specialization) =>
-                        specializationOptions.find(
-                          so => so.value === it.id.toString(),
-                        ),
-                      )}
-                      onBlur={handleBlur}
-                      onChange={(option: Option[]) => {
-                        setFieldValue(
-                          'specializations',
-                          option.map((item: Option) =>
-                            specializations?.find(s => s.id === +item.value),
-                          ),
-                        );
-                      }}
-                    />
-                  </div>
-                </>
-              ) : null}
             </div>
 
             <div className={s.button__wrapper}>

@@ -13,43 +13,36 @@ import {
 } from '../../../../utils/phoneValidator';
 import Button from '../../../../components/Button/Button';
 import DatePicker from '../../../../components/DatePicker/DatePickerCustom';
-import SelectCustom, {
-  SelectOptions,
-} from '../../../../components/Select/SelectCustom';
+import SelectCustom from '../../../../components/Select/SelectCustom';
 import Input, { InputTypes } from '../../../../components/Input/Input';
 import { FormsSvgSelector } from '../../../../assets/icons/FormsSvgSelector';
 import validationSchema from './editProfileValidation';
-import {
-  useRequestUpdateUserDataMutation,
-  useRequestUserDataQuery,
-} from '../../../../store/rtk/requests/user';
+
 import MultiSelect from '../../../../components/MultiSelect/MultiSelect';
-import { useRequestChangeSpecialistDataMutation } from '../../../../store/rtk/requests/specialists';
 // import { showErrorMessage, showSuccessMessage } from '../../../../components/notification/messages';
 import { Loader } from '../../../../shared/Global/Loader/Loader';
-import {
-  useRequestAddAvatarMutation,
-  useRequestAvatarQuery,
-} from '../../../../store/rtk/requests/avatar';
-import {
-  Specialization,
-  useGetSpecializationListQuery,
-} from '../../../../store/rtk/requests/specializations';
-import { useDispatch } from 'react-redux';
+
 import { getMediaLink } from '../../../../utils/mediaHelper';
 import defaultAvatar from '../../../../assets/images/profile/default_avatar.png';
+import {
+  useCurrentUserQuery,
+  useUpdateUserMutation,
+} from '../../../../api/user';
+import { useGetSpecializationListQuery } from '../../../../api/specializations';
+import { useRequestAddAvatarMutation } from '../../../../api/avatar';
+import { useChangeSpecialistDataMutation } from '../../../../api/specialists';
+import { Specialization } from '../../../../@types/entities/Specialization';
 
 type Option = { label: string; value: number };
 
 const EditProfile = () => {
-  const dispatch = useDispatch();
   const history = useHistory();
   const {
     data: user,
     isLoading: isGetUserLoading,
     isSuccess: isGetUserSuccess,
     refetch: refetchUserData,
-  } = useRequestUserDataQuery();
+  } = useCurrentUserQuery();
 
   const { data: specializations } = useGetSpecializationListQuery();
 
@@ -113,7 +106,7 @@ const EditProfile = () => {
       isLoading: isUpdateUserLoading,
       isError: isUpdateUserError,
     },
-  ] = useRequestUpdateUserDataMutation();
+  ] = useUpdateUserMutation();
 
   const [
     requestChangeSpecialistData,
@@ -122,7 +115,7 @@ const EditProfile = () => {
       isLoading: isChangeSpecialistLoading,
       isError: isChangeSpecialistError,
     },
-  ] = useRequestChangeSpecialistDataMutation();
+  ] = useChangeSpecialistDataMutation();
 
   React.useEffect(() => {
     if (isUpdateUserSuccess) {
@@ -140,10 +133,10 @@ const EditProfile = () => {
     if (isUpdateUserSuccess && isChangeSpecialistSuccess) {
       if (file) {
         if (isAddAvatarSuccess) {
-          history.push('/profile/' + user.id);
+          history.push('/profile/' + user?.id);
         }
       } else {
-        history.push('/profile/' + user.id);
+        history.push('/profile/' + user?.id);
       }
     }
   }, [
@@ -161,16 +154,14 @@ const EditProfile = () => {
     female: 'Женский',
   };
 
-  const selectGender: SelectOptions[] = Object.keys(translatedGender).map(
-    (key: string) => {
-      return {
-        value: key,
-        label: translatedGender[key],
-      };
-    },
-  );
-
-  const gender: string = user ? user.gender : '';
+  const selectGender: { value: string; label: string }[] = Object.keys(
+    translatedGender,
+  ).map((key: string) => {
+    return {
+      value: key,
+      label: translatedGender[key],
+    };
+  });
 
   const handleSubmit = (values: any, file?: File) => {
     let specializations = values.specializations;
@@ -187,6 +178,8 @@ const EditProfile = () => {
     if (gender !== 'male' || gender !== 'female') {
       gender = gender.value;
     }
+
+    if (!user) return;
 
     requestUpdateUserData({
       id: user.id,
@@ -226,17 +219,17 @@ const EditProfile = () => {
           <div className={s.edit__password}>
             <Formik
               initialValues={{
-                name: user.name,
-                email: user.email,
-                phone: user.phone,
-                lastname: user.lastname,
-                profilePhoto: user.profilePhoto,
-                patronymic: user.patronymic || '',
-                dob: user.dob ? new Date(user.dob) : null,
-                specializations: user.specialist.specializations,
-                experience: user.specialist.experience,
-                education: user.specialist.education,
-                gender: gender,
+                name: user?.name,
+                email: user?.email,
+                phone: user?.phone,
+                lastname: user?.lastname,
+                profilePhoto: user?.profilePhoto,
+                patronymic: user?.patronymic || '',
+                dob: user?.dob ? new Date(user.dob) : null,
+                specializations: user?.specializations,
+                experience: user?.experience,
+                education: user?.education,
+                gender: user?.gender,
               }}
               validateOnBlur
               onSubmit={values => handleSubmit(values, file)}
@@ -354,7 +347,8 @@ const EditProfile = () => {
                         name="gender"
                         label="Выберите пол"
                         placeholder="Выберите пол"
-                        options={selectGender}
+                        //FIXME:
+                        options={selectGender as any}
                         value={values.gender}
                         onBlur={handleBlur}
                         onChange={value => {
@@ -414,7 +408,7 @@ const EditProfile = () => {
                   </div>
                   <div className={s.button__wrapper}>
                     <Button className={s.cancelBtn}>
-                      <Link to={'/profile/' + user.id}>Отмена</Link>
+                      <Link to={'/profile/' + user?.id}>Отмена</Link>
                     </Button>
                     <Button
                       type="submit"

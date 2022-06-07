@@ -8,6 +8,7 @@ import { useModal } from '../../../hooks/useModal';
 import { SidebarSvgSelector } from '../../../assets/icons/sidebar/SIdebarSvgSelector';
 import { ModalName } from '../../../providers/ModalProvider';
 import { Nav, Page } from '../../../layouts/PrivateLayout';
+import { Client } from '../../../@types/entities/Client';
 
 interface Props {
   onNavClick: (nav: Partial<Nav>) => void;
@@ -18,7 +19,7 @@ interface Props {
   logout: () => void;
   pages: Page[];
   nav: Nav[];
-  user: User | undefined;
+  user: Client | undefined;
 }
 
 export const SidebarMobile = memo(

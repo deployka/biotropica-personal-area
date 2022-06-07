@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import s from './Courses.module.scss';
@@ -7,17 +7,19 @@ import s from './Courses.module.scss';
 import Button from '../../../../components/Button/Button';
 import Modal from '../../../../shared/Global/Modal/Modal';
 import Confirm from '../../../../shared/Global/Modal/Confirm/Confirm';
-import { useRequestChangeCoursesMutation } from '../../../../store/rtk/requests/specialists';
 // import { showSuccessMessage, showErrorMessage } from '../../../../components/notification/messages';
 import { Loader } from '../../../../shared/Global/Loader/Loader';
-import { useRequestUserDataQuery } from '../../../../store/rtk/requests/user';
-import { useRequestUsersDataQuery } from '../../../../store/rtk/requests/users';
 
 import { Textarea } from '../../../../shared/Form/Textarea/Textarea';
 import { Input } from '../../../../shared/Form/Input/Input';
 import Divider from '../../../../components/Divider/Divider';
 import { eventBus, EventTypes } from '../../../../services/EventBus';
 import { NotificationType } from '../../../../components/GlobalNotifications/GlobalNotifications';
+import { useGetAllUsersQuery } from '../../../../api/user';
+import {
+  useChangeCoursesMutation,
+  useGetCurrentSpecialistQuery,
+} from '../../../../api/specialists';
 
 interface Course {
   id: number;
@@ -27,22 +29,20 @@ interface Course {
 }
 
 const Courses = () => {
-  const history = useHistory();
-
   const {
     data: user,
     refetch: refetchUserData,
     isLoading: isGetUserLoading,
-  } = useRequestUserDataQuery();
+  } = useGetCurrentSpecialistQuery();
 
   const {
     data: users,
     refetch: refetchUsersData,
     isLoading: isGetUsersLoading,
-  } = useRequestUsersDataQuery();
+  } = useGetAllUsersQuery();
 
   const [requestChangeCourses, { isLoading, isSuccess, isError }] =
-    useRequestChangeCoursesMutation();
+    useChangeCoursesMutation();
 
   React.useEffect(() => {
     if (isSuccess) {
@@ -63,17 +63,17 @@ const Courses = () => {
     // showErrorMessage('Что-то пошло не так, попробуйте снова');
   }, [isSuccess, isError]);
 
-  const specialist = !!user && user.specialist;
+  const specialist = !!user && user;
 
   const initialCourses = specialist ? specialist.courses : [];
   const specialistId = specialist ? specialist.id : NaN;
 
   const [courses, setCourses] = useState(
     initialCourses
-      ? initialCourses.map((course: Course, i: string) => ({
-        ...course,
-        id: Number(i) + 1,
-      }))
+      ? initialCourses.map((course: Course, i: number) => ({
+          ...course,
+          id: +i + 1,
+        }))
       : [],
   );
 

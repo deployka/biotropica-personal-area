@@ -1,5 +1,5 @@
-import { CreateUserModal } from './components/CreateUserModal/CreateUserModal';
 import React, { useState } from 'react';
+import { CreateUserModal } from './components/CreateUserModal/CreateUserModal';
 import { BlockUserConfirmModal } from './components/BlockUserConfirmModal';
 import { UserList } from './components/UserList/UserList';
 import { eventBus, EventTypes } from '../../services/EventBus';
@@ -7,36 +7,46 @@ import {
   useBlockUserMutation,
   useCreateUserMutation,
   useGetAllUsersQuery,
-} from '../../store/rtk/requests/user';
-import ChatService from '../../services/ChatService';
-import { useGetAllRolesQuery } from '../../store/rtk/requests/roles';
-import { User } from '../../store/rtk/types/user';
+} from '../../api/user';
+import { useGetAllRolesQuery } from '../../api/roles';
+import { BaseUser } from '../../@types/entities/BaseUser';
+import { useCreateDialogMutation } from '../../api/chat';
+import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 
 export function AdminUsers() {
   const [popup, setPopup] = useState<boolean>(false);
   const [blockUserModalOpened, setBlockUserModalOpened] =
     useState<boolean>(false);
-  const [userToBlock, setUserToBlock] = useState<User | null>(null);
+  const [userToBlock, setUserToBlock] = useState<BaseUser | null>(null);
   const [createUser] = useCreateUserMutation();
   const [blockUser] = useBlockUserMutation();
+  const [createDialog] = useCreateDialogMutation();
 
   const { data: users } = useGetAllUsersQuery();
   const { data: roles } = useGetAllRolesQuery();
 
-  function askBlockUser(user: User) {
+  function askBlockUser(user: BaseUser) {
     setUserToBlock(user);
     setBlockUserModalOpened(true);
   }
 
-  async function writeUser(user: User) {
-    const { data: dialog } = await ChatService.createDialog(
-      user.id as number,
-      'Техподдержка',
-    );
-    eventBus.emit(EventTypes.chatOpen, dialog.id);
+  async function writeUser(user: BaseUser) {
+    try {
+      const dialog = await createDialog({
+        userId: user.id as number,
+        title: 'Техподдержка',
+      }).unwrap();
+      eventBus.emit(EventTypes.chatOpen, dialog.id);
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        title: `Произошла ошибка!`,
+        message: (error as { message: string }).message,
+        type: NotificationType.DANGER,
+      });
+    }
   }
 
-  async function createUserHandler(user: User) {
+  async function createUserHandler(user: BaseUser) {
     await createUser(user);
     setPopup(false);
   }
@@ -66,8 +76,8 @@ export function AdminUsers() {
         <UserList
           users={users}
           onCreateUser={() => setPopup(true)}
-          onWriteUser={(user: User) => writeUser(user)}
-          onBlockUser={(user: User) => askBlockUser(user)}
+          onWriteUser={(user: BaseUser) => writeUser(user)}
+          onBlockUser={(user: BaseUser) => askBlockUser(user)}
         />
       ) : (
         ''
