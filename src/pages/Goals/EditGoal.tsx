@@ -39,7 +39,7 @@ const EditGoal = () => {
       history.push(`/goals/${values.id}`);
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
-        title: `Произошла ошибка!`,
+        title: 'Произошла ошибка!',
         message: (error as { message: string }).message,
         type: NotificationType.DANGER,
       });

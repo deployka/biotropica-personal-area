@@ -348,7 +348,7 @@ const EditProfile = () => {
                         name="gender"
                         label="Выберите пол"
                         placeholder="Выберите пол"
-                        //FIXME:
+                        // FIXME:
                         options={selectGender as any}
                         value={values.gender}
                         onBlur={handleBlur}

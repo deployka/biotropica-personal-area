@@ -10,7 +10,7 @@ import { AnalyzeAnswer } from '../../../../@types/entities/AnalyzeAnswer';
 
 interface Props {
   analyzeTypes: Analyze[];
-  //TODO: переделать тип в QuestionnaireAnswer
+  // TODO: переделать тип в QuestionnaireAnswer
   questionnaireAnswers: Answer[];
   analyzes: AnalyzeAnswer[];
   isLoadingComment: boolean;

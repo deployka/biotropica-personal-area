@@ -29,7 +29,7 @@ export const ConsultationTableItemGroup = ({
         consultationsList.map(consultation => (
           <ConsultationTableItem
             key={consultation.id}
-            //TODO: проверить
+            // TODO: проверить
             date={new Date(consultation.date)}
             specialistName={
               specialists.find(s => s.id === consultation.specialistId)?.name

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, isAllOf, isAnyOf, isRejected } from '@reduxjs/toolkit';
 import authApi from '../../api/auth';
 import userApi from '../../api/user';
 import { Admin } from '../../@types/entities/Admin';
@@ -9,6 +9,7 @@ import { RootState } from '../store';
 
 type AuthState = {
   isAuthorized: boolean;
+  accessToken: string | null;
   token: string | null;
   accesses: string[];
   roles: ROLE[];
@@ -20,6 +21,7 @@ const slice = createSlice({
   initialState: {
     isAuthorized: false,
     token: null,
+    accessToken: null,
     accesses: [],
     roles: [],
   } as AuthState,
@@ -29,8 +31,9 @@ const slice = createSlice({
       .addMatcher(
         authApi.endpoints.signIn.matchFulfilled,
         (state, { payload }) => {
-          state.token = payload.token;
-          localStorage.setItem('token', payload.token);
+          state.token = payload.accessToken;
+          state.isAuthorized = true;
+          localStorage.setItem('token', payload.accessToken);
         },
       )
       .addMatcher(
@@ -42,9 +45,14 @@ const slice = createSlice({
           state.isAuthorized = true;
         },
       )
-      .addMatcher(userApi.endpoints.currentUser.matchRejected, state => {
-        state.isAuthorized = false;
-      });
+      .addMatcher(
+        userApi.endpoints.currentUser.matchRejected,
+        (state, action) => {
+          if (action.error.name === 'ConditionError') return;
+          console.log(action);
+          state.isAuthorized = false;
+        },
+      );
   },
 });
 

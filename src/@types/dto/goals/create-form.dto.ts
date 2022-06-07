@@ -6,6 +6,6 @@ export type CreateGoalFormDto = Readonly<{
   type: GoalType;
   units: ISelect<string | null>[];
   description: string;
-  startResult: string;
-  endResult: string;
+  startResult: number;
+  endResult: number;
 }>;

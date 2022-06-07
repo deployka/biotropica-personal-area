@@ -3,10 +3,6 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { Button } from '../../../shared/Form/Button/Button';
 import { Input } from '../../../shared/Form/Input/Input';
 import { Loader } from '../../../shared/Form/Loader/Loader';
-import {
-  CreateGoalData,
-  FormGoalData,
-} from '../../../store/ducks/goal/contracts/state';
 
 import { validationSchema } from './validationSchema';
 import { Textarea } from '../../../shared/Form/Textarea/Textarea';
@@ -16,6 +12,14 @@ import {
 } from '../../../shared/Form/Select/SelectCustom';
 
 import s from './AddForm.module.scss';
+import { GoalUnits } from '../../../@types/entities/Goal';
+import { CreateGoalFormDto } from '../../../@types/dto/goals/create-form.dto';
+
+export interface FormGoalData
+  extends Omit<CreateGoalFormDto, 'endResult' | 'startResult'> {
+  endResult: number;
+  startResult: number;
+}
 
 interface Props {
   goalTemplate: FormGoalData;

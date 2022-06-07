@@ -24,6 +24,8 @@ function App(): ReactElement {
   const { isLoading: userDataLoading } = useCurrentUserQuery();
 
   const isAuth = useAppSelector(selectIsAuthorized);
+  console.log('isAuth ', isAuth);
+
   // const getGlobalLoading = useSelector(selectGlobalLoadingStatus);
   const globalLoading = false;
 

@@ -3,5 +3,5 @@ export type Response = {
   message: string;
 };
 export type SignInResponse = {
-  token: string;
+  accessToken: string;
 };

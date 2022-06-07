@@ -1,11 +1,9 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import classNames from 'classnames';
-import {
-  FormGoalData,
-  GoalType,
-} from '../../../store/ducks/goal/contracts/state';
 
 import s from './Selector.module.scss';
+import { GoalType } from '../../../@types/entities/Goal';
+import { CreateGoalFormDto } from '../../../@types/dto/goals/create-form.dto';
 
 export interface Selector {
   title: string;
@@ -15,8 +13,8 @@ export interface Selector {
 
 interface Props {
   item: Selector;
-  goal: FormGoalData;
-  setGoal: Dispatch<SetStateAction<FormGoalData>>;
+  goal: CreateGoalFormDto;
+  setGoal: Dispatch<SetStateAction<CreateGoalFormDto>>;
   type: GoalType;
 }
 

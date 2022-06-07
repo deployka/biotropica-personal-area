@@ -11,7 +11,7 @@ const authApi = baseApi.injectEndpoints({
     signIn: builder.mutation<SignInResponse, SignInDto>({
       query: payload => ({
         url: '/auth/signin',
-        data: payload,
+        body: payload,
         method: 'POST',
       }),
     }),
@@ -19,7 +19,7 @@ const authApi = baseApi.injectEndpoints({
     signOut: builder.mutation<void, void>({
       query: () => ({
         url: '/auth/signout',
-        method: 'POST',
+        method: 'GET',
       }),
     }),
 

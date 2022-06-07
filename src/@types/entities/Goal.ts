@@ -32,7 +32,7 @@ export type GoalUnits = {
 
 export type GoalValue = {
   value: number;
-  createdAt: DateTimeString;
+  createdAt: Date;
 };
 
 export type Goal = BaseEntity & {

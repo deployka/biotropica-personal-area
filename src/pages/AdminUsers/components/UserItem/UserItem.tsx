@@ -58,8 +58,8 @@ export const UserItem = ({ user, onBlock, onWrite }: Props) => {
               role === ROLE.SPECIALIST
                 ? { color: '#309A74' }
                 : role === ROLE.ADMIN
-                ? { color: '#D06361' }
-                : {}
+                  ? { color: '#D06361' }
+                  : {}
             }
           >
             {roleTranslation}

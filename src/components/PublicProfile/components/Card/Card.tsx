@@ -6,9 +6,9 @@ import 'moment/locale/ru';
 import classNames from 'classnames';
 import { getMediaLink } from '../../../../utils/mediaHelper';
 import { Client } from '../../../../@types/entities/Client';
-moment.locale('ru');
 
 import s from './Card.module.scss';
+moment.locale('ru');
 interface Props {
   user: Client;
 }

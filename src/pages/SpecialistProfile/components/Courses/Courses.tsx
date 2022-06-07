@@ -71,9 +71,9 @@ const Courses = () => {
   const [courses, setCourses] = useState(
     initialCourses
       ? initialCourses.map((course: Course, i: number) => ({
-          ...course,
-          id: +i + 1,
-        }))
+        ...course,
+        id: +i + 1,
+      }))
       : [],
   );
 

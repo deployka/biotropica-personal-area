@@ -13,6 +13,10 @@ type FetchArguments = Omit<FetchArgs, 'method'> & {
 export const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_BACKEND_URL,
   credentials: 'include',
+  prepareHeaders: headers => {
+    headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    return headers;
+  },
 });
 
 export const baseQueryWithReauth: BaseQueryFn<

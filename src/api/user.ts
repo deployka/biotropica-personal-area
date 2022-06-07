@@ -25,9 +25,9 @@ const userApi = baseApi.injectEndpoints({
 
     updateUser: builder.mutation<void, UpdateUserDto>({
       query: payload => ({
-        url: '/currentUser',
-        data: payload,
-        method: 'PUT',
+        url: '/users/update',
+        body: payload,
+        method: 'PATCH',
       }),
     }),
 

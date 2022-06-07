@@ -39,7 +39,7 @@ export function AdminUsers() {
       eventBus.emit(EventTypes.chatOpen, dialog.id);
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
-        title: `Произошла ошибка!`,
+        title: 'Произошла ошибка!',
         message: (error as { message: string }).message,
         type: NotificationType.DANGER,
       });

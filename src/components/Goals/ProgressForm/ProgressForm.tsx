@@ -16,10 +16,10 @@ import { registerLocale } from 'react-datepicker';
 import ru from 'date-fns/locale/ru';
 import { validationSchema } from './validationSchema';
 import s from './ProgressForm.module.scss';
-import { UpdateGoalValues } from '../../../store/ducks/goal/contracts/state';
 import { Goal } from '../../../@types/entities/Goal';
 import { MAX_PROGRESS } from '../../../constants/goals';
 import { getProgressValueByTypeAndUnit } from '../../../utils/goalsHelper';
+import { UpdateGoalValuesDto } from '../../../@types/dto/goals/update-values.dto';
 
 registerLocale('ru', ru);
 
@@ -27,8 +27,8 @@ interface Props {
   goal: Goal;
   onDeleteGoal: () => void;
   onSubmit: (
-    values: UpdateGoalValues,
-    options: FormikHelpers<UpdateGoalValues>,
+    values: UpdateGoalValuesDto,
+    options: FormikHelpers<UpdateGoalValuesDto>,
   ) => void;
   progressBarOptions: progressBarOptions;
   isLoading: boolean;
@@ -78,13 +78,14 @@ export const ProgressForm = ({
 
           <Formik
             initialValues={{
+              id: goal.id,
               value: '',
               createdAt: new Date(),
             }}
             validateOnBlur
             onSubmit={(
-              values: UpdateGoalValues,
-              options: FormikHelpers<UpdateGoalValues>,
+              values: UpdateGoalValuesDto,
+              options: FormikHelpers<UpdateGoalValuesDto>,
             ) => {
               onSubmit(values, options);
             }}

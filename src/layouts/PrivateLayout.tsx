@@ -184,6 +184,7 @@ export function PrivateLayout(props: Props) {
     await fetchLogout().unwrap();
     refetch();
     document.location.reload();
+    localStorage.setItem('token', '');
   }, [dispatch]);
 
   const onNavClick = useCallback(

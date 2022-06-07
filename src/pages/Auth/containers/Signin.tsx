@@ -15,6 +15,8 @@ const Signin = () => {
     options: FormikHelpers<SignInDto>,
   ) {
     try {
+      console.log('values ', values);
+
       await signIn(values).unwrap();
 
       eventBus.emit(EventTypes.notification, {

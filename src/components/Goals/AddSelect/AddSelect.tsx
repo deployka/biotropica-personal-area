@@ -3,10 +3,11 @@ import { Button } from '../../../shared/Form/Button/Button';
 import { Selector, SelectorItem } from './Selector';
 
 import s from './AddSelect.module.scss';
+import { CreateGoalFormDto } from '../../../@types/dto/goals/create-form.dto';
 
 interface Props {
-  goal: FormGoalData;
-  setGoal: Dispatch<SetStateAction<FormGoalData>>;
+  goal: CreateGoalFormDto;
+  setGoal: Dispatch<SetStateAction<CreateGoalFormDto>>;
   setNext: Dispatch<SetStateAction<boolean>>;
   selectors: Selector[];
   onDiscard: () => void;

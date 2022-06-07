@@ -9,18 +9,18 @@ import { GoalAddSelect } from '../../components/Goals/AddSelect/AddSelect';
 import { GoalAddForm } from '../../components/Goals/AddForm/AddForm';
 
 import s from './AddGoal.module.scss';
-import { CreateGoalDto } from '../../@types/dto/goals/create.dto';
 import { GoalType, RunUnits, WeightUnits } from '../../@types/entities/Goal';
 import { useCreateGoalMutation } from '../../api/goals';
 import { CreateGoalFormDto } from '../../@types/dto/goals/create-form.dto';
+import { CreateGoalDto } from '../../@types/dto/goals/create.dto';
 
 const AddGoal = () => {
   const [goalTemplate, setGoalTemplate] = useState<CreateGoalFormDto>({
     type: GoalType.WEIGHT,
     units: [{ label: '', value: null }],
     description: '',
-    endResult: '',
-    startResult: '',
+    endResult: 0,
+    startResult: 0,
     name: '',
   });
 
@@ -54,7 +54,7 @@ const AddGoal = () => {
 
   async function onSubmit(
     values: CreateGoalDto,
-    options: FormikHelpers<CreateGoalFormDto>,
+    options: FormikHelpers<CreateGoalDto>,
   ) {
     const goal = await createGoal({
       ...values,

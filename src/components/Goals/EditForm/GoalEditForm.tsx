@@ -5,20 +5,21 @@ import { Link } from 'react-router-dom';
 import { Button } from '../../../shared/Form/Button/Button';
 import { Input } from '../../../shared/Form/Input/Input';
 import { Loader } from '../../../shared/Form/Loader/Loader';
-import { UpdateGoalData } from '../../../store/ducks/goal/contracts/state';
 
 import { validationSchema } from './validationSchema';
 import { Textarea } from '../../../shared/Form/Textarea/Textarea';
 
 import s from './GoalEditForm.module.scss';
+import { Goal } from '../../../@types/entities/Goal';
+import { UpdateGoalDto } from '../../../@types/dto/goals/update.dto';
 
 type Props = {
   goal?: Goal;
   loader: boolean;
   isDisabled: (isValid: boolean, dirty: boolean) => boolean;
   onSubmit: (
-    values: UpdateGoalData,
-    options: FormikHelpers<UpdateGoalData>,
+    values: UpdateGoalDto,
+    options: FormikHelpers<UpdateGoalDto>,
   ) => void;
 };
 
@@ -35,7 +36,7 @@ const EditGoalForm = ({ goal, loader, isDisabled, onSubmit }: Props) => {
               ...goal,
             }}
             validateOnBlur
-            onSubmit={(values: UpdateGoalData, options) =>
+            onSubmit={(values: UpdateGoalDto, options) =>
               onSubmit(values, options)
             }
             validationSchema={validationSchema}

@@ -41,7 +41,7 @@ export const ConsultationItem = ({
     history.push('/specialists/' + userId);
   }
 
-  //TODO: вынести в helper
+  // TODO: вынести в helper
   // eslint-disable-next-line
   function getMarkStringByValue(value: string | number): ReactElement {
     value = String(value);
@@ -110,7 +110,6 @@ export const ConsultationItem = ({
       </div>
 
       <div className={s.price}>
-        //TODO: че это??
         <p>{<Price />}</p>
       </div>
 
