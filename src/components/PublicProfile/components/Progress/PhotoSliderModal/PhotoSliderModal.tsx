@@ -12,14 +12,15 @@ import { GlobalSvgSelector } from '../../../../../assets/icons/global/GlobalSvgS
 import { PopupBackground } from '../../../../../shared/Global/PopupBackground/PopupBackground';
 import { useModal } from '../../../../../hooks/useModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
-import { Photo } from '../../../../../store/ducks/progress/contracts/state';
+
 import { getMediaLink } from '../../../../../utils/mediaHelper';
 import { CreatedAt } from '../ProgressCard/ProgressCard';
+import { ProgressPhoto } from '../../../../../@types/entities/Progress';
 
 SwiperCore.use([Navigation]);
 
 interface Props {
-  photos: Photo[];
+  photos: ProgressPhoto[];
   createdAt: Date;
   i?: number;
 }
@@ -53,7 +54,7 @@ export const PhotoSliderModal = ({ photos, createdAt, i }: Props) => {
               scrollbar={{ draggable: true }}
               className={s.results_slider}
             >
-              {photos?.map((photo: Photo, i: number) => {
+              {photos?.map((photo: ProgressPhoto, i: number) => {
                 return (
                   <SwiperSlide
                     className={s.results_slider_item}

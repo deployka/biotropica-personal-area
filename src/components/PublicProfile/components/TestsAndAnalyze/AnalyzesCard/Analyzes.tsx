@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import moment from 'moment';
-import { AnalyzeAnswer } from '../../../../../store/ducks/analyze/contracts/state';
+
+import { Analyze } from './Analyze';
+import { AnalyzeAnswer } from '../../../../../@types/entities/AnalyzeAnswer';
 
 import s from './AnalyzesCard.module.scss';
-import { Analyze } from './Analyze';
 
 interface Props {
   onAddComment: (comment: string, analyzeId: number) => void;

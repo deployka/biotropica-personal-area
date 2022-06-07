@@ -7,11 +7,6 @@ import { TestsAndAnalyze } from '../components/TestsAndAnalyze/TestsAndAnalyze';
 import { useHistory, useParams } from 'react-router';
 import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 import { getTabByKey } from '../../../utils/tabsHelper';
-
-import ChatIcon from './../../../assets/icons/ChatLight.svg';
-
-import s from './Profile.module.scss';
-
 import { eventBus, EventTypes } from '../../../services/EventBus';
 import { NotificationType } from '../../GlobalNotifications/GlobalNotifications';
 import classNames from 'classnames';
@@ -21,6 +16,9 @@ import { Answer } from '../../../@types/entities/Answer';
 import { Progress as IProgress } from '../../../@types/entities/Progress';
 import { useCreateDialogMutation } from '../../../api/chat';
 import { Client } from '../../../@types/entities/Client';
+import ChatIcon from './../../../assets/icons/ChatLight.svg';
+
+import s from './Profile.module.scss';
 
 interface Props {
   user: Client;

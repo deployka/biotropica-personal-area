@@ -1,8 +1,10 @@
 import React from 'react';
 import moment from 'moment';
-import { Consultation } from '../../../store/ducks/consultation/contracts/state';
-import { Specialist } from '../../../store/ducks/specialist/contracts/state';
+
 import { ConsultationTableItem } from './Item';
+
+import { Specialist } from '../../../@types/entities/Specialist';
+import { Consultation } from '../../../@types/entities/Consultation';
 
 import s from './Table.module.scss';
 
@@ -27,7 +29,8 @@ export const ConsultationTableItemGroup = ({
         consultationsList.map(consultation => (
           <ConsultationTableItem
             key={consultation.id}
-            date={consultation.date}
+            //TODO: проверить
+            date={new Date(consultation.date)}
             specialistName={
               specialists.find(s => s.id === consultation.specialistId)?.name
             }

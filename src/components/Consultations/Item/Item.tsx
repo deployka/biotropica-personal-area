@@ -1,5 +1,5 @@
 import React, { ReactElement, useCallback, useEffect, useState } from 'react';
-import { Specialist as ISpecialist } from '../../../store/ducks/specialist/contracts/state';
+
 import { getMediaLink } from '../../../utils/mediaHelper';
 import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 import { Button } from '../../../shared/Form/Button/Button';
@@ -8,9 +8,11 @@ import { FREE_CONSULTATIONS_COUNT } from '../../../constants/consultations';
 import { useHistory } from 'react-router';
 
 import s from './Item.module.scss';
+import { Specialist } from '../../../@types/entities/Specialist';
+import { formatSpecializationsToString } from '../../../utils/specialistHelper';
 
 interface Props {
-  specialist: ISpecialist;
+  specialist: Specialist;
   searchQuery: string;
   isLoadingSignUp: boolean;
   onSignUpClick: (
@@ -39,6 +41,7 @@ export const ConsultationItem = ({
     history.push('/specialists/' + userId);
   }
 
+  //TODO: вынести в helper
   // eslint-disable-next-line
   function getMarkStringByValue(value: string | number): ReactElement {
     value = String(value);
@@ -85,14 +88,14 @@ export const ConsultationItem = ({
           className={s.photo}
           style={{
             backgroundImage: `url(${
-              getMediaLink(profilePhoto) || defaultAvatar
+              getMediaLink(profilePhoto || '') || defaultAvatar
             })`,
           }}
         />
 
         <div className={s.info}>
           <div className={s.name} onClick={moveToSpecialist}>
-            <p> {getMarkStringByValue(name)}</p>
+            <p>{getMarkStringByValue(name)}</p>
           </div>
           <div className={s.experience}>
             <p>стаж {getMarkStringByValue(experience)}</p>
@@ -101,10 +104,13 @@ export const ConsultationItem = ({
       </div>
 
       <div className={s.specialization}>
-        <p>{getMarkStringByValue(specializations)}</p>
+        <p>
+          {getMarkStringByValue(formatSpecializationsToString(specializations))}
+        </p>
       </div>
 
       <div className={s.price}>
+        //TODO: че это??
         <p>{<Price />}</p>
       </div>
 

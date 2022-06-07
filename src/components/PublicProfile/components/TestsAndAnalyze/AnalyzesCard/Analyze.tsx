@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import moment from 'moment';
-import { AnalyzeAnswer } from '../../../../../store/ducks/analyze/contracts/state';
+
 import { getMediaLink } from '../../../../../utils/mediaHelper';
 import documentSvg from '../../../../../assets/icons/profile/document.svg';
 
@@ -10,6 +10,7 @@ import { CommentsInfo } from '../../../../Comments/CommentsInfo';
 import { AddCommentForm } from './AddCommentForm';
 import { useSort } from './useSort';
 import { Order } from '../../../../../@types/constants/Order';
+import { AnalyzeAnswer } from '../../../../../@types/entities/AnalyzeAnswer';
 
 interface Props {
   analyze: AnalyzeAnswer;

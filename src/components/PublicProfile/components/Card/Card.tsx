@@ -1,16 +1,16 @@
 import React from 'react';
-import { User } from '../../../../store/ducks/user/contracts/state';
-
-import s from './Card.module.scss';
 
 import defaultAvatar from '../../../../assets/images/profile/default_avatar.png';
 import moment from 'moment';
 import 'moment/locale/ru';
 import classNames from 'classnames';
 import { getMediaLink } from '../../../../utils/mediaHelper';
+import { Client } from '../../../../@types/entities/Client';
 moment.locale('ru');
+
+import s from './Card.module.scss';
 interface Props {
-  user: User;
+  user: Client;
 }
 
 export const Card = ({ user }: Props) => {
@@ -27,9 +27,7 @@ export const Card = ({ user }: Props) => {
       </div>
       <div className={s.profile__name}>
         <p>
-          {user.lastname}
-          {'  '}
-          {user.name}
+          {user.lastname} {user.name}
         </p>
       </div>
       <div className={s.profile__mail}>

@@ -5,6 +5,7 @@ import { Specialist } from '../@types/entities/Specialist';
 import { baseApi } from './base-api';
 import { Response } from '../@types/api/response';
 import { UpdateUserDto } from '../@types/dto/users/update.dto';
+import { Answer } from '../@types/entities/Answer';
 
 const userApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -35,6 +36,13 @@ const userApi = baseApi.injectEndpoints({
         url: '/users/update-email',
         data: dto,
         method: 'PUT',
+      }),
+    }),
+
+    getQuestionnaireAnswers: builder.query<Answer[], number>({
+      query: id => ({
+        method: 'GET',
+        url: `users/${id}/answers`,
       }),
     }),
 
@@ -83,6 +91,7 @@ export const {
   useCurrentUserQuery,
   useUpdateEmailMutation,
   useUpdateUserMutation,
+  useGetQuestionnaireAnswersQuery,
   useGetUserQuery,
 } = userApi;
 

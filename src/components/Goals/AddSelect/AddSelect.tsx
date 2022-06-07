@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Button } from '../../../shared/Form/Button/Button';
-import { FormGoalData } from '../../../store/ducks/goal/contracts/state';
 import { Selector, SelectorItem } from './Selector';
 
 import s from './AddSelect.module.scss';
