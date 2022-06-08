@@ -119,16 +119,14 @@ const EditProfile = () => {
   }
 
   return (
-    <>
-      <EditProfileData
-        options={options}
-        image={image}
-        onSubmit={onSubmit}
-        loader={isLoading}
-        onAvatarLoaded={onAvatarLoaded}
-        user={user}
-      />
-    </>
+    <EditProfileData
+      options={options}
+      image={image}
+      onSubmit={onSubmit}
+      loader={isLoading}
+      onAvatarLoaded={onAvatarLoaded}
+      user={user}
+    />
   );
 };
 
