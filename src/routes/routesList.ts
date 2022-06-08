@@ -19,6 +19,7 @@ import { SpecialistUsers } from '../pages/SpecialistUsers/SpecialistUsers';
 import VideoConsultationsList from '../pages/SpecialistVideoConsultationsList/VideoConsultationsList';
 import EditSpecialistProfile from '../pages/SpecialistProfile/Edit/Edit';
 import { Logs } from '../pages/Logs/containers/Logs';
+import PublicSpecialistProfile from '../pages/SpecialistProfile/PublicProfile';
 
 const routes = [
   {
@@ -99,7 +100,7 @@ const routes = [
   },
   {
     path: 'specialists/:id',
-    component: SpecialistProfile,
+    component: PublicSpecialistProfile,
   },
 
   {

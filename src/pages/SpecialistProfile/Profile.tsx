@@ -1,9 +1,17 @@
 import React from 'react';
+import { Specialization } from '../../@types/entities/Specialization';
 import { useGetCurrentSpecialistQuery } from '../../api/specialists';
 import { ProfileCard } from '../../components/Profile/Card/Card';
 import { SpecialistCoursesList } from '../../components/Specialist/Courses/List';
 
 import s from './Profile.module.scss';
+
+// TODO: вынести в глобальный тип
+export type SpecialistData = {
+  specializations: Specialization[];
+  experience: string;
+  education: string;
+};
 
 const Profile = () => {
   const {
@@ -30,7 +38,7 @@ const Profile = () => {
   const specialistData = {
     education: currentSpecialist.education,
     experience: currentSpecialist.experience,
-    specializationsList: currentSpecialist.specializations,
+    specializations: currentSpecialist.specializations,
   };
 
   return (

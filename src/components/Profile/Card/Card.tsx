@@ -12,14 +12,9 @@ import editIcon from '../../../assets/icons/edit.svg';
 import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 
 import s from './Card.module.scss';
+import { SpecialistData } from '../../../pages/SpecialistProfile/Profile';
 
 moment.locale('ru');
-
-type SpecialistData = {
-  specializationsList: Specialization[];
-  experience: string;
-  education: string;
-};
 
 export interface Props {
   userData: BaseUser;
@@ -38,7 +33,7 @@ export const ProfileCard = ({
   const { name, lastname, patronymic, email, phone } = userData;
 
   const specializations =
-    specialistData?.specializationsList
+    specialistData?.specializations
       .map(
         spec =>
           SpecializationOptions.find(option => option.value === spec.key)
