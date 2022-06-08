@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CalendarDay, CalendarDayType } from './Day/Day';
 import { formatISO } from 'date-fns';
 

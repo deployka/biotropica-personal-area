@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FormikHelpers } from 'formik';
 import { useHistory, useLocation } from 'react-router';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
@@ -16,17 +16,14 @@ const EditGoal = () => {
   const { data: goal } = useGetGoalQuery({ id: +id });
   const [updateGoal, { isLoading }] = useUpdateGoalMutation();
 
-  const [name, setName] = useState<string>('');
-
   async function onSubmit(
     values: UpdateGoalDto,
     options: FormikHelpers<UpdateGoalDto>,
   ) {
     try {
-      setName(values?.name || '');
-      await updateGoal(values).unwrap();
+      const goal = await updateGoal(values).unwrap();
       eventBus.emit(EventTypes.notification, {
-        title: `Цель «${name}» успешно обновлена!`,
+        title: `Цель «${goal.name}» успешно обновлена!`,
         message:
           'Не забывайте регулярно отмечать свой прогресс в достижении цели',
         type: NotificationType.INFO,

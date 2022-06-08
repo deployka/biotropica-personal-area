@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { Chart, registerables } from 'chart.js';
 import 'chartjs-adapter-moment';
 import s from './Graph.module.scss';
-import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { Goal, GoalValue } from '../../../@types/entities/Goal';
 

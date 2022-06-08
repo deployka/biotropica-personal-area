@@ -12,6 +12,7 @@ export const goalsApi = baseApi.injectEndpoints({
         url: '/goals',
         method: 'GET',
       }),
+      transformResponse: (res: Goal[]) => res.filter(g => !g.completed),
       providesTags: result =>
         result
           ? [
@@ -26,29 +27,33 @@ export const goalsApi = baseApi.injectEndpoints({
         url: `/goals/${dto.id}`,
         method: 'GET',
       }),
+      providesTags: result => [{ type: 'Goal', id: result?.id }],
     }),
 
     createGoal: builder.mutation<Goal, CreateGoalDto>({
       query: dto => ({
         url: '/goals',
-        data: dto,
+        body: dto,
         method: 'POST',
       }),
+      invalidatesTags: [{ type: 'Goal', id: 'LIST' }],
     }),
 
     updateGoal: builder.mutation<Goal, UpdateGoalDto>({
       query: dto => ({
-        url: `/goals/${dto.id}`,
-        data: dto,
-        method: 'PUT',
+        url: `/goals/update/${dto.id}`,
+        body: dto,
+        method: 'PATCH',
       }),
+      invalidatesTags: (r, e, { id }) => [{ type: 'Goal', id }],
     }),
 
     deleteGoal: builder.mutation<void, DeleteGoalDto>({
       query: dto => ({
-        url: `/goals/${dto.id}`,
+        url: `/goals/delete/${dto.id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: [{ type: 'Goal', id: 'LIST' }],
     }),
   }),
 });

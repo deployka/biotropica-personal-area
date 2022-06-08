@@ -1,7 +1,6 @@
-import classNames from 'classnames';
 import React from 'react';
+import classNames from 'classnames';
 import { SidebarSvgSelector } from '../../../../assets/icons/sidebar/SIdebarSvgSelector';
-import { Nav } from '../../../../layouts/PrivateLayout';
 
 import s from '../SidebarDesktop.module.scss';
 

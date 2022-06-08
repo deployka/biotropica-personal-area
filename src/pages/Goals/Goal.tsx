@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { FormikHelpers } from 'formik';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { eventBus, EventTypes } from '../../services/EventBus';
@@ -28,8 +28,6 @@ export const Goal = ({
   onDelete,
   onUpdate,
 }: Props) => {
-  const refResetForm = useRef<(() => void) | null>(null);
-
   const [visibleDeleteNotification, setVisibleDeleteNotification] =
     useState<boolean>(false);
 
@@ -79,7 +77,7 @@ export const Goal = ({
     options: FormikHelpers<UpdateGoalValuesDto>,
   ) {
     if (!goal) return;
-    refResetForm.current = options.resetForm;
+    options.resetForm();
     onUpdate(values, goal.id, goal.name);
   }
 

@@ -1,4 +1,4 @@
-import { createSlice, isAllOf, isAnyOf, isRejected } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import authApi from '../../api/auth';
 import userApi from '../../api/user';
 import { Admin } from '../../@types/entities/Admin';
@@ -49,7 +49,6 @@ const slice = createSlice({
         userApi.endpoints.currentUser.matchRejected,
         (state, action) => {
           if (action.error.name === 'ConditionError') return;
-          console.log(action);
           state.isAuthorized = false;
         },
       );

@@ -78,7 +78,7 @@ export const taskApi = baseApi.injectEndpoints({
           };
         },
         invalidatesTags: (r, e, { taskId }) => [
-          { type: 'TaskComments', taskId },
+          { type: 'TaskComment', taskId },
         ],
       }),
       getTaskComments: builder.query<Comment[], { taskId: string }>({
@@ -89,7 +89,7 @@ export const taskApi = baseApi.injectEndpoints({
           };
         },
         providesTags: (result, error, { taskId }) => [
-          { type: 'TaskComments', taskId },
+          { type: 'TaskComment', taskId },
         ],
       }),
       removeTaskComment: builder.mutation<
@@ -106,7 +106,7 @@ export const taskApi = baseApi.injectEndpoints({
           };
         },
         invalidatesTags: (r, e, { taskId }) => [
-          { type: 'TaskComments', taskId },
+          { type: 'TaskComment', taskId },
         ],
       }),
       updateTask: builder.mutation<Task, UpdateTaskParam>({

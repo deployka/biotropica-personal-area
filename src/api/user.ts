@@ -55,7 +55,7 @@ const userApi = baseApi.injectEndpoints({
         url: 'users',
         data: newUser,
       }),
-      invalidatesTags: [{ type: 'Users', id: 'LIST' }],
+      invalidatesTags: [{ type: 'User', id: 'LIST' }],
     }),
 
     blockUser: builder.mutation<Client | Specialist, number>({
@@ -65,7 +65,7 @@ const userApi = baseApi.injectEndpoints({
           url: `users/${userId}/block`,
         };
       },
-      invalidatesTags: [{ type: 'Users', id: 'LIST' }],
+      invalidatesTags: [{ type: 'User', id: 'LIST' }],
     }),
 
     getAllUsers: builder.query<(Client & Admin & Specialist)[], void>({
@@ -78,8 +78,8 @@ const userApi = baseApi.injectEndpoints({
       providesTags: result =>
         [
           ...(result || []).map(({ id }) => ({ type: 'Users', id })),
-          { type: 'Users', id: 'LIST' },
-        ] as { type: 'Users'; id: string | number }[],
+          { type: 'User', id: 'LIST' },
+        ] as { type: 'User'; id: string | number }[],
     }),
   }),
 });

@@ -19,6 +19,8 @@ import {
   useUpdateGoalMutation,
 } from '../../api/goals';
 import { UpdateGoalValuesDto } from '../../@types/dto/goals/update-values.dto';
+import { eventBus, EventTypes } from '../../services/EventBus';
+import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 export interface Dates {
   startDate: Date;
   endDate: Date;
@@ -31,11 +33,23 @@ const Goals = () => {
   const paramGoalId = +id;
 
   const { data: goals = [], isFetching: isLoadingGoals } = useGetGoalsQuery();
-  const { data: goal, isFetching: isLoadingGoal } = useGetGoalQuery({
-    id: paramGoalId,
+  const {
+    data: goal,
+    isFetching: isLoadingGoal,
+    isError,
+  } = useGetGoalQuery({
+    id: paramGoalId || goals[0]?.id,
   });
-  const [updateGoal, { data: goalAfterUpdate }] = useUpdateGoalMutation();
+  const [updateGoal] = useUpdateGoalMutation();
   const [deleteGoal] = useDeleteGoalMutation();
+
+  function goToCurrentGoal() {
+    if (goals.length) {
+      history.push(`/goals/${goals[0].id}`);
+    } else {
+      history.push('/goals/add');
+    }
+  }
 
   useEffect(() => {
     if (goal?.id) {
@@ -43,18 +57,34 @@ const Goals = () => {
     }
   }, [goal?.id]);
 
+  useEffect(() => {
+    if (isLoadingGoals || !isError) return;
+    goToCurrentGoal();
+  }, [isError, isLoadingGoals]);
+
   async function onDeleteGoal(id: UniqueId, name: string) {
     try {
       await deleteGoal({ id }).unwrap();
       showNotificationAfterDeleteGoal(name);
-    } catch (error) {}
+      goToCurrentGoal();
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        message: (error as { message: string })?.message,
+        type: NotificationType.DANGER,
+      });
+    }
   }
 
   async function onCompleteGoal(id: UniqueId, name: string) {
     try {
       await updateGoal({ id, completed: true }).unwrap();
       showNotificationAfterGoalComplete(name);
-    } catch (error) {}
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        message: (error as { message: string })?.message,
+        type: NotificationType.DANGER,
+      });
+    }
   }
 
   async function onUpdateGoal(
@@ -73,30 +103,39 @@ const Goals = () => {
     };
 
     try {
-      await updateGoal(data).unwrap();
-      showNotificationAfterUpdateGoal(name);
+      const updatedGoal = await updateGoal(data).unwrap();
+
+      const progressValue = getProgressValueByTypeAndUnit(
+        updatedGoal.type,
+        updatedGoal.units,
+        updatedGoal,
+      );
+
+      if (progressValue >= MAX_PROGRESS) {
+        const isConfirm = confirm(
+          'Завершить цель? Она пропадет из списка активных целей',
+        );
+        isConfirm && (await onCompleteGoal(updatedGoal.id, updatedGoal.name));
+        goToCurrentGoal();
+      } else {
+        showNotificationAfterUpdateGoal(name);
+      }
     } catch (error) {
-      // TODO: show error notification
+      eventBus.emit(EventTypes.notification, {
+        message: (error as { message: string })?.message,
+        type: NotificationType.DANGER,
+      });
     }
   }
 
-  useEffect(() => {
-    if (!goalAfterUpdate) return;
-    const progressValue = getProgressValueByTypeAndUnit(
-      goalAfterUpdate.type,
-      goalAfterUpdate.units,
-      goalAfterUpdate,
-    );
-
-    if (progressValue >= MAX_PROGRESS) {
-      // TODO: Complete goal confirmation
-      onCompleteGoal(goalAfterUpdate.id, goalAfterUpdate.name);
-    }
-  }, [goalAfterUpdate]);
+  async function onGoalClick(id: number) {
+    history.push(`/goals/${id}`);
+  }
 
   return (
     <div className={s.goals}>
       <Header
+        onGoalClick={onGoalClick}
         goals={goals}
         active={paramGoalId || goals[goals.length - 1]?.id}
       />

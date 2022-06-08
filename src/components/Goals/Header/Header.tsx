@@ -15,6 +15,7 @@ SwiperCore.use([Pagination]);
 interface Props {
   active: number;
   goals: IGoal[];
+  onGoalClick: (id: number) => void;
 }
 
 const ButtonAddGoal = memo(() => {
@@ -27,7 +28,7 @@ const ButtonAddGoal = memo(() => {
 
 ButtonAddGoal.displayName = 'ButtonAddGoal';
 
-export const Header = ({ active, goals }: Props) => {
+export const Header = ({ active, goals, onGoalClick }: Props) => {
   return (
     <div className={s.header}>
       <div className={s.container}>
@@ -58,7 +59,7 @@ export const Header = ({ active, goals }: Props) => {
         >
           {goals.map((goal: IGoal) => (
             <SwiperSlide key={goal.id}>
-              <Goal active={active} goal={goal} />
+              <Goal onGoalClick={onGoalClick} active={active} goal={goal} />
             </SwiperSlide>
           ))}
         </Swiper>

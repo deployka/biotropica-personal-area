@@ -48,7 +48,7 @@ export const ProgressForm = ({
   const getProgressValue = useCallback(() => {
     const value = getProgressValueByTypeAndUnit(goal.type, goal.units, goal);
     return value <= MAX_PROGRESS ? value : MAX_PROGRESS;
-  }, [goal.id]);
+  }, [goal.values, goal.endResult]);
 
   return (
     <>
