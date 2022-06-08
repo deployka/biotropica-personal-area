@@ -35,7 +35,6 @@ const Profile = ({ user }: Props) => {
     },
   ];
 
-  const dispatch = useDispatch();
   const { data: goals = [] } = useGetGoalsQuery();
 
   const { active } = useParams<Param>();

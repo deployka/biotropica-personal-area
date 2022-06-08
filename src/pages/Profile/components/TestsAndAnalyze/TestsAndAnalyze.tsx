@@ -32,9 +32,11 @@ export const TestsAndAnalyze = ({ user }: Props) => {
     userId: user.id,
   });
 
+  console.log('123', analyzes);
+
   const handleCreateAnalyzeAnswer = async (values: CreateAnalyzeAnswerDto) => {
     try {
-      await fetchCreateAnalyzeAnswer(values).unwrap;
+      await fetchCreateAnalyzeAnswer(values).unwrap();
       eventBus.emit(EventTypes.notification, {
         message: 'Анализ успешно загружен',
         type: NotificationType.SUCCESS,
@@ -43,8 +45,9 @@ export const TestsAndAnalyze = ({ user }: Props) => {
           onScreen: true,
         },
       });
+      closeModal(ModalName.MODAL_ADD_ANALYZ_FILE);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       eventBus.emit(EventTypes.notification, {
         title: 'Ошибка!',
         message: 'Произошла непредвиденная ошибка!',

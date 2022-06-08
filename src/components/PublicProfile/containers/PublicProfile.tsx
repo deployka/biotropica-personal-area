@@ -52,7 +52,7 @@ export const PublicProfile = () => {
         type: NotificationType.SUCCESS,
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       eventBus.emit(EventTypes.notification, {
         message: 'Произошла ошибка, попробуйте еще раз!',
         type: NotificationType.DANGER,

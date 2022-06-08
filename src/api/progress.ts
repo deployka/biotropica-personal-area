@@ -11,6 +11,13 @@ export const progressApi = baseApi.injectEndpoints({
         url: `/progress/${dto.userId}`,
         method: 'GET',
       }),
+      providesTags: result =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: 'Progress', id } as const)),
+              { type: 'Progress', id: 'LIST' },
+            ]
+          : [{ type: 'Progress', id: 'LIST' }],
     }),
     createProgressPost: builder.mutation<Progress, CreateProgressDto>({
       query: dto => ({
@@ -18,6 +25,7 @@ export const progressApi = baseApi.injectEndpoints({
         method: 'POST',
         body: dto,
       }),
+      invalidatesTags: [{ type: 'Progress', id: 'LIST' }],
     }),
     updateProgressPost: builder.mutation<Progress, UpdateProgressDto>({
       query: dto => ({

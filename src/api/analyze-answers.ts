@@ -11,20 +11,20 @@ export const analyzeAnswersApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getAnalyzeAnswers: builder.query<AnalyzeAnswer[], GetAnalyzeAnswersDto>({
       query: dto => ({
-        url: `/analyze/answers/${dto.userId}`,
+        url: `/analyzes/answers/${dto.userId}`,
         method: 'GET',
       }),
     }),
     createAnalyzeAnswer: builder.mutation<Analyze[], CreateAnalyzeAnswerDto>({
       query: dto => ({
-        url: '/analyze/answer',
+        url: '/analyzes/answer',
         method: 'POST',
-        data: dto,
+        body: dto,
       }),
     }),
     deleteAnalyzeAnswer: builder.mutation<void, DeleteAnalyzeAnswerDto>({
       query: id => ({
-        url: `/analyze/delete/${id}`,
+        url: `/analyzes/delete/${id}`,
         method: 'DELETE',
       }),
     }),
@@ -33,7 +33,7 @@ export const analyzeAnswersApi = baseApi.injectEndpoints({
       CreateAnalyzeAnswerCommentDto
     >({
       query: dto => ({
-        url: '/analyze/answer-comment',
+        url: '/analyzes/answer-comment',
         method: 'POST',
         data: dto,
       }),
@@ -43,7 +43,7 @@ export const analyzeAnswersApi = baseApi.injectEndpoints({
       DeleteAnalyzeAnswerCommentDto
     >({
       query: id => ({
-        url: `/analyze/answer-comment/${id}`,
+        url: `/analyzes/answer-comment/${id}`,
         method: 'DELETE',
       }),
     }),
