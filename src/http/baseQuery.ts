@@ -40,6 +40,7 @@ export const baseQueryWithReauth: BaseQueryFn<
         api,
         extraOptions,
       );
+      localStorage.setItem('token', '');
       return result;
     }
   }
