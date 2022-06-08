@@ -27,6 +27,8 @@ import { Client } from '../../../../../@types/entities/Client';
 import { useUploadFilesMutation } from '../../../../../api/files';
 import { CreateProgressDto } from '../../../../../@types/dto/progress/create.dto';
 import { useCreateProgressPostMutation } from '../../../../../api/progress';
+import { BaseUser } from '../../../../../@types/entities/BaseUser';
+import { ResponseError } from '../../../../../@types/api/response';
 interface PhotoInput {
   src: string;
 }
@@ -40,7 +42,7 @@ type Files = {
 };
 
 interface Props {
-  user: Client;
+  user: BaseUser;
 }
 
 export const AddPhotoModal = ({ user }: Props) => {
@@ -122,7 +124,7 @@ export const AddPhotoModal = ({ user }: Props) => {
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
         title: 'Ошибка!',
-        message: (error as { message: string }).message,
+        message: (error as ResponseError).data.message,
         type: NotificationType.DANGER,
       });
     }

@@ -4,11 +4,12 @@ import { Specialist } from '../../../../@types/entities/Specialist';
 import { Client } from '../../../../@types/entities/Client';
 
 import s from './UsersTable.module.scss';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
 
 export type UsersTableProps = {
-  users: Array<Client | Specialist>;
-  onBlock: (user: Client | Specialist) => void;
-  onWrite: (user: Client | Specialist) => void;
+  users: Array<BaseUser>;
+  onBlock: (user: BaseUser) => void;
+  onWrite: (user: BaseUser) => void;
 };
 
 export function UsersTable(props: UsersTableProps) {

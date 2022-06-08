@@ -14,6 +14,7 @@ export const baseApi = createApi({
     'TaskComment',
     'Progress',
     'Goal',
+    'CurrentUser',
   ],
   endpoints: () => ({}),
 });

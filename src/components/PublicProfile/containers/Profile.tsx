@@ -15,13 +15,13 @@ import { AnalyzeAnswer } from '../../../@types/entities/AnalyzeAnswer';
 import { Answer } from '../../../@types/entities/Answer';
 import { Progress as IProgress } from '../../../@types/entities/Progress';
 import { useCreateDialogMutation } from '../../../api/chat';
-import { Client } from '../../../@types/entities/Client';
+import { BaseUser } from '../../../@types/entities/BaseUser';
 import ChatIcon from './../../../assets/icons/ChatLight.svg';
 
 import s from './Profile.module.scss';
 
 interface Props {
-  user: Client;
+  user: BaseUser;
   goalsLength: number;
   analyzeTypes: Analyze[];
   analyzes: AnalyzeAnswer[];

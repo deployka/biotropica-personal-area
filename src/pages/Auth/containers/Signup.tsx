@@ -8,6 +8,7 @@ import { eventBus, EventTypes } from '../../../services/EventBus';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { SignUpDto } from '../../../@types/dto/auth/signup.dto';
 import { useSignUpMutation } from '../../../api/auth';
+import { ResponseError } from '../../../@types/api/response';
 
 const Signup = () => {
   const history = useHistory();
@@ -34,7 +35,7 @@ const Signup = () => {
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
         title: 'Произошла ошибка!',
-        message: (error as { message: string }).message,
+        message: (error as ResponseError).data.message,
         type: NotificationType.DANGER,
       });
     }

@@ -36,7 +36,7 @@ export const baseQueryWithReauth: BaseQueryFn<
       result = await baseQuery(args, api, extraOptions);
     } else {
       await baseQuery(
-        { url: 'auth/signout', method: 'POST' },
+        { url: 'auth/signout', method: 'GET' },
         api,
         extraOptions,
       );

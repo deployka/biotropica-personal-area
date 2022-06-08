@@ -9,6 +9,7 @@ import { useGetConsultationsQuery } from '../../api/consultations';
 import { useGetSpecialistsQuery } from '../../api/specialists';
 import { useCreateDialogMutation } from '../../api/chat';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
+import { ResponseError } from '../../@types/api/response';
 
 export const ConsultationsList = () => {
   const history = useHistory();
@@ -36,7 +37,7 @@ export const ConsultationsList = () => {
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
         title: 'Произошла ошибка!',
-        message: (error as { message: string }).message,
+        message: (error as ResponseError).data.message,
         type: NotificationType.DANGER,
       });
     }

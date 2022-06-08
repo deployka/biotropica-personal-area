@@ -1,32 +1,10 @@
+import { ChangeCourseDto } from '../@types/dto/specialists/change-courses.dto';
 import { UpdateSpecialistDto } from '../@types/dto/specialists/update.dto';
 import { Specialist } from '../@types/entities/Specialist';
 import { baseApi } from './base-api';
 
-// FIXME: DTO
-interface CourseDataToChange {
-  id: number;
-  data: {
-    title: string;
-    description: string;
-    date: string;
-  }[];
-}
-
 export const specialistsApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    changeSpecialistData: builder.mutation<void, UpdateSpecialistDto>({
-      query: payload => ({
-        url: '/specialists/me',
-        data: {
-          specializations: payload.specializations,
-          experience: payload.experience,
-          education: payload.education,
-        },
-        method: 'PUT',
-      }),
-      invalidatesTags: ['Specialist'],
-    }),
-
     getOneSpecialist: builder.query<Specialist, { id: number }>({
       query: dto => ({
         url: `/specialists/${dto.id}`,
@@ -39,7 +17,7 @@ export const specialistsApi = baseApi.injectEndpoints({
         url: '/specialists/me',
         method: 'GET',
       }),
-      providesTags: ['Specialist'],
+      providesTags: ['Specialist', 'CurrentUser'],
     }),
 
     getSpecialists: builder.query<Specialist[], void>({
@@ -50,12 +28,19 @@ export const specialistsApi = baseApi.injectEndpoints({
       providesTags: ['Specialist'],
     }),
 
-    changeCourses: builder.mutation<void, CourseDataToChange>({
-      query: payload => ({
+    changeSpecialistData: builder.mutation<void, UpdateSpecialistDto>({
+      query: dto => ({
         url: '/specialists/me',
-        data: {
-          courses: payload.data,
-        },
+        body: dto,
+        method: 'PUT',
+      }),
+      invalidatesTags: ['Specialist', 'CurrentUser'],
+    }),
+
+    changeCourses: builder.mutation<void, ChangeCourseDto>({
+      query: body => ({
+        url: '/specialists/me',
+        body,
         method: 'PUT',
       }),
       invalidatesTags: ['Specialist'],

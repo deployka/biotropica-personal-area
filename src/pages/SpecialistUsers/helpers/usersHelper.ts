@@ -1,9 +1,10 @@
+import { BaseUser } from '../../../@types/entities/BaseUser';
 import { Client } from '../../../@types/entities/Client';
 import { ROLE } from '../../../@types/entities/Role';
 import { TARIFF } from '../../../@types/entities/Tariff';
 
 export function filterUsersByRoles(
-  users: Client[],
+  users: BaseUser[],
   roles: (ROLE | undefined)[],
 ) {
   if (roles.length === 1 && !roles[0]) {
@@ -22,7 +23,7 @@ export function filterUsersByRoles(
 }
 
 export function filterUsersByTariffs(
-  users: Client[],
+  users: BaseUser[],
   tariffs: (TARIFF | undefined)[],
 ) {
   if (tariffs.length === 1 && !tariffs[0]) {
@@ -35,7 +36,7 @@ export function filterUsersByTariffs(
   });
 }
 
-export function filterUsersByQuery(users: Client[], q: string) {
+export function filterUsersByQuery(users: BaseUser[], q: string) {
   const query = q.toLowerCase().trim();
   return users.filter(user => {
     return (

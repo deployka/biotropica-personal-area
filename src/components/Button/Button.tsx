@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
 import s from './Button.module.scss';
@@ -10,7 +10,7 @@ export interface Props {
   isDisabled?: boolean;
   isFunctional?: boolean;
   isLoading?: boolean;
-  children?: React.ReactNode;
+  children?: ReactNode;
   type?: 'button' | 'submit' | 'reset';
   onClick?: (e: React.MouseEvent) => void;
 }

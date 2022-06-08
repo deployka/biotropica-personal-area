@@ -12,6 +12,7 @@ import { useGetAllRolesQuery } from '../../api/roles';
 import { BaseUser } from '../../@types/entities/BaseUser';
 import { useCreateDialogMutation } from '../../api/chat';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
+import { ResponseError } from '../../@types/api/response';
 
 export function AdminUsers() {
   const [popup, setPopup] = useState<boolean>(false);
@@ -40,7 +41,7 @@ export function AdminUsers() {
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
         title: 'Произошла ошибка!',
-        message: (error as { message: string }).message,
+        message: (error as ResponseError).data.message,
         type: NotificationType.DANGER,
       });
     }

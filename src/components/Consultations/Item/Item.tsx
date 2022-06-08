@@ -31,8 +31,9 @@ export const ConsultationItem = ({
   consultationsCount,
 }: Props) => {
   // FIXME: вынести логику из компонента
-  const { experience, specializations, price, name, profilePhoto, id, userId } =
-    specialist;
+  const { experience, specializations, price, user, id } = specialist;
+
+  const { name, profilePhoto, id: userId } = user;
 
   const [click, setClick] = useState(false);
   const history = useHistory();

@@ -11,13 +11,14 @@ import { Client } from '../../../../@types/entities/Client';
 import defaultAvatar from './../../../../assets/images/profile/default_avatar.png';
 
 import s from './SidebarMenuPopup.module.scss';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
 
 interface Props {
   nav: Nav[];
   onNavClick: (nav: Partial<Nav>) => void;
   openChat: () => void;
   logout: () => void;
-  user: Client | undefined;
+  user: BaseUser | undefined;
   pages: Page[];
   location: Location;
 }

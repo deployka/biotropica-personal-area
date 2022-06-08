@@ -11,12 +11,13 @@ import { Client } from '../../../../@types/entities/Client';
 import defaultAvatar from './../../../../assets/images/profile/default_avatar.png';
 
 import s from './SidebarNotificationsPopup.module.scss';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
 
 interface Props {
   setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
   setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
   onNavClick: (nav: Partial<Nav>) => void;
-  user: Client | undefined;
+  user: BaseUser | undefined;
   pages: Page[];
   location: Location;
 }

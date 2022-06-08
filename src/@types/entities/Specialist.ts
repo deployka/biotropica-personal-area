@@ -1,5 +1,6 @@
 import { Specialization } from './Specialization';
 import { BaseUser } from './BaseUser';
+import { BaseEntity } from './BaseEntity';
 
 export type Course = {
   id: UniqueId;
@@ -8,12 +9,11 @@ export type Course = {
   date: string;
 };
 
-export type Specialist = BaseUser & {
+export type Specialist = BaseEntity & {
   price: number;
   specializations: Specialization[];
   experience: string;
   education: string;
   user: BaseUser;
-  userId: UniqueId;
   courses: Course[];
 };

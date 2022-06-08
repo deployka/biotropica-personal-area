@@ -1,79 +1,61 @@
 import React from 'react';
+import { Specialization } from '../../@types/entities/Specialization';
+import { useGetCurrentSpecialistQuery } from '../../api/specialists';
+import { ProfileCard } from '../../components/Profile/Card/Card';
+import { SpecialistCoursesList } from '../../components/Specialist/Courses/List';
 
 import s from './Profile.module.scss';
 
-import Card from './components/Card/Card';
-import { Post } from './components/Post/Post';
-import Button from '../../components/Button/Button';
-import { eventBus, EventTypes } from '../../services/EventBus';
-import { useParams } from 'react-router-dom';
-import { useCurrentUserQuery } from '../../api/user';
-import { useGetOneSpecialistQuery } from '../../api/specialists';
-import { ROLE } from '../../@types/entities/Role';
-import { useCreateDialogMutation } from '../../api/chat';
+// TODO: вынести в глобальный тип
+export type SpecialistData = {
+  specializations: Specialization[];
+  experience: string;
+  education: string;
+};
 
 const Profile = () => {
-  const { id } = useParams<{ id: string }>();
+  const {
+    data: currentSpecialist,
+    isLoading,
+    isError,
+  } = useGetCurrentSpecialistQuery();
 
-  const { data: currentUser } = useCurrentUserQuery();
-  const [createDialog] = useCreateDialogMutation();
+  console.log('currentUser', currentSpecialist);
 
-  const userId = Number(id || currentUser?.id);
-  const { data: user } = useGetOneSpecialistQuery(
-    { id: userId },
-    {
-      skip: Number.isNaN(userId),
-    },
-  );
-
-  const courses = user?.courses;
-  const userClient = user?.roles.some(it => it === ROLE.CLIENT);
-
-  async function sendMessage() {
-    if (!user) return;
-    const dialog = await createDialog({ userId }).unwrap();
-    eventBus.emit(EventTypes.chatOpen, dialog.id);
+  if (isLoading) {
+    return <p>Загрузка...</p>;
   }
+
+  if (!isLoading && isError) {
+    return <p>Произошла ошибка</p>;
+  }
+
+  if (!currentSpecialist) {
+    return <p>Произошла ошибка</p>;
+  }
+
+  const courses = currentSpecialist.courses;
+  const specialistData = {
+    education: currentSpecialist.education,
+    experience: currentSpecialist.experience,
+    specializations: currentSpecialist.specializations,
+  };
 
   return (
     <div className={s.backgroundWrapper}>
       <div className={s.profile}>
         <div className={s.info}>
-          {user && <Card user={user} />}
-          {userClient ? (
-            <Button
-              isPrimary={true}
-              className={s.actionBtn}
-              onClick={sendMessage}
-            >
-              Начать чат
-            </Button>
-          ) : (
-            ''
+          {currentSpecialist && (
+            <ProfileCard
+              userData={currentSpecialist.user}
+              isEditable={true}
+              specialistData={specialistData}
+              profilePhoto={currentSpecialist.user.profilePhoto || ''}
+            />
           )}
         </div>
 
-        {courses && (
-          <div className={s.courses}>
-            <div className={s.title}>
-              <h3>Курсы повышения квалификации</h3>
-              {courses.length ? (
-                <div className={s.postList}>
-                  {courses.map((course, i) => (
-                    <Post
-                      key={i}
-                      title={course.title}
-                      description={course.description}
-                      date={course.date}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <p className={s.emptyData}>Нет данных</p>
-              )}
-            </div>
-          </div>
-        )}
+        {courses && <SpecialistCoursesList coursesList={courses} />}
       </div>
     </div>
   );

@@ -31,7 +31,8 @@ export const ConsultationTableItemGroup = ({
             // TODO: проверить
             date={new Date(consultation.date)}
             specialistName={
-              specialists.find(s => s.id === consultation.specialistId)?.name
+              specialists.find(s => s.id === consultation.specialistId)?.user
+                .name
             }
             action={
               mode !== 'inactive'
@@ -43,7 +44,7 @@ export const ConsultationTableItemGroup = ({
                             onSendMessageClick(
                               specialists.find(
                                 s => s.id === consultation.specialistId,
-                              )?.userId,
+                              )?.user.id,
                             ),
                     text: mode === 'active' ? 'перейти' : 'открыть диалог',
                   }

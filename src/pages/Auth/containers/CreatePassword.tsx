@@ -9,6 +9,7 @@ import { validationSchema } from '../components/RestoreForm/validationSchema';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { RestorePasswordDto } from '../../../@types/dto/auth/restore-password.dto';
 import { useCreatePasswordMutation } from '../../../api/auth';
+import { ResponseError } from '../../../@types/api/response';
 
 const CreatePassword = () => {
   const history = useHistory();
@@ -28,7 +29,7 @@ const CreatePassword = () => {
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
         title: 'Произошла ошибка!',
-        message: (error as { message: string }).message,
+        message: (error as ResponseError).data.message,
         type: NotificationType.DANGER,
       });
     } finally {
