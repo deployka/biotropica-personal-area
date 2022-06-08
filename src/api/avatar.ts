@@ -14,7 +14,7 @@ export const avatarApi = baseApi.injectEndpoints({
     requestAddAvatar: builder.mutation<void, FormData>({
       query: payload => ({
         url: '/files/upload-file',
-        data: payload,
+        body: payload,
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',

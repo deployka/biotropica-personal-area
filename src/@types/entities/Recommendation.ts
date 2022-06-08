@@ -1,6 +1,6 @@
 import { BaseEntity } from './BaseEntity';
+import { BaseUser } from './BaseUser';
 import { Client } from './Client';
-import { Specialist } from './Specialist';
 import { Specialization } from './Specialization';
 
 export enum RecommendationStatus {
@@ -13,7 +13,7 @@ export enum RecommendationStatus {
 
 export type Recommendation = BaseEntity & {
   description: string;
-  specialist: Specialist;
+  specialist: BaseUser;
   status: RecommendationStatus;
   title: string;
   user: Client;

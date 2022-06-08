@@ -6,9 +6,7 @@ import { PopUp } from './PopUp';
 import { getFullName } from '../../../../utils/getFullName';
 import { ROLE } from '../../../../@types/entities/Role';
 import { Client } from '../../../../@types/entities/Client';
-import { Specialist } from '../../../../@types/entities/Specialist';
 import { BaseUser } from '../../../../@types/entities/BaseUser';
-import { Tariff } from '../../../Profile/components/Tariff/Tariff';
 
 interface Props {
   user: BaseUser;

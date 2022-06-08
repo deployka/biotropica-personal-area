@@ -41,10 +41,7 @@ export const TestsAndAnalyze = ({ user }: Props) => {
       eventBus.emit(EventTypes.notification, {
         message: 'Анализ успешно загружен',
         type: NotificationType.SUCCESS,
-        dismiss: {
-          duration: 5000,
-          onScreen: true,
-        },
+        autoClose: 10000,
       });
       closeModal(ModalName.MODAL_ADD_ANALYZ_FILE);
     } catch (error) {
@@ -53,10 +50,7 @@ export const TestsAndAnalyze = ({ user }: Props) => {
         title: 'Ошибка!',
         message: 'Произошла непредвиденная ошибка!',
         type: NotificationType.DANGER,
-        dismiss: {
-          duration: 5000,
-          onScreen: true,
-        },
+        autoClose: 10000,
       });
     }
   };
@@ -71,11 +65,8 @@ export const TestsAndAnalyze = ({ user }: Props) => {
           message: `Допустимые типы анализов:
            pdf Максимальный размер файла: ${MAX_PDF_SIZE} мб`,
           type: NotificationType.DANGER,
-          id: 'file_type_error',
-          dismiss: {
-            duration: 7000,
-            onScreen: true,
-          },
+          toastId: 'file_type_error',
+          autoClose: 7000,
         });
       },
       onSuccessFileLoaded: () =>

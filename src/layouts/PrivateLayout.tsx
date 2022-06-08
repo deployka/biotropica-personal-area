@@ -11,7 +11,7 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import { useMobile } from '../hooks/useMobile';
 import { SidebarSvgSelector } from '../assets/icons/sidebar/SIdebarSvgSelector';
-import { useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { SidebarDesktop } from '../shared/Global/Sidebar/SidebarDesktop';
 import { SidebarMobile } from '../shared/Global/Sidebar/SidebarMobile';
 import { SidebarWrapper } from '../shared/Global/SidebarWrapper/SidebarWrapper';
@@ -93,14 +93,6 @@ const specialistNav: Nav[] = [
     ...pages[4],
     svg: <SidebarSvgSelector id="video" />,
   },
-  {
-    ...pages[5],
-    svg: <SidebarSvgSelector id="edit-square" />,
-  },
-  {
-    ...pages[6],
-    svg: <SidebarSvgSelector id="services" />,
-  },
 ];
 
 const adminNav: Nav[] = [
@@ -119,7 +111,7 @@ const adminNav: Nav[] = [
 ];
 
 export function PrivateLayout(props: Props) {
-  const { refetch, data: currentUser } = useCurrentUserQuery();
+  const { data: currentUser } = useCurrentUserQuery();
   const { data: dialogs = [] } = useGetAllDialogsQuery();
   const [fetchLogout] = useSignOutMutation();
 
@@ -182,9 +174,7 @@ export function PrivateLayout(props: Props) {
 
   const logout = useCallback(async () => {
     await fetchLogout().unwrap();
-    refetch();
     document.location.reload();
-    localStorage.setItem('token', '');
   }, [dispatch]);
 
   const onNavClick = useCallback(

@@ -10,6 +10,7 @@ import { useHistory } from 'react-router';
 import s from './Item.module.scss';
 import { Specialist } from '../../../@types/entities/Specialist';
 import { formatSpecializationsToString } from '../../../utils/specialistHelper';
+import { getFullName } from '../../../utils/getFullName';
 
 interface Props {
   specialist: Specialist;
@@ -33,7 +34,8 @@ export const ConsultationItem = ({
   // FIXME: вынести логику из компонента
   const { experience, specializations, price, user, id } = specialist;
 
-  const { name, profilePhoto, id: userId } = user;
+  const { name, lastname, profilePhoto, id: userId } = user;
+  const fullName = getFullName(name, lastname);
 
   const [click, setClick] = useState(false);
   const history = useHistory();
@@ -64,8 +66,6 @@ export const ConsultationItem = ({
       setClick(click);
     });
     setClick(true);
-
-    // eslint-disable-next-line
   }, [id, userId, click, onSignUpClick]);
 
   useEffect(() => {
@@ -96,7 +96,7 @@ export const ConsultationItem = ({
 
         <div className={s.info}>
           <div className={s.name} onClick={moveToSpecialist}>
-            <p>{getMarkStringByValue(name)}</p>
+            <p>{getMarkStringByValue(fullName)}</p>
           </div>
           <div className={s.experience}>
             <p>стаж {getMarkStringByValue(experience)}</p>

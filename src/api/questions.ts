@@ -33,7 +33,7 @@ export const questionsApi = baseApi.injectEndpoints({
         return {
           method: 'POST',
           url: 'questions/answer',
-          data: answer,
+          body: answer,
         };
       },
     }),

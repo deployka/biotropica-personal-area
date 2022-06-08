@@ -51,8 +51,10 @@ export function Comment({
       message: (
         <NotificationButtons onDiscard={onDiscard} onConfirm={onConfirm} />
       ),
+      theme: 'dark',
+      autoClose: false,
       type: NotificationType.INFO,
-      id: 'remove-comment-notification',
+      toastId: 'remove-comment-notification',
     });
   }
 

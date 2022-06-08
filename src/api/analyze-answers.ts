@@ -14,6 +14,16 @@ export const analyzeAnswersApi = baseApi.injectEndpoints({
         url: `/analyzes/answers/${dto.userId}`,
         method: 'GET',
       }),
+      providesTags: result =>
+        result
+          ? [
+              ...result.map(({ id }) => ({
+                type: 'Analyze' as const,
+                id,
+              })),
+              { type: 'Analyze', id: 'LIST' },
+            ]
+          : [{ type: 'Analyze', id: 'LIST' }],
     }),
     createAnalyzeAnswer: builder.mutation<Analyze[], CreateAnalyzeAnswerDto>({
       query: dto => ({
@@ -21,12 +31,14 @@ export const analyzeAnswersApi = baseApi.injectEndpoints({
         method: 'POST',
         body: dto,
       }),
+      invalidatesTags: ['Analyze'],
     }),
     deleteAnalyzeAnswer: builder.mutation<void, DeleteAnalyzeAnswerDto>({
-      query: id => ({
-        url: `/analyzes/delete/${id}`,
+      query: dto => ({
+        url: `/analyzes/delete/${dto.id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Analyze'],
     }),
     createAnalyzeAnswerComment: builder.mutation<
       Comment,
@@ -35,17 +47,19 @@ export const analyzeAnswersApi = baseApi.injectEndpoints({
       query: dto => ({
         url: '/analyzes/answer-comment',
         method: 'POST',
-        data: dto,
+        body: dto,
       }),
+      invalidatesTags: ['Analyze'],
     }),
     deleteAnalyzeAnswerComment: builder.mutation<
       void,
       DeleteAnalyzeAnswerCommentDto
     >({
-      query: id => ({
-        url: `/analyzes/answer-comment/${id}`,
+      query: dto => ({
+        url: `/analyzes/answer-comment/${dto.id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Analyze'],
     }),
   }),
 });

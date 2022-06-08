@@ -63,10 +63,11 @@ export const Goal = ({
           onDelete={onDeleteGoal(goal)}
         />
       ),
-      type: NotificationType.DANGER,
-      dismiss: undefined,
-      id: 'delete-notification',
-      onRemoval: () => {
+      type: NotificationType.INFO,
+      autoClose: false,
+      toastId: 'delete-notification',
+      theme: 'dark',
+      onClose: () => {
         setVisibleDeleteNotification(false);
       },
     });

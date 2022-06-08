@@ -4,6 +4,8 @@ import {
   FetchBaseQueryError,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query';
+import { NotificationType } from '../components/GlobalNotifications/GlobalNotifications';
+import { eventBus, EventTypes } from '../services/EventBus';
 import { HTTP_UNAUTHORIZED } from './httpConstants';
 
 type FetchArguments = Omit<FetchArgs, 'method'> & {
@@ -41,6 +43,10 @@ export const baseQueryWithReauth: BaseQueryFn<
         extraOptions,
       );
       localStorage.setItem('token', '');
+      eventBus.emit(EventTypes.notification, {
+        message: 'Ваша сессия истекла :( Войдите в аккаунт повторно',
+        type: NotificationType.INFO,
+      });
       return result;
     }
   }

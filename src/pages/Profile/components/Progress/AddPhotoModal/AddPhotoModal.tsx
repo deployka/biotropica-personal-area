@@ -161,11 +161,8 @@ export const AddPhotoModal = ({ user }: Props) => {
         message: `Допустимые типы: png, jpg, gif
         Максимальный размер: ${MAX_IMAGE_SIZE} мб`,
         type: NotificationType.DANGER,
-        id: 'file_type_error',
-        dismiss: {
-          duration: 7000,
-          onScreen: true,
-        },
+        toastId: 'file_type_error',
+        autoClose: 7000,
       });
     }
   }

@@ -28,11 +28,7 @@ const EditGoal = () => {
         message:
           'Не забывайте регулярно отмечать свой прогресс в достижении цели',
         type: NotificationType.INFO,
-        dismiss: {
-          onScreen: true,
-          duration: 5000,
-          pauseOnHover: true,
-        },
+        autoClose: 5000,
       });
       history.push(`/goals/${values.id}`);
     } catch (error) {

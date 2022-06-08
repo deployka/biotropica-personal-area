@@ -57,7 +57,7 @@ const userApi = baseApi.injectEndpoints({
       query: newUser => ({
         method: 'POST',
         url: 'users',
-        data: newUser,
+        body: newUser,
       }),
       invalidatesTags: [{ type: 'User', id: 'LIST' }],
     }),

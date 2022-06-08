@@ -178,7 +178,7 @@ export function Tasks() {
     eventBus.emit(EventTypes.notification, {
       type: NotificationType.WARNING,
       title: `Удалить задачу ${openedTask?.title}?`,
-      dismiss: undefined,
+      autoClose: false,
       message: (
         <NotificationButtons onDelete={onDelete} onDiscard={onDiscard} />
       ),

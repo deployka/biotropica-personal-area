@@ -41,13 +41,18 @@ export const EditPassword = ({ loader, onSubmit, user, logout }: Props) => {
 
   function showLogoutConfirmation() {
     eventBus.emit(EventTypes.notification, {
-      title: 'Для восстановления пароля будет выполнен выход из аккаунта',
       message: (
-        <NotificationButtons onDiscard={onDiscard} onConfirm={onConfirm} />
+        <>
+          Для восстановления пароля будет выполнен выход из аккаунта
+          <br />
+          <br />
+          <NotificationButtons onDiscard={onDiscard} onConfirm={onConfirm} />
+        </>
       ),
       type: NotificationType.WARNING,
-      dismiss: undefined,
-      id: 'logout-notification',
+      autoClose: false,
+      theme: 'dark',
+      toastId: 'logout-notification',
     });
   }
 

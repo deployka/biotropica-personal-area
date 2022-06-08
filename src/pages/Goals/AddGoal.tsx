@@ -67,11 +67,7 @@ const AddGoal = () => {
       message:
         'Не забывайте регулярно отмечать свой прогресс в достижении цели',
       type: NotificationType.SUCCESS,
-      dismiss: {
-        onScreen: true,
-        duration: 7000,
-        pauseOnHover: true,
-      },
+      autoClose: 10000,
     });
     options.resetForm();
     history.push(`/goals/${goal.id}`);

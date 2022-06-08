@@ -51,9 +51,6 @@ const PublicSpecialistProfile = () => {
         title: 'Произошла ошибка!',
         message: (error as ResponseError).data.message,
         type: NotificationType.DANGER,
-        dismiss: {
-          duration: 10000,
-        },
       });
     }
   };

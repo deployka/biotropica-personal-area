@@ -25,16 +25,12 @@ function App(): ReactElement {
 
   const isAuth = useAppSelector(selectIsAuthorized);
 
-  // const getGlobalLoading = useSelector(selectGlobalLoadingStatus);
-  const globalLoading = false;
-
   if (userDataLoading) {
     return <Loader />;
   }
 
   return (
     <Suspense fallback={<Loader />}>
-      {globalLoading && <Loader />}
       {<GlobalNotifications />}
       <Switch>
         <PublicRoute path="/signin" isAuth={isAuth}>

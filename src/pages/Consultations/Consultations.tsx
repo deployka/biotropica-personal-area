@@ -226,9 +226,10 @@ const Consultations = () => {
         </>
       ),
       type: NotificationType.INFO,
-      dismiss: undefined,
-      id: specialistId.toString(),
-      onRemoval: () => {
+      theme: 'dark',
+      autoClose: false,
+      toastId: specialistId.toString(),
+      onClose: () => {
         setClick(false);
       },
     });

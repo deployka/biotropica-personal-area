@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import {
   useCreateAnalyzeAnswerCommentMutation,
@@ -46,7 +45,10 @@ export const PublicProfile = () => {
 
   const onAddComment = async (comment: string, analyzeId: number) => {
     try {
-      await createComment({ text: comment, analyzeAnswerId: analyzeId });
+      await createComment({
+        text: comment,
+        analyzeAnswerId: analyzeId,
+      }).unwrap();
       eventBus.emit(EventTypes.notification, {
         message: 'Комментарий добавлен!',
         type: NotificationType.SUCCESS,
@@ -62,7 +64,7 @@ export const PublicProfile = () => {
 
   const onDeleteComment = async (id: number) => {
     try {
-      await deleteComment({ id });
+      await deleteComment({ id }).unwrap();
       eventBus.emit(EventTypes.notification, {
         message: 'Комментарий удален',
         type: NotificationType.SUCCESS,

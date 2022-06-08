@@ -3,27 +3,22 @@ import { useHistory, useLocation } from 'react-router';
 import { notification } from '../../config/notification/notificationForm';
 import { useQuery } from '../../hooks/useQuery';
 import { eventBus, EventTypes } from '../../services/EventBus';
-import {
-  iNotification,
-  iNotificationDismiss,
-  Store,
-} from 'react-notifications-component';
 import { selectIsAuthorized } from '../../store/slices/authSlice';
 import { useAppSelector } from '../../store/storeHooks';
 import { useGetNotificationsQuery } from '../../api/notifications';
+import { toast } from 'react-toastify';
+import { ToastProps } from 'react-toastify/dist/types';
 
 export enum NotificationType {
-  DANGER = 'danger',
+  DANGER = 'error',
   INFO = 'info',
   SUCCESS = 'success',
   WARNING = 'warning',
-  DEFAULT = 'default',
 }
-export interface Notification extends Partial<iNotification> {
+export interface Notification extends Partial<ToastProps> {
   type: NotificationType;
   message: string | ReactNode;
   title?: string;
-  dismiss?: iNotificationDismiss;
 }
 
 const GlobalNotifications = (): ReactElement => {
@@ -36,7 +31,7 @@ const GlobalNotifications = (): ReactElement => {
   useEffect(() => {
     const message = query.get('message');
     if (message) {
-      Store.addNotification({
+      toast({
         ...notification,
         title: 'Внимание!',
         message: decodeURI(message),
@@ -48,7 +43,7 @@ const GlobalNotifications = (): ReactElement => {
   }, [location.search, query, history, location.pathname]);
 
   useEffect(() => {
-    Store.removeNotification('delete-notification');
+    toast.dismiss('delete-notification');
   }, [location.pathname]);
 
   useEffect(() => {
@@ -58,7 +53,6 @@ const GlobalNotifications = (): ReactElement => {
           return 'Произошла ошибка!';
         case NotificationType.SUCCESS:
           return 'Успешно!';
-        case NotificationType.DEFAULT:
         case NotificationType.INFO:
         case NotificationType.WARNING:
           return 'Внимание!';
@@ -67,17 +61,21 @@ const GlobalNotifications = (): ReactElement => {
       }
     };
     eventBus.on(EventTypes.notification, res => {
-      Store.addNotification({
+      const message = (
+        <>
+          {res.title && <h4 style={{ marginBottom: '5px' }}>{res.title}</h4>}
+          {res.message && <p>{res.message}</p>}
+        </>
+      );
+      toast(res?.message ? message : getNotificationTitle(res.type), {
         ...notification,
         ...res,
-        title: res.title ? res.title : getNotificationTitle(res.type),
-        message: res?.message || 'Нет сообщения',
         type: res.type,
       });
     });
 
     eventBus.on(EventTypes.removeNotification, (id: string) => {
-      Store.removeNotification(id);
+      toast.dismiss(id);
     });
   }, []);
 
@@ -87,7 +85,6 @@ const GlobalNotifications = (): ReactElement => {
     }
     notifications.forEach(notification => {
       eventBus.emit(EventTypes.notification, {
-        container: 'top-right',
         message: (
           <div>
             {notification.message}
@@ -99,7 +96,7 @@ const GlobalNotifications = (): ReactElement => {
             </button>
           </div>
         ),
-        type: NotificationType.DEFAULT,
+        type: NotificationType.INFO,
       });
     });
   }, [history, isAuth]);

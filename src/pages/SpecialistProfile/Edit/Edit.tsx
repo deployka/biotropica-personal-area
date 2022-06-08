@@ -135,9 +135,7 @@ const EditSpecialistProfile = () => {
           title: 'Внимание!',
           message: res?.message,
           type: NotificationType.INFO,
-          dismiss: {
-            duration: 10000,
-          },
+          autoClose: 10000,
         });
       }
 
@@ -173,9 +171,7 @@ const EditSpecialistProfile = () => {
         title: 'Произошла ошибка!',
         message: (error as ResponseError).data.message,
         type: NotificationType.DANGER,
-        dismiss: {
-          duration: 10000,
-        },
+        autoClose: 5000,
       });
     }
   };
@@ -202,11 +198,8 @@ const EditSpecialistProfile = () => {
         message: `Допустимые типы: png, jpg, gif
                 Максимальный размер: ${MAX_IMAGE_SIZE} мб`,
         type: NotificationType.DANGER,
-        id: 'file_type_error',
-        dismiss: {
-          duration: 7000,
-          onScreen: true,
-        },
+        toastId: 'file_type_error',
+        autoClose: 7000,
       });
     }
   };

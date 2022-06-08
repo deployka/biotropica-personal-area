@@ -49,7 +49,7 @@ const authApi = baseApi.injectEndpoints({
     >({
       query: payload => ({
         url: '/auth/signup',
-        data: {
+        body: {
           login: payload.email,
           password: payload.password,
           role: process.env.REACT_APP_ROLE_SECRET,
@@ -77,7 +77,7 @@ const authApi = baseApi.injectEndpoints({
     createPassword: builder.mutation<Response, RestorePasswordDto>({
       query: payload => ({
         url: '/auth/create-password',
-        data: payload,
+        body: payload,
         method: 'PATCH',
       }),
     }),

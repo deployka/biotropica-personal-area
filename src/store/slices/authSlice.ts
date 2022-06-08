@@ -51,7 +51,11 @@ const slice = createSlice({
           if (action.error.name === 'ConditionError') return;
           state.isAuthorized = false;
         },
-      );
+      )
+      .addMatcher(authApi.endpoints.signOut.matchFulfilled, (state, action) => {
+        localStorage.setItem('token', '');
+        state.isAuthorized = false;
+      });
   },
 });
 

@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ReactNotifications } from 'react-notifications-component';
+import { ToastContainer } from 'react-toastify';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store/store';
 
 // libs styles
-import 'react-notifications-component/dist/theme.css';
+import 'react-toastify/dist/ReactToastify.css';
 import 'swiper/swiper.scss';
 import 'react-dates/lib/css/_datepicker.css';
 
@@ -23,7 +23,7 @@ ReactDOM.render(
     <Router>
       <Provider store={store}>
         <ModalProvider>
-          <ReactNotifications />
+          <ToastContainer />
           <App />
         </ModalProvider>
       </Provider>

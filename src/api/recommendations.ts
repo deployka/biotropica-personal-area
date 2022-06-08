@@ -54,7 +54,7 @@ export const recommendationApi = baseApi.injectEndpoints({
           return {
             method: 'POST',
             url: 'recommendations',
-            data: recommendation,
+            body: recommendation,
           };
         },
         invalidatesTags: [{ type: 'Recommendation', id: 'LIST' }],
@@ -68,7 +68,7 @@ export const recommendationApi = baseApi.injectEndpoints({
           return {
             method: 'PUT',
             url: `recommendations/${recommendation.id}`,
-            data: recommendation,
+            body: recommendation,
           };
         },
         invalidatesTags: (r, e, { id }) => [{ type: 'Recommendation', id }],

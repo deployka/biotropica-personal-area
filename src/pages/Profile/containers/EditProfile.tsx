@@ -51,12 +51,9 @@ const EditProfile = () => {
       if (values.email && user?.email !== values.email) {
         const res = await updateEmail({ email: values.email }).unwrap();
         eventBus.emit(EventTypes.notification, {
-          title: 'Внимание!',
           message: res?.message,
           type: NotificationType.INFO,
-          dismiss: {
-            duration: 10000,
-          },
+          autoClose: 10000,
         });
       }
 
@@ -72,19 +69,15 @@ const EditProfile = () => {
       };
       await updateClient(data);
       eventBus.emit(EventTypes.notification, {
-        title: 'Успешно!',
         message: 'Данные профиля обновлены!',
         type: NotificationType.SUCCESS,
       });
       history.push('/profile');
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
-        title: 'Произошла ошибка!',
         message: (error as ResponseError)?.data?.message,
         type: NotificationType.DANGER,
-        dismiss: {
-          duration: 10000,
-        },
+        autoClose: 10000,
       });
     }
   }
@@ -110,11 +103,8 @@ const EditProfile = () => {
         message: `Допустимые типы: png, jpg, gif
                 Максимальный размер: ${MAX_IMAGE_SIZE} мб`,
         type: NotificationType.DANGER,
-        id: 'file_type_error',
-        dismiss: {
-          duration: 7000,
-          onScreen: true,
-        },
+        toastId: 'file_type_error',
+        autoClose: 7000,
       });
     }
   }

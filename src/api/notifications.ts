@@ -22,7 +22,7 @@ export const notificationsApi = baseApi.injectEndpoints({
     updateNotification: builder.mutation<Notification, UpdateNotificationDto>({
       query: dto => ({
         url: '/notifications/update',
-        data: dto,
+        body: dto,
         method: 'PATCH',
       }),
     }),

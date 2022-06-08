@@ -6,10 +6,10 @@ import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 import s from './Group.module.scss';
 import { useHistory } from 'react-router';
 import { Recommendation } from '../../../@types/entities/Recommendation';
-import { Specialist } from '../../../@types/entities/Specialist';
+import { BaseUser } from '../../../@types/entities/BaseUser';
 
 export type RecommendationGroupType = {
-  specialist: Specialist;
+  specialist: BaseUser;
   recommendationList: Recommendation[];
 };
 
@@ -40,13 +40,10 @@ export const RecommendationGroup = ({
         <div className={s.left}>
           <div onClick={moveToSpecialist} className={s.specialistPhoto}>
             <img
-              src={
-                getMediaLink(specialist.user.profilePhoto || '') ||
-                defaultAvatar
-              }
+              src={getMediaLink(specialist.profilePhoto || '') || defaultAvatar}
             />
           </div>
-          {specialist.user.name} {specialist.user.lastname}
+          {specialist.name} {specialist.lastname}
         </div>
         <div className={s.right}></div>
       </div>

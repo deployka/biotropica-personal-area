@@ -38,7 +38,7 @@ export const specializationApi = baseApi.injectEndpoints({
           return {
             method: 'POST',
             url: 'specializations',
-            data: Specialization,
+            body: Specialization,
           };
         },
         invalidatesTags: [{ type: 'Specialization', id: 'LIST' }],
@@ -51,7 +51,7 @@ export const specializationApi = baseApi.injectEndpoints({
           return {
             method: 'PUT',
             url: `specializations/${Specialization.id}`,
-            data: Specialization,
+            body: Specialization,
           };
         },
         invalidatesTags: (r, e, { id }) => [{ type: 'Specialization', id }],

@@ -50,7 +50,7 @@ export const consultationsApi = baseApi.injectEndpoints({
     changeConsultationDatetime: builder.mutation<void, Consultation>({
       query: payload => ({
         url: `/consultations/specialist-consultations/${payload.id}`,
-        data: payload,
+        body: payload,
         method: 'PUT',
       }),
     }),

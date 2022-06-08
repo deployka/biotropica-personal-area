@@ -24,11 +24,7 @@ const Signup = () => {
         message:
           'Вы успешно зарегистрировались, подтвердите ваш email, перейдя по ссылке в электронном письме',
         type: NotificationType.SUCCESS,
-        dismiss: {
-          onScreen: true,
-          duration: 7000,
-          pauseOnHover: true,
-        },
+        autoClose: 10000,
       });
       options.resetForm();
       history.push('/signin');
