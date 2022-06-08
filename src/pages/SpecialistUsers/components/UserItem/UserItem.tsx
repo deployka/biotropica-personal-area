@@ -3,10 +3,10 @@ import React from 'react';
 import s from './User.module.scss';
 import { Link } from 'react-router-dom';
 import { getFullName } from '../../../../utils/getFullName';
-import { Client } from '../../../../@types/entities/Client';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
 
 interface Props {
-  user: Client;
+  user: BaseUser;
 }
 
 export const UserItem = ({ user }: Props) => {

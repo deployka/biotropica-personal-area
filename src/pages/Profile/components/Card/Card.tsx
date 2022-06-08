@@ -9,11 +9,11 @@ import moment from 'moment';
 import 'moment/locale/ru';
 import classNames from 'classnames';
 import { getMediaLink } from '../../../../utils/mediaHelper';
-import { Client } from '../../../../@types/entities/Client';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
 
 moment.locale('ru');
 interface Props {
-  user: Client;
+  user: BaseUser;
 }
 
 export const Card = ({ user }: Props) => {

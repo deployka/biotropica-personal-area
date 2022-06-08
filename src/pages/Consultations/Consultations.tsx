@@ -111,7 +111,8 @@ const Consultations = () => {
   const InfoBarClosestConsultationOptions = {
     title: 'Ближайшая запись',
     text: `Ваша ближайшая запись на персональную консультацию у ${
-      specialists.find(s => s.id === closestConsultation?.specialistId)?.name
+      specialists.find(s => s.id === closestConsultation?.specialistId)?.user
+        .name
     } ${moment(closestConsultation?.date).format('Do MMMM в H:mm')}`,
     textLink: 'перейти в диалог',
     bottomLink: `Остаток бесплатных консультаций: 
@@ -124,13 +125,14 @@ const Consultations = () => {
       if (!specialist) {
         return;
       }
-      return sendMessage(specialist.userId);
+      return sendMessage(specialist.user.id);
     },
   };
   const InfoBarLastConsultationOptions = {
     title: 'Консультация без даты!',
     text: `Вы записались на консультацию к специалисту  ${
-      specialists.find(s => s.id === LastAddedConsultation?.specialistId)?.name
+      specialists.find(s => s.id === LastAddedConsultation?.specialistId)?.user
+        .name
     }, пожалуйста, обсудите удобное время и дату консультацию в чате.`,
     textLink: 'перейти в диалог',
     bottomLink: `Остаток бесплатных консультаций: 
@@ -143,7 +145,7 @@ const Consultations = () => {
       if (!specialist) {
         return;
       }
-      return sendMessage(specialist.userId);
+      return sendMessage(specialist.user.id);
     },
   };
   function onSelectChange(sort: ISelect<string>[] | undefined) {
@@ -186,7 +188,7 @@ const Consultations = () => {
   ) => {
     eventBus.emit(EventTypes.notification, {
       title: `Записаться к ${
-        specialists.find(s => s.id === specialistId)?.name
+        specialists.find(s => s.id === specialistId)?.user.name
       }?`,
       message: (
         <>

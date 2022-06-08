@@ -118,7 +118,7 @@ const EditProfile = () => {
     },
   ] = useChangeSpecialistDataMutation();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isUpdateUserSuccess) {
       refetchUserData();
     }
@@ -206,6 +206,8 @@ const EditProfile = () => {
     }
   };
 
+  const currentUser = user?.specialist;
+
   return (
     <>
       {isGetUserLoading ? (
@@ -227,9 +229,9 @@ const EditProfile = () => {
                 profilePhoto: user?.profilePhoto,
                 patronymic: user?.patronymic || '',
                 dob: user?.dob ? new Date(user.dob) : null,
-                specializations: user?.specializations,
-                experience: user?.experience,
-                education: user?.education,
+                specializations: currentUser?.specializations,
+                experience: currentUser?.experience,
+                education: currentUser?.education,
                 gender: user?.gender,
               }}
               validateOnBlur

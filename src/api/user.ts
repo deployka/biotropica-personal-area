@@ -6,17 +6,18 @@ import { baseApi } from './base-api';
 import { Response } from '../@types/api/response';
 import { UpdateUserDto } from '../@types/dto/users/update.dto';
 import { Answer } from '../@types/entities/Answer';
+import { BaseUser } from '../@types/entities/BaseUser';
 
 const userApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    currentUser: builder.query<Client & Admin & Specialist, void>({
+    currentUser: builder.query<BaseUser, void>({
       query: () => ({
         url: '/users/me',
         method: 'GET',
       }),
     }),
 
-    getUser: builder.query<Client & Admin & Specialist, number>({
+    getUser: builder.query<BaseUser, number>({
       query: (id: number) => ({
         url: `/users/${id}`,
         method: 'GET',
@@ -58,7 +59,7 @@ const userApi = baseApi.injectEndpoints({
       invalidatesTags: [{ type: 'Users', id: 'LIST' }],
     }),
 
-    blockUser: builder.mutation<Client | Specialist, number>({
+    blockUser: builder.mutation<BaseUser, number>({
       query(userId: number) {
         return {
           method: 'POST',
@@ -68,7 +69,7 @@ const userApi = baseApi.injectEndpoints({
       invalidatesTags: [{ type: 'Users', id: 'LIST' }],
     }),
 
-    getAllUsers: builder.query<(Client & Admin & Specialist)[], void>({
+    getAllUsers: builder.query<BaseUser[], void>({
       query() {
         return {
           method: 'GET',

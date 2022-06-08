@@ -8,9 +8,10 @@ import { getMediaLink } from '../../../../utils/mediaHelper';
 import { Client } from '../../../../@types/entities/Client';
 
 import s from './Card.module.scss';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
 moment.locale('ru');
 interface Props {
-  user: Client;
+  user: BaseUser;
 }
 
 export const Card = ({ user }: Props) => {

@@ -27,6 +27,7 @@ import { Client } from '../../../../../@types/entities/Client';
 import { useUploadFilesMutation } from '../../../../../api/files';
 import { CreateProgressDto } from '../../../../../@types/dto/progress/create.dto';
 import { useCreateProgressPostMutation } from '../../../../../api/progress';
+import { BaseUser } from '../../../../../@types/entities/BaseUser';
 interface PhotoInput {
   src: string;
 }
@@ -40,7 +41,7 @@ type Files = {
 };
 
 interface Props {
-  user: Client;
+  user: BaseUser;
 }
 
 export const AddPhotoModal = ({ user }: Props) => {

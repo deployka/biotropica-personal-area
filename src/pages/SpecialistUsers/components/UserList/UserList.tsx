@@ -11,9 +11,10 @@ import { UsersTable } from './UsersTable';
 import { ROLE } from '../../../../@types/entities/Role';
 import { TARIFF } from '../../../../@types/entities/Tariff';
 import { Client } from '../../../../@types/entities/Client';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
 
 type Props = {
-  users: Client[];
+  users: BaseUser[];
 };
 
 type Filters = {

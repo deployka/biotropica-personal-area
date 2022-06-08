@@ -16,9 +16,10 @@ import { getTabByKey } from '../../../utils/tabsHelper';
 import { Button } from '../components/Button/Button';
 import { Client } from '../../../@types/entities/Client';
 import { useGetGoalsQuery } from '../../../api/goals';
+import { BaseUser } from '../../../@types/entities/BaseUser';
 
 interface Props {
-  user: Client;
+  user: BaseUser;
 }
 
 const Profile = ({ user }: Props) => {

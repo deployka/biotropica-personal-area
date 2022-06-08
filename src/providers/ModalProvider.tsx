@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { SchemaOf } from 'yup';
 import { CreateAnalyzeAnswerDto } from '../@types/dto/analyzes/create.dto';
+import { BaseUser } from '../@types/entities/BaseUser';
 import { Client } from '../@types/entities/Client';
 import { ProgressPhoto } from '../@types/entities/Progress';
 import { ModalContext } from '../context/ModalContext';
@@ -25,7 +26,7 @@ export type Modal<props> = {
 
 export type Modals = {
   [ModalName.MODAL_ADD_PROGRESS_PHOTO]: Modal<{
-    user: Client;
+    user: BaseUser;
   }>;
   [ModalName.MODAL_ADD_ANALYZ_FILE]: Modal<{
     onSubmit: (values: CreateAnalyzeAnswerDto) => void;
@@ -43,7 +44,7 @@ export type Modals = {
     onNavClick: (nav: Partial<Nav>) => void;
     openChat: () => void;
     logout: () => void;
-    user: Client | undefined;
+    user: BaseUser | undefined;
     pages: Page[];
     location: Location;
   }>;
@@ -51,7 +52,7 @@ export type Modals = {
     setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
     setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
     onNavClick: (nav: Partial<Nav>) => void;
-    user: Client | undefined;
+    user: BaseUser | undefined;
     pages: Page[];
     location: Location;
   }>;

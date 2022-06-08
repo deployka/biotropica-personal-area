@@ -17,28 +17,17 @@ import { Specialist } from '../../../../@types/entities/Specialist';
 moment.locale('ru');
 
 export interface Props {
-  user: Specialist;
+  specialist: Specialist;
+  isEditable: boolean;
 }
 
-const Card = ({ user }: Props) => {
-  const {
-    id,
-    email,
-    name,
-    phone,
-    profilePhoto,
-    lastname,
-    patronymic,
-    education,
-    experience,
-    specializations: spc,
-  } = user;
+const Card = ({ specialist, isEditable }: Props) => {
+  const { id, user, education, experience, specializations: spc } = specialist;
+  const { email, name, phone, profilePhoto, lastname, patronymic } = user;
 
   const { url } = useRouteMatch();
 
   const { isLoading } = useRequestAvatarFileQuery(profilePhoto || '');
-
-  const { data: currentUser } = useGetCurrentSpecialistQuery();
 
   const specializations = spc
     .map(
@@ -97,7 +86,7 @@ const Card = ({ user }: Props) => {
                   <p>{education}</p>
                 </div>
               )}
-              {id === currentUser?.id && (
+              {isEditable && (
                 <Link className={s.profile__edit} to={`${url}/edit`}>
                   <div className={s.profile__editIcon}>
                     <img src={editIcon} alt="редактировать" />

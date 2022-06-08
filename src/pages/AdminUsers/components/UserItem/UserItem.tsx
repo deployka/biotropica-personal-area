@@ -7,11 +7,13 @@ import { getFullName } from '../../../../utils/getFullName';
 import { ROLE } from '../../../../@types/entities/Role';
 import { Client } from '../../../../@types/entities/Client';
 import { Specialist } from '../../../../@types/entities/Specialist';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
+import { Tariff } from '../../../Profile/components/Tariff/Tariff';
 
 interface Props {
-  user: Client | Specialist;
-  onBlock: (user: Client | Specialist) => void;
-  onWrite: (user: Client | Specialist) => void;
+  user: BaseUser;
+  onBlock: (user: BaseUser) => void;
+  onWrite: (user: BaseUser) => void;
 }
 
 export const ROLE_TRANSLATIONS = {
@@ -58,8 +60,8 @@ export const UserItem = ({ user, onBlock, onWrite }: Props) => {
               role === ROLE.SPECIALIST
                 ? { color: '#309A74' }
                 : role === ROLE.ADMIN
-                  ? { color: '#D06361' }
-                  : {}
+                ? { color: '#D06361' }
+                : {}
             }
           >
             {roleTranslation}

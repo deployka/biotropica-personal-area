@@ -17,9 +17,10 @@ import {
   useGetAnalyzeAnswersQuery,
 } from '../../../../api/analyze-answers';
 import { CreateAnalyzeAnswerDto } from '../../../../@types/dto/analyzes/create.dto';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
 
 interface Props {
-  user: Client;
+  user: BaseUser;
 }
 
 export const TestsAndAnalyze = ({ user }: Props) => {

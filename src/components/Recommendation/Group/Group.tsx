@@ -40,10 +40,13 @@ export const RecommendationGroup = ({
         <div className={s.left}>
           <div onClick={moveToSpecialist} className={s.specialistPhoto}>
             <img
-              src={getMediaLink(specialist.profilePhoto || '') || defaultAvatar}
+              src={
+                getMediaLink(specialist.user.profilePhoto || '') ||
+                defaultAvatar
+              }
             />
           </div>
-          {specialist.name} {specialist.lastname}
+          {specialist.user.name} {specialist.user.lastname}
         </div>
         <div className={s.right}></div>
       </div>

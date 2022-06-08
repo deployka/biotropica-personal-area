@@ -25,11 +25,12 @@ import ru from 'date-fns/locale/ru';
 import { useMobile } from '../../../../hooks/useMobile';
 import { Client } from '../../../../@types/entities/Client';
 import { UpdateUserDto } from '../../../../@types/dto/users/update.dto';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
 
 registerLocale('ru', ru);
 
 interface Props {
-  user: Client | undefined;
+  user: BaseUser | undefined;
   loader: boolean;
   image: string | ArrayBuffer | null;
   options: ISelect<string>[];

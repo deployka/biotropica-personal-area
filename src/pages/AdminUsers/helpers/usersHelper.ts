@@ -1,3 +1,4 @@
+import { BaseUser } from '../../../@types/entities/BaseUser';
 import { Client } from '../../../@types/entities/Client';
 import { ROLE } from '../../../@types/entities/Role';
 import { Specialist } from '../../../@types/entities/Specialist';
@@ -70,7 +71,7 @@ export const usersFilters: FilterConfig[] = [
 ];
 
 export function filterUsersByRoles(
-  users: Array<Client | Specialist>,
+  users: Array<BaseUser>,
   roles: (ROLE | undefined)[],
 ) {
   if (roles.length === 1 && !roles[0]) {
@@ -89,7 +90,7 @@ export function filterUsersByRoles(
 }
 
 export function filterUsersByQuestionnaire(
-  users: Array<Client | Specialist>,
+  users: Array<BaseUser>,
   value: boolean,
 ) {
   return users.filter(user => {
@@ -103,7 +104,7 @@ export function filterUsersByQuestionnaire(
 }
 
 export function filterUsersByTariffs(
-  users: Array<Client | Specialist>,
+  users: Array<BaseUser>,
   tariffs: (TARIFF | undefined)[],
 ) {
   if (tariffs.length === 1 && !tariffs[0]) {
@@ -118,10 +119,7 @@ export function filterUsersByTariffs(
   });
 }
 
-export function filterUsersByQuery(
-  users: Array<Client | Specialist>,
-  q: string,
-) {
+export function filterUsersByQuery(users: Array<BaseUser>, q: string) {
   const query = q.toLowerCase().trim();
   return users.filter(user => {
     return (

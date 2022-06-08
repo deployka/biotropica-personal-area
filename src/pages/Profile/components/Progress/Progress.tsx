@@ -9,12 +9,12 @@ import s from './Progress.module.scss';
 import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
 import { ModalName } from '../../../../providers/ModalProvider';
 import { useModal } from '../../../../hooks/useModal';
-import { Client } from '../../../../@types/entities/Client';
 import { Progress as IProgress } from '../../../../@types/entities/Progress';
 import { useGetProgressPostsQuery } from '../../../../api/progress';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
 
 interface Props {
-  user: Client;
+  user: BaseUser;
 }
 
 export const Progress = ({ user }: Props) => {

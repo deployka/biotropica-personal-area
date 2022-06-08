@@ -14,13 +14,11 @@ import { UsersTable } from './UsersTable';
 import { ROLE } from '../../../../@types/entities/Role';
 import { BaseUser } from '../../../../@types/entities/BaseUser';
 import { TARIFF } from '../../../../@types/entities/Tariff';
-import { Specialist } from '../../../../@types/entities/Specialist';
-import { Client } from '../../../../@types/entities/Client';
 
 type Props = {
-  users: Array<Client | Specialist>;
+  users: Array<BaseUser>;
   onCreateUser(): void;
-  onBlockUser(user: Client | Specialist): void;
+  onBlockUser(user: BaseUser): void;
   onWriteUser(user: BaseUser): void;
 };
 

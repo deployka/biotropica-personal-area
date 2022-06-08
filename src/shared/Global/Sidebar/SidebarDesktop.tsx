@@ -7,7 +7,7 @@ import { Avatar } from './components/Avatar';
 import { NavItem } from './components/NavItem';
 import { SupportChatBtn } from './components/SupportChatBtn';
 import { LogoutBtn } from './components/LogoutBtn';
-import { Client } from '../../../@types/entities/Client';
+import { BaseUser } from '../../../@types/entities/BaseUser';
 
 interface Props {
   onNavClick: (nav: Partial<Nav>) => void;
@@ -16,7 +16,7 @@ interface Props {
   openChat: () => void;
   logout: () => void;
   nav: Nav[];
-  user: Client | undefined;
+  user: BaseUser | undefined;
 }
 
 export const SidebarDesktop = memo(
