@@ -15,6 +15,7 @@ const userApi = baseApi.injectEndpoints({
         url: '/users/me',
         method: 'GET',
       }),
+      providesTags: ['CurrentUser'],
     }),
 
     getUser: builder.query<BaseUser, number>({
@@ -25,19 +26,21 @@ const userApi = baseApi.injectEndpoints({
     }),
 
     updateUser: builder.mutation<void, UpdateUserDto>({
-      query: payload => ({
+      query: dto => ({
         url: '/users/update',
-        body: payload,
+        body: dto,
         method: 'PATCH',
       }),
+      invalidatesTags: ['CurrentUser'],
     }),
 
     updateEmail: builder.mutation<Response, ChangeEmailDto>({
       query: dto => ({
         url: '/users/update-email',
-        data: dto,
-        method: 'PUT',
+        body: dto,
+        method: 'PATCH',
       }),
+      invalidatesTags: ['CurrentUser'],
     }),
 
     getQuestionnaireAnswers: builder.query<Answer[], number>({

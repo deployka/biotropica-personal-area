@@ -6,6 +6,7 @@ import EditGoalForm from '../../components/Goals/EditForm/GoalEditForm';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { UpdateGoalDto } from '../../@types/dto/goals/update.dto';
 import { useGetGoalQuery, useUpdateGoalMutation } from '../../api/goals';
+import { ResponseError } from '../../@types/api/response';
 
 const EditGoal = () => {
   const history = useHistory();
@@ -40,7 +41,7 @@ const EditGoal = () => {
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
         title: 'Произошла ошибка!',
-        message: (error as { message: string }).message,
+        message: (error as ResponseError).data.message,
         type: NotificationType.DANGER,
       });
     }

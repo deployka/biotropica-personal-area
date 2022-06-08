@@ -36,6 +36,7 @@ import { ChangePasswordDto } from '../../../@types/dto/auth/change-password.dto'
 import Safety from '../components/Safety/Safety';
 import { Courses } from '../components/Courses/Courses';
 import { ChangeCourseDto } from '../../../@types/dto/specialists/change-courses.dto';
+import { ResponseError } from '../../../@types/api/response';
 
 export interface Param {
   active: string;
@@ -166,10 +167,12 @@ const EditSpecialistProfile = () => {
       });
       history.push('/profile');
     } catch (error) {
+      console.error(error);
+
       eventBus.emit(EventTypes.notification, {
         title: 'Произошла ошибка!',
-        message: (error as { message: string })?.message,
-        type: NotificationType.INFO,
+        message: (error as ResponseError).data.message,
+        type: NotificationType.DANGER,
         dismiss: {
           duration: 10000,
         },

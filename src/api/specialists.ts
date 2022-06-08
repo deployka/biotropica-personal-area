@@ -5,15 +5,6 @@ import { baseApi } from './base-api';
 
 export const specialistsApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    changeSpecialistData: builder.mutation<void, UpdateSpecialistDto>({
-      query: dto => ({
-        url: '/specialists/me',
-        body: dto,
-        method: 'PUT',
-      }),
-      invalidatesTags: ['Specialist'],
-    }),
-
     getOneSpecialist: builder.query<Specialist, { id: number }>({
       query: dto => ({
         url: `/specialists/${dto.id}`,
@@ -26,7 +17,7 @@ export const specialistsApi = baseApi.injectEndpoints({
         url: '/specialists/me',
         method: 'GET',
       }),
-      providesTags: ['Specialist'],
+      providesTags: ['Specialist', 'CurrentUser'],
     }),
 
     getSpecialists: builder.query<Specialist[], void>({
@@ -35,6 +26,15 @@ export const specialistsApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
       providesTags: ['Specialist'],
+    }),
+
+    changeSpecialistData: builder.mutation<void, UpdateSpecialistDto>({
+      query: dto => ({
+        url: '/specialists/me',
+        body: dto,
+        method: 'PUT',
+      }),
+      invalidatesTags: ['Specialist', 'CurrentUser'],
     }),
 
     changeCourses: builder.mutation<void, ChangeCourseDto>({

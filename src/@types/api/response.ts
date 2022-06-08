@@ -5,3 +5,10 @@ export type Response = {
 export type SignInResponse = {
   accessToken: string;
 };
+
+export type ResponseError = {
+  data: {
+    message: string;
+  };
+  status: HTTP_CODES;
+};

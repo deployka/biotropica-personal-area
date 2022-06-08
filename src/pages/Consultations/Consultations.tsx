@@ -25,6 +25,7 @@ import {
 } from '../../api/consultations';
 import { Specialist } from '../../@types/entities/Specialist';
 import { useCreateDialogMutation } from '../../api/chat';
+import { ResponseError } from '../../@types/api/response';
 
 const Consultations = () => {
   const queryParam = useQuery();
@@ -42,7 +43,7 @@ const Consultations = () => {
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
         title: 'Произошла ошибка!',
-        message: (error as { message: string }).message,
+        message: (error as ResponseError).data.message,
         type: NotificationType.DANGER,
       });
     }
@@ -175,7 +176,7 @@ const Consultations = () => {
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
         title: 'Произошла ошибка!',
-        message: (error as { message: string }).message,
+        message: (error as ResponseError).data.message,
         type: NotificationType.DANGER,
       });
     }
