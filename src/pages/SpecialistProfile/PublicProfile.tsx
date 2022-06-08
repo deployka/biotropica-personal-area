@@ -1,11 +1,14 @@
 import React from 'react';
 import { useParams } from 'react-router';
+import { ResponseError } from '../../@types/api/response';
 import { Specialization } from '../../@types/entities/Specialization';
 import { useCreateDialogMutation } from '../../api/chat';
 import { useGetOneSpecialistQuery } from '../../api/specialists';
 import Button from '../../components/Button/Button';
+import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { ProfileCard } from '../../components/Profile/Card/Card';
 import { SpecialistCoursesList } from '../../components/Specialist/Courses/List';
+import { eventBus, EventTypes } from '../../services/EventBus';
 
 import s from './Profile.module.scss';
 
@@ -39,6 +42,22 @@ const PublicSpecialistProfile = () => {
     return <p>Произошла ошибка</p>;
   }
 
+  const handleCreateDialog = async () => {
+    try {
+      await createDialog({ userId: specialist.id }).unwrap();
+      eventBus.emit(EventTypes.chatOpen, specialist.id);
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        title: 'Произошла ошибка!',
+        message: (error as ResponseError).data.message,
+        type: NotificationType.DANGER,
+        dismiss: {
+          duration: 10000,
+        },
+      });
+    }
+  };
+
   const courses = specialist.courses;
   const specialistData = {
     education: specialist.education,
@@ -56,9 +75,7 @@ const PublicSpecialistProfile = () => {
             specialistData={specialistData}
             profilePhoto={specialist.user.profilePhoto || ''}
           />
-          <Button onClick={() => createDialog({ userId: specialist.id })}>
-            Начать чат
-          </Button>
+          <Button onClick={handleCreateDialog}>Начать чат</Button>
         </div>
 
         {courses && <SpecialistCoursesList coursesList={courses} />}

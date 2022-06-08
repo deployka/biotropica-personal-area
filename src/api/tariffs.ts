@@ -16,7 +16,7 @@ export const tariffsApi = baseApi.injectEndpoints({
     >({
       query: payload => ({
         url: '/tariffs',
-        data: payload,
+        body: payload,
         method: 'POST',
       }),
     }),
@@ -24,7 +24,7 @@ export const tariffsApi = baseApi.injectEndpoints({
     requestChangeTariff: builder.mutation<Tariff, Tariff>({
       query: payload => ({
         url: `/tariffs/${payload.id}`,
-        data: payload,
+        body: payload,
         method: 'PUT',
       }),
     }),

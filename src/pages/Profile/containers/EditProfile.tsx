@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import { ResponseError } from '../../../@types/api/response';
 import { UpdateSpecialistDto } from '../../../@types/dto/specialists/update.dto';
 import { UpdateUserDto } from '../../../@types/dto/users/update.dto';
 import { useUploadFileMutation } from '../../../api/files';
@@ -79,8 +80,8 @@ const EditProfile = () => {
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
         title: 'Произошла ошибка!',
-        message: (error as { message: string })?.message,
-        type: NotificationType.INFO,
+        message: (error as ResponseError)?.data?.message,
+        type: NotificationType.DANGER,
         dismiss: {
           duration: 10000,
         },

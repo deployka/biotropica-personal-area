@@ -39,7 +39,7 @@ export const ConsultationItem = ({
   const history = useHistory();
 
   function moveToSpecialist() {
-    history.push('/specialists/' + userId);
+    history.push('/specialists/' + id);
   }
 
   // TODO: вынести в helper

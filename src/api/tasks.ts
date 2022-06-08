@@ -56,7 +56,7 @@ export const taskApi = baseApi.injectEndpoints({
           return {
             method: 'POST',
             url: 'tasks',
-            data: task,
+            body: task,
           };
         },
         invalidatesTags: [{ type: 'Task', id: 'LIST' }],
@@ -72,7 +72,7 @@ export const taskApi = baseApi.injectEndpoints({
           return {
             method: 'POST',
             url: `tasks/${taskId}/comments`,
-            data: {
+            body: {
               text: commentText,
             },
           };
@@ -114,7 +114,7 @@ export const taskApi = baseApi.injectEndpoints({
           return {
             method: 'PUT',
             url: `tasks/${task.id}`,
-            data: task,
+            body: task,
           };
         },
         invalidatesTags: (r, e, { id }) => [
