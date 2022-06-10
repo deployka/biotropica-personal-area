@@ -38,6 +38,7 @@ const GlobalNotifications = (): ReactElement => {
         type: type || NotificationType.INFO,
       });
       query.delete('message');
+      query.delete('type');
       history.push(location.pathname + '?' + query.toString());
     }
   }, [location.search, query, history, location.pathname]);
