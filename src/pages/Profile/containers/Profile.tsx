@@ -4,7 +4,7 @@ import { Card } from '../components/Card/Card';
 import { Tariff } from '../components/Tariff/Tariff';
 import { Goals } from '../components/Goals/Goals';
 import { Progress } from '../components/Progress/Progress';
-import { TestsAndAnalyze } from '../components/TestsAndAnalyze/TestsAndAnalyze';
+import { Analyzes } from '../components/Analyzes/Analyzes';
 
 import s from './Profile.module.scss';
 import { useModal } from '../../../hooks/useModal';
@@ -14,27 +14,33 @@ import { Param } from './Edit';
 import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 import { getTabByKey } from '../../../utils/tabsHelper';
 import { Button } from '../components/Button/Button';
-import { Client } from '../../../@types/entities/Client';
 import { useGetGoalsQuery } from '../../../api/goals';
 import { BaseUser } from '../../../@types/entities/BaseUser';
+import { QuestionnaireResults } from '../components/QuestionnaireResults/QuestionnaireResults';
+import { Answer } from '../../../@types/entities/Answer';
+import { useGetQuestionnaireAnswersQuery } from '../../../api/user';
 
 interface Props {
   user: BaseUser;
 }
 
+const tabs: Tab[] = [
+  {
+    key: 'analyzes',
+    value: 'Анализы',
+  },
+  {
+    key: 'questionnaire',
+    value: 'Тестирование',
+  },
+  {
+    key: 'progress',
+    value: 'Прогресс',
+  },
+];
+
 const Profile = ({ user }: Props) => {
   const { openModal } = useModal();
-
-  const tabs: Tab[] = [
-    {
-      key: 'test-analyzes',
-      value: 'Тестирование и Анализы',
-    },
-    {
-      key: 'progress',
-      value: 'Прогресс',
-    },
-  ];
 
   const { data: goals = [] } = useGetGoalsQuery();
 
@@ -45,6 +51,12 @@ const Profile = ({ user }: Props) => {
   const [activeTab, setActiveTab] = useState<string>(
     getTabByKey(active, tabs)?.key || tabs[0].key,
   );
+
+  const { data: questionnaireAnswers = [] } = useGetQuestionnaireAnswersQuery(
+    user.id,
+  );
+
+  console.log('questionnaireAnswers', questionnaireAnswers);
 
   // FIXME: добавить отображение тарифа
   const tariffData = {
@@ -98,13 +110,16 @@ const Profile = ({ user }: Props) => {
               />
             </div>
           </div>
-          {activeTab === tabs[0].key && <TestsAndAnalyze user={user} />}
+          {activeTab === tabs[0].key && <Analyzes user={user} />}
           {activeTab === tabs[1].key && (
+            <QuestionnaireResults answers={questionnaireAnswers} />
+          )}
+          {activeTab === tabs[2].key && (
             <button onClick={openModalHandler} className={s.btn__add__photo}>
               добавить фото
             </button>
           )}
-          {activeTab === tabs[1].key && <Progress user={user} />}
+          {activeTab === tabs[2].key && <Progress user={user} />}
         </div>
       </div>
     </>
