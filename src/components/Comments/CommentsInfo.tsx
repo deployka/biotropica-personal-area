@@ -24,7 +24,7 @@ export function CommentsInfo({
     <>
       <div className={s.commentsInfo}>
         <div onClick={onToggle} className={s.commentsCount}>
-          {isOpen ? 'Скрыть' : 'Показать'} комментарии: <p>{length}</p>
+          {isOpen ? 'Скрыть' : 'Показать'} комментарии: <span>{length}</span>
         </div>
         {onSort && (
           <div

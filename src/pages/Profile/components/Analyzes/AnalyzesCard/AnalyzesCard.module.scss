@@ -2,13 +2,13 @@
 @import "../../../../../styles/variables.scss";
 
 .analyzesCard {
-  overflow-y: auto;
-  overflow-x: hidden;
+  // overflow-y: auto;
+  // overflow-x: hidden;
   padding: 0 30px 30px 30px;
   width: 100%;
-  max-height: 345px;
-  border: 1px solid $color-secondary;
-  border-radius: 5px;
+  // max-height: 345px;
+  box-shadow: 0px 0px 6px rgba(205, 199, 230, 0.6);
+  border-radius: 4px;
 
   @include for-phone {
     max-height: unset;
@@ -132,29 +132,6 @@
     column-gap: 15px;
   }
 
-  .icon {
-    width: 24px;
-    height: 24px;
-  }
-
-  .name {
-    padding: 0 0 2px 0;
-    border-bottom: 1px solid $color-secondary;
-    a {
-      font-size: 16px;
-      line-height: 120%;
-      text-decoration: none;
-
-      color: #1e174d;
-
-      color: $color-black;
-    }
-  }
-
-  .createdAt {
-    margin-top: 8px;
-    color: $color-secondary;
-  }
   .commentsCount {
     margin-top: 8px;
     cursor: pointer;
