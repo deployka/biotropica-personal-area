@@ -5,9 +5,10 @@ import { QuestionnaireNav } from '../Nav/Nav';
 import { Question } from '../../Question/Question';
 
 import s from './Body.module.scss';
+import { Question as IQuestion } from '../../../@types/entities/Question';
 
 type Props = {
-  question: Question;
+  question: IQuestion;
   progress: {
     currentIndex: number;
     total: number;

@@ -1,13 +1,18 @@
-import { ROLE } from '../../../store/@types/User';
-import { User, TARIFF } from '../../../store/rtk/types/user';
+import { BaseUser } from '../../../@types/entities/BaseUser';
+import { Client } from '../../../@types/entities/Client';
+import { ROLE } from '../../../@types/entities/Role';
+import { TARIFF } from '../../../@types/entities/Tariff';
 
-export function filterUsersByRoles(users: User[], roles: (ROLE | undefined)[]) {
+export function filterUsersByRoles(
+  users: BaseUser[],
+  roles: (ROLE | undefined)[],
+) {
   if (roles.length === 1 && !roles[0]) {
     return users;
   }
 
   return users.filter(user => {
-    const userRoles = user.roles.map(it => it.name);
+    const userRoles = user.roles;
     for (const userRole of userRoles) {
       if (roles.includes(userRole)) {
         return true;
@@ -18,7 +23,7 @@ export function filterUsersByRoles(users: User[], roles: (ROLE | undefined)[]) {
 }
 
 export function filterUsersByTariffs(
-  users: User[],
+  users: BaseUser[],
   tariffs: (TARIFF | undefined)[],
 ) {
   if (tariffs.length === 1 && !tariffs[0]) {
@@ -31,7 +36,7 @@ export function filterUsersByTariffs(
   });
 }
 
-export function filterUsersByQuery(users: User[], q: string) {
+export function filterUsersByQuery(users: BaseUser[], q: string) {
   const query = q.toLowerCase().trim();
   return users.filter(user => {
     return (

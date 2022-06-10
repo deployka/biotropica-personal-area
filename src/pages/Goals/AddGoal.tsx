@@ -1,60 +1,34 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { FormikHelpers } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { eventBus, EventTypes } from '../../services/EventBus';
-import {
-  createGoalData,
-  setGoalResponse,
-} from '../../store/ducks/goal/actionCreators';
-import {
-  FormGoalData,
-  GoalType,
-  RunUnits,
-  WeightUnits,
-} from '../../store/ducks/goal/contracts/state';
-import {
-  selectGoalData,
-  selectGoalLoadingStatus,
-} from '../../store/ducks/goal/selectors';
-import {
-  fetchGoalsData,
-  setGoalsData,
-} from '../../store/ducks/goals/actionCreators';
-import { selectGoalsData } from '../../store/ducks/goals/selectors';
-import { LoadingStatus } from '../../store/types';
 import { ISelect } from '../../shared/Form/Select/SelectCustom';
 import { Selector } from '../../components/Goals/AddSelect/Selector';
 import { GoalAddSelect } from '../../components/Goals/AddSelect/AddSelect';
 import { GoalAddForm } from '../../components/Goals/AddForm/AddForm';
 
 import s from './AddGoal.module.scss';
+import { GoalType, RunUnits, WeightUnits } from '../../@types/entities/Goal';
+import { useCreateGoalMutation } from '../../api/goals';
+import { CreateGoalFormDto } from '../../@types/dto/goals/create-form.dto';
+import { CreateGoalDto } from '../../@types/dto/goals/create.dto';
 
 const AddGoal = () => {
-  const [goalTemplate, setGoalTemplate] = useState<FormGoalData>({
+  const [goalTemplate, setGoalTemplate] = useState<CreateGoalFormDto>({
     type: GoalType.WEIGHT,
     units: [{ label: '', value: null }],
     description: '',
-    endResult: '',
-    startResult: '',
+    endResult: 0,
+    startResult: 0,
     name: '',
   });
 
   const [next, setNext] = useState(false);
 
-  const dispatch = useDispatch();
   const history = useHistory();
 
-  const loadingStatus = useSelector(selectGoalLoadingStatus);
-
-  const goals: Goal[] = useSelector(selectGoalsData);
-  const goal: Goal | undefined = useSelector(selectGoalData);
-
-  const [name, setName] = useState<string>('');
-
-  const isLoading = loadingStatus === LoadingStatus.LOADING;
-  const refResetForm = useRef<(() => void) | null>(null);
+  const [createGoal, { isLoading }] = useCreateGoalMutation();
 
   function getOptions(): ISelect<string>[] | undefined {
     switch (goalTemplate.type) {
@@ -78,50 +52,25 @@ const AddGoal = () => {
     }
   }
 
-  useEffect(() => {
-    switch (loadingStatus) {
-      case LoadingStatus.LOADED:
-        if (!refResetForm.current) return;
-        eventBus.emit(EventTypes.notification, {
-          title: `Цель «${name}» успешно создана!`,
-          message:
-            'Не забывайте регулярно отмечать свой прогресс в достижении цели',
-          type: NotificationType.SUCCESS,
-          dismiss: {
-            onScreen: true,
-            duration: 7000,
-            pauseOnHover: true,
-          },
-        });
-        dispatch(fetchGoalsData());
-        dispatch(setGoalResponse(undefined));
-        refResetForm.current();
-        history.push(`/goals/${goal?.id}`);
-        break;
-      default:
-        break;
-    }
-  }, [loadingStatus, dispatch, goal, history, name]);
-
-  useEffect(() => {
-    if (goal && goals && loadingStatus === LoadingStatus.SUCCESS) {
-      dispatch(setGoalsData([...goals, goal]));
-    }
-  }, [dispatch, goal, goals, loadingStatus]);
-
   async function onSubmit(
-    values: FormGoalData,
-    options: FormikHelpers<FormGoalData>,
+    values: CreateGoalDto,
+    options: FormikHelpers<CreateGoalDto>,
   ) {
-    refResetForm.current = options.resetForm;
-    setName(values.name);
-    dispatch(
-      createGoalData({
-        ...values,
-        endResult: +values.endResult,
-        startResult: +values.startResult,
-      }),
-    );
+    const goal = await createGoal({
+      ...values,
+      endResult: +values.endResult,
+      startResult: +values.startResult,
+    }).unwrap();
+
+    eventBus.emit(EventTypes.notification, {
+      title: `Цель «${goal.name}» успешно создана!`,
+      message:
+        'Не забывайте регулярно отмечать свой прогресс в достижении цели',
+      type: NotificationType.SUCCESS,
+      autoClose: 10000,
+    });
+    options.resetForm();
+    history.push(`/goals/${goal.id}`);
   }
 
   const selectors: Selector[] = [
@@ -143,11 +92,7 @@ const AddGoal = () => {
   ];
 
   function onDiscard() {
-    if (!goals.length) {
-      history.push('/');
-      return;
-    }
-    history.push('/goals');
+    history.push('/profile');
   }
 
   return (

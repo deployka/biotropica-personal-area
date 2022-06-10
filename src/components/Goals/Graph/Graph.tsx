@@ -1,20 +1,19 @@
 import React, { useEffect, useRef } from 'react';
-import { Chart, ChartItem, registerables } from 'chart.js';
+import { Chart, registerables } from 'chart.js';
 import 'chartjs-adapter-moment';
 import s from './Graph.module.scss';
-import { useSelector } from 'react-redux';
-import { selectGoalData } from '../../../store/ducks/goal/selectors';
 import moment from 'moment';
+import { Goal, GoalValue } from '../../../@types/entities/Goal';
 
 Chart.register(...registerables);
 
 interface Props {
   startDate: Date;
   endDate: Date;
+  goal: Goal | undefined;
 }
 
-export const Graph = ({ startDate, endDate }: Props) => {
-  const goal = useSelector(selectGoalData);
+export const Graph = ({ startDate, endDate, goal }: Props) => {
   const ctx = useRef<HTMLCanvasElement>(null);
   const myChart = useRef<any>(null);
 

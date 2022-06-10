@@ -3,15 +3,14 @@ import s from './TestsAndAnalyze.module.scss';
 import { AnalyzesCard } from './AnalyzesCard/AnalyzesCard';
 import { InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
 
-import {
-  Analyze,
-  AnalyzeAnswer,
-} from '../../../../store/ducks/analyze/contracts/state';
-
 import { Questionnaire } from './Questionnaire/Questionnaire';
+import { Answer } from '../../../../@types/entities/Answer';
+import { Analyze } from '../../../../@types/entities/Analyze';
+import { AnalyzeAnswer } from '../../../../@types/entities/AnalyzeAnswer';
 
 interface Props {
   analyzeTypes: Analyze[];
+  // TODO: переделать тип в QuestionnaireAnswer
   questionnaireAnswers: Answer[];
   analyzes: AnalyzeAnswer[];
   isLoadingComment: boolean;

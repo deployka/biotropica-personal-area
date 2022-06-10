@@ -1,14 +1,8 @@
-import React, { ReactElement, Suspense, useEffect } from 'react';
+import React, { ReactElement, Suspense } from 'react';
 import { Switch } from 'react-router-dom';
-
-import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from './shared/Global/Loader/Loader';
 
-import { fetchUserData } from './store/ducks/user/actionCreators';
-import { fetchGoalsData } from './store/ducks/goals/actionCreators';
-
-import { selectIsAuth } from './store/ducks/user/selectors';
 import { Routes } from './routes/Routes';
 import { PrivateRoute } from './routes/PrivateRoute';
 import { PublicRoute } from './routes/PublicRoute';
@@ -20,24 +14,16 @@ import CreatePassword from './pages/Auth/containers/CreatePassword';
 import ForgotPassword from './pages/Auth/containers/ForgotPassword';
 
 import GlobalNotifications from './components/GlobalNotifications/GlobalNotifications';
-import { selectGlobalLoadingStatus } from './store/selectors';
 import Policy from './pages/Policy/containers/Policy';
-import { useRequestUserDataQuery } from './store/rtk/requests/user';
 import { ProfileLayout } from './layouts/ProfileLayout';
+import { useCurrentUserQuery } from './api/user';
+import { selectIsAuthorized } from './store/slices/authSlice';
+import { useAppSelector } from './store/storeHooks';
 
 function App(): ReactElement {
-  const dispatch = useDispatch();
-  const { isLoading: userDataLoading } = useRequestUserDataQuery();
+  const { isLoading: userDataLoading } = useCurrentUserQuery();
 
-  const isAuth = useSelector(selectIsAuth);
-  const getGlobalLoading = useSelector(selectGlobalLoadingStatus);
-
-  useEffect(() => {
-    dispatch(fetchUserData());
-    if (isAuth) {
-      dispatch(fetchGoalsData());
-    }
-  }, [isAuth, dispatch]);
+  const isAuth = useAppSelector(selectIsAuthorized);
 
   if (userDataLoading) {
     return <Loader />;
@@ -45,7 +31,6 @@ function App(): ReactElement {
 
   return (
     <Suspense fallback={<Loader />}>
-      {getGlobalLoading && <Loader />}
       {<GlobalNotifications />}
       <Switch>
         <PublicRoute path="/signin" isAuth={isAuth}>

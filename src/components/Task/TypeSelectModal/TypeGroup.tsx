@@ -1,6 +1,6 @@
 import React from 'react';
 import { TypeElement } from './TypeElement';
-import { TaskTemplate, TaskType } from '../../../store/@types/Task';
+import { TaskTemplate, TaskType } from '../../../@types/entities/Task';
 
 import s from './TypeGroup.module.scss';
 

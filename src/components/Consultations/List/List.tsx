@@ -1,6 +1,7 @@
 import React from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { Specialist } from '../../../store/ducks/specialist/contracts/state';
+import { Specialist } from '../../../@types/entities/Specialist';
+
 import { ConsultationItem } from '../Item/Item';
 
 import s from './List.module.scss';

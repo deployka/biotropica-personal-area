@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ComponentStory, Meta } from '@storybook/react';
 import { SpecializationItem, SpecializationItemProps } from './Item';
-import { Specialization } from '../../../store/rtk/requests/specializations';
+import { Specialization } from '../../../@types/entities/Specialization';
 
 export default {
   component: SpecializationItem,
@@ -11,8 +11,10 @@ export default {
 
 const specialization: Specialization = {
   id: 0,
+  createdAt: '',
+  updatedAt: '',
   title: 'Test',
-  key: '15',
+  key: 'ALLERGIST_IMMUNOLOGIST',
 };
 
 const Template: ComponentStory<typeof SpecializationItem> = (

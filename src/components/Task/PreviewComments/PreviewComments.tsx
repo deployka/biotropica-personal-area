@@ -2,13 +2,14 @@ import React from 'react';
 import { Formik } from 'formik';
 import Textarea from '../../Textarea/Textarea';
 import { TaskPreviewComment } from '../PreviewComment/PreviewComment';
+import { Comment } from '../../../@types/entities/Comment';
 
 import sendIcon from './../../../assets/icons/Send.svg';
 
 import s from './PreviewComments.module.scss';
 
 export type TaskPreviewCommentsProps = {
-  comments: TaskComment[];
+  comments: Comment[];
   onSend(newCommentText: string): void;
 };
 

@@ -1,4 +1,4 @@
-import { EventTask } from '../../../store/@types/Task';
+import { EventTask } from '../../../@types/entities/Task';
 import { SelectOptions } from '../../Select/SelectCustom';
 
 export const translatedRepeatType: Record<EventTask['repeatType'], string> = {

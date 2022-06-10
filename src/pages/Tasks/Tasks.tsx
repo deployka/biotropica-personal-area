@@ -6,13 +6,13 @@ import {
   useGetTaskCommentsQuery,
   useGetTaskListQuery,
   useUpdateTaskMutation,
-} from '../../store/rtk/requests/tasks';
+} from '../../api/tasks';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectTasksPageCurrentMonth,
   setCurrentMonth,
-} from '../../store/rtk/slices/tasksPageSlice';
-import { useAppSelector } from '../../store/rtk/storeHooks';
+} from '../../store/slices/tasksPageSlice';
+import { useAppSelector } from '../../store/storeHooks';
 import { TaskCalendar } from '../../components/Calendar/TaskCalendar';
 import { TaskTypeSelectModal } from '../../components/Task/TypeSelectModal/TypeSelectModal';
 import {
@@ -25,21 +25,21 @@ import {
   TaskType,
   TrainingCategory,
   TrainingTask,
-} from '../../store/@types/Task';
+} from '../../@types/entities/Task';
 
 import { createTaskByType } from './CreateTaskHelper';
 import { useHistory, useParams } from 'react-router-dom';
-import { selectCurrentUserData } from '../../store/ducks/user/selectors';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { NotificationButtons } from './NotificationButtons';
-import { selectIsDoctor } from '../../store/rtk/slices/authSlice';
+import { selectIsDoctor } from '../../store/slices/authSlice';
+import { useCurrentUserQuery } from '../../api/user';
 
 import { Tabs } from '../../components/Tabs/Tabs';
 import { TasksModal } from '../../components/Task/Modal/Modal';
 
 export function Tasks() {
-  const currentUser = useSelector(selectCurrentUserData);
+  const { data: currentUser } = useCurrentUserQuery();
   const dispatch = useDispatch();
   const [updateTask, { isLoading: isUpdateLoading }] = useUpdateTaskMutation();
   const [createTask, { isLoading: isCreateLoading }] = useCreateTaskMutation();
@@ -178,7 +178,7 @@ export function Tasks() {
     eventBus.emit(EventTypes.notification, {
       type: NotificationType.WARNING,
       title: `Удалить задачу ${openedTask?.title}?`,
-      dismiss: undefined,
+      autoClose: false,
       message: (
         <NotificationButtons onDelete={onDelete} onDiscard={onDiscard} />
       ),

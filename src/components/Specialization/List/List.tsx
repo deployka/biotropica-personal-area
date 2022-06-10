@@ -1,6 +1,6 @@
 import React from 'react';
+import { Specialization } from '../../../@types/entities/Specialization';
 
-import { Specialization } from '../../../store/rtk/requests/specializations';
 import { SpecializationItem } from './../Item/Item';
 
 import s from './List.module.scss';

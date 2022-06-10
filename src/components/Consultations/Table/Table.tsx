@@ -1,9 +1,7 @@
 import React from 'react';
-
-import moment from 'moment';
+import { Consultation } from '../../../@types/entities/Consultation';
+import { Specialist } from '../../../@types/entities/Specialist';
 import { ConsultationTableItemGroup } from './ItemsGroup';
-import { Consultation } from '../../../store/ducks/consultation/contracts/state';
-import { Specialist } from '../../../store/ducks/specialist/contracts/state';
 
 import s from './Table.module.scss';
 

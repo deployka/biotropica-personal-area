@@ -1,21 +1,23 @@
+import React, { Dispatch, SetStateAction } from 'react';
 import classNames from 'classnames';
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { HeaderSvgSelector } from '../../../../assets/icons/header/HeaderSvgSelector';
 import { useModal } from '../../../../hooks/useModal';
 import { Nav, Page } from '../../../../layouts/PrivateLayout';
 import { ModalName } from '../../../../providers/ModalProvider';
 import { PopupBackground } from '../../PopupBackground/PopupBackground';
+import { Client } from '../../../../@types/entities/Client';
 
 import defaultAvatar from './../../../../assets/images/profile/default_avatar.png';
 
 import s from './SidebarNotificationsPopup.module.scss';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
 
 interface Props {
   setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
   setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
   onNavClick: (nav: Partial<Nav>) => void;
-  user: User | undefined;
+  user: BaseUser | undefined;
   pages: Page[];
   location: Location;
 }

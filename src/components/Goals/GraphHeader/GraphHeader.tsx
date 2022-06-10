@@ -1,22 +1,26 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import moment from 'moment';
-import { useSelector } from 'react-redux';
 import { Calendar } from '../../../shared/Global/Calendar/Calendar';
-import { selectGoalData } from '../../../store/ducks/goal/selectors';
 import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 
 import s from './GraphHeader.module.scss';
 // FIXME: вынести в глобальный тип для goals
 import { Dates } from '../../../pages/Goals/Goals';
+import { Goal } from '../../../@types/entities/Goal';
 
 interface Props {
   setDates: Dispatch<SetStateAction<Dates>>;
   setGraphDates: Dispatch<SetStateAction<Dates>>;
   dates: Dates;
+  goal: Goal | undefined;
 }
 
-export const GraphHeader = ({ setDates, dates, setGraphDates }: Props) => {
-  const goal: Goal | undefined = useSelector(selectGoalData);
+export const GraphHeader = ({
+  setDates,
+  dates,
+  setGraphDates,
+  goal,
+}: Props) => {
   const tabs: Tab[] = [
     {
       key: 'week',

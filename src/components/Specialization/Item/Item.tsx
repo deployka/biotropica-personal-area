@@ -5,7 +5,7 @@ import { getWordCounterText } from '../../../helpers/wordHelper';
 
 import s from './Item.module.scss';
 import { SpecializationListProps } from './../List/List';
-import { Specialization } from '../../../store/rtk/requests/specializations';
+import { Specialization } from '../../../@types/entities/Specialization';
 
 export type SpecializationItemProps = {
   type: SpecializationListProps['types'][number];

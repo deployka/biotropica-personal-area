@@ -6,14 +6,14 @@ import s from './SigninForm.module.scss';
 import { Loader } from '../../../../shared/Form/Loader/Loader';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
-import { SigninData } from '../../../../store/ducks/user/contracts/state';
 import { Link } from 'react-router-dom';
 import { SchemaOf } from 'yup';
+import { SignInDto } from '../../../../@types/dto/auth/signin.dto';
 
 interface Props {
-  onSubmit: (values: SigninData, options: FormikHelpers<SigninData>) => void;
+  onSubmit: (values: SignInDto, options: FormikHelpers<SignInDto>) => void;
   loader: boolean;
-  validationSchema: SchemaOf<SigninData>;
+  validationSchema: SchemaOf<SignInDto>;
 }
 
 export const SigninForm = ({ onSubmit, loader, validationSchema }: Props) => {
@@ -28,7 +28,7 @@ export const SigninForm = ({ onSubmit, loader, validationSchema }: Props) => {
           password: '',
         }}
         validateOnBlur
-        onSubmit={(values: SigninData, options: FormikHelpers<SigninData>) =>
+        onSubmit={(values: SignInDto, options: FormikHelpers<SignInDto>) =>
           onSubmit(values, options)
         }
         validationSchema={validationSchema}
@@ -45,7 +45,9 @@ export const SigninForm = ({ onSubmit, loader, validationSchema }: Props) => {
         }) => (
           <div className={s.form}>
             <h1 className={s.title}>Вход</h1>
-            <h2 className={s.subtitle}>Пожалуйста, заполните информацию ниже:</h2>
+            <h2 className={s.subtitle}>
+              Пожалуйста, заполните информацию ниже:
+            </h2>
 
             <div className={s.input__wrapper}>
               <Input
@@ -82,9 +84,7 @@ export const SigninForm = ({ onSubmit, loader, validationSchema }: Props) => {
               type="submit"
               onClick={() => handleSubmit()}
               options={{
-                content: loader
-                  ? <Loader />
-                  : 'Войти',
+                content: loader ? <Loader /> : 'Войти',
                 setDisabledStyle: isDisabled(isValid, dirty),
                 width: '100%',
                 height: '50px',

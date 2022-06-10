@@ -1,10 +1,11 @@
 import React from 'react';
 import s from './UsersTable.module.scss';
 import { UserItem } from '../UserItem/UserItem';
-import { User } from '../../../../store/rtk/types/user';
+import { Client } from '../../../../@types/entities/Client';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
 
 export type UsersTableProps = {
-  users: User[];
+  users: BaseUser[];
 };
 
 export function UsersTable(props: UsersTableProps) {

@@ -19,7 +19,7 @@ const listeners: Record<EventTypes, EventListenerCallback<EventTypes>[]> = {
   [EventTypes.removeNotification]: [],
 };
 type EventListenerCallback<T extends EventTypes> = (
-  payload: EventArguments[T]
+  payload: EventArguments[T],
 ) => void;
 
 class EventBus {

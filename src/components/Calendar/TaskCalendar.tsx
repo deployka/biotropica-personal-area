@@ -4,7 +4,7 @@ import s from './TaskCalendar.module.scss';
 import { CalendarHeader } from './Header/Header';
 
 import { Calendar } from './Calendar';
-import { Task } from '../../store/@types/Task';
+import { Task } from '../../@types/entities/Task';
 
 export type TaskCalendarProps = {
   tasks: Task[];

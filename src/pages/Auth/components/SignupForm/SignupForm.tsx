@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
-import { SignupData } from '../../../../store/ducks/user/contracts/state';
 import { Formik, FormikHelpers } from 'formik';
 
 import s from './SignupForm.module.scss';
@@ -16,11 +15,12 @@ import { Loader } from '../../../../shared/Form/Loader/Loader';
 import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { SchemaOf } from 'yup';
+import { SignUpDto } from '../../../../@types/dto/auth/signup.dto';
 
 interface Props {
-  onSubmit: (values: SignupData, options: FormikHelpers<SignupData>) => void;
+  onSubmit: (values: SignUpDto, options: FormikHelpers<SignUpDto>) => void;
   loader: boolean;
-  validationSchema: SchemaOf<SignupData>;
+  validationSchema: SchemaOf<Omit<SignUpDto, 'role'>>;
 }
 
 export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
@@ -39,9 +39,10 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
           name: '',
           lastname: '',
           phone: '',
+          role: process.env.REACT_APP_ROLE_CLIENT || '',
         }}
         validateOnBlur
-        onSubmit={(values: SignupData, options: FormikHelpers<SignupData>) => {
+        onSubmit={(values: SignUpDto, options: FormikHelpers<SignUpDto>) => {
           if (!checked) return;
           onSubmit(values, options);
         }}
@@ -59,7 +60,9 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
         }) => (
           <div className={s.form}>
             <h1 className={s.title}>Регистрация</h1>
-            <h2 className={s.subtitle}>Пожалуйста, заполните информацию ниже:</h2>
+            <h2 className={s.subtitle}>
+              Пожалуйста, заполните информацию ниже:
+            </h2>
 
             <div className={s.input__wrapper_name}>
               <Input
@@ -142,9 +145,7 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
               type="submit"
               onClick={() => handleSubmit()}
               options={{
-                content: loader
-                  ? <Loader />
-                  : 'Зарегистрироваться',
+                content: loader ? <Loader /> : 'Зарегистрироваться',
                 setDisabledStyle: isDisabled(isValid, dirty),
                 width: '100%',
                 height: '50px',

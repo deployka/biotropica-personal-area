@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useModal } from '../hooks/useModal';
 import { AddPhotoModal } from '../pages/Profile/components/Progress/AddPhotoModal/AddPhotoModal';
 import { PhotoSliderModal } from '../pages/Profile/components/Progress/PhotoSliderModal/PhotoSliderModal';
-import { AddAnalyzeModal } from '../pages/Profile/components/TestsAndAnalyze/AddAnalyzeModal/AddAnalyzeModal';
+import { AddAnalyzeModal } from '../pages/Profile/components/Analyzes/AddAnalyzeModal/AddAnalyzeModal';
 import { ModalName } from '../providers/ModalProvider';
 import { SidebarMenuPopup } from '../shared/Global/Sidebar/SidebarMenuPopup/SidebarMenuPopup';
 import { SidebarNotificationsPopup } from '../shared/Global/Sidebar/SidebarNotificationsPopup/SidebarNotificationsPopup';
@@ -39,11 +39,14 @@ export const Modals = () => {
     // eslint-disable-next-line
   }, [modals]);
 
-  const escFunction = useCallback(event => {
-    if (event.keyCode === 27) {
-      closeAllModals();
-    }
-  }, [closeAllModals]);
+  const escFunction = useCallback(
+    event => {
+      if (event.keyCode === 27) {
+        closeAllModals();
+      }
+    },
+    [closeAllModals],
+  );
 
   useEffect(() => {
     document.addEventListener('keydown', escFunction, false);

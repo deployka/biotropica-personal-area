@@ -1,5 +1,5 @@
 import React, { ChangeEvent, MouseEvent, useState } from 'react';
-import { TaskTemplate } from '../../../store/@types/Task';
+import { TaskTemplate } from '../../../@types/entities/Task';
 
 import s from './TemplateElement.module.scss';
 interface Props {

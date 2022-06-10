@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreateSomeTask } from '../../store/@types/Task';
+import { CreateSomeTask } from '../../@types/entities/Task';
 import { CompetitionTaskEditor } from './Competition/Competition';
 import { EventTaskEditor } from './Event/Event';
 import { TrainingTaskEditor } from './Training/Training';

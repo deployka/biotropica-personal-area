@@ -1,10 +1,5 @@
 import React from 'react';
 import { Formik } from 'formik';
-import {
-  CreateEventTask,
-  EventTask,
-  KindOfEvent,
-} from '../../../store/@types/Task';
 import { NEW_DATE } from '../../../constants/dates';
 import Button from '../../Button/Button';
 import DatePickerCustom from '../../DatePicker/DatePickerCustom';
@@ -18,6 +13,11 @@ import {
   selectRepeatType,
 } from './EventConstants';
 import validationSchema from './validationSchema';
+import {
+  CreateEventTask,
+  EventTask,
+  KindOfEvent,
+} from '../../../@types/entities/Task';
 
 export type EventTaskEditorProps = {
   task: EventTask | CreateEventTask;

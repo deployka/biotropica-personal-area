@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ComponentStory, Meta } from '@storybook/react';
 import { EventTaskPreview, EventTaskPreviewProps } from './Event';
-import { EventTask, KindOfEvent } from '../../../store/@types/Task';
+import { EventTask, KindOfEvent } from '../../../@types/entities/Task';
 
 export default {
   component: EventTaskPreview,

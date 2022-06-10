@@ -3,7 +3,7 @@ import { Formik, Form } from 'formik';
 
 import Input, { InputTypes } from '../../Input/Input';
 import Button from '../../Button/Button';
-import { Tariff, NewTariff } from '../../../types/entities/Tariff';
+import { Tariff, NewTariff } from '../../../@types/entities/Tariff';
 
 import s from './Editor.module.scss';
 
@@ -15,7 +15,11 @@ export type TariffEditorProps = {
   isNew?: boolean;
   onClose(): void;
   onRemove?(): void;
-  onSave(tariff: Tariff | NewTariff): void;
+  onSave(
+    tariff:
+      | Omit<Tariff, 'createdAt' | 'updatedAt'>
+      | Omit<NewTariff, 'createdAt' | 'updatedAt'>,
+  ): void;
 };
 
 export function TariffEditor(props: TariffEditorProps) {
@@ -57,7 +61,7 @@ export function TariffEditor(props: TariffEditorProps) {
       description: '',
       includedFields: filteredFields,
       access: [],
-    } as Tariff | NewTariff;
+    };
     id ? onSave({ ...updatedTariff, id: id }) : onSave(updatedTariff);
   }
 

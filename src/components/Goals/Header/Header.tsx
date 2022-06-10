@@ -3,17 +3,18 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper/core';
 import { Link } from 'react-router-dom';
 import { GlobalSvgSelector } from '../../../assets/icons/global/GlobalSvgSelector';
-import { Goal } from '../Goal/Goal';
 import classNames from 'classnames';
+import { Goal as IGoal } from '../../../@types/entities/Goal';
 
 import s from './Header.module.scss';
+import { Goal } from '../Goal/Goal';
 
 SwiperCore.use([Navigation]);
 SwiperCore.use([Pagination]);
 
 interface Props {
   active: number;
-  goals: Goal[];
+  goals: IGoal[];
   onGoalClick: (id: number) => void;
 }
 
@@ -56,9 +57,9 @@ export const Header = ({ active, goals, onGoalClick }: Props) => {
             },
           }}
         >
-          {goals.map((goal: Goal) => (
+          {goals.map((goal: IGoal) => (
             <SwiperSlide key={goal.id}>
-              <Goal active={active} goal={goal} onClick={onGoalClick} />
+              <Goal onGoalClick={onGoalClick} active={active} goal={goal} />
             </SwiperSlide>
           ))}
         </Swiper>

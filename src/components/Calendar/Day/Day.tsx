@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { CalendarTask } from './Task';
-import { Task } from '../../../store/@types/Task';
+import { Task } from '../../../@types/entities/Task';
 
 import s from './Day.module.scss';
 

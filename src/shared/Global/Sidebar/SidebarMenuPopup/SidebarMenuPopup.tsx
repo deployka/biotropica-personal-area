@@ -6,17 +6,19 @@ import { useModal } from '../../../../hooks/useModal';
 import { Nav, Page } from '../../../../layouts/PrivateLayout';
 import { ModalName } from '../../../../providers/ModalProvider';
 import { PopupBackground } from '../../PopupBackground/PopupBackground';
+import { Client } from '../../../../@types/entities/Client';
 
 import defaultAvatar from './../../../../assets/images/profile/default_avatar.png';
 
 import s from './SidebarMenuPopup.module.scss';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
 
 interface Props {
   nav: Nav[];
   onNavClick: (nav: Partial<Nav>) => void;
   openChat: () => void;
   logout: () => void;
-  user: User | undefined;
+  user: BaseUser | undefined;
   pages: Page[];
   location: Location;
 }

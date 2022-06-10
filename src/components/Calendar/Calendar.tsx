@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CalendarDay, CalendarDayType } from './Day/Day';
 import { formatISO } from 'date-fns';
 
 import s from './TaskCalendar.module.scss';
 import { getCalendarPageDays } from './TaskCalendarHelper';
-import { Task } from '../../store/@types/Task';
+import { Task } from '../../@types/entities/Task';
 
 interface Props {
   tasks: Task[];

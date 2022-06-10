@@ -1,5 +1,5 @@
 import React, { ReactElement, useCallback, useEffect, useState } from 'react';
-import { Specialist as ISpecialist } from '../../../store/ducks/specialist/contracts/state';
+
 import { getMediaLink } from '../../../utils/mediaHelper';
 import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 import { Button } from '../../../shared/Form/Button/Button';
@@ -8,9 +8,12 @@ import { FREE_CONSULTATIONS_COUNT } from '../../../constants/consultations';
 import { useHistory } from 'react-router';
 
 import s from './Item.module.scss';
+import { Specialist } from '../../../@types/entities/Specialist';
+import { formatSpecializationsToString } from '../../../utils/specialistHelper';
+import { getFullName } from '../../../utils/getFullName';
 
 interface Props {
-  specialist: ISpecialist;
+  specialist: Specialist;
   searchQuery: string;
   isLoadingSignUp: boolean;
   onSignUpClick: (
@@ -29,16 +32,19 @@ export const ConsultationItem = ({
   consultationsCount,
 }: Props) => {
   // FIXME: вынести логику из компонента
-  const { experience, specializations, price, name, profilePhoto, id, userId } =
-    specialist;
+  const { experience, specializations, price, user, id } = specialist;
+
+  const { name, lastname, profilePhoto, id: userId } = user;
+  const fullName = getFullName(name, lastname);
 
   const [click, setClick] = useState(false);
   const history = useHistory();
 
   function moveToSpecialist() {
-    history.push('/specialists/' + userId);
+    history.push('/specialists/' + id);
   }
 
+  // TODO: вынести в helper
   // eslint-disable-next-line
   function getMarkStringByValue(value: string | number): ReactElement {
     value = String(value);
@@ -60,8 +66,6 @@ export const ConsultationItem = ({
       setClick(click);
     });
     setClick(true);
-
-    // eslint-disable-next-line
   }, [id, userId, click, onSignUpClick]);
 
   useEffect(() => {
@@ -85,14 +89,14 @@ export const ConsultationItem = ({
           className={s.photo}
           style={{
             backgroundImage: `url(${
-              getMediaLink(profilePhoto) || defaultAvatar
+              getMediaLink(profilePhoto || '') || defaultAvatar
             })`,
           }}
         />
 
         <div className={s.info}>
           <div className={s.name} onClick={moveToSpecialist}>
-            <p> {getMarkStringByValue(name)}</p>
+            <p>{getMarkStringByValue(fullName)}</p>
           </div>
           <div className={s.experience}>
             <p>стаж {getMarkStringByValue(experience)}</p>
@@ -101,7 +105,9 @@ export const ConsultationItem = ({
       </div>
 
       <div className={s.specialization}>
-        <p>{getMarkStringByValue(specializations)}</p>
+        <p>
+          {getMarkStringByValue(formatSpecializationsToString(specializations))}
+        </p>
       </div>
 
       <div className={s.price}>

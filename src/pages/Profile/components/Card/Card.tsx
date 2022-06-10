@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { User } from '../../../../store/ducks/user/contracts/state';
 
 import s from './Card.module.scss';
 
@@ -10,9 +9,11 @@ import moment from 'moment';
 import 'moment/locale/ru';
 import classNames from 'classnames';
 import { getMediaLink } from '../../../../utils/mediaHelper';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
+
 moment.locale('ru');
 interface Props {
-  user: User;
+  user: BaseUser;
 }
 
 export const Card = ({ user }: Props) => {

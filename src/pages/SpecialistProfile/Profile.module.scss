@@ -1,8 +1,8 @@
-@import '../../styles/global.scss';
+@import "../../styles/global.scss";
 
 @media screen and (max-width: 576px) {
   .backgroundWrapper {
-    background-image: url('../../assets/images/ProfileBackground.jpg');
+    background-image: url("../../assets/images/ProfileBackground.jpg");
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -14,7 +14,6 @@
 .profile {
   width: 100%;
   overflow-x: hidden;
-  overflow-y: scroll;
 
   @media screen and (max-width: 650px) {
     padding: 20px 10px;
@@ -35,7 +34,6 @@
   .courses {
     position: relative;
     margin-left: 315px;
-    overflow-y: scroll;
     display: flex;
     flex-direction: column;
     align-items: flex-start;

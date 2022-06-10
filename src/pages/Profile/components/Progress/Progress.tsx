@@ -1,30 +1,23 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 import { ProgressCard } from './ProgressCard/ProgressCard';
 
 import s from './Progress.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  selectProgressData,
-  selectProgressLoadingStatus,
-} from '../../../../store/ducks/progress/selectors';
-import { Progress as IProgress } from '../../../../store/ducks/progress/contracts/state';
 
-import { fetchProgressData } from '../../../../store/ducks/progress/actionCreators';
 import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
 import { ModalName } from '../../../../providers/ModalProvider';
 import { useModal } from '../../../../hooks/useModal';
-import { LoadingStatus } from '../../../../store/types';
+import { Progress as IProgress } from '../../../../@types/entities/Progress';
+import { useGetProgressPostsQuery } from '../../../../api/progress';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
 
 interface Props {
-  user: User;
+  user: BaseUser;
 }
 
 export const Progress = ({ user }: Props) => {
-  const dispatch = useDispatch();
-
   const { openModal } = useModal();
 
   const infoBar: IInfoBar = {
@@ -36,12 +29,9 @@ export const Progress = ({ user }: Props) => {
     },
   };
 
-  const progress: IProgress[] = useSelector(selectProgressData) || [];
-  const loadingStatus = useSelector(selectProgressLoadingStatus);
-  const isLoading = loadingStatus === LoadingStatus.LOADING;
-  useEffect(() => {
-    dispatch(fetchProgressData(user.id));
-  }, []);
+  const { data: progress = [], isLoading } = useGetProgressPostsQuery({
+    userId: user.id,
+  });
 
   if (!progress.length && !isLoading) {
     return <InfoBar infoBar={infoBar} />;

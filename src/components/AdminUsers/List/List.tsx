@@ -8,18 +8,20 @@ import {
   filterUsersByTariffs,
   usersFilters,
 } from '../adminUsersHelper';
-import { AdminUsersHeader } from '../Header/Header';
-import { AdminUsersTable } from '../Table/Table';
-import { TARIFF, User } from '../../../store/rtk/types/user';
-import { ROLE } from '../../../store/@types/User';
 
 import s from './List.module.scss';
 
+import { UsersTableHeader } from './UsersTableHeader';
+import { UsersTable } from './UsersTable';
+import { ROLE } from '../../../../@types/entities/Role';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
+import { TARIFF } from '../../../../@types/entities/Tariff';
+
 type Props = {
-  users: User[];
+  users: Array<BaseUser>;
   onCreateUser(): void;
-  onBlockUser(user: User): void;
-  onWriteUser(user: User): void;
+  onBlockUser(user: BaseUser): void;
+  onWriteUser(user: BaseUser): void;
 };
 
 type Filters = {

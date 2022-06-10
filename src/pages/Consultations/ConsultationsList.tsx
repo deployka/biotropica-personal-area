@@ -1,30 +1,22 @@
-import moment from 'moment';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import { useHistory } from 'react-router';
-import { Consultation } from '../../store/ducks/consultation/contracts/state';
-import { fetchConsultationsData } from '../../store/ducks/consultations/actionCreators';
-import { selectConsultationsData } from '../../store/ducks/consultations/selectors';
-import { fetchSpecialistsData } from '../../store/ducks/specialists/actionCreators';
-import { selectFilteredSpecialistsData } from '../../store/ducks/specialists/selectors';
-import { chatApi } from '../../shared/Global/Chat/services/chatApi';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { differenceInDays } from 'date-fns';
 
 import s from './Consultations.module.scss';
 import { ConsultationsTable } from '../../components/Consultations/Table/Table';
+import { useGetConsultationsQuery } from '../../api/consultations';
+import { useGetSpecialistsQuery } from '../../api/specialists';
+import { useCreateDialogMutation } from '../../api/chat';
+import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
+import { ResponseError } from '../../@types/api/response';
 
 export const ConsultationsList = () => {
-  const dispatch = useDispatch();
   const history = useHistory();
 
-  useEffect(() => {
-    dispatch(fetchConsultationsData());
-    dispatch(fetchSpecialistsData());
-  }, [dispatch]);
-
-  const specialists = useSelector(selectFilteredSpecialistsData);
-  const consultations = useSelector(selectConsultationsData);
+  const { data: specialists = [] } = useGetSpecialistsQuery();
+  const { data: consultations = [] } = useGetConsultationsQuery();
+  const [createDialog] = useCreateDialogMutation();
 
   const activeConsultations = consultations.filter(
     c => differenceInDays(new Date().getTime(), new Date(c.date || '')) <= 0,
@@ -39,8 +31,16 @@ export const ConsultationsList = () => {
   };
 
   async function sendMessage(userId: number) {
-    const dialog = await chatApi.create(userId);
-    eventBus.emit(EventTypes.chatOpen, dialog.id);
+    try {
+      const dialog = await createDialog({ userId }).unwrap();
+      eventBus.emit(EventTypes.chatOpen, dialog.id);
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        title: 'Произошла ошибка!',
+        message: (error as ResponseError).data.message,
+        type: NotificationType.DANGER,
+      });
+    }
   }
 
   function onSendMessageClick(userId: number | undefined) {

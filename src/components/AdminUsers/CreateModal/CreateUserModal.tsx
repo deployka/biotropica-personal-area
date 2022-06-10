@@ -3,19 +3,22 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import s from './CreateUserModal.module.scss';
 import { CreateUserInput } from './CreateUserInput';
 import { CreateUserSelect } from './CreateUserSelect';
-import { Role, User } from '../../../store/rtk/types/user';
-import Button from '../../../components/Button/Button';
-import Modal from '../../../shared/Global/Modal/Modal';
+
+import Button from '../../../../components/Button/Button';
+import Modal from '../../../../shared/Global/Modal/Modal';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
+import { Role } from '../../../../@types/entities/Role';
 
 interface Props {
   setPopup: Dispatch<SetStateAction<boolean>>;
   popup: boolean;
   roles: Role[];
-  onUserCreate(user: Partial<User>): void;
+
+  onUserCreate(user: Partial<BaseUser>): void;
 }
 
 type UserEditable = Pick<
-  User,
+  BaseUser,
   'name' | 'lastname' | 'email' | 'phone' | 'roles'
 >;
 
@@ -49,7 +52,7 @@ export const CreateUserModal = (props: Props) => {
   function roleChangeHandler(id: number) {
     const foundRole = props.roles.find(it => it.id === id);
     if (foundRole) {
-      return setUserField('roles', [foundRole]);
+      return setUserField('roles', [foundRole.name]);
     }
   }
 
@@ -89,7 +92,7 @@ export const CreateUserModal = (props: Props) => {
           />
           <CreateUserSelect
             title="Роль"
-            value={user.roles[0]?.id}
+            value={user.roles[0]}
             placeholder="Роль"
             options={props.roles.map(it => ({ label: it.name, value: it.id }))}
             onChange={roleChangeHandler}

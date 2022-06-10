@@ -6,11 +6,7 @@ export function showSuccessNotificationAfterDeleteTariff(name: string) {
     title: `«${name}» успешно удален`,
     message: '',
     type: NotificationType.SUCCESS,
-    dismiss: {
-      duration: 5000,
-      pauseOnHover: true,
-      onScreen: true,
-    },
+    autoClose: 5000,
   });
 }
 
@@ -19,11 +15,7 @@ export function showErrorNotificationAfterDeleteTariff(name: string) {
     title: `Не получилось удалить «${name}», попробуйте еще раз`,
     message: '',
     type: NotificationType.DANGER,
-    dismiss: {
-      duration: 5000,
-      pauseOnHover: true,
-      onScreen: true,
-    },
+    autoClose: 5000,
   });
 }
 
@@ -32,11 +24,7 @@ export function showErrorNotificationAfterChangeTariff(name: string) {
     title: `Не удалось изменить «${name}», попробуйте еще раз`,
     message: '',
     type: NotificationType.DANGER,
-    dismiss: {
-      duration: 5000,
-      pauseOnHover: true,
-      onScreen: true,
-    },
+    autoClose: 5000,
   });
 }
 
@@ -45,11 +33,7 @@ export function showSuccessNotificationAfterChangeTariff(name: string) {
     title: `«${name}» успешно изменен`,
     message: '',
     type: NotificationType.SUCCESS,
-    dismiss: {
-      duration: 5000,
-      pauseOnHover: true,
-      onScreen: true,
-    },
+    autoClose: 5000,
   });
 }
 
@@ -58,11 +42,7 @@ export function showErrorNotificationAfterAddTariff() {
     title: 'Не удалось добавить новый пакет, попробуйте еще раз',
     message: '',
     type: NotificationType.DANGER,
-    dismiss: {
-      duration: 5000,
-      pauseOnHover: true,
-      onScreen: true,
-    },
+    autoClose: 5000,
   });
 }
 
@@ -71,10 +51,6 @@ export function showSuccessNotificationAfterAddTariff() {
     title: 'Тариф успешно добавлен',
     message: '',
     type: NotificationType.SUCCESS,
-    dismiss: {
-      duration: 5000,
-      pauseOnHover: true,
-      onScreen: true,
-    },
+    autoClose: 5000,
   });
 }

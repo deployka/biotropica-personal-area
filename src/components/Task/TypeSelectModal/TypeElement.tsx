@@ -1,5 +1,5 @@
 import React from 'react';
-import { TaskType } from '../../../store/@types/Task';
+import { TaskType } from '../../../@types/entities/Task';
 
 import s from './TypeElement.module.scss';
 interface Props {

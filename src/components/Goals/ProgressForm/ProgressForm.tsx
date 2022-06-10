@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Formik, FormikHelpers } from 'formik';
 import MaskedInput from 'react-maskedinput';
 import { Link } from 'react-router-dom';
@@ -16,7 +16,10 @@ import { registerLocale } from 'react-datepicker';
 import ru from 'date-fns/locale/ru';
 import { validationSchema } from './validationSchema';
 import s from './ProgressForm.module.scss';
-import { UpdateGoalValues } from '../../../store/ducks/goal/contracts/state';
+import { Goal } from '../../../@types/entities/Goal';
+import { MAX_PROGRESS } from '../../../constants/goals';
+import { getProgressValueByTypeAndUnit } from '../../../utils/goalsHelper';
+import { UpdateGoalValuesDto } from '../../../@types/dto/goals/update-values.dto';
 
 registerLocale('ru', ru);
 
@@ -24,8 +27,8 @@ interface Props {
   goal: Goal;
   onDeleteGoal: () => void;
   onSubmit: (
-    values: UpdateGoalValues,
-    options: FormikHelpers<UpdateGoalValues>,
+    values: UpdateGoalValuesDto,
+    options: FormikHelpers<UpdateGoalValuesDto>,
   ) => void;
   progressBarOptions: progressBarOptions;
   isLoading: boolean;
@@ -42,11 +45,19 @@ export const ProgressForm = ({
     return (!isValid && !dirty) || isLoading;
   }
 
+  const getProgressValue = useCallback(() => {
+    const value = getProgressValueByTypeAndUnit(goal.type, goal.units, goal);
+    return value <= MAX_PROGRESS ? value : MAX_PROGRESS;
+  }, [goal.values, goal.endResult]);
+
   return (
     <>
       <div className={s.goalPanel}>
         <div className={s.top}>
-          <GoalsProgressBar progressBarOptions={progressBarOptions} />
+          <GoalsProgressBar
+            progressValue={getProgressValue()}
+            progressBarOptions={progressBarOptions}
+          />
           <div className={s.goalActions}>
             <Link to={`/goals/edit/${goal.id}`} className={s.action}>
               <GlobalSvgSelector id="edit" />
@@ -67,13 +78,14 @@ export const ProgressForm = ({
 
           <Formik
             initialValues={{
+              id: goal.id,
               value: '',
               createdAt: new Date(),
             }}
             validateOnBlur
             onSubmit={(
-              values: UpdateGoalValues,
-              options: FormikHelpers<UpdateGoalValues>,
+              values: UpdateGoalValuesDto,
+              options: FormikHelpers<UpdateGoalValuesDto>,
             ) => {
               onSubmit(values, options);
             }}

@@ -8,11 +8,6 @@ import SearchIcon from '../../assets/icons/Search.svg';
 import MobileSearchIcon from '../../assets/icons/MobileSearch.svg';
 import { useHistory } from 'react-router';
 import useDeviceSize from '../../hooks/useDeviceSize';
-import {
-  useRequestChangeConsultationDatetimeMutation,
-  useRequestConsultationsQuery,
-  useRequestDeleteConsultationMutation,
-} from '../../store/rtk/requests/consultations';
 import { Loader } from '../../shared/Global/Loader/Loader';
 import Divider from '../../components/Divider/Divider';
 import DatePicker from 'react-datepicker';
@@ -22,24 +17,31 @@ import Confirm from '../../shared/Global/Modal/Confirm/Confirm';
 import setDateTimeValidation from './setDateTimeValidation';
 import Input, { InputTypes } from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
-import { Consultation as RequestedConsultation } from '../../store/rtk/types/user';
+import { Consultation as RequestedConsultation } from '../../@types/entities/Consultation';
+import {
+  useChangeConsultationDatetimeMutation,
+  useDeleteConsultationMutation,
+  useGetConsultationsQuery,
+} from '../../api/consultations';
 
 const VideoConsultationsList = () => {
   interface Consultation {
-    id: number,
-    date: string,
-    time: string,
-    clientName: string,
-    status: string,
-    fullData: RequestedConsultation,
+    id: number;
+    date: string;
+    time: string;
+    clientName: string;
+    status: string;
+    fullData: RequestedConsultation;
   }
 
   const history = useHistory();
 
   const [searchInput, setSearchInput] = useState('');
-  const [consultationToChange, setConsultationToChange] = useState<Consultation>();
+  const [consultationToChange, setConsultationToChange] =
+    useState<Consultation>();
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
-  const [isSetDateTimeModalVisible, setIsSetDateTimeModalVisible] = useState(false);
+  const [isSetDateTimeModalVisible, setIsSetDateTimeModalVisible] =
+    useState(false);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -47,15 +49,15 @@ const VideoConsultationsList = () => {
 
   const [list, setList] = React.useState<Consultation[]>([]);
 
-  const { data, refetch, isLoading } = useRequestConsultationsQuery();
-  const [requestDeleteConsultation, {
-    isSuccess: isDeleteSuccess,
-    isLoading: isDeleteLoading,
-  }] = useRequestDeleteConsultationMutation();
-  const [requestChangeConsultationDatetime, {
-    isSuccess: isChangeSuccess,
-    isLoading: isChangeLoading,
-  }] = useRequestChangeConsultationDatetimeMutation();
+  const { data, refetch, isLoading } = useGetConsultationsQuery();
+  const [
+    requestDeleteConsultation,
+    { isSuccess: isDeleteSuccess, isLoading: isDeleteLoading },
+  ] = useDeleteConsultationMutation();
+  const [
+    requestChangeConsultationDatetime,
+    { isSuccess: isChangeSuccess, isLoading: isChangeLoading },
+  ] = useChangeConsultationDatetimeMutation();
 
   React.useEffect(() => {
     refetch();
@@ -73,12 +75,17 @@ const VideoConsultationsList = () => {
         const name = consultation.user.name;
         const lastname = consultation.user.lastname;
         const patronymic = consultation.user.patronymic;
-        const status = (new Date().getTime() < date.getTime()) ? 'active' : 'inactive';
+        const status =
+          new Date().getTime() < date.getTime() ? 'active' : 'inactive';
 
         return {
           id: consultation.id,
           date: consultation.date ? dmy : '-',
-          time: consultation.date ? `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}` : '-',
+          time: consultation.date
+            ? `${hours < 10 ? '0' + hours : hours}:${
+                minutes < 10 ? '0' + minutes : minutes
+              }`
+            : '-',
           clientName: `${name} ${lastname || ''} ${patronymic || ''}`,
           status,
           fullData: consultation,
@@ -89,7 +96,9 @@ const VideoConsultationsList = () => {
     }
   }, [data]);
 
-  const handleChangeSearchInput = (event: React.FormEvent<HTMLInputElement>) => {
+  const handleChangeSearchInput = (
+    event: React.FormEvent<HTMLInputElement>,
+  ) => {
     setSearchInput(event.currentTarget.value);
   };
 
@@ -97,20 +106,22 @@ const VideoConsultationsList = () => {
     searchInputRef && searchInputRef.current && searchInputRef.current.focus();
   };
 
-  const filteredConsultationsList = list.filter((consultation: Consultation) => (
+  const filteredConsultationsList = list.filter(
+    (consultation: Consultation) =>
+      consultation.date.includes(searchInput) ||
+      consultation.time.includes(searchInput) ||
+      consultation.clientName.toLowerCase().includes(searchInput.toLowerCase()),
+  );
 
-    consultation.date.includes(searchInput) ||
-    consultation.time.includes(searchInput) ||
-    consultation.clientName.toLowerCase().includes(searchInput.toLowerCase())
-  ));
+  const activeConsultationsList = filteredConsultationsList.filter(
+    (consultation: Consultation) =>
+      consultation.status === 'active' || consultation.date === '-',
+  );
 
-  const activeConsultationsList = filteredConsultationsList.filter((consultation: Consultation) => (
-    consultation.status === 'active' || consultation.date === '-'
-  ));
-
-  const inactiveConsultationsList = filteredConsultationsList.filter((consultation: Consultation) => (
-    consultation.status === 'inactive' && consultation.date !== '-'
-  ));
+  const inactiveConsultationsList = filteredConsultationsList.filter(
+    (consultation: Consultation) =>
+      consultation.status === 'inactive' && consultation.date !== '-',
+  );
 
   const showSetDateTimeModal = () => {
     setIsSetDateTimeModalVisible(true);
@@ -133,11 +144,14 @@ const VideoConsultationsList = () => {
   };
 
   interface InputTypes {
-    date: Date,
-    time: string,
+    date: Date;
+    time: string;
   }
 
-  const setDateTime = (consultationToChange: Consultation, values: InputTypes) => {
+  const setDateTime = (
+    consultationToChange: Consultation,
+    values: InputTypes,
+  ) => {
     const date = values.date;
     const time = values.time;
 
@@ -163,32 +177,29 @@ const VideoConsultationsList = () => {
 
   return (
     <>
-      {
-        (isLoading || isChangeLoading || isDeleteLoading) &&
-          <Loader />
-      }
+      {(isLoading || isChangeLoading || isDeleteLoading) && <Loader />}
       <div className={s.usersList}>
         <div className={s.header}>
           <div className={s.headerLeft}>
-            <h2 className={s.headerTitle}>
-              Все видеоконсультации
-            </h2>
-            <span className={s.usersCount}>
-              {list.length}
-            </span>
+            <h2 className={s.headerTitle}>Все видеоконсультации</h2>
+            <span className={s.usersCount}>{list.length}</span>
           </div>
           <div className={s.headerRight}>
-            <img src={SearchIcon} alt='' className={s.searchIcon}/>
+            <img src={SearchIcon} alt="" className={s.searchIcon} />
             <input
-              type='text'
-              placeholder='Поиск консультаций...'
+              type="text"
+              placeholder="Поиск консультаций..."
               className={s.searchInput}
               ref={searchInputRef}
               value={searchInput}
               onChange={handleChangeSearchInput}
             />
             <button onClick={handleSearchButtonClick}>
-              <img src={MobileSearchIcon} alt='' className={s.mobileSearchIcon} />
+              <img
+                src={MobileSearchIcon}
+                alt=""
+                className={s.mobileSearchIcon}
+              />
             </button>
           </div>
         </div>
@@ -199,82 +210,84 @@ const VideoConsultationsList = () => {
             <th>Клиент</th>
             <th></th>
           </tr>
-          {
-            activeConsultationsList.length !== 0
-              ? activeConsultationsList.map((consultation: Consultation) => (
-                <tr key={consultation.id} className={s.tableRow}>
-                  <td>{consultation.date}</td>
-                  <td>{consultation.time}</td>
-                  <td>{consultation.clientName}</td>
-                  <td>
-                    <MoreOptionsButton
-                      isMovable={!!consultation.fullData.meetingNumber}
-                      consultationId={consultation.id}
-                      showSetDateTimeModal={() => {
-                        setConsultationToChange(consultation);
-                        showSetDateTimeModal();
-                      }}
-                      showDeleteModal={() => {
-                        setConsultationToChange(consultation);
-                        showDeleteModal();
-                      }}
-                      goToConsultation={() => {
-                        goToConsultation(consultation.id);
-                      }}
-                    />
-                  </td>
-                </tr>
-              ))
-              : <tr className={s.tableRow}>
-                <td className={s.tableNoData}>
-                  Нет данных
+          {activeConsultationsList.length !== 0 ? (
+            activeConsultationsList.map((consultation: Consultation) => (
+              <tr key={consultation.id} className={s.tableRow}>
+                <td>{consultation.date}</td>
+                <td>{consultation.time}</td>
+                <td>{consultation.clientName}</td>
+                <td>
+                  <MoreOptionsButton
+                    isMovable={!!consultation.fullData.meetingNumber}
+                    consultationId={consultation.id}
+                    showSetDateTimeModal={() => {
+                      setConsultationToChange(consultation);
+                      showSetDateTimeModal();
+                    }}
+                    showDeleteModal={() => {
+                      setConsultationToChange(consultation);
+                      showDeleteModal();
+                    }}
+                    goToConsultation={() => {
+                      goToConsultation(consultation.id);
+                    }}
+                  />
                 </td>
               </tr>
-          }
+            ))
+          ) : (
+            <tr className={s.tableRow}>
+              <td className={s.tableNoData}>Нет данных</td>
+            </tr>
+          )}
           <tr className={s.tableHeaderRow}>
             <th>Прошедшие</th>
             <th></th>
             <th></th>
             <th></th>
           </tr>
-          {
-            inactiveConsultationsList.length !== 0
-              ? inactiveConsultationsList.map((consultation: Consultation) => (
-                <tr key={consultation.id} className={s.tableRowOfPastConsultations}>
-                  <td>{consultation.date}</td>
-                  <td>{consultation.time}</td>
-                  <td>{consultation.clientName}</td>
-                  <td>
-                    <MoreOptionsButton
-                      isMovable={!!consultation.fullData.meetingNumber}
-                      consultationId={consultation.id}
-                      showSetDateTimeModal={() => {
-                        setConsultationToChange(consultation);
-                        showSetDateTimeModal();
-                      }}
-                      showDeleteModal={() => {
-                        setConsultationToChange(consultation);
-                        showDeleteModal();
-                      }}
-                      goToConsultation={() => {
-                        goToConsultation(consultation.id);
-                      }}
-                    />
-                  </td>
-                </tr>
-              ))
-              : <tr className={s.tableRow}>
-                <td className={s.tableNoData}>
-                  Нет данных
+          {inactiveConsultationsList.length !== 0 ? (
+            inactiveConsultationsList.map((consultation: Consultation) => (
+              <tr
+                key={consultation.id}
+                className={s.tableRowOfPastConsultations}
+              >
+                <td>{consultation.date}</td>
+                <td>{consultation.time}</td>
+                <td>{consultation.clientName}</td>
+                <td>
+                  <MoreOptionsButton
+                    isMovable={!!consultation.fullData.meetingNumber}
+                    consultationId={consultation.id}
+                    showSetDateTimeModal={() => {
+                      setConsultationToChange(consultation);
+                      showSetDateTimeModal();
+                    }}
+                    showDeleteModal={() => {
+                      setConsultationToChange(consultation);
+                      showDeleteModal();
+                    }}
+                    goToConsultation={() => {
+                      goToConsultation(consultation.id);
+                    }}
+                  />
                 </td>
               </tr>
-          }
+            ))
+          ) : (
+            <tr className={s.tableRow}>
+              <td className={s.tableNoData}>Нет данных</td>
+            </tr>
+          )}
         </table>
       </div>
       <Modal isOpened={isDeleteModalVisible} close={() => closeDeleteModal()}>
         <Confirm
-          helpMessage='Вы уверены, что хотите удалить консультацию?'
-          accept={() => { !!consultationToChange && deleteConsultation(consultationToChange.id); }}
+          helpMessage="Вы уверены, что хотите удалить консультацию?"
+          accept={() => {
+            !!consultationToChange &&
+              deleteConsultation(consultationToChange.id);
+          }}
           reject={() => closeDeleteModal()}
         />
       </Modal>
@@ -284,35 +297,28 @@ const VideoConsultationsList = () => {
         close={() => closeSetDateTimeModal()}
       >
         <div className={s.dateTimeModal}>
-          <h1 className={s.dateTimeHeader}>
-            Изменить дату и время
-          </h1>
-          <div className={s.dateTimeDivider} >
+          <h1 className={s.dateTimeHeader}>Изменить дату и время</h1>
+          <div className={s.dateTimeDivider}>
             <Divider />
           </div>
           <Formik
             initialValues={{
-              date:
-                consultationToChange
-                  ? (
-                      consultationToChange.fullData.date
-                        ? new Date(consultationToChange.fullData.date)
-                        : new Date()
-                    )
-                  : new Date(),
-              time:
-                consultationToChange
-                  ? (
-                      consultationToChange.time !== '-'
-                        ? consultationToChange.time
-                        : ''
-                    )
-                  : '',
+              date: consultationToChange
+                ? consultationToChange.fullData.date
+                  ? new Date(consultationToChange.fullData.date)
+                  : new Date()
+                : new Date(),
+              time: consultationToChange
+                ? consultationToChange.time !== '-'
+                  ? consultationToChange.time
+                  : ''
+                : '',
             }}
             validateOnBlur
             validationSchema={setDateTimeValidation}
             onSubmit={(values: InputTypes) => {
-              !!consultationToChange && setDateTime(consultationToChange, values);
+              !!consultationToChange &&
+                setDateTime(consultationToChange, values);
             }}
           >
             {({
@@ -339,12 +345,8 @@ const VideoConsultationsList = () => {
                   <div className={s.wrapperInput}>
                     <Input
                       type={InputTypes.TEXT}
-                      name='time'
-                      placeholder={
-                        deviseWidth <= 768
-                          ? '00:00'
-                          : 'Время'
-                      }
+                      name="time"
+                      placeholder={deviseWidth <= 768 ? '00:00' : 'Время'}
                       value={values.time}
                       onBlur={handleBlur}
                       onChange={handleChange}
@@ -359,7 +361,7 @@ const VideoConsultationsList = () => {
                     Отмена
                   </Button>
                   <Button
-                    type='submit'
+                    type="submit"
                     className={s.submitBtn}
                     isPrimary
                     isDisabled={!(isValid && dirty)}

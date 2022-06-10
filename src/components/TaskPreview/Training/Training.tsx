@@ -1,7 +1,6 @@
 import React from 'react';
 import { intlFormat } from 'date-fns';
 import { Formik } from 'formik';
-import { TrainingTask } from '../../../store/@types/Task';
 import Input, { InputTypes } from '../../Input/Input';
 import { TaskPreviewComments } from '../../Task/PreviewComments/PreviewComments';
 import { TaskValuePreview } from '../../Task/ValuePreview/ValuePreview';
@@ -13,6 +12,7 @@ import {
 import submitIcon from './../../../assets/icons/submit.svg';
 
 import s from './Training.module.scss';
+import { TrainingTask } from '../../../@types/entities/Task';
 
 export type TrainingTaskPreviewProps = {
   task: TrainingTask;

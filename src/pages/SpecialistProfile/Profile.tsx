@@ -1,76 +1,61 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
+import { Specialization } from '../../@types/entities/Specialization';
+import { useGetCurrentSpecialistQuery } from '../../api/specialists';
+import { ProfileCard } from '../../components/Profile/Card/Card';
+import { SpecialistCoursesList } from '../../components/Specialist/Courses/List';
 
 import s from './Profile.module.scss';
 
-import Card from './components/Card/Card';
-import { Post } from './components/Post/Post';
-import Button from '../../components/Button/Button';
-import { chatApi } from '../../shared/Global/Chat/services/chatApi';
-import { eventBus, EventTypes } from '../../services/EventBus';
-import { useParams } from 'react-router-dom';
-import { selectCurrentUserData } from '../../store/ducks/user/selectors';
-import { useGetUserQuery } from '../../store/rtk/requests/user';
-import { ROLE } from '../../store/@types/User';
+// TODO: вынести в глобальный тип
+export type SpecialistData = {
+  specializations: Specialization[];
+  experience: string;
+  education: string;
+};
 
 const Profile = () => {
-  const { id } = useParams<{ id: string }>();
+  const {
+    data: currentSpecialist,
+    isLoading,
+    isError,
+  } = useGetCurrentSpecialistQuery();
 
-  const currentUser = useSelector(selectCurrentUserData);
+  console.log('currentUser', currentSpecialist);
 
-  const userId = Number(id || currentUser?.id);
-  const { data: user } = useGetUserQuery(userId, {
-    skip: Number.isNaN(userId),
-  });
-
-  const courses = user?.specialist?.courses;
-  const userClient = user?.roles.some(it => it.name === ROLE.CLIENT);
-
-  async function sendMessage() {
-    if (!user) return;
-    const dialog = await chatApi.create(user.id as number);
-    eventBus.emit(EventTypes.chatOpen, dialog.id);
+  if (isLoading) {
+    return <p>Загрузка...</p>;
   }
+
+  if (!isLoading && isError) {
+    return <p>Произошла ошибка</p>;
+  }
+
+  if (!currentSpecialist) {
+    return <p>Произошла ошибка</p>;
+  }
+
+  const courses = currentSpecialist.courses;
+  const specialistData = {
+    education: currentSpecialist.education,
+    experience: currentSpecialist.experience,
+    specializations: currentSpecialist.specializations,
+  };
 
   return (
     <div className={s.backgroundWrapper}>
       <div className={s.profile}>
         <div className={s.info}>
-          {!!user && <Card user={user} />}
-          {userClient ? (
-            <Button
-              isPrimary={true}
-              className={s.actionBtn}
-              onClick={sendMessage}
-            >
-              Начать чат
-            </Button>
-          ) : (
-            ''
+          {currentSpecialist && (
+            <ProfileCard
+              userData={currentSpecialist.user}
+              isEditable={true}
+              specialistData={specialistData}
+              profilePhoto={currentSpecialist.user.profilePhoto || ''}
+            />
           )}
         </div>
 
-        {courses && (
-          <div className={s.courses}>
-            <div className={s.title}>
-              <h3>Курсы повышения квалификации</h3>
-              {courses.length ? (
-                <div className={s.postList}>
-                  {courses.map((course, i) => (
-                    <Post
-                      key={i}
-                      title={course.title}
-                      description={course.description}
-                      date={course.date}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <p className={s.emptyData}>Нет данных</p>
-              )}
-            </div>
-          </div>
-        )}
+        {courses && <SpecialistCoursesList coursesList={courses} />}
       </div>
     </div>
   );

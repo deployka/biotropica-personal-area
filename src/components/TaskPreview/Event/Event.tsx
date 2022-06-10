@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { intlFormat } from 'date-fns';
-import { EventTask } from '../../../store/@types/Task';
 import { TaskPreviewComments } from '../../Task/PreviewComments/PreviewComments';
 import { TaskValuePreview } from '../../Task/ValuePreview/ValuePreview';
+import { EventTask } from '../../../@types/entities/Task';
 
 import s from './Event.module.scss';
 

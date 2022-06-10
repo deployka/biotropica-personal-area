@@ -1,6 +1,9 @@
-import { FilterConfig } from '../Filter/Filter';
-import { User, TARIFF } from '../../store/rtk/types/user';
-import { ROLE } from '../../store/@types/User';
+import { BaseUser } from '../../../@types/entities/BaseUser';
+import { Client } from '../../../@types/entities/Client';
+import { ROLE } from '../../../@types/entities/Role';
+import { Specialist } from '../../../@types/entities/Specialist';
+import { TARIFF } from '../../../@types/entities/Tariff';
+import { FilterConfig } from '../components/UserFilter/UsersFilter';
 
 export const usersFilters: FilterConfig[] = [
   {
@@ -67,13 +70,16 @@ export const usersFilters: FilterConfig[] = [
   },
 ];
 
-export function filterUsersByRoles(users: User[], roles: (ROLE | undefined)[]) {
+export function filterUsersByRoles(
+  users: Array<BaseUser>,
+  roles: (ROLE | undefined)[],
+) {
   if (roles.length === 1 && !roles[0]) {
     return users;
   }
 
   return users.filter(user => {
-    const userRoles = user.roles.map(it => it.name);
+    const userRoles = user.roles.map(it => it);
     for (const userRole of userRoles) {
       if (roles.includes(userRole)) {
         return true;
@@ -83,18 +89,22 @@ export function filterUsersByRoles(users: User[], roles: (ROLE | undefined)[]) {
   });
 }
 
-export function filterUsersByQuestionnaire(users: User[], value: boolean) {
+export function filterUsersByQuestionnaire(
+  users: Array<BaseUser>,
+  value: boolean,
+) {
   return users.filter(user => {
+    if (!user.roles.includes(ROLE.CLIENT)) return false;
     if (value) {
-      return user.questionHash === 'FINISHED';
+      return (user as Client).questionHash === 'FINISHED';
     } else {
-      return user.questionHash === null;
+      return (user as Client).questionHash === null;
     }
   });
 }
 
 export function filterUsersByTariffs(
-  users: User[],
+  users: Array<BaseUser>,
   tariffs: (TARIFF | undefined)[],
 ) {
   if (tariffs.length === 1 && !tariffs[0]) {
@@ -102,12 +112,14 @@ export function filterUsersByTariffs(
   }
 
   return users.filter(user => {
-    const userTariff = user.tariff;
+    const userTariff = user.roles.includes(ROLE.CLIENT)
+      ? (user as Client).tariff
+      : undefined;
     return tariffs.includes(userTariff);
   });
 }
 
-export function filterUsersByQuery(users: User[], q: string) {
+export function filterUsersByQuery(users: Array<BaseUser>, q: string) {
   const query = q.toLowerCase().trim();
   return users.filter(user => {
     return (

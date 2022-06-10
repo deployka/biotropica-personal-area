@@ -1,30 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import { ResponseError } from '../../../@types/api/response';
+import { UpdateSpecialistDto } from '../../../@types/dto/specialists/update.dto';
+import { UpdateUserDto } from '../../../@types/dto/users/update.dto';
+import { useUploadFileMutation } from '../../../api/files';
+import {
+  useCurrentUserQuery,
+  useUpdateEmailMutation,
+  useUpdateUserMutation,
+} from '../../../api/user';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { MAX_IMAGE_SIZE } from '../../../constants/files';
 import { eventBus, EventTypes } from '../../../services/EventBus';
-import FileService from '../../../services/FileService';
-import {
-  fetchUpdateUser,
-  fetchUpdateUserEmail,
-  setUserResponse,
-} from '../../../store/ducks/user/actionCreators';
-import {
-  UpdateUserData,
-  User,
-} from '../../../store/ducks/user/contracts/state';
-import {
-  selectCurrentUserData,
-  selectUserLoadingStatus,
-  selectUserResponse,
-} from '../../../store/ducks/user/selectors';
-import {
-  SpecialistUpdateDto,
-  useGetSpecialistQuery,
-  useRequestChangeSpecialistDataMutation,
-} from '../../../store/rtk/requests/specialists';
-import { LoadingStatus } from '../../../store/types';
+
 import {
   checkFileSize,
   checkFileType,
@@ -40,78 +28,59 @@ const EditProfile = () => {
     { value: 'Женский', label: 'Женский' },
   ];
 
-  const dispatch = useDispatch();
-  const loadingStatus = useSelector(selectUserLoadingStatus);
-  const response = useSelector(selectUserResponse);
   const history = useHistory();
 
-  const user: User | undefined = useSelector(selectCurrentUserData);
+  const { data: user } = useCurrentUserQuery();
   const userImage = user?.profilePhoto && getMediaLink(user?.profilePhoto);
-  const isSpecialist = user?.roles?.includes('SPECIALIST');
-  const { data: specialist } = useGetSpecialistQuery(undefined, {
-    skip: !isSpecialist,
-  });
 
-  const loader = LoadingStatus.LOADING === loadingStatus;
   const [image, setImage] = useState<string | ArrayBuffer | null>(
     userImage || '',
   );
 
-  const [updateSpecialist] = useRequestChangeSpecialistDataMutation();
+  const [updateClient, { isLoading: isUpdateLoading }] =
+    useUpdateUserMutation();
+  const [updateEmail, { isLoading: isUpdateEmailLoading }] =
+    useUpdateEmailMutation();
+  const [uploadFile, { isLoading: isUploadFileLoading }] =
+    useUploadFileMutation();
+  const isLoading =
+    isUpdateLoading || isUpdateEmailLoading || isUploadFileLoading;
 
-  useEffect(() => {
-    if (!response) return;
-    switch (loadingStatus) {
-      case LoadingStatus.ERROR:
-        break;
-      case LoadingStatus.SUCCESS:
+  async function onSubmit(values: UpdateUserDto & UpdateSpecialistDto) {
+    try {
+      if (values.email && user?.email !== values.email) {
+        const res = await updateEmail({ email: values.email }).unwrap();
         eventBus.emit(EventTypes.notification, {
-          title: 'Успешно!',
-          message: response.message,
-          type: NotificationType.SUCCESS,
+          message: res?.message,
+          type: NotificationType.INFO,
+          autoClose: 10000,
         });
-        dispatch(setUserResponse(undefined));
-        history.push('/profile');
-        break;
-      default:
-        break;
-    }
-  }, [loadingStatus, response]);
+      }
 
-  async function onSubmit(values: UpdateUserData & SpecialistUpdateDto) {
-    if (values.email && user?.email !== values.email) {
-      dispatch(fetchUpdateUserEmail({ email: values.email }));
-    }
-    if (values.profilePhoto instanceof File) {
-      const res = await FileService.upload(values.profilePhoto);
-      values.profilePhoto = res.data.name;
-    }
-    const data: UpdateUserData = {
-      ...values,
-      email: user?.email,
-    };
-    dispatch(
-      fetchUpdateUser({
-        profilePhoto: values?.profilePhoto || null,
-        lastname: values?.lastname,
-        name: values?.name,
-        email: values?.email,
-        gender: values?.gender,
-        patronymic: values?.patronymic,
-        phone: values?.phone,
-        dob: values?.dob,
-      }),
-    );
-
-    if (user?.specialist?.id) {
-      updateSpecialist({
-        specializations: values.specializations,
-        experience: values.experience,
-        education: values.education,
+      let profilePhoto = values.profilePhoto;
+      if (values.profilePhoto instanceof File) {
+        const res = await uploadFile({ file: values.profilePhoto }).unwrap();
+        profilePhoto = res.name;
+      }
+      const data: UpdateUserDto = {
+        ...values,
+        profilePhoto,
+        email: user?.email,
+      };
+      await updateClient(data);
+      eventBus.emit(EventTypes.notification, {
+        message: 'Данные профиля обновлены!',
+        type: NotificationType.SUCCESS,
+      });
+      history.push('/profile');
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        message: (error as ResponseError)?.data?.message,
+        type: NotificationType.DANGER,
+        autoClose: 10000,
       });
     }
   }
-
   async function onAvatarLoaded(
     e: React.ChangeEvent<HTMLInputElement>,
     setFieldValue: (field: string, value: File) => void,
@@ -134,34 +103,21 @@ const EditProfile = () => {
         message: `Допустимые типы: png, jpg, gif
                 Максимальный размер: ${MAX_IMAGE_SIZE} мб`,
         type: NotificationType.DANGER,
-        id: 'file_type_error',
-        dismiss: {
-          duration: 7000,
-          onScreen: true,
-        },
+        toastId: 'file_type_error',
+        autoClose: 7000,
       });
     }
   }
 
-  let readyToRender = !!user;
-  if (isSpecialist) {
-    readyToRender = readyToRender && !!specialist;
-  }
-
   return (
-    <>
-      {readyToRender && (
-        <EditProfileData
-          specialist={specialist}
-          options={options}
-          image={image}
-          onSubmit={onSubmit}
-          loader={loader}
-          onAvatarLoaded={onAvatarLoaded}
-          user={user}
-        />
-      )}
-    </>
+    <EditProfileData
+      options={options}
+      image={image}
+      onSubmit={onSubmit}
+      loader={isLoading}
+      onAvatarLoaded={onAvatarLoaded}
+      user={user}
+    />
   );
 };
 

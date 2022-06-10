@@ -5,9 +5,9 @@ import {
   showSuccessNotificationAfterAddTariff,
 } from '../../../utils/tariffHelper';
 import Modal from '../../../shared/Global/Modal/Modal';
-import { NewTariff } from '../../../types/entities/Tariff';
-import { useRequestAddTariffMutation } from '../../../store/rtk/requests/tariffs';
+import { NewTariff } from '../../../@types/entities/Tariff';
 import { TariffEditor } from '../Editor/Editor';
+import { useRequestAddTariffMutation } from '../../../api/tariffs';
 
 interface Props {
   isVisible: boolean;
@@ -30,7 +30,9 @@ export const TariffAddModal = (props: Props) => {
     isError && showErrorNotificationAfterAddTariff();
   }, [isSuccess, isError]);
 
-  const handleAddTariff = (newTariff: NewTariff) => {
+  const handleAddTariff = (
+    newTariff: Omit<NewTariff, 'createdAt' | 'updatedAt'>,
+  ) => {
     addTariff(newTariff);
   };
 

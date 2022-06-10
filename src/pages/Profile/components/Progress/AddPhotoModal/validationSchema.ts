@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 export const validationSchema = yup.object().shape({
-  FRONT: yup
+  front: yup
     .mixed()
     .required('Фото обязательно')
     .test('fileFormat', 'Только jpg gif png', value => {
@@ -9,7 +9,7 @@ export const validationSchema = yup.object().shape({
         value && ['image/gif', 'image/png', 'image/jpeg'].includes(value.type)
       );
     }),
-  BACK: yup
+  back: yup
     .mixed()
     .required('Фото обязательно')
     .test('fileFormat', 'Только jpg gif png', value => {
@@ -17,7 +17,7 @@ export const validationSchema = yup.object().shape({
         value && ['image/gif', 'image/png', 'image/jpeg'].includes(value.type)
       );
     }),
-  SIDE: yup
+  side: yup
     .mixed()
     .required('Фото обязательно')
     .test('fileFormat', 'Только jpg gif png', value => {

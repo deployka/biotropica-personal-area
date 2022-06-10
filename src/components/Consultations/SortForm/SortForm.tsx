@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import { SpecializationName } from '../../../@types/entities/Specialization';
 import { ConsultationsSvgSelector } from '../../../assets/icons/consultations/ConsultationsSvgSelector';
 import {
   ISelect,
   SelectCustom,
 } from '../../../shared/Form/Select/SelectCustom';
-import { SpecializationName } from '../../../store/ducks/specialist/contracts/state';
 import { selectStyles } from './selectStyles';
 
 import s from './SortForm.module.scss';

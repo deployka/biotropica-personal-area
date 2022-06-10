@@ -8,14 +8,17 @@ export interface progressBarOptions {
   gradientStartColor: string;
   gradientStopColor: string;
   bgColor: string;
-  progressValue: number;
 }
 
 interface Props {
   progressBarOptions: progressBarOptions;
+  progressValue: number;
 }
 
-export const GoalsProgressBar = ({ progressBarOptions }: Props) => {
+export const GoalsProgressBar = ({
+  progressBarOptions,
+  progressValue,
+}: Props) => {
   const {
     width,
     height,
@@ -23,7 +26,6 @@ export const GoalsProgressBar = ({ progressBarOptions }: Props) => {
     gradientStartColor,
     gradientStopColor,
     bgColor,
-    progressValue,
   } = progressBarOptions;
   const radius = width / 2 - circleWidth / 2;
 

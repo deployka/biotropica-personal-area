@@ -1,22 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import { QuestionnaireBody } from '../../components/Questionnaire/Body/Body';
-
+import { CreateAnswerDto } from '../../@types/dto/questionnaire/create-answer.dto';
 import {
-  CreateAnswerDto,
   useCreateAnswerMutation,
   useGetCurrentQuestionQuery,
-  useGetQuestionsQuery,
-} from '../../store/rtk/requests/questions';
+} from '../../api/questions';
+import { QuestionnaireBody } from '../../components/Questionnaire/Body/Body';
 
 import s from './Questionnaire.module.scss';
-
-type Question = {
-  title: string;
-  type: 'select' | 'multiselect' | 'text' | 'number';
-  key: string;
-  allowedAnswers: string[] | null;
-};
 
 const Questionnaire = () => {
   const history = useHistory();
