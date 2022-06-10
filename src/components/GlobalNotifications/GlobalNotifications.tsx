@@ -3,11 +3,11 @@ import { useHistory, useLocation } from 'react-router';
 import { notification } from '../../config/notification/notificationForm';
 import { useQuery } from '../../hooks/useQuery';
 import { eventBus, EventTypes } from '../../services/EventBus';
-import { selectIsAuthorized } from '../../store/slices/authSlice';
 import { useAppSelector } from '../../store/storeHooks';
 import { useGetNotificationsQuery } from '../../api/notifications';
 import { toast } from 'react-toastify';
 import { ToastProps } from 'react-toastify/dist/types';
+import { selectIsAuthorized } from '../../store/slices/authSlice';
 
 export enum NotificationType {
   DANGER = 'error',
@@ -61,7 +61,8 @@ const GlobalNotifications = (): ReactElement => {
           break;
       }
     };
-    eventBus.on(EventTypes.notification, res => {
+
+    function toastNotify(res: Notification) {
       const message = (
         <>
           {res.title && <h4 style={{ marginBottom: '5px' }}>{res.title}</h4>}
@@ -73,11 +74,19 @@ const GlobalNotifications = (): ReactElement => {
         ...res,
         type: res.type,
       });
-    });
+    }
 
-    eventBus.on(EventTypes.removeNotification, (id: string) => {
-      toast.dismiss(id);
-    });
+    function dismissNotify(id: number | string) {
+      id && toast.dismiss(id);
+    }
+
+    eventBus.on(EventTypes.notification, toastNotify);
+    eventBus.on(EventTypes.removeNotification, dismissNotify);
+
+    return () => {
+      eventBus.off(EventTypes.notification, toastNotify);
+      eventBus.off(EventTypes.removeNotification, dismissNotify);
+    };
   }, []);
 
   useEffect(() => {

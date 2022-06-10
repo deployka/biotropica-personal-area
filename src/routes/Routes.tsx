@@ -11,6 +11,7 @@ import {
   selectIsClient,
 } from '../store/slices/authSlice';
 import ErrorPage from '../pages/ErrorPage/containers/ErrorPage';
+import { useCurrentUserQuery } from '../api/user';
 
 type Props = {
   DefaultComponent?: ElementType;

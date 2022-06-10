@@ -40,6 +40,8 @@ class EventBus {
       return;
     }
 
+    console.log('off');
+
     this.listeners[key].splice(index, 1);
   }
 }
