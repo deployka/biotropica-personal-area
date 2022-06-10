@@ -397,6 +397,24 @@ export const GlobalSvgSelector = ({ id }: Props): ReactElement => {
           />
         </svg>
       );
+    case 'arrow':
+      return (
+        <svg viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M10.4999 9.37894L6.7876 5.66663L3.07529 9.37894"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case 'trash':
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z" />
+        </svg>
+      );
+
     default:
       return <div></div>;
   }

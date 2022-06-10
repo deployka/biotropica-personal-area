@@ -1,5 +1,6 @@
 import { ISelect } from '../../../../shared/Form/Select/SelectCustom';
 import { LoadingStatus, Response } from '../../../types';
+import { Specialist } from '../../../rtk/types/user';
 
 export interface User {
   id: number;
@@ -18,10 +19,13 @@ export interface User {
   banReason: string;
   confirmed: boolean;
   refreshToken: string;
+  roles?: string[];
+  specialist?: Specialist;
 }
 
 export interface UserState {
   user: User | undefined;
+  currentUser: User | undefined;
   status: LoadingStatus;
   response: Response | undefined;
 }

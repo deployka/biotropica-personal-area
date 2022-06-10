@@ -15,10 +15,15 @@ import {
   User,
 } from '../../../store/ducks/user/contracts/state';
 import {
-  selectUserData,
+  selectCurrentUserData,
   selectUserLoadingStatus,
   selectUserResponse,
 } from '../../../store/ducks/user/selectors';
+import {
+  SpecialistUpdateDto,
+  useGetSpecialistQuery,
+  useRequestChangeSpecialistDataMutation,
+} from '../../../store/rtk/requests/specialists';
 import { LoadingStatus } from '../../../store/types';
 import {
   checkFileSize,
@@ -40,18 +45,25 @@ const EditProfile = () => {
   const response = useSelector(selectUserResponse);
   const history = useHistory();
 
-  const user: User | undefined = useSelector(selectUserData);
+  const user: User | undefined = useSelector(selectCurrentUserData);
   const userImage = user?.profilePhoto && getMediaLink(user?.profilePhoto);
+  const isSpecialist = user?.roles?.includes('SPECIALIST');
+  const { data: specialist } = useGetSpecialistQuery(undefined, {
+    skip: !isSpecialist,
+  });
 
   const loader = LoadingStatus.LOADING === loadingStatus;
   const [image, setImage] = useState<string | ArrayBuffer | null>(
     userImage || '',
   );
 
+  const [updateSpecialist] = useRequestChangeSpecialistDataMutation();
+
   useEffect(() => {
     if (!response) return;
     switch (loadingStatus) {
       case LoadingStatus.ERROR:
+        console.log('____________________', response);
         break;
       case LoadingStatus.SUCCESS:
         eventBus.emit(EventTypes.notification, {
@@ -67,7 +79,7 @@ const EditProfile = () => {
     }
   }, [loadingStatus, response]);
 
-  async function onSubmit(values: UpdateUserData) {
+  async function onSubmit(values: UpdateUserData & SpecialistUpdateDto) {
     if (values.email && user?.email !== values.email) {
       dispatch(fetchUpdateUserEmail({ email: values.email }));
     }
@@ -79,7 +91,24 @@ const EditProfile = () => {
       ...values,
       email: user?.email,
     };
-    dispatch(fetchUpdateUser(data));
+    dispatch(fetchUpdateUser({
+      profilePhoto: values?.profilePhoto || null,
+      lastname: values?.lastname,
+      name: values?.name,
+      email: values?.email,
+      gender: values?.gender,
+      patronymic: values?.patronymic,
+      phone: values?.phone,
+      dob: values?.dob,
+    }));
+
+    if (user?.specialist?.id) {
+      updateSpecialist({
+        specializations: values.specializations,
+        experience: values.experience,
+        education: values.education,
+      });
+    }
   }
 
   async function onAvatarLoaded(
@@ -112,10 +141,17 @@ const EditProfile = () => {
       });
     }
   }
+
+  let readyToRender = !!user;
+  if (isSpecialist) {
+    readyToRender = readyToRender && !!specialist;
+  }
+
   return (
     <>
-      {user && (
+      {readyToRender && (
         <EditProfileData
+          specialist={specialist}
           options={options}
           image={image}
           onSubmit={onSubmit}

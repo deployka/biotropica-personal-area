@@ -8,16 +8,16 @@ type TaskEditorProps = {
   task: CreateSomeTask;
   isLoading: boolean;
   onSave(task: CreateSomeTask): void;
+  onSaveAsTemplate(task: Partial<CreateSomeTask>): void;
   onClose(): void;
-  onDelete(): void;
 };
 
 export const TaskEditor = ({
   task,
   onSave,
+  onSaveAsTemplate,
   isLoading,
   onClose,
-  onDelete,
 }: TaskEditorProps) => {
   switch (task.type) {
     case 'training':
@@ -26,8 +26,8 @@ export const TaskEditor = ({
           task={task}
           isLoading={isLoading}
           onSave={onSave}
+          onSaveAsTemplate={onSaveAsTemplate}
           onClose={onClose}
-          onDelete={onDelete}
         />
       );
     case 'event':
@@ -36,8 +36,8 @@ export const TaskEditor = ({
           task={task}
           isLoading={isLoading}
           onSave={onSave}
+          onSaveAsTemplate={onSaveAsTemplate}
           onClose={onClose}
-          onDelete={onDelete}
         />
       );
     case 'competition':
@@ -46,8 +46,8 @@ export const TaskEditor = ({
           isLoading={isLoading}
           task={task}
           onSave={onSave}
+          onSaveAsTemplate={onSaveAsTemplate}
           onClose={onClose}
-          onDelete={onDelete}
         />
       );
     default:

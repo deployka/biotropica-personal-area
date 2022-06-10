@@ -1,84 +1,107 @@
+@import "./../../styles/mixins.scss";
+
 .background {
-    position: fixed;
-    top: 0;
-    left: 80px;
+  position: fixed;
+  top: 0;
+  left: 80px;
 
-    width: calc(100vw - 80px);
-    height: 100vh;
+  width: calc(100vw - 80px);
+  height: 100vh;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  @include for-phone {
+    display: none;
+  }
 
-    opacity: 1;
-    background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    transition: all 0.2s ease;
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.25);
 
-    z-index: 9;
+  transition: all 0.2s ease;
 
-    &.hidden {
-        z-index: -1;
-        opacity: 0;
-        visibility: none;
-    }
+  z-index: 9;
+
+  &.hidden {
+    z-index: -1;
+    opacity: 0;
+    visibility: none;
+  }
 }
 
 .typeSelectModal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
-    padding: 30px;
+  padding: 30px;
 
-    max-width: 1240px;
-    width: calc(100% - 40px);
-    height: 650px;
+  max-width: 1240px;
+  width: calc(100% - 40px);
+  height: 650px;
 
-    background: #ffffff;
-    border-radius: 6px;
-    z-index: 10;
-    opacity: 1;
-    margin-left: 40px;
+  background: #ffffff;
+  border-radius: 6px;
+  z-index: 10;
+  opacity: 1;
+  margin-left: 40px;
 
-    transition: all 0.2s ease;
+  transition: all 0.2s ease;
 
-    .header {
-        position: relative;
-        padding: 0 0 20px 0;
+  @include for-tablet {
+    width: calc(100% - 120px);
+    height: calc(100vh - 80px);
+  }
 
-        width: 100%;
+  @include for-phone {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    transform: translate(0);
+    z-index: 500;
+    margin: 0;
+  }
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
+  .header {
+    position: relative;
+    padding: 0 0 20px 0;
 
-        font-weight: 500;
-        font-size: 16px;
-        line-height: 120%;
+    width: 100%;
 
-        color: #1e174d;
+    display: flex;
+    align-items: center;
 
-        .closeBtn {
-            position: absolute;
-            right: 0;
-        }
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 120%;
+
+    color: #1e174d;
+
+    .closeBtn {
+      position: absolute;
+      right: 0;
+      &:hover {
+        cursor: pointer;
+      }
     }
+  }
 
-    .typesGroups {
-        width: 100%;
-        max-height: calc(100% - 40px);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+  .typesGroups {
+    width: 100%;
+    max-height: calc(100% - 40px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-        overflow: scroll;
-    }
+    overflow: auto;
+  }
 
-    &.hidden {
-        z-index: -1;
-        opacity: 0;
-        visibility: none;
-    }
+  &.hidden {
+    z-index: -1;
+    opacity: 0;
+    visibility: none;
+  }
 }

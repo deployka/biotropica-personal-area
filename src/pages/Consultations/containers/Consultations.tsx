@@ -114,7 +114,12 @@ const Consultations = () => {
       default:
         break;
     }
-  }, [onErrorCreateNotification, onSuccessCreateNotification, loadingStatus, response]);
+  }, [
+    onErrorCreateNotification,
+    onSuccessCreateNotification,
+    loadingStatus,
+    response,
+  ]);
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedSort, setSelectedSort] = useState<

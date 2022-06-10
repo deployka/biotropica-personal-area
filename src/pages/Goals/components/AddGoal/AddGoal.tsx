@@ -18,7 +18,10 @@ import {
   selectGoalData,
   selectGoalLoadingStatus,
 } from '../../../../store/ducks/goal/selectors';
-import { setGoalsData } from '../../../../store/ducks/goals/actionCreators';
+import {
+  fetchGoalsData,
+  setGoalsData,
+} from '../../../../store/ducks/goals/actionCreators';
 import { selectGoalsData } from '../../../../store/ducks/goals/selectors';
 import { LoadingStatus } from '../../../../store/types';
 
@@ -91,6 +94,7 @@ const AddGoal = () => {
             pauseOnHover: true,
           },
         });
+        dispatch(fetchGoalsData());
         dispatch(setGoalResponse(undefined));
         refResetForm.current();
         history.push(`/goals/${goal?.id}`);

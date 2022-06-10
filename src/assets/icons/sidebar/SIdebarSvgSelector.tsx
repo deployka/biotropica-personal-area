@@ -288,8 +288,18 @@ export const SidebarSvgSelector = ({ id }: Props): ReactElement => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path d="M1 1H21" stroke="#9E97BE" strokeWidth="2" strokeLinecap="round" />
-          <path d="M1 6H21" stroke="#9E97BE" strokeWidth="2" strokeLinecap="round" />
+          <path
+            d="M1 1H21"
+            stroke="#9E97BE"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+          <path
+            d="M1 6H21"
+            stroke="#9E97BE"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
           <path
             d="M1 11H21"
             stroke="#9E97BE"
@@ -316,6 +326,67 @@ export const SidebarSvgSelector = ({ id }: Props): ReactElement => {
         </svg>
       );
 
+    case 'logs':
+      return (
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M6.10866 1.66701H13.8912C16.7253 1.66701 18.3253 3.27451 18.3337 6.10867V13.892C18.3337 16.7253 16.7253 18.3337 13.8912 18.3337H6.10866C3.27449 18.3337 1.66699 16.7253 1.66699 13.892V6.10867C1.66699 3.27451 3.27449 1.66701 6.10866 1.66701ZM10.0412 14.8837C10.4003 14.8837 10.6995 14.617 10.7328 14.2587V5.76702C10.7662 5.50868 10.642 5.24952 10.417 5.10868C10.1828 4.96702 9.89951 4.96702 9.67534 5.10868C9.44951 5.24952 9.32534 5.50868 9.34951 5.76702V14.2587C9.39201 14.617 9.69117 14.8837 10.0412 14.8837ZM13.8753 14.8837C14.2253 14.8837 14.5245 14.617 14.567 14.2587V11.5253C14.5912 11.2578 14.467 11.0087 14.2412 10.867C14.017 10.7253 13.7337 10.7253 13.5003 10.867C13.2745 11.0087 13.1503 11.2578 13.1837 11.5253V14.2587C13.217 14.617 13.5162 14.8837 13.8753 14.8837ZM6.8495 14.2587C6.81617 14.617 6.517 14.8837 6.15783 14.8837C5.7995 14.8837 5.4995 14.617 5.467 14.2587V8.50035C5.442 8.24118 5.56617 7.98368 5.792 7.84201C6.01617 7.70035 6.30033 7.70035 6.52533 7.84201C6.7495 7.98368 6.87533 8.24118 6.8495 8.50035V14.2587Z"
+            fill="#1E174D"
+          />
+        </svg>
+      );
+
+    case 'users':
+      return (
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 18 18"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12.3501 8.09461C13.8676 8.09461 15.0976 6.86461 15.0976 5.34711C15.0976 3.83044 13.8676 2.59961 12.3501 2.59961"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M13.6135 11.0803C14.0669 11.1112 14.5169 11.1762 14.961 11.2745C15.5769 11.397 16.3185 11.6495 16.5819 12.202C16.7502 12.5562 16.7502 12.9687 16.5819 13.3228C16.3194 13.8753 15.5769 14.1278 14.961 14.2545"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M6.99283 11.6721C10.0678 11.6721 12.6945 12.138 12.6945 13.9988C12.6945 15.8605 10.0845 16.3421 6.99283 16.3421C3.91783 16.3421 1.29199 15.8771 1.29199 14.0155C1.29199 12.1538 3.90116 11.6721 6.99283 11.6721Z"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M6.99293 9.01575C4.9646 9.01575 3.3396 7.38992 3.3396 5.36159C3.3396 3.33409 4.9646 1.70825 6.99293 1.70825C9.02127 1.70825 10.6471 3.33409 10.6471 5.36159C10.6471 7.38992 9.02127 9.01575 6.99293 9.01575Z"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
     default:
       return <div></div>;
   }

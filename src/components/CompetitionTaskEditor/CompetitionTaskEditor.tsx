@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 
-import { Formik } from 'formik';
+import { Formik, FormikProps } from 'formik';
 import { TimePickerValue } from 'react-time-picker';
 import Button from '../Button/Button';
 import DatePickerCustom from '../DatePicker/DatePickerCustom';
@@ -28,32 +28,25 @@ import {
   SwimCompetitionType,
   TriathlonCompetitionType,
 } from '../../store/@types/Task';
-import classNames from 'classnames';
 import { NEW_DATE } from '../../constants/dates';
 
 export type CompetitionTaskEditorProps = {
   task: CompetitionTask | CreateCompetitionTask;
   isLoading: boolean;
   onSave(task: CreateCompetitionTask): void;
+  onSaveAsTemplate(task: Partial<CreateCompetitionTask>): void;
   onClose(): void;
-  onDelete(taskId: string): void;
 };
 
 export function CompetitionTaskEditor({
   task,
   isLoading,
   onSave,
+  onSaveAsTemplate,
   onClose,
-  onDelete,
 }: CompetitionTaskEditorProps) {
   function onSubmit(values: Partial<CreateCompetitionTask>) {
     onSave({ ...task, ...values });
-  }
-
-  function onDeleteTask() {
-    if ('id' in task) {
-      onDelete(task.id);
-    }
   }
 
   function getPlanValuePlaceholder(
@@ -216,14 +209,6 @@ export function CompetitionTaskEditor({
               Сохранить
             </Button>
           </div>
-          {'id' in task && (
-            <div
-              className={classNames(s.line, s.delete)}
-              onClick={onDeleteTask}
-            >
-              Удалить задачу
-            </div>
-          )}
         </form>
       )}
     </Formik>

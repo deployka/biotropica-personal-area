@@ -1,8 +1,8 @@
-@import "../../styles/global.scss";
+@import '../../styles/global.scss';
 
 @media screen and (max-width: 576px) {
   .backgroundWrapper {
-    background-image: url('../../assets/images/ProfileBackground.jpg'); 
+    background-image: url('../../assets/images/ProfileBackground.jpg');
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -84,4 +84,8 @@
   .actionBtn {
     width: 100%;
   }
+}
+
+.emptyData {
+  margin-top: 10px;
 }
