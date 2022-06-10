@@ -1,14 +1,14 @@
 import React from 'react';
+import { BaseUser } from '../../../@types/entities/BaseUser';
 
 import { UserItem } from '../Item/Item';
-import { User } from '../../../store/rtk/types/user';
 
 import s from './Table.module.scss';
 
 export type UsersTableProps = {
-  users: User[];
-  onBlock: (user: User) => void;
-  onWrite: (user: User) => void;
+  users: BaseUser[];
+  onBlock: (user: BaseUser) => void;
+  onWrite: (user: BaseUser) => void;
 };
 
 export function AdminUsersTable(props: UsersTableProps) {

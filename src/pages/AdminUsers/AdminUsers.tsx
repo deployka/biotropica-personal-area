@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 
-import { CreateUserModal } from './components/CreateUserModal/CreateUserModal';
-import { BlockUserConfirmModal } from './components/BlockUserConfirmModal';
-import { UserList } from './components/UserList/UserList';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import {
   useBlockUserMutation,
@@ -15,6 +12,9 @@ import { BaseUser } from '../../@types/entities/BaseUser';
 import { useCreateDialogMutation } from '../../api/chat';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { ResponseError } from '../../@types/api/response';
+import { AdminUsersList } from '../../components/AdminUsers/List/List';
+import { CreateUserModal } from '../../components/AdminUsers/CreateModal/CreateUserModal';
+import { BlockUserConfirmModal } from '../../components/AdminUsers/BlockModal/BlockUserModal';
 
 export function AdminUsers() {
   const [popup, setPopup] = useState<boolean>(false);

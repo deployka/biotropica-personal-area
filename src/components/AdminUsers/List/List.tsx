@@ -9,13 +9,13 @@ import {
   usersFilters,
 } from '../adminUsersHelper';
 
-import s from './List.module.scss';
+import { ROLE } from '../../../@types/entities/Role';
+import { BaseUser } from '../../../@types/entities/BaseUser';
+import { TARIFF } from '../../../@types/entities/Tariff';
 
-import { UsersTableHeader } from './UsersTableHeader';
-import { UsersTable } from './UsersTable';
-import { ROLE } from '../../../../@types/entities/Role';
-import { BaseUser } from '../../../../@types/entities/BaseUser';
-import { TARIFF } from '../../../../@types/entities/Tariff';
+import s from './List.module.scss';
+import { AdminUsersHeader } from '../Header/Header';
+import { AdminUsersTable } from '../Table/Table';
 
 type Props = {
   users: Array<BaseUser>;

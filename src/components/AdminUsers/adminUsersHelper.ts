@@ -1,9 +1,9 @@
-import { BaseUser } from '../../../@types/entities/BaseUser';
-import { Client } from '../../../@types/entities/Client';
-import { ROLE } from '../../../@types/entities/Role';
-import { Specialist } from '../../../@types/entities/Specialist';
-import { TARIFF } from '../../../@types/entities/Tariff';
-import { FilterConfig } from '../components/UserFilter/UsersFilter';
+import { BaseUser } from '../../@types/entities/BaseUser';
+import { Client } from '../../@types/entities/Client';
+import { ROLE } from '../../@types/entities/Role';
+
+import { TARIFF } from '../../@types/entities/Tariff';
+import { FilterConfig } from '../Filter/Filter';
 
 export const usersFilters: FilterConfig[] = [
   {

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
 import { format } from 'date-fns';
+import { ItemPopup } from './ItemPopup';
 
 import s from './Item.module.scss';
-import { PopUp } from './PopUp';
-import { getFullName } from '../../../../utils/getFullName';
-import { ROLE } from '../../../../@types/entities/Role';
-import { Client } from '../../../../@types/entities/Client';
-import { BaseUser } from '../../../../@types/entities/BaseUser';
+import { BaseUser } from '../../../@types/entities/BaseUser';
+import { ROLE } from '../../../@types/entities/Role';
+import { getFullName } from '../../../utils/getFullName';
+import { Client } from '../../../@types/entities/Client';
 
 interface Props {
   user: BaseUser;

@@ -4,10 +4,10 @@ import s from './CreateUserModal.module.scss';
 import { CreateUserInput } from './CreateUserInput';
 import { CreateUserSelect } from './CreateUserSelect';
 
-import Button from '../../../../components/Button/Button';
-import Modal from '../../../../shared/Global/Modal/Modal';
-import { BaseUser } from '../../../../@types/entities/BaseUser';
-import { Role } from '../../../../@types/entities/Role';
+import { BaseUser } from '../../../@types/entities/BaseUser';
+import { Role } from '../../../@types/entities/Role';
+import Modal from '../../../shared/Global/Modal/Modal';
+import Button from '../../Button/Button';
 
 interface Props {
   setPopup: Dispatch<SetStateAction<boolean>>;

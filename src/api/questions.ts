@@ -1,57 +1,43 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import { axiosBaseQuery } from '../../../http/axiosBaseQuery';
+import { CreateAnswerDto } from '../@types/dto/questionnaire/create-answer.dto';
+import { CurrentQuestion, Question } from '../@types/entities/Question';
+import { baseApi } from './base-api';
 
-type CurrentQuestion = {
-  question: Question;
-  index: number;
-  total: number;
-};
-
-export type CreateAnswerDto = {
-  text: string;
-  questionKey: string;
-};
-
-export const questionsApi = createApi({
-  reducerPath: 'questionsApi',
-  baseQuery: axiosBaseQuery,
-  endpoints(builder) {
-    return {
-      getQuestionsList: builder.query<void, void>({
-        query() {
-          return {
-            method: 'get',
-            url: 'questions',
-          };
-        },
-      }),
-      getQuestions: builder.query<Question, number>({
-        query(id) {
-          return {
-            method: 'get',
-            url: `questions/${id}`,
-          };
-        },
-      }),
-      getCurrentQuestion: builder.query<CurrentQuestion, void>({
-        query() {
-          return {
-            method: 'get',
-            url: 'questions/current',
-          };
-        },
-      }),
-      createAnswer: builder.mutation<void, CreateAnswerDto>({
-        query(answer) {
-          return {
-            method: 'post',
-            url: 'questions/answer',
-            data: answer,
-          };
-        },
-      }),
-    };
-  },
+export const questionsApi = baseApi.injectEndpoints({
+  endpoints: builder => ({
+    getQuestionsList: builder.query<void, void>({
+      query() {
+        return {
+          method: 'GET',
+          url: 'questions',
+        };
+      },
+    }),
+    getQuestions: builder.query<Question, number>({
+      query(id) {
+        return {
+          method: 'GET',
+          url: `questions/${id}`,
+        };
+      },
+    }),
+    getCurrentQuestion: builder.query<CurrentQuestion, void>({
+      query() {
+        return {
+          method: 'GET',
+          url: 'questions/current',
+        };
+      },
+    }),
+    createAnswer: builder.mutation<void, CreateAnswerDto>({
+      query(answer) {
+        return {
+          method: 'POST',
+          url: 'questions/answer',
+          body: answer,
+        };
+      },
+    }),
+  }),
 });
 
 export const {
