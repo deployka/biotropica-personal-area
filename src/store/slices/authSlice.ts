@@ -6,10 +6,10 @@ import { Client } from '../../@types/entities/Client';
 import { ROLE } from '../../@types/entities/Role';
 import { Specialist } from '../../@types/entities/Specialist';
 import { RootState } from '../store';
+import { readCookie } from '../../utils/cookie';
 
 type AuthState = {
   isAuthorized: boolean;
-  accessToken: string | null;
   token: string | null;
   accesses: string[];
   roles: ROLE[];
@@ -31,15 +31,15 @@ const slice = createSlice({
       .addMatcher(
         authApi.endpoints.signIn.matchFulfilled,
         (state, { payload }) => {
-          state.token = payload.accessToken;
+          state.token = payload.token;
           state.isAuthorized = true;
-          localStorage.setItem('token', payload.accessToken);
         },
       )
       .addMatcher(
         userApi.endpoints.currentUser.matchFulfilled,
         (state, { payload }) => {
           state.accesses = payload.accesses;
+          state.token = readCookie('AccessToken');
           state.roles = payload.roles;
           state.currentUser = payload;
           state.isAuthorized = true;
@@ -53,7 +53,6 @@ const slice = createSlice({
         },
       )
       .addMatcher(authApi.endpoints.signOut.matchFulfilled, (state, action) => {
-        localStorage.setItem('token', '');
         state.isAuthorized = false;
       });
   },
@@ -71,5 +70,7 @@ export const selectIsAdmin = (state: RootState): boolean =>
   state.authSlice.roles.includes(ROLE.ADMIN);
 export const selectIsClient = (state: RootState): boolean =>
   state.authSlice.roles.includes(ROLE.CLIENT);
+export const selectAccessToken = (state: RootState): string | null =>
+  state.authSlice.token;
 
 export default slice.reducer;

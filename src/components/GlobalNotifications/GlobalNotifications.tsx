@@ -30,12 +30,12 @@ const GlobalNotifications = (): ReactElement => {
 
   useEffect(() => {
     const message = query.get('message');
+    const type = query.get('type') as NotificationType.INFO;
+
     if (message) {
-      toast({
+      toast(decodeURI(message), {
         ...notification,
-        title: 'Внимание!',
-        message: decodeURI(message),
-        type: NotificationType.INFO,
+        type: type || NotificationType.INFO,
       });
       query.delete('message');
       history.push(location.pathname + '?' + query.toString());

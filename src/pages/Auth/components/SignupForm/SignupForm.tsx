@@ -20,7 +20,7 @@ import { SignUpDto } from '../../../../@types/dto/auth/signup.dto';
 interface Props {
   onSubmit: (values: SignUpDto, options: FormikHelpers<SignUpDto>) => void;
   loader: boolean;
-  validationSchema: SchemaOf<SignUpDto>;
+  validationSchema: SchemaOf<Omit<SignUpDto, 'role'>>;
 }
 
 export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
@@ -39,6 +39,7 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
           name: '',
           lastname: '',
           phone: '',
+          role: process.env.REACT_APP_ROLE_CLIENT || '',
         }}
         validateOnBlur
         onSubmit={(values: SignUpDto, options: FormikHelpers<SignUpDto>) => {

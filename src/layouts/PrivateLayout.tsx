@@ -11,17 +11,22 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import { useMobile } from '../hooks/useMobile';
 import { SidebarSvgSelector } from '../assets/icons/sidebar/SIdebarSvgSelector';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import { SidebarDesktop } from '../shared/Global/Sidebar/SidebarDesktop';
 import { SidebarMobile } from '../shared/Global/Sidebar/SidebarMobile';
 import { SidebarWrapper } from '../shared/Global/SidebarWrapper/SidebarWrapper';
 import { Chat } from '../shared/Modules/Chat';
 import { eventBus, EventTypes } from '../services/EventBus';
-import { selectIsAdmin, selectIsDoctor } from '../store/slices/authSlice';
+import {
+  selectAccessToken,
+  selectIsAdmin,
+  selectIsDoctor,
+} from '../store/slices/authSlice';
 import { getCurrentPage } from '../utils/getCurrentPage';
 import { useCurrentUserQuery } from '../api/user';
 import { useGetAllDialogsQuery } from '../api/chat';
 import { useSignOutMutation } from '../api/auth';
+import { useAppSelector } from '../store/storeHooks';
 
 interface Props {
   children: React.ReactNode;
@@ -93,6 +98,14 @@ const specialistNav: Nav[] = [
     ...pages[4],
     svg: <SidebarSvgSelector id="video" />,
   },
+  {
+    ...pages[5],
+    svg: <SidebarSvgSelector id="edit-square" />,
+  },
+  {
+    ...pages[6],
+    svg: <SidebarSvgSelector id="services" />,
+  },
 ];
 
 const adminNav: Nav[] = [
@@ -111,7 +124,7 @@ const adminNav: Nav[] = [
 ];
 
 export function PrivateLayout(props: Props) {
-  const { data: currentUser } = useCurrentUserQuery();
+  const { refetch, data: currentUser } = useCurrentUserQuery();
   const { data: dialogs = [] } = useGetAllDialogsQuery();
   const [fetchLogout] = useSignOutMutation();
 
@@ -160,6 +173,8 @@ export function PrivateLayout(props: Props) {
     useState<boolean>(false);
   const [chatNotificationsOpen, setSidebarChatOpen] = useState<boolean>(false);
 
+  const token = useAppSelector(selectAccessToken);
+
   eventBus.on(EventTypes.chatOpen, (id: number) => {
     setSidebarChatOpen(true);
     setOpenedDialog(id);
@@ -174,7 +189,9 @@ export function PrivateLayout(props: Props) {
 
   const logout = useCallback(async () => {
     await fetchLogout().unwrap();
+    refetch();
     document.location.reload();
+    localStorage.setItem('token', '');
   }, [dispatch]);
 
   const onNavClick = useCallback(
@@ -219,7 +236,7 @@ export function PrivateLayout(props: Props) {
           onClose={() => setSidebarChatOpen(false)}
         >
           <Chat
-            token={localStorage.getItem('token') || ''}
+            token={token || ''}
             activeDialogId={openedDialog}
             currentUser={currentUser}
             onClose={() => setSidebarChatOpen(false)}

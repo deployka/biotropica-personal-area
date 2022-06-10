@@ -15,10 +15,6 @@ type FetchArguments = Omit<FetchArgs, 'method'> & {
 export const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_BACKEND_URL,
   credentials: 'include',
-  prepareHeaders: headers => {
-    headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
-    return headers;
-  },
 });
 
 export const baseQueryWithReauth: BaseQueryFn<
@@ -30,7 +26,7 @@ export const baseQueryWithReauth: BaseQueryFn<
 
   if (result.error && result.error.status === HTTP_UNAUTHORIZED) {
     const refreshResult = await baseQuery(
-      { url: 'auth/refresh', method: 'POST' },
+      { url: '/auth/refresh', method: 'POST' },
       api,
       extraOptions,
     );
@@ -38,11 +34,10 @@ export const baseQueryWithReauth: BaseQueryFn<
       result = await baseQuery(args, api, extraOptions);
     } else {
       await baseQuery(
-        { url: 'auth/signout', method: 'GET' },
+        { url: '/auth/signout', method: 'POST' },
         api,
         extraOptions,
       );
-      localStorage.setItem('token', '');
       eventBus.emit(EventTypes.notification, {
         message: 'Ваша сессия истекла :( Войдите в аккаунт повторно',
         type: NotificationType.INFO,

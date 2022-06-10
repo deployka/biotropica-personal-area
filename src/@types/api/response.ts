@@ -3,7 +3,7 @@ export type Response = {
   message: string;
 };
 export type SignInResponse = {
-  accessToken: string;
+  token: string;
 };
 
 export type ResponseError = {

@@ -19,7 +19,7 @@ const authApi = baseApi.injectEndpoints({
     signOut: builder.mutation<void, void>({
       query: () => ({
         url: '/auth/signout',
-        method: 'GET',
+        method: 'POST',
       }),
     }),
 
@@ -49,11 +49,7 @@ const authApi = baseApi.injectEndpoints({
     >({
       query: payload => ({
         url: '/auth/signup',
-        body: {
-          login: payload.email,
-          password: payload.password,
-          role: process.env.REACT_APP_ROLE_SECRET,
-        },
+        body: payload,
         method: 'POST',
       }),
     }),

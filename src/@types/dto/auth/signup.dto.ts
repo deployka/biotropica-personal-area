@@ -5,4 +5,5 @@ export type SignUpDto = Readonly<{
   name: string;
   lastname: string;
   phone: string;
+  role: string;
 }>;
