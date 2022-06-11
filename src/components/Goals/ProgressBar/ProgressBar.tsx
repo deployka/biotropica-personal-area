@@ -42,13 +42,13 @@ export const GoalsProgressBar = ({
       return;
     }
 
-    let timeout = -1;
+    let timeout: null | ReturnType<typeof setTimeout> = null;
     if (progress !== +progressValue.toFixed(0)) {
       timeout = setTimeout(setProgress, 10, progress + 1);
     }
 
     return () => {
-      clearTimeout(timeout);
+      clearTimeout(timeout as ReturnType<typeof setTimeout>);
     };
   }, [progress, progressValue]);
 

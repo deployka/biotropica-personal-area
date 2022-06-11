@@ -18,6 +18,14 @@ export type Task = {
 
 type CreateTask<T> = Omit<T, 'id'>;
 
+export type EventTask = Task & {
+  type: 'event';
+  kindOfEvent: KindOfEvent;
+  repeatType: 'daily' | 'weekly' | 'monthly' | 'annually';
+  completionType: 'byDate' | 'byRepetitionsNumber';
+  completionValue: string | number; // string если completionType === 'byDate', number иначе
+};
+
 export type TrainingTask = Task & {
   type: 'training';
   kindOfSport: KindOfSport;
@@ -38,14 +46,8 @@ export type CreateSomeTask =
   | CreateTrainingTask
   | CreateEventTask
   | CreateCompetitionTask;
+
 export type SomeTask = TrainingTask | EventTask | CompetitionTask;
-export interface EventTask extends Task {
-  type: 'event';
-  kindOfEvent: KindOfEvent;
-  repeatType: 'daily' | 'weekly' | 'monthly' | 'annually';
-  completionType: 'byDate' | 'byRepetitionsNumber';
-  completionValue: string | number; // string если completionType === 'byDate', number иначе
-}
 
 export type CompetitionTask = Task & {
   type: 'competition';
@@ -68,17 +70,17 @@ export type TaskStatus =
   | 'completed' // Задача выполнена
   | 'nearly'; // Задача близка к выполнению
 
-export interface TaskType {
+export type TaskType = {
   title: string;
   icon: string;
   type: Task['type'];
   key: KindOfSport | KindOfEvent | KindOfCompetitionSport; // вспомогательное значения для упрощения работы с данными
-}
+};
 
-export interface TaskTemplate extends Omit<TaskType, 'key'> {
+export type TaskTemplate = Omit<TaskType, 'key'> & {
   templateName: string;
   id: string;
-}
+};
 
 export enum KindOfSport {
   run = 'run', // Бег
