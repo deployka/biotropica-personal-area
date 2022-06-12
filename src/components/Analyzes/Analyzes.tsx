@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { AnalyzesCard } from './Card/Card';
-import { BaseUser } from '../../@types/entities/BaseUser';
 import { IInfoBar, InfoBar } from '../../shared/Global/InfoBar/InfoBar';
 import { CreateAnalyzeAnswerDto } from '../../@types/dto/analyzes/create.dto';
-import s from './Analyzes.module.scss';
 import { AnalyzesAddModal } from './AddModal/AddModal';
 import { AnalyzeAnswer } from '../../@types/entities/AnalyzeAnswer';
 import { Analyze } from '../../@types/entities/Analyze';
+
+import s from './Analyzes.module.scss';
 
 interface Props {
   isAnalyzesLoading: boolean;
@@ -35,7 +35,23 @@ export const Analyzes = ({
 
   const analyzesInfoBar: IInfoBar = {
     title: 'Вы не добавляли анализы',
-    text: 'У вас нет загруженных анализов.',
+    text: (
+      <ul>
+        <p className={s.text}>
+          •{' '}
+          <span className={s.answer}>
+            Общеклинический анализ крови с лейкоцитами
+          </span>
+        </p>
+        <p className={s.text}>
+          •{' '}
+          <span className={s.answer}>
+            Биохимический анализ крови (включает параметры функции печени: АЛТ,
+            АСТ, ГГТ, щелочная фосфатаза)
+          </span>
+        </p>
+      </ul>
+    ),
     bottomLink: 'Загрузить анализы',
     onClick: () => {
       setIsModalOpen(true);

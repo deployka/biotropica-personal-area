@@ -11,3 +11,16 @@
 
   row-gap: 30px;
 }
+
+.text {
+  p {
+    color: $color-secondary;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 130%;
+  }
+
+  .answer {
+    color: #9e97be;
+  }
+}
