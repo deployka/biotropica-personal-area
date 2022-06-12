@@ -1,7 +1,8 @@
-@import "../../../../../styles/variables.scss";
+@import "../../../styles/variables.scss";
 
 .analyze {
-    width: 470px;
+    max-width: 470px;
+    width: 100%;
 
     .file {
         width: 100%;
@@ -13,6 +14,7 @@
 
     .fileLink {
         display: flex;
+        align-items: center;
         transition: all 0.2s ease;
 
         text-decoration: none;
@@ -24,6 +26,8 @@
         }
 
         .text {
+            display: inline-block;
+
             border-bottom: 1px solid $color-secondary;
 
             font-size: 16px;
@@ -33,6 +37,13 @@
         }
 
         &:hover {
+            .icon {
+                svg {
+                    path {
+                        stroke: #6f61d0;
+                    }
+                }
+            }
             .text {
                 border-color: #6f61d0;
                 color: #6f61d0;
@@ -44,5 +55,21 @@
         font-weight: 400;
         font-size: 12px;
         color: $color-secondary;
+    }
+
+    .footer {
+        display: flex;
+        flex-direction: column;
+        max-width: 400px;
+        justify-content: space-between;
+
+        .noComments {
+            margin: 5px 0 0 0;
+
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 120%;
+            color: rgba(187, 187, 187, 1);
+        }
     }
 }
