@@ -15,6 +15,7 @@ const Questionnaire = () => {
   const {
     data: currentQuestionData,
     isLoading,
+    isFetching,
     isError,
     refetch: refetchCurrentQuestionData,
   } = useGetCurrentQuestionQuery();
@@ -39,7 +40,7 @@ const Questionnaire = () => {
     try {
       await fetchCreateAnswer(answer).unwrap();
       if (index === total) {
-        // return history.push('/');
+        return history.push('/');
       }
       refetchCurrentQuestionData();
     } catch (error) {
@@ -52,6 +53,7 @@ const Questionnaire = () => {
       <QuestionnaireBody
         question={question}
         progress={{ currentIndex: index, total }}
+        isQuestionLoading={isFetching}
         onNext={(answer: string) => {
           giveAnswer({
             text: answer,

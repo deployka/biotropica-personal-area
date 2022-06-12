@@ -25,7 +25,7 @@
     padding: 0 20px 0 15px;
 
     .text {
-      color: $color-grey-2;
+      color: $color-primary;
       font-weight: 500;
       font-size: 14px;
       line-height: 16px;
@@ -44,6 +44,17 @@
 
       path {
         stroke: $color-primary;
+      }
+    }
+
+    &.disabled {
+      .text {
+        color: $color-grey-2;
+      }
+      .icon {
+        path {
+          stroke: $color-grey-2;
+        }
       }
     }
   }

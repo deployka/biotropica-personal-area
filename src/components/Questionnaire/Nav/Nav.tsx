@@ -1,9 +1,11 @@
+import classNames from 'classnames';
 import React, { useCallback, useEffect } from 'react';
 import { QuestionnaireSvgSelector } from '../../../assets/icons/questionnaire/QuestionnaireSvgSelector';
 
 import s from './Nav.module.scss';
 
 type Props = {
+  isNextEnabled: boolean;
   progress: {
     currentIndex: number;
     total: number;
@@ -12,7 +14,12 @@ type Props = {
   onPrev(): void;
 };
 
-export const QuestionnaireNav = ({ onNext, onPrev, progress }: Props) => {
+export const QuestionnaireNav = ({
+  onNext,
+  onPrev,
+  progress,
+  isNextEnabled,
+}: Props) => {
   const handlerKeyPress = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Enter') onNext();
@@ -38,7 +45,10 @@ export const QuestionnaireNav = ({ onNext, onPrev, progress }: Props) => {
         </button>
       )} */}
 
-      <button className={s.nextBtn} onClick={onNext}>
+      <button
+        className={classNames(s.nextBtn, !isNextEnabled ? s.disabled : '')}
+        onClick={onNext}
+      >
         <div className={s.text}>
           <p>
             {progress.currentIndex !== progress.total ? 'далее' : 'завершить'}

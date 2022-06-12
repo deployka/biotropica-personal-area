@@ -26,6 +26,7 @@ import {
 import { Specialist } from '../../@types/entities/Specialist';
 import { useCreateDialogMutation } from '../../api/chat';
 import { ResponseError } from '../../@types/api/response';
+import { Loader } from '../../shared/Global/Loader/Loader';
 
 const Consultations = () => {
   const queryParam = useQuery();
@@ -55,9 +56,13 @@ const Consultations = () => {
     };
   }, [notificationId]);
 
-  const { data: specialists = [] } = useGetSpecialistsQuery();
-  const { data: consultations = [], refetch: refetchConsultations } =
-    useGetConsultationsQuery();
+  const { data: specialists = [], isLoading: isSpecialistLoading } =
+    useGetSpecialistsQuery();
+  const {
+    data: consultations = [],
+    isLoading: isConsultationsLoading,
+    refetch: refetchConsultations,
+  } = useGetConsultationsQuery();
 
   const { data: closestConsultation } = useGetClosestConsultationQuery();
   const { data: LastAddedConsultation } = useGetLastConsultationQuery();
@@ -260,13 +265,16 @@ const Consultations = () => {
           <Link to="/consultations/list">Мои видеоконсультации</Link>
         </div>
       </div>
-      <ConsultationsList
-        consultationsCount={consultations.length}
-        isLoadingSignUp={isLoading}
-        onSignUpClick={onSignUpClick}
-        searchQuery={searchQuery}
-        specialists={searchedAndFilteredSpecialists}
-      />
+      {isSpecialistLoading && <p>Загрузка...</p>}
+      {!isSpecialistLoading && (
+        <ConsultationsList
+          consultationsCount={consultations.length}
+          isLoadingSignUp={isLoading}
+          onSignUpClick={onSignUpClick}
+          searchQuery={searchQuery}
+          specialists={searchedAndFilteredSpecialists}
+        />
+      )}
     </div>
   );
 };
