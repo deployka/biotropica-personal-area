@@ -22,8 +22,8 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Provider store={store}>
+        <ToastContainer />
         <ModalProvider>
-          <ToastContainer />
           <App />
         </ModalProvider>
       </Provider>
