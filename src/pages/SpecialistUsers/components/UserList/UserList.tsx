@@ -10,11 +10,12 @@ import { UsersTableHeader } from './UsersTableHeader';
 import { UsersTable } from './UsersTable';
 import { ROLE } from '../../../../@types/entities/Role';
 import { TARIFF } from '../../../../@types/entities/Tariff';
-import { Client } from '../../../../@types/entities/Client';
 import { BaseUser } from '../../../../@types/entities/BaseUser';
 
 type Props = {
   users: BaseUser[];
+  checked: boolean;
+  onChecked: (checked: boolean) => void;
 };
 
 type Filters = {
@@ -22,7 +23,7 @@ type Filters = {
   tariff: (TARIFF | undefined)[];
 };
 
-export function UserList({ users }: Props) {
+export function UserList({ users, checked, onChecked }: Props) {
   const [filterOpened, setFilterOpened] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const [filters, setFilters] = useState<Filters>({
@@ -43,14 +44,12 @@ export function UserList({ users }: Props) {
     filteredUsers = filterUsersByQuery(filteredUsers, query);
   }
 
-  const [checked, setChecked] = useState(false);
-
   return (
     <div className={s.adminPanel}>
       <div className={`${s.listPanel} ${filterOpened ? '' : s.full}`}>
         <UsersTableHeader
           checked={checked}
-          onChecked={setChecked}
+          onChecked={onChecked}
           userLength={filteredUsers.length}
           onFilterBtnClick={() => setFilterOpened(!filterOpened)}
           filterOpened={filterOpened}
