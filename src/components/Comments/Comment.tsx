@@ -68,22 +68,23 @@ export function Comment({
 
   return (
     <div className={s.comment}>
-      <div className={s.avatar} onClick={moveToSpecialist}>
-        <img src={avatar} alt="av" />
-      </div>
-      <div className={s.data}>
-        <div className={s.data_header}>
-          <h5 onClick={moveToSpecialist}>{fullName}</h5>
-          <div className={s.rightGroup}>
-            <p>{currentDate}</p>
-            {withTrash && (
-              <div className={s.deleteBtn} onClick={handleDelete}>
-                <GlobalSvgSelector id="trash" />
-              </div>
-            )}
-          </div>
+      <div className={s.header}>
+        <div className={s.avatar} onClick={moveToSpecialist}>
+          <img src={avatar} />
         </div>
-        <p className={s.data_content}>{text}</p>
+        <div className={s.specialist} onClick={moveToSpecialist}>
+          <p className={s.name}>{fullName}</p>
+          <p className={s.specialization}>фитнес инструктор</p>
+        </div>
+        {withTrash && (
+          <div className={s.deleteBtn} onClick={handleDelete}>
+            <GlobalSvgSelector id="trash" />
+          </div>
+        )}
+      </div>
+      <div className={s.content}>
+        <p className={s.text}>{text}</p>
+        <p className={s.createdAt}>{currentDate}</p>
       </div>
     </div>
   );
