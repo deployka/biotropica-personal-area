@@ -27,12 +27,6 @@ export const Analyzes = ({
   setIsModalOpen,
   isAddAnalyzeLoading,
 }: Props) => {
-  const [isShowMore, setIsShowMore] = useState(false);
-
-  function onShowMoreClick() {
-    setIsShowMore(!isShowMore);
-  }
-
   const analyzesInfoBar: IInfoBar = {
     title: 'Вы не добавляли анализы',
     text: 'У вас нет загруженных анализов.',
@@ -58,8 +52,6 @@ export const Analyzes = ({
             analyzeTypes={analyzeTypes}
             onAddAnalyzeClick={() => setIsModalOpen(true)}
             analyzes={analyzes}
-            onShowMoreClick={onShowMoreClick}
-            isShowMore={isShowMore}
           />
         ) : (
           <InfoBar infoBar={analyzesInfoBar} />
