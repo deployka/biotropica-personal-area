@@ -19,7 +19,8 @@ export function Comments({ comments = [], onDelete, withTrash }: Props) {
           withTrash={withTrash}
           key={comment.id}
           id={comment.id}
-          specialistId={comment.author.id}
+          // TODO: пофиксить any
+          specialistId={(comment.author as any).specialist.id}
           onDelete={onDelete}
           comment={comment}
         />

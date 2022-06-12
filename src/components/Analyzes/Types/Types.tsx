@@ -1,7 +1,7 @@
 import React from 'react';
-import { Analyze } from '../../../../../@types/entities/Analyze';
+import { Analyze } from '../../../@types/entities/Analyze';
 
-import s from './AnalyzesCard.module.scss';
+import s from './Types.module.scss';
 
 interface Props {
   analyzeTypes: Analyze[];

@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
+
 import { useModal } from '../hooks/useModal';
 import { AddPhotoModal } from '../pages/Profile/components/Progress/AddPhotoModal/AddPhotoModal';
 import { PhotoSliderModal } from '../pages/Profile/components/Progress/PhotoSliderModal/PhotoSliderModal';
-import { AddAnalyzeModal } from '../pages/Profile/components/Analyzes/AddAnalyzeModal/AddAnalyzeModal';
+
 import { ModalName } from '../providers/ModalProvider';
 import { SidebarMenuPopup } from '../shared/Global/Sidebar/SidebarMenuPopup/SidebarMenuPopup';
 import { SidebarNotificationsPopup } from '../shared/Global/Sidebar/SidebarNotificationsPopup/SidebarNotificationsPopup';
@@ -20,8 +21,6 @@ export const Modals = () => {
           return <AddPhotoModal {...modals[modal].props} />;
         case ModalName.MODAL_PROGRESS_PHOTO_SLIDER:
           return <PhotoSliderModal {...modals[modal].props} />;
-        case ModalName.MODAL_ADD_ANALYZ_FILE:
-          return <AddAnalyzeModal {...modals[modal].props} />;
         case ModalName.MODAL_SIDEBAR_MENU:
           return <SidebarMenuPopup {...modals[modal].props} />;
         case ModalName.MODAL_NOTIFICATIONS_MENU:
