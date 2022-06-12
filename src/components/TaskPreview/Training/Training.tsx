@@ -17,6 +17,7 @@ import { TrainingTask } from '../../../@types/entities/Task';
 export type TrainingTaskPreviewProps = {
   task: TrainingTask;
   isSpecialist: boolean;
+  isCommentsLoading?: boolean;
   onSaveFirstValue(value: number | undefined): void;
   onSaveSecondValue(value: number | undefined): void;
   onSendComment(newCommentText: string): void;
@@ -28,6 +29,7 @@ export function TrainingTaskPreview({
   onSaveFirstValue,
   onSaveSecondValue,
   onSendComment,
+  isCommentsLoading,
 }: TrainingTaskPreviewProps) {
   const formatDate = intlFormat(new Date(task.date), {
     year: 'numeric',
@@ -151,7 +153,11 @@ export function TrainingTaskPreview({
         </div>
       )}
       <div className={s.line}>
-        <TaskPreviewComments comments={task.comments} onSend={onSendComment} />
+        <TaskPreviewComments
+          comments={task.comments}
+          onSend={onSendComment}
+          isLoading={isCommentsLoading}
+        />
       </div>
     </div>
   );
