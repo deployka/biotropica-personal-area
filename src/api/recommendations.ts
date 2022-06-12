@@ -1,5 +1,6 @@
 import { Recommendation } from '../@types/entities/Recommendation';
 import { Specialization } from '../@types/entities/Specialization';
+import { BaseUser } from '../@types/entities/BaseUser';
 import { baseApi } from './base-api';
 
 // FIXME: DTO
@@ -34,6 +35,15 @@ export const recommendationApi = baseApi.injectEndpoints({
                 { type: 'Recommendation', id: 'LIST' },
               ]
             : [{ type: 'Recommendation', id: 'LIST' }],
+      }),
+
+      getWaitingUsers: builder.query<BaseUser[], void>({
+        query() {
+          return {
+            method: 'GET',
+            url: 'recommendations/waiting',
+          };
+        },
       }),
 
       getRecommendation: builder.query<Recommendation, number>({
@@ -94,4 +104,5 @@ export const {
   useGetRecommendationListQuery,
   useLazyGetRecommendationQuery,
   useUpdateRecommendationMutation,
+  useGetWaitingUsersQuery,
 } = recommendationApi;

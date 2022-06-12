@@ -7,6 +7,7 @@ import { Response } from '../@types/api/response';
 import { UpdateUserDto } from '../@types/dto/users/update.dto';
 import { Answer } from '../@types/entities/Answer';
 import { BaseUser } from '../@types/entities/BaseUser';
+import { GetUsersDto } from '../@types/dto/users/get-all.dto';
 
 const userApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -72,11 +73,12 @@ const userApi = baseApi.injectEndpoints({
       invalidatesTags: [{ type: 'User', id: 'LIST' }],
     }),
 
-    getAllUsers: builder.query<BaseUser[], void>({
-      query() {
+    getAllUsers: builder.query<BaseUser[], Partial<GetUsersDto>>({
+      query(dto) {
         return {
           method: 'GET',
           url: 'users',
+          params: dto,
         };
       },
       providesTags: result =>

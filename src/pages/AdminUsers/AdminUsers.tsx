@@ -25,7 +25,7 @@ export function AdminUsers() {
   const [blockUser] = useBlockUserMutation();
   const [createDialog] = useCreateDialogMutation();
 
-  const { data: users } = useGetAllUsersQuery();
+  const { data: users } = useGetAllUsersQuery({});
   const { data: roles } = useGetAllRolesQuery();
 
   function askBlockUser(user: BaseUser) {
