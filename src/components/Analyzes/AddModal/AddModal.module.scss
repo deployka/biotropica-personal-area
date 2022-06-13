@@ -1,7 +1,7 @@
 @import "./../../../styles/mixins.scss";
 
 .analyzeModal {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
 
@@ -27,7 +27,6 @@
     padding: 0 10px;
 
     width: 100%;
-    height: calc(100vh - 60px);
 
     border-radius: 20px 20px 0 0;
 
