@@ -143,6 +143,7 @@ const EditSpecialistProfile = () => {
         education: values.education,
         specializations: values.specializations,
         experience: values.experience,
+        price: values.price,
       }).unwrap();
 
       let profilePhoto = values.profilePhoto;
@@ -153,7 +154,13 @@ const EditSpecialistProfile = () => {
         profilePhoto = res.name;
       }
       const data: UpdateUserDto = {
-        ...values,
+        id: currentSpecialist?.user.id || 0,
+        dob: values.dob,
+        gender: values.gender,
+        name: values.name,
+        lastname: values.lastname,
+        patronymic: values.patronymic,
+        phone: values.phone,
         profilePhoto,
         email: currentSpecialist?.user.email,
       };

@@ -234,8 +234,8 @@ export const EditProfileData = ({
 
               <div className={s.input__wrapper}>
                 <SelectCustom
-                  onChange={(e: ISelect<string>) => {
-                    setFieldValue('gender', [e]);
+                  onChange={(selectedGender: ISelect<string>) => {
+                    setFieldValue('gender', selectedGender.value);
                   }}
                   placeholder="Выберите пол..."
                   onBlur={handleBlur}
