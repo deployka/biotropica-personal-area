@@ -119,10 +119,12 @@ export function Recommendations() {
       />
       {isLoading && <p>Загрузка...</p>}
       {isError && <p>Произошла ошибка</p>}
-      {!isLoading && !isError && recommendations.length === 0 && (
-        <p>Рекомендации отсутствуют</p>
-      )}
-      {recommendations.length !== 0 && (
+      {!isLoading &&
+        !isError &&
+        recommendations.length === 0 &&
+        !isSpecialist && <p>Рекомендации отсутствуют</p>}
+      {/* FIXME: сделать нормальный условный рендеринг */}
+      {((recommendations.length !== 0 && !isSpecialist) || isSpecialist) && (
         <RecommendationsPage
           openedRecommendation={openedRecommendation}
           currentUserId={currentUserId}
