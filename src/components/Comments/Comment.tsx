@@ -10,11 +10,13 @@ import { NotificationButtons } from './NotificationButtons';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { useHistory } from 'react-router';
+import { Specialization } from '../../@types/entities/Specialization';
 
 type Props = {
   comment: CommentType;
   withTrash?: boolean;
   id?: number;
+  specializations: Specialization[];
   specialistId: number;
   onDelete?: (id: number) => void;
 };
@@ -24,6 +26,7 @@ export function Comment({
   withTrash = false,
   id,
   specialistId,
+  specializations,
   onDelete,
 }: Props) {
   const {
@@ -66,6 +69,11 @@ export function Comment({
     history.push(`/specialists/${specialistId}`);
   }
 
+  // TODO: вынести в глобальный helper. Используется в некоторых местах
+  const specializationsList = specializations
+    .map(spec => spec.title)
+    .join(', ');
+
   return (
     <div className={s.comment}>
       <div className={s.header}>
@@ -74,7 +82,7 @@ export function Comment({
         </div>
         <div className={s.specialist} onClick={moveToSpecialist}>
           <p className={s.name}>{fullName}</p>
-          <p className={s.specialization}>фитнес инструктор</p>
+          <p className={s.specialization}>{specializationsList}</p>
         </div>
         {withTrash && (
           <div className={s.deleteBtn} onClick={handleDelete}>

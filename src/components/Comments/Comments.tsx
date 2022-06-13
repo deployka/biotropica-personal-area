@@ -3,6 +3,7 @@ import { Comment } from './Comment';
 import { Comment as CommentType } from '../../@types/entities/Comment';
 
 import s from './Comments.module.scss';
+import { BaseUser } from '../../@types/entities/BaseUser';
 
 type Props = {
   isClient: boolean;
@@ -24,12 +25,16 @@ export function Comments({
       {comments.map(comment => (
         <Comment
           withTrash={
-            currentUserId === (comment.author as any).specialist.id && !isClient
+            currentUserId === (comment.author as BaseUser)?.specialist?.id &&
+            !isClient
+          }
+          specializations={
+            (comment.author as BaseUser)?.specialist?.specializations || []
           }
           key={comment.id}
           id={comment.id}
           // TODO: пофиксить any
-          specialistId={(comment.author as any).specialist.id}
+          specialistId={(comment.author as BaseUser)?.specialist?.id || 0}
           onDelete={onDelete}
           comment={comment}
         />
