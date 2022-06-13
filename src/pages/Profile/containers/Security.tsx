@@ -9,6 +9,7 @@ import {
   useChangePasswordMutation,
   useSignOutMutation,
 } from '../../../api/auth';
+import { ResponseError } from '../../../@types/api/response';
 
 export const Security = () => {
   const { data: user } = useCurrentUserQuery();
@@ -22,14 +23,13 @@ export const Security = () => {
     try {
       const res = await changePassword(values).unwrap();
       eventBus.emit(EventTypes.notification, {
-        title: 'Успешно!',
-        message: res?.message,
+        message: 'Пароль успешно изменен!',
         type: NotificationType.SUCCESS,
       });
       options.resetForm();
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
-        message: (error as { message: string })?.message,
+        message: (error as ResponseError)?.data.message,
         type: NotificationType.DANGER,
       });
       options.setFieldValue('currentPassword', '');

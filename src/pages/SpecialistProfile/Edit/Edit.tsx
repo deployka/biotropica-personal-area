@@ -112,14 +112,13 @@ const EditSpecialistProfile = () => {
     try {
       await updatePassword(data).unwrap();
       eventBus.emit(EventTypes.notification, {
-        title: 'Успешно!',
-        message: 'Пароль обновлен',
+        message: 'Пароль успешно обновлен!',
         type: NotificationType.SUCCESS,
       });
     } catch (error) {
       console.log(error);
       eventBus.emit(EventTypes.notification, {
-        message: 'Произошла ошибка',
+        message: (error as ResponseError)?.data.message,
         type: NotificationType.DANGER,
       });
     }
