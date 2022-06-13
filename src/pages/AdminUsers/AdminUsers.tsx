@@ -12,7 +12,7 @@ import { AdminUsersList } from '../../components/AdminUsers/List/List';
 import { CreateUserModal } from '../../components/AdminUsers/CreateModal/CreateModal';
 import { BlockUserConfirmModal } from '../../components/AdminUsers/BlockModal/BlockUserModal';
 import { useSignUpMutation } from '../../api/auth';
-import { ROLE } from '../../@types/entities/Role';
+import { Role, ROLE } from '../../@types/entities/Role';
 import { CreateUserDto } from '../../@types/dto/users/create-user.dto';
 
 export function AdminUsers() {
@@ -48,13 +48,20 @@ export function AdminUsers() {
     }
   }
 
+  function getRoleKeyByName(role: ROLE) {
+    switch (role) {
+      case ROLE.ADMIN:
+        return process.env.REACT_APP_ROLE_ADMIN;
+      case ROLE.SPECIALIST:
+        return process.env.REACT_APP_ROLE_SPECIALIST;
+      default:
+        return process.env.REACT_APP_ROLE_CLIENT;
+    }
+  }
+
   async function createUserHandler(user: CreateUserDto) {
     try {
-      const role =
-        user.roles[0] === ROLE.ADMIN
-          ? process.env.REACT_APP_ROLE_ADMIN
-          : process.env.REACT_APP_ROLE_SPECIALIST;
-
+      const role = getRoleKeyByName(user.roles[0]);
       await signUp({ ...user, role: role || '' }).unwrap();
       eventBus.emit(EventTypes.notification, {
         message: 'Ссылка для создания пароля успешно отправлена!',

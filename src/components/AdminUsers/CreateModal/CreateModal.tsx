@@ -13,12 +13,12 @@ import {
   onPhonePaste,
 } from '../../../utils/phoneValidator';
 
-import s from './CreateUserModal.module.scss';
 import {
   ISelect,
   SelectCustom,
 } from '../../../shared/Form/Select/SelectCustom';
 import { validationSchema } from './validationSchema';
+import s from './CreateUserModal.module.scss';
 
 interface Props {
   setPopup: Dispatch<SetStateAction<boolean>>;

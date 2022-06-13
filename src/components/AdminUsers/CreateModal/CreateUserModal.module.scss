@@ -2,7 +2,6 @@
 @import "../../../styles/mixins.scss";
 
 .form {
-    padding: 30px 40px;
     width: 840px;
     max-height: 650px;
 
@@ -11,7 +10,7 @@
     align-items: center;
 
     background-color: #ffffff;
-    border-radius: 30px;
+    border-radius: 5px;
 
     z-index: 10;
     transition: all 0.3s ease;
@@ -53,6 +52,7 @@
     }
 
     .inputsLine {
+        margin: 0 0 7px 0;
         width: 100%;
 
         display: flex;
