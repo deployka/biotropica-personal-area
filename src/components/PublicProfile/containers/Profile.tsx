@@ -3,7 +3,6 @@ import { Card } from '../components/Card/Card';
 import { Tariff } from '../components/Tariff/Tariff';
 import { Goals } from '../components/Goals/Goals';
 import { Progress } from '../components/Progress/Progress';
-import { TestsAndAnalyze } from '../components/TestsAndAnalyze/TestsAndAnalyze';
 import { useHistory, useParams } from 'react-router';
 import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 import { getTabByKey } from '../../../utils/tabsHelper';
@@ -17,8 +16,10 @@ import { Progress as IProgress } from '../../../@types/entities/Progress';
 import { useCreateDialogMutation } from '../../../api/chat';
 import { BaseUser } from '../../../@types/entities/BaseUser';
 import ChatIcon from './../../../assets/icons/ChatLight.svg';
+import { PublicAnalyzes } from '../components/TestsAndAnalyze/Analyzes/Analyzes';
 
 import s from './Profile.module.scss';
+import { Test } from '../components/TestsAndAnalyze/Tests/Tests';
 
 interface Props {
   user: BaseUser;
@@ -51,8 +52,12 @@ export const Profile = ({
 }: Props) => {
   const tabs: Tab[] = [
     {
-      key: 'test-analyzes',
-      value: 'Тестирование и Анализы',
+      key: 'analyzes',
+      value: 'Анализы',
+    },
+    {
+      key: 'test',
+      value: 'Тестирование',
     },
     {
       key: 'progress',
@@ -124,7 +129,16 @@ export const Profile = ({
             </div>
           </div>
           {activeTab === tabs[0].key && (
-            <TestsAndAnalyze
+            <PublicAnalyzes
+              onDeleteComment={onDeleteComment}
+              isLoadingComment={isLoadingComment}
+              onAddComment={onAddComment}
+              analyzes={analyzes}
+              analyzeTypes={analyzeTypes}
+            />
+          )}
+          {activeTab === tabs[1].key && (
+            <Test
               onDeleteComment={onDeleteComment}
               isLoadingComment={isLoadingComment}
               onAddComment={onAddComment}
@@ -133,7 +147,7 @@ export const Profile = ({
               analyzeTypes={analyzeTypes}
             />
           )}
-          {activeTab === tabs[1].key && (
+          {activeTab === tabs[2].key && (
             <Progress progress={progress} isLoading={progressIsLoading} />
           )}
         </div>
