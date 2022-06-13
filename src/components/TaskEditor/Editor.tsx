@@ -8,14 +8,12 @@ type TaskEditorProps = {
   task: CreateSomeTask;
   isLoading: boolean;
   onSave(task: CreateSomeTask): void;
-  onSaveAsTemplate(task: Partial<CreateSomeTask>): void;
   onClose(): void;
 };
 
 export const TaskEditor = ({
   task,
   onSave,
-  onSaveAsTemplate,
   isLoading,
   onClose,
 }: TaskEditorProps) => {
@@ -26,7 +24,6 @@ export const TaskEditor = ({
           task={task}
           isLoading={isLoading}
           onSave={onSave}
-          onSaveAsTemplate={onSaveAsTemplate}
           onClose={onClose}
         />
       );
@@ -36,7 +33,6 @@ export const TaskEditor = ({
           task={task}
           isLoading={isLoading}
           onSave={onSave}
-          onSaveAsTemplate={onSaveAsTemplate}
           onClose={onClose}
         />
       );
@@ -46,7 +42,6 @@ export const TaskEditor = ({
           isLoading={isLoading}
           task={task}
           onSave={onSave}
-          onSaveAsTemplate={onSaveAsTemplate}
           onClose={onClose}
         />
       );

@@ -27,14 +27,12 @@ export type TrainingTaskEditorProps = {
   isLoading: boolean;
   task: TrainingTask | CreateTrainingTask;
   onSave(task: CreateTrainingTask): void;
-  onSaveAsTemplate(task: Partial<CreateTrainingTask>): void;
 };
 
 export function TrainingTaskEditor({
   task,
   onClose,
   onSave,
-  onSaveAsTemplate,
   isLoading,
 }: TrainingTaskEditorProps) {
   function onSubmit(values: Partial<CreateTrainingTask>) {

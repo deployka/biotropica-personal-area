@@ -6,7 +6,6 @@ import {
   translatedKindOfCompetitionSport,
 } from '../../TaskEditor/Competition/CompetitionConstants';
 import { translatedKindOfEvent } from '../../TaskEditor/Event/EventConstants';
-import { typeGroups } from '../../../components/Task/TypeSelectModal/TypeSelectModal';
 
 import { TaskBaseEditor } from '../../../components/Task/BaseEditor/BaseEditor';
 import { TaskLayout } from '../../../components/Task/Layout/Layout';
@@ -14,6 +13,7 @@ import {
   translatedCategories,
   translatedKindOfSport,
 } from '../../TaskEditor/Training/TrainingConstants';
+import { typeGroups } from '../TypeSelectModal/taskTypeConstants';
 
 type TasksModalProps = {
   task: SomeTask | CreateSomeTask | null;
@@ -26,8 +26,8 @@ type TasksModalProps = {
   isCommentsLoading?: boolean;
   onClose(): void;
   onEditBtnClick(): void;
+  onCreateTemplate(): void;
   onDeleteTask(): void;
-  onSaveAsTemplate: (task: Partial<CreateSomeTask>) => void;
   onSave(task: CreateSomeTask): void;
   onSendComment(newCommentText: string): void;
   onSaveFactValue(value: number): void;
@@ -44,9 +44,9 @@ export const TasksModal = ({
   currentUserId,
   isCommentsLoading,
   isLoading,
+  onCreateTemplate,
   onClose,
   onSave,
-  onSaveAsTemplate,
   onDeleteTask,
   onEditBtnClick,
   onSendComment,
@@ -95,6 +95,7 @@ export const TasksModal = ({
       taskId={taskId}
       title={title}
       icon={icon}
+      onCreateTemplate={onCreateTemplate}
       onDeleteTask={onDeleteTask}
       category={category}
       mode={mode}
@@ -109,7 +110,6 @@ export const TasksModal = ({
         isLoading={isLoading}
         onSave={onSave}
         onClose={onClose}
-        onSaveAsTemplate={onSaveAsTemplate}
         onSendComment={onSendComment}
         onSaveFactValue={onSaveFactValue}
         onSaveFirstValue={onSaveFirstValue}

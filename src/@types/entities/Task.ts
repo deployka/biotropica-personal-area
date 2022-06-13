@@ -82,6 +82,24 @@ export type TaskTemplate = Omit<TaskType, 'key'> & {
   id: string;
 };
 
+export type TrainingTaskTemplate = Omit<
+  TrainingTask,
+  'firstFactValue' & 'secondFactValue' & 'date'
+> & {
+  templateName: string;
+};
+
+export type EventTaskTemplate = Omit<TrainingTask, 'date'> & {
+  templateName: string;
+};
+
+export type CompetitionTaskTemplate = Omit<
+  TrainingTask,
+  'factValue' & 'date'
+> & {
+  templateName: string;
+};
+
 export enum KindOfSport {
   run = 'run', // Бег
   streetRun = 'streetRun', // Бег по улице

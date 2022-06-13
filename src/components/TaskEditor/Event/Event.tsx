@@ -7,11 +7,7 @@ import { HtmlEditor } from '../../HtmlEditor/HtmlEditor';
 import Input, { InputTypes } from '../../Input/Input';
 import SelectCustom from '../../Select/SelectCustom';
 import s from './Event.module.scss';
-import {
-  eventTaskOptions,
-  selectCompletionType,
-  selectRepeatType,
-} from './EventConstants';
+import { eventTaskOptions } from './EventConstants';
 import validationSchema from './validationSchema';
 import {
   CreateEventTask,
@@ -24,19 +20,16 @@ export type EventTaskEditorProps = {
   isLoading: boolean;
   onClose(): void;
   onSave(task: CreateEventTask): void;
-  onSaveAsTemplate(task: Partial<CreateEventTask>): void;
 };
 
 export function EventTaskEditor({
   task,
   onClose,
   onSave,
-  onSaveAsTemplate,
   isLoading,
 }: EventTaskEditorProps) {
   function onSubmit(values: Partial<CreateEventTask>) {
-    if (values.isTemplate) onSaveAsTemplate({ ...task, ...values });
-    else onSave({ ...task, ...values });
+    onSave({ ...task, ...values });
   }
 
   return (

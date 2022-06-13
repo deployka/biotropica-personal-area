@@ -5,6 +5,7 @@ import {
   useDeleteTaskMutation,
   useGetTaskCommentsQuery,
   useGetTaskListQuery,
+  useGetTemplatesListQuery,
   useUpdateTaskMutation,
 } from '../../api/tasks';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +20,7 @@ import {
   CompetitionTask,
   CreateSomeTask,
   EventTask,
+  KindOfEvent,
   KindOfSport,
   SomeTask,
   TaskTemplate,
@@ -79,6 +81,8 @@ export function Tasks() {
     userId,
   });
 
+  const { data: templates = [] } = useGetTemplatesListQuery();
+
   const { data: comments = [], isFetching: isCommentsLoading } =
     useGetTaskCommentsQuery(
       { taskId: openedTaskId },
@@ -86,30 +90,6 @@ export function Tasks() {
         skip: !openedTaskId,
       },
     );
-
-  const templates: SomeTask[] = [
-    {
-      id: '06fce062-389f-4da5-a92e-81347b7f9d61',
-      authorId: 15,
-      executorId: 15,
-      title: 'Пробежка',
-      type: 'training',
-      date: '2022-04-23',
-      startTime: '12:00:00',
-      endTime: '',
-      status: 'init',
-      description: '',
-      isTemplate: true,
-      templateName: 'Тренировка для спины',
-      kindOfSport: KindOfSport.swimming,
-      comments: [],
-      category: TrainingCategory.power,
-      firstTargetType: 'time',
-      firstTargetValue: 12,
-      secondTargetType: 'pulse',
-      secondTargetValue: 12,
-    },
-  ];
 
   useEffect(() => {
     if (!openedTask || !comments.length) return;
@@ -175,6 +155,31 @@ export function Tasks() {
     eventBus.emit(EventTypes.removeNotification, 'delete-notification');
   }
 
+  async function handleCreateTemplate() {
+    if (!openedTask) return;
+
+    const newTemplate = {
+      ...openedTask,
+      id: undefined,
+      isTemplate: true,
+      templateName: openedTask.title,
+    };
+    try {
+      await createTask({ ...newTemplate, executorId: userId }).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        type: NotificationType.SUCCESS,
+        message: 'Шаблон успешно создан!',
+      });
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        type: NotificationType.DANGER,
+        message: 'Произошла ошибка при создании шаблона!',
+      });
+    }
+
+    handleCloseTask();
+  }
+
   async function handleDeleteTask() {
     eventBus.emit(EventTypes.notification, {
       type: NotificationType.WARNING,
@@ -234,26 +239,6 @@ export function Tasks() {
   }
   async function onChangeTemplateName(templateId: string, value: string) {
     console.log(templateId, value);
-  }
-  async function handleSaveAsTemplate(task: Partial<CreateSomeTask>) {
-    const newTemplate = {
-      ...task,
-      templateName: task.title,
-    };
-    try {
-      await createTask({ ...newTemplate, executorId: userId }).unwrap();
-      eventBus.emit(EventTypes.notification, {
-        type: NotificationType.SUCCESS,
-        message: 'Шаблон успешно создан!',
-      });
-    } catch (error) {
-      eventBus.emit(EventTypes.notification, {
-        type: NotificationType.DANGER,
-        message: 'Произошла ошибка при создании шаблона!',
-      });
-    }
-
-    handleCloseTask();
   }
 
   if (isError) {
@@ -322,7 +307,7 @@ export function Tasks() {
         onEditBtnClick={handleEditClick}
         onSendComment={handleSendComment}
         onSave={handleSaveTask}
-        onSaveAsTemplate={handleSaveAsTemplate}
+        onCreateTemplate={handleCreateTemplate}
         onDeleteTask={handleDeleteTask}
         onSaveFirstValue={handleSaveFirstFactValue}
         onSaveSecondValue={handleSaveSecondFactValue}

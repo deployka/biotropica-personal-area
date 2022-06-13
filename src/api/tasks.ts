@@ -5,7 +5,9 @@ import {
   CreateEventTask,
   CreateTrainingTask,
   EventTask,
+  SomeTask,
   Task,
+  TaskTemplate,
   TrainingTask,
 } from '../@types/entities/Task';
 import { baseApi } from './base-api';
@@ -131,6 +133,14 @@ export const taskApi = baseApi.injectEndpoints({
         },
         invalidatesTags: [{ type: 'Task', id: 'LIST' }],
       }),
+      getTemplatesList: builder.query<SomeTask[], void>({
+        query() {
+          return {
+            method: 'GET',
+            url: 'tasks/get-all-templates',
+          };
+        },
+      }),
     };
   },
 });
@@ -145,4 +155,5 @@ export const {
   useAddTaskCommentMutation,
   useGetTaskCommentsQuery,
   useRemoveTaskCommentMutation,
+  useGetTemplatesListQuery,
 } = taskApi;

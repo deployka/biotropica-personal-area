@@ -17,6 +17,7 @@ interface Props {
   onClose(): void;
   taskId: string;
   onEditBtnClick(): void;
+  onCreateTemplate(): void;
   onDeleteTask(): void;
 }
 
@@ -29,6 +30,7 @@ export const Header = ({
   category,
   taskId,
   onClose,
+  onCreateTemplate,
   onEditBtnClick,
   isCurrentUser,
 }: Props) => {
@@ -83,7 +85,11 @@ export const Header = ({
 
         <div className={s.rightContent}>
           {mode === 'edit' && (
-            <MoreOptionsButton onDelete={onDeleteTask} taskId={taskId} />
+            <MoreOptionsButton
+              onCreateTemplate={onCreateTemplate}
+              onDelete={onDeleteTask}
+              taskId={taskId}
+            />
           )}
           <img
             className={s.closeIcon}

@@ -7,11 +7,14 @@ import classNames from 'classnames';
 interface MoreOptionsButtonProps {
   taskId: string;
   onDelete: () => void;
+  onCreateTemplate: () => void;
 }
 
-export function MoreOptionsButton(props: MoreOptionsButtonProps) {
-  const { taskId, onDelete } = props;
-
+export function MoreOptionsButton({
+  taskId,
+  onDelete,
+  onCreateTemplate,
+}: MoreOptionsButtonProps) {
   const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
 
   const openContextMenu = () => {
@@ -20,6 +23,12 @@ export function MoreOptionsButton(props: MoreOptionsButtonProps) {
 
   const closeContextMenu = () => {
     setIsContextMenuVisible(false);
+  };
+
+  const handleCreateTemplate = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    closeContextMenu();
+    onCreateTemplate();
   };
 
   const handleClickDelete = (event: React.MouseEvent<HTMLElement>) => {
@@ -40,6 +49,13 @@ export function MoreOptionsButton(props: MoreOptionsButtonProps) {
         </button>
         {isContextMenuVisible && (
           <div className={s.contextMenu}>
+            <Divider />
+            <button
+              onMouseDown={handleCreateTemplate}
+              className={s.contextMenuOption}
+            >
+              Создать шаблон
+            </button>
             {taskId && (
               <>
                 <Divider />

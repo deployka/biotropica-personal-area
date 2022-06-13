@@ -80,6 +80,17 @@
 
     color: #1e174d;
 
+    .left {
+      width: 33.3%;
+    }
+    .center {
+      width: 33.3%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .closeBtn {
       position: absolute;
       right: 0;

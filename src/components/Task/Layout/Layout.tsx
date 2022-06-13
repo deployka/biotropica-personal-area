@@ -11,7 +11,6 @@ type TaskLayoutProps = {
   isCommentsLoading?: boolean;
   onClose(): void;
   onSave(task: CreateSomeTask): void;
-  onSaveAsTemplate(task: Partial<CreateSomeTask>): void;
   onSendComment(newCommentText: string): void;
   onSaveFactValue(value: number): void;
   onSaveFirstValue(value: number | undefined): void;
@@ -24,7 +23,6 @@ export function TaskLayout({
   onClose,
   isSpecialist,
   onSave,
-  onSaveAsTemplate,
   isLoading,
   isCommentsLoading,
   onSendComment,
@@ -51,7 +49,6 @@ export function TaskLayout({
       task={task}
       isLoading={isLoading}
       onSave={onSave}
-      onSaveAsTemplate={onSaveAsTemplate}
       onClose={onClose}
     />
   );

@@ -33,7 +33,6 @@ export type CompetitionTaskEditorProps = {
   task: CompetitionTask | CreateCompetitionTask;
   isLoading: boolean;
   onSave(task: CreateCompetitionTask): void;
-  onSaveAsTemplate(task: Partial<CreateCompetitionTask>): void;
   onClose(): void;
 };
 
@@ -41,7 +40,6 @@ export function CompetitionTaskEditor({
   task,
   isLoading,
   onSave,
-  onSaveAsTemplate,
   onClose,
 }: CompetitionTaskEditorProps) {
   function onSubmit(values: Partial<CreateCompetitionTask>) {
