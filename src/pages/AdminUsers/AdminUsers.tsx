@@ -9,7 +9,7 @@ import { useCreateDialogMutation } from '../../api/chat';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { ResponseError } from '../../@types/api/response';
 import { AdminUsersList } from '../../components/AdminUsers/List/List';
-import { CreateUserModal } from '../../components/AdminUsers/CreateModal/CreateUserModal';
+import { CreateUserModal } from '../../components/AdminUsers/CreateModal/CreateModal';
 import { BlockUserConfirmModal } from '../../components/AdminUsers/BlockModal/BlockUserModal';
 import { useSignUpMutation } from '../../api/auth';
 import { ROLE } from '../../@types/entities/Role';
@@ -20,7 +20,7 @@ export function AdminUsers() {
   const [blockUserModalOpened, setBlockUserModalOpened] =
     useState<boolean>(false);
   const [userToBlock, setUserToBlock] = useState<BaseUser | null>(null);
-  const [signUp] = useSignUpMutation();
+  const [signUp, { isLoading: isCreateUserLoading }] = useSignUpMutation();
   const [blockUser] = useBlockUserMutation();
   const [createDialog] = useCreateDialogMutation();
 
@@ -80,6 +80,7 @@ export function AdminUsers() {
   return (
     <div>
       <CreateUserModal
+        isLoading={isCreateUserLoading}
         popup={popup}
         setPopup={setPopup}
         roles={roles || []}

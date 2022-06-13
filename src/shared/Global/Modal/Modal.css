@@ -20,7 +20,7 @@
   border-radius: 30px;
   background-color: #fff;
   max-height: 90vh;
-  overflow: scroll;
+  /* overflow: scroll; */
 }
 
 .modal-overlay .modal-mobile {
