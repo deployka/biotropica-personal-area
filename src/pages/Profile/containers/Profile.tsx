@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Card } from '../components/Card/Card';
 import { Tariff } from '../components/Tariff/Tariff';
 import { Goals } from '../components/Goals/Goals';
 import { Progress } from '../components/Progress/Progress';
-import { Analyzes } from '../components/Analyzes/Analyzes';
-
-import s from './Profile.module.scss';
 import { useModal } from '../../../hooks/useModal';
 import { ModalName } from '../../../providers/ModalProvider';
 import { useHistory, useParams } from 'react-router';
@@ -17,8 +13,18 @@ import { Button } from '../components/Button/Button';
 import { useGetGoalsQuery } from '../../../api/goals';
 import { BaseUser } from '../../../@types/entities/BaseUser';
 import { QuestionnaireResults } from '../components/QuestionnaireResults/QuestionnaireResults';
-import { Answer } from '../../../@types/entities/Answer';
 import { useGetQuestionnaireAnswersQuery } from '../../../api/user';
+
+import s from './Profile.module.scss';
+import { Analyzes } from '../../../components/Analyzes/Analyzes';
+import { CreateAnalyzeAnswerDto } from '../../../@types/dto/analyzes/create.dto';
+import {
+  useCreateAnalyzeAnswerMutation,
+  useGetAnalyzeAnswersQuery,
+} from '../../../api/analyze-answers';
+import { eventBus, EventTypes } from '../../../services/EventBus';
+import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
+import { useGetAnalyzesQuery } from '../../../api/analyzes';
 
 interface Props {
   user: BaseUser;
@@ -40,8 +46,8 @@ const tabs: Tab[] = [
 ];
 
 const Profile = ({ user }: Props) => {
-  const { openModal } = useModal();
-
+  const { openModal, closeModal } = useModal();
+  const [isAnalyzeModalOpen, setIsAnalyzeModalOpen] = useState(false);
   const { data: goals = [] } = useGetGoalsQuery();
 
   const { active } = useParams<Param>();
@@ -52,11 +58,17 @@ const Profile = ({ user }: Props) => {
     getTabByKey(active, tabs)?.key || tabs[0].key,
   );
 
+  const [createAnalyzeAnswer, { isLoading: isCreateAnalyzeAnswerLoading }] =
+    useCreateAnalyzeAnswerMutation();
   const { data: questionnaireAnswers = [] } = useGetQuestionnaireAnswersQuery(
     user.id,
   );
-
-  console.log('questionnaireAnswers', questionnaireAnswers);
+  const { data: analyzeTypes = [], isLoading: isAnalyzesTypesLoading = false } =
+    useGetAnalyzesQuery();
+  const { data: analyzes = [], isLoading: isAnalyzesLoading = false } =
+    useGetAnalyzeAnswersQuery({
+      userId: user.id,
+    });
 
   // FIXME: добавить отображение тарифа
   const tariffData = {
@@ -68,9 +80,29 @@ const Profile = ({ user }: Props) => {
     history.push(`/profile/tabs/${tab.key}`);
   }
 
-  function openModalHandler() {
+  function openProgressModal() {
     openModal(ModalName.MODAL_ADD_PROGRESS_PHOTO, { user });
   }
+
+  const handleSubmitAnalyzes = async (values: CreateAnalyzeAnswerDto) => {
+    try {
+      await createAnalyzeAnswer(values).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        message: 'Анализ успешно загружен',
+        type: NotificationType.SUCCESS,
+        autoClose: 10000,
+      });
+      setIsAnalyzeModalOpen(false);
+    } catch (error) {
+      console.error(error);
+      eventBus.emit(EventTypes.notification, {
+        title: 'Ошибка!',
+        message: 'Произошла непредвиденная ошибка!',
+        type: NotificationType.DANGER,
+        autoClose: 10000,
+      });
+    }
+  };
 
   useEffect(() => {
     if (active) {
@@ -110,12 +142,22 @@ const Profile = ({ user }: Props) => {
               />
             </div>
           </div>
-          {activeTab === tabs[0].key && <Analyzes user={user} />}
+          {activeTab === tabs[0].key && (
+            <Analyzes
+              isAnalyzesLoading={isAnalyzesTypesLoading || isAnalyzesLoading}
+              onAddAnalyze={handleSubmitAnalyzes}
+              isAddAnalyzeLoading={isCreateAnalyzeAnswerLoading}
+              isModalOpen={isAnalyzeModalOpen}
+              setIsModalOpen={setIsAnalyzeModalOpen}
+              analyzes={analyzes}
+              analyzeTypes={analyzeTypes}
+            />
+          )}
           {activeTab === tabs[1].key && (
             <QuestionnaireResults answers={questionnaireAnswers} />
           )}
           {activeTab === tabs[2].key && (
-            <button onClick={openModalHandler} className={s.btn__add__photo}>
+            <button onClick={openProgressModal} className={s.btn__add__photo}>
               добавить фото
             </button>
           )}

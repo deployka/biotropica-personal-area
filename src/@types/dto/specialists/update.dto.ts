@@ -4,4 +4,5 @@ export type UpdateSpecialistDto = Partial<{
   specializations: Specialization[];
   experience: string;
   education: string;
+  price: number;
 }>;

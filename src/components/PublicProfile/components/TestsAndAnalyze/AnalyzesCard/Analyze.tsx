@@ -16,12 +16,14 @@ interface Props {
   analyze: AnalyzeAnswer;
   onAddComment: (comment: string, analyzeId: number) => void;
   isLoadingComment: boolean;
+  currentUserId: number;
   onDeleteComment: (id: number) => void;
 }
 
 export const Analyze = ({
   analyze,
   onAddComment,
+  currentUserId,
   isLoadingComment,
   onDeleteComment,
 }: Props) => {
@@ -70,17 +72,28 @@ export const Analyze = ({
             analyzeId={analyze.id}
           />
         )}
-        <CommentsInfo
-          sort={sort}
-          onSort={onSort}
-          isOpen={isCommentsOpen}
-          onToggle={() => setIsCommentsOpen(!isCommentsOpen)}
-          length={analyze.comments.length}
-        />
+        {analyze.comments.length === 0 && (
+          <p
+            className={s.noComments}
+            onClick={() => setIsCommentsOpen(!isCommentsOpen)}
+          >
+            Создать комментарий
+          </p>
+        )}
+        {analyze.comments.length !== 0 && (
+          <CommentsInfo
+            sort={sort}
+            onSort={onSort}
+            isOpen={isCommentsOpen}
+            onToggle={() => setIsCommentsOpen(!isCommentsOpen)}
+            length={analyze.comments.length}
+          />
+        )}
       </div>
       {isCommentsOpen && (
         <Comments
-          withTrash={true}
+          isClient={false}
+          currentUserId={currentUserId}
           onDelete={onDeleteComment}
           comments={sortedComments}
         />

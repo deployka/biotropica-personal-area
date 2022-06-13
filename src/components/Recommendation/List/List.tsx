@@ -7,7 +7,7 @@ import { RecommendationGroup, RecommendationGroupType } from './../Group/Group';
 import s from './List.module.scss';
 
 type RecommendationListProps = {
-  currentSpecialistId: number;
+  currentUserId: number;
   recommendations: Recommendation[];
   onDelete(id: number): void;
   onEdit(recommendation: Recommendation): void;
@@ -15,7 +15,7 @@ type RecommendationListProps = {
 
 export const RecommendationList = ({
   recommendations,
-  currentSpecialistId,
+  currentUserId,
   onDelete,
   onEdit,
 }: RecommendationListProps) => {
@@ -56,7 +56,7 @@ export const RecommendationList = ({
     <div className={s.recommendationList}>
       {recommendationsGroups.map(group => (
         <RecommendationGroup
-          isCurrentUser={group.specialist.id === currentSpecialistId}
+          isCurrentUser={group.specialist.id === currentUserId}
           key={group.specialist.id}
           recommendationGroup={{
             specialist: group.specialist,

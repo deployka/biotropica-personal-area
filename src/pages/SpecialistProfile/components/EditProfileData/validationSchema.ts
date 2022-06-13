@@ -20,11 +20,6 @@ export const validationSchema = yup.object().shape({
     .typeError('Должно быть строкой')
     .max(35, 'Максимальная длина 35 символов'),
   dob: yup.mixed<Date | null>().typeError('Должно быть датой'),
-  gender: yup.array().of(
-    yup.object().shape({
-      value: yup.mixed<Partial<string>>().typeError('Выберите гендер'),
-    }),
-  ),
   phone: yup
     .string()
     .typeError('Должно быть строкой')

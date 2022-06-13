@@ -3,7 +3,7 @@ import authApi from '../../api/auth';
 import userApi from '../../api/user';
 import { Admin } from '../../@types/entities/Admin';
 import { Client } from '../../@types/entities/Client';
-import { ROLE } from '../../@types/entities/Role';
+import { ROLE, Role } from '../../@types/entities/Role';
 import { Specialist } from '../../@types/entities/Specialist';
 import { RootState } from '../store';
 import { readCookie } from '../../utils/cookie';
@@ -12,7 +12,7 @@ type AuthState = {
   isAuthorized: boolean;
   token: string | null;
   accesses: string[];
-  roles: ROLE[];
+  roles: Role[];
   currentUser?: Client | Admin | Specialist;
 };
 
@@ -60,16 +60,16 @@ const slice = createSlice({
 
 export const selectUserAccesses = (state: RootState): string[] =>
   state.authSlice.accesses;
-export const selectUserRoles = (state: RootState): ROLE[] =>
+export const selectUserRoles = (state: RootState): Role[] =>
   state.authSlice.roles;
 export const selectIsAuthorized = (state: RootState): boolean =>
   state.authSlice.isAuthorized;
 export const selectIsDoctor = (state: RootState): boolean =>
-  state.authSlice.roles.includes(ROLE.SPECIALIST);
+  state.authSlice.roles.some(it => it.name === ROLE.SPECIALIST);
 export const selectIsAdmin = (state: RootState): boolean =>
-  state.authSlice.roles.includes(ROLE.ADMIN);
+  state.authSlice.roles.some(it => it.name === ROLE.ADMIN);
 export const selectIsClient = (state: RootState): boolean =>
-  state.authSlice.roles.includes(ROLE.CLIENT);
+  state.authSlice.roles.some(it => it.name === ROLE.CLIENT);
 export const selectAccessToken = (state: RootState): string | null =>
   state.authSlice.token;
 

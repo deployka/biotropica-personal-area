@@ -21,7 +21,7 @@ export const chatApi = baseApi.injectEndpoints({
 
     createDialog: builder.mutation<Dialog, CreateDialogDto>({
       query: dto => ({
-        url: '/dialogs',
+        url: 'dialogs',
         method: 'POST',
         body: dto,
       }),

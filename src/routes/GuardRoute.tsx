@@ -23,7 +23,7 @@ export const GuardRoute = ({
 
   const isAllowed = access
     ? userAccesses.includes(access)
-    : userRoles.some(it => roles.includes(it));
+    : userRoles.some(it => roles.includes(it.name));
 
   if (!isAllowed) {
     return (

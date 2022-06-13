@@ -11,7 +11,6 @@ type Props = {
   consultationsWithoutData: Consultation[];
   inactiveConsultations: Consultation[];
   moveToConsultation: (id: number) => void;
-  onSendMessageClick: (userId: number | undefined) => void;
   sendMessage: (userId: number) => void;
 };
 
@@ -21,7 +20,6 @@ export const ConsultationsTable = ({
   consultationsWithoutData,
   inactiveConsultations,
   moveToConsultation,
-  onSendMessageClick,
   sendMessage,
 }: Props) => {
   return (
@@ -37,7 +35,7 @@ export const ConsultationsTable = ({
         specialists={specialists}
         consultationsList={activeConsultations}
         moveToConsultation={moveToConsultation}
-        onSendMessageClick={onSendMessageClick}
+        onSendMessage={sendMessage}
       />
       <tr className={s.tableHeaderRow}>
         <th>Без даты</th>
@@ -50,7 +48,7 @@ export const ConsultationsTable = ({
         specialists={specialists}
         consultationsList={consultationsWithoutData}
         moveToConsultation={moveToConsultation}
-        onSendMessageClick={onSendMessageClick}
+        onSendMessage={sendMessage}
       />
       <tr className={s.tableHeaderRow}>
         <th>Прошедшие</th>
@@ -63,7 +61,7 @@ export const ConsultationsTable = ({
         specialists={specialists}
         consultationsList={inactiveConsultations}
         moveToConsultation={moveToConsultation}
-        onSendMessageClick={onSendMessageClick}
+        onSendMessage={sendMessage}
       />
     </table>
   );

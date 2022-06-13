@@ -3,6 +3,7 @@ import { Specialization } from '../../@types/entities/Specialization';
 import { useGetCurrentSpecialistQuery } from '../../api/specialists';
 import { ProfileCard } from '../../components/Profile/Card/Card';
 import { SpecialistCoursesList } from '../../components/Specialist/Courses/List';
+import { CopyField } from '../../components/UI/CopyField/CopyField';
 
 import s from './Profile.module.scss';
 
@@ -46,12 +47,18 @@ const Profile = () => {
       <div className={s.profile}>
         <div className={s.info}>
           {currentSpecialist && (
-            <ProfileCard
-              userData={currentSpecialist.user}
-              isEditable={true}
-              specialistData={specialistData}
-              profilePhoto={currentSpecialist.user.profilePhoto || ''}
-            />
+            <>
+              <ProfileCard
+                userData={currentSpecialist.user}
+                isEditable={true}
+                specialistData={specialistData}
+                profilePhoto={currentSpecialist.user.profilePhoto || ''}
+              />
+              <CopyField
+                label="Ссылка для регистрации"
+                text="https://www.figma.com/file/iLjiEdTh5mBXeeZnNTQm5v/BioTropika-%F0%9F%8C%B1-2-integration-(Copy)-(Copy)?node-id=7324%3A48483"
+              />
+            </>
           )}
         </div>
 

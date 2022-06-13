@@ -4,7 +4,7 @@ export type UpdateUserDto = Readonly<
   { id: UniqueId } & Partial<{
     profilePhoto: File | null | string;
     dob: DateTimeString;
-    gender: ISelect<string>[];
+    gender: string;
     isOnline: boolean;
     banned: boolean;
     banReason: string;

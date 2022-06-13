@@ -3,7 +3,7 @@ import { ChangePasswordDto } from '../@types/dto/auth/change-password.dto';
 import { ForgotPasswordDto } from '../@types/dto/auth/forgot-password.dto';
 import { RestorePasswordDto } from '../@types/dto/auth/restore-password.dto';
 import { SignInDto } from '../@types/dto/auth/signin.dto';
-import { SignUpDto } from '../@types/dto/auth/signup.dto';
+import { SignUpDto, SignUpWithoutPassDto } from '../@types/dto/auth/signup.dto';
 import { baseApi } from './base-api';
 
 const authApi = baseApi.injectEndpoints({
@@ -45,7 +45,7 @@ const authApi = baseApi.injectEndpoints({
           uuid: string;
         };
       },
-      SignUpDto
+      SignUpDto | SignUpWithoutPassDto
     >({
       query: payload => ({
         url: '/auth/signup',
@@ -74,7 +74,7 @@ const authApi = baseApi.injectEndpoints({
       query: payload => ({
         url: '/auth/create-password',
         body: payload,
-        method: 'PATCH',
+        method: 'POST',
       }),
     }),
   }),

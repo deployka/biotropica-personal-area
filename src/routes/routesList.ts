@@ -9,6 +9,7 @@ import { ProfileLayout } from '../layouts/ProfileLayout';
 import Questionnaire from '../pages/Questionnaire/Questionnaire';
 import { ConsultationsList } from '../pages/Consultations/ConsultationsList';
 import Tariffs from '../pages/Tariffs/Tariffs';
+import ClientTariffs from '../pages/Tariffs/containers/Tariffs';
 import { ConsultationPage } from '../pages/Consultation/Consultation';
 import { Tasks } from '../pages/Tasks/Tasks';
 import { Recommendations } from '../pages/Recommendations/Recommendations';
@@ -54,6 +55,7 @@ const routes = [
     path: 'profile',
     component: ProfileLayout,
     specialistComponent: SpecialistProfile,
+    adminComponent: Edit,
     exact: true,
   },
   {
@@ -105,7 +107,8 @@ const routes = [
 
   {
     path: 'tariffs',
-    component: Tariffs,
+    clientComponent: ClientTariffs,
+    adminComponent: Tariffs,
     exact: true,
   },
   {

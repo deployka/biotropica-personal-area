@@ -33,10 +33,10 @@ export const Questionnaire = ({ answers }: Props) => {
         </div>
       </div>
       <div className={s.list}>
-        {answers.map(answer => (
+        {answers.map((answer, i) => (
           <div className={s.item} key={answer.id}>
             <p>
-              {answer.question.order + 1}. {answer.question.title}:{' '}
+              {i + 1}. {answer.question.title}:{' '}
               <span className={s.answer}>
                 {getCurrentAnswer(answer) || 'Вы не дали ответ'}
               </span>

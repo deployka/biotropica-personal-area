@@ -25,6 +25,10 @@ const CreatePassword = () => {
   ) {
     try {
       await createPassword(values).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        message: 'Пароль успешно создан!',
+        type: NotificationType.SUCCESS,
+      });
       history.push('/signin');
     } catch (error) {
       eventBus.emit(EventTypes.notification, {

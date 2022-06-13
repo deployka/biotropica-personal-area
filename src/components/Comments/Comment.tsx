@@ -10,11 +10,13 @@ import { NotificationButtons } from './NotificationButtons';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { useHistory } from 'react-router';
+import { Specialization } from '../../@types/entities/Specialization';
 
 type Props = {
   comment: CommentType;
   withTrash?: boolean;
   id?: number;
+  specializations: Specialization[];
   specialistId: number;
   onDelete?: (id: number) => void;
 };
@@ -24,6 +26,7 @@ export function Comment({
   withTrash = false,
   id,
   specialistId,
+  specializations,
   onDelete,
 }: Props) {
   const {
@@ -66,24 +69,30 @@ export function Comment({
     history.push(`/specialists/${specialistId}`);
   }
 
+  // TODO: вынести в глобальный helper. Используется в некоторых местах
+  const specializationsList = specializations
+    .map(spec => spec.title)
+    .join(', ');
+
   return (
     <div className={s.comment}>
-      <div className={s.avatar} onClick={moveToSpecialist}>
-        <img src={avatar} alt="av" />
-      </div>
-      <div className={s.data}>
-        <div className={s.data_header}>
-          <h5 onClick={moveToSpecialist}>{fullName}</h5>
-          <div className={s.rightGroup}>
-            <p>{currentDate}</p>
-            {withTrash && (
-              <div className={s.deleteBtn} onClick={handleDelete}>
-                <GlobalSvgSelector id="trash" />
-              </div>
-            )}
-          </div>
+      <div className={s.header}>
+        <div className={s.avatar} onClick={moveToSpecialist}>
+          <img src={avatar} />
         </div>
-        <p className={s.data_content}>{text}</p>
+        <div className={s.specialist} onClick={moveToSpecialist}>
+          <p className={s.name}>{fullName}</p>
+          <p className={s.specialization}>{specializationsList}</p>
+        </div>
+        {withTrash && (
+          <div className={s.deleteBtn} onClick={handleDelete}>
+            <GlobalSvgSelector id="trash" />
+          </div>
+        )}
+      </div>
+      <div className={s.content}>
+        <p className={s.text}>{text}</p>
+        <p className={s.createdAt}>{currentDate}</p>
       </div>
     </div>
   );

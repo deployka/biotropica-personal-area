@@ -71,8 +71,8 @@ export const Header = ({
                 className={s.iconMask}
                 style={{
                   backgroundColor: headerColor,
-                  WebkitMaskImage: `url(images/icons/taskType/${icon}.svg)`,
-                  maskImage: `url(images/icons/taskType/${icon}.svg)`,
+                  WebkitMaskImage: `url(${icon})`,
+                  maskImage: `url(${icon})`,
                 }}
               ></div>
             </div>

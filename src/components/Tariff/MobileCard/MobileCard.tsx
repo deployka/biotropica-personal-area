@@ -3,7 +3,10 @@ import { useSelector } from 'react-redux';
 import AnimateHeight from 'react-animate-height';
 import arrow from './../../../assets/icons/tariffs/arrow.svg';
 import checkbox from './../../../assets/icons/tariffs/checkbox.svg';
-import { selectUserRoles } from '../../../store/slices/authSlice';
+import {
+  selectIsAdmin,
+  selectUserRoles,
+} from '../../../store/slices/authSlice';
 import EditTariffModal from '../EditModal/EditModal';
 import Button from '../../Button/Button';
 
@@ -28,9 +31,7 @@ export const TariffMobileCard = ({ tariff, refetchTariffs }: Props) => {
     height === 0 ? setHeight('auto') : setHeight(0);
   }
 
-  const roles = useSelector(selectUserRoles);
-
-  const isAdmin = roles.includes(ROLE.ADMIN);
+  const isAdmin = useSelector(selectIsAdmin);
 
   return (
     <>

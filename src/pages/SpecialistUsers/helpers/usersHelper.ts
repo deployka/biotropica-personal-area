@@ -1,11 +1,10 @@
 import { BaseUser } from '../../../@types/entities/BaseUser';
-import { Client } from '../../../@types/entities/Client';
-import { ROLE } from '../../../@types/entities/Role';
+import { Role } from '../../../@types/entities/Role';
 import { TARIFF } from '../../../@types/entities/Tariff';
 
 export function filterUsersByRoles(
   users: BaseUser[],
-  roles: (ROLE | undefined)[],
+  roles: (Role | undefined)[],
 ) {
   if (roles.length === 1 && !roles[0]) {
     return users;
@@ -14,7 +13,7 @@ export function filterUsersByRoles(
   return users.filter(user => {
     const userRoles = user.roles;
     for (const userRole of userRoles) {
-      if (roles.includes(userRole)) {
+      if (roles.some(it => it?.name === userRole.name)) {
         return true;
       }
     }

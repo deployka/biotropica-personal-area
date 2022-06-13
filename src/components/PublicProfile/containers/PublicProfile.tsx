@@ -8,6 +8,7 @@ import {
 import { useGetAnalyzesQuery } from '../../../api/analyzes';
 import { useGetGoalsQuery } from '../../../api/goals';
 import { useGetProgressPostsQuery } from '../../../api/progress';
+import { useGetCurrentSpecialistQuery } from '../../../api/specialists';
 import {
   useGetQuestionnaireAnswersQuery,
   useGetUserQuery,
@@ -25,6 +26,7 @@ export const PublicProfile = () => {
     isLoading: isUserLoading,
     isError: isUserError,
   } = useGetUserQuery(userId, { skip: !userId });
+  const { data: currentSpecialist } = useGetCurrentSpecialistQuery();
   const [createComment, { isLoading: isCreateCommentLoading }] =
     useCreateAnalyzeAnswerCommentMutation();
   const [deleteComment, { isLoading: isDeleteCommentLoading }] =
@@ -84,6 +86,7 @@ export const PublicProfile = () => {
 
   return (
     <Profile
+      currentUserId={currentSpecialist?.id || 0}
       user={user}
       onDeleteComment={onDeleteComment}
       isLoadingComment={isCreateCommentLoading || isDeleteCommentLoading}

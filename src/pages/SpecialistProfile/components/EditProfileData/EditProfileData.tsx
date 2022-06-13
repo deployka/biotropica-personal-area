@@ -85,12 +85,8 @@ export const EditProfileData = ({
           lastname: userData?.lastname || '',
           name: userData?.name || '',
           email: userData?.email || '',
-          gender: [
-            {
-              label: userData?.gender?.[0].label || '',
-              value: userData?.gender?.[0].value || '',
-            },
-          ],
+          gender: options.find(gender => gender.value === userData.gender)
+            ?.value,
           patronymic: userData?.patronymic || '',
           phone: userData?.phone || '',
           dob: userData?.dob,
@@ -238,15 +234,13 @@ export const EditProfileData = ({
 
               <div className={s.input__wrapper}>
                 <SelectCustom
-                  onChange={(e: ISelect<string>) => {
-                    setFieldValue('gender', [e]);
+                  onChange={(selectedGender: ISelect<string>) => {
+                    setFieldValue('gender', selectedGender.value);
                   }}
                   placeholder="Выберите пол..."
                   onBlur={handleBlur}
                   name="gender"
-                  value={
-                    (values.gender?.[0].label && values.gender) || undefined
-                  }
+                  value={options.find(gender => gender.value === values.gender)}
                   options={options}
                 />
               </div>

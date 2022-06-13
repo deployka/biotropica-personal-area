@@ -1,16 +1,17 @@
 @import "../../../styles/variables.scss";
 @import "../../../styles/mixins.scss";
 
-.popup {
-    padding: 30px 40px;
+.form {
     width: 840px;
     max-height: 650px;
-    overflow-y: auto;
+
     display: flex;
     flex-direction: column;
     align-items: center;
+
     background-color: #ffffff;
-    border-radius: 30px;
+    border-radius: 5px;
+
     z-index: 10;
     transition: all 0.3s ease;
 
@@ -41,7 +42,7 @@
         width: 100%;
         height: 1px;
 
-        margin: 25px 0 50px 0;
+        margin: 10px 0 15px 0;
 
         background-color: $color-divider;
 
@@ -50,143 +51,20 @@
         }
     }
 
-    .inputs {
+    .inputsLine {
+        margin: 0 0 7px 0;
         width: 100%;
 
         display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
-
-    .input {
-        margin: 0 0 30px 0;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-
-        p {
-            margin: 0 0 10px 0;
-            color: $color-grey;
-        }
-
-        @include for-phone {
-            width: 100%;
-            margin: 0 0 15px 0;
-
-            p {
-                margin: 0 0 5px 0;
-            }
-        }
-    }
-
-    .dropdown,
-    input {
-        padding: 0 20px;
-        width: 330px;
-        height: 50px;
-
-        background-color: #ffffff;
-
-        outline: none;
-
-        border: 1px solid #736f8b;
-        box-sizing: border-box;
-        border-radius: 15px;
-
-        font-size: 16px;
-
-        @include for-phone {
-            width: 100%;
-        }
-    }
-
-    input::placeholder {
-        color: $color-link;
-        font-size: 16px;
-    }
-
-    .dropdown {
-        padding: 0;
-        position: relative;
-        display: flex;
         align-items: center;
         justify-content: space-between;
+    }
 
-        user-select: none;
-        p {
-            margin: 0;
-            font-size: 16px;
-            color: $color-link;
+    .inputWrapper {
+        width: 48%;
+
+        input {
+            width: 100%;
         }
-    }
-
-    .btns {
-        margin: 20px 0 0 0;
-        display: flex;
-        align-items: center;
-        @include for-phone {
-            button {
-                border-radius: 50px !important;
-            }
-        }
-    }
-
-    .saveBtn {
-        margin-right: 20px;
-    }
-}
-
-.dropdownText {
-    padding: 0 20px;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1;
-}
-
-.dropdownConteiner {
-    position: absolute;
-    top: 0;
-    left: -1px;
-    width: calc(100% + 2px);
-    padding: 48px 0 0 0;
-    box-sizing: border-box;
-    border: 1px solid #736f8b;
-    border-radius: 15px;
-    background-color: #fff;
-    overflow: hidden;
-
-    &.hidden {
-        height: 0;
-        opacity: 0;
-        top: 148px;
-
-        @include for-phone {
-            z-index: -1;
-        }
-    }
-
-    @include for-phone {
-        top: -98px;
-        padding: 0 0 48px 0;
-
-        z-index: 1;
-    }
-}
-
-.dropdownElement {
-    padding: 0 20px;
-    width: 100%;
-    height: 50px;
-
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-
-    &:hover {
-        background-color: rgb(238, 238, 238);
     }
 }

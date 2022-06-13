@@ -3,6 +3,8 @@ import { formatDate } from './PreviewCommentHelper';
 
 import s from './PreviewComment.module.scss';
 import { Comment } from '../../../@types/entities/Comment';
+import { getMediaLink } from '../../../utils/mediaHelper';
+import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 
 export type TaskPreviewCommentProps = {
   comment: Comment;
@@ -15,7 +17,10 @@ export function TaskPreviewComment({ comment }: TaskPreviewCommentProps) {
   return (
     <div className={s.comment}>
       <div className={s.photo}>
-        <img src={profilePhoto || ''} alt="" />
+        <img
+          src={profilePhoto ? getMediaLink(profilePhoto) : defaultAvatar}
+          alt=""
+        />
       </div>
       <div className={s.body}>
         <div className={s.header}>

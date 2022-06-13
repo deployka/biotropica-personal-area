@@ -11,6 +11,11 @@
     align-items: center;
     justify-content: space-between;
 
+    @include for-phone {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
     .right,
     .left {
         position: absolute;
@@ -94,7 +99,11 @@
         }
 
         @include for-phone {
-            display: none;
+            margin: 0 0 10px 0;
+            max-width: unset;
+            width: 100%;
+            height: 35px;
+            border-radius: 20px;
         }
     }
 }

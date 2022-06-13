@@ -23,7 +23,6 @@ import {
 import { FormsSvgSelector } from '../../../../assets/icons/forms/FormsSvgSelector';
 import ru from 'date-fns/locale/ru';
 import { useMobile } from '../../../../hooks/useMobile';
-import { Client } from '../../../../@types/entities/Client';
 import { UpdateUserDto } from '../../../../@types/dto/users/update.dto';
 import { BaseUser } from '../../../../@types/entities/BaseUser';
 
@@ -61,6 +60,8 @@ export const EditProfileData = ({
 
   const isMobile = useMobile();
 
+  const userGender = options.find(gender => gender.label === user?.gender);
+
   return (
     <div className={s.edit__password}>
       <Formik
@@ -69,12 +70,7 @@ export const EditProfileData = ({
           lastname: user?.lastname || '',
           name: user?.name || '',
           email: user?.email || '',
-          gender: [
-            {
-              label: user?.gender?.[0].label || '',
-              value: user?.gender?.[0].value || '',
-            },
-          ],
+          gender: userGender?.value || '',
           patronymic: user?.patronymic || '',
           phone: user?.phone || '',
           dob: user?.dob,
@@ -220,14 +216,12 @@ export const EditProfileData = ({
               <div className={s.input__wrapper}>
                 <SelectCustom
                   onChange={(e: ISelect<string>) => {
-                    setFieldValue('gender', [e]);
+                    setFieldValue('gender', e.value);
                   }}
                   placeholder="Выберите пол..."
                   onBlur={handleBlur}
                   name="gender"
-                  value={
-                    (values.gender?.[0].label && values.gender) || undefined
-                  }
+                  value={options.find(gender => gender.value === values.gender)}
                   options={options}
                   settings={{ touched, errors }}
                 />

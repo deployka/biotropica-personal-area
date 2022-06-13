@@ -72,7 +72,9 @@ const PublicSpecialistProfile = () => {
             specialistData={specialistData}
             profilePhoto={specialist.user.profilePhoto || ''}
           />
-          <Button onClick={handleCreateDialog}>Начать чат</Button>
+          <button className={s.chatButton} onClick={handleCreateDialog}>
+            Начать чат
+          </button>
         </div>
 
         {courses && <SpecialistCoursesList coursesList={courses} />}

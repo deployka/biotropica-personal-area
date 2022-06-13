@@ -41,7 +41,8 @@ export const UserItem = ({ user, onBlock, onWrite }: Props) => {
 
   if (user.roles && user.roles[0]) {
     role = user.roles[0];
-    roleTranslation = ROLE_TRANSLATIONS[role];
+
+    roleTranslation = ROLE_TRANSLATIONS[role.name];
   }
 
   return (
@@ -56,9 +57,9 @@ export const UserItem = ({ user, onBlock, onWrite }: Props) => {
         <div className={s.role}>
           <p
             style={
-              role === ROLE.SPECIALIST
+              role?.name === ROLE.SPECIALIST
                 ? { color: '#309A74' }
-                : role === ROLE.ADMIN
+                : role?.name === ROLE.ADMIN
                 ? { color: '#D06361' }
                 : {}
             }
@@ -68,7 +69,7 @@ export const UserItem = ({ user, onBlock, onWrite }: Props) => {
         </div>
         <div className={s.tariff}>
           <p>
-            {user.roles.includes(ROLE.CLIENT)
+            {user.roles.some(it => it.name === ROLE.CLIENT)
               ? TARIFF_TRANSLATIONS[(user as Client).tariff]
               : 'Нет тарифа'}
           </p>

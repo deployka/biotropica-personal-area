@@ -15,11 +15,13 @@ const Questionnaire = () => {
   const {
     data: currentQuestionData,
     isLoading,
+    isFetching,
     isError,
     refetch: refetchCurrentQuestionData,
   } = useGetCurrentQuestionQuery();
 
-  const [fetchCreateAnswer] = useCreateAnswerMutation();
+  const [fetchCreateAnswer, { isLoading: isCreateAnswerLoading }] =
+    useCreateAnswerMutation();
 
   if (isLoading) {
     return <p>Загрузка...</p>;
@@ -39,7 +41,7 @@ const Questionnaire = () => {
     try {
       await fetchCreateAnswer(answer).unwrap();
       if (index === total) {
-        // return history.push('/');
+        return history.push('/');
       }
       refetchCurrentQuestionData();
     } catch (error) {
@@ -51,7 +53,9 @@ const Questionnaire = () => {
     <div className={s.questionnaire}>
       <QuestionnaireBody
         question={question}
-        progress={{ currentIndex: index, total }}
+        progress={{ currentIndex: index, total: total + 1 }}
+        isQuestionLoading={isFetching}
+        isCreateAnswerLoading={isCreateAnswerLoading}
         onNext={(answer: string) => {
           giveAnswer({
             text: answer,

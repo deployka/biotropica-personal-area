@@ -1,43 +1,40 @@
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import { Formik } from 'formik';
-import React, { useState } from 'react';
-import { SchemaOf } from 'yup';
-import { CreateAnalyzeAnswerDto } from '../../../../../@types/dto/analyzes/create.dto';
-
-import { ProfileSvgSelector } from '../../../../../assets/icons/profile/ProfileSvgSelector';
-
-import { MAX_IMAGE_SIZE } from '../../../../../constants/files';
-import { useModal } from '../../../../../hooks/useModal';
-import { ModalName } from '../../../../../providers/ModalProvider';
-import { Button } from '../../../../../shared/Form/Button/Button';
-import { Loader } from '../../../../../shared/Form/Loader/Loader';
-import { PopupBackground } from '../../../../../shared/Global/PopupBackground/PopupBackground';
+import { CreateAnalyzeAnswerDto } from '../../../@types/dto/analyzes/create.dto';
+import { ProfileSvgSelector } from '../../../assets/icons/profile/ProfileSvgSelector';
+import { MAX_IMAGE_SIZE, MAX_PDF_SIZE } from '../../../constants/files';
+import { useModal } from '../../../hooks/useModal';
+import { ModalName } from '../../../providers/ModalProvider';
+import { Button } from '../../../shared/Form/Button/Button';
+import { Loader } from '../../../shared/Form/Loader/Loader';
+import { PopupBackground } from '../../../shared/Global/PopupBackground/PopupBackground';
 import {
   checkFileSize,
   checkFileType,
   FileType,
-} from '../../../../../utils/filesHelper';
+} from '../../../utils/filesHelper';
 
-import { Input } from './../../../../../shared/Form/Input/Input';
+import { Input } from '../../../shared/Form/Input/Input';
 
-import s from './AddAnalyzeModal.module.scss';
+import s from './AddModal.module.scss';
+import { eventBus, EventTypes } from '../../../services/EventBus';
+import { NotificationType } from '../../GlobalNotifications/GlobalNotifications';
+import { validationSchema } from './validationSchema';
 
 interface Props {
   onSubmit: (values: CreateAnalyzeAnswerDto) => void;
-  validationSchema: SchemaOf<Omit<CreateAnalyzeAnswerDto, 'analyzeId'>>;
-  onErrorFileLoaded: () => void;
-  onSuccessFileLoaded: () => void;
+  isLoading: boolean;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-export const AddAnalyzeModal = ({
+export const AnalyzesAddModal = ({
   onSubmit,
-  validationSchema,
-  onSuccessFileLoaded,
-  onErrorFileLoaded,
+  isOpen,
+  onClose,
+  isLoading,
 }: Props) => {
-  const { closeModal, modals } = useModal();
-  const [loading, setLoading] = useState(false);
-
   const [fileName, setFileName] = useState('');
 
   async function onFileLoaded(
@@ -54,21 +51,27 @@ export const AddAnalyzeModal = ({
 
       setFileName(files[0].name);
       setFieldValue('filePath', files[0]);
-      onSuccessFileLoaded();
     } catch (error) {
-      onErrorFileLoaded();
+      console.error(error);
+
+      eventBus.emit(EventTypes.notification, {
+        title: 'Файл не был загружен!',
+        message: `Допустимые типы анализов:
+         pdf Максимальный размер файла: ${MAX_PDF_SIZE} мб`,
+        type: NotificationType.DANGER,
+        toastId: 'file_type_error',
+        autoClose: 7000,
+      });
     }
   }
 
   function isDisabled(isValid: boolean, dirty: boolean) {
-    return (!isValid && !dirty) || loading;
+    return (!isValid && !dirty) || isLoading;
   }
 
   return (
     <>
-      <div onClick={() => closeModal(ModalName.MODAL_ADD_ANALYZ_FILE)}>
-        <PopupBackground open={modals.MODAL_ADD_ANALYZ_FILE.open} />
-      </div>
+      <div onClick={onClose} className={s.popupBg}></div>
       <Formik
         initialValues={{
           filePath: null,
@@ -77,7 +80,6 @@ export const AddAnalyzeModal = ({
         }}
         validateOnBlur
         onSubmit={(values: CreateAnalyzeAnswerDto) => {
-          setLoading(true);
           onSubmit(values);
         }}
         validationSchema={validationSchema}
@@ -138,12 +140,12 @@ export const AddAnalyzeModal = ({
                 type="submit"
                 onClick={() => handleSubmit()}
                 options={{
-                  content: loading ? <Loader /> : 'Добавить',
+                  content: isLoading ? <Loader /> : 'Добавить',
                   setDisabledStyle: isDisabled(isValid, dirty),
                 }}
               />
               <Button
-                onClick={() => closeModal(ModalName.MODAL_ADD_ANALYZ_FILE)}
+                onClick={onClose}
                 options={{
                   classes: { discard: true },
                   content: 'Отмена',

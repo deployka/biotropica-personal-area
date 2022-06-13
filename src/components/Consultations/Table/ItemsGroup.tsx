@@ -12,7 +12,7 @@ type Props = {
   specialists: Specialist[];
   consultationsList: Consultation[];
   moveToConsultation: (id: number) => void;
-  onSendMessageClick: (userId: number | undefined) => void;
+  onSendMessage: (userId: number) => void;
 };
 
 export const ConsultationTableItemGroup = ({
@@ -20,7 +20,7 @@ export const ConsultationTableItemGroup = ({
   consultationsList,
   specialists,
   moveToConsultation,
-  onSendMessageClick,
+  onSendMessage,
 }: Props) => {
   return (
     <>
@@ -29,7 +29,7 @@ export const ConsultationTableItemGroup = ({
           <ConsultationTableItem
             key={consultation.id}
             // TODO: проверить
-            date={new Date(consultation.date)}
+            date={consultation.date ? new Date(consultation.date) : null}
             specialistName={
               specialists.find(s => s.id === consultation.specialistId)?.user
                 .name
@@ -41,10 +41,10 @@ export const ConsultationTableItemGroup = ({
                       mode === 'active'
                         ? () => moveToConsultation(consultation.id)
                         : () =>
-                            onSendMessageClick(
+                            onSendMessage(
                               specialists.find(
                                 s => s.id === consultation.specialistId,
-                              )?.user.id,
+                              )?.user.id || 0,
                             ),
                     text: mode === 'active' ? 'перейти' : 'открыть диалог',
                   }
