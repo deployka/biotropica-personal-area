@@ -70,8 +70,6 @@ const Profile = ({ user }: Props) => {
       userId: user.id,
     });
 
-  console.log('questionnaireAnswers', questionnaireAnswers);
-
   // FIXME: добавить отображение тарифа
   const tariffData = {
     name: 'стандарт',

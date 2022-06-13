@@ -157,7 +157,7 @@ const EditSpecialistProfile = () => {
         profilePhoto,
         email: currentSpecialist?.user.email,
       };
-      await updateClient(data);
+      await updateClient(data).unwrap();
       eventBus.emit(EventTypes.notification, {
         title: 'Успешно!',
         message: 'Данные профиля обновлены!',
