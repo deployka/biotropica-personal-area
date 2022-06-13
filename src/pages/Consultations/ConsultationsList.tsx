@@ -43,15 +43,7 @@ export const ConsultationsList = () => {
     }
   }
 
-  function onSendMessageClick(userId: number | undefined) {
-    return () => {
-      if (userId) {
-        sendMessage(userId);
-      } else {
-        throw Error();
-      }
-    };
-  }
+  console.log('consultations', consultations);
 
   return (
     <div className={s.usersList}>
@@ -70,7 +62,6 @@ export const ConsultationsList = () => {
           consultationsWithoutData={consultationsWithoutData}
           inactiveConsultations={inactiveConsultations}
           moveToConsultation={moveToConsultation}
-          onSendMessageClick={onSendMessageClick}
           sendMessage={sendMessage}
         />
       </div>
