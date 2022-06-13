@@ -79,40 +79,16 @@ export const typeGroups: Record<Task['type'], TaskTypeGroupModel> = {
         key: KindOfSport.skis,
       },
       {
-        title: 'Бег по улице',
-        icon: runIcon,
-        type: 'training',
-        key: KindOfSport.streetRun,
-      },
-      {
         title: 'Плавание',
         icon: swimIcon,
         type: 'training',
         key: KindOfSport.swimming,
       },
       {
-        title: 'Велотрек',
-        icon: bikeIcon,
-        type: 'training',
-        key: KindOfSport.bike,
-      },
-      {
         title: 'Гребля',
         icon: rowingIcon,
         type: 'training',
         key: KindOfSport.rowing,
-      },
-      {
-        title: 'Бег в помещении',
-        icon: runIcon,
-        type: 'training',
-        key: KindOfSport.indoorRun,
-      },
-      {
-        title: 'Плавание на открытой воде',
-        icon: swimIcon,
-        type: 'training',
-        key: KindOfSport.openWaterSwimming,
       },
       {
         title: 'Велостанок',
@@ -125,18 +101,6 @@ export const typeGroups: Record<Task['type'], TaskTypeGroupModel> = {
         icon: rowingIcon,
         type: 'training',
         key: KindOfSport.rowingMachine,
-      },
-      {
-        title: 'Бег по пересечённой местности',
-        icon: runIcon,
-        type: 'training',
-        key: KindOfSport.crossCountryRun,
-      },
-      {
-        title: 'Плавание в бассейне',
-        icon: swimIcon,
-        type: 'training',
-        key: KindOfSport.poolSwimming,
       },
       {
         title: 'Силовая тренировка',

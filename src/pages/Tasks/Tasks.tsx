@@ -79,12 +79,13 @@ export function Tasks() {
     userId,
   });
 
-  const { data: comments = [] } = useGetTaskCommentsQuery(
-    { taskId: openedTaskId },
-    {
-      skip: !openedTaskId,
-    },
-  );
+  const { data: comments = [], isFetching: isCommentsLoading } =
+    useGetTaskCommentsQuery(
+      { taskId: openedTaskId },
+      {
+        skip: !openedTaskId,
+      },
+    );
 
   const templates: SomeTask[] = [
     {
@@ -326,6 +327,7 @@ export function Tasks() {
         onSaveFirstValue={handleSaveFirstFactValue}
         onSaveSecondValue={handleSaveSecondFactValue}
         onSaveFactValue={handleSaveFactValue}
+        isCommentsLoading={isCommentsLoading}
       />
     </>
   );

@@ -23,6 +23,7 @@ type TasksModalProps = {
   isLoading: boolean;
   taskId: string;
   currentUserId: number;
+  isCommentsLoading?: boolean;
   onClose(): void;
   onEditBtnClick(): void;
   onDeleteTask(): void;
@@ -41,6 +42,7 @@ export const TasksModal = ({
   isSpecialist,
   isOpened,
   currentUserId,
+  isCommentsLoading,
   isLoading,
   onClose,
   onSave,
@@ -112,6 +114,7 @@ export const TasksModal = ({
         onSaveFactValue={onSaveFactValue}
         onSaveFirstValue={onSaveFirstValue}
         onSaveSecondValue={onSaveSecondValue}
+        isCommentsLoading={isCommentsLoading}
       />
     </TaskBaseEditor>
   );

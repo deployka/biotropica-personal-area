@@ -7,13 +7,16 @@ import { Comment } from '../../../@types/entities/Comment';
 import sendIcon from './../../../assets/icons/Send.svg';
 
 import s from './PreviewComments.module.scss';
+import { Loader } from '../../../shared/Form/Loader/Loader';
 
 export type TaskPreviewCommentsProps = {
   comments: Comment[];
+  isLoading?: boolean;
   onSend(newCommentText: string): void;
 };
 
 export function TaskPreviewComments({
+  isLoading,
   comments,
   onSend,
 }: TaskPreviewCommentsProps) {
@@ -45,9 +48,13 @@ export function TaskPreviewComments({
       </Formik>
 
       <div className={s.commentsList}>
-        {comments.map(comment => (
-          <TaskPreviewComment key={comment.uuid} comment={comment} />
-        ))}
+        {isLoading && <p className={s.loading}>Загрузка комментариев...</p>}
+        {!isLoading && comments.length === 0 && <p>Нет комментариев</p>}
+        {!isLoading &&
+          comments.length !== 0 &&
+          comments.map(comment => (
+            <TaskPreviewComment key={comment.uuid} comment={comment} />
+          ))}
       </div>
     </div>
   );

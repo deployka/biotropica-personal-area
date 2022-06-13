@@ -8,6 +8,7 @@ import { TrainingTaskPreview } from './Training/Training';
 type TaskPreviewProps = {
   task: SomeTask;
   isSpecialist: boolean;
+  isCommentsLoading?: boolean;
   onSendComment(newCommentText: string): void;
   onSaveFactValue(value: number | undefined): void;
   onSaveFirstValue(value: number | undefined): void;
@@ -17,6 +18,7 @@ type TaskPreviewProps = {
 export const TaskPreview = ({
   task,
   isSpecialist,
+  isCommentsLoading,
   onSendComment,
   onSaveFactValue,
   onSaveFirstValue,
@@ -30,6 +32,7 @@ export const TaskPreview = ({
           task={task}
           onSaveFirstValue={onSaveFirstValue}
           onSaveSecondValue={onSaveSecondValue}
+          isCommentsLoading={isCommentsLoading}
           onSendComment={onSendComment}
         />
       );

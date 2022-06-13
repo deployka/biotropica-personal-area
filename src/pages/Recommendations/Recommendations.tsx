@@ -14,124 +14,86 @@ import {
 import { RecommendationList } from '../../components/Recommendation/List/List';
 
 import s from './Recommendations.module.scss';
-import Button from '../../components/Button/Button';
-import { RecommendationEditor } from '../../components/Recommendation/Editor/Editor';
 import { useSelector } from 'react-redux';
 import { Tabs } from '../../components/Tabs/Tabs';
 import { selectIsDoctor } from '../../store/slices/authSlice';
-import classNames from 'classnames';
-import { useCurrentUserQuery } from '../../api/user';
+
 import { Specialization } from '../../@types/entities/Specialization';
 import {
   Recommendation,
   RecommendationStatus,
 } from '../../@types/entities/Recommendation';
-
-type CreateRecommendation = {
-  title: string;
-  description: string;
-};
+import { CreateRecommendationDto } from '../../@types/dto/recommendations/create.dto';
+import { RecommendationsPage } from '../../components/Recommnedations/Recommendations';
+import { useCurrentUserQuery } from '../../api/user';
 
 export function Recommendations() {
   const { data: currentUser } = useCurrentUserQuery();
   const currentUserId = currentUser?.id || 0;
   const { userId } = useParams<{ userId: string }>();
-  const { data: recommendations } = useGetRecommendationListQuery({
+
+  const {
+    data: recommendations = [],
+    isLoading: isRecommendationsLoading,
+    isError: isRecommendationsError,
+  } = useGetRecommendationListQuery({
     userId: +userId || currentUserId,
   });
-  const { data: specializations } = useGetSpecializationListQuery();
+  const {
+    data: specializations = [],
+    isLoading: isSpecializationsLoading,
+    isError: isSpecializationsError,
+  } = useGetSpecializationListQuery();
   const [updateRecommendation] = useUpdateRecommendationMutation();
   const [createRecommendation] = useCreateRecommendationMutation();
   const [deleteRecommendation] = useDeleteRecommendationMutation();
-  const isDoctor = useSelector(selectIsDoctor);
+  const isSpecialist = useSelector(selectIsDoctor);
 
   const history = useHistory();
-
-  const [specializationsTypes, setSpecializationsTypes] = useState<
-    SpecializationListProps['types']
-  >([]);
 
   const [selectedSpecialization, setSelectedSpecialization] =
     useState<Specialization | null>(null);
 
-  const [filteredRecommendation, setFilteredRecommendation] = useState<Record<
-    Specialization['key'],
-    Recommendation[]
-  > | null>(null);
-
   const [openedRecommendation, setOpenedRecommendation] = useState<
-    Recommendation | CreateRecommendation | null
+    Recommendation | CreateRecommendationDto | null
   >(null);
 
-  useEffect(() => {
-    if (!specializations || !recommendations) return;
-
-    const newFilteredRecommendations = specializations.reduce((acc, spec) => {
-      acc[spec.key] = recommendations.filter(
-        rec => rec.specialization.key === spec.key,
-      );
-      return acc;
-    }, {} as Record<Specialization['key'], Recommendation[]>);
-
-    setFilteredRecommendation(newFilteredRecommendations);
-
-    let newSpecializationsTypes = specializations.map(specialization => ({
-      specialization: specialization,
-      count: newFilteredRecommendations[specialization.key]?.length || 0,
-    }));
-
-    if (!isDoctor) {
-      newSpecializationsTypes = newSpecializationsTypes.filter(it => it.count);
-    }
-
-    setSpecializationsTypes(newSpecializationsTypes);
-
-    // if (newSpecializationsTypes.length) {
-    // setSelectedSpecialization(newSpecializationsTypes[0].specialization);
-    // }
-  }, [specializations, recommendations]);
-
-  if (!recommendations || !specializations) {
-    return <span>Loading...</span>;
-  }
-
-  async function handleSaveRecommendation(value: {
-    title: string;
-    description: string;
-  }) {
+  const handleSaveRecommendation = async (value: CreateRecommendationDto) => {
     if (!selectedSpecialization || !openedRecommendation) return;
-
+    const { description, title } = value;
     if ('id' in openedRecommendation) {
       await updateRecommendation({
-        description: value.description,
-        title: value.title,
+        description,
+        title,
         id: openedRecommendation.id,
       });
     } else {
       await createRecommendation({
-        description: value.description,
+        description,
+        title,
         status: RecommendationStatus.INITIATED,
-        title: value.title,
         userId: +userId!,
         specialization: selectedSpecialization,
       });
     }
 
     setOpenedRecommendation(null);
-  }
-
-  function handleClickEditRecommendation(recommendation: Recommendation) {
+  };
+  const handleClickEditRecommendation = (recommendation: Recommendation) => {
     setOpenedRecommendation(recommendation);
-  }
-  function handleCreateRecommendation() {
+  };
+  const handleCreateRecommendation = () => {
     setOpenedRecommendation({
       title: '',
       description: '',
     });
-  }
-  function handleDeleteTask(id: number) {
+  };
+  const handleDeleteRecommendation = (id: number) => {
     deleteRecommendation(id);
-  }
+  };
+
+  const isLoading = isSpecializationsLoading || isRecommendationsLoading;
+  const isError = isSpecializationsError || isRecommendationsError;
 
   return (
     <div>
@@ -155,67 +117,27 @@ export function Recommendations() {
           }
         }}
       />
-      <div className={s.recommendationPage}>
-        <div
-          className={classNames(s.left, selectedSpecialization ? s.opened : '')}
-        >
-          <SpecializationList
-            types={specializationsTypes}
-            onSelect={setSelectedSpecialization}
-            selectedType={selectedSpecialization}
-          />
-        </div>
-        <div
-          className={classNames(
-            s.right,
-            selectedSpecialization ? s.opened : '',
-          )}
-        >
-          {selectedSpecialization && (
-            <>
-              <div className={s.buttons}>
-                {isDoctor && (
-                  <Button
-                    className={s.addButton}
-                    isPrimary
-                    onClick={handleCreateRecommendation}
-                  >
-                    Добавить рекомендацию
-                  </Button>
-                )}
-                <Button
-                  className={s.backButton}
-                  onClick={() => {
-                    setSelectedSpecialization(null);
-                  }}
-                >
-                  Назад
-                </Button>
-              </div>
-              <RecommendationList
-                currentSpecialistId={currentUserId || 0}
-                recommendations={
-                  (filteredRecommendation &&
-                    filteredRecommendation[selectedSpecialization.key]) ||
-                  []
-                }
-                onDelete={handleDeleteTask}
-                onEdit={handleClickEditRecommendation}
-              />
-            </>
-          )}
-        </div>
-        {openedRecommendation && (
-          <RecommendationEditor
-            title={openedRecommendation?.title || ''}
-            description={openedRecommendation?.description || ''}
-            onSave={handleSaveRecommendation}
-            onClose={() => {
-              setOpenedRecommendation(null);
-            }}
-          />
-        )}
-      </div>
+      {isLoading && <p>Загрузка...</p>}
+      {isError && <p>Произошла ошибка</p>}
+      {!isLoading && !isError && recommendations.length === 0 && (
+        <p>Рекомендации отсутствуют</p>
+      )}
+      {recommendations.length !== 0 && (
+        <RecommendationsPage
+          openedRecommendation={openedRecommendation}
+          currentUserId={currentUserId}
+          specializations={specializations}
+          recommendations={recommendations}
+          isSpecialist={isSpecialist}
+          selectedSpecialization={selectedSpecialization}
+          setSelectedSpecialization={setSelectedSpecialization}
+          onSaveRecommendation={handleSaveRecommendation}
+          onCreateRecommendation={handleCreateRecommendation}
+          onEditRecommendation={handleClickEditRecommendation}
+          onDeleteRecommendation={handleDeleteRecommendation}
+          setOpenedRecommendation={setOpenedRecommendation}
+        />
+      )}
     </div>
   );
 }

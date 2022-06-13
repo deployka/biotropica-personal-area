@@ -6,7 +6,7 @@ import { TARIFF } from './Tariff';
 export type BaseUser = BaseEntity & {
   email: Email;
   dob?: DateTimeString;
-  gender: { value: string; label: string }[];
+  gender: string;
   password: string;
   profilePhoto: string | null;
   name: string;

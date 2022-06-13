@@ -30,15 +30,17 @@ export const RecommendationGroup = ({
 
   const history = useHistory();
 
+  console.log('specialist', specialist);
+
   function moveToSpecialist() {
-    history.push('/specialists/' + specialist.id);
+    history.push('/specialists/' + specialist.specialist?.id);
   }
 
   return (
     <div className={s.recommendationGroup}>
       <div className={s.header}>
-        <div className={s.left}>
-          <div onClick={moveToSpecialist} className={s.specialistPhoto}>
+        <div onClick={moveToSpecialist} className={s.left}>
+          <div className={s.specialistPhoto}>
             <img
               src={getMediaLink(specialist.profilePhoto || '') || defaultAvatar}
             />

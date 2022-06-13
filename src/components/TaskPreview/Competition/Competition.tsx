@@ -14,6 +14,7 @@ import s from './Competition.module.scss';
 export type CompetitionTaskPreviewProps = {
   task: CompetitionTask;
   isSpecialist: boolean;
+  isCommentsLoading?: boolean;
   onSaveFactValue(value: number | undefined): void;
   onSendComment(newCommentText: string): void;
 };
@@ -21,6 +22,7 @@ export type CompetitionTaskPreviewProps = {
 export function CompetitionTaskPreview({
   task,
   isSpecialist,
+  isCommentsLoading,
   onSendComment,
   onSaveFactValue,
 }: CompetitionTaskPreviewProps) {
@@ -97,7 +99,11 @@ export function CompetitionTaskPreview({
         </div>
       )}
       <div className={s.line}>
-        <TaskPreviewComments comments={task.comments} onSend={onSendComment} />
+        <TaskPreviewComments
+          comments={task.comments}
+          isLoading={isCommentsLoading}
+          onSend={onSendComment}
+        />
       </div>
     </div>
   );

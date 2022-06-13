@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
 import s from './InfoBar.module.scss';
 
 export interface IInfoBar {
   title: string;
-  text: string;
+  text: string | ReactNode;
   textLink?: string;
   bottomLink?: string;
   onClick?: () => void;
@@ -37,9 +37,7 @@ export const InfoBar = ({ infoBar }: Props) => {
       {infoBar.bottomLink && (
         <div
           className={s.bottomLink}
-          onClick={infoBar.href
-            ? () => null
-            : infoBar.onClick}
+          onClick={infoBar.href ? () => null : infoBar.onClick}
         >
           <Link to={`${infoBar.href || '#'}`}>{infoBar.bottomLink}</Link>
         </div>
