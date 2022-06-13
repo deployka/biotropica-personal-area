@@ -23,6 +23,7 @@ import { Test } from '../components/TestsAndAnalyze/Tests/Tests';
 
 interface Props {
   user: BaseUser;
+  currentUserId: number;
   goalsLength: number;
   analyzeTypes: Analyze[];
   analyzes: AnalyzeAnswer[];
@@ -45,6 +46,7 @@ export const Profile = ({
   analyzes,
   analyzeTypes,
   progress,
+  currentUserId,
   onAddComment,
   onDeleteComment,
   isLoadingComment,
@@ -130,6 +132,7 @@ export const Profile = ({
           </div>
           {activeTab === tabs[0].key && (
             <PublicAnalyzes
+              currentUserId={currentUserId}
               onDeleteComment={onDeleteComment}
               isLoadingComment={isLoadingComment}
               onAddComment={onAddComment}

@@ -9,6 +9,7 @@ import s from './Analyzes.module.scss';
 type Props = {
   analyzes: AnalyzeAnswer[];
   analyzeTypes: Analyze[];
+  currentUserId: number;
   isLoadingComment: boolean;
   onAddComment: (comment: string, analyzeId: number) => void;
   onDeleteComment: (id: number) => void;
@@ -22,6 +23,7 @@ const infoBar = {
 export const PublicAnalyzes = ({
   analyzes,
   analyzeTypes,
+  currentUserId,
   isLoadingComment,
   onAddComment,
   onDeleteComment,
@@ -30,6 +32,7 @@ export const PublicAnalyzes = ({
     <div className={s.analyzes}>
       {analyzes.length ? (
         <AnalyzesCard
+          currentUserId={currentUserId}
           onDeleteComment={onDeleteComment}
           isLoadingComment={isLoadingComment}
           onAddComment={onAddComment}

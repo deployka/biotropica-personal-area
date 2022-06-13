@@ -16,12 +16,14 @@ interface Props {
   analyze: AnalyzeAnswer;
   onAddComment: (comment: string, analyzeId: number) => void;
   isLoadingComment: boolean;
+  currentUserId: number;
   onDeleteComment: (id: number) => void;
 }
 
 export const Analyze = ({
   analyze,
   onAddComment,
+  currentUserId,
   isLoadingComment,
   onDeleteComment,
 }: Props) => {
@@ -90,7 +92,8 @@ export const Analyze = ({
       </div>
       {isCommentsOpen && (
         <Comments
-          withTrash={true}
+          isClient={false}
+          currentUserId={currentUserId}
           onDelete={onDeleteComment}
           comments={sortedComments}
         />

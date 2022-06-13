@@ -54,6 +54,7 @@ const routes = [
     path: 'profile',
     component: ProfileLayout,
     specialistComponent: SpecialistProfile,
+    adminComponent: Edit,
     exact: true,
   },
   {

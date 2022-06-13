@@ -9,12 +9,14 @@ interface Props {
   onAddComment: (comment: string, analyzeId: number) => void;
   analyzes: AnalyzeAnswer[];
   isLoadingComment: boolean;
+  currentUserId: number;
   onDeleteComment: (id: number) => void;
 }
 
 export const Analyzes = ({
   analyzes,
   onAddComment,
+  currentUserId,
   isLoadingComment,
   onDeleteComment,
 }: Props) => {
@@ -24,6 +26,7 @@ export const Analyzes = ({
         <Analyze
           onDeleteComment={onDeleteComment}
           isLoadingComment={isLoadingComment}
+          currentUserId={currentUserId}
           onAddComment={onAddComment}
           key={analyze.id}
           analyze={analyze}

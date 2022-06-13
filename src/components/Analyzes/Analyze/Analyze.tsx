@@ -98,7 +98,9 @@ export const AnalyzesAnalyze = ({ analyze }: Props) => {
           />
         )}
       </div>
-      {isCommentsOpen && <Comments comments={analyze.comments} />}
+      {isCommentsOpen && (
+        <Comments comments={analyze.comments} isClient={true} />
+      )}
     </div>
   );
 };
