@@ -10,6 +10,7 @@ import { Question as IQuestion } from '../../../@types/entities/Question';
 type Props = {
   question: IQuestion;
   isQuestionLoading: boolean;
+  isCreateAnswerLoading: boolean;
   progress: {
     currentIndex: number;
     total: number;
@@ -21,6 +22,7 @@ type Props = {
 export const QuestionnaireBody = ({
   question,
   progress,
+  isCreateAnswerLoading,
   isQuestionLoading,
   onNext,
   onPrev,
@@ -60,7 +62,7 @@ export const QuestionnaireBody = ({
       <QuestionnaireProgress options={progress} />
 
       {isQuestionLoading ? (
-        <p>Мистер загрузка</p>
+        <p>Загрузка вопроса...</p>
       ) : (
         <Question
           title={title}
@@ -78,6 +80,7 @@ export const QuestionnaireBody = ({
       <QuestionnaireNav
         isNextEnabled={!!answer || multiAnswer.length !== 0}
         progress={progress}
+        isNextLoading={isCreateAnswerLoading}
         onNext={handleClickNext}
         onPrev={onPrev}
       />

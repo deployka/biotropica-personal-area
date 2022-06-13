@@ -20,7 +20,8 @@ const Questionnaire = () => {
     refetch: refetchCurrentQuestionData,
   } = useGetCurrentQuestionQuery();
 
-  const [fetchCreateAnswer] = useCreateAnswerMutation();
+  const [fetchCreateAnswer, { isLoading: isCreateAnswerLoading }] =
+    useCreateAnswerMutation();
 
   if (isLoading) {
     return <p>Загрузка...</p>;
@@ -52,8 +53,9 @@ const Questionnaire = () => {
     <div className={s.questionnaire}>
       <QuestionnaireBody
         question={question}
-        progress={{ currentIndex: index, total }}
+        progress={{ currentIndex: index, total: total + 1 }}
         isQuestionLoading={isFetching}
+        isCreateAnswerLoading={isCreateAnswerLoading}
         onNext={(answer: string) => {
           giveAnswer({
             text: answer,
