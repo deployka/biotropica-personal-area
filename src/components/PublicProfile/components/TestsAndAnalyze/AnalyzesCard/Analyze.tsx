@@ -70,13 +70,23 @@ export const Analyze = ({
             analyzeId={analyze.id}
           />
         )}
-        <CommentsInfo
-          sort={sort}
-          onSort={onSort}
-          isOpen={isCommentsOpen}
-          onToggle={() => setIsCommentsOpen(!isCommentsOpen)}
-          length={analyze.comments.length}
-        />
+        {analyze.comments.length === 0 && (
+          <p
+            className={s.noComments}
+            onClick={() => setIsCommentsOpen(!isCommentsOpen)}
+          >
+            Создать комментарий
+          </p>
+        )}
+        {analyze.comments.length !== 0 && (
+          <CommentsInfo
+            sort={sort}
+            onSort={onSort}
+            isOpen={isCommentsOpen}
+            onToggle={() => setIsCommentsOpen(!isCommentsOpen)}
+            length={analyze.comments.length}
+          />
+        )}
       </div>
       {isCommentsOpen && (
         <Comments

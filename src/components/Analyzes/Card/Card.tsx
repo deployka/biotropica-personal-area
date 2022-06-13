@@ -10,21 +10,14 @@ import s from './Card.module.scss';
 interface Props {
   analyzes: AnalyzeAnswer[];
   onAddAnalyzeClick: () => void;
-  onShowMoreClick: () => void;
   analyzeTypes: Analyze[];
-  isShowMore: boolean;
 }
 
 export const AnalyzesCard = ({
   analyzes,
   onAddAnalyzeClick,
   analyzeTypes,
-  onShowMoreClick,
-  isShowMore,
 }: Props) => {
-  const ShowMore = () => {
-    return <div>{isShowMore ? 'показать еще' : 'скрыть'}</div>;
-  };
   return (
     <div className={s.card}>
       <AnalyzesHeader onAddAnalyzeClick={onAddAnalyzeClick} />

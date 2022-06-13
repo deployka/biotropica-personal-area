@@ -57,7 +57,7 @@ export function AdminUsers() {
 
       await signUp({ ...user, role: role || '' }).unwrap();
       eventBus.emit(EventTypes.notification, {
-        message: 'Ссылка для создания пользователя успешно отправлена!',
+        message: 'Ссылка для создания пароля успешно отправлена!',
         type: NotificationType.SUCCESS,
       });
     } catch (error) {
