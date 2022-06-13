@@ -1,5 +1,5 @@
-@import "../../../styles/global";
-@import "../../../styles/breakpoints";
+@import '../../../styles/global';
+@import '../../../styles/breakpoints';
 
 .infoBar {
   padding: 0 16px;
@@ -28,9 +28,8 @@
   }
 
   p {
-    font-size: 14px;
-    color: $color-grey;
-
+    font-size: 12px;
+    color: #a59ce2;
     text-transform: uppercase;
   }
 

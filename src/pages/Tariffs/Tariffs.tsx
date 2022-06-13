@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
-import { selectUserRoles } from '../../store/slices/authSlice';
+import { selectIsAdmin, selectUserRoles } from '../../store/slices/authSlice';
 import { TariffAddModal } from '../../components/Tariff/AddModal/AddModal';
 import { TariffsList } from '../../components/Tariff/List/List';
 import { TariffAdminHeader } from '../../components/Tariff/AdminHeader/AdminHeader';
@@ -23,9 +23,7 @@ const Tariffs = () => {
 
   const [isAddTariffModalVisible, setIsAddTariffModalVisible] = useState(false);
 
-  const roles = useSelector(selectUserRoles);
-
-  const isAdmin = roles.includes(ROLE.ADMIN);
+  const isAdmin = useSelector(selectIsAdmin);
 
   useEffect(() => {
     if (document.documentElement.clientWidth <= 500) {

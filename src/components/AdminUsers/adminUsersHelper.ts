@@ -79,7 +79,7 @@ export function filterUsersByRoles(
   }
 
   return users.filter(user => {
-    const userRoles = user.roles.map(it => it);
+    const userRoles = user.roles.map(it => it.name);
     for (const userRole of userRoles) {
       if (roles.includes(userRole)) {
         return true;
@@ -94,7 +94,7 @@ export function filterUsersByQuestionnaire(
   value: boolean,
 ) {
   return users.filter(user => {
-    if (!user.roles.includes(ROLE.CLIENT)) return false;
+    if (!user.roles.some(it => it.name === ROLE.CLIENT)) return false;
     if (value) {
       return (user as Client).questionHash === 'FINISHED';
     } else {
@@ -112,7 +112,7 @@ export function filterUsersByTariffs(
   }
 
   return users.filter(user => {
-    const userTariff = user.roles.includes(ROLE.CLIENT)
+    const userTariff = user.roles.some(it => it.name === ROLE.CLIENT)
       ? (user as Client).tariff
       : undefined;
     return tariffs.includes(userTariff);

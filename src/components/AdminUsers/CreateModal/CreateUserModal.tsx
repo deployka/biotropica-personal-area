@@ -8,22 +8,18 @@ import { BaseUser } from '../../../@types/entities/BaseUser';
 import { Role } from '../../../@types/entities/Role';
 import Modal from '../../../shared/Global/Modal/Modal';
 import Button from '../../Button/Button';
+import { CreateUserDto } from '../../../@types/dto/users/create-user.dto';
 
 interface Props {
   setPopup: Dispatch<SetStateAction<boolean>>;
   popup: boolean;
   roles: Role[];
 
-  onUserCreate(user: Partial<BaseUser>): void;
+  onUserCreate(user: CreateUserDto): void;
 }
 
-type UserEditable = Pick<
-  BaseUser,
-  'name' | 'lastname' | 'email' | 'phone' | 'roles'
->;
-
 export const CreateUserModal = (props: Props) => {
-  const [user, setUser] = useState<UserEditable>({
+  const [user, setUser] = useState<CreateUserDto>({
     name: '',
     lastname: '',
     email: '',
@@ -36,8 +32,8 @@ export const CreateUserModal = (props: Props) => {
   }
 
   function setUserField<
-    K extends keyof UserEditable,
-    V extends UserEditable[K],
+    K extends keyof CreateUserDto,
+    V extends CreateUserDto[K],
   >(key: K, value: V) {
     setUser({
       ...user,
@@ -50,7 +46,9 @@ export const CreateUserModal = (props: Props) => {
   }
 
   function roleChangeHandler(id: number) {
+    console.log('role', props.roles);
     const foundRole = props.roles.find(it => it.id === id);
+
     if (foundRole) {
       return setUserField('roles', [foundRole.name]);
     }

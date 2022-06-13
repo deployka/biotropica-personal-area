@@ -8,7 +8,7 @@ import {
 } from '../../helpers/usersHelper';
 import { UsersTableHeader } from './UsersTableHeader';
 import { UsersTable } from './UsersTable';
-import { ROLE } from '../../../../@types/entities/Role';
+import { Role } from '../../../../@types/entities/Role';
 import { TARIFF } from '../../../../@types/entities/Tariff';
 import { BaseUser } from '../../../../@types/entities/BaseUser';
 
@@ -19,7 +19,7 @@ type Props = {
 };
 
 type Filters = {
-  roles: (ROLE | undefined)[];
+  roles: (Role | undefined)[];
   tariff: (TARIFF | undefined)[];
 };
 

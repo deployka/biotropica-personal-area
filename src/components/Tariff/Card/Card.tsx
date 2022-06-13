@@ -4,7 +4,10 @@ import { useSelector } from 'react-redux';
 import Button from '../../Button/Button';
 import EditTariffModal from '../EditModal/EditModal';
 import checkbox from './../../../assets/icons/tariffs/checkbox.svg';
-import { selectUserRoles } from '../../../store/slices/authSlice';
+import {
+  selectIsAdmin,
+  selectUserRoles,
+} from '../../../store/slices/authSlice';
 
 import s from './Card.module.scss';
 import { Tariff as ITariff } from '../../../@types/entities/Tariff';
@@ -25,7 +28,7 @@ export const TariffCard = (props: Props) => {
 
   const roles = useSelector(selectUserRoles);
 
-  const isAdmin = roles.includes(ROLE.ADMIN);
+  const isAdmin = useSelector(selectIsAdmin);
 
   return (
     <>

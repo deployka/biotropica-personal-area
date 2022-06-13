@@ -22,8 +22,6 @@ export function CreateUserSelect(props: Props) {
     return props.onChange(val);
   }
 
-  const valueLabel = props.options.find(it => it.value === props.value)?.label;
-
   return (
     <div className={s.input}>
       <p>{props.title}</p>
@@ -32,7 +30,7 @@ export function CreateUserSelect(props: Props) {
           className={`${s.dropdownText}`}
           style={dropdown ? { borderTop: '1px solid #736f8b' } : {}}
         >
-          <p>{valueLabel || props.placeholder}</p>
+          <p>{props.value || props.placeholder}</p>
           <div className="icon">
             <svg
               width="16"
