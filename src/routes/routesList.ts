@@ -9,7 +9,6 @@ import { ProfileLayout } from '../layouts/ProfileLayout';
 import Questionnaire from '../pages/Questionnaire/Questionnaire';
 import { ConsultationsList } from '../pages/Consultations/ConsultationsList';
 import Tariffs from '../pages/Tariffs/Tariffs';
-import ClientTariffs from '../pages/Tariffs/containers/Tariffs';
 import { ConsultationPage } from '../pages/Consultation/Consultation';
 import { Tasks } from '../pages/Tasks/Tasks';
 import { Recommendations } from '../pages/Recommendations/Recommendations';
@@ -107,7 +106,7 @@ const routes = [
 
   {
     path: 'tariffs',
-    clientComponent: ClientTariffs,
+    clientComponent: Tariffs,
     adminComponent: Tariffs,
     exact: true,
   },

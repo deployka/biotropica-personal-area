@@ -113,45 +113,37 @@
   }
 
   .button {
-    width: 324px;
-
-    display: flex;
-    justify-content: flex-start;
-    text-decoration: none !important;
     font-weight: 500;
     font-size: 14px;
     line-height: 120%;
-    button {
-      padding: 7px 15px;
-      background-color: #ffffff00;
-      border: 1px solid #6f61d0;
-      box-sizing: border-box;
-      border-radius: 5px;
 
-      font-weight: 500;
-      font-size: 14px;
+    padding: 7px 15px;
+    background-color: #ffffff00;
+    border: 1px solid #6f61d0;
+    box-sizing: border-box;
+    border-radius: 5px;
 
-      color: #6f61d0;
+    font-weight: 500;
+    font-size: 14px;
 
-      transition: all 0.15s ease-in;
+    color: #6f61d0;
 
-      &:hover {
-        background-color: #6f61d0;
-        color: #ffffff;
-      }
+    transition: all 0.15s ease-in;
+
+    &:hover {
+      background-color: #6f61d0;
+      color: #ffffff;
     }
 
     &.disabled {
-      button {
+      background-color: rgba(113, 98, 208, 0.1);
+      border: 1px solid #7061d046;
+      color: #7061d046;
+      cursor: not-allowed;
+      &:hover {
         background-color: rgba(113, 98, 208, 0.1);
         border: 1px solid #7061d046;
         color: #7061d046;
-        cursor: not-allowed;
-        &:hover {
-          background-color: rgba(113, 98, 208, 0.1);
-          border: 1px solid #7061d046;
-          color: #7061d046;
-        }
       }
     }
   }

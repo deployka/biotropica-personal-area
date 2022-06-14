@@ -3,23 +3,28 @@ import { useSelector } from 'react-redux';
 import AnimateHeight from 'react-animate-height';
 import arrow from './../../../assets/icons/tariffs/arrow.svg';
 import checkbox from './../../../assets/icons/tariffs/checkbox.svg';
-import {
-  selectIsAdmin,
-  selectUserRoles,
-} from '../../../store/slices/authSlice';
+import { selectIsAdmin } from '../../../store/slices/authSlice';
 import EditTariffModal from '../EditModal/EditModal';
 import Button from '../../Button/Button';
+import { Tariff } from '../../../@types/entities/Tariff';
 
 import s from './MobileCard.module.scss';
-import { Tariff } from '../../../@types/entities/Tariff';
-import { ROLE } from '../../../@types/entities/Role';
+import { Loader } from '../../../shared/Form/Loader/Loader';
+import classNames from 'classnames';
 
 interface Props {
   tariff: Tariff;
   refetchTariffs(): void;
+  isSelectLoading?: boolean;
+  onSelect: () => void;
 }
 
-export const TariffMobileCard = ({ tariff, refetchTariffs }: Props) => {
+export const TariffMobileCard = ({
+  tariff,
+  refetchTariffs,
+  isSelectLoading,
+  onSelect,
+}: Props) => {
   const { id, cost, title, includedFields } = tariff;
 
   const [height, setHeight] = useState<number | string>(0);
@@ -77,7 +82,7 @@ export const TariffMobileCard = ({ tariff, refetchTariffs }: Props) => {
             />
           </button>
           <div className={s.editBtn}>
-            {!isAdmin ? (
+            {isAdmin ? (
               <Button
                 isFunctional
                 className={s.editBtn}
@@ -86,9 +91,23 @@ export const TariffMobileCard = ({ tariff, refetchTariffs }: Props) => {
                 Редактировать
               </Button>
             ) : (
-              <a href="#" className={s.button}>
-                <button>продлить тариф</button>
-              </a>
+              <button
+                className={classNames(
+                  s.button,
+                  isSelectLoading ? s.disabled : '',
+                )}
+                onClick={() => {
+                  if (!isSelectLoading) {
+                    onSelect();
+                  }
+                }}
+              >
+                {isSelectLoading ? (
+                  <Loader color="#6f61d0" />
+                ) : (
+                  'Продлить тариф'
+                )}
+              </button>
             )}
           </div>
         </div>
