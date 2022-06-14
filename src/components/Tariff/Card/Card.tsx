@@ -4,29 +4,30 @@ import { useSelector } from 'react-redux';
 import Button from '../../Button/Button';
 import EditTariffModal from '../EditModal/EditModal';
 import checkbox from './../../../assets/icons/tariffs/checkbox.svg';
-import {
-  selectIsAdmin,
-  selectUserRoles,
-} from '../../../store/slices/authSlice';
+import { selectIsAdmin } from '../../../store/slices/authSlice';
 
 import s from './Card.module.scss';
 import { Tariff as ITariff } from '../../../@types/entities/Tariff';
-import { ROLE } from '../../../@types/entities/Role';
+import { Loader } from '../../../shared/Form/Loader/Loader';
+import classNames from 'classnames';
 
 interface Props {
   tariff: ITariff;
-  refetchTariffs(): void;
+  refetchTariffs: () => void;
+  isSelectLoading?: boolean;
+  onSelect: () => void;
 }
 
-export const TariffCard = (props: Props) => {
-  const { id, cost, title, includedFields } = props.tariff;
-
-  const refetchTariffs = props.refetchTariffs;
+export const TariffCard = ({
+  tariff,
+  refetchTariffs,
+  isSelectLoading,
+  onSelect,
+}: Props) => {
+  const { id, cost, title, includedFields } = tariff;
 
   const [isEditTariffModalVisible, setIsEditTariffModalVisible] =
     React.useState(false);
-
-  const roles = useSelector(selectUserRoles);
 
   const isAdmin = useSelector(selectIsAdmin);
 
@@ -68,9 +69,19 @@ export const TariffCard = (props: Props) => {
               Редактировать
             </Button>
           ) : (
-            <a href="#" className={s.button}>
-              <button>продлить тариф</button>
-            </a>
+            <button
+              className={classNames(
+                s.button,
+                isSelectLoading ? s.disabled : '',
+              )}
+              onClick={() => {
+                if (!isSelectLoading) {
+                  onSelect();
+                }
+              }}
+            >
+              {isSelectLoading ? <Loader color="#6f61d0" /> : 'продлить тариф'}
+            </button>
           )}
         </div>
       </div>

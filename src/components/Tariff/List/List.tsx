@@ -9,8 +9,10 @@ type Props = {
   tariffs: Tariff[] | undefined;
   isMobile: boolean;
   isLoading?: boolean;
+  isSelectLoading?: boolean;
   isError?: boolean;
   refetchTariffs: () => void;
+  onSelect: (tariff: Tariff) => void;
 };
 
 export const TariffsList = ({
@@ -18,7 +20,9 @@ export const TariffsList = ({
   refetchTariffs,
   isMobile,
   isLoading,
+  isSelectLoading,
   isError,
+  onSelect,
 }: Props) => {
   if (isLoading) return <p>Загрузка</p>;
   if (!isLoading && isError) return <p>Произошла ошибка</p>;
@@ -34,12 +38,20 @@ export const TariffsList = ({
           <TariffMobileCard
             key={`${tariff.title}_${tariff.cost}_${i}`}
             tariff={tariff}
+            isSelectLoading={isSelectLoading}
+            onSelect={() => {
+              onSelect(tariff);
+            }}
             refetchTariffs={refetchTariffs}
           />
         ) : (
           <TariffCard
             key={`${tariff.title}_${tariff.cost}_${i}`}
             tariff={tariff}
+            isSelectLoading={isSelectLoading}
+            onSelect={() => {
+              onSelect(tariff);
+            }}
             refetchTariffs={refetchTariffs}
           />
         ),
