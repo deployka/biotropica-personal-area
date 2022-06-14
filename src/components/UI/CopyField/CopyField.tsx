@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
 import s from './CopyField.module.scss';
 
@@ -7,24 +7,21 @@ import copyIcon from './../../../assets/icons/Copy.svg';
 type Props = {
   text: string;
   label?: string;
+  onClick: (text: string) => void;
 };
 
-export const CopyField = ({ text, label }: Props) => {
-  const input = useRef<HTMLInputElement | null>(null);
-
-  //   const handleClick = () => {
-  //     if (input.current) {
-  //       input.current.select();
-  //       document.execCommand('copy');
-  //     }
-  //   };
+export const CopyField = ({ text, label, onClick }: Props) => {
+  const handleClick = () => {
+    navigator.clipboard.writeText(text);
+    onClick(text);
+  };
 
   return (
     <>
       {label && <p className={s.label}>{label}</p>}
       <div className={s.copyField}>
-        <input ref={input} value={text} />
-        <div className={s.icon}>
+        <input onClick={handleClick} value={text} />
+        <div onClick={handleClick} className={s.icon}>
           <img src={copyIcon} />
         </div>
       </div>

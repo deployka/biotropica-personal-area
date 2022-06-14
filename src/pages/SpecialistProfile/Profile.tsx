@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import { Specialization } from '../../@types/entities/Specialization';
+import { useGetSignUpLinkQuery } from '../../api/auth';
 import { useGetCurrentSpecialistQuery } from '../../api/specialists';
+import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { ProfileCard } from '../../components/Profile/Card/Card';
 import { SpecialistCoursesList } from '../../components/Specialist/Courses/List';
 import { CopyField } from '../../components/UI/CopyField/CopyField';
+import { eventBus, EventTypes } from '../../services/EventBus';
 
 import s from './Profile.module.scss';
 
@@ -15,13 +18,27 @@ export type SpecialistData = {
 };
 
 const Profile = () => {
+  const token = localStorage.getItem('invitedToken') || '';
+
   const {
     data: currentSpecialist,
     isLoading,
     isError,
   } = useGetCurrentSpecialistQuery();
 
-  console.log('currentUser', currentSpecialist);
+  const { data } = useGetSignUpLinkQuery(
+    {
+      userId: currentSpecialist?.user.id || -1,
+      token,
+    },
+    { skip: !currentSpecialist },
+  );
+
+  useEffect(() => {
+    if (data?.link) {
+      localStorage.setItem('invitedToken', data.link.split('token=')[1]);
+    }
+  }, [data?.link]);
 
   if (isLoading) {
     return <p>Загрузка...</p>;
@@ -42,6 +59,15 @@ const Profile = () => {
     specializations: currentSpecialist.specializations,
   };
 
+  function onCopyLink(text: string) {
+    if (text) {
+      eventBus.emit(EventTypes.notification, {
+        message: 'Ссылка скопирована :]',
+        type: NotificationType.SUCCESS,
+      });
+    }
+  }
+
   return (
     <div className={s.backgroundWrapper}>
       <div className={s.profile}>
@@ -55,8 +81,9 @@ const Profile = () => {
                 profilePhoto={currentSpecialist.user.profilePhoto || ''}
               />
               <CopyField
+                onClick={onCopyLink}
                 label="Ссылка для регистрации"
-                text="https://www.figma.com/file/iLjiEdTh5mBXeeZnNTQm5v/BioTropika-%F0%9F%8C%B1-2-integration-(Copy)-(Copy)?node-id=7324%3A48483"
+                text={data?.link || 'Ссылка не найдена'}
               />
             </>
           )}

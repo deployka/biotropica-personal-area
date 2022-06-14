@@ -20,7 +20,7 @@ import { SignUpDto } from '../../../../@types/dto/auth/signup.dto';
 interface Props {
   onSubmit: (values: SignUpDto, options: FormikHelpers<SignUpDto>) => void;
   loader: boolean;
-  validationSchema: SchemaOf<Omit<SignUpDto, 'role'>>;
+  validationSchema: SchemaOf<Omit<SignUpDto, 'role' | 'token'>>;
 }
 
 export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {

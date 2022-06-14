@@ -4,7 +4,6 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { BaseUser } from '../../../@types/entities/BaseUser';
-import { Specialization } from '../../../@types/entities/Specialization';
 import { SpecializationOptions } from '../../MultiSelect/MultiSelect';
 
 import { getMediaLink } from '../../../utils/mediaHelper';

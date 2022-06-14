@@ -23,6 +23,19 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
+    getSignUpLink: builder.query<
+      { link: string },
+      { userId: number; token: string }
+    >({
+      query: dto => ({
+        url: `/auth/signup-link/${dto.userId}`,
+        method: 'GET',
+        params: {
+          token: dto.token,
+        },
+      }),
+    }),
+
     refresh: builder.mutation<void, void>({
       query: () => ({
         url: '/auth/refresh',
@@ -47,10 +60,13 @@ const authApi = baseApi.injectEndpoints({
       },
       SignUpDto | SignUpWithoutPassDto
     >({
-      query: payload => ({
+      query: ({ token = '', ...dto }) => ({
         url: '/auth/signup',
-        body: payload,
+        body: dto,
         method: 'POST',
+        params: {
+          token,
+        },
       }),
     }),
 
@@ -89,6 +105,7 @@ export const {
   useForgotPasswordMutation,
   useChangePasswordMutation,
   useCreatePasswordMutation,
+  useGetSignUpLinkQuery,
 } = authApi;
 
 export default authApi;
