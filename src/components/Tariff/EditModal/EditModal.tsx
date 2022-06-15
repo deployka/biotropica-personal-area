@@ -21,6 +21,7 @@ interface Props {
   cost: Tariff['cost'];
   title: Tariff['title'];
   includedFields: Tariff['includedFields'];
+  zakazSystemId: Tariff['zakazSystemId'];
   isVisible: boolean;
   onClose(): void;
   refetchTariffs(): void;
@@ -32,6 +33,7 @@ const EditTariffModal = (props: Props) => {
     title,
     cost,
     includedFields,
+    zakazSystemId,
     isVisible,
     onClose,
     refetchTariffs,
@@ -70,6 +72,7 @@ const EditTariffModal = (props: Props) => {
       <TariffEditor
         id={id}
         title={title}
+        zakazSystemId={zakazSystemId}
         cost={cost}
         includedFields={includedFields}
         onClose={() => onClose()}

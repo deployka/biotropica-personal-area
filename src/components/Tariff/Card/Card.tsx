@@ -24,7 +24,7 @@ export const TariffCard = ({
   isSelectLoading,
   onSelect,
 }: Props) => {
-  const { id, cost, title, includedFields } = tariff;
+  const { id, cost, title, includedFields, zakazSystemId } = tariff;
 
   const [isEditTariffModalVisible, setIsEditTariffModalVisible] =
     React.useState(false);
@@ -87,6 +87,7 @@ export const TariffCard = ({
       </div>
       <EditTariffModal
         id={id}
+        zakazSystemId={zakazSystemId}
         cost={cost}
         title={title}
         includedFields={includedFields}
