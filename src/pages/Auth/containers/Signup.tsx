@@ -22,7 +22,7 @@ const Signup = () => {
     options: FormikHelpers<SignUpDto>,
   ) {
     try {
-      await signUp({ ...values, token }).unwrap();
+      await signUp({ ...values, token: decodeURI(token) }).unwrap();
       eventBus.emit(EventTypes.notification, {
         message:
           'Вы успешно зарегистрировались, подтвердите ваш email, перейдя по ссылке в электронном письме',

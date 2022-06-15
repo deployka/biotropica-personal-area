@@ -60,13 +60,10 @@ const authApi = baseApi.injectEndpoints({
       },
       SignUpDto | SignUpWithoutPassDto
     >({
-      query: ({ token = '', ...dto }) => ({
+      query: dto => ({
         url: '/auth/signup',
         body: dto,
         method: 'POST',
-        params: {
-          token,
-        },
       }),
     }),
 
