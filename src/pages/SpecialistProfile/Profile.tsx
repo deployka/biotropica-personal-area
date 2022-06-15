@@ -36,7 +36,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (data?.link) {
-      localStorage.setItem('invitedToken', data.link.split('token=')[1]);
+      localStorage.setItem('invitedToken', data.link.split('invitedToken=')[1]);
     }
   }, [data?.link]);
 

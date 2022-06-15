@@ -15,14 +15,17 @@ const Signup = () => {
   const history = useHistory();
   const [signUp, { isLoading }] = useSignUpMutation();
   const query = useQuery();
-  const token = query.get('token') || '';
+  const token = query.get('invitedToken') || '';
+  const currentToken = token.split('token=')[1]
+    ? token.split('token=')[1]
+    : token;
 
   async function onSubmit(
     values: SignUpDto,
     options: FormikHelpers<SignUpDto>,
   ) {
     try {
-      await signUp({ ...values, token: decodeURI(token) }).unwrap();
+      await signUp({ ...values, token: decodeURI(currentToken) }).unwrap();
       eventBus.emit(EventTypes.notification, {
         message:
           'Вы успешно зарегистрировались, подтвердите ваш email, перейдя по ссылке в электронном письме',
