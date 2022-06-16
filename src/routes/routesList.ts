@@ -72,6 +72,7 @@ const routes = [
   {
     path: 'users/:id',
     specialistComponent: PublicProfile,
+    adminComponent: PublicProfile,
     exact: true,
   },
   {
