@@ -11,6 +11,7 @@ import { Client } from '../../../@types/entities/Client';
 
 interface Props {
   user: BaseUser;
+  onProfile: (user: BaseUser) => void;
   onBlock: (user: BaseUser) => void;
   onWrite: (user: BaseUser) => void;
 }
@@ -27,7 +28,7 @@ const TARIFF_TRANSLATIONS = {
   INDIVIDUAL: 'Индивидуальный',
 };
 
-export const UserItem = ({ user, onBlock, onWrite }: Props) => {
+export const UserItem = ({ user, onProfile, onBlock, onWrite }: Props) => {
   const [visible, setVisible] = useState(false);
 
   function showPopUp() {
@@ -97,6 +98,9 @@ export const UserItem = ({ user, onBlock, onWrite }: Props) => {
         </div>
         {visible && (
           <ItemPopup
+            onProfileClick={() => {
+              onProfile(user);
+            }}
             onBlockClick={() => {
               onBlock(user);
               setVisible(false);

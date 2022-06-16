@@ -14,8 +14,10 @@ import { BlockUserConfirmModal } from '../../components/AdminUsers/BlockModal/Bl
 import { useSignUpMutation } from '../../api/auth';
 import { Role, ROLE } from '../../@types/entities/Role';
 import { CreateUserDto } from '../../@types/dto/users/create-user.dto';
+import { useHistory } from 'react-router';
 
 export function AdminUsers() {
+  const history = useHistory();
   const [popup, setPopup] = useState<boolean>(false);
   const [blockUserModalOpened, setBlockUserModalOpened] =
     useState<boolean>(false);
@@ -27,10 +29,19 @@ export function AdminUsers() {
   const { data: users } = useGetAllUsersQuery({});
   const { data: roles } = useGetAllRolesQuery();
 
-  function askBlockUser(user: BaseUser) {
+  const askBlockUser = (user: BaseUser) => {
     setUserToBlock(user);
     setBlockUserModalOpened(true);
-  }
+  };
+
+  const moveToProfile = (user: BaseUser) => {
+    const specialistId = user.specialist?.id;
+    if (specialistId) {
+      history.push(`/specialists/${specialistId}`);
+    } else {
+      history.push(`/users/${user.id}`);
+    }
+  };
 
   async function writeUser(user: BaseUser) {
     try {
@@ -101,6 +112,7 @@ export function AdminUsers() {
       {users ? (
         <AdminUsersList
           users={users}
+          onProfile={moveToProfile}
           onCreateUser={() => setPopup(true)}
           onWriteUser={(user: BaseUser) => writeUser(user)}
           onBlockUser={(user: BaseUser) => askBlockUser(user)}

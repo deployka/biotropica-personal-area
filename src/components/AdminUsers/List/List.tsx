@@ -20,6 +20,7 @@ import { AdminUsersTable } from '../Table/Table';
 type Props = {
   users: Array<BaseUser>;
   onCreateUser(): void;
+  onProfile: (user: BaseUser) => void;
   onBlockUser(user: BaseUser): void;
   onWriteUser(user: BaseUser): void;
 };
@@ -32,6 +33,7 @@ type Filters = {
 
 export function AdminUsersList({
   users,
+  onProfile,
   onCreateUser,
   onBlockUser,
   onWriteUser,
@@ -83,6 +85,7 @@ export function AdminUsersList({
         />
         <AdminUsersTable
           users={filteredUsers}
+          onProfile={onProfile}
           onBlock={onBlockUser}
           onWrite={onWriteUser}
         />
