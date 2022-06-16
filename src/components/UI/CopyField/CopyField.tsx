@@ -21,8 +21,8 @@ export const CopyField = ({ text, label, onClick }: Props) => {
       {label && <p className={s.label}>{label}</p>}
       <div className={s.copyField}>
         <input onClick={handleClick} value={text} />
-        <div onClick={handleClick} className={s.icon}>
-          <img src={copyIcon} />
+        <div className={s.icon}>
+          <img onClick={handleClick} src={copyIcon} />
         </div>
       </div>
     </>

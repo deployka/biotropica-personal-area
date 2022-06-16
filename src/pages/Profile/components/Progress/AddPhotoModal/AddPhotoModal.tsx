@@ -141,7 +141,7 @@ export const AddPhotoModal = ({ user }: Props) => {
   ) {
     try {
       const files = e.target.files || null;
-      const paths = [FileType.PNG, FileType.JPEG, FileType.GIF];
+      const paths = [FileType.PNG, FileType.JPG, FileType.JPEG, FileType.GIF];
 
       if (!files) return;
       if (checkFileSize(files[0], MAX_IMAGE_SIZE)) throw new Error();
@@ -158,7 +158,7 @@ export const AddPhotoModal = ({ user }: Props) => {
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
         title: 'Фото не добавлено!',
-        message: `Допустимые типы: png, jpg, gif
+        message: `Допустимые типы: png, jpg/jpeg, gif
         Максимальный размер: ${MAX_IMAGE_SIZE} мб`,
         type: NotificationType.DANGER,
         toastId: 'file_type_error',
@@ -213,7 +213,7 @@ export const AddPhotoModal = ({ user }: Props) => {
                   <div key={type}>
                     <input
                       type="file"
-                      accept=".jpeg, .png, .gif"
+                      accept=".jpg, .jpeg, .png, .gif"
                       className={s.input}
                       id={`pd_input-${i}`}
                       onBlur={handleBlur}

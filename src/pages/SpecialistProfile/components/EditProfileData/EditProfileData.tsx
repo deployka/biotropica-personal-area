@@ -248,8 +248,7 @@ export const EditProfileData = ({
               <div className={s.input__wrapper}>
                 <Input
                   name="experience"
-                  placeholder="Опыт работы"
-                  label="Опты работы"
+                  label="Опыт работы"
                   value={values.experience}
                   type={InputTypes.TEXT}
                   onBlur={handleBlur}
@@ -259,7 +258,6 @@ export const EditProfileData = ({
               <div className={s.input__wrapper}>
                 <Input
                   name="education"
-                  placeholder="Образование"
                   label="Образование"
                   value={values.education}
                   type={InputTypes.TEXT}
