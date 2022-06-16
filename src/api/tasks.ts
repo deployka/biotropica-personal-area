@@ -24,7 +24,7 @@ export const taskApi = baseApi.injectEndpoints({
   endpoints(builder) {
     return {
       getTaskList: builder.query<
-        Task[],
+        SomeTask[],
         {
           userId: number;
         }

@@ -47,6 +47,7 @@ export type CreateSomeTask =
   | CreateEventTask
   | CreateCompetitionTask;
 
+// TODO: поменять название
 export type SomeTask = TrainingTask | EventTask | CompetitionTask;
 
 export type CompetitionTask = Task & {

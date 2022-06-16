@@ -75,9 +75,11 @@
         font-weight: 400;
         font-size: 13px;
         line-height: 16px;
-
-        //inProgress
         color: #1e174d;
+
+        &.inProgress {
+            color: #1e174d;
+        }
 
         &.completed {
             color: #00915d;

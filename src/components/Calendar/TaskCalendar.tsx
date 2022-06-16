@@ -4,10 +4,10 @@ import s from './TaskCalendar.module.scss';
 import { CalendarHeader } from './Header/Header';
 
 import { Calendar } from './Calendar';
-import { Task } from '../../@types/entities/Task';
+import { SomeTask } from '../../@types/entities/Task';
 
 export type TaskCalendarProps = {
-  tasks: Task[];
+  tasks: SomeTask[];
   currentMonth: string; // формат YYYY-MM
   onChangeCurrentMonth(currentMonth: TaskCalendarProps['currentMonth']): void;
   onAddTask(): void;

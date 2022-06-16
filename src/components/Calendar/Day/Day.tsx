@@ -1,15 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { CalendarTask } from './Task';
-import { Task } from '../../../@types/entities/Task';
+import { SomeTask } from '../../../@types/entities/Task';
 
 import s from './Day.module.scss';
 
 export type CalendarDayType = {
   isGrey: boolean;
+  isPast: boolean;
   isCurrentDay: boolean;
   day: number; // Число месяца
-  tasks: Task[]; // Задачи отображаемого дня
+  tasks: SomeTask[]; // Задачи отображаемого дня
 };
 
 export type CalendarDayProps = {
@@ -18,7 +19,7 @@ export type CalendarDayProps = {
 };
 
 export function CalendarDay({ calendarDay, onClickTask }: CalendarDayProps) {
-  const { isCurrentDay, day, tasks } = calendarDay;
+  const { isCurrentDay, day, tasks, isPast } = calendarDay;
 
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -26,7 +27,7 @@ export function CalendarDay({ calendarDay, onClickTask }: CalendarDayProps) {
     ref?.current?.scrollIntoView({ block: 'center' });
   }, [ref.current]);
 
-  const sortedTasks = tasks.slice().sort((a: Task, b: Task) => {
+  const sortedTasks = tasks.slice().sort((a: SomeTask, b: SomeTask) => {
     if ((a.startTime ?? '') > (b.startTime ?? '')) return 1;
     return -1;
   });
@@ -41,7 +42,12 @@ export function CalendarDay({ calendarDay, onClickTask }: CalendarDayProps) {
       </div>
       <div className={s.tasksList}>
         {sortedTasks.map(task => (
-          <CalendarTask key={task.id} task={task} onClickTask={onClickTask} />
+          <CalendarTask
+            key={task.id}
+            isPast={isPast}
+            task={task}
+            onClickTask={onClickTask}
+          />
         ))}
       </div>
     </div>
