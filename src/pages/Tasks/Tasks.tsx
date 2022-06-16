@@ -185,6 +185,7 @@ export function Tasks() {
       type: NotificationType.WARNING,
       title: `Удалить задачу ${openedTask?.title}?`,
       autoClose: false,
+      theme: 'dark',
       message: (
         <NotificationButtons onDelete={onDelete} onDiscard={onDiscard} />
       ),

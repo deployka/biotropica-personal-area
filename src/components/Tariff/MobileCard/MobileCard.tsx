@@ -25,7 +25,7 @@ export const TariffMobileCard = ({
   isSelectLoading,
   onSelect,
 }: Props) => {
-  const { id, cost, title, includedFields } = tariff;
+  const { id, cost, title, includedFields, zakazSystemId } = tariff;
 
   const [height, setHeight] = useState<number | string>(0);
 
@@ -114,6 +114,7 @@ export const TariffMobileCard = ({
       </div>
       <EditTariffModal
         id={id}
+        zakazSystemId={zakazSystemId}
         cost={cost}
         title={title}
         includedFields={includedFields}

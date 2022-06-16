@@ -9,17 +9,20 @@ import { NotificationType } from '../../../components/GlobalNotifications/Global
 import { SignUpDto } from '../../../@types/dto/auth/signup.dto';
 import { useSignUpMutation } from '../../../api/auth';
 import { ResponseError } from '../../../@types/api/response';
+import { useQuery } from '../../../hooks/useQuery';
 
 const Signup = () => {
   const history = useHistory();
   const [signUp, { isLoading }] = useSignUpMutation();
+  const query = useQuery();
+  const token = query.get('invitedToken') || '';
 
   async function onSubmit(
     values: SignUpDto,
     options: FormikHelpers<SignUpDto>,
   ) {
     try {
-      await signUp(values).unwrap();
+      await signUp({ ...values, token: decodeURI(token) }).unwrap();
       eventBus.emit(EventTypes.notification, {
         message:
           'Вы успешно зарегистрировались, подтвердите ваш email, перейдя по ссылке в электронном письме',

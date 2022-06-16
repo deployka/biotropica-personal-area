@@ -8,6 +8,7 @@ export enum TARIFF {
 
 export type Tariff = BaseEntity & {
   cost: number;
+  zakazSystemId: string;
   title: string;
   description: string;
   includedFields: Array<string>;

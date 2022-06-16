@@ -12,6 +12,7 @@ export type TariffEditorProps = {
   title?: string;
   cost?: number;
   includedFields?: Array<string>;
+  zakazSystemId?: string;
   isNew?: boolean;
   onClose(): void;
   onRemove?(): void;
@@ -28,6 +29,7 @@ export function TariffEditor(props: TariffEditorProps) {
     title = '',
     cost = 0,
     includedFields = [''],
+    zakazSystemId = '',
     isNew,
     onClose,
     onSave,
@@ -35,6 +37,7 @@ export function TariffEditor(props: TariffEditorProps) {
   } = props;
 
   const [price, setPrice] = useState(cost);
+  const [zakazId, setZakazId] = useState(zakazSystemId);
   const [name, setName] = useState(title);
   const [features, setFeatures] = useState(includedFields);
 
@@ -59,6 +62,7 @@ export function TariffEditor(props: TariffEditorProps) {
       title: name,
       cost: price,
       description: '',
+      zakazSystemId: zakazId,
       includedFields: filteredFields,
       access: [],
     };
@@ -76,6 +80,16 @@ export function TariffEditor(props: TariffEditorProps) {
           suffix="₽"
           value={price || ''}
           onChange={e => setPrice(+e.currentTarget.value)}
+          classes={s.input}
+        />
+
+        <Input
+          name="zakazId"
+          type={InputTypes.TEXT}
+          label="Id тарифа (zakazSystemId)"
+          placeholder="Введите zakazSystemId"
+          value={zakazId || ''}
+          onChange={e => setZakazId(e.currentTarget.value)}
           classes={s.input}
         />
 

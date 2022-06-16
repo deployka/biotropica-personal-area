@@ -137,7 +137,7 @@ export const taskApi = baseApi.injectEndpoints({
         query() {
           return {
             method: 'GET',
-            url: 'tasks/get-all-templates',
+            url: 'tasks/templates',
           };
         },
       }),
