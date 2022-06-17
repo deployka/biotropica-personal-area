@@ -12,7 +12,7 @@ import { AdminUsersList } from '../../components/AdminUsers/List/List';
 import { CreateUserModal } from '../../components/AdminUsers/CreateModal/CreateModal';
 import { BlockUserConfirmModal } from '../../components/AdminUsers/BlockModal/BlockUserModal';
 import { useSignUpMutation } from '../../api/auth';
-import { Role, ROLE } from '../../@types/entities/Role';
+import { ROLE } from '../../@types/entities/Role';
 import { CreateUserDto } from '../../@types/dto/users/create-user.dto';
 import { useHistory } from 'react-router';
 
