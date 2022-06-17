@@ -38,12 +38,11 @@ export function EventTaskEditor({
       initialValues={{
         title: task.title,
         date: task.date,
-        kindOfEvent: KindOfEvent.restDay,
+        kindOfEvent: task.kindOfEvent,
         repeatType: 'daily',
         completionType: 'byRepetitionsNumber',
         completionValue: 1,
         description: task.description,
-        // kindOfEvent: task.kindOfEvent,
         // repeatType: task.repeatType,
         // completionType: task.completionType,
         // completionValue: task.completionValue,
