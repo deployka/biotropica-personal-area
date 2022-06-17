@@ -14,6 +14,7 @@ export type TaskBaseEditorProps = {
   title?: string;
   icon?: string;
   isCurrentUser: boolean;
+  isSpecialist: boolean;
   mode: 'edit' | 'view';
   category?: string;
   children: ReactNode;
@@ -30,6 +31,7 @@ export function TaskBaseEditor({
   mode,
   icon,
   title,
+  isSpecialist,
   isCurrentUser,
   children,
   category,
@@ -56,6 +58,7 @@ export function TaskBaseEditor({
       ></div>
       <div className={classNames(s.editorWrapper, !isOpened ? s.hidden : '')}>
         <Header
+          isSpecialist={isSpecialist}
           isCurrentUser={isCurrentUser}
           taskId={taskId}
           mode={mode}

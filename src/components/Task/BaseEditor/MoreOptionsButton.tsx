@@ -6,12 +6,14 @@ import classNames from 'classnames';
 
 interface MoreOptionsButtonProps {
   taskId: string;
+  isSpecialist: boolean;
   onDelete: () => void;
   onCreateTemplate: () => void;
 }
 
 export function MoreOptionsButton({
   taskId,
+  isSpecialist,
   onDelete,
   onCreateTemplate,
 }: MoreOptionsButtonProps) {
@@ -50,12 +52,14 @@ export function MoreOptionsButton({
         {isContextMenuVisible && (
           <div className={s.contextMenu}>
             <Divider />
-            <button
-              onMouseDown={handleCreateTemplate}
-              className={s.contextMenuOption}
-            >
-              Создать шаблон
-            </button>
+            {isSpecialist && (
+              <button
+                onMouseDown={handleCreateTemplate}
+                className={s.contextMenuOption}
+              >
+                Создать шаблон
+              </button>
+            )}
             {taskId && (
               <>
                 <Divider />

@@ -91,6 +91,7 @@ export const TasksModal = ({
   return (
     <TaskBaseEditor
       isCurrentUser={task?.authorId === currentUserId}
+      isSpecialist={isSpecialist}
       task={task}
       taskId={taskId}
       title={title}

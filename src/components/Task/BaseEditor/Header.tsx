@@ -14,8 +14,9 @@ interface Props {
   icon?: string;
   category?: string;
   type?: string;
-  onClose(): void;
   taskId: string;
+  isSpecialist: boolean;
+  onClose(): void;
   onEditBtnClick(): void;
   onCreateTemplate(): void;
   onDeleteTask(): void;
@@ -26,9 +27,10 @@ export const Header = ({
   title,
   icon,
   type,
-  onDeleteTask,
   category,
   taskId,
+  isSpecialist,
+  onDeleteTask,
   onClose,
   onCreateTemplate,
   onEditBtnClick,
@@ -55,14 +57,6 @@ export const Header = ({
       break;
   }
 
-  function onCloseClick() {
-    onClose();
-  }
-
-  function onEditClick() {
-    onEditBtnClick();
-  }
-
   return (
     <div className={s.header} style={{ backgroundColor: headerColor }}>
       <div className={classNames(s.title, mode === 'view' ? s.underline : '')}>
@@ -86,6 +80,7 @@ export const Header = ({
         <div className={s.rightContent}>
           {mode === 'edit' && (
             <MoreOptionsButton
+              isSpecialist={isSpecialist}
               onCreateTemplate={onCreateTemplate}
               onDelete={onDeleteTask}
               taskId={taskId}
@@ -95,7 +90,7 @@ export const Header = ({
             className={s.closeIcon}
             src={closeIcon}
             alt=""
-            onClick={onCloseClick}
+            onClick={onClose}
           />
         </div>
       </div>
@@ -117,7 +112,7 @@ export const Header = ({
               className={s.editIcon}
               src={editIcon}
               alt=""
-              onClick={onEditClick}
+              onClick={onEditBtnClick}
             />
           )}
         </div>
