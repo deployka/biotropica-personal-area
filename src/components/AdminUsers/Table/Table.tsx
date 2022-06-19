@@ -35,15 +35,19 @@ export function AdminUsersTable({
         </div>
       </div>
       <div className={s.usersList}>
-        {users.map((user, i) => (
-          <UserItem
-            key={i}
-            user={user}
-            onProfile={onProfile}
-            onBlock={onBlock}
-            onWrite={onWrite}
-          />
-        ))}
+        {users.length !== 0 ? (
+          users.map((user, i) => (
+            <UserItem
+              key={i}
+              user={user}
+              onProfile={onProfile}
+              onBlock={onBlock}
+              onWrite={onWrite}
+            />
+          ))
+        ) : (
+          <p>Пользователи не найдены</p>
+        )}
       </div>
     </>
   );

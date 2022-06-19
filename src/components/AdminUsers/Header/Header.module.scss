@@ -1,6 +1,5 @@
 @import "../../../styles/variables.scss";
 @import "../../../styles/mixins.scss";
-@import "../../../styles/breakpoints";
 
 .titleLine {
   padding: 0 16px;
@@ -25,10 +24,16 @@
 
   .panelBtns {
     @include for-phone {
+      margin: 10px 0 0 0;
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      button {
+        width: 47%;
+        margin: 0;
+      }
     }
   }
 

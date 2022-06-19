@@ -1,53 +1,41 @@
-import s from './UsersTableHeader.module.scss';
 import React from 'react';
+
 import SearchInput from '../../../../components/SearchInput/SearchInput';
-import classNames from 'classnames';
+import Button from '../../../../components/Button/Button';
+
+import s from './UsersTableHeader.module.scss';
 
 type UsersTableHeaderProps = {
   userLength: number;
-  onFilterBtnClick: () => void;
-  filterOpened: boolean;
   query: string;
-  checked: boolean;
-  onChecked: (checked: boolean) => void;
-  onSearch: (q: string) => void;
+  isFiltersOpen: boolean;
+  onFilterBtnClick: () => void;
+  onSearch: (query: string) => void;
 };
 
-export function UsersTableHeader(props: UsersTableHeaderProps) {
+export function UsersTableHeader({
+  userLength,
+  query,
+  isFiltersOpen,
+  onFilterBtnClick,
+  onSearch,
+}: UsersTableHeaderProps) {
   return (
     <div className={s.titleLine}>
       <div className={s.title}>
-        <h3>
-          {props.checked
-            ? 'Пользователи ожидающие рекомендации'
-            : 'Все пользователи'}
-        </h3>
+        <h3>Все пользователи</h3>
         <div className={s.counter}>
-          <p>{props.userLength}</p>
+          <p>{userLength}</p>
         </div>
       </div>
       <div className={s.options}>
-        <div className={s.checkbox__wrapper}>
-          <input
-            onChange={() => props.onChecked(!props.checked)}
-            type="checkbox"
-            defaultChecked={props.checked}
-            name="checkbox"
-          />
-          <label
-            htmlFor="checkbox"
-            className={classNames(s.checkbox, {
-              [s.error__checkbox]: !props.checked,
-            })}
-          ></label>
-          <span>Ожидают рекомендации</span>
-        </div>
+        <button className={s.filterButton} onClick={onFilterBtnClick}>
+          {isFiltersOpen ? 'Скрыть фильтры' : 'Показать фильтры'}
+        </button>
 
         <SearchInput
-          value={undefined as unknown as string}
-          onChange={val => {
-            return props.onSearch(val);
-          }}
+          value={query}
+          onChange={onSearch}
           placeholder="Поиск пользователей"
         />
       </div>
