@@ -132,6 +132,16 @@ const Goals = () => {
     history.push(`/goals/${id}`);
   }
 
+  console.log('goals', goals);
+
+  if (isLoadingGoals) {
+    return <>загрузка...</>;
+  }
+
+  if (!isLoadingGoal && goals.length === 0) {
+    history.push('/goals/add');
+  }
+
   return (
     <div className={s.goals}>
       <Header
