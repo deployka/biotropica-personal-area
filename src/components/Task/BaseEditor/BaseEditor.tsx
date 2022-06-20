@@ -15,7 +15,7 @@ export type TaskBaseEditorProps = {
   icon?: string;
   isCurrentUser: boolean;
   isSpecialist: boolean;
-  mode: 'edit' | 'view';
+  mode: 'edit' | 'view' | 'create';
   category?: string;
   children: ReactNode;
   isOpened: boolean;

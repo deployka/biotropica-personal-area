@@ -20,12 +20,9 @@ import {
   CompetitionTask,
   CreateSomeTask,
   EventTask,
-  KindOfEvent,
-  KindOfSport,
   SomeTask,
   TaskTemplate,
   TaskType,
-  TrainingCategory,
   TrainingTask,
 } from '../../@types/entities/Task';
 
@@ -71,7 +68,9 @@ export function Tasks() {
 
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
-  const [taskModalMode, setTaskModalMode] = useState<'edit' | 'view'>('view');
+  const [taskModalMode, setTaskModalMode] = useState<
+    'edit' | 'view' | 'create'
+  >('view');
 
   const currentMonth = useAppSelector(selectTasksPageCurrentMonth);
 
@@ -224,7 +223,7 @@ export function Tasks() {
     setOpenedTask(newTask || null);
     setIsTaskModalOpen(true);
     setIsTypeSelectModalOpened(false);
-    setTaskModalMode('edit');
+    setTaskModalMode('create');
   }
   function handleChangeMonth(month: string) {
     dispatch(setCurrentMonth(month));

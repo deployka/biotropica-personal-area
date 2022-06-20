@@ -5,7 +5,7 @@ import { TaskPreview } from '../../TaskPreview/Preview';
 
 type TaskLayoutProps = {
   task: SomeTask | CreateSomeTask | null;
-  mode: 'edit' | 'view';
+  mode: 'edit' | 'view' | 'create';
   isLoading: boolean;
   isSpecialist: boolean;
   isCommentsLoading?: boolean;

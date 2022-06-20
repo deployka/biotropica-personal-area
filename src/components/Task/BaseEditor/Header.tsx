@@ -8,7 +8,7 @@ import { MoreOptionsButton } from './MoreOptionsButton';
 import s from './Header.module.scss';
 
 interface Props {
-  mode: 'edit' | 'view';
+  mode: 'edit' | 'view' | 'create';
   isCurrentUser: boolean;
   title?: string;
   icon?: string;
@@ -38,6 +38,7 @@ export const Header = ({
 }: Props) => {
   let taskType = '';
   let headerColor = '';
+  let headerTitle = '';
 
   switch (type) {
     case 'training':
@@ -53,6 +54,21 @@ export const Header = ({
       headerColor = '#00CCB3';
       break;
 
+    default:
+      break;
+  }
+
+  switch (mode) {
+    case 'edit':
+      headerTitle = 'Редактирование задачи';
+      break;
+    case 'view':
+      headerTitle = title || '';
+      break;
+
+    case 'create':
+      headerTitle = 'Создание задачи';
+      break;
     default:
       break;
   }
@@ -73,8 +89,7 @@ export const Header = ({
               ></div>
             </div>
           )}
-
-          {mode === 'edit' ? 'Редактирование задачи' : title}
+          {headerTitle}
         </div>
 
         <div className={s.rightContent}>
