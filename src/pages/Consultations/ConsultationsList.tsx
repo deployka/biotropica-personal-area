@@ -10,6 +10,7 @@ import { useGetSpecialistsQuery } from '../../api/specialists';
 import { useCreateDialogMutation } from '../../api/chat';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { ResponseError } from '../../@types/api/response';
+import Button from '../../components/Button/Button';
 
 export const ConsultationsList = () => {
   const history = useHistory();
@@ -52,7 +53,15 @@ export const ConsultationsList = () => {
           <h2 className={s.headerTitle}>Мои видеоконсультации</h2>
           <span className={s.usersCount}>{activeConsultations.length}</span>
         </div>
-        <div className={s.headerRight}></div>
+        <div className={s.headerRight}>
+          <Button
+            onClick={() => {
+              history.push('/consultations');
+            }}
+          >
+            Список специалистов
+          </Button>
+        </div>
       </div>
 
       <div className={s.tableContainer}>
