@@ -18,6 +18,7 @@ import {
   SelectCustom,
 } from '../../../shared/Form/Select/SelectCustom';
 import { validationSchema } from './validationSchema';
+import closeIcon from './../../../assets/icons/close.svg';
 import s from './CreateUserModal.module.scss';
 
 interface Props {
@@ -83,7 +84,12 @@ export const CreateUserModal = ({
           dirty,
         }) => (
           <div className={s.form}>
-            <h2 className={s.title}>Создание пользователя</h2>
+            <h2 className={s.header}>
+              <div className={s.title}>Создание пользователя</div>
+              <div className={s.closeIcon}>
+                <img onClick={closePopUp} src={closeIcon} />
+              </div>
+            </h2>
 
             <div className={s.divider}></div>
 
