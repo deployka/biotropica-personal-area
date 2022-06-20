@@ -1,7 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, FormikHelpers } from 'formik';
-
-import s from './SigninForm.module.scss';
 
 import { Loader } from '../../../../shared/Form/Loader/Loader';
 import { Input } from '../../../../shared/Form/Input/Input';
@@ -9,6 +7,10 @@ import { Button } from '../../../../shared/Form/Button/Button';
 import { Link } from 'react-router-dom';
 import { SchemaOf } from 'yup';
 import { SignInDto } from '../../../../@types/dto/auth/signin.dto';
+import eyeIcon from './../../../../assets/icons/eye.svg';
+import eyeCloseIcon from './../../../../assets/icons/eyeClose.svg';
+
+import s from './SigninForm.module.scss';
 
 interface Props {
   onSubmit: (values: SignInDto, options: FormikHelpers<SignInDto>) => void;
@@ -17,6 +19,7 @@ interface Props {
 }
 
 export const SigninForm = ({ onSubmit, loader, validationSchema }: Props) => {
+  const [isVisiblePassword, setIsVisiblePassword] = useState(false);
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || loader;
   }
@@ -62,21 +65,33 @@ export const SigninForm = ({ onSubmit, loader, validationSchema }: Props) => {
             </div>
 
             <div className={s.input__wrapper}>
-              <Link
-                to={`/forgot-password?email=${values.email}`}
-                className={s.forgot}
-              >
-                Восстановить
-              </Link>
               <Input
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Пароль"
                 name="password"
                 value={values.password}
-                type="password"
+                type={isVisiblePassword ? 'text' : 'password'}
                 options={{ touched, errors }}
               />
+              <div
+                className={s.icon}
+                onClick={() => {
+                  setIsVisiblePassword(!isVisiblePassword);
+                }}
+              >
+                {isVisiblePassword ? (
+                  <img src={eyeCloseIcon} />
+                ) : (
+                  <img src={eyeIcon} />
+                )}
+              </div>
+              <Link
+                to={`/forgot-password?email=${values.email}`}
+                className={s.forgot}
+              >
+                Забыли пароль?
+              </Link>
             </div>
 
             <Button
