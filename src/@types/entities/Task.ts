@@ -13,6 +13,7 @@ export type Task = {
   description?: string;
   isTemplate?: boolean;
   templateName?: string;
+  isVisible?: boolean;
   comments: Comment[];
 };
 

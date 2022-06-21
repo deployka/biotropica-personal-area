@@ -9,11 +9,8 @@ import SelectCustom from '../../Select/SelectCustom';
 import s from './Event.module.scss';
 import { eventTaskOptions } from './EventConstants';
 import validationSchema from './validationSchema';
-import {
-  CreateEventTask,
-  EventTask,
-  KindOfEvent,
-} from '../../../@types/entities/Task';
+import { CreateEventTask, EventTask } from '../../../@types/entities/Task';
+import { Checkbox } from '../../UI/Checkbox/Checkbox';
 
 export type EventTaskEditorProps = {
   task: EventTask | CreateEventTask;
@@ -43,6 +40,7 @@ export function EventTaskEditor({
         completionType: 'byRepetitionsNumber',
         completionValue: 1,
         description: task.description,
+
         // repeatType: task.repeatType,
         // completionType: task.completionType,
         // completionValue: task.completionValue,
@@ -180,6 +178,15 @@ export function EventTaskEditor({
                   handleChange(value);
                   setFieldValue('description', value);
                 }}
+              />
+            </div>
+            <div className="line">
+              <Checkbox
+                id="visibilityCheckbox"
+                name="isVisible"
+                label="Видимо всем"
+                isChecked={values.isVisible}
+                onChange={value => setFieldValue('isVisible', value)}
               />
             </div>
             <div className={s.buttons}>

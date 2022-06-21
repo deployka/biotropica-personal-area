@@ -19,6 +19,7 @@ const task: EventTask = {
   title: 'Прием таблеток',
   date: '2022-01-27',
   status: 'init',
+  isVisible: true,
   comments: [],
   kindOfEvent: KindOfEvent.restDay,
   executorId: 0,
