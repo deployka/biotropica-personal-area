@@ -21,6 +21,7 @@ import {
   CreateTrainingTask,
   TrainingTask,
 } from '../../../@types/entities/Task';
+import { Checkbox } from '../../UI/Checkbox/Checkbox';
 
 export type TrainingTaskEditorProps = {
   onClose(): void;
@@ -38,7 +39,6 @@ export function TrainingTaskEditor({
   function onSubmit(values: Partial<CreateTrainingTask>) {
     onSave({ ...task, ...values });
   }
-
   return (
     <Formik
       enableReinitialize
@@ -53,6 +53,7 @@ export function TrainingTaskEditor({
         secondTargetType: task.secondTargetType,
         secondTargetValue: task.secondTargetValue,
         description: task.description,
+        isVisible: task.isVisible,
       }}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
@@ -194,6 +195,15 @@ export function TrainingTaskEditor({
                   handleChange(value);
                   setFieldValue('description', value);
                 }}
+              />
+            </div>
+            <div className="line">
+              <Checkbox
+                id="visibilityCheckbox"
+                name="isVisible"
+                label="Видимо всем"
+                isChecked={values.isVisible}
+                onChange={value => setFieldValue('isVisible', value)}
               />
             </div>
             <div className={s.buttons}>

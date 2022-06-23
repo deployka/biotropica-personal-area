@@ -28,6 +28,7 @@ import {
 import { NEW_DATE } from '../../../constants/dates';
 
 import s from './Competition.module.scss';
+import { Checkbox } from '../../UI/Checkbox/Checkbox';
 
 export type CompetitionTaskEditorProps = {
   task: CompetitionTask | CreateCompetitionTask;
@@ -73,6 +74,7 @@ export function CompetitionTaskEditor({
         startTime: task.startTime,
         targetValue: task.targetValue,
         description: task.description,
+        isVisible: task.isVisible,
       }}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
@@ -193,6 +195,15 @@ export function CompetitionTaskEditor({
                 handleChange(value);
                 setFieldValue('description', value);
               }}
+            />
+          </div>
+          <div className="line">
+            <Checkbox
+              id="visibilityCheckbox"
+              name="isVisible"
+              label="Видимо всем"
+              isChecked={values.isVisible}
+              onChange={value => setFieldValue('isVisible', value)}
             />
           </div>
           <div className={s.buttons}>

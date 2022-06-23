@@ -1,5 +1,5 @@
-@import '../../styles/breakpoints';
-@import '../../styles/global';
+@import "../../styles/breakpoints";
+@import "../../styles/global";
 
 .search {
   padding: 0 8px;
@@ -19,6 +19,7 @@
     height: 20px;
     font-size: 14px;
     border: none;
+    outline: none;
 
     &::placeholder {
       font-size: 14px;

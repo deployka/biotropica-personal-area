@@ -28,6 +28,7 @@ const task: CreateCompetitionTask = {
   date: '',
   status: 'init',
   comments: [],
+  isVisible: true,
   executorId: 0,
 };
 

@@ -7,11 +7,17 @@ import s from './Table.module.scss';
 
 export type UsersTableProps = {
   users: BaseUser[];
+  onProfile: (user: BaseUser) => void;
   onBlock: (user: BaseUser) => void;
   onWrite: (user: BaseUser) => void;
 };
 
-export function AdminUsersTable(props: UsersTableProps) {
+export function AdminUsersTable({
+  users,
+  onProfile,
+  onBlock,
+  onWrite,
+}: UsersTableProps) {
   return (
     <>
       <div className={s.infoBar}>
@@ -29,12 +35,13 @@ export function AdminUsersTable(props: UsersTableProps) {
         </div>
       </div>
       <div className={s.usersList}>
-        {props.users.map((user, i) => (
+        {users.map((user, i) => (
           <UserItem
             key={i}
             user={user}
-            onBlock={props.onBlock}
-            onWrite={props.onWrite}
+            onProfile={onProfile}
+            onBlock={onBlock}
+            onWrite={onWrite}
           />
         ))}
       </div>

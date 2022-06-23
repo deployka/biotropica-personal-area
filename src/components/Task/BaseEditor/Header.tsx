@@ -8,14 +8,15 @@ import { MoreOptionsButton } from './MoreOptionsButton';
 import s from './Header.module.scss';
 
 interface Props {
-  mode: 'edit' | 'view';
+  mode: 'edit' | 'view' | 'create';
   isCurrentUser: boolean;
   title?: string;
   icon?: string;
   category?: string;
   type?: string;
-  onClose(): void;
   taskId: string;
+  isSpecialist: boolean;
+  onClose(): void;
   onEditBtnClick(): void;
   onCreateTemplate(): void;
   onDeleteTask(): void;
@@ -26,9 +27,10 @@ export const Header = ({
   title,
   icon,
   type,
-  onDeleteTask,
   category,
   taskId,
+  isSpecialist,
+  onDeleteTask,
   onClose,
   onCreateTemplate,
   onEditBtnClick,
@@ -36,6 +38,7 @@ export const Header = ({
 }: Props) => {
   let taskType = '';
   let headerColor = '';
+  let headerTitle = '';
 
   switch (type) {
     case 'training':
@@ -55,12 +58,19 @@ export const Header = ({
       break;
   }
 
-  function onCloseClick() {
-    onClose();
-  }
+  switch (mode) {
+    case 'edit':
+      headerTitle = 'Редактирование задачи';
+      break;
+    case 'view':
+      headerTitle = title || '';
+      break;
 
-  function onEditClick() {
-    onEditBtnClick();
+    case 'create':
+      headerTitle = 'Создание задачи';
+      break;
+    default:
+      break;
   }
 
   return (
@@ -79,13 +89,13 @@ export const Header = ({
               ></div>
             </div>
           )}
-
-          {mode === 'edit' ? 'Редактирование задачи' : title}
+          {headerTitle}
         </div>
 
         <div className={s.rightContent}>
           {mode === 'edit' && (
             <MoreOptionsButton
+              isSpecialist={isSpecialist}
               onCreateTemplate={onCreateTemplate}
               onDelete={onDeleteTask}
               taskId={taskId}
@@ -95,7 +105,7 @@ export const Header = ({
             className={s.closeIcon}
             src={closeIcon}
             alt=""
-            onClick={onCloseClick}
+            onClick={onClose}
           />
         </div>
       </div>
@@ -117,7 +127,7 @@ export const Header = ({
               className={s.editIcon}
               src={editIcon}
               alt=""
-              onClick={onEditClick}
+              onClick={onEditBtnClick}
             />
           )}
         </div>

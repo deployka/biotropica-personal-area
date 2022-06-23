@@ -26,6 +26,7 @@ import {
 import { CreateRecommendationDto } from '../../@types/dto/recommendations/create.dto';
 import { RecommendationsPage } from '../../components/Recommnedations/Recommendations';
 import { useCurrentUserQuery } from '../../api/user';
+import { Empty } from '../../components/Empty/Empty';
 
 export function Recommendations() {
   const { data: currentUser } = useCurrentUserQuery();
@@ -119,10 +120,16 @@ export function Recommendations() {
       />
       {isLoading && <p>Загрузка...</p>}
       {isError && <p>Произошла ошибка</p>}
-      {!isLoading &&
-        !isError &&
-        recommendations.length === 0 &&
-        !isSpecialist && <p>Рекомендации отсутствуют</p>}
+      {!isLoading && !isError && recommendations.length === 0 && !isSpecialist && (
+        <div className={s.emptyWrapper}>
+          <Empty className={s.empty}>
+            <p>
+              У вас еще нет рекомендаций. Они появятся здесь сразу после того,
+              как их составит специалист.
+            </p>
+          </Empty>
+        </div>
+      )}
       {/* FIXME: сделать нормальный условный рендеринг */}
       {((recommendations.length !== 0 && !isSpecialist) || isSpecialist) && (
         <RecommendationsPage

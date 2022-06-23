@@ -17,7 +17,7 @@ import { typeGroups } from '../TypeSelectModal/taskTypeConstants';
 
 type TasksModalProps = {
   task: SomeTask | CreateSomeTask | null;
-  mode: 'edit' | 'view';
+  mode: 'edit' | 'view' | 'create';
   isSpecialist: boolean;
   isOpened: boolean;
   isLoading: boolean;
@@ -91,6 +91,7 @@ export const TasksModal = ({
   return (
     <TaskBaseEditor
       isCurrentUser={task?.authorId === currentUserId}
+      isSpecialist={isSpecialist}
       task={task}
       taskId={taskId}
       title={title}

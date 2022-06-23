@@ -27,6 +27,7 @@ const task: TrainingTask = {
   title: 'Название задачи',
   date: '2022-01-27',
   status: 'init',
+  isVisible: true,
   comments: [],
   executorId: 0,
 };
