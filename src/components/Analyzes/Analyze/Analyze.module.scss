@@ -1,6 +1,8 @@
 @import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
 
 .analyze {
+    position: relative;
     max-width: 470px;
     width: 100%;
 
@@ -10,6 +12,35 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        @include for-tablet {
+            align-items: flex-start;
+            flex-direction: column;
+            justify-content: unset;
+
+            .createdAt {
+                margin: 5px 0 0 0;
+            }
+        }
+    }
+
+    .actions {
+        width: 28px;
+        height: 28px;
+        position: absolute;
+        right: -28px;
+        top: 50%;
+        cursor: pointer;
+        transform: translateY(-50%) rotate(90deg);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
     }
 
     .fileLink {
@@ -72,4 +103,63 @@
             color: rgba(187, 187, 187, 1);
         }
     }
+}
+
+.popup {
+    position: absolute;
+    right: -30px;
+    top: 40px;
+
+    @include for-phone {
+        right: 0;
+    }
+
+    width: 156px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+    box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+
+    border-radius: 5px;
+
+    z-index: 10;
+
+    .element {
+        padding: 0 20px;
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        user-select: none;
+
+        width: 100%;
+        height: 45px;
+
+        transition: all 0.2s ease;
+        cursor: pointer;
+
+        p {
+            color: $color-black;
+            font-size: 16px;
+        }
+
+        &:hover {
+            p {
+                color: $color-primary;
+            }
+        }
+    }
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 5;
 }

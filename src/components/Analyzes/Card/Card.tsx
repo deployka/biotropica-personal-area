@@ -9,20 +9,22 @@ import s from './Card.module.scss';
 
 interface Props {
   analyzes: AnalyzeAnswer[];
-  onAddAnalyzeClick: () => void;
   analyzeTypes: Analyze[];
+  onDelete: (id: number) => void;
+  onAddAnalyzeClick: () => void;
 }
 
 export const AnalyzesCard = ({
   analyzes,
-  onAddAnalyzeClick,
   analyzeTypes,
+  onDelete,
+  onAddAnalyzeClick,
 }: Props) => {
   return (
     <div className={s.card}>
       <AnalyzesHeader onAddAnalyzeClick={onAddAnalyzeClick} />
       <AnalyzeTypes analyzeTypes={analyzeTypes} />
-      <AnalyzesList analyzes={analyzes} />
+      <AnalyzesList onDelete={onDelete} analyzes={analyzes} />
       {/* TODO: сделать подгурзку анализова частями */}
       {/* <button onClick={onShowMoreClick} className={s.moreBtn}>
         {analyzes.length >= 2 ? <ShowMore /> : ''}
