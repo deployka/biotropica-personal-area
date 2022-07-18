@@ -1,0 +1,53 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+@import "../../styles/breakpoints";
+
+.filter {
+  width: 200px;
+  overflow-y: auto;
+  transition: all 0.3s ease;
+
+  .header {
+    padding: 20px 10px;
+    width: 100%;
+
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &.hidden {
+    width: 0;
+  }
+
+  .filter_container {
+    width: 200px;
+    @include for-phone {
+      width: calc(100% - 20px);
+      min-width: 300px;
+    }
+  }
+
+  height: calc(100vh - 100px);
+
+  @include for-phone {
+    width: 100vw;
+    height: 100vh;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    z-index: 10;
+
+    background-color: #fff;
+
+    .header {
+      display: flex;
+    }
+  }
+}

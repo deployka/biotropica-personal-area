@@ -3,15 +3,16 @@ import { Client } from '../../@types/entities/Client';
 import { ROLE } from '../../@types/entities/Role';
 
 import { TARIFF } from '../../@types/entities/Tariff';
-import { FilterConfig } from '../Filter/Filter';
+import { FilterField } from '../Filter/Filter';
 
-export const usersFilters: FilterConfig[] = [
+export const usersFilters: FilterField[] = [
   {
     name: 'Роль',
     key: 'roles',
+    type: 'checkbox',
     filters: [
       {
-        value: undefined,
+        value: 'all',
         label: 'Все',
       },
       {
@@ -29,41 +30,20 @@ export const usersFilters: FilterConfig[] = [
     ],
   },
   {
-    name: 'Тип тарифа',
-    key: 'tariff',
-    filters: [
-      {
-        value: undefined,
-        label: 'Все',
-      },
-      {
-        value: TARIFF.BASE,
-        label: 'Базовый пакет',
-      },
-      {
-        value: TARIFF.EXTENDED,
-        label: 'Расширенный пакет',
-      },
-      {
-        value: TARIFF.INDIVIDUAL,
-        label: 'Индивидуальный пакет',
-      },
-    ],
-  },
-  {
     name: 'Анкета',
     key: 'questionnaire',
+    type: 'radio',
     filters: [
       {
-        value: undefined,
+        value: 'all',
         label: 'Все',
       },
       {
-        value: true,
+        value: 'finished',
         label: 'Заполнена',
       },
       {
-        value: false,
+        value: 'notFinished',
         label: 'Не заполнена',
       },
     ],
@@ -72,50 +52,60 @@ export const usersFilters: FilterConfig[] = [
 
 export function filterUsersByRoles(
   users: Array<BaseUser>,
-  roles: (ROLE | undefined)[],
+  roles: (ROLE | 'all')[],
 ) {
-  if (roles.length === 1 && !roles[0]) {
+  if (!roles[0]) {
+    return users;
+  }
+
+  if (roles.includes('all')) {
     return users;
   }
 
   return users.filter(user => {
     const userRoles = user.roles.map(it => it.name);
-    for (const userRole of userRoles) {
-      if (roles.includes(userRole)) {
-        return true;
-      }
-    }
-    return false;
+    return userRoles.map(role => roles.includes(role)).every(it => it);
+    // for (const userRole of userRoles) {
+    //   if (roles.includes(userRole)) {
+    //     return true;
+    //   }
+    // }
+    // return false;
   });
 }
 
 export function filterUsersByQuestionnaire(
   users: Array<BaseUser>,
-  value: boolean,
+  value: string,
 ) {
+  if (value === 'all') return users;
   return users.filter(user => {
-    if (!user.roles.some(it => it.name === ROLE.CLIENT)) return false;
-    if (value) {
+    if (!user.roles.some(role => role.name === ROLE.CLIENT)) return false;
+    if (value === 'finished') {
       return (user as Client).questionHash === 'FINISHED';
-    } else {
+    }
+    if (value === 'notFinished') {
       return (user as Client).questionHash === null;
     }
+    return false;
+    // return true;
   });
 }
 
 export function filterUsersByTariffs(
   users: Array<BaseUser>,
-  tariffs: (TARIFF | undefined)[],
+  tariffs: (TARIFF | 'all')[],
 ) {
   if (tariffs.length === 1 && !tariffs[0]) {
     return users;
   }
 
   return users.filter(user => {
-    const userTariff = user.roles.some(it => it.name === ROLE.CLIENT)
-      ? (user as Client).tariff
-      : undefined;
-    return tariffs.includes(userTariff);
+    // const userTariff = user.roles.some(it => it.name === ROLE.CLIENT)
+    //   ? (user as Client).tariff
+    //   : undefined;
+    // return tariffs.includes(userTariff);
+    return true;
   });
 }
 
