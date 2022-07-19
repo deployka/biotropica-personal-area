@@ -8,14 +8,13 @@ import {
   filterUsersByTariffs,
   usersFilters,
 } from '../adminUsersHelper';
-
 import { ROLE } from '../../../@types/entities/Role';
 import { BaseUser } from '../../../@types/entities/BaseUser';
 import { TARIFF } from '../../../@types/entities/Tariff';
-
-import s from './List.module.scss';
 import { AdminUsersHeader } from '../Header/Header';
 import { AdminUsersTable } from '../Table/Table';
+
+import s from './List.module.scss';
 
 type Props = {
   users: Array<BaseUser>;
@@ -26,9 +25,8 @@ type Props = {
 };
 
 type Filters = {
-  roles: (ROLE | undefined)[];
-  tariff: (TARIFF | undefined)[];
-  questionnaire: (boolean | undefined)[];
+  roles: (ROLE | 'all')[];
+  questionnaire: string[];
 };
 
 export function AdminUsersList({
@@ -38,29 +36,25 @@ export function AdminUsersList({
   onBlockUser,
   onWriteUser,
 }: Props) {
-  const [filterOpened, setFilterOpened] = useState<boolean>(false);
+  const [isFilterOpened, setIsFilterOpened] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const [filters, setFilters] = useState<Filters>({
-    roles: [undefined],
-    tariff: [undefined],
-    questionnaire: [undefined],
+    roles: ['all'],
+    questionnaire: ['all'],
   });
 
   let filteredUsers = users;
-  if (filters.roles.length) {
-    filteredUsers = filterUsersByRoles(filteredUsers, filters.roles);
-  }
+  filteredUsers = filterUsersByRoles(filteredUsers, filters.roles);
+  filteredUsers = filterUsersByQuestionnaire(
+    filteredUsers,
+    filters.questionnaire[0],
+  );
 
-  if (filters.tariff.length) {
-    filteredUsers = filterUsersByTariffs(filteredUsers, filters.tariff);
-  }
-
-  if (typeof filters.questionnaire[0] === 'boolean') {
-    filteredUsers = filterUsersByQuestionnaire(
-      filteredUsers,
-      filters.questionnaire[0],
-    );
-  }
+  console.log('roles', filters.roles);
+  console.log(
+    'roles',
+    filteredUsers.map(user => user.roles.map(role => role.name)),
+  );
 
   if (query) {
     filteredUsers = filterUsersByQuery(filteredUsers, query);
@@ -69,16 +63,19 @@ export function AdminUsersList({
   return (
     <div className={s.adminPanel}>
       <Filter
-        opened={filterOpened}
+        isHidden={!isFilterOpened}
+        onClose={() => {
+          setIsFilterOpened(false);
+        }}
         filters={usersFilters}
         selectedFilters={filters}
         onChange={(filters: Filters) => setFilters(filters)}
       />
-      <div className={`${s.listPanel} ${filterOpened ? '' : s.full}`}>
+      <div className={`${s.listPanel} ${isFilterOpened ? '' : s.full}`}>
         <AdminUsersHeader
           userLength={filteredUsers.length}
-          onFilterBtnClick={() => setFilterOpened(!filterOpened)}
-          filterOpened={filterOpened}
+          onFilterBtnClick={() => setIsFilterOpened(!isFilterOpened)}
+          filterOpened={isFilterOpened}
           query={query}
           onSearch={setQuery}
           onCreateUserBtnClick={onCreateUser}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { ISelect } from '../../shared/Form/Select/SelectCustom';
 import { InfoBar } from '../../shared/Global/InfoBar/InfoBar';
@@ -22,7 +22,6 @@ import {
   useGetConsultationsQuery,
   useGetLastConsultationQuery,
 } from '../../api/consultations';
-import { Specialist } from '../../@types/entities/Specialist';
 import { useCreateDialogMutation } from '../../api/chat';
 import { ResponseError } from '../../@types/api/response';
 import { useSelector } from 'react-redux';
@@ -31,6 +30,7 @@ import {
   selectRestOfFreeConsultationsCount,
 } from '../../store/slices/tariff';
 import { useGetCurrentTariffQuery } from '../../api/tariffs';
+import { searchSpecialistsByQuery } from './consultationsHelper';
 
 const Consultations = () => {
   const queryParam = useQuery();
@@ -85,23 +85,14 @@ const Consultations = () => {
 
   const filteredSpecialists = useMemo(() => {
     if (!selectedSort?.[0]) return [];
-    return specialists.filter(spec =>
-      spec.specializations.reduce(
-        (_, s) => s.key === selectedSort[0].value,
-        false as boolean,
-      ),
-    );
-  }, [selectedSort, specialists]);
+    console.log('select:', selectedSort);
 
-  function searchSpecialistsByQuery(specialists: Specialist[], query: string) {
-    return specialists.filter((spec: Specialist) =>
-      Object.keys(spec).some(key =>
-        String(spec[key as keyof Specialist])
-          .toLowerCase()
-          .includes(query),
-      ),
-    );
-  }
+    return specialists.filter(spec => {
+      return !!spec.specializations.find(
+        specialization => specialization.key === selectedSort[0].value,
+      );
+    });
+  }, [selectedSort, specialists]);
 
   const searchedAndFilteredSpecialists = useMemo(() => {
     const query = searchQuery.toLowerCase();
@@ -115,6 +106,15 @@ const Consultations = () => {
     }
     return searchSpecialistsByQuery(specialists, query);
   }, [filteredSpecialists, searchQuery, selectedSort, specialists]);
+
+  const onChangeSelect = (sort: ISelect<string>[] | undefined) => {
+    setSelectedSort(sort);
+    queryParam.set('sort', sort?.[0]?.label || '');
+    history.push(location.pathname + '?' + queryParam.toString());
+  };
+  const onSearchChange = (query: string) => {
+    setSearchQuery(query);
+  };
 
   const InfoBarClosestConsultationOptions = {
     title: 'Ближайшая запись',
@@ -170,11 +170,7 @@ const Consultations = () => {
     history.push(location.pathname + '?' + queryParam.toString());
   }
 
-  function onSearchChange(query: string) {
-    setSearchQuery(query);
-  }
-
-  async function onCreateConsultation(specialistId: number) {
+  const onCreateConsultation = async (specialistId: number) => {
     try {
       if (restOfFreeConsultationsCount) {
         await createConsultation({ specialistId }).unwrap();
@@ -195,8 +191,7 @@ const Consultations = () => {
         type: NotificationType.DANGER,
       });
     }
-  }
-
+  };
   const onSignUpClick = (
     specialistId: number,
     userId: number,
@@ -267,7 +262,7 @@ const Consultations = () => {
       )}
       <div className={s.headerWrapper}>
         <ConsultationsSearchForm
-          onSelectChange={onSelectChange}
+          onSelectChange={onChangeSelect}
           selectValue={selectedSort}
           onSearchChange={onSearchChange}
           searchValue={searchQuery}

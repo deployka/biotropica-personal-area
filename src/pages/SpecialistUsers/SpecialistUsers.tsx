@@ -5,7 +5,7 @@ import { useGetAllUsersQuery } from '../../api/user';
 import { UserList } from './components/UserList/UserList';
 
 export function SpecialistUsers() {
-  const [checked, setChecked] = useState(false);
+  const [isWaitingUsersList, setIsWaitingUsersList] = useState(false);
 
   const { data: users = [] } = useGetAllUsersQuery({
     roles: [ROLE.CLIENT],
@@ -17,9 +17,8 @@ export function SpecialistUsers() {
     <div>
       {users ? (
         <UserList
-          checked={checked}
-          onChecked={setChecked}
-          users={checked ? waitingUsers : users}
+          users={isWaitingUsersList ? waitingUsers : users}
+          setIsWaitingUsersList={setIsWaitingUsersList}
         />
       ) : (
         'У вас нет доступа'

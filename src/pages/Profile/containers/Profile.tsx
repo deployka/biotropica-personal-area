@@ -20,6 +20,7 @@ import { Analyzes } from '../../../components/Analyzes/Analyzes';
 import { CreateAnalyzeAnswerDto } from '../../../@types/dto/analyzes/create.dto';
 import {
   useCreateAnalyzeAnswerMutation,
+  useDeleteAnalyzeAnswerMutation,
   useGetAnalyzeAnswersQuery,
 } from '../../../api/analyze-answers';
 import { eventBus, EventTypes } from '../../../services/EventBus';
@@ -28,6 +29,7 @@ import { useGetAnalyzesQuery } from '../../../api/analyzes';
 import { useGetCurrentTariffQuery } from '../../../api/tariffs';
 import { useSelector } from 'react-redux';
 import { selectCurrentTariffAccesses } from '../../../store/slices/tariff';
+import { DeleteAnalyzeAnswerDto } from '../../../@types/dto/analyzes/delete.dto';
 
 interface Props {
   user: BaseUser;
@@ -63,6 +65,7 @@ const Profile = ({ user }: Props) => {
 
   const [createAnalyzeAnswer, { isLoading: isCreateAnalyzeAnswerLoading }] =
     useCreateAnalyzeAnswerMutation();
+  const [deleteAnalyzeAnswer] = useDeleteAnalyzeAnswerMutation();
   const { data: questionnaireAnswers = [] } = useGetQuestionnaireAnswersQuery(
     user.id,
   );
@@ -97,6 +100,26 @@ const Profile = ({ user }: Props) => {
       await createAnalyzeAnswer(values).unwrap();
       eventBus.emit(EventTypes.notification, {
         message: 'Анализ успешно загружен',
+        type: NotificationType.SUCCESS,
+        autoClose: 10000,
+      });
+      setIsAnalyzeModalOpen(false);
+    } catch (error) {
+      console.error(error);
+      eventBus.emit(EventTypes.notification, {
+        title: 'Ошибка!',
+        message: 'Произошла непредвиденная ошибка!',
+        type: NotificationType.DANGER,
+        autoClose: 10000,
+      });
+    }
+  };
+
+  const handleDeleteAnalyze = async (values: DeleteAnalyzeAnswerDto) => {
+    try {
+      await deleteAnalyzeAnswer(values).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        message: 'Анализ удален',
         type: NotificationType.SUCCESS,
         autoClose: 10000,
       });
@@ -167,6 +190,9 @@ const Profile = ({ user }: Props) => {
                   setIsModalOpen={setIsAnalyzeModalOpen}
                   analyzes={analyzes}
                   analyzeTypes={analyzeTypes}
+                  onDeleteAnalyze={id => {
+                    handleDeleteAnalyze({ id });
+                  }}
                 />
               )}
               {!isAnalyzesAccess && 'Приобретите тариф, что получить доступ'}

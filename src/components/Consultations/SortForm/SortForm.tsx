@@ -55,7 +55,7 @@ export const ConsultationsSearchForm = ({
         />
       </label>
 
-      {/* <div className={s.select}>
+      <div className={s.select}>
         <SelectCustom
           Styles={selectStyles}
           hideLabel={true}
@@ -68,7 +68,7 @@ export const ConsultationsSearchForm = ({
           value={selectValue && selectValue[0]}
           options={options}
         />
-      </div> */}
+      </div>
     </form>
   );
 };

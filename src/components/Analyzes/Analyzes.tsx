@@ -15,17 +15,19 @@ interface Props {
   analyzes: AnalyzeAnswer[];
   analyzeTypes: Analyze[];
   setIsModalOpen: (isOpen: boolean) => void;
+  onDeleteAnalyze: (id: number) => void;
   onAddAnalyze: (values: CreateAnalyzeAnswerDto) => void;
 }
 
 export const Analyzes = ({
-  onAddAnalyze,
   isModalOpen,
   analyzes,
   analyzeTypes,
   isAnalyzesLoading,
-  setIsModalOpen,
   isAddAnalyzeLoading,
+  setIsModalOpen,
+  onAddAnalyze,
+  onDeleteAnalyze,
 }: Props) => {
   const analyzesInfoBar: IInfoBar = {
     title: 'Вы не добавляли анализы',
@@ -65,6 +67,7 @@ export const Analyzes = ({
       <div className={s.analyzes}>
         {analyzes.length ? (
           <AnalyzesCard
+            onDelete={onDeleteAnalyze}
             analyzeTypes={analyzeTypes}
             onAddAnalyzeClick={() => setIsModalOpen(true)}
             analyzes={analyzes}

@@ -37,14 +37,7 @@ export interface Props {
 }
 
 const MultiSelect = (props: Props) => {
-  const {
-    name,
-    value,
-    options,
-    placeholder,
-    onBlur,
-    onChange,
-  } = props;
+  const { name, value, options, placeholder, onBlur, onChange } = props;
 
   const [field, meta] = useField(props);
 
@@ -55,16 +48,13 @@ const MultiSelect = (props: Props) => {
         isMulti
         name={name}
         value={value}
-        placeholder=''
+        placeholder=""
         styles={styles}
         options={options}
         onChange={onChange}
         onBlur={onBlur}
       />
-      {
-        meta.error &&
-          <ErrorMessage message={meta.error} />
-      }
+      {meta.error && <ErrorMessage message={meta.error} />}
     </div>
   );
 };

@@ -4,7 +4,7 @@
 .search {
   padding: 0 8px;
   width: 240px;
-  height: 28px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -13,6 +13,10 @@
   border-radius: 100px;
   cursor: pointer;
   transition: all 0.3s ease;
+
+  @include for-phone {
+    width: 100%;
+  }
 
   input {
     width: 196px;

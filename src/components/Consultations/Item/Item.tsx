@@ -47,7 +47,7 @@ export const ConsultationItem = ({
   // eslint-disable-next-line
   function getMarkStringByValue(value: string | number): ReactElement {
     value = String(value);
-    const query: string = searchQuery.toLowerCase();
+    const query: string = searchQuery.trim().toLowerCase();
     const pos: number = value.toLowerCase().search(query);
     const length: number = query.length;
 

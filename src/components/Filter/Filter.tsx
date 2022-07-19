@@ -1,88 +1,68 @@
-import s from './UsersFilter.module.scss';
-import React, { useState } from 'react';
-import { FilterFieldCheckbox } from './FilterFieldCheckbox';
-import { UserFilterHeader } from './UserFilterHeader';
+import React, { useEffect, useState } from 'react';
+import classNames from 'classnames';
+import { FilterCheckboxField } from './CheckboxField/CheckboxField';
+import { FilterRadioField } from './RadioField/RadioField';
+import closeIcon from './../../assets/icons/close.svg';
 
-export type FilterConfig = {
+import s from './Filter.module.scss';
+
+export type FilterField = {
   name: string;
   key: string;
+  type: 'radio' | 'checkbox';
   filters: FilterOption[];
 };
 
 export type FilterOption = {
-  value: any;
+  value: string;
   label: string;
 };
 
-type SelectedFilters = Record<FilterConfig['key'], FilterOption['value'][]>;
+type SelectedFilters = Record<FilterField['key'], FilterOption['value'][]>;
 
 type UsersFilterProps = {
-  opened: boolean;
-  filters: FilterConfig[];
+  isHidden?: boolean;
+  filters: FilterField[];
   selectedFilters: SelectedFilters;
+  onClose?: () => void;
   onChange(selectedFilters: SelectedFilters): void;
 };
 
-export function Filter(props: UsersFilterProps) {
-  const [openedFilters, setOpenedFilters] = useState<string[]>([]);
-
-  function visibilityChangeHandler(key: string, value: boolean) {
-    if (value) {
-      return setOpenedFilters([...openedFilters, key]);
-    }
-    return setOpenedFilters(openedFilters.filter(it => it !== key));
-  }
-
-  function isChecked(key: string, value: any) {
-    return props.selectedFilters[key].includes(value);
-  }
-
-  function handleOnChange(key: string, value: any) {
-    if (isChecked(key, value)) {
-      return props.onChange({
-        ...props.selectedFilters,
-        [key]: props.selectedFilters[key].filter(it => it !== value),
-      });
-    }
-    return props.onChange({
-      ...props.selectedFilters,
-      [key]: [...props.selectedFilters[key].filter(it => it), value],
-    });
+export function Filter({
+  isHidden,
+  onClose,
+  filters,
+  selectedFilters,
+  onChange,
+}: UsersFilterProps) {
+  function handleOnChange(key: string, value: string[]) {
+    onChange({ ...selectedFilters, [key]: value });
   }
 
   return (
-    <div className={`${s.filter} ${props.opened ? '' : s.hidden}`}>
+    <div className={classNames(s.filter, { [s.hidden]: isHidden })}>
+      <div className={s.header}>
+        <p>Фильтры</p>
+        <img src={closeIcon} onClick={onClose} />
+      </div>
       <div className={s.filter_container}>
-        {props.filters.map((field, i) => (
-          <div
-            key={`filter_${i}`}
-            className={`${s.field} ${
-              openedFilters.includes(field.key) ? s.hidden : {}
-            }`}
-          >
-            <UserFilterHeader
-              title={field.name}
-              opened={openedFilters.includes(field.key)}
-              onVisibilityChanged={value =>
-                visibilityChangeHandler(field.key, value)
-              }
+        {filters.map((field, i) =>
+          field.type === 'radio' ? (
+            <FilterRadioField
+              key={field.key}
+              selectedFields={selectedFilters?.[field.key] || []}
+              field={field}
+              onChange={values => handleOnChange(field.key, values)}
             />
-            <div className={s.list}>
-              {field.filters.map((filter, i) => {
-                return (
-                  <FilterFieldCheckbox
-                    key={i}
-                    label={filter.label}
-                    checked={isChecked(field.key, filter.value)}
-                    onChange={() => handleOnChange(field.key, filter.value)}
-                  />
-                );
-              })}
-
-              <div className={s.divider}></div>
-            </div>
-          </div>
-        ))}
+          ) : (
+            <FilterCheckboxField
+              key={field.key}
+              selectedFields={selectedFilters?.[field.key] || []}
+              field={field}
+              onChange={values => handleOnChange(field.key, values)}
+            />
+          ),
+        )}
       </div>
     </div>
   );
