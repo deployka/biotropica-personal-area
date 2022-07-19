@@ -29,8 +29,9 @@ import {
   selectFreeConsultationsCount,
   selectRestOfFreeConsultationsCount,
 } from '../../store/slices/tariff';
-import { useGetCurrentTariffQuery } from '../../api/tariffs';
 import { searchSpecialistsByQuery } from './consultationsHelper';
+import { Tariff } from '../../@types/entities/Tariff';
+import Modal from '../../shared/Global/Modal/Modal';
 
 const Consultations = () => {
   const queryParam = useQuery();
@@ -40,6 +41,8 @@ const Consultations = () => {
 
   const [notificationId, setNotificationId] = useState('');
   const [createDialog] = useCreateDialogMutation();
+
+  const [paymentForm, setPaymentForm] = useState('');
 
   async function sendMessage(userId: number) {
     try {
@@ -70,7 +73,6 @@ const Consultations = () => {
 
   const { data: closestConsultation } = useGetClosestConsultationQuery();
   const { data: LastAddedConsultation } = useGetLastConsultationQuery();
-  const { data: currentTariff } = useGetCurrentTariffQuery();
 
   const [createConsultation, { isLoading }] = useCreateConsultationMutation();
   const freeConsultationCount = useSelector(selectFreeConsultationsCount);
@@ -173,17 +175,19 @@ const Consultations = () => {
   const onCreateConsultation = async (specialistId: number) => {
     try {
       if (restOfFreeConsultationsCount) {
-        await createConsultation({ specialistId }).unwrap();
+        await createConsultation({ specialistId, isPaid: true }).unwrap();
         eventBus.emit(EventTypes.notification, {
           title: 'Успешно!',
-          message: 'Вы успешно записались на консультацию!',
+          message: 'Вы успешно записались на бесплатную консультацию!',
           type: NotificationType.SUCCESS,
         });
-        refetchConsultations();
       } else {
-        console.log('pay');
-        // TODO: перенаправление на оплату
+        const { tinkoffForm } = await createConsultation({
+          specialistId,
+        }).unwrap();
+        setPaymentForm(tinkoffForm);
       }
+      refetchConsultations();
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
         title: 'Произошла ошибка!',
@@ -252,36 +256,49 @@ const Consultations = () => {
   };
 
   return (
-    <div className={s.consultations}>
-      <InfoBar infoBar={InfoBarBase} />
-      {closestConsultation && (
-        <InfoBar infoBar={InfoBarClosestConsultationOptions} />
-      )}
-      {LastAddedConsultation && (
-        <InfoBar infoBar={InfoBarLastConsultationOptions} />
-      )}
-      <div className={s.headerWrapper}>
-        <ConsultationsSearchForm
-          onSelectChange={onChangeSelect}
-          selectValue={selectedSort}
-          onSearchChange={onSearchChange}
-          searchValue={searchQuery}
-        />
-        <div className={s.link}>
-          <Link to="/consultations/list">Мои видеоконсультации</Link>
+    <>
+      <Modal
+        isOpened={!!paymentForm}
+        close={() => {
+          setPaymentForm('');
+        }}
+      >
+        <div>
+          <p style={{ marginBottom: '15px' }}>Выберете способ оплаты:</p>
+          <div dangerouslySetInnerHTML={{ __html: paymentForm }} />
         </div>
+      </Modal>
+      <div className={s.consultations}>
+        <InfoBar infoBar={InfoBarBase} />
+        {closestConsultation && (
+          <InfoBar infoBar={InfoBarClosestConsultationOptions} />
+        )}
+        {LastAddedConsultation && (
+          <InfoBar infoBar={InfoBarLastConsultationOptions} />
+        )}
+        <div className={s.headerWrapper}>
+          <ConsultationsSearchForm
+            onSelectChange={onChangeSelect}
+            selectValue={selectedSort}
+            onSearchChange={onSearchChange}
+            searchValue={searchQuery}
+          />
+          <div className={s.link}>
+            <Link to="/consultations/list">Мои видеоконсультации</Link>
+          </div>
+        </div>
+        {isSpecialistLoading && <p>Загрузка...</p>}
+        {!isSpecialistLoading && (
+          <ConsultationsList
+            restOfFreeConsultationsCount={restOfFreeConsultationsCount}
+            isLoadingSignUp={isLoading}
+            onSignUpClick={onSignUpClick}
+            searchQuery={searchQuery}
+            specialists={searchedAndFilteredSpecialists}
+          />
+        )}
       </div>
-      {isSpecialistLoading && <p>Загрузка...</p>}
-      {!isSpecialistLoading && (
-        <ConsultationsList
-          restOfFreeConsultationsCount={restOfFreeConsultationsCount}
-          isLoadingSignUp={isLoading}
-          onSignUpClick={onSignUpClick}
-          searchQuery={searchQuery}
-          specialists={searchedAndFilteredSpecialists}
-        />
-      )}
-    </div>
+    </>
   );
 };
 

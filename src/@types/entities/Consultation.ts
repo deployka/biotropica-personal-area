@@ -10,6 +10,7 @@ export type Consultation = BaseEntity & {
   userId: UniqueId;
   meetingNumber: number;
   meetingPassword: string;
+  isPaid: boolean;
 };
 
 export type ClosestConsultation = Omit<Consultation, 'date'> & {

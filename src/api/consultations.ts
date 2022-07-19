@@ -34,12 +34,15 @@ export const consultationsApi = baseApi.injectEndpoints({
 
     getLastConsultation: builder.query<Consultation, void>({
       query: () => ({
-        url: '/consultations/closest',
+        url: '/consultations/last-added',
         method: 'GET',
       }),
     }),
 
-    createConsultation: builder.mutation<Consultation, CreateConsultationDto>({
+    createConsultation: builder.mutation<
+      { tinkoffForm: string; consultation: Consultation },
+      CreateConsultationDto
+    >({
       query: dto => ({
         url: '/consultations',
         method: 'POST',

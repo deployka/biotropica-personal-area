@@ -4,7 +4,6 @@ import s from './Tariff.module.scss';
 
 import payImg from '../../../../assets/icons/transaction.svg';
 import { format } from 'date-fns';
-import { formatDate } from '../../../../components/Task/PreviewComment/PreviewCommentHelper';
 
 type Props = {
   title?: string;
@@ -25,7 +24,7 @@ export const Tariff = ({ expires, title, isPaid }: Props) => {
         {expires && (
           <p>
             До {'  '}
-            {formatDate(new Date(expires).toDateString()) || '-'}
+            {format(new Date(expires), 'dd.MM.yyyy, HH:mm') || '-'}
           </p>
         )}
       </div>
