@@ -1,4 +1,4 @@
-@import "./../../../styles/mixins.scss";
+@import './../../../styles/mixins.scss';
 
 .card {
   padding: 30px;
@@ -133,6 +133,11 @@
     &:hover {
       background-color: #6f61d0;
       color: #ffffff;
+    }
+
+    &.currentTariffBtn {
+      border: 1px solid rgb(97, 208, 127) !important;
+      color: rgb(97, 208, 127) !important;
     }
 
     &.disabled {

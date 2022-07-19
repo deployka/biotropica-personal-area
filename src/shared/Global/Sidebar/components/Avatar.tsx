@@ -11,14 +11,16 @@ type Props = {
   isActive: boolean;
   onClick: () => void;
   avatar: string;
+  isPaid: boolean;
 };
 
-export function Avatar({ isActive, onClick, avatar }: Props) {
+export function Avatar({ isActive, onClick, avatar, isPaid }: Props) {
   return (
     <Link
       to="/profile"
       className={classNames(s.avatar, {
         [s.active]: isActive,
+        [s.paid]: isPaid,
       })}
       onClick={onClick}
     >

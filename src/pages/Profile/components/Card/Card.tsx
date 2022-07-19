@@ -14,15 +14,16 @@ import { BaseUser } from '../../../../@types/entities/BaseUser';
 moment.locale('ru');
 interface Props {
   user: BaseUser;
+  isPaid: boolean;
 }
 
-export const Card = ({ user }: Props) => {
+export const Card = ({ user, isPaid }: Props) => {
   return (
     <div className={s.profile__card}>
       <div
         className={classNames({
           [s.profile__avatar__wrapper]: true,
-          [s.paid]: true,
+          [s.paid]: isPaid,
         })}
       >
         <img

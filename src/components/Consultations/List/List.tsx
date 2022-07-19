@@ -15,7 +15,7 @@ interface Props {
     setClick: (click: boolean) => void,
   ) => void;
   isLoadingSignUp: boolean;
-  consultationsCount: number;
+  restOfFreeConsultationsCount: number;
 }
 
 export const ConsultationsList = ({
@@ -23,7 +23,7 @@ export const ConsultationsList = ({
   searchQuery,
   onSignUpClick,
   isLoadingSignUp,
-  consultationsCount,
+  restOfFreeConsultationsCount,
 }: Props) => {
   return (
     <div className={s.specialistList}>
@@ -47,7 +47,7 @@ export const ConsultationsList = ({
           {!!specialists.length &&
             specialists.map(specialist => (
               <ConsultationItem
-                consultationsCount={consultationsCount}
+                restOfFreeConsultationsCount={restOfFreeConsultationsCount}
                 isLoadingSignUp={isLoadingSignUp}
                 onSignUpClick={onSignUpClick}
                 key={specialist.id}

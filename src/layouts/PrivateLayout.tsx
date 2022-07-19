@@ -27,6 +27,8 @@ import { useCurrentUserQuery } from '../api/user';
 import { useGetAllDialogsQuery } from '../api/chat';
 import { useSignOutMutation } from '../api/auth';
 import { useAppSelector } from '../store/storeHooks';
+import { useGetCurrentTariffQuery } from '../api/tariffs';
+import { selectChatAccesses } from '../store/slices/tariff';
 
 interface Props {
   children: React.ReactNode;
@@ -139,6 +141,7 @@ export function PrivateLayout(props: Props) {
   const { pathname } = useLocation();
   const isAdmin = useSelector(selectIsAdmin);
   const isSpecialist = useSelector(selectIsDoctor);
+  const { data: currentTariff } = useGetCurrentTariffQuery();
 
   const currentPage = useMemo(() => getCurrentPage(pathname), [pathname]);
 
@@ -174,6 +177,7 @@ export function PrivateLayout(props: Props) {
   const [chatNotificationsOpen, setSidebarChatOpen] = useState<boolean>(false);
 
   const token = useAppSelector(selectAccessToken);
+  const chatAccesses = useAppSelector(selectChatAccesses);
 
   eventBus.on(EventTypes.chatOpen, (id: number) => {
     setSidebarChatOpen(true);
@@ -214,6 +218,7 @@ export function PrivateLayout(props: Props) {
           openChat={openChat}
           logout={logout}
           nav={nav}
+          isPaid={currentTariff?.isPaid || false}
           user={currentUser}
         />
       ) : (
@@ -236,6 +241,7 @@ export function PrivateLayout(props: Props) {
           onClose={() => setSidebarChatOpen(false)}
         >
           <Chat
+            accesses={chatAccesses}
             token={token || ''}
             activeDialogId={openedDialog}
             currentUser={currentUser}

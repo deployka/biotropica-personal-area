@@ -4,7 +4,6 @@ import { getMediaLink } from '../../../utils/mediaHelper';
 import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 import { Button } from '../../../shared/Form/Button/Button';
 import { Loader } from '../../../shared/Form/Loader/Loader';
-import { FREE_CONSULTATIONS_COUNT } from '../../../constants/consultations';
 import { useHistory } from 'react-router';
 
 import s from './Item.module.scss';
@@ -21,7 +20,7 @@ interface Props {
     userId: number,
     setClick: (click: boolean) => void,
   ) => void;
-  consultationsCount: number;
+  restOfFreeConsultationsCount: number;
 }
 
 export const ConsultationItem = ({
@@ -29,7 +28,7 @@ export const ConsultationItem = ({
   searchQuery,
   onSignUpClick,
   isLoadingSignUp,
-  consultationsCount,
+  restOfFreeConsultationsCount,
 }: Props) => {
   // FIXME: вынести логику из компонента
   const { experience, specializations, price, user, id } = specialist;
@@ -75,11 +74,11 @@ export const ConsultationItem = ({
   }, [isLoadingSignUp]);
 
   const Price = useCallback(() => {
-    if (consultationsCount >= FREE_CONSULTATIONS_COUNT) {
+    if (!restOfFreeConsultationsCount) {
       return <>{getMarkStringByValue(price)} ₽</>;
     }
     return <>Бесплатно</>;
-  }, [price, consultationsCount, getMarkStringByValue]);
+  }, [price, restOfFreeConsultationsCount, getMarkStringByValue]);
 
   return (
     <div className={s.specialist}>

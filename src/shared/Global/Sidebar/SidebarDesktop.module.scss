@@ -97,6 +97,10 @@
     }
 
     &.active {
+      border-color: #ffffff;
+    }
+
+    &.paid {
       &::after {
         opacity: 1;
       }

@@ -20,6 +20,7 @@ import { PublicAnalyzes } from '../components/TestsAndAnalyze/Analyzes/Analyzes'
 
 import s from './Profile.module.scss';
 import { Test } from '../components/TestsAndAnalyze/Tests/Tests';
+import { CurrentTariff } from '../../../@types/entities/Tariff';
 
 interface Props {
   user: BaseUser;
@@ -29,6 +30,7 @@ interface Props {
   analyzes: AnalyzeAnswer[];
   questionnaireAnswers: Answer[];
   progress: IProgress[];
+  currentTariff: CurrentTariff;
   progressIsLoading: boolean;
   onAddComment: (comment: string, analyzeId: number) => void;
   isLoadingComment: boolean;
@@ -51,6 +53,7 @@ export const Profile = ({
   onDeleteComment,
   isLoadingComment,
   progressIsLoading,
+  currentTariff,
 }: Props) => {
   const tabs: Tab[] = [
     {
@@ -74,11 +77,6 @@ export const Profile = ({
   const [activeTab, setActiveTab] = useState<string>(
     getTabByKey(active, tabs)?.key || tabs[0].key,
   );
-
-  const tariffData = {
-    name: 'стандарт',
-    expires: '9 июля 2021',
-  }; // TODO: добавить нормальные данные
 
   function moveToTasks() {
     history.push(`/users/${user.id}/tasks`);
@@ -104,7 +102,7 @@ export const Profile = ({
           <Card user={user} />
           <div className={s.userInfo}>
             <Goals goalsLength={goalsLength} />
-            <Tariff tariff={tariffData} />
+            <Tariff tariff={currentTariff} />
           </div>
           <div className={s.userActions}>
             <button className={s.button} onClick={moveToTasks}>

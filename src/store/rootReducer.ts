@@ -14,6 +14,7 @@ import tasksPageSlice from './slices/tasksPageSlice';
 import userReducer from './slices/user';
 import usersReducer from './slices/users';
 import avatarReducer from './slices/avatar';
+import tariffReducer from './slices/tariff';
 import analyzesApi from '../api/analyzes';
 import analyzeAnswersApi from '../api/analyze-answers';
 import progressApi from '../api/progress';
@@ -44,4 +45,5 @@ export const rootReducer = combineReducers({
   user: userReducer,
   users: usersReducer,
   avatar: avatarReducer,
+  tariff: tariffReducer,
 });

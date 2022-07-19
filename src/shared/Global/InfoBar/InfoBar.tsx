@@ -5,7 +5,7 @@ import s from './InfoBar.module.scss';
 
 export interface IInfoBar {
   title: string;
-  text: string | ReactNode;
+  text?: string | ReactNode;
   textLink?: string;
   bottomLink?: string;
   onClick?: () => void;
@@ -25,7 +25,7 @@ export const InfoBar = ({ infoBar }: Props) => {
         </div>
       </div>
       <div className={s.text}>
-        <p>{infoBar.text}</p>
+        <p>{infoBar.text || ''}</p>
         {infoBar.textLink && (
           <div className={s.link}>
             <a style={{ cursor: 'pointer' }} onClick={infoBar.onClick}>

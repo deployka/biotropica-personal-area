@@ -5,8 +5,6 @@ import { AddPhotoModal } from '../pages/Profile/components/Progress/AddPhotoModa
 import { PhotoSliderModal } from '../pages/Profile/components/Progress/PhotoSliderModal/PhotoSliderModal';
 
 import { ModalName } from '../providers/ModalProvider';
-import { SidebarMenuPopup } from '../shared/Global/Sidebar/SidebarMenuPopup/SidebarMenuPopup';
-import { SidebarNotificationsPopup } from '../shared/Global/Sidebar/SidebarNotificationsPopup/SidebarNotificationsPopup';
 
 export const Modals = () => {
   const { modals, closeAllModals } = useModal();
@@ -21,10 +19,6 @@ export const Modals = () => {
           return <AddPhotoModal {...modals[modal].props} />;
         case ModalName.MODAL_PROGRESS_PHOTO_SLIDER:
           return <PhotoSliderModal {...modals[modal].props} />;
-        case ModalName.MODAL_SIDEBAR_MENU:
-          return <SidebarMenuPopup {...modals[modal].props} />;
-        case ModalName.MODAL_NOTIFICATIONS_MENU:
-          return <SidebarNotificationsPopup {...modals[modal].props} />;
         default:
           return null;
       }

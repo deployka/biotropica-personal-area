@@ -10,7 +10,6 @@ import { useHistory, useLocation } from 'react-router';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { Button } from '../../shared/Form/Button/Button';
-import { FREE_CONSULTATIONS_COUNT } from '../../constants/consultations';
 import { Link } from 'react-router-dom';
 
 import s from './Consultations.module.scss';
@@ -26,7 +25,12 @@ import {
 import { Specialist } from '../../@types/entities/Specialist';
 import { useCreateDialogMutation } from '../../api/chat';
 import { ResponseError } from '../../@types/api/response';
-import { Loader } from '../../shared/Global/Loader/Loader';
+import { useSelector } from 'react-redux';
+import {
+  selectFreeConsultationsCount,
+  selectRestOfFreeConsultationsCount,
+} from '../../store/slices/tariff';
+import { useGetCurrentTariffQuery } from '../../api/tariffs';
 
 const Consultations = () => {
   const queryParam = useQuery();
@@ -66,8 +70,13 @@ const Consultations = () => {
 
   const { data: closestConsultation } = useGetClosestConsultationQuery();
   const { data: LastAddedConsultation } = useGetLastConsultationQuery();
+  const { data: currentTariff } = useGetCurrentTariffQuery();
 
   const [createConsultation, { isLoading }] = useCreateConsultationMutation();
+  const freeConsultationCount = useSelector(selectFreeConsultationsCount);
+  const restOfFreeConsultationsCount = useSelector(
+    selectRestOfFreeConsultationsCount,
+  );
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedSort, setSelectedSort] = useState<
@@ -107,13 +116,6 @@ const Consultations = () => {
     return searchSpecialistsByQuery(specialists, query);
   }, [filteredSpecialists, searchQuery, selectedSort, specialists]);
 
-  const getFreeConsultationsCount = useCallback(() => {
-    if (FREE_CONSULTATIONS_COUNT - consultations.length > 0) {
-      return FREE_CONSULTATIONS_COUNT - consultations.length;
-    }
-    return 0;
-  }, [consultations.length]);
-
   const InfoBarClosestConsultationOptions = {
     title: 'Ближайшая запись',
     text: `Ваша ближайшая запись на персональную консультацию у ${
@@ -122,7 +124,7 @@ const Consultations = () => {
     } ${moment(closestConsultation?.date).format('Do MMMM в H:mm')}`,
     textLink: 'перейти в диалог',
     bottomLink: `Остаток бесплатных консультаций: 
-    ${getFreeConsultationsCount()}  из ${FREE_CONSULTATIONS_COUNT}`,
+    ${restOfFreeConsultationsCount}  из ${freeConsultationCount}`,
     href: '',
     onClick: () => {
       const specialist = specialists.find(
@@ -142,7 +144,7 @@ const Consultations = () => {
     }, пожалуйста, обсудите удобное время и дату консультацию в чате.`,
     textLink: 'перейти в диалог',
     bottomLink: `Остаток бесплатных консультаций: 
-    ${getFreeConsultationsCount()} из ${FREE_CONSULTATIONS_COUNT}`,
+    ${restOfFreeConsultationsCount} из ${freeConsultationCount}`,
     href: '',
     onClick: () => {
       const specialist = specialists.find(
@@ -154,6 +156,14 @@ const Consultations = () => {
       return sendMessage(specialist.user.id);
     },
   };
+
+  const InfoBarBase = {
+    title: 'Информация',
+    bottomLink: `Количество бесплатных консультаций: 
+    ${restOfFreeConsultationsCount} из ${freeConsultationCount}`,
+    href: '',
+  };
+
   function onSelectChange(sort: ISelect<string>[] | undefined) {
     setSelectedSort(sort);
     queryParam.set('sort', sort?.[0]?.label || '');
@@ -166,7 +176,7 @@ const Consultations = () => {
 
   async function onCreateConsultation(specialistId: number) {
     try {
-      if (consultations.length < FREE_CONSULTATIONS_COUNT) {
+      if (restOfFreeConsultationsCount) {
         await createConsultation({ specialistId }).unwrap();
         eventBus.emit(EventTypes.notification, {
           title: 'Успешно!',
@@ -248,6 +258,7 @@ const Consultations = () => {
 
   return (
     <div className={s.consultations}>
+      <InfoBar infoBar={InfoBarBase} />
       {closestConsultation && (
         <InfoBar infoBar={InfoBarClosestConsultationOptions} />
       )}
@@ -268,7 +279,7 @@ const Consultations = () => {
       {isSpecialistLoading && <p>Загрузка...</p>}
       {!isSpecialistLoading && (
         <ConsultationsList
-          consultationsCount={consultations.length}
+          restOfFreeConsultationsCount={restOfFreeConsultationsCount}
           isLoadingSignUp={isLoading}
           onSignUpClick={onSignUpClick}
           searchQuery={searchQuery}

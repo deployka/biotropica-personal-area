@@ -10,6 +10,7 @@ import s from './Card.module.scss';
 import { Tariff as ITariff } from '../../../@types/entities/Tariff';
 import { Loader } from '../../../shared/Form/Loader/Loader';
 import classNames from 'classnames';
+import { useGetCurrentTariffQuery } from '../../../api/tariffs';
 
 interface Props {
   tariff: ITariff;
@@ -30,6 +31,22 @@ export const TariffCard = ({
     React.useState(false);
 
   const isAdmin = useSelector(selectIsAdmin);
+
+  const { data: currentTariff } = useGetCurrentTariffQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  const isPaid = currentTariff?.isPaid || false;
+  const isCurrentTariff = currentTariff?.tariff.title === title;
+
+  const tariffBtnText =
+    isCurrentTariff && !isPaid
+      ? 'продлить тариф'
+      : isPaid && isCurrentTariff
+      ? 'тариф оплачен'
+      : 'купить тариф';
+
+  const isDisabledBtn = isPaid;
 
   return (
     <>
@@ -70,9 +87,11 @@ export const TariffCard = ({
             </Button>
           ) : (
             <button
+              disabled={isSelectLoading || isDisabledBtn}
               className={classNames(
                 s.button,
-                isSelectLoading ? s.disabled : '',
+                isSelectLoading || isDisabledBtn ? s.disabled : '',
+                isCurrentTariff ? s.currentTariffBtn : '',
               )}
               onClick={() => {
                 if (!isSelectLoading) {
@@ -80,7 +99,7 @@ export const TariffCard = ({
                 }
               }}
             >
-              {isSelectLoading ? <Loader color="#6f61d0" /> : 'продлить тариф'}
+              {isSelectLoading ? <Loader color="#6f61d0" /> : tariffBtnText}
             </button>
           )}
         </div>

@@ -11,6 +11,7 @@ import { Tariff } from '../../../@types/entities/Tariff';
 import s from './MobileCard.module.scss';
 import { Loader } from '../../../shared/Form/Loader/Loader';
 import classNames from 'classnames';
+import { useGetCurrentTariffQuery } from '../../../api/tariffs';
 
 interface Props {
   tariff: Tariff;
@@ -32,11 +33,24 @@ export const TariffMobileCard = ({
   const [isEditTariffModalVisible, setIsEditTariffModalVisible] =
     useState(false);
 
+  const { data: currentTariff } = useGetCurrentTariffQuery();
+
   function toggle() {
     height === 0 ? setHeight('auto') : setHeight(0);
   }
 
   const isAdmin = useSelector(selectIsAdmin);
+
+  const isPaid = currentTariff?.isPaid || false;
+
+  const tariffBtnText =
+    currentTariff && !isPaid
+      ? 'продлить тариф'
+      : isPaid
+      ? 'действует'
+      : 'купить тариф';
+
+  const isDisabledBtn = isPaid;
 
   return (
     <>
@@ -92,9 +106,10 @@ export const TariffMobileCard = ({
               </Button>
             ) : (
               <button
+                disabled={isSelectLoading || isDisabledBtn}
                 className={classNames(
                   s.button,
-                  isSelectLoading ? s.disabled : '',
+                  isSelectLoading || isDisabledBtn ? s.disabled : '',
                 )}
                 onClick={() => {
                   if (!isSelectLoading) {
@@ -102,11 +117,7 @@ export const TariffMobileCard = ({
                   }
                 }}
               >
-                {isSelectLoading ? (
-                  <Loader color="#6f61d0" />
-                ) : (
-                  'Продлить тариф'
-                )}
+                {isSelectLoading ? <Loader color="#6f61d0" /> : tariffBtnText}
               </button>
             )}
           </div>

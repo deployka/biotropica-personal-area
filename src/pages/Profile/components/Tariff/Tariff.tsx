@@ -2,29 +2,51 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import s from './Tariff.module.scss';
 
-export interface Tariff {
-  name: string;
-  expires: string;
-}
-interface Props {
-  tariff: Tariff; // TODO: Добавить интерфейс после добавления тарифов в редакс
-}
+import payImg from '../../../../assets/icons/transaction.svg';
+import { format } from 'date-fns';
+import { formatDate } from '../../../../components/Task/PreviewComment/PreviewCommentHelper';
 
-export const Tariff = ({ tariff }: Props) => {
+type Props = {
+  title?: string;
+  expires?: string;
+  isPaid?: boolean;
+};
+
+export const Tariff = ({ expires, title, isPaid }: Props) => {
+  console.log(isPaid);
+
   return (
-    <Link style={{ textDecoration: 'none' }} className={s.tariff} to="/tariffs">
+    <div style={{ textDecoration: 'none' }} className={s.tariff}>
       <div className={s.title}>
-        <p>
-          Тариф {'  '}
-          {tariff.name}
-        </p>
+        {title && 'Тип тарифа: '}
+        <p>{title || 'У вас нет тарифа'}</p>
       </div>
       <div className={s.date}>
-        <p>
-          до {'  '}
-          {tariff.expires}
+        {expires && (
+          <p>
+            До {'  '}
+            {formatDate(new Date(expires).toDateString()) || '-'}
+          </p>
+        )}
+      </div>
+      <div className={s.isPaid}>
+        <p
+          style={{
+            color: !isPaid && title ? 'tomato' : isPaid ? '#61D07F' : '#9e97be',
+          }}
+        >
+          {isPaid ? (
+            'Тариф оплачен'
+          ) : (
+            <>
+              {'  '} {title ? 'Тариф не оплачен' : 'Купить тариф'}: {'  '}
+              <Link to={'/tariffs'}>
+                <img title="Оплатить тариф" src={payImg} />
+              </Link>
+            </>
+          )}
         </p>
       </div>
-    </Link>
+    </div>
   );
 };

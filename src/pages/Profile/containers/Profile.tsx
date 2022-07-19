@@ -25,6 +25,9 @@ import {
 import { eventBus, EventTypes } from '../../../services/EventBus';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { useGetAnalyzesQuery } from '../../../api/analyzes';
+import { useGetCurrentTariffQuery } from '../../../api/tariffs';
+import { useSelector } from 'react-redux';
+import { selectCurrentTariffAccesses } from '../../../store/slices/tariff';
 
 interface Props {
   user: BaseUser;
@@ -69,12 +72,17 @@ const Profile = ({ user }: Props) => {
     useGetAnalyzeAnswersQuery({
       userId: user.id,
     });
+  const { data: currentTariff } = useGetCurrentTariffQuery();
 
-  // FIXME: добавить отображение тарифа
-  const tariffData = {
-    name: 'стандарт',
-    expires: '9 июля 2021',
-  };
+  const tariffAccesses = useSelector(selectCurrentTariffAccesses);
+
+  const isAnalyzesAccess = tariffAccesses.length
+    ? tariffAccesses.some(it => it === 'ANALYZES')
+    : false;
+
+  const isProgressAccess = tariffAccesses.length
+    ? tariffAccesses.some(it => it === 'PROGRESS')
+    : false;
 
   function onTabClick(tab: Tab) {
     history.push(`/profile/tabs/${tab.key}`);
@@ -121,10 +129,14 @@ const Profile = ({ user }: Props) => {
     <>
       <div className={s.profile}>
         <div className={s.info}>
-          <Card user={user} />
+          <Card isPaid={currentTariff?.isPaid || false} user={user} />
           <div className={s.userInfo}>
             <Goals goalsLength={goals.length} />
-            <Tariff tariff={tariffData} />
+            <Tariff
+              isPaid={currentTariff?.isPaid}
+              title={currentTariff?.tariff.title}
+              expires={currentTariff?.expiredAt}
+            />
           </div>
           <div className={s.moveToTasks}>
             <Button onClick={moveToTasks}>Задачи и рекомендации</Button>
@@ -143,25 +155,47 @@ const Profile = ({ user }: Props) => {
             </div>
           </div>
           {activeTab === tabs[0].key && (
-            <Analyzes
-              isAnalyzesLoading={isAnalyzesTypesLoading || isAnalyzesLoading}
-              onAddAnalyze={handleSubmitAnalyzes}
-              isAddAnalyzeLoading={isCreateAnalyzeAnswerLoading}
-              isModalOpen={isAnalyzeModalOpen}
-              setIsModalOpen={setIsAnalyzeModalOpen}
-              analyzes={analyzes}
-              analyzeTypes={analyzeTypes}
-            />
+            <>
+              {isAnalyzesAccess && (
+                <Analyzes
+                  isAnalyzesLoading={
+                    isAnalyzesTypesLoading || isAnalyzesLoading
+                  }
+                  onAddAnalyze={handleSubmitAnalyzes}
+                  isAddAnalyzeLoading={isCreateAnalyzeAnswerLoading}
+                  isModalOpen={isAnalyzeModalOpen}
+                  setIsModalOpen={setIsAnalyzeModalOpen}
+                  analyzes={analyzes}
+                  analyzeTypes={analyzeTypes}
+                />
+              )}
+              {!isAnalyzesAccess && 'Приобретите тариф, что получить доступ'}
+            </>
           )}
           {activeTab === tabs[1].key && (
-            <QuestionnaireResults answers={questionnaireAnswers} />
+            <>
+              {isAnalyzesAccess && (
+                <QuestionnaireResults answers={questionnaireAnswers} />
+              )}
+              {!isAnalyzesAccess && 'Приобретите тариф, что получить доступ'}
+            </>
           )}
-          {activeTab === tabs[2].key && (
-            <button onClick={openProgressModal} className={s.btn__add__photo}>
-              добавить фото
-            </button>
+          {isProgressAccess && (
+            <>
+              {activeTab === tabs[2].key && (
+                <button
+                  onClick={openProgressModal}
+                  className={s.btn__add__photo}
+                >
+                  добавить фото
+                </button>
+              )}
+              {activeTab === tabs[2].key && <Progress user={user} />}
+            </>
           )}
-          {activeTab === tabs[2].key && <Progress user={user} />}
+          {activeTab === tabs[2].key &&
+            !isProgressAccess &&
+            'Приобретите тариф, что получить доступ'}
         </div>
       </div>
     </>

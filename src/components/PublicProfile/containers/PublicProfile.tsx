@@ -9,6 +9,7 @@ import { useGetAnalyzesQuery } from '../../../api/analyzes';
 import { useGetGoalsQuery } from '../../../api/goals';
 import { useGetProgressPostsQuery } from '../../../api/progress';
 import { useGetCurrentSpecialistQuery } from '../../../api/specialists';
+import { useGetCurrentTariffQuery } from '../../../api/tariffs';
 import {
   useGetQuestionnaireAnswersQuery,
   useGetUserQuery,
@@ -39,6 +40,7 @@ export const PublicProfile = () => {
     { userId },
     { skip: !userId },
   );
+  const { data: currentTariff } = useGetCurrentTariffQuery();
 
   const { data: questionnaireAnswers = [] } = useGetQuestionnaireAnswersQuery(
     userId,
@@ -84,8 +86,13 @@ export const PublicProfile = () => {
     return <div>Произошла ошибка</div>;
   }
 
+  if (!currentTariff) {
+    return <div>Произошла ошибка</div>;
+  }
+
   return (
     <Profile
+      currentTariff={currentTariff}
       currentUserId={currentSpecialist?.id || 0}
       user={user}
       onDeleteComment={onDeleteComment}

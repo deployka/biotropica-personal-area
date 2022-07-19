@@ -7,6 +7,7 @@ import { TariffsList } from '../../components/Tariff/List/List';
 import { TariffAdminHeader } from '../../components/Tariff/AdminHeader/AdminHeader';
 import {
   useGetAllTariffsQuery,
+  useGetCurrentTariffQuery,
   useSelectTariffMutation,
 } from '../../api/tariffs';
 import { Tariff } from '../../@types/entities/Tariff';
@@ -15,6 +16,7 @@ import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 
 import './paymentForm.scss';
+import { NotificationButtons } from './NotificationButtons';
 
 const Tariffs = () => {
   // FIXME: refetch
@@ -31,17 +33,15 @@ const Tariffs = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   const [isAddTariffModalVisible, setIsAddTariffModalVisible] = useState(false);
+  const { data: currentTariff } = useGetCurrentTariffQuery();
 
   const isAdmin = useSelector(selectIsAdmin);
 
-  async function handleSelectTariff(tariff: Tariff) {
+  async function onSelectTariff(tariff: Tariff) {
     try {
-      const result = (await selectTariff(tariff.id)) as {
-        data: { tinkoffForm: string };
-      };
-      console.log('RESULT', result);
+      const { tinkoffForm } = await selectTariff(tariff.id).unwrap();
 
-      setPaymentForm(result.data && result.data.tinkoffForm);
+      setPaymentForm(tinkoffForm);
     } catch (error) {
       console.log(error);
       eventBus.emit(EventTypes.notification, {
@@ -49,6 +49,28 @@ const Tariffs = () => {
         type: NotificationType.DANGER,
       });
     }
+  }
+
+  function onDiscardChangeTariff() {
+    //
+  }
+
+  async function handleSelectTariff(tariff: Tariff) {
+    if (currentTariff) {
+      eventBus.emit(EventTypes.notification, {
+        title: `У вас уже есть тариф "${currentTariff.tariff.title}". Вы хотите заменить его?`,
+        message: (
+          <NotificationButtons
+            onChange={() => onSelectTariff(tariff)}
+            onDiscard={onDiscardChangeTariff}
+          />
+        ),
+        type: NotificationType.INFO,
+        theme: 'dark',
+      });
+      return;
+    }
+    onSelectTariff(tariff);
   }
 
   useEffect(() => {

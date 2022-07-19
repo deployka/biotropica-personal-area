@@ -1,13 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { CurrentTariff } from '../../../../@types/entities/Tariff';
 import s from './Tariff.module.scss';
 
-interface Tariff {
-  name: string;
-  expires: string;
-}
 interface Props {
-  tariff: Tariff; // TODO: Добавить интерфейс после добавления тарифов в редакс
+  tariff: CurrentTariff;
 }
 
 export const Tariff = ({ tariff }: Props) => {
@@ -16,13 +13,13 @@ export const Tariff = ({ tariff }: Props) => {
       <div className={s.title}>
         <p>
           Тариф {'  '}
-          {tariff.name}
+          {tariff.tariff.title}
         </p>
       </div>
       <div className={s.date}>
         <p>
           до {'  '}
-          {tariff.expires}
+          {tariff.expiredAt}
         </p>
       </div>
     </div>
