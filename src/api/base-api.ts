@@ -17,6 +17,11 @@ export const baseApi = createApi({
     'CurrentUser',
     'Analyze',
     'CurrentTariff',
+    'Consultation',
+    'LastAddedConsultation',
+    'UserTariff',
+    'InvoiceStatus',
+    'Invoice',
   ],
   endpoints: () => ({}),
 });

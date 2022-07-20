@@ -17,7 +17,7 @@ export const Tariff = ({ expires, title, isPaid }: Props) => {
   return (
     <div style={{ textDecoration: 'none' }} className={s.tariff}>
       <div className={s.title}>
-        {title && 'Тип тарифа: '}
+        <span>{title && 'Тип тарифа: '}</span>
         <p>{title || 'У вас нет тарифа'}</p>
       </div>
       <div className={s.date}>

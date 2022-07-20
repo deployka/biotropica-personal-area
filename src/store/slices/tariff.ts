@@ -27,7 +27,7 @@ const slice = createSlice({
           payload.remindedAccess.find(a => a.key === 'CONSULTATION')
             ?.reminded || 0;
 
-        state.freeConsultationsCount = payload.isPaid ? count : 0;
+        state.restOfFreeConsultationsCount = payload.isPaid ? count : 0;
         state.freeConsultationsCount = payload.isPaid
           ? payload.tariff.access.find(a => a.key === 'CONSULTATION')?.value ||
             0
@@ -50,7 +50,7 @@ export const selectCurrentTariffAccesses = (state: RootState): Accesses[] =>
 export const selectChatAccesses = (state: RootState): Accesses[] =>
   state.tariff.chatAccesses;
 export const selectRestOfFreeConsultationsCount = (state: RootState): number =>
-  state.tariff.freeConsultationsCount;
+  state.tariff.restOfFreeConsultationsCount;
 export const selectFreeConsultationsCount = (state: RootState): number =>
   state.tariff.freeConsultationsCount;
 

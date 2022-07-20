@@ -102,7 +102,11 @@ export const Profile = ({
           <Card user={user} />
           <div className={s.userInfo}>
             <Goals goalsLength={goalsLength} />
-            <Tariff tariff={currentTariff} />
+            <Tariff
+              isPaid={currentTariff?.isPaid}
+              title={currentTariff?.tariff.title}
+              expires={currentTariff?.expiredAt}
+            />
           </div>
           <div className={s.userActions}>
             <button className={s.button} onClick={moveToTasks}>

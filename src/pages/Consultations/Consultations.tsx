@@ -30,8 +30,17 @@ import {
   selectRestOfFreeConsultationsCount,
 } from '../../store/slices/tariff';
 import { searchSpecialistsByQuery } from './consultationsHelper';
-import { Tariff } from '../../@types/entities/Tariff';
 import Modal from '../../shared/Global/Modal/Modal';
+import {
+  useGetInvoiceByProductUuidQuery,
+  useGetStatusByProductUuidQuery,
+} from '../../api/invoice';
+import {
+  getInvoiceStatusByProduct,
+  getInvoiceStatusColor,
+} from '../../utils/invoice';
+import { Consultation } from '../../@types/entities/Consultation';
+import { PayBtn } from './PayBtn';
 
 const Consultations = () => {
   const queryParam = useQuery();
@@ -72,12 +81,21 @@ const Consultations = () => {
   } = useGetConsultationsQuery();
 
   const { data: closestConsultation } = useGetClosestConsultationQuery();
-  const { data: LastAddedConsultation } = useGetLastConsultationQuery();
+  const { data: lastAddedConsultation } = useGetLastConsultationQuery();
 
   const [createConsultation, { isLoading }] = useCreateConsultationMutation();
   const freeConsultationCount = useSelector(selectFreeConsultationsCount);
   const restOfFreeConsultationsCount = useSelector(
     selectRestOfFreeConsultationsCount,
+  );
+
+  const { data: invoiceInfo } = useGetStatusByProductUuidQuery(
+    lastAddedConsultation?.uuid || '',
+    { skip: !lastAddedConsultation?.uuid },
+  );
+  const { data: invoice } = useGetInvoiceByProductUuidQuery(
+    lastAddedConsultation?.uuid || '',
+    { skip: !lastAddedConsultation?.uuid },
   );
 
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -118,45 +136,69 @@ const Consultations = () => {
     setSearchQuery(query);
   };
 
+  const getSpecialistName = (cns?: Consultation) =>
+    specialists.find(s => s.id === cns?.specialistId)?.user.name;
+
+  const getCnsDate = (cns?: Consultation) =>
+    moment(cns?.date).format('Do MMMM в H:mm');
+
+  const onOpenDialog = (cns?: Consultation) => {
+    const specialist = specialists.find(s => s.id === cns?.specialistId);
+    if (!specialist) {
+      return;
+    }
+    return sendMessage(specialist.user.id);
+  };
+
   const InfoBarClosestConsultationOptions = {
     title: 'Ближайшая запись',
-    text: `Ваша ближайшая запись на персональную консультацию у ${
-      specialists.find(s => s.id === closestConsultation?.specialistId)?.user
-        .name
-    } ${moment(closestConsultation?.date).format('Do MMMM в H:mm')}`,
+    text: `Ваша ближайшая запись на персональную консультацию у ${getSpecialistName(
+      closestConsultation,
+    )} ${getCnsDate(closestConsultation)}`,
     textLink: 'перейти в диалог',
     bottomLink: `Остаток бесплатных консультаций: 
     ${restOfFreeConsultationsCount}  из ${freeConsultationCount}`,
     href: '',
-    onClick: () => {
-      const specialist = specialists.find(
-        s => s.id === closestConsultation?.specialistId,
-      );
-      if (!specialist) {
-        return;
-      }
-      return sendMessage(specialist.user.id);
-    },
+    onClick: () => onOpenDialog(closestConsultation),
   };
+
+  const status = getInvoiceStatusByProduct(
+    invoiceInfo?.status || 'failed',
+    'consultation',
+  );
+
+  const onPayClick = () => setPaymentForm(invoice?.paymentForm || '');
+
   const InfoBarLastConsultationOptions = {
     title: 'Консультация без даты!',
-    text: `Вы записались на консультацию к специалисту  ${
-      specialists.find(s => s.id === LastAddedConsultation?.specialistId)?.user
-        .name
-    }, пожалуйста, обсудите удобное время и дату консультацию в чате.`,
-    textLink: 'перейти в диалог',
-    bottomLink: `Остаток бесплатных консультаций: 
-    ${restOfFreeConsultationsCount} из ${freeConsultationCount}`,
+    text: `Вы записались на консультацию к специалисту  ${getSpecialistName(
+      lastAddedConsultation,
+    )}, пожалуйста, обсудите удобное время и дату консультацию в чате, после подтверждения оплаты.`,
+    textLink:
+      lastAddedConsultation?.isPaid || lastAddedConsultation?.isFree
+        ? 'перейти в диалог'
+        : '',
+    bottomLink: lastAddedConsultation?.isFree ? (
+      'Бесплатная консультация'
+    ) : (
+      <p style={{ display: 'flex' }}>
+        Статус: &nbsp;
+        <p
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            color: getInvoiceStatusColor(invoiceInfo?.status || 'failed'),
+          }}
+        >
+          {status}&nbsp;
+          {invoiceInfo?.status === 'waiting' && (
+            <PayBtn onPayClick={onPayClick} />
+          )}
+        </p>
+      </p>
+    ),
     href: '',
-    onClick: () => {
-      const specialist = specialists.find(
-        s => s.id === LastAddedConsultation?.specialistId,
-      );
-      if (!specialist) {
-        return;
-      }
-      return sendMessage(specialist.user.id);
-    },
+    onClick: () => onOpenDialog(lastAddedConsultation),
   };
 
   const InfoBarBase = {
@@ -175,7 +217,7 @@ const Consultations = () => {
   const onCreateConsultation = async (specialistId: number) => {
     try {
       if (restOfFreeConsultationsCount) {
-        await createConsultation({ specialistId, isPaid: true }).unwrap();
+        await createConsultation({ specialistId }).unwrap();
         eventBus.emit(EventTypes.notification, {
           title: 'Успешно!',
           message: 'Вы успешно записались на бесплатную консультацию!',
@@ -196,6 +238,7 @@ const Consultations = () => {
       });
     }
   };
+
   const onSignUpClick = (
     specialistId: number,
     userId: number,
@@ -273,7 +316,7 @@ const Consultations = () => {
         {closestConsultation && (
           <InfoBar infoBar={InfoBarClosestConsultationOptions} />
         )}
-        {LastAddedConsultation && (
+        {lastAddedConsultation && (
           <InfoBar infoBar={InfoBarLastConsultationOptions} />
         )}
         <div className={s.headerWrapper}>

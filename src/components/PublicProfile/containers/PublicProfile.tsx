@@ -9,7 +9,7 @@ import { useGetAnalyzesQuery } from '../../../api/analyzes';
 import { useGetGoalsQuery } from '../../../api/goals';
 import { useGetProgressPostsQuery } from '../../../api/progress';
 import { useGetCurrentSpecialistQuery } from '../../../api/specialists';
-import { useGetCurrentTariffQuery } from '../../../api/tariffs';
+import { useGetUserTariffByIdQuery } from '../../../api/tariffs';
 import {
   useGetQuestionnaireAnswersQuery,
   useGetUserQuery,
@@ -40,7 +40,9 @@ export const PublicProfile = () => {
     { userId },
     { skip: !userId },
   );
-  const { data: currentTariff } = useGetCurrentTariffQuery();
+  const { data: currentTariff } = useGetUserTariffByIdQuery(userId, {
+    skip: !userId,
+  });
 
   const { data: questionnaireAnswers = [] } = useGetQuestionnaireAnswersQuery(
     userId,

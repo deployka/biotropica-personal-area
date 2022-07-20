@@ -5,12 +5,14 @@ import { Specialist } from './Specialist';
 export type Consultation = BaseEntity & {
   date: DateTimeString;
   specialist: Specialist;
+  uuid: Uuid;
   user: Client;
   specialistId: UniqueId;
   userId: UniqueId;
   meetingNumber: number;
   meetingPassword: string;
   isPaid: boolean;
+  isFree: boolean;
 };
 
 export type ClosestConsultation = Omit<Consultation, 'date'> & {

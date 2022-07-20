@@ -13,6 +13,15 @@ export const tariffApi = baseApi.injectEndpoints({
         },
         providesTags: ['CurrentTariff'],
       }),
+      getUserTariffById: builder.query<CurrentTariff, UniqueId>({
+        query(id: UniqueId) {
+          return {
+            method: 'GET',
+            url: `current-user-tariff/${id}`,
+          };
+        },
+        providesTags: ['UserTariff'],
+      }),
       getAllTariffs: builder.query<Tariff[], void>({
         query() {
           return {
@@ -69,6 +78,7 @@ export const {
   useRequestDeleteTariffMutation,
   useRequestChangeTariffMutation,
   useGetCurrentTariffQuery,
+  useGetUserTariffByIdQuery,
 } = tariffApi;
 
 export default tariffApi;

@@ -35,7 +35,8 @@ export const ConsultationTableItemGroup = ({
                 .name
             }
             action={
-              mode !== 'inactive'
+              mode !== 'inactive' &&
+              (consultation.isPaid || consultation.isFree)
                 ? {
                     onClick:
                       mode === 'active'

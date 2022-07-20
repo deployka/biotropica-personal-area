@@ -7,7 +7,7 @@ export interface IInfoBar {
   title: string;
   text?: string | ReactNode;
   textLink?: string;
-  bottomLink?: string;
+  bottomLink?: string | ReactNode;
   onClick?: () => void;
   href?: string;
 }
@@ -35,10 +35,7 @@ export const InfoBar = ({ infoBar }: Props) => {
         )}
       </div>
       {infoBar.bottomLink && (
-        <div
-          className={s.bottomLink}
-          onClick={infoBar.href ? () => null : infoBar.onClick}
-        >
+        <div className={s.bottomLink}>
           <Link to={`${infoBar.href || '#'}`}>{infoBar.bottomLink}</Link>
         </div>
       )}

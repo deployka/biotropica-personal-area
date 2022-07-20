@@ -21,6 +21,7 @@ import progressApi from '../api/progress';
 import filesApi from '../api/files';
 import notificationsApi from '../api/notifications';
 import specialistsApi from '../api/specialists';
+import invoiceApi from '../api/invoice';
 
 export const rootReducer = combineReducers({
   [userApi.reducerPath]: userApi.reducer,
@@ -39,6 +40,7 @@ export const rootReducer = combineReducers({
   [goalsApi.reducerPath]: goalsApi.reducer,
   [filesApi.reducerPath]: filesApi.reducer,
   [notificationsApi.reducerPath]: notificationsApi.reducer,
+  [invoiceApi.reducerPath]: invoiceApi.reducer,
 
   authSlice: authSlice,
   tasksPageSlice: tasksPageSlice,

@@ -1,5 +1,6 @@
 type Email = string;
 type UniqueId = number;
+type Uuid = string;
 type DateTimeString = string;
 
 type HTTP_SUCCESS = 200;

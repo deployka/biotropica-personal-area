@@ -37,6 +37,7 @@ export const consultationsApi = baseApi.injectEndpoints({
         url: '/consultations/last-added',
         method: 'GET',
       }),
+      providesTags: ['LastAddedConsultation', 'InvoiceStatus', 'Invoice'],
     }),
 
     createConsultation: builder.mutation<
@@ -48,6 +49,11 @@ export const consultationsApi = baseApi.injectEndpoints({
         method: 'POST',
         body: dto,
       }),
+      invalidatesTags: [
+        'CurrentTariff',
+        'LastAddedConsultation',
+        'InvoiceStatus',
+      ],
     }),
 
     changeConsultationDatetime: builder.mutation<void, Consultation>({

@@ -1,5 +1,5 @@
-@import "../../../../styles/mixins.scss";
-@import "../../../../styles/variables.scss";
+@import '../../../../styles/mixins.scss';
+@import '../../../../styles/variables.scss';
 .tariff {
   padding: 20px 30px;
   width: 100%;
@@ -33,7 +33,6 @@
       letter-spacing: 0.0075em;
 
       color: #6f61d0;
-
       @include for-phone {
         font-size: 14px;
       }
