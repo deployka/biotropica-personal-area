@@ -31,6 +31,10 @@ import { useSelector } from 'react-redux';
 import { selectCurrentTariffAccesses } from '../../../store/slices/tariff';
 import { DeleteAnalyzeAnswerDto } from '../../../@types/dto/analyzes/delete.dto';
 
+import payImg from '../../../assets/icons/transaction.svg';
+import { useGetInvoiceByProductUuidQuery } from '../../../api/invoice';
+import Modal from '../../../shared/Global/Modal/Modal';
+
 interface Props {
   user: BaseUser;
 }
@@ -53,6 +57,8 @@ const tabs: Tab[] = [
 const Profile = ({ user }: Props) => {
   const { openModal, closeModal } = useModal();
   const [isAnalyzeModalOpen, setIsAnalyzeModalOpen] = useState(false);
+  const [paymentForm, setPaymentForm] = useState('');
+
   const { data: goals = [] } = useGetGoalsQuery();
 
   const { active } = useParams<Param>();
@@ -76,6 +82,12 @@ const Profile = ({ user }: Props) => {
       userId: user.id,
     });
   const { data: currentTariff } = useGetCurrentTariffQuery();
+  const { data: invoice } = useGetInvoiceByProductUuidQuery(
+    currentTariff?.uuid || '',
+    {
+      skip: !currentTariff?.uuid,
+    },
+  );
 
   const tariffAccesses = useSelector(selectCurrentTariffAccesses);
 
@@ -148,8 +160,27 @@ const Profile = ({ user }: Props) => {
     history.push('/');
   }
 
+  function onPaymentClick() {
+    if (!currentTariff) {
+      return history.push('/tariffs');
+    }
+    setPaymentForm(invoice?.paymentForm || '');
+  }
+
   return (
     <>
+      <Modal
+        isOpened={!!paymentForm}
+        close={() => {
+          setPaymentForm('');
+        }}
+      >
+        <div>
+          <p style={{ marginBottom: '15px' }}>Выберете способ оплаты:</p>
+          <div dangerouslySetInnerHTML={{ __html: paymentForm }} />
+        </div>
+      </Modal>
+
       <div className={s.profile}>
         <div className={s.info}>
           <Card isPaid={currentTariff?.isPaid || false} user={user} />
@@ -159,6 +190,20 @@ const Profile = ({ user }: Props) => {
               isPaid={currentTariff?.isPaid}
               title={currentTariff?.tariff.title}
               expires={currentTariff?.expiredAt}
+              PaymentBtn={
+                <>
+                  {currentTariff?.tariff.title
+                    ? 'Тариф не оплачен'
+                    : 'Купить тариф'}
+                  : {'  '}
+                  <img
+                    style={{ cursor: 'pointer' }}
+                    onClick={onPaymentClick}
+                    title="Оплатить тариф"
+                    src={payImg}
+                  />
+                </>
+              }
             />
           </div>
           <div className={s.moveToTasks}>

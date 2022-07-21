@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import s from './Tariff.module.scss';
 
-import payImg from '../../../../assets/icons/transaction.svg';
 import { format } from 'date-fns';
 
 type Props = {
   title?: string;
   expires?: string;
   isPaid?: boolean;
+  PaymentBtn: ReactNode;
 };
 
-export const Tariff = ({ expires, title, isPaid }: Props) => {
+export const Tariff = ({ expires, title, isPaid, PaymentBtn }: Props) => {
   console.log(isPaid);
 
   return (
@@ -34,16 +34,7 @@ export const Tariff = ({ expires, title, isPaid }: Props) => {
             color: !isPaid && title ? 'tomato' : isPaid ? '#61D07F' : '#9e97be',
           }}
         >
-          {isPaid ? (
-            'Тариф оплачен'
-          ) : (
-            <>
-              {'  '} {title ? 'Тариф не оплачен' : 'Купить тариф'}: {'  '}
-              <Link to={'/tariffs'}>
-                <img title="Оплатить тариф" src={payImg} />
-              </Link>
-            </>
-          )}
+          {isPaid ? 'Тариф оплачен' : PaymentBtn}
         </p>
       </div>
     </div>
