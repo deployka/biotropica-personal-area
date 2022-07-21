@@ -33,7 +33,7 @@ export const ConsultationsList = () => {
 
   async function sendMessage(userId: number) {
     try {
-      const dialog = await createDialog({ userId }).unwrap();
+      const dialog = await createDialog({ userId, isAccess: true }).unwrap();
       eventBus.emit(EventTypes.chatOpen, dialog.id);
     } catch (error) {
       eventBus.emit(EventTypes.notification, {

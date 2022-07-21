@@ -85,7 +85,10 @@ export const Profile = ({
   async function createChat() {
     if (!user) return;
     try {
-      const dialog = await createDialog({ userId: user.id }).unwrap();
+      const dialog = await createDialog({
+        userId: user.id,
+        isAccess: true,
+      }).unwrap();
       eventBus.emit(EventTypes.chatOpen, dialog.id);
     } catch (error) {
       eventBus.emit(EventTypes.notification, {

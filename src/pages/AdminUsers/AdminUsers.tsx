@@ -48,6 +48,7 @@ export function AdminUsers() {
       const dialog = await createDialog({
         userId: user.id as number,
         title: 'Техподдержка',
+        isAccess: true,
       }).unwrap();
       eventBus.emit(EventTypes.chatOpen, dialog.id);
     } catch (error) {

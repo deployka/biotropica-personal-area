@@ -99,7 +99,11 @@ export const TariffCard = ({
                 }
               }}
             >
-              {isSelectLoading ? <Loader color="#6f61d0" /> : tariffBtnText}
+              {isSelectLoading && isCurrentTariff ? (
+                <Loader color="#6f61d0" />
+              ) : (
+                tariffBtnText
+              )}
             </button>
           )}
         </div>

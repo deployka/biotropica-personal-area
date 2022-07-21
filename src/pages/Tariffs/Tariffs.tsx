@@ -17,6 +17,7 @@ import { NotificationType } from '../../components/GlobalNotifications/GlobalNot
 
 import './paymentForm.scss';
 import { NotificationButtons } from './NotificationButtons';
+import { useGetInvoiceByProductUuidQuery } from '../../api/invoice';
 
 const Tariffs = () => {
   // FIXME: refetch
@@ -34,13 +35,25 @@ const Tariffs = () => {
 
   const [isAddTariffModalVisible, setIsAddTariffModalVisible] = useState(false);
   const { data: currentTariff } = useGetCurrentTariffQuery();
+  const { data: invoice } = useGetInvoiceByProductUuidQuery(
+    currentTariff?.uuid || '',
+    {
+      skip: !currentTariff?.uuid,
+    },
+  );
 
   const isAdmin = useSelector(selectIsAdmin);
 
   async function onSelectTariff(tariff: Tariff) {
     try {
+      if (
+        invoice?.paymentForm &&
+        !currentTariff?.expiredAt &&
+        currentTariff?.tariff.id === tariff.id
+      ) {
+        return setPaymentForm(invoice.paymentForm);
+      }
       const { tinkoffForm } = await selectTariff(tariff.id).unwrap();
-
       setPaymentForm(tinkoffForm);
     } catch (error) {
       console.log(error);

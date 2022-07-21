@@ -24,7 +24,7 @@ export const Progress = ({ user }: Props) => {
     title: 'У вас нет загруженного прогресса',
     text: 'Вы еще не загрузили фото прогресса. Сделайте это нажав на ссылку ниже',
     bottomLink: 'Загрузить фото',
-    onClick: () => {
+    onBottomClick: () => {
       openModal(ModalName.MODAL_ADD_PROGRESS_PHOTO, { user });
     },
   };

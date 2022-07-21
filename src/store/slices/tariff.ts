@@ -37,9 +37,11 @@ const slice = createSlice({
           ? payload.tariff.access.map(it => it.key)
           : [];
 
-        state.chatAccesses = payload.tariff.access
-          .filter(it => it.key.split('_').includes('CHAT'))
-          .map(it => it.key);
+        state.chatAccesses = payload.isPaid
+          ? payload.tariff.access
+              .filter(it => it.key.split('_').includes('CHAT'))
+              .map(it => it.key)
+          : [];
       },
     );
   },

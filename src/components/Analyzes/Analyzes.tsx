@@ -49,7 +49,7 @@ export const Analyzes = ({
       </ul>
     ),
     bottomLink: 'Загрузить анализы',
-    onClick: () => {
+    onBottomClick: () => {
       setIsModalOpen(true);
     },
   };

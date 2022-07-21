@@ -1,8 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router';
 import { ResponseError } from '../../@types/api/response';
+import { BaseUser } from '../../@types/entities/BaseUser';
 import { Specialization } from '../../@types/entities/Specialization';
-import { useCreateDialogMutation } from '../../api/chat';
+import { useCreateDialogMutation, useGetAllDialogsQuery } from '../../api/chat';
 import { useGetOneSpecialistQuery } from '../../api/specialists';
 import Button from '../../components/Button/Button';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
@@ -27,7 +28,8 @@ const PublicSpecialistProfile = () => {
     isLoading,
     isError,
   } = useGetOneSpecialistQuery({ id: specialistId });
-  const [createDialog] = useCreateDialogMutation();
+
+  const { data: dialogs } = useGetAllDialogsQuery();
 
   if (isLoading) {
     return <p>Загрузка...</p>;
@@ -39,20 +41,25 @@ const PublicSpecialistProfile = () => {
 
   // FIXME:
   if (!specialist) {
-    return <p>Произошла ошибка</p>;
+    return <p>Специалист не найден</p>;
   }
 
   const handleCreateDialog = async () => {
+    const dialogId =
+      dialogs?.find(d => d.participants.find(p => p.id === specialist.user.id))
+        ?.id || -1;
+
     try {
-      await createDialog({ userId: specialist.id }).unwrap();
-      eventBus.emit(EventTypes.chatOpen, specialist.id);
-    } catch (error) {
-      eventBus.emit(EventTypes.notification, {
-        title: 'Произошла ошибка!',
-        message: (error as ResponseError).data.message,
-        type: NotificationType.DANGER,
-      });
-    }
+      if (dialogId === -1) {
+        eventBus.emit(EventTypes.notification, {
+          title: 'Произошла ошибка!',
+          message: 'У вас нет доступа :[',
+          type: NotificationType.DANGER,
+        });
+        return;
+      }
+      eventBus.emit(EventTypes.chatOpen, dialogId);
+    } catch (error) {}
   };
 
   const courses = specialist.courses;
