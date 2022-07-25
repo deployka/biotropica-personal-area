@@ -32,27 +32,15 @@ import { selectCurrentTariffAccesses } from '../../../store/slices/tariff';
 import { DeleteAnalyzeAnswerDto } from '../../../@types/dto/analyzes/delete.dto';
 
 import payImg from '../../../assets/icons/transaction.svg';
+import lockImg from '../../../assets/icons/lock.svg';
+import unlockImg from '../../../assets/icons/unlock.svg';
+
 import { useGetInvoiceByProductUuidQuery } from '../../../api/invoice';
 import Modal from '../../../shared/Global/Modal/Modal';
 
 interface Props {
   user: BaseUser;
 }
-
-const tabs: Tab[] = [
-  {
-    key: 'analyzes',
-    value: 'Анализы',
-  },
-  {
-    key: 'questionnaire',
-    value: 'Тестирование',
-  },
-  {
-    key: 'progress',
-    value: 'Прогресс',
-  },
-];
 
 const Profile = ({ user }: Props) => {
   const { openModal, closeModal } = useModal();
@@ -64,6 +52,56 @@ const Profile = ({ user }: Props) => {
   const { active } = useParams<Param>();
 
   const history = useHistory();
+  const { data: currentTariff } = useGetCurrentTariffQuery();
+
+  const tariffAccesses = useSelector(selectCurrentTariffAccesses);
+
+  const isAnalyzesAccess = tariffAccesses.length
+    ? tariffAccesses.some(it => it === 'ANALYZES')
+    : false;
+
+  const isProgressAccess = tariffAccesses.length
+    ? tariffAccesses.some(it => it === 'PROGRESS')
+    : false;
+
+  const tabs: Tab[] = [
+    {
+      key: 'analyzes',
+      value: (
+        <>
+          Анализы &nbsp;
+          <img
+            className={s.lock}
+            src={isAnalyzesAccess ? unlockImg : lockImg}
+          />
+        </>
+      ),
+    },
+    {
+      key: 'questionnaire',
+      value: (
+        <>
+          Тестирование &nbsp;
+          <img
+            className={s.lock}
+            src={isProgressAccess ? unlockImg : lockImg}
+          />
+        </>
+      ),
+    },
+    {
+      key: 'progress',
+      value: (
+        <>
+          Прогресс &nbsp;
+          <img
+            className={s.lock}
+            src={isAnalyzesAccess ? unlockImg : lockImg}
+          />
+        </>
+      ),
+    },
+  ];
 
   const [activeTab, setActiveTab] = useState<string>(
     getTabByKey(active, tabs)?.key || tabs[0].key,
@@ -81,23 +119,12 @@ const Profile = ({ user }: Props) => {
     useGetAnalyzeAnswersQuery({
       userId: user.id,
     });
-  const { data: currentTariff } = useGetCurrentTariffQuery();
   const { data: invoice } = useGetInvoiceByProductUuidQuery(
     currentTariff?.uuid || '',
     {
       skip: !currentTariff?.uuid,
     },
   );
-
-  const tariffAccesses = useSelector(selectCurrentTariffAccesses);
-
-  const isAnalyzesAccess = tariffAccesses.length
-    ? tariffAccesses.some(it => it === 'ANALYZES')
-    : false;
-
-  const isProgressAccess = tariffAccesses.length
-    ? tariffAccesses.some(it => it === 'PROGRESS')
-    : false;
 
   function onTabClick(tab: Tab) {
     history.push(`/profile/tabs/${tab.key}`);

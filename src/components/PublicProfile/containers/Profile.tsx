@@ -107,7 +107,7 @@ export const Profile = ({
             <Goals goalsLength={goalsLength} />
             <Tariff
               isPaid={currentTariff?.isPaid}
-              title={currentTariff?.tariff.title}
+              title={currentTariff?.tariff?.title}
               expires={currentTariff?.expiredAt}
             />
           </div>

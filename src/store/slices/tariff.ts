@@ -24,21 +24,21 @@ const slice = createSlice({
       tariffApi.endpoints.getCurrentTariff.matchFulfilled,
       (state, { payload }) => {
         const count =
-          payload.remindedAccess.find(a => a.key === 'CONSULTATION')
+          payload.remindedAccess?.find(a => a.key === 'CONSULTATION')
             ?.reminded || 0;
 
         state.restOfFreeConsultationsCount = payload.isPaid ? count : 0;
         state.freeConsultationsCount = payload.isPaid
-          ? payload.tariff.access.find(a => a.key === 'CONSULTATION')?.value ||
-            0
+          ? payload?.tariff?.access?.find(a => a.key === 'CONSULTATION')
+              ?.value || 0
           : 0;
 
-        state.accesses = payload.isPaid
-          ? payload.tariff.access.map(it => it.key)
+        state.accesses = payload?.isPaid
+          ? payload?.tariff?.access.map(it => it.key)
           : [];
 
-        state.chatAccesses = payload.isPaid
-          ? payload.tariff.access
+        state.chatAccesses = payload?.isPaid
+          ? payload?.tariff?.access
               .filter(it => it.key.split('_').includes('CHAT'))
               .map(it => it.key)
           : [];

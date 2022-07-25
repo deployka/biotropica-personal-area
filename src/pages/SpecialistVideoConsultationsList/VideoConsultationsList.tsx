@@ -22,7 +22,9 @@ import {
   useChangeConsultationDatetimeMutation,
   useDeleteConsultationMutation,
   useGetConsultationsQuery,
+  useGetSpecialistConsultationsQuery,
 } from '../../api/consultations';
+import { useGetCurrentSpecialistQuery } from '../../api/specialists';
 
 const VideoConsultationsList = () => {
   interface Consultation {
@@ -48,8 +50,14 @@ const VideoConsultationsList = () => {
   const deviseWidth = useDeviceSize().width;
 
   const [list, setList] = React.useState<Consultation[]>([]);
+  const { data: specialist } = useGetCurrentSpecialistQuery();
 
-  const { data, refetch, isLoading } = useGetConsultationsQuery();
+  const { data, refetch, isLoading } = useGetSpecialistConsultationsQuery(
+    specialist?.id || -1,
+    {
+      skip: !specialist?.id,
+    },
+  );
   const [
     requestDeleteConsultation,
     { isSuccess: isDeleteSuccess, isLoading: isDeleteLoading },

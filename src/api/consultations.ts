@@ -4,9 +4,9 @@ import { baseApi } from './base-api';
 
 export const consultationsApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getSpecialistConsultations: builder.query<Consultation[], void>({
-      query: () => ({
-        url: '/consultations/specialist-consultations',
+    getSpecialistConsultations: builder.query<Consultation[], UniqueId>({
+      query: (id: UniqueId) => ({
+        url: `/consultations/specialist/${id}`,
         method: 'GET',
       }),
     }),
@@ -58,7 +58,7 @@ export const consultationsApi = baseApi.injectEndpoints({
 
     changeConsultationDatetime: builder.mutation<void, Consultation>({
       query: payload => ({
-        url: `/consultations/specialist-consultations/${payload.id}`,
+        url: `/consultations/${payload.id}`,
         body: payload,
         method: 'PUT',
       }),
@@ -66,7 +66,7 @@ export const consultationsApi = baseApi.injectEndpoints({
 
     deleteConsultation: builder.mutation<void, { id: number }>({
       query: payload => ({
-        url: `/consultations/specialist-consultations/${payload.id}`,
+        url: `/consultations/${payload.id}`,
         method: 'DELETE',
       }),
     }),

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import classNames from 'classnames';
 
@@ -6,7 +6,7 @@ import s from './Tabs.module.scss';
 
 export interface Tab {
   key: string;
-  value: string;
+  value: ReactNode;
 }
 interface Props {
   tabs: Tab[];

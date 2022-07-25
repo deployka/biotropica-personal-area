@@ -1,5 +1,5 @@
-@import "../../../styles/mixins.scss";
-@import "../../../styles/variables.scss";
+@import '../../../styles/mixins.scss';
+@import '../../../styles/variables.scss';
 
 .profile {
   position: relative;
@@ -160,4 +160,8 @@
   @include for-phone {
     width: 100%;
   }
+}
+
+.lock {
+  width: 15px;
 }

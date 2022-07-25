@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { Link } from 'react-router-dom';
 import { BaseUser } from '../../../../@types/entities/BaseUser';
 import { HeaderSvgSelector } from '../../../../assets/icons/header/HeaderSvgSelector';
