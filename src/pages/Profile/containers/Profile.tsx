@@ -215,11 +215,11 @@ const Profile = ({ user }: Props) => {
             <Goals goalsLength={goals.length} />
             <Tariff
               isPaid={currentTariff?.isPaid}
-              title={currentTariff?.tariff.title}
+              title={currentTariff?.tariff?.title}
               expires={currentTariff?.expiredAt}
               PaymentBtn={
                 <>
-                  {currentTariff?.tariff.title
+                  {currentTariff?.tariff?.title
                     ? 'Тариф не оплачен'
                     : 'Купить тариф'}
                   : {'  '}
