@@ -37,7 +37,7 @@ export const TariffCard = ({
   });
 
   const isPaid = currentTariff?.isPaid || false;
-  const isCurrentTariff = currentTariff?.tariff.title === title;
+  const isCurrentTariff = currentTariff?.tariff?.title === title;
 
   const tariffBtnText =
     isCurrentTariff && !isPaid
