@@ -25,11 +25,14 @@ export const analyzeAnswersApi = baseApi.injectEndpoints({
             ]
           : [{ type: 'Analyze', id: 'LIST' }],
     }),
-    createAnalyzeAnswer: builder.mutation<Analyze[], CreateAnalyzeAnswerDto>({
+    createAnalyzeAnswer: builder.mutation<
+      Analyze[],
+      { text: string; filePath: string }
+    >({
       query: dto => ({
         url: '/analyzes/answer',
         method: 'POST',
-        body: dto,
+        body: { ...dto, analyzeId: 1 },
       }),
       invalidatesTags: ['Analyze'],
     }),

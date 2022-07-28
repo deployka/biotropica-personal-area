@@ -49,6 +49,8 @@ const Questionnaire = () => {
     }
   }
 
+  if (!question) return <p>Произошла ошибка</p>;
+
   return (
     <div className={s.questionnaire}>
       <QuestionnaireBody

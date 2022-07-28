@@ -150,6 +150,5 @@
     "*.{ts,tsx}": [
       "yarn lint:fix"
     ]
-  },
-  "proxy": "https://master.bio.devshift.ru/"
+  }
 }

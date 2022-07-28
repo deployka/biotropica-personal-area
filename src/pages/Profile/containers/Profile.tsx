@@ -37,6 +37,7 @@ import unlockImg from '../../../assets/icons/unlock.svg';
 
 import { useGetInvoiceByProductUuidQuery } from '../../../api/invoice';
 import Modal from '../../../shared/Global/Modal/Modal';
+import { useUploadFileMutation } from '../../../api/files';
 
 interface Props {
   user: BaseUser;
@@ -106,7 +107,7 @@ const Profile = ({ user }: Props) => {
   const [activeTab, setActiveTab] = useState<string>(
     getTabByKey(active, tabs)?.key || tabs[0].key,
   );
-
+  const [uploadFile] = useUploadFileMutation();
   const [createAnalyzeAnswer, { isLoading: isCreateAnalyzeAnswerLoading }] =
     useCreateAnalyzeAnswerMutation();
   const [deleteAnalyzeAnswer] = useDeleteAnalyzeAnswerMutation();
@@ -136,7 +137,16 @@ const Profile = ({ user }: Props) => {
 
   const handleSubmitAnalyzes = async (values: CreateAnalyzeAnswerDto) => {
     try {
-      await createAnalyzeAnswer(values).unwrap();
+      if (!values.filePath) throw new Error('Файл отсутствует');
+      const loadedFileData = await uploadFile({
+        file: values.filePath,
+      }).unwrap();
+
+      if (!loadedFileData) throw new Error('Файл не загружен');
+      await createAnalyzeAnswer({
+        text: values.text,
+        filePath: loadedFileData.name,
+      }).unwrap();
       eventBus.emit(EventTypes.notification, {
         message: 'Анализ успешно загружен',
         type: NotificationType.SUCCESS,
