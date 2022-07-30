@@ -2,7 +2,6 @@ import { BaseUser } from '../../@types/entities/BaseUser';
 import { Client } from '../../@types/entities/Client';
 import { ROLE } from '../../@types/entities/Role';
 
-import { TARIFF } from '../../@types/entities/Tariff';
 import { FilterField } from '../Filter/Filter';
 
 export const usersFilters: FilterField[] = [
@@ -82,7 +81,7 @@ export function filterUsersByQuestionnaire(
   return users.filter(user => {
     if (!user.roles.some(role => role.name === ROLE.CLIENT)) return false;
     if (value === 'finished') {
-      return (user as Client).questionHash === 'FINISHED';
+      return (user as Client).questionHash?.includes('FINISHED');
     }
     if (value === 'notFinished') {
       return (user as Client).questionHash === null;
@@ -92,21 +91,18 @@ export function filterUsersByQuestionnaire(
   });
 }
 
-export function filterUsersByTariffs(
-  users: Array<BaseUser>,
-  tariffs: (TARIFF | 'all')[],
-) {
-  if (tariffs.length === 1 && !tariffs[0]) {
+export function filterUsersByTariffs(users: BaseUser[], tariffs: string[]) {
+  const tariff = tariffs[0];
+
+  if (tariff === 'all' || !tariff) {
     return users;
   }
 
-  return users.filter(user => {
-    // const userTariff = user.roles.some(it => it.name === ROLE.CLIENT)
-    //   ? (user as Client).tariff
-    //   : undefined;
-    // return tariffs.includes(userTariff);
-    return true;
-  });
+  if (tariff === 'noTariff') {
+    return users.filter(user => user.tariff === null);
+  }
+
+  return users.filter(user => user.tariff === tariff);
 }
 
 export function filterUsersByQuery(users: Array<BaseUser>, q: string) {

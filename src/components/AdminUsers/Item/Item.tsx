@@ -1,31 +1,28 @@
 import React, { useState } from 'react';
 
-import { format } from 'date-fns';
 import { ItemPopup } from './ItemPopup';
+import { Role, ROLE } from '../../../@types/entities/Role';
 
 import s from './Item.module.scss';
-import { BaseUser } from '../../../@types/entities/BaseUser';
-import { ROLE } from '../../../@types/entities/Role';
-import { getFullName } from '../../../utils/getFullName';
-import { Client } from '../../../@types/entities/Client';
 
-interface Props {
-  user: BaseUser;
-  onProfile: (user: BaseUser) => void;
-  onBlock: (user: BaseUser) => void;
-  onWrite: (user: BaseUser) => void;
-}
+type User = {
+  fullName: string;
+  registrationDate: string;
+  tariff: string;
+  roles: Role[];
+};
+
+type Props = {
+  user: User;
+  onProfile: () => void;
+  onBlock: () => void;
+  onWrite: () => void;
+};
 
 export const ROLE_TRANSLATIONS = {
   [ROLE.CLIENT]: 'Пользователь',
   [ROLE.ADMIN]: 'Администратор',
   [ROLE.SPECIALIST]: 'Специалист',
-};
-
-const TARIFF_TRANSLATIONS = {
-  BASE: 'Базовый',
-  EXTENDED: 'Расширенный',
-  INDIVIDUAL: 'Индивидуальный',
 };
 
 export const UserItem = ({ user, onProfile, onBlock, onWrite }: Props) => {
@@ -35,8 +32,6 @@ export const UserItem = ({ user, onProfile, onBlock, onWrite }: Props) => {
     setVisible(!visible);
   }
 
-  const fullName = getFullName(user.name, user.lastname);
-  const registrationDate = format(new Date(user.createdAt), 'dd.MM.yyyy');
   let roleTranslation = '-';
   let role;
 
@@ -50,10 +45,10 @@ export const UserItem = ({ user, onProfile, onBlock, onWrite }: Props) => {
     <>
       <div className={s.user}>
         <div className={s.name}>
-          <p>{fullName}</p>
+          <p>{user.fullName}</p>
         </div>
         <div className={s.date}>
-          <p>{registrationDate}</p>
+          <p>{user.registrationDate}</p>
         </div>
         <div className={s.role}>
           <p
@@ -69,11 +64,7 @@ export const UserItem = ({ user, onProfile, onBlock, onWrite }: Props) => {
           </p>
         </div>
         <div className={s.tariff}>
-          <p>
-            {user.roles.some(it => it.name === ROLE.CLIENT)
-              ? TARIFF_TRANSLATIONS[(user as Client).tariff]
-              : 'Нет тарифа'}
-          </p>
+          <p>{user.tariff}</p>
           <div
             className={s.dots}
             onClick={showPopUp}
@@ -98,15 +89,13 @@ export const UserItem = ({ user, onProfile, onBlock, onWrite }: Props) => {
         </div>
         {visible && (
           <ItemPopup
-            onProfileClick={() => {
-              onProfile(user);
-            }}
+            onProfileClick={onProfile}
             onBlockClick={() => {
-              onBlock(user);
+              onBlock();
               setVisible(false);
             }}
             onWriteClick={() => {
-              onWrite(user);
+              onWrite();
               setVisible(false);
             }}
           />

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Filter } from '../../Filter/Filter';
+import { Filter, FilterField } from '../../Filter/Filter';
 import {
   filterUsersByQuery,
   filterUsersByQuestionnaire,
@@ -10,7 +10,7 @@ import {
 } from '../adminUsersHelper';
 import { ROLE } from '../../../@types/entities/Role';
 import { BaseUser } from '../../../@types/entities/BaseUser';
-import { TARIFF } from '../../../@types/entities/Tariff';
+import { Tariff } from '../../../@types/entities/Tariff';
 import { AdminUsersHeader } from '../Header/Header';
 import { AdminUsersTable } from '../Table/Table';
 
@@ -18,19 +18,22 @@ import s from './List.module.scss';
 
 type Props = {
   users: Array<BaseUser>;
+  tariffs: Tariff[];
   onCreateUser(): void;
   onProfile: (user: BaseUser) => void;
   onBlockUser(user: BaseUser): void;
-  onWriteUser(user: BaseUser): void;
+  onWriteUser(id: number): void;
 };
 
 type Filters = {
   roles: (ROLE | 'all')[];
   questionnaire: string[];
+  tariffs: string[];
 };
 
 export function AdminUsersList({
   users,
+  tariffs,
   onProfile,
   onCreateUser,
   onBlockUser,
@@ -41,6 +44,7 @@ export function AdminUsersList({
   const [filters, setFilters] = useState<Filters>({
     roles: ['all'],
     questionnaire: ['all'],
+    tariffs: ['all'],
   });
 
   let filteredUsers = users;
@@ -49,12 +53,25 @@ export function AdminUsersList({
     filteredUsers,
     filters.questionnaire[0],
   );
+  filteredUsers = filterUsersByTariffs(filteredUsers, filters.tariffs);
 
-  console.log('roles', filters.roles);
-  console.log(
-    'roles',
-    filteredUsers.map(user => user.roles.map(role => role.name)),
-  );
+  const tariffsFilters = tariffs.map(tariff => ({
+    value: `${tariff.id}`,
+    label: tariff.title,
+  }));
+  const test: FilterField[] = [
+    ...usersFilters,
+    {
+      name: 'Тариф',
+      key: 'tariffs',
+      type: 'radio',
+      filters: [
+        { value: 'all', label: 'Все' },
+        ...tariffsFilters,
+        { value: 'noTariff', label: 'Нет тарифа' },
+      ],
+    },
+  ];
 
   if (query) {
     filteredUsers = filterUsersByQuery(filteredUsers, query);
@@ -67,7 +84,7 @@ export function AdminUsersList({
         onClose={() => {
           setIsFilterOpened(false);
         }}
-        filters={usersFilters}
+        filters={test}
         selectedFilters={filters}
         onChange={(filters: Filters) => setFilters(filters)}
       />
@@ -82,6 +99,7 @@ export function AdminUsersList({
         />
         <AdminUsersTable
           users={filteredUsers}
+          tariffs={tariffs}
           onProfile={onProfile}
           onBlock={onBlockUser}
           onWrite={onWriteUser}

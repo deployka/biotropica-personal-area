@@ -32,6 +32,7 @@ export const analyzeAnswersApi = baseApi.injectEndpoints({
       query: dto => ({
         url: '/analyzes/answer',
         method: 'POST',
+        // TODO: убрать analyzeId: 1; Отключить на беке обязательное поле analyzeId
         body: { ...dto, analyzeId: 1 },
       }),
       invalidatesTags: ['Analyze'],

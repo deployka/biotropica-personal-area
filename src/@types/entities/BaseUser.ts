@@ -16,7 +16,7 @@ export type BaseUser = BaseEntity & {
   confirmed: boolean;
   isOnline: boolean | null;
   roles: Role[];
-  tariff: TARIFF;
+  tariff: string | null;
   accesses: [];
   confirmedHash: string | null;
   restoreToken: string | null;

@@ -15,6 +15,7 @@ import { useSignUpMutation } from '../../api/auth';
 import { ROLE } from '../../@types/entities/Role';
 import { CreateUserDto } from '../../@types/dto/users/create-user.dto';
 import { useHistory } from 'react-router';
+import { useGetAllTariffsQuery } from '../../api/tariffs';
 
 export function AdminUsers() {
   const history = useHistory();
@@ -25,6 +26,8 @@ export function AdminUsers() {
   const [signUp, { isLoading: isCreateUserLoading }] = useSignUpMutation();
   const [blockUser] = useBlockUserMutation();
   const [createDialog] = useCreateDialogMutation();
+
+  const { data: tariffs = [] } = useGetAllTariffsQuery();
 
   const { data: users } = useGetAllUsersQuery({});
   const { data: roles } = useGetAllRolesQuery();
@@ -43,10 +46,10 @@ export function AdminUsers() {
     }
   };
 
-  async function writeUser(user: BaseUser) {
+  async function writeUser(userId: number) {
     try {
       const dialog = await createDialog({
-        userId: user.id as number,
+        userId,
         title: 'Техподдержка',
         isAccess: true,
       }).unwrap();
@@ -113,9 +116,10 @@ export function AdminUsers() {
       {users ? (
         <AdminUsersList
           users={users}
+          tariffs={tariffs}
           onProfile={moveToProfile}
           onCreateUser={() => setPopup(true)}
-          onWriteUser={(user: BaseUser) => writeUser(user)}
+          onWriteUser={writeUser}
           onBlockUser={(user: BaseUser) => askBlockUser(user)}
         />
       ) : (
