@@ -6,11 +6,16 @@ import DatePickerCustom from '../../DatePicker/DatePickerCustom';
 import { HtmlEditor } from '../../HtmlEditor/HtmlEditor';
 import Input, { InputTypes } from '../../Input/Input';
 import SelectCustom from '../../Select/SelectCustom';
-import s from './Event.module.scss';
-import { eventTaskOptions } from './EventConstants';
+import {
+  eventTaskOptions,
+  selectCompletionType,
+  selectRepeatType,
+} from './EventConstants';
 import validationSchema from './validationSchema';
 import { CreateEventTask, EventTask } from '../../../@types/entities/Task';
 import { Checkbox } from '../../UI/Checkbox/Checkbox';
+
+import s from './Event.module.scss';
 
 export type EventTaskEditorProps = {
   task: EventTask | CreateEventTask;
@@ -36,14 +41,10 @@ export function EventTaskEditor({
         title: task.title,
         date: task.date,
         kindOfEvent: task.kindOfEvent,
-        repeatType: 'daily',
-        completionType: 'byRepetitionsNumber',
-        completionValue: 1,
         description: task.description,
-
-        // repeatType: task.repeatType,
-        // completionType: task.completionType,
-        // completionValue: task.completionValue,
+        repeatType: task.repeatType,
+        completionType: task.completionType,
+        completionValue: task.completionValue,
       }}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
@@ -101,7 +102,7 @@ export function EventTaskEditor({
                 onSelect={(date: Date) => setFieldValue('date', date)}
               />
             </div>
-            {/* <div className={s.line}>
+            <div className={s.line}>
               <SelectCustom
                 name="repeatType"
                 placeholder="Тип повторения"
@@ -115,8 +116,8 @@ export function EventTaskEditor({
                   setFieldValue('repeatType', repeatType);
                 }}
               />
-            </div> */}
-            {/* <div className={s.line}>
+            </div>
+            <div className={s.line}>
               <SelectCustom
                 name="completionType"
                 placeholder="Принцип завершения"
@@ -169,7 +170,7 @@ export function EventTaskEditor({
               ) : (
                 ''
               )}
-            </div> */}
+            </div>
             <div className={s.line}>
               <HtmlEditor
                 value={values.description || ''}
