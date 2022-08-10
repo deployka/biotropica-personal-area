@@ -9,6 +9,7 @@ import { ProfileSvgSelector } from '../../../assets/icons/profile/ProfileSvgSele
 import { AnalyzePopup } from './AnalyzePopup';
 
 import s from './Analyze.module.scss';
+import classNames from 'classnames';
 
 interface Props {
   analyze: AnalyzeAnswer;
@@ -36,7 +37,7 @@ export const AnalyzesAnalyze = ({ analyze, onDelete }: Props) => {
 
         <p className={s.createdAt}>{moment(analyze.createdAt).format('LL')}</p>
         <div
-          className={s.actions}
+          className={classNames(s.actions, { [s.active]: isPopupOpen })}
           onClick={() => {
             setIsPopupOpen(true);
           }}

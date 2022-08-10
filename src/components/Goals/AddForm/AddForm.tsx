@@ -77,7 +77,7 @@ export const GoalAddForm = ({
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="Название задачи"
+                  label="Название задачи"
                   name="name"
                   value={values.name}
                   type="text"
@@ -115,7 +115,7 @@ export const GoalAddForm = ({
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder={'Желаемый результат'}
+                  label="Желаемый результат"
                   name="endResult"
                   value={values.endResult}
                   type="text"
@@ -130,7 +130,7 @@ export const GoalAddForm = ({
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder={'Текущий результат'}
+                  label="Текущий результат"
                   name="startResult"
                   value={values.startResult}
                   type="text"
