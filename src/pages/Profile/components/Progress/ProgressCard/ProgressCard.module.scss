@@ -1,5 +1,5 @@
-@import '../../../../../styles/mixins.scss';
-@import '../../../../../styles/variables.scss';
+@import "../../../../../styles/mixins.scss";
+@import "../../../../../styles/variables.scss";
 
 .card {
   padding: 30px;
@@ -9,8 +9,8 @@
   border: 1px solid $color-secondary;
   border-radius: 5px;
 
-  @include for-phone {
-    padding: 30px 20px;
+  @include for-tablet {
+    padding: 30px 20px 15px 20px;
   }
 
   .imagesWrapper {
@@ -59,11 +59,34 @@
   }
 
   .date {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @include for-tablet {
+      flex-direction: column;
+      justify-content: unset;
+      align-items: flex-start;
+    }
+
     p {
       color: $color-grey-2;
       font-weight: 400;
       font-size: 16px;
       line-height: 120%;
+
+      &.delete {
+        color: #d06361;
+        cursor: pointer;
+        text-align: right;
+
+        @include for-tablet {
+          margin: 5px 0 0 0;
+          text-align: left;
+          font-size: 14px;
+        }
+      }
     }
   }
 }

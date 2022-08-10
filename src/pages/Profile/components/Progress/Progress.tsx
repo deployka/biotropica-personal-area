@@ -10,8 +10,15 @@ import { IInfoBar, InfoBar } from '../../../../shared/Global/InfoBar/InfoBar';
 import { ModalName } from '../../../../providers/ModalProvider';
 import { useModal } from '../../../../hooks/useModal';
 import { Progress as IProgress } from '../../../../@types/entities/Progress';
-import { useGetProgressPostsQuery } from '../../../../api/progress';
+import {
+  useDeleteProgressPostMutation,
+  useGetProgressPostsQuery,
+} from '../../../../api/progress';
 import { BaseUser } from '../../../../@types/entities/BaseUser';
+import { DeleteProgressPostDto } from '../../../../@types/dto/progress/delete.dto';
+import { eventBus, EventTypes } from '../../../../services/EventBus';
+import { NotificationType } from '../../../../components/GlobalNotifications/GlobalNotifications';
+import { NotificationButtons } from './NotificationButtons';
 
 interface Props {
   user: BaseUser;
@@ -33,6 +40,43 @@ export const Progress = ({ user }: Props) => {
     userId: user.id,
   });
 
+  const [deleteProgressPost] = useDeleteProgressPostMutation();
+
+  const deleteProgress = async (deletePostData: DeleteProgressPostDto) => {
+    try {
+      await deleteProgressPost(deletePostData).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        message: 'Запись удалена',
+        type: NotificationType.SUCCESS,
+        autoClose: 10000,
+      });
+    } catch (error) {
+      console.error(error);
+      eventBus.emit(EventTypes.notification, {
+        title: 'Ошибка!',
+        message: 'Произошла ошибка при удалении прогресса',
+        type: NotificationType.DANGER,
+        autoClose: 10000,
+      });
+    }
+  };
+
+  const clickDeleteProgress = (deletePostData: DeleteProgressPostDto) => {
+    eventBus.emit(EventTypes.notification, {
+      title: 'Удалить запись прогресса?',
+      message: (
+        <NotificationButtons
+          onChange={() => deleteProgress(deletePostData)}
+          onDiscard={() => {
+            console.log('Отмена');
+          }}
+        />
+      ),
+      type: NotificationType.INFO,
+      theme: 'light',
+    });
+  };
+
   if (!progress.length && !isLoading) {
     return <InfoBar infoBar={infoBar} />;
   }
@@ -45,7 +89,13 @@ export const Progress = ({ user }: Props) => {
       <PerfectScrollbar>
         <div className={s.progress}>
           {progress.map((card: IProgress) => (
-            <ProgressCard key={card.id} card={card} />
+            <ProgressCard
+              key={card.id}
+              card={card}
+              onDelete={() => {
+                clickDeleteProgress({ id: card.id });
+              }}
+            />
           ))}
         </div>
       </PerfectScrollbar>

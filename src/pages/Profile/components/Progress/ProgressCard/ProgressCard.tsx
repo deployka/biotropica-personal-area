@@ -10,9 +10,10 @@ import {
 
 interface Props {
   card: Progress;
+  onDelete: () => void;
 }
 
-export const ProgressCard = ({ card }: Props) => {
+export const ProgressCard = ({ card, onDelete }: Props) => {
   const { openModal } = useModal();
 
   const photos: ProgressPhoto[] = card.photos;
@@ -39,6 +40,9 @@ export const ProgressCard = ({ card }: Props) => {
         <p>
           {moment(new Date(card.createdAt), 'YYYYMMDD').fromNow()},{' '}
           {moment(card.createdAt).format('Do MMMM YYYY г.')}
+        </p>
+        <p className={s.delete} onClick={onDelete}>
+          Удалить запись
         </p>
       </div>
     </div>

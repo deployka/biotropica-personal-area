@@ -1,4 +1,5 @@
 import { CreateProgressDto } from '../@types/dto/progress/create.dto';
+import { DeleteProgressPostDto } from '../@types/dto/progress/delete.dto';
 import { GetAllProgressPostsDto } from '../@types/dto/progress/get-all.dto';
 import { UpdateProgressDto } from '../@types/dto/progress/update.dto';
 import { Progress } from '../@types/entities/Progress';
@@ -33,6 +34,14 @@ export const progressApi = baseApi.injectEndpoints({
         method: 'PUT',
         body: dto,
       }),
+      invalidatesTags: [{ type: 'Progress', id: 'LIST' }],
+    }),
+    deleteProgressPost: builder.mutation<Progress, DeleteProgressPostDto>({
+      query: dto => ({
+        url: `/progress/${dto.id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: [{ type: 'Progress', id: 'LIST' }],
     }),
   }),
 });
@@ -41,6 +50,7 @@ export const {
   useGetProgressPostsQuery,
   useCreateProgressPostMutation,
   useUpdateProgressPostMutation,
+  useDeleteProgressPostMutation,
 } = progressApi;
 
 export default progressApi;
