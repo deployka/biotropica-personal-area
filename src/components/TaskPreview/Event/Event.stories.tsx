@@ -11,6 +11,8 @@ export default {
 
 const task: EventTask = {
   type: 'event',
+  authorId: 0,
+  isPrivate: true,
   repeatType: 'daily',
   completionType: 'byDate',
   title: 'Проверка',

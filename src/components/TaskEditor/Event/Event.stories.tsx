@@ -13,6 +13,8 @@ export default {
 const task: EventTask = {
   id: generateUniqueID(),
   type: 'event',
+  authorId: 0,
+  isPrivate: true,
   repeatType: 'daily',
   completionType: 'byRepetitionsNumber',
   completionValue: '15',
