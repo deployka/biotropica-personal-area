@@ -30,7 +30,7 @@ interface Props {
   analyzes: AnalyzeAnswer[];
   questionnaireAnswers: Answer[];
   progress: IProgress[];
-  currentTariff: CurrentTariff;
+  currentTariff?: CurrentTariff;
   progressIsLoading: boolean;
   onAddComment: (comment: string, analyzeId: number) => void;
   isLoadingComment: boolean;

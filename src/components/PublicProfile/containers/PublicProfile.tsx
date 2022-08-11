@@ -27,19 +27,27 @@ export const PublicProfile = () => {
     isLoading: isUserLoading,
     isError: isUserError,
   } = useGetUserQuery(userId, { skip: !userId });
+
   const { data: currentSpecialist } = useGetCurrentSpecialistQuery();
+
   const [createComment, { isLoading: isCreateCommentLoading }] =
     useCreateAnalyzeAnswerCommentMutation();
+
   const [deleteComment, { isLoading: isDeleteCommentLoading }] =
     useDeleteAnalyzeAnswerCommentMutation();
+
   const { data: progress = [], isLoading: isProgressLoading } =
     useGetProgressPostsQuery({ userId }, { skip: !userId });
+
   const { data: goalsList } = useGetGoalsQuery();
+
   const { data: analyzeTypes = [] } = useGetAnalyzesQuery();
+
   const { data: analyzes = [] } = useGetAnalyzeAnswersQuery(
     { userId },
     { skip: !userId },
   );
+
   const { data: currentTariff } = useGetUserTariffByIdQuery(userId, {
     skip: !userId,
   });
@@ -84,28 +92,32 @@ export const PublicProfile = () => {
     }
   };
 
-  if (!user) {
+  if (isUserLoading) {
+    return <p>Загрузка...</p>;
+  }
+
+  if (!isUserLoading && isUserError) {
     return <div>Произошла ошибка</div>;
   }
 
-  if (!currentTariff) {
-    return <div>Произошла ошибка</div>;
+  if (!isUserLoading && user) {
+    return (
+      <Profile
+        currentTariff={currentTariff}
+        currentUserId={currentSpecialist?.id || 0}
+        user={user}
+        onDeleteComment={onDeleteComment}
+        isLoadingComment={isCreateCommentLoading || isDeleteCommentLoading}
+        onAddComment={onAddComment}
+        progress={progress}
+        progressIsLoading={isProgressLoading}
+        goalsLength={goalsList?.length || 0}
+        questionnaireAnswers={questionnaireAnswers}
+        analyzeTypes={analyzeTypes}
+        analyzes={analyzes}
+      />
+    );
   }
 
-  return (
-    <Profile
-      currentTariff={currentTariff}
-      currentUserId={currentSpecialist?.id || 0}
-      user={user}
-      onDeleteComment={onDeleteComment}
-      isLoadingComment={isCreateCommentLoading || isDeleteCommentLoading}
-      onAddComment={onAddComment}
-      progress={progress}
-      progressIsLoading={isProgressLoading}
-      goalsLength={goalsList?.length || 0}
-      questionnaireAnswers={questionnaireAnswers}
-      analyzeTypes={analyzeTypes}
-      analyzes={analyzes}
-    />
-  );
+  return <></>;
 };
