@@ -6,6 +6,7 @@ import editIcon from './../../../assets/icons/edit_note.svg';
 import { MoreOptionsButton } from './MoreOptionsButton';
 
 import s from './Header.module.scss';
+import { useHistory } from 'react-router';
 
 interface Props {
   mode: 'edit' | 'view' | 'create';
@@ -16,6 +17,8 @@ interface Props {
   type?: string;
   taskId: string;
   isSpecialist: boolean;
+  authorSpecialistId?: number;
+  authorName: string;
   onClose(): void;
   onEditBtnClick(): void;
   onCreateTemplate(): void;
@@ -30,6 +33,8 @@ export const Header = ({
   category,
   taskId,
   isSpecialist,
+  authorSpecialistId,
+  authorName,
   onDeleteTask,
   onClose,
   onCreateTemplate,
@@ -39,6 +44,8 @@ export const Header = ({
   let taskType = '';
   let headerColor = '';
   let headerTitle = '';
+
+  const history = useHistory();
 
   switch (type) {
     case 'training':
@@ -73,9 +80,17 @@ export const Header = ({
       break;
   }
 
+  const onClickAuthor = (id: number) => {
+    if (isCurrentUser) {
+      return history.push('/profile');
+    }
+
+    return history.push(`/specialists/${id}`);
+  };
+
   return (
     <div className={s.header} style={{ backgroundColor: headerColor }}>
-      <div className={classNames(s.title, mode === 'view' ? s.underline : '')}>
+      <div className={classNames(s.title, { [s.underline]: mode === 'view' })}>
         <div className={s.taskTitle}>
           {icon && mode === 'view' && (
             <div className={s.icon}>
@@ -104,35 +119,49 @@ export const Header = ({
           <img
             className={s.closeIcon}
             src={closeIcon}
-            alt=""
+            alt="icon"
             onClick={onClose}
           />
         </div>
       </div>
 
-      {mode === 'view' ? (
-        <div className={s.taskInfo}>
-          <div className={s.row}>
-            <p className={s.rowTitle}>тип задачи</p>
-            <p className={s.rowText}>{taskType}</p>
-          </div>
-          {category && (
+      {mode === 'view' && (
+        <>
+          <div className={s.taskInfo}>
             <div className={s.row}>
-              <p className={s.rowTitle}>категория</p>
-              <p className={s.rowText}>{category}</p>
+              <p className={s.rowTitle}>тип задачи</p>
+              <p className={s.rowText}>{taskType}</p>
+            </div>
+            {category && (
+              <div className={s.row}>
+                <p className={s.rowTitle}>категория</p>
+                <p className={s.rowText}>{category}</p>
+              </div>
+            )}
+            {isCurrentUser && (
+              <img
+                className={s.editIcon}
+                src={editIcon}
+                alt=""
+                onClick={onEditBtnClick}
+              />
+            )}
+          </div>
+
+          {authorName && (
+            <div className={s.authorInfo}>
+              <p className={s.title}>Создатель</p>
+              <p
+                className={s.name}
+                onClick={() => {
+                  onClickAuthor(authorSpecialistId || 0);
+                }}
+              >
+                {isCurrentUser ? 'Я' : authorName}
+              </p>
             </div>
           )}
-          {isCurrentUser && (
-            <img
-              className={s.editIcon}
-              src={editIcon}
-              alt=""
-              onClick={onEditBtnClick}
-            />
-          )}
-        </div>
-      ) : (
-        ''
+        </>
       )}
     </div>
   );

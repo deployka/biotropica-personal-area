@@ -19,10 +19,12 @@ export type TaskBaseEditorProps = {
   category?: string;
   children: ReactNode;
   isOpened: boolean;
+  taskId: string;
+  authorSpecialistId?: number;
+  authorName: string;
   onCreateTemplate: () => void;
   onDeleteTask(): void;
   onClose(): void;
-  taskId: string;
   onEditBtnClick(): void;
 };
 
@@ -36,8 +38,10 @@ export function TaskBaseEditor({
   children,
   category,
   isOpened,
-  onClose,
   taskId,
+  authorName,
+  authorSpecialistId,
+  onClose,
   onCreateTemplate,
   onDeleteTask,
   onEditBtnClick,
@@ -66,6 +70,8 @@ export function TaskBaseEditor({
           icon={icon}
           category={category}
           type={task?.type}
+          authorSpecialistId={authorSpecialistId}
+          authorName={authorName}
           onDeleteTask={onDeleteTask}
           onClose={onClose}
           onCreateTemplate={onCreateTemplate}

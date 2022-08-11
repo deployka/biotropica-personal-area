@@ -2,7 +2,9 @@ import { Comment } from './Comment';
 
 export type Task = {
   id: string;
-  authorId?: number;
+  authorId: number;
+  authorSpecialistId?: number;
+  authorName?: string;
   executorId: number;
   title: string;
   type: 'training' | 'event' | 'competition';
@@ -15,6 +17,7 @@ export type Task = {
   templateName?: string;
   isVisible?: boolean;
   comments: Comment[];
+  isPrivate: boolean;
 };
 
 type CreateTask<T> = Omit<T, 'id'>;

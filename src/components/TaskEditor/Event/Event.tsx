@@ -45,6 +45,7 @@ export function EventTaskEditor({
         repeatType: task.repeatType,
         completionType: task.completionType,
         completionValue: task.completionValue,
+        isPrivate: task.isPrivate,
       }}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
@@ -184,10 +185,10 @@ export function EventTaskEditor({
             <div className="line">
               <Checkbox
                 id="visibilityCheckbox"
-                name="isVisible"
-                label="Видимо всем"
-                isChecked={values.isVisible}
-                onChange={value => setFieldValue('isVisible', value)}
+                name="isPrivate"
+                label="Приватная задача"
+                isChecked={values.isPrivate}
+                onChange={value => setFieldValue('isPrivate', value)}
               />
             </div>
             <div className={s.buttons}>

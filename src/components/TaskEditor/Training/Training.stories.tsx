@@ -17,6 +17,8 @@ export default {
 const task: TrainingTask = {
   id: generateUniqueID(),
   type: 'training',
+  authorId: 0,
+  isPrivate: true,
   kindOfSport: KindOfSport.run,
   category: TrainingCategory.muscleEndurance,
   startTime: '',

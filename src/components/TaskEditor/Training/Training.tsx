@@ -53,7 +53,7 @@ export function TrainingTaskEditor({
         secondTargetType: task.secondTargetType,
         secondTargetValue: task.secondTargetValue,
         description: task.description,
-        isVisible: task.isVisible,
+        isPrivate: task.isPrivate,
       }}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
@@ -200,10 +200,10 @@ export function TrainingTaskEditor({
             <div className="line">
               <Checkbox
                 id="visibilityCheckbox"
-                name="isVisible"
-                label="Видимо всем"
-                isChecked={values.isVisible}
-                onChange={value => setFieldValue('isVisible', value)}
+                name="isPrivate"
+                label="Приватная задача"
+                isChecked={values.isPrivate}
+                onChange={value => setFieldValue('isPrivate', value)}
               />
             </div>
             <div className={s.buttons}>

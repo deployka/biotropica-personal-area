@@ -19,10 +19,12 @@ export default {
 
 const task: CreateCompetitionTask = {
   type: 'competition',
+  authorId: 0,
   kindOfSport: KindOfCompetitionSport.run,
   competitionType: RunCompetitionType.marathon,
   priority: TaskPriority.A,
   startTime: '12:30',
+  isPrivate: true,
   targetValue: 0,
   title: 'Test',
   date: '',
