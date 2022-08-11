@@ -19,6 +19,8 @@ export default {
 
 const task: CompetitionTask = {
   id: '1',
+  authorId: 0,
+  isPrivate: true,
   type: 'competition',
   kindOfSport: KindOfCompetitionSport.run,
   competitionType: RunCompetitionType.tenKm,

@@ -9,6 +9,7 @@ export function generateTask(task: Partial<Task> = {}): Task {
   const taskId = generateUniqueID();
   return {
     id: taskId,
+    authorId: 0,
     date: randomInArr([
       '2022-01-01',
       '2022-01-02',
@@ -26,6 +27,7 @@ export function generateTask(task: Partial<Task> = {}): Task {
     type: randomInArr(['training', 'competition', 'event']),
     comments: [],
     executorId: 122,
+    isPrivate: true,
     ...task,
   };
 }

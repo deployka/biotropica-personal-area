@@ -15,6 +15,8 @@ export default {
 
 const task: TrainingTask = {
   type: 'training',
+  isPrivate: true,
+  authorId: 0,
   kindOfSport: KindOfSport.run,
   category: TrainingCategory.aerobicEndurance,
   firstTargetType: 'time',
