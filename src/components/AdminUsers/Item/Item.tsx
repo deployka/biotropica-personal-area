@@ -7,6 +7,7 @@ import s from './Item.module.scss';
 
 type User = {
   fullName: string;
+  isBanned: boolean;
   registrationDate: string;
   tariff: string;
   roles: Role[];
@@ -15,7 +16,7 @@ type User = {
 type Props = {
   user: User;
   onProfile: () => void;
-  onBlock: () => void;
+  onToggleUserBanStatus: () => void;
   onWrite: () => void;
 };
 
@@ -25,7 +26,12 @@ export const ROLE_TRANSLATIONS = {
   [ROLE.SPECIALIST]: 'Специалист',
 };
 
-export const UserItem = ({ user, onProfile, onBlock, onWrite }: Props) => {
+export const UserItem = ({
+  user,
+  onProfile,
+  onToggleUserBanStatus,
+  onWrite,
+}: Props) => {
   const [visible, setVisible] = useState(false);
 
   function showPopUp() {
@@ -89,9 +95,10 @@ export const UserItem = ({ user, onProfile, onBlock, onWrite }: Props) => {
         </div>
         {visible && (
           <ItemPopup
+            isBanned={user.isBanned}
             onProfileClick={onProfile}
-            onBlockClick={() => {
-              onBlock();
+            onToggleUserBanStatus={() => {
+              onToggleUserBanStatus();
               setVisible(false);
             }}
             onWriteClick={() => {

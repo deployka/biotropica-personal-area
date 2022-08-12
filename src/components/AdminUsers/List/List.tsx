@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { Filter, FilterField } from '../../Filter/Filter';
 import {
+  filterUsersByBanStatus,
   filterUsersByQuery,
   filterUsersByQuestionnaire,
   filterUsersByRoles,
@@ -21,14 +22,15 @@ type Props = {
   tariffs: Tariff[];
   onCreateUser(): void;
   onProfile: (user: BaseUser) => void;
-  onBlockUser(user: BaseUser): void;
-  onWriteUser(id: number): void;
+  onToggleUserBanStatus: (id: number) => void;
+  onWriteUser: (id: number) => void;
 };
 
 type Filters = {
   roles: (ROLE | 'all')[];
   questionnaire: string[];
   tariffs: string[];
+  banned: ('all' | 'yes' | 'no')[];
 };
 
 export function AdminUsersList({
@@ -36,7 +38,7 @@ export function AdminUsersList({
   tariffs,
   onProfile,
   onCreateUser,
-  onBlockUser,
+  onToggleUserBanStatus,
   onWriteUser,
 }: Props) {
   const [isFilterOpened, setIsFilterOpened] = useState<boolean>(false);
@@ -45,6 +47,7 @@ export function AdminUsersList({
     roles: ['all'],
     questionnaire: ['all'],
     tariffs: ['all'],
+    banned: ['all'],
   });
 
   let filteredUsers = users;
@@ -54,7 +57,7 @@ export function AdminUsersList({
     filters.questionnaire[0],
   );
   filteredUsers = filterUsersByTariffs(filteredUsers, filters.tariffs);
-
+  filteredUsers = filterUsersByBanStatus(filteredUsers, filters.banned[0]);
   const tariffsFilters = tariffs.map(tariff => ({
     value: `${tariff.id}`,
     label: tariff.title,
@@ -101,7 +104,7 @@ export function AdminUsersList({
           users={filteredUsers}
           tariffs={tariffs}
           onProfile={onProfile}
-          onBlock={onBlockUser}
+          onToggleUserBanStatus={onToggleUserBanStatus}
           onWrite={onWriteUser}
         />
       </div>

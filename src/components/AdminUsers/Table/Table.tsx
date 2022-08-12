@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 import React from 'react';
 import { BaseUser } from '../../../@types/entities/BaseUser';
+import { ROLE } from '../../../@types/entities/Role';
 import { Tariff } from '../../../@types/entities/Tariff';
 import { getFullName } from '../../../utils/getFullName';
 
@@ -12,16 +13,16 @@ export type UsersTableProps = {
   users: BaseUser[];
   tariffs: Tariff[];
   onProfile: (user: BaseUser) => void;
-  onBlock: (user: BaseUser) => void;
+  onToggleUserBanStatus: (id: number) => void;
   onWrite: (id: number) => void;
 };
 
 export function AdminUsersTable({
   users,
   tariffs,
-  onProfile,
-  onBlock,
   onWrite,
+  onProfile,
+  onToggleUserBanStatus,
 }: UsersTableProps) {
   return (
     <>
@@ -42,11 +43,17 @@ export function AdminUsersTable({
       <div className={s.usersList}>
         {users.length !== 0 ? (
           users.map((user, i) => {
-            const tariff =
+            let tariff =
               tariffs.find(tariff => tariff.id === +(user.tariff || ''))
                 ?.title || 'Нет тарифа';
+
+            if (user.roles.find(role => role.name !== ROLE.CLIENT)) {
+              tariff = '';
+            }
+
             const formattedUser = {
               fullName: getFullName(user.name, user.lastname),
+              isBanned: user.banned,
               registrationDate: format(new Date(user.createdAt), 'dd.MM.yyyy'),
               tariff,
               roles: user.roles,
@@ -57,7 +64,9 @@ export function AdminUsersTable({
                 key={i}
                 user={formattedUser}
                 onProfile={() => onProfile(user)}
-                onBlock={() => onBlock(user)}
+                onToggleUserBanStatus={() => {
+                  onToggleUserBanStatus(user.id);
+                }}
                 onWrite={() => onWrite(user.id)}
               />
             );

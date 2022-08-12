@@ -47,6 +47,25 @@ export const usersFilters: FilterField[] = [
       },
     ],
   },
+  {
+    name: 'Заблокирован',
+    key: 'banned',
+    type: 'radio',
+    filters: [
+      {
+        value: 'all',
+        label: 'Все',
+      },
+      {
+        value: 'yes',
+        label: 'Да',
+      },
+      {
+        value: 'no',
+        label: 'Нет',
+      },
+    ],
+  },
 ];
 
 export function filterUsersByRoles(
@@ -99,13 +118,17 @@ export function filterUsersByTariffs(users: BaseUser[], tariffs: string[]) {
   }
 
   if (tariff === 'noTariff') {
-    return users.filter(user => user.tariff === null);
+    return users.filter(
+      user =>
+        user.tariff === null &&
+        user.roles.find(role => role.name === ROLE.CLIENT),
+    );
   }
 
   return users.filter(user => user.tariff === tariff);
 }
 
-export function filterUsersByQuery(users: Array<BaseUser>, q: string) {
+export function filterUsersByQuery(users: BaseUser[], q: string) {
   const query = q.toLowerCase().trim();
   return users.filter(user => {
     return (
@@ -114,4 +137,15 @@ export function filterUsersByQuery(users: Array<BaseUser>, q: string) {
       user.email?.toLowerCase().includes(query)
     );
   });
+}
+
+export function filterUsersByBanStatus(
+  users: BaseUser[],
+  isBanned: 'all' | 'yes' | 'no',
+) {
+  if (isBanned === 'all') return users;
+
+  if (isBanned === 'yes') return users.filter(user => user.banned);
+
+  return users.filter(user => !user.banned);
 }

@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 
 import { eventBus, EventTypes } from '../../services/EventBus';
-import { useBlockUserMutation, useGetAllUsersQuery } from '../../api/user';
+import {
+  useBanUserMutation,
+  useGetAllUsersQuery,
+  useUnbanUserMutation,
+} from '../../api/user';
 
 import { useGetAllRolesQuery } from '../../api/roles';
 import { BaseUser } from '../../@types/entities/BaseUser';
@@ -10,7 +14,7 @@ import { NotificationType } from '../../components/GlobalNotifications/GlobalNot
 import { ResponseError } from '../../@types/api/response';
 import { AdminUsersList } from '../../components/AdminUsers/List/List';
 import { CreateUserModal } from '../../components/AdminUsers/CreateModal/CreateModal';
-import { BlockUserConfirmModal } from '../../components/AdminUsers/BlockModal/BlockUserModal';
+import { BanStatusModal } from '../../components/AdminUsers/BanStatusModal/BanStatusModal';
 import { useSignUpMutation } from '../../api/auth';
 import { ROLE } from '../../@types/entities/Role';
 import { CreateUserDto } from '../../@types/dto/users/create-user.dto';
@@ -20,22 +24,18 @@ import { useGetAllTariffsQuery } from '../../api/tariffs';
 export function AdminUsers() {
   const history = useHistory();
   const [popup, setPopup] = useState<boolean>(false);
-  const [blockUserModalOpened, setBlockUserModalOpened] =
-    useState<boolean>(false);
-  const [userToBlock, setUserToBlock] = useState<BaseUser | null>(null);
+  const [blockUserModalMode, setBlockUserModalMode] = useState<
+    'block' | 'unblock' | null
+  >(null);
+  const [blockedUserId, setBlockedUserId] = useState<number | null>(null);
   const [signUp, { isLoading: isCreateUserLoading }] = useSignUpMutation();
-  const [blockUser] = useBlockUserMutation();
+  const [banUser] = useBanUserMutation();
+  const [unbanUser] = useUnbanUserMutation();
   const [createDialog] = useCreateDialogMutation();
-
   const { data: tariffs = [] } = useGetAllTariffsQuery();
 
   const { data: users } = useGetAllUsersQuery({});
   const { data: roles } = useGetAllRolesQuery();
-
-  const askBlockUser = (user: BaseUser) => {
-    setUserToBlock(user);
-    setBlockUserModalOpened(true);
-  };
 
   const moveToProfile = (user: BaseUser) => {
     const specialistId = user.specialist?.id;
@@ -44,6 +44,16 @@ export function AdminUsers() {
     } else {
       history.push(`/users/${user.id}`);
     }
+  };
+
+  const toggleUserBanStatus = (id: number) => {
+    if (!users) return;
+
+    const user = users.find(it => it.id === id);
+    if (!user) return;
+
+    setBlockUserModalMode(user.banned ? 'unblock' : 'block');
+    setBlockedUserId(id);
   };
 
   async function writeUser(userId: number) {
@@ -91,12 +101,48 @@ export function AdminUsers() {
     setPopup(false);
   }
 
-  async function handleBlockUser() {
-    if (!userToBlock?.id) {
+  async function handleBlockUser(banReason: string) {
+    if (!blockedUserId) {
       return;
     }
-    await blockUser(userToBlock.id);
-    setBlockUserModalOpened(false);
+
+    try {
+      await banUser({ id: blockedUserId, banReason }).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        message: 'Пользователь заблокирован',
+        type: NotificationType.SUCCESS,
+      });
+      setBlockUserModalMode(null);
+      setBlockedUserId(null);
+    } catch (error) {
+      console.log(error);
+      eventBus.emit(EventTypes.notification, {
+        message: 'Произошла ошибка',
+        type: NotificationType.DANGER,
+      });
+    }
+  }
+
+  async function handleUnblockUser() {
+    if (!blockedUserId) {
+      return;
+    }
+
+    try {
+      await unbanUser({ id: blockedUserId }).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        message: 'Пользователь разблокирован',
+        type: NotificationType.SUCCESS,
+      });
+      setBlockUserModalMode(null);
+      setBlockedUserId(null);
+    } catch (error) {
+      console.log(error);
+      eventBus.emit(EventTypes.notification, {
+        message: 'Произошла ошибка',
+        type: NotificationType.DANGER,
+      });
+    }
   }
 
   return (
@@ -108,10 +154,12 @@ export function AdminUsers() {
         roles={roles || []}
         onUserCreate={createUserHandler}
       />
-      <BlockUserConfirmModal
-        opened={blockUserModalOpened}
-        onDisagreed={() => setBlockUserModalOpened(false)}
-        onAgreed={handleBlockUser}
+      <BanStatusModal
+        isOpened={!!blockUserModalMode}
+        type={blockUserModalMode}
+        onReject={() => setBlockUserModalMode(null)}
+        onBlock={handleBlockUser}
+        onUnblock={handleUnblockUser}
       />
       {users ? (
         <AdminUsersList
@@ -120,7 +168,7 @@ export function AdminUsers() {
           onProfile={moveToProfile}
           onCreateUser={() => setPopup(true)}
           onWriteUser={writeUser}
-          onBlockUser={(user: BaseUser) => askBlockUser(user)}
+          onToggleUserBanStatus={toggleUserBanStatus}
         />
       ) : (
         ''

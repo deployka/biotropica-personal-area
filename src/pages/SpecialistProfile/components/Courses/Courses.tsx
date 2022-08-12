@@ -201,12 +201,13 @@ export const Courses = ({ courses, onChange }: Props) => {
       </div>
       <Modal isOpened={isDeleteModalVisible} close={() => closeDeleteModal()}>
         <Confirm
-          helpMessage="Вы уверены, что хотите удалить курс?"
           accept={() => {
             !!courseIdToDelete && handleClickDeleteCourse(courseIdToDelete);
           }}
           reject={() => closeDeleteModal()}
-        />
+        >
+          Вы уверены, что хотите удалить курс?
+        </Confirm>
       </Modal>
     </>
   );
