@@ -45,15 +45,10 @@ export const TariffsList = ({
         const order = tariffOrderList.find(
           tariffOrder => tariffOrder.tariffId === tariff.id,
         )?.order;
-        if (!order) {
-          return {
-            ...tariff,
-            order: 1,
-          };
-        }
+
         return {
           ...tariff,
-          order,
+          order: order || 1,
         };
       })
       .sort((a, b) => a.order - b.order);
@@ -75,17 +70,19 @@ export const TariffsList = ({
 
     if (!currentOrder) return;
 
-    const newOrder = currentOrder - step;
+    const newOrder = currentOrder + step;
 
     const newOrderData = [...tariffOrderList];
 
-    const aIndex = newOrderData.findIndex(it => it.order === currentOrder);
-    const bIndex = newOrderData.findIndex(it => it.order === newOrder);
+    const currentOrderIndex = newOrderData.findIndex(
+      it => it.order === currentOrder,
+    );
+    const newOrderIndex = newOrderData.findIndex(it => it.order === newOrder);
 
-    if (aIndex === -1 || bIndex === -1) return;
+    if (currentOrderIndex === -1 || newOrderIndex === -1) return;
 
-    newOrderData[aIndex].order = newOrder;
-    newOrderData[bIndex].order = currentOrder;
+    newOrderData[currentOrderIndex].order = newOrder;
+    newOrderData[newOrderIndex].order = currentOrder;
     setTariffOrderList(newOrderData);
   };
 

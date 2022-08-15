@@ -87,7 +87,7 @@ export const TariffCard = ({
                 <button
                   className={s.orderButton}
                   onClick={() => {
-                    onChangeOrder(1);
+                    onChangeOrder(-1);
                   }}
                 >
                   <img src={arrow} />
@@ -95,7 +95,7 @@ export const TariffCard = ({
                 <button
                   className={classNames(s.orderButton, s.right)}
                   onClick={() => {
-                    onChangeOrder(-1);
+                    onChangeOrder(1);
                   }}
                 >
                   <img src={arrow} />
