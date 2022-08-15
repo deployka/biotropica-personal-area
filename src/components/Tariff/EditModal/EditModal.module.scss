@@ -1,4 +1,8 @@
 .modal {
-    width: 'fit-content';
+    width: "fit-content";
     margin: 0 20px;
-};
+    overflow-y: auto;
+    width: 100%;
+    max-width: 420px;
+    max-height: calc(100vh - 60px);
+}

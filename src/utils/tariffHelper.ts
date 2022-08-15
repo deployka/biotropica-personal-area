@@ -54,3 +54,21 @@ export function showSuccessNotificationAfterAddTariff() {
     autoClose: 5000,
   });
 }
+
+export function showSuccessNotificationAfterUpdateOrders() {
+  eventBus.emit(EventTypes.notification, {
+    title: 'Порядок тарифов успешно обновлен',
+    message: '',
+    type: NotificationType.SUCCESS,
+    autoClose: 5000,
+  });
+}
+
+export function showErrorNotificationAfterUpdateOrders() {
+  eventBus.emit(EventTypes.notification, {
+    title: 'Ошибка обновления очереди',
+    message: '',
+    type: NotificationType.DANGER,
+    autoClose: 5000,
+  });
+}

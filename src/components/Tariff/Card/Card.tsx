@@ -2,8 +2,10 @@ import React from 'react';
 
 import { useSelector } from 'react-redux';
 import Button from '../../Button/Button';
-import EditTariffModal from '../EditModal/EditModal';
+
 import checkbox from './../../../assets/icons/tariffs/checkbox.svg';
+import arrow from './../../../assets/icons/arrowLight.svg';
+
 import { selectIsAdmin } from '../../../store/slices/authSlice';
 
 import s from './Card.module.scss';
@@ -14,21 +16,23 @@ import { useGetCurrentTariffQuery } from '../../../api/tariffs';
 
 interface Props {
   tariff: ITariff;
-  refetchTariffs: () => void;
+  order: number;
+  isEditableOrder: boolean;
   isSelectLoading?: boolean;
+  onEdit: () => void;
   onSelect: () => void;
+  onChangeOrder: (newPosition: number) => void;
 }
 
 export const TariffCard = ({
   tariff,
-  refetchTariffs,
+  isEditableOrder,
   isSelectLoading,
+  onEdit,
   onSelect,
+  onChangeOrder,
 }: Props) => {
-  const { id, cost, title, includedFields, zakazSystemId } = tariff;
-
-  const [isEditTariffModalVisible, setIsEditTariffModalVisible] =
-    React.useState(false);
+  const { cost, title, includedFields } = tariff;
 
   const isAdmin = useSelector(selectIsAdmin);
 
@@ -49,75 +53,87 @@ export const TariffCard = ({
   const isDisabledBtn = isPaid;
 
   return (
-    <>
-      <div className={s.card}>
-        <div className={s.top}>
-          <div className={s.header}>
-            <div className={s.price}>
-              <div className={s.text}>
-                <p>{cost}₽</p>
-              </div>
-              <div className={s.subText}>
-                <p>/месяц</p>
-              </div>
+    <div className={s.card}>
+      <div className={s.top}>
+        <div className={s.header}>
+          <div className={s.price}>
+            <div className={s.text}>
+              <p>{cost} ₽</p>
             </div>
-            <div></div>
+            <div className={s.subText}>
+              <p>/месяц</p>
+            </div>
           </div>
-          <div className={s.title}>
-            <h3>{title}</h3>
-          </div>
-
-          <ul className={s.list}>
-            {includedFields.map((feature: string) => (
-              <li key={feature} className={s.listEl}>
-                <img src={checkbox} alt="" />
-                <p>{feature}</p>
-              </li>
-            ))}
-          </ul>
+          <div></div>
         </div>
-        <div className={s.bottom}>
-          {isAdmin ? (
+        <div className={s.title}>
+          <h3>{title}</h3>
+        </div>
+
+        <ul className={s.list}>
+          {includedFields.map((feature: string) => (
+            <li key={feature} className={s.listEl}>
+              <img src={checkbox} alt="" />
+              <p>{feature}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className={s.bottom}>
+        {isAdmin ? (
+          <>
+            {isEditableOrder && (
+              <>
+                <button
+                  className={s.orderButton}
+                  onClick={() => {
+                    onChangeOrder(1);
+                  }}
+                >
+                  <img src={arrow} />
+                </button>
+                <button
+                  className={classNames(s.orderButton, s.right)}
+                  onClick={() => {
+                    onChangeOrder(-1);
+                  }}
+                >
+                  <img src={arrow} />
+                </button>
+              </>
+            )}
             <Button
               isFunctional
-              className={s.editBtn}
-              onClick={() => setIsEditTariffModalVisible(true)}
+              className={classNames(s.editBtn, {
+                [s.centered]: isEditableOrder,
+              })}
+              onClick={onEdit}
             >
               Редактировать
             </Button>
-          ) : (
-            <button
-              disabled={isSelectLoading || isDisabledBtn}
-              className={classNames(
-                s.button,
-                isSelectLoading || isDisabledBtn ? s.disabled : '',
-                isCurrentTariff ? s.currentTariffBtn : '',
-              )}
-              onClick={() => {
-                if (!isSelectLoading) {
-                  onSelect();
-                }
-              }}
-            >
-              {isSelectLoading && isCurrentTariff ? (
-                <Loader color="#6f61d0" />
-              ) : (
-                tariffBtnText
-              )}
-            </button>
-          )}
-        </div>
+          </>
+        ) : (
+          <button
+            disabled={isSelectLoading || isDisabledBtn}
+            className={classNames(
+              s.button,
+              isSelectLoading || isDisabledBtn ? s.disabled : '',
+              isCurrentTariff ? s.currentTariffBtn : '',
+            )}
+            onClick={() => {
+              if (!isSelectLoading) {
+                onSelect();
+              }
+            }}
+          >
+            {isSelectLoading && isCurrentTariff ? (
+              <Loader color="#6f61d0" />
+            ) : (
+              tariffBtnText
+            )}
+          </button>
+        )}
       </div>
-      <EditTariffModal
-        id={id}
-        zakazSystemId={zakazSystemId}
-        cost={cost}
-        title={title}
-        includedFields={includedFields}
-        isVisible={isEditTariffModalVisible}
-        refetchTariffs={refetchTariffs}
-        onClose={() => setIsEditTariffModalVisible(false)}
-      />
-    </>
+    </div>
   );
 };
