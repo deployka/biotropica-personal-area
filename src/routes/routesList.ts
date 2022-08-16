@@ -16,7 +16,7 @@ import SpecialistProfile from '../pages/SpecialistProfile/Profile';
 import { AdminUsers } from '../pages/AdminUsers/AdminUsers';
 import { PublicProfile } from '../components/PublicProfile/containers/PublicProfile';
 import { SpecialistUsers } from '../pages/SpecialistUsers/SpecialistUsers';
-import VideoConsultationsList from '../pages/SpecialistVideoConsultationsList/VideoConsultationsList';
+import SpecialistConsultations from '../pages/SpecialistConsultations/SpecialistConsultations';
 import EditSpecialistProfile from '../pages/SpecialistProfile/Edit/Edit';
 import { Logs } from '../pages/Logs/containers/Logs';
 import PublicSpecialistProfile from '../pages/SpecialistProfile/PublicProfile';
@@ -37,7 +37,7 @@ const routes = [
   {
     path: 'consultations',
     clientComponent: Consultations,
-    specialistComponent: VideoConsultationsList,
+    specialistComponent: SpecialistConsultations,
     exact: true,
   },
   {
