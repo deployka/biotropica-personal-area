@@ -291,13 +291,14 @@ const VideoConsultationsList = () => {
       </div>
       <Modal isOpened={isDeleteModalVisible} close={() => closeDeleteModal()}>
         <Confirm
-          helpMessage="Вы уверены, что хотите удалить консультацию?"
           accept={() => {
             !!consultationToChange &&
               deleteConsultation(consultationToChange.id);
           }}
           reject={() => closeDeleteModal()}
-        />
+        >
+          Вы уверены, что хотите удалить консультацию?
+        </Confirm>
       </Modal>
       <Modal
         className={deviseWidth <= 576 ? 'modal-mobile' : ''}

@@ -3,14 +3,16 @@ import React from 'react';
 import s from './Item.module.scss';
 
 export type PopUpProps = {
+  isBanned: boolean;
   onProfileClick: () => void;
-  onBlockClick: () => void;
+  onToggleUserBanStatus: () => void;
   onWriteClick: () => void;
 };
 
 export function ItemPopup({
+  isBanned,
   onProfileClick,
-  onBlockClick,
+  onToggleUserBanStatus,
   onWriteClick,
 }: PopUpProps) {
   return (
@@ -21,8 +23,8 @@ export function ItemPopup({
       <div className={s.element} onClick={onWriteClick}>
         <p>Написать</p>
       </div>
-      <div className={s.element} onClick={onBlockClick}>
-        <p>Заблокировать</p>
+      <div className={s.element} onClick={onToggleUserBanStatus}>
+        <p>{isBanned ? 'Разблокировать' : 'Заблокировать'}</p>
       </div>
     </div>
   );
