@@ -16,7 +16,6 @@ import { AdminUsersList } from '../../components/AdminUsers/List/List';
 import { CreateUserModal } from '../../components/AdminUsers/CreateModal/CreateModal';
 import { BanStatusModal } from '../../components/AdminUsers/BanStatusModal/BanStatusModal';
 import { useSignUpMutation } from '../../api/auth';
-import { ROLE } from '../../@types/entities/Role';
 import { CreateUserDto } from '../../@types/dto/users/create-user.dto';
 import { useHistory } from 'react-router';
 import { useGetAllTariffsQuery } from '../../api/tariffs';
@@ -28,6 +27,7 @@ import {
   successCreateUserNotification,
   successUnbanNotification,
 } from './adminUsersNotifications';
+import { getRoleKeyByName } from '../../utils/getRoleKey';
 
 export function AdminUsers() {
   const history = useHistory();
@@ -78,17 +78,6 @@ export function AdminUsers() {
       });
     }
   }
-
-  const getRoleKeyByName = (role: ROLE) => {
-    switch (role) {
-      case ROLE.ADMIN:
-        return process.env.REACT_APP_ROLE_ADMIN;
-      case ROLE.SPECIALIST:
-        return process.env.REACT_APP_ROLE_SPECIALIST;
-      default:
-        return process.env.REACT_APP_ROLE_CLIENT;
-    }
-  };
 
   const handleCreateUser = async (user: CreateUserDto) => {
     try {

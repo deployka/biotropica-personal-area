@@ -68,7 +68,7 @@ export function AdminUsersList({
       isValidBanStatus &&
       isQueryValid
     );
-  }, []);
+  });
 
   const tariffsFilters = tariffs.map(tariff => ({
     value: `${tariff.id}`,

@@ -112,11 +112,9 @@ export function filterUserByTariffs(user: BaseUser, tariffs: string[]) {
 
 export function filterUserByQuery(user: BaseUser, q: string) {
   const query = q.toLowerCase().trim();
-
-  return (
-    user.name?.toLowerCase().includes(query) ||
-    user.lastname?.toLowerCase().includes(query) ||
-    user.email?.toLowerCase().includes(query)
+  const { name, lastname, email } = user;
+  return [name, lastname, email].some(field =>
+    field?.toLowerCase().includes(query),
   );
 }
 
