@@ -34,7 +34,7 @@ const Signin = () => {
     } catch (error) {
       options.setFieldValue('password', '');
       eventBus.emit(EventTypes.notification, {
-        message: 'Неверный логин или пароль!',
+        message: (error as any)?.data?.message || 'Произошла ошибка',
         type: NotificationType.DANGER,
       });
     }

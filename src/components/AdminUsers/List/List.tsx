@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 
 import { Filter, FilterField } from '../../Filter/Filter';
 import {
-  filterUsersByQuery,
-  filterUsersByQuestionnaire,
-  filterUsersByRoles,
-  filterUsersByTariffs,
+  filterUserByQuery,
+  filterUserByBanStatus,
+  filterUserByQuestionnaire,
+  filterUserByRoles,
+  filterUserByTariffs,
   usersFilters,
 } from '../adminUsersHelper';
 import { ROLE } from '../../../@types/entities/Role';
@@ -21,14 +22,15 @@ type Props = {
   tariffs: Tariff[];
   onCreateUser(): void;
   onProfile: (user: BaseUser) => void;
-  onBlockUser(user: BaseUser): void;
-  onWriteUser(id: number): void;
+  onToggleUserBanStatus: (id: number) => void;
+  onWriteUser: (id: number) => void;
 };
 
 type Filters = {
   roles: (ROLE | 'all')[];
-  questionnaire: string[];
+  questionnaire: ('all' | 'finished' | 'notFinished')[];
   tariffs: string[];
+  banned: ('all' | 'yes' | 'no')[];
 };
 
 export function AdminUsersList({
@@ -36,7 +38,7 @@ export function AdminUsersList({
   tariffs,
   onProfile,
   onCreateUser,
-  onBlockUser,
+  onToggleUserBanStatus,
   onWriteUser,
 }: Props) {
   const [isFilterOpened, setIsFilterOpened] = useState<boolean>(false);
@@ -45,15 +47,28 @@ export function AdminUsersList({
     roles: ['all'],
     questionnaire: ['all'],
     tariffs: ['all'],
+    banned: ['all'],
   });
 
-  let filteredUsers = users;
-  filteredUsers = filterUsersByRoles(filteredUsers, filters.roles);
-  filteredUsers = filterUsersByQuestionnaire(
-    filteredUsers,
-    filters.questionnaire[0],
-  );
-  filteredUsers = filterUsersByTariffs(filteredUsers, filters.tariffs);
+  // let filteredUsers = users;
+
+  const filteredUsers = users.filter(user => {
+    const isValidRole = filterUserByRoles(user, filters.roles);
+    const isValidQuestionnaire = filterUserByQuestionnaire(
+      user,
+      filters.questionnaire[0],
+    );
+    const isValidTariff = filterUserByTariffs(user, filters.tariffs);
+    const isValidBanStatus = filterUserByBanStatus(user, filters.banned[0]);
+    const isQueryValid = filterUserByQuery(user, query);
+    return (
+      isValidRole &&
+      isValidQuestionnaire &&
+      isValidTariff &&
+      isValidBanStatus &&
+      isQueryValid
+    );
+  });
 
   const tariffsFilters = tariffs.map(tariff => ({
     value: `${tariff.id}`,
@@ -72,10 +87,6 @@ export function AdminUsersList({
       ],
     },
   ];
-
-  if (query) {
-    filteredUsers = filterUsersByQuery(filteredUsers, query);
-  }
 
   return (
     <div className={s.adminPanel}>
@@ -101,7 +112,7 @@ export function AdminUsersList({
           users={filteredUsers}
           tariffs={tariffs}
           onProfile={onProfile}
-          onBlock={onBlockUser}
+          onToggleUserBanStatus={onToggleUserBanStatus}
           onWrite={onWriteUser}
         />
       </div>
