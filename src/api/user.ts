@@ -8,6 +8,8 @@ import { UpdateUserDto } from '../@types/dto/users/update.dto';
 import { Answer } from '../@types/entities/Answer';
 import { BaseUser } from '../@types/entities/BaseUser';
 import { GetUsersDto } from '../@types/dto/users/get-all.dto';
+import { BanUserDto } from '../@types/dto/users/ban.dto';
+import { UnbanUserDto } from '../@types/dto/users/unban.dto';
 
 const userApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -63,11 +65,22 @@ const userApi = baseApi.injectEndpoints({
       invalidatesTags: [{ type: 'User', id: 'LIST' }],
     }),
 
-    blockUser: builder.mutation<BaseUser, number>({
-      query(userId: number) {
+    banUser: builder.mutation<BaseUser, BanUserDto>({
+      query(dto) {
         return {
           method: 'POST',
-          url: `users/${userId}/block`,
+          url: 'users/ban',
+          body: dto,
+        };
+      },
+      invalidatesTags: [{ type: 'User', id: 'LIST' }],
+    }),
+    unbanUser: builder.mutation<BaseUser, UnbanUserDto>({
+      query(dto) {
+        return {
+          method: 'POST',
+          url: 'users/unban',
+          body: dto,
         };
       },
       invalidatesTags: [{ type: 'User', id: 'LIST' }],
@@ -83,7 +96,10 @@ const userApi = baseApi.injectEndpoints({
       },
       providesTags: result =>
         [
-          ...(result || []).map(({ id }) => ({ type: 'Users', id })),
+          ...(result || []).map(({ id }) => ({
+            type: 'Users' as const,
+            id,
+          })),
           { type: 'User', id: 'LIST' },
         ] as { type: 'User'; id: string | number }[],
     }),
@@ -91,7 +107,8 @@ const userApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useBlockUserMutation,
+  useBanUserMutation,
+  useUnbanUserMutation,
   useGetAllUsersQuery,
   useCreateUserMutation,
   useCurrentUserQuery,
