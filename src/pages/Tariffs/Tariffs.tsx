@@ -31,7 +31,7 @@ import {
   successChangeTariffOrderNotification,
   successDeleteTariffNotification,
   successUpdateTariffNotification,
-} from '../../utils/tariffNotifications';
+} from './tariffNotifications';
 import { CreateTariffDto } from '../../@types/dto/tariffs/create.dto';
 import { DeleteTariffDto } from '../../@types/dto/tariffs/delete.dto';
 import { UpdateTariffDto } from '../../@types/dto/tariffs/update.dto';
