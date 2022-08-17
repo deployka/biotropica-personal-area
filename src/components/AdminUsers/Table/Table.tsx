@@ -4,6 +4,7 @@ import { BaseUser } from '../../../@types/entities/BaseUser';
 import { ROLE } from '../../../@types/entities/Role';
 import { Tariff } from '../../../@types/entities/Tariff';
 import { getFullName } from '../../../utils/getFullName';
+import { getUserTariff } from '../adminUsersHelper';
 
 import { UserItem } from '../Item/Item';
 
@@ -43,13 +44,7 @@ export function AdminUsersTable({
       <div className={s.usersList}>
         {users.length !== 0 ? (
           users.map((user, i) => {
-            let tariff =
-              tariffs.find(tariff => tariff.id === +(user.tariff || ''))
-                ?.title || 'Нет тарифа';
-
-            if (user.roles.find(role => role.name !== ROLE.CLIENT)) {
-              tariff = '';
-            }
+            const tariff = getUserTariff(tariffs, user);
 
             const formattedUser = {
               fullName: getFullName(user.name, user.lastname),

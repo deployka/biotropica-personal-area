@@ -96,7 +96,10 @@ const userApi = baseApi.injectEndpoints({
       },
       providesTags: result =>
         [
-          ...(result || []).map(({ id }) => ({ type: 'Users', id })),
+          ...(result || []).map(({ id }) => ({
+            type: 'Users' as const,
+            id,
+          })),
           { type: 'User', id: 'LIST' },
         ] as { type: 'User'; id: string | number }[],
     }),

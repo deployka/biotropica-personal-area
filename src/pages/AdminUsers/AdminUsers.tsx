@@ -20,6 +20,14 @@ import { ROLE } from '../../@types/entities/Role';
 import { CreateUserDto } from '../../@types/dto/users/create-user.dto';
 import { useHistory } from 'react-router';
 import { useGetAllTariffsQuery } from '../../api/tariffs';
+import {
+  errorBanNotification,
+  errorCreateUserNotification,
+  errorUnbanNotification,
+  successBanNotification,
+  successCreateUserNotification,
+  successUnbanNotification,
+} from './adminUsersNotifications';
 
 export function AdminUsers() {
   const history = useHistory();
@@ -47,9 +55,7 @@ export function AdminUsers() {
   };
 
   const toggleUserBanStatus = (id: number) => {
-    if (!users) return;
-
-    const user = users.find(it => it.id === id);
+    const user = users?.find(it => it.id === id);
     if (!user) return;
 
     setBlockUserModalMode(user.banned ? 'unblock' : 'block');
@@ -73,7 +79,7 @@ export function AdminUsers() {
     }
   }
 
-  function getRoleKeyByName(role: ROLE) {
+  const getRoleKeyByName = (role: ROLE) => {
     switch (role) {
       case ROLE.ADMIN:
         return process.env.REACT_APP_ROLE_ADMIN;
@@ -82,68 +88,51 @@ export function AdminUsers() {
       default:
         return process.env.REACT_APP_ROLE_CLIENT;
     }
-  }
+  };
 
-  async function createUserHandler(user: CreateUserDto) {
+  const handleCreateUser = async (user: CreateUserDto) => {
     try {
       const role = getRoleKeyByName(user.roles[0]);
       await signUp({ ...user, role: role || '' }).unwrap();
-      eventBus.emit(EventTypes.notification, {
-        message: 'Ссылка для создания пароля успешно отправлена!',
-        type: NotificationType.SUCCESS,
-      });
+      successCreateUserNotification();
     } catch (error) {
-      eventBus.emit(EventTypes.notification, {
-        message: (error as ResponseError)?.data.message,
-        type: NotificationType.DANGER,
-      });
+      console.error(error);
+      errorCreateUserNotification(error as ResponseError);
     }
     setPopup(false);
-  }
+  };
 
-  async function handleBlockUser(banReason: string) {
+  const handleBlockUser = async (banReason: string) => {
     if (!blockedUserId) {
       return;
     }
 
     try {
       await banUser({ id: blockedUserId, banReason }).unwrap();
-      eventBus.emit(EventTypes.notification, {
-        message: 'Пользователь заблокирован',
-        type: NotificationType.SUCCESS,
-      });
+      successBanNotification();
       setBlockUserModalMode(null);
       setBlockedUserId(null);
     } catch (error) {
       console.log(error);
-      eventBus.emit(EventTypes.notification, {
-        message: 'Произошла ошибка',
-        type: NotificationType.DANGER,
-      });
+      errorBanNotification();
     }
-  }
+  };
 
-  async function handleUnblockUser() {
+  const handleUnblockUser = async () => {
     if (!blockedUserId) {
       return;
     }
 
     try {
       await unbanUser({ id: blockedUserId }).unwrap();
-      eventBus.emit(EventTypes.notification, {
-        message: 'Пользователь разблокирован',
-        type: NotificationType.SUCCESS,
-      });
+      successUnbanNotification();
       setBlockUserModalMode(null);
       setBlockedUserId(null);
     } catch (error) {
       console.log(error);
-      eventBus.emit(EventTypes.notification, {
-        message: 'Произошла ошибка',
-        type: NotificationType.DANGER,
-      });
+      errorUnbanNotification();
     }
-  }
+  };
 
   return (
     <div>
@@ -152,7 +141,7 @@ export function AdminUsers() {
         popup={popup}
         setPopup={setPopup}
         roles={roles || []}
-        onUserCreate={createUserHandler}
+        onUserCreate={handleCreateUser}
       />
       <BanStatusModal
         isOpened={!!blockUserModalMode}

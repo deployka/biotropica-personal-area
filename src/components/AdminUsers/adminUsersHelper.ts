@@ -1,6 +1,7 @@
 import { BaseUser } from '../../@types/entities/BaseUser';
 import { Client } from '../../@types/entities/Client';
 import { ROLE } from '../../@types/entities/Role';
+import { Tariff } from '../../@types/entities/Tariff';
 
 import { FilterField } from '../Filter/Filter';
 
@@ -68,84 +69,76 @@ export const usersFilters: FilterField[] = [
   },
 ];
 
-export function filterUsersByRoles(
-  users: Array<BaseUser>,
-  roles: (ROLE | 'all')[],
-) {
-  if (!roles[0]) {
-    return users;
-  }
-
+export function filterUserByRoles(user: BaseUser, roles: (ROLE | 'all')[]) {
   if (roles.includes('all')) {
-    return users;
+    return true;
   }
 
-  return users.filter(user => {
-    const userRoles = user.roles.map(it => it.name);
-    return userRoles.map(role => roles.includes(role)).every(it => it);
-    // for (const userRole of userRoles) {
-    //   if (roles.includes(userRole)) {
-    //     return true;
-    //   }
-    // }
-    // return false;
-  });
+  const userRoles = user.roles.map(role => role.name);
+  return userRoles.map(role => roles.includes(role)).every(it => it);
 }
 
-export function filterUsersByQuestionnaire(
-  users: Array<BaseUser>,
-  value: string,
+export function filterUserByQuestionnaire(
+  user: BaseUser,
+  value: 'all' | 'finished' | 'notFinished',
 ) {
-  if (value === 'all') return users;
-  return users.filter(user => {
-    if (!user.roles.some(role => role.name === ROLE.CLIENT)) return false;
-    if (value === 'finished') {
-      return (user as Client).questionHash?.includes('FINISHED');
-    }
-    if (value === 'notFinished') {
-      return (user as Client).questionHash === null;
-    }
-    return false;
-    // return true;
-  });
+  if (value === 'all') return true;
+
+  if (!user.roles.some(role => role.name === ROLE.CLIENT)) return false;
+  if (value === 'finished') {
+    return (user as Client).questionHash?.includes('FINISHED');
+  }
+  if (value === 'notFinished') {
+    return (user as Client).questionHash === null;
+  }
+  return false;
 }
 
-export function filterUsersByTariffs(users: BaseUser[], tariffs: string[]) {
+export function filterUserByTariffs(user: BaseUser, tariffs: string[]) {
   const tariff = tariffs[0];
 
   if (tariff === 'all' || !tariff) {
-    return users;
+    return true;
   }
 
   if (tariff === 'noTariff') {
-    return users.filter(
-      user =>
-        user.tariff === null &&
-        user.roles.find(role => role.name === ROLE.CLIENT),
+    return (
+      user.tariff === null && user.roles.find(role => role.name === ROLE.CLIENT)
     );
   }
 
-  return users.filter(user => user.tariff === tariff);
+  return user.tariff === tariff;
 }
 
-export function filterUsersByQuery(users: BaseUser[], q: string) {
+export function filterUserByQuery(user: BaseUser, q: string) {
   const query = q.toLowerCase().trim();
-  return users.filter(user => {
-    return (
-      user.name?.toLowerCase().includes(query) ||
-      user.lastname?.toLowerCase().includes(query) ||
-      user.email?.toLowerCase().includes(query)
-    );
-  });
+
+  return (
+    user.name?.toLowerCase().includes(query) ||
+    user.lastname?.toLowerCase().includes(query) ||
+    user.email?.toLowerCase().includes(query)
+  );
 }
 
-export function filterUsersByBanStatus(
-  users: BaseUser[],
+export function filterUserByBanStatus(
+  user: BaseUser,
   isBanned: 'all' | 'yes' | 'no',
 ) {
-  if (isBanned === 'all') return users;
+  if (isBanned === 'all') return true;
 
-  if (isBanned === 'yes') return users.filter(user => user.banned);
+  if (isBanned === 'yes') return user.banned;
 
-  return users.filter(user => !user.banned);
+  return !user.banned;
+}
+
+export function getUserTariff(tariffs: Tariff[], user: BaseUser) {
+  let tariff =
+    tariffs.find(tariff => tariff.id === +(user.tariff || ''))?.title ||
+    'Нет тарифа';
+
+  if (user.roles.find(role => role.name !== ROLE.CLIENT)) {
+    tariff = '';
+  }
+
+  return tariff;
 }

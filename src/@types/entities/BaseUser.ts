@@ -17,6 +17,7 @@ export type BaseUser = BaseEntity & {
   isOnline: boolean | null;
   roles: Role[];
   banned: boolean;
+  banReason: string;
   tariff: string | null;
   accesses: [];
   confirmedHash: string | null;
