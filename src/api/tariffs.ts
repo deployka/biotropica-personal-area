@@ -1,5 +1,9 @@
 import { baseApi } from './base-api';
 import { CurrentTariff, NewTariff, Tariff } from '../@types/entities/Tariff';
+import { CreateTariffDto } from '../@types/dto/tariffs/create.dto';
+import { DeleteTariffDto } from '../@types/dto/tariffs/delete.dto';
+import { UpdateTariffDto } from '../@types/dto/tariffs/update.dto';
+import { UpdateTariffsOrderDto } from '../@types/dto/tariffs/update-order.dto';
 
 export const tariffApi = baseApi.injectEndpoints({
   endpoints(builder) {
@@ -22,14 +26,7 @@ export const tariffApi = baseApi.injectEndpoints({
         },
         providesTags: ['UserTariff'],
       }),
-      getAllTariffs: builder.query<Tariff[], void>({
-        query() {
-          return {
-            method: 'GET',
-            url: 'tariffs',
-          };
-        },
-      }),
+
       selectTariff: builder.mutation<
         {
           tinkoffForm: string;
@@ -44,28 +41,55 @@ export const tariffApi = baseApi.injectEndpoints({
         },
         invalidatesTags: ['CurrentTariff'],
       }),
-      requestDeleteTariff: builder.mutation<void, { id: number }>({
-        query: payload => ({
-          url: `/tariffs/${payload.id}`,
-          method: 'DELETE',
-        }),
+
+      getAllTariffs: builder.query<Tariff[], void>({
+        query() {
+          return {
+            method: 'GET',
+            url: 'tariffs',
+          };
+        },
+        providesTags: result =>
+          result
+            ? [
+                ...result.map(({ id }) => ({
+                  type: 'Tariff' as const,
+                  id,
+                })),
+                { type: 'Tariff', id: 'LIST' },
+              ]
+            : [{ type: 'Tariff', id: 'LIST' }],
       }),
-      requestAddTariff: builder.mutation<
-        Tariff,
-        Omit<NewTariff, 'createdAt' | 'updatedAt'>
-      >({
-        query: payload => ({
+      addTariff: builder.mutation<Tariff, CreateTariffDto>({
+        query: dto => ({
           url: '/tariffs',
-          body: payload,
+          body: dto,
           method: 'POST',
         }),
+        invalidatesTags: ['Tariff'],
       }),
-      requestChangeTariff: builder.mutation<Tariff, Tariff>({
-        query: payload => ({
-          url: `/tariffs/${payload.id}`,
-          body: payload,
+      updateTariff: builder.mutation<Tariff, UpdateTariffDto>({
+        query: dto => ({
+          url: `/tariffs/${dto.id}`,
+          body: dto,
           method: 'PUT',
         }),
+        invalidatesTags: ['Tariff'],
+      }),
+      deleteTariff: builder.mutation<void, DeleteTariffDto>({
+        query: dto => ({
+          url: `/tariffs/${dto.id}`,
+          method: 'DELETE',
+        }),
+        invalidatesTags: ['Tariff'],
+      }),
+      updateTariffsOrder: builder.mutation<void, UpdateTariffsOrderDto>({
+        query: dto => ({
+          url: '/tariffs/order',
+          method: 'PUT',
+          body: dto,
+        }),
+        invalidatesTags: ['Tariff'],
       }),
     };
   },
@@ -74,11 +98,12 @@ export const tariffApi = baseApi.injectEndpoints({
 export const {
   useGetAllTariffsQuery,
   useSelectTariffMutation,
-  useRequestAddTariffMutation,
-  useRequestDeleteTariffMutation,
-  useRequestChangeTariffMutation,
+  useAddTariffMutation,
+  useUpdateTariffMutation,
+  useDeleteTariffMutation,
   useGetCurrentTariffQuery,
   useGetUserTariffByIdQuery,
+  useUpdateTariffsOrderMutation,
 } = tariffApi;
 
 export default tariffApi;

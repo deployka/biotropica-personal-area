@@ -1,86 +1,44 @@
 import React from 'react';
-
 import Modal from '../../../shared/Global/Modal/Modal';
 import { Tariff } from '../../../@types/entities/Tariff';
-import { TariffEditor } from '../Editor/Editor';
-import {
-  showErrorNotificationAfterDeleteTariff,
-  showErrorNotificationAfterChangeTariff,
-  showSuccessNotificationAfterDeleteTariff,
-  showSuccessNotificationAfterChangeTariff,
-} from '../../../utils/tariffHelper';
 
 import s from './EditModal.module.scss';
-import {
-  useRequestChangeTariffMutation,
-  useRequestDeleteTariffMutation,
-} from '../../../api/tariffs';
+import { CreateTariffDto } from '../../../@types/dto/tariffs/create.dto';
+import { UpdateTariffDto } from '../../../@types/dto/tariffs/update.dto';
+import { TariffEditForm } from '../EditForm/EditForm';
+import { TariffAddForm } from '../AddForm/AddForm';
 
 interface Props {
-  id: Tariff['id'];
-  cost: Tariff['cost'];
-  title: Tariff['title'];
-  includedFields: Tariff['includedFields'];
-  zakazSystemId: Tariff['zakazSystemId'];
-  isVisible: boolean;
-  onClose(): void;
-  refetchTariffs(): void;
+  mode: 'create' | 'edit';
+  tariff: Tariff | null;
+  isOpened: boolean;
+  onClose: () => void;
+  onDelete: () => void;
+  onUpdate: (data: UpdateTariffDto) => void;
+  onCreate: (data: CreateTariffDto) => void;
 }
 
-const EditTariffModal = (props: Props) => {
-  const {
-    id,
-    title,
-    cost,
-    includedFields,
-    zakazSystemId,
-    isVisible,
-    onClose,
-    refetchTariffs,
-  } = props;
-
-  const [updateTariff, { isSuccess: isChangeSuccess, isError: isChangeError }] =
-    useRequestChangeTariffMutation();
-  const [deleteTariff, { isSuccess: isDeleteSuccess, isError: isDeleteError }] =
-    useRequestDeleteTariffMutation();
-
-  React.useEffect(() => {
-    if (isChangeSuccess || isDeleteSuccess) {
-      onClose();
-      refetchTariffs();
-    }
-
-    isDeleteSuccess && showSuccessNotificationAfterDeleteTariff(title);
-    isChangeSuccess && showSuccessNotificationAfterChangeTariff(title);
-  }, [isChangeSuccess, isDeleteSuccess]);
-
-  React.useEffect(() => {
-    isChangeError && showErrorNotificationAfterChangeTariff(title);
-    isDeleteError && showErrorNotificationAfterDeleteTariff(title);
-  }, [isChangeError, isDeleteError]);
-
-  const handleDeleteTariff = () => {
-    deleteTariff({ id });
-  };
-
-  const handleSaveTariff = (updatedTariff: Tariff) => {
-    updateTariff(updatedTariff);
-  };
-
+export const EditTariffModal = ({
+  tariff,
+  mode,
+  isOpened,
+  onClose,
+  onUpdate,
+  onDelete,
+  onCreate,
+}: Props) => {
   return (
-    <Modal isOpened={isVisible} close={() => onClose()} className={s.modal}>
-      <TariffEditor
-        id={id}
-        title={title}
-        zakazSystemId={zakazSystemId}
-        cost={cost}
-        includedFields={includedFields}
-        onClose={() => onClose()}
-        onRemove={() => handleDeleteTariff()}
-        onSave={(updatedTariff: Tariff) => handleSaveTariff(updatedTariff)}
-      />
+    <Modal isOpened={isOpened} close={onClose} className={s.modal}>
+      {mode === 'edit' && tariff ? (
+        <TariffEditForm
+          tariff={tariff}
+          onClose={onClose}
+          onDelete={onDelete}
+          onSubmit={onUpdate}
+        />
+      ) : (
+        <TariffAddForm onClose={onClose} onSubmit={onCreate} />
+      )}
     </Modal>
   );
 };
-
-export default EditTariffModal;
