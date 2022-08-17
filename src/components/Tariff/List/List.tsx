@@ -36,10 +36,6 @@ export const TariffsList = ({
 
   useEffect(() => {
     if (!tariffs) return;
-    console.log(tariffs);
-
-    console.log(tariffOrderList);
-
     const newSortedTariffsList = tariffs
       .map(tariff => {
         const order = tariffOrderList.find(

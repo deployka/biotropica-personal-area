@@ -1,25 +1,25 @@
 import { NotificationType } from '../components/GlobalNotifications/GlobalNotifications';
 import { eventBus, EventTypes } from '../services/EventBus';
 
-export function showSuccessNotificationAfterDeleteTariff(name: string) {
+export function successDeleteTariffNotification() {
   eventBus.emit(EventTypes.notification, {
-    title: `«${name}» успешно удален`,
+    title: 'Тариф успешно удален',
     message: '',
     type: NotificationType.SUCCESS,
     autoClose: 5000,
   });
 }
 
-export function showErrorNotificationAfterDeleteTariff(name: string) {
+export function errorDeleteTariffNotification() {
   eventBus.emit(EventTypes.notification, {
-    title: `Не получилось удалить «${name}», попробуйте еще раз`,
+    title: 'Ошибка удаления тарифа',
     message: '',
     type: NotificationType.DANGER,
     autoClose: 5000,
   });
 }
 
-export function showErrorNotificationAfterChangeTariff(name: string) {
+export function successUpdateTariffNotification(name: string) {
   eventBus.emit(EventTypes.notification, {
     title: `Не удалось изменить «${name}», попробуйте еще раз`,
     message: '',
@@ -28,7 +28,7 @@ export function showErrorNotificationAfterChangeTariff(name: string) {
   });
 }
 
-export function showSuccessNotificationAfterChangeTariff(name: string) {
+export function errorUpdateTariffNotification(name: string) {
   eventBus.emit(EventTypes.notification, {
     title: `«${name}» успешно изменен`,
     message: '',
@@ -37,7 +37,7 @@ export function showSuccessNotificationAfterChangeTariff(name: string) {
   });
 }
 
-export function showErrorNotificationAfterAddTariff() {
+export function errorAddTariffNotification() {
   eventBus.emit(EventTypes.notification, {
     title: 'Не удалось добавить новый пакет, попробуйте еще раз',
     message: '',
@@ -46,7 +46,7 @@ export function showErrorNotificationAfterAddTariff() {
   });
 }
 
-export function showSuccessNotificationAfterAddTariff() {
+export function successAddTariffNotification() {
   eventBus.emit(EventTypes.notification, {
     title: 'Тариф успешно добавлен',
     message: '',
@@ -55,7 +55,7 @@ export function showSuccessNotificationAfterAddTariff() {
   });
 }
 
-export function showSuccessNotificationAfterUpdateOrders() {
+export function successChangeTariffOrderNotification() {
   eventBus.emit(EventTypes.notification, {
     title: 'Порядок тарифов успешно обновлен',
     message: '',
@@ -64,7 +64,7 @@ export function showSuccessNotificationAfterUpdateOrders() {
   });
 }
 
-export function showErrorNotificationAfterUpdateOrders() {
+export function errorChangeTariffOrderNotification() {
   eventBus.emit(EventTypes.notification, {
     title: 'Ошибка обновления очереди',
     message: '',

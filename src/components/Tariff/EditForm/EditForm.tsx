@@ -20,7 +20,7 @@ type Props = {
 
 export function TariffEditForm({ tariff, onClose, onDelete, onSubmit }: Props) {
   const [tariffFeatures, setTariffFeatures] = useState<string[]>(
-    tariff?.includedFields || [],
+    tariff.includedFields || [],
   );
 
   const handleSubmit = (data: FormData) => {

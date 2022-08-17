@@ -23,11 +23,15 @@ import './paymentForm.scss';
 import { NotificationButtons } from './NotificationButtons';
 import { useGetInvoiceByProductUuidQuery } from '../../api/invoice';
 import {
-  showErrorNotificationAfterAddTariff,
-  showErrorNotificationAfterUpdateOrders,
-  showSuccessNotificationAfterAddTariff,
-  showSuccessNotificationAfterUpdateOrders,
-} from '../../utils/tariffHelper';
+  errorAddTariffNotification,
+  errorChangeTariffOrderNotification,
+  errorDeleteTariffNotification,
+  errorUpdateTariffNotification,
+  successAddTariffNotification,
+  successChangeTariffOrderNotification,
+  successDeleteTariffNotification,
+  successUpdateTariffNotification,
+} from '../../utils/tariffNotifications';
 import { CreateTariffDto } from '../../@types/dto/tariffs/create.dto';
 import { DeleteTariffDto } from '../../@types/dto/tariffs/delete.dto';
 import { UpdateTariffDto } from '../../@types/dto/tariffs/update.dto';
@@ -144,31 +148,31 @@ const Tariffs = () => {
   const handleAddTariff = async (data: CreateTariffDto) => {
     try {
       await addTariff(data).unwrap();
-      showSuccessNotificationAfterAddTariff();
+      successAddTariffNotification();
       closeEditTariffModal();
     } catch (error) {
       console.log(error);
-      showErrorNotificationAfterAddTariff();
+      errorAddTariffNotification();
     }
   };
   const handleUpdateTariff = async (data: UpdateTariffDto) => {
     try {
       await updateTariff(data).unwrap();
-      showSuccessNotificationAfterAddTariff();
+      successUpdateTariffNotification(data.title);
       closeEditTariffModal();
     } catch (error) {
       console.log(error);
-      showErrorNotificationAfterAddTariff();
+      errorUpdateTariffNotification(data.title);
     }
   };
   const handleDeleteTariff = async (data: DeleteTariffDto) => {
     try {
       await deleteTariff({ id: data.id }).unwrap();
-      showSuccessNotificationAfterAddTariff();
+      successDeleteTariffNotification();
       closeEditTariffModal();
     } catch (error) {
       console.log(error);
-      showErrorNotificationAfterAddTariff();
+      errorDeleteTariffNotification();
     }
   };
   const handleSaveOrder = async () => {
@@ -177,13 +181,11 @@ const Tariffs = () => {
     };
     try {
       await updateTariffsOrders(updateOrdersData).unwrap();
-      showSuccessNotificationAfterUpdateOrders();
+      successChangeTariffOrderNotification();
       setIsOrderEdit(false);
     } catch (error) {
-      console.log(error);
-      showErrorNotificationAfterUpdateOrders();
+      errorChangeTariffOrderNotification();
     }
-    console.log(tariffOrderList);
   };
 
   useEffect(() => {

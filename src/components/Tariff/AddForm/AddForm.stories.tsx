@@ -12,10 +12,6 @@ const Template: ComponentStory<typeof TariffAddForm> = args => (
   <TariffAddForm {...args} />
 );
 export const DefaultTariffEditor = Template.bind({});
-const props = {
-  onClose: () => console.log('onClose'),
-  onSubmit: () => console.log('onSubmit'),
-  onDelete: () => console.log('onDelete'),
-};
+const props = {};
 
 DefaultTariffEditor.args = props;

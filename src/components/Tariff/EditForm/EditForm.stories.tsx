@@ -13,9 +13,18 @@ const Template: ComponentStory<typeof TariffEditForm> = args => (
 );
 export const DefaultTariffEditor = Template.bind({});
 const props = {
-  onClose: () => console.log('onClose'),
-  onSubmit: () => console.log('onSubmit'),
-  onDelete: () => console.log('onDelete'),
+  tariff: {
+    id: 1,
+    createdAt: '',
+    updatedAt: '',
+    cost: 100,
+    order: 1,
+    zakazSystemId: 'string',
+    title: 'card',
+    description: 'string',
+    access: [],
+    includedFields: [],
+  },
 };
 
 DefaultTariffEditor.args = props;

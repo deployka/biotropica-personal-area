@@ -121,9 +121,7 @@ export const TariffCard = ({
               isCurrentTariff ? s.currentTariffBtn : '',
             )}
             onClick={() => {
-              if (!isSelectLoading) {
-                onSelect();
-              }
+              !isSelectLoading && onSelect();
             }}
           >
             {isSelectLoading && isCurrentTariff ? (

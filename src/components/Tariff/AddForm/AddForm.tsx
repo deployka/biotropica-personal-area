@@ -26,16 +26,16 @@ export function TariffAddForm({ defaultValues, onClose, onSubmit }: Props) {
     onSubmit({ ...data, includedFields: tariffFeatures });
   };
 
-  const changeIncludedField = (value: string, i: number) => {
+  const changeIncludedField = (value: string, index: number) => {
     const updatedFields = tariffFeatures.slice();
-    updatedFields.splice(i, 1, value);
+    updatedFields.splice(index, 1, value);
 
     setTariffFeatures(updatedFields);
   };
 
-  const deleteIncludedField = (i: number) => {
+  const deleteIncludedField = (fieldIndex: number) => {
     const updatedFields = tariffFeatures.slice();
-    updatedFields.splice(i, 1);
+    updatedFields.splice(fieldIndex, 1);
 
     setTariffFeatures(updatedFields);
   };
@@ -84,19 +84,19 @@ export function TariffAddForm({ defaultValues, onClose, onSubmit }: Props) {
             onChange={handleChange}
             classes={s.input}
           />
-          {tariffFeatures.map((feature, i) => (
+          {tariffFeatures.map((feature, index) => (
             <Input
-              key={i}
-              name={`includedField/${i}`}
+              key={index}
+              name={`includedField/${index}`}
               type={InputTypes.TEXT}
-              label={i === 0 ? 'что входит в план' : undefined}
+              label={index === 0 ? 'что входит в план' : undefined}
               placeholder="Введите опцию"
               value={feature.toString()}
               isError={feature.trim() === ''}
               classes={s.input}
-              onChange={e => changeIncludedField(e.currentTarget.value, i)}
+              onChange={e => changeIncludedField(e.currentTarget.value, index)}
               withCancel
-              onCancel={() => deleteIncludedField(i)}
+              onCancel={() => deleteIncludedField(index)}
             />
           ))}
           <Button
