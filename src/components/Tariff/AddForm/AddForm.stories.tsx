@@ -12,6 +12,3 @@ const Template: ComponentStory<typeof TariffAddForm> = args => (
   <TariffAddForm {...args} />
 );
 export const DefaultTariffEditor = Template.bind({});
-const props = {};
-
-DefaultTariffEditor.args = props;

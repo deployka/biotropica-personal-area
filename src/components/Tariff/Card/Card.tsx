@@ -24,6 +24,9 @@ interface Props {
   onChangeOrder: (newPosition: number) => void;
 }
 
+const LEFT_STEP = -1;
+const RIGHT_STEP = 1;
+
 export const TariffCard = ({
   tariff,
   isEditableOrder,
@@ -87,7 +90,7 @@ export const TariffCard = ({
                 <button
                   className={s.orderButton}
                   onClick={() => {
-                    onChangeOrder(-1);
+                    onChangeOrder(LEFT_STEP);
                   }}
                 >
                   <img src={arrow} />
@@ -95,7 +98,7 @@ export const TariffCard = ({
                 <button
                   className={classNames(s.orderButton, s.right)}
                   onClick={() => {
-                    onChangeOrder(1);
+                    onChangeOrder(RIGHT_STEP);
                   }}
                 >
                   <img src={arrow} />
