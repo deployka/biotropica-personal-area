@@ -114,16 +114,22 @@ const Tariffs = () => {
   };
   const handleSelectTariff = async (tariff: Tariff) => {
     if (currentTariff) {
+      const isTariffCurrent = currentTariff.tariffId === tariff.id;
+      const title = isTariffCurrent
+        ? 'Продлить тариф?'
+        : `У вас уже есть тариф "${currentTariff.tariff.title}". Вы хотите заменить его?`;
+      const type = isTariffCurrent ? 'extend' : 'replace';
+
       eventBus.emit(EventTypes.notification, {
-        title: `У вас уже есть тариф "${currentTariff.tariff.title}". Вы хотите заменить его?`,
+        title,
         message: (
           <NotificationButtons
+            type={type}
             onChange={() => onSelectTariff(tariff)}
             onDiscard={onDiscardChangeTariff}
           />
         ),
         type: NotificationType.INFO,
-        theme: 'dark',
       });
       return;
     }

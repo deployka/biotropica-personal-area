@@ -76,7 +76,7 @@ export const TariffCard = ({
         <ul className={s.list}>
           {includedFields.map((feature: string) => (
             <li key={feature} className={s.listEl}>
-              <img src={checkbox} alt="" />
+              <img src={checkbox} />
               <p>{feature}</p>
             </li>
           ))}
@@ -118,11 +118,10 @@ export const TariffCard = ({
         ) : (
           <button
             disabled={isSelectLoading || isDisabledBtn}
-            className={classNames(
-              s.button,
-              isSelectLoading || isDisabledBtn ? s.disabled : '',
-              isCurrentTariff ? s.currentTariffBtn : '',
-            )}
+            className={classNames(s.button, {
+              [s.currentTariffBtn]: isCurrentTariff,
+              [s.disabled]: isSelectLoading || isDisabledBtn,
+            })}
             onClick={() => {
               !isSelectLoading && onSelect();
             }}
