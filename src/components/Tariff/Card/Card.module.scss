@@ -1,4 +1,4 @@
-@import './../../../styles/mixins.scss';
+@import "./../../../styles/mixins.scss";
 
 .card {
   padding: 30px;
@@ -102,14 +102,47 @@
   // .rate__bottom
 
   .bottom {
+    position: relative;
     margin: 30px 0 0 0;
     width: 100%;
-    display: flex;
-    justify-content: flex-start;
 
     @include for-phone {
       margin: 30px 0 0 0;
     }
+  }
+
+  .editBtn {
+    position: relative;
+    border-radius: 100px;
+    top: 0;
+    left: 0;
+    transition: all 0.2s ease;
+
+    &.centered {
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  .orderButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 1px solid #6f61d0;
+    opacity: 1;
+
+    &.right {
+      right: 0;
+      img {
+        transform: rotateY(180deg);
+      }
+    }
+
+    transition: all 0.2s ease;
   }
 
   .button {
@@ -151,9 +184,5 @@
         color: #7061d046;
       }
     }
-  }
-
-  .editBtn {
-    border-radius: 100px;
   }
 }

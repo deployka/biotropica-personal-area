@@ -4,7 +4,6 @@ import AnimateHeight from 'react-animate-height';
 import arrow from './../../../assets/icons/tariffs/arrow.svg';
 import checkbox from './../../../assets/icons/tariffs/checkbox.svg';
 import { selectIsAdmin } from '../../../store/slices/authSlice';
-import EditTariffModal from '../EditModal/EditModal';
 import Button from '../../Button/Button';
 import { Tariff } from '../../../@types/entities/Tariff';
 
@@ -123,16 +122,6 @@ export const TariffMobileCard = ({
           </div>
         </div>
       </div>
-      <EditTariffModal
-        id={id}
-        zakazSystemId={zakazSystemId}
-        cost={cost}
-        title={title}
-        includedFields={includedFields}
-        isVisible={isEditTariffModalVisible}
-        refetchTariffs={refetchTariffs}
-        onClose={() => setIsEditTariffModalVisible(false)}
-      />
     </>
   );
 };

@@ -26,8 +26,14 @@ type RemindedAccess = TariffAccess & {
   reminded: number;
 };
 
+export type TariffOrder = {
+  tariffId: number;
+  order: number;
+};
+
 export type Tariff = BaseEntity & {
   cost: number;
+  order: number;
   zakazSystemId: string;
   title: string;
   description: string;

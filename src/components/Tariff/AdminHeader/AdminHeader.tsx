@@ -1,21 +1,51 @@
 import React from 'react';
-
-import s from './AdminHeader.module.scss';
-
 import PlusIcon from '../../../assets/icons/plus.svg';
 import Button from '../../Button/Button';
 
+import s from './AdminHeader.module.scss';
+
 type Props = {
-  onClick: () => void;
+  isOrderEdit: boolean;
+  onAddTariff: () => void;
+  onEditOrder: () => void;
+  onCancelEditOrder: () => void;
+  onSaveOrder: () => void;
 };
 
-export const TariffAdminHeader = ({ onClick }: Props) => {
+export const TariffAdminHeader = ({
+  isOrderEdit,
+  onAddTariff,
+  onEditOrder,
+  onCancelEditOrder,
+  onSaveOrder,
+}: Props) => {
   return (
     <div className={s.header}>
-      <Button isPrimary className={s.addBtn} onClick={onClick}>
-        <img className={s.plusForAddBtn} src={PlusIcon} />
-        <span>Добавить новый тариф</span>
-      </Button>
+      {!isOrderEdit && (
+        <>
+          <Button isPrimary className={s.addBtn} onClick={onAddTariff}>
+            <img className={s.plusForAddBtn} src={PlusIcon} />
+            <span>Добавить новый тариф</span>
+          </Button>
+          <Button className={s.addBtn} onClick={onEditOrder}>
+            <span>Редактировать порядок</span>
+          </Button>
+        </>
+      )}
+      {isOrderEdit && (
+        <>
+          <Button
+            css={{ color: '#d06361' }}
+            className={s.addBtn}
+            onClick={onCancelEditOrder}
+          >
+            <span>Отменить</span>
+          </Button>
+          <Button isPrimary className={s.addBtn} onClick={onSaveOrder}>
+            <span>Сохранить</span>
+          </Button>
+        </>
+      )}
     </div>
   );
 };
