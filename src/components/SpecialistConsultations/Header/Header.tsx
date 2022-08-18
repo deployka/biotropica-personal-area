@@ -7,14 +7,14 @@ import s from './Header.module.scss';
 
 type Props = {
   usersCount: number;
-  onChangeSearchInput: () => void;
-  onSearchButtonClick: () => void;
+  searchInputValue: string;
+  onChangeSearchInput: (value: string) => void;
 };
 
 export const SpecialistConsultationsHeader = ({
   usersCount,
+  searchInputValue,
   onChangeSearchInput,
-  onSearchButtonClick,
 }: Props) => {
   return (
     <div className={s.header}>
@@ -23,18 +23,14 @@ export const SpecialistConsultationsHeader = ({
         <span className={s.usersCount}>{usersCount}</span>
       </div>
       <div className={s.headerRight}>
-        <img src={SearchIcon} alt="" className={s.searchIcon} />
+        <img src={SearchIcon} className={s.searchIcon} />
         <input
           type="text"
           placeholder="Поиск консультаций..."
           className={s.searchInput}
-          //   ref={searchInputRef}
-          //   value={searchInput}
-          onChange={onChangeSearchInput}
+          value={searchInputValue}
+          onChange={e => onChangeSearchInput(e.target.value)}
         />
-        <button onClick={onSearchButtonClick}>
-          <img src={MobileSearchIcon} alt="" className={s.mobileSearchIcon} />
-        </button>
       </div>
     </div>
   );

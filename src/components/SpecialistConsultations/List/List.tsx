@@ -1,5 +1,7 @@
 import React from 'react';
 import { SpecialistConsultationsHeader } from '../Header/Header';
+import { SpecialistConsultationsEmptyItem } from '../Item/EmptyItem';
+import { SpecialistConsultationsItem } from '../Item/Item';
 
 import s from './List.module.scss';
 
@@ -12,20 +14,30 @@ export type SpecialistConsultation = {
 };
 
 type Props = {
+  searchQuery: string;
+  totalConsultationsCount: number;
   activeConsultations: SpecialistConsultation[];
   inactiveConsultations: SpecialistConsultation[];
+  onDelete: (id: number) => void;
+  onEdit: (id: SpecialistConsultation) => void;
+  onChangeSearchQuery: (query: string) => void;
 };
 
 export const SpecialistConsultationsList = ({
+  searchQuery,
+  totalConsultationsCount,
   activeConsultations,
   inactiveConsultations,
+  onDelete,
+  onEdit,
+  onChangeSearchQuery,
 }: Props) => {
   return (
     <div className={s.usersList}>
       <SpecialistConsultationsHeader
-        usersCount={0}
-        onChangeSearchInput={() => console.log()}
-        onSearchButtonClick={() => console.log()}
+        usersCount={totalConsultationsCount}
+        searchInputValue={searchQuery}
+        onChangeSearchInput={onChangeSearchQuery}
       />
       <table className={s.table}>
         <tr className={s.tableHeaderRow}>
@@ -34,18 +46,18 @@ export const SpecialistConsultationsList = ({
           <th>Клиент</th>
           <th></th>
         </tr>
-        {activeConsultations.length !== 0 ? (
-          activeConsultations.map(consultation => (
-            <tr key={consultation.id} className={s.tableRow}>
-              <td>{consultation.date}</td>
-              <td>{consultation.time}</td>
-              <td>{consultation.clientName}</td>
-            </tr>
-          ))
-        ) : (
-          <tr className={s.tableRow}>
-            <td className={s.tableNoData}>Нет данных</td>
-          </tr>
+        {activeConsultations.map(consultation => (
+          <SpecialistConsultationsItem
+            key={consultation.id}
+            date={consultation.date}
+            time={consultation.time}
+            clientName={consultation.clientName}
+            onDelete={() => onDelete(consultation.id)}
+            onEdit={() => onEdit(consultation)}
+          />
+        ))}
+        {activeConsultations.length === 0 && (
+          <SpecialistConsultationsEmptyItem />
         )}
         <tr className={s.tableHeaderRow}>
           <th>Прошедшие</th>
@@ -53,35 +65,19 @@ export const SpecialistConsultationsList = ({
           <th></th>
           <th></th>
         </tr>
-        {inactiveConsultations.length !== 0 ? (
-          inactiveConsultations.map(consultation => (
-            <tr key={consultation.id} className={s.tableRowOfPastConsultations}>
-              <td>{consultation.date}</td>
-              <td>{consultation.time}</td>
-              <td>{consultation.clientName}</td>
-              {/* <td>
-                <MoreOptionsButton
-                  isMovable={!!consultation.fullData.meetingNumber}
-                  consultationId={consultation.id}
-                  showSetDateTimeModal={() => {
-                    setConsultationToChange(consultation);
-                    showSetDateTimeModal();
-                  }}
-                  showDeleteModal={() => {
-                    setConsultationToChange(consultation);
-                    showDeleteModal();
-                  }}
-                  goToConsultation={() => {
-                    goToConsultation(consultation.id);
-                  }}
-                />
-              </td> */}
-            </tr>
-          ))
-        ) : (
-          <tr className={s.tableRow}>
-            <td className={s.tableNoData}>Нет данных</td>
-          </tr>
+        {inactiveConsultations.map(consultation => (
+          <SpecialistConsultationsItem
+            isPast={true}
+            key={consultation.id}
+            date={consultation.date}
+            time={consultation.time}
+            clientName={consultation.clientName}
+            onDelete={() => onDelete(consultation.id)}
+            onEdit={() => onEdit(consultation)}
+          />
+        ))}
+        {inactiveConsultations.length === 0 && (
+          <SpecialistConsultationsEmptyItem />
         )}
       </table>
     </div>

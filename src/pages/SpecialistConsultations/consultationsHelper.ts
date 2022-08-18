@@ -1,4 +1,5 @@
 import { format, isBefore } from 'date-fns';
+import { ru } from 'date-fns/locale';
 import { Consultation } from '../../@types/entities/Consultation';
 import { SpecialistConsultation } from '../../components/SpecialistConsultations/List/List';
 import { getFullName } from '../../utils/getFullName';
@@ -9,12 +10,13 @@ export const formatConsultation = (
   let date = '';
   let time = '';
   let status: 'active' | 'inactive' = 'active';
-  console.log('date', consultation.date);
 
-  if (!consultation.date) {
+  if (consultation.date) {
+    console.log(consultation.date);
+
     const consultationDate = new Date(consultation.date);
-    date = format(consultationDate, 'dd.mm.yyyy');
-    time = format(consultationDate, 'HH:MM');
+    date = format(consultationDate, 'dd.LL.yyyy', { locale: ru });
+    time = format(consultationDate, 'HH:mm');
     status = isBefore(consultationDate, new Date()) ? 'inactive' : 'active';
   }
 
@@ -25,4 +27,15 @@ export const formatConsultation = (
     date,
     time,
   };
+};
+
+export const filterConsultationByQuery = (
+  consultation: SpecialistConsultation,
+  q: string,
+) => {
+  const query = q.toLowerCase().trim();
+  const { date, time, clientName } = consultation;
+  return [date, time, clientName].some(field =>
+    field?.toLowerCase().includes(query),
+  );
 };

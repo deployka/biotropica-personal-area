@@ -1,4 +1,5 @@
 import { CreateConsultationDto } from '../@types/dto/consultations/create.dto';
+import { UpdateConsultationDto } from '../@types/dto/consultations/update.dto';
 import { Consultation } from '../@types/entities/Consultation';
 import { baseApi } from './base-api';
 
@@ -9,6 +10,15 @@ export const consultationsApi = baseApi.injectEndpoints({
         url: `/consultations/specialist/${id}`,
         method: 'GET',
       }),
+      providesTags: result =>
+        result
+          ? [
+              ...result.map(
+                ({ id }) => ({ type: 'SpecialistConsultation', id } as const),
+              ),
+              { type: 'SpecialistConsultation', id: 'LIST' },
+            ]
+          : [{ type: 'SpecialistConsultation', id: 'LIST' }],
     }),
 
     getConsultations: builder.query<Consultation[], void>({
@@ -56,12 +66,22 @@ export const consultationsApi = baseApi.injectEndpoints({
       ],
     }),
 
-    changeConsultationDatetime: builder.mutation<void, Consultation>({
+    updateConsultationDate: builder.mutation<void, UpdateConsultationDto>({
+      query: payload => ({
+        url: `/consultations/date/${payload.id}`,
+        body: payload,
+        method: 'PUT',
+      }),
+      invalidatesTags: ['SpecialistConsultation'],
+    }),
+
+    updateConsultation: builder.mutation<void, Partial<Consultation>>({
       query: payload => ({
         url: `/consultations/${payload.id}`,
         body: payload,
         method: 'PUT',
       }),
+      invalidatesTags: ['SpecialistConsultation'],
     }),
 
     deleteConsultation: builder.mutation<void, { id: number }>({
@@ -69,6 +89,7 @@ export const consultationsApi = baseApi.injectEndpoints({
         url: `/consultations/${payload.id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['SpecialistConsultation'],
     }),
   }),
 });
@@ -76,12 +97,13 @@ export const consultationsApi = baseApi.injectEndpoints({
 export const {
   useGetConsultationsQuery,
   useGetSpecialistConsultationsQuery,
-  useChangeConsultationDatetimeMutation,
+  useUpdateConsultationMutation,
   useDeleteConsultationMutation,
   useCreateConsultationMutation,
   useGetClosestConsultationQuery,
   useGetLastConsultationQuery,
   useGetConsultationQuery,
+  useUpdateConsultationDateMutation,
 } = consultationsApi;
 
 export default consultationsApi;
