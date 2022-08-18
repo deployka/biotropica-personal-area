@@ -4,15 +4,22 @@ import s from './Item.module.scss';
 
 export type PopUpProps = {
   isPast?: boolean;
+  isMovable?: boolean;
   onMove: () => void;
   onDelete: () => void;
   onEdit: () => void;
 };
 
-export function ItemPopup({ isPast, onMove, onEdit, onDelete }: PopUpProps) {
+export function ItemPopup({
+  isPast,
+  isMovable,
+  onMove,
+  onEdit,
+  onDelete,
+}: PopUpProps) {
   return (
     <div className={s.popup}>
-      {!isPast && (
+      {!isPast && isMovable && (
         <div className={s.element} onClick={onMove}>
           <p>Перейти</p>
         </div>

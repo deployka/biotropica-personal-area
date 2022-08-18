@@ -16,6 +16,7 @@ import {
 } from '../../components/SpecialistConsultations/List/List';
 
 import {
+  convertDateStringToObject,
   filterConsultationByQuery,
   formatConsultation,
 } from './consultationsHelper';
@@ -31,11 +32,10 @@ import { SpecialistConsultationsEditModal } from '../../components/SpecialistCon
 const SpecialistConsultations = () => {
   const history = useHistory();
 
-  const [searchQuery, setSearchQuery] = useState('');
-
   const [deletedConsultationId, setDeletedConsultationId] = useState<
     number | null
   >(null);
+
   const [editedConsultation, setEditedConsultation] =
     useState<SpecialistConsultation | null>(null);
 
@@ -49,23 +49,9 @@ const SpecialistConsultations = () => {
   const [deleteConsultation] = useDeleteConsultationMutation();
   const [changeConsultationDate] = useUpdateConsultationDateMutation();
 
-  const formattedConsultationsList: SpecialistConsultation[] = consultations
-    .map(consultation => formatConsultation(consultation))
-    .filter(consultation =>
-      filterConsultationByQuery(consultation, searchQuery),
-    );
-
-  const activeConsultationsList = formattedConsultationsList.filter(
-    consultation => consultation.status === 'active',
-  );
-  const inactiveConsultationsList = formattedConsultationsList.filter(
-    consultation => consultation.status === 'inactive',
-  );
-
-  // const goToConsultation = (id: number) => {
-  //   return history.push('/consultations/' + id);
-  // };
-
+  const handleMoveToConsultation = (id: number) => {
+    return history.push('/consultations/' + id);
+  };
   const handleUpdateConsultation = async (date: Date) => {
     if (!editedConsultation) return;
     try {
@@ -81,7 +67,6 @@ const SpecialistConsultations = () => {
       setEditedConsultation(null);
     }
   };
-
   const handleDeleteConsultation = async () => {
     if (!deletedConsultationId) return;
     try {
@@ -101,11 +86,9 @@ const SpecialistConsultations = () => {
   return (
     <>
       <SpecialistConsultationsList
-        searchQuery={searchQuery}
-        onChangeSearchQuery={setSearchQuery}
         totalConsultationsCount={consultations.length}
-        activeConsultations={activeConsultationsList}
-        inactiveConsultations={inactiveConsultationsList}
+        consultations={consultations}
+        onMove={handleMoveToConsultation}
         onDelete={setDeletedConsultationId}
         onEdit={setEditedConsultation}
       />
@@ -119,7 +102,9 @@ const SpecialistConsultations = () => {
         onClose={() => setEditedConsultation(null)}
         onSubmit={handleUpdateConsultation}
         defaultValues={{
-          date: editedConsultation?.date || '',
+          date: editedConsultation?.date
+            ? convertDateStringToObject(editedConsultation.date)
+            : new Date(),
           time: editedConsultation?.time || '',
         }}
       />

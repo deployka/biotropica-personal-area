@@ -12,8 +12,6 @@ export const formatConsultation = (
   let status: 'active' | 'inactive' = 'active';
 
   if (consultation.date) {
-    console.log(consultation.date);
-
     const consultationDate = new Date(consultation.date);
     date = format(consultationDate, 'dd.LL.yyyy', { locale: ru });
     time = format(consultationDate, 'HH:mm');
@@ -22,6 +20,7 @@ export const formatConsultation = (
 
   return {
     id: consultation.id,
+    meetingNumber: consultation.meetingNumber,
     clientName: getFullName(consultation.user.name, consultation.user.lastname),
     status,
     date,
@@ -38,4 +37,15 @@ export const filterConsultationByQuery = (
   return [date, time, clientName].some(field =>
     field?.toLowerCase().includes(query),
   );
+};
+
+// нифига я названьице выдал. Есть идеи как лучше назвать?
+// суть в том, что дата формата dd.mm.yyyy (русская) не преобразуется в объект через new Date()
+// ну я ее форматирую и преобразую. Объект нужен для DateInputCustom
+export const convertDateStringToObject = (date: string) => {
+  const dates = date.split('.');
+  const day = +dates[0];
+  const month = +dates[1] - 1;
+  const year = +dates[2];
+  return new Date(year, month, day);
 };

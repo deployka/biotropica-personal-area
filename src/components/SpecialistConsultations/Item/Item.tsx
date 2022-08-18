@@ -10,8 +10,10 @@ type Props = {
   time: string;
   clientName: string;
   isPast?: boolean;
-  onDelete: () => void;
+  isMovable?: boolean;
+  onMove: () => void;
   onEdit: () => void;
+  onDelete: () => void;
 };
 
 export const SpecialistConsultationsItem = ({
@@ -19,10 +21,17 @@ export const SpecialistConsultationsItem = ({
   time,
   clientName,
   isPast,
+  isMovable,
+  onMove,
   onEdit,
   onDelete,
 }: Props) => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  const onMoveToConsultation = () => {
+    onMove();
+    setIsPopupVisible(false);
+  };
 
   const onDeleteConsultation = () => {
     onDelete();
@@ -49,9 +58,8 @@ export const SpecialistConsultationsItem = ({
         {isPopupVisible && (
           <ItemPopup
             isPast={isPast}
-            onMove={function (): void {
-              throw new Error('Function not implemented.');
-            }}
+            isMovable={isMovable}
+            onMove={onMoveToConsultation}
             onDelete={onDeleteConsultation}
             onEdit={onEditConsultation}
           />

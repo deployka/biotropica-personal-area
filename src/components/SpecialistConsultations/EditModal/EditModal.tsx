@@ -11,7 +11,7 @@ import validationSchema from './validationSchema';
 import s from './EditModal.module.scss';
 
 type FormData = {
-  date: string;
+  date: Date;
   time: string;
 };
 
@@ -37,7 +37,6 @@ export const SpecialistConsultationsEditModal = ({
     date.setMinutes(+time.slice(3));
     onSubmit(date);
   };
-
   return (
     <Modal className={s.modal} isOpened={isOpened} close={onClose}>
       <div className={s.container}>
@@ -64,9 +63,7 @@ export const SpecialistConsultationsEditModal = ({
                   <DatePickerCustom
                     name="date"
                     label="Дата"
-                    selected={
-                      values.date ? new Date(values.date as string) : null
-                    }
+                    selected={values.date}
                     minDate={MIN_DATE}
                     onBlur={handleBlur}
                     onChange={(date: Date) => setFieldValue('date', date)}

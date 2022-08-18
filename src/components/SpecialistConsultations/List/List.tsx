@@ -1,4 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Consultation } from '../../../@types/entities/Consultation';
+import {
+  filterConsultationByQuery,
+  formatConsultation,
+} from '../../../pages/SpecialistConsultations/consultationsHelper';
 import { SpecialistConsultationsHeader } from '../Header/Header';
 import { SpecialistConsultationsEmptyItem } from '../Item/EmptyItem';
 import { SpecialistConsultationsItem } from '../Item/Item';
@@ -10,34 +15,45 @@ export type SpecialistConsultation = {
   date: string;
   time: string;
   clientName: string;
+  meetingNumber: number;
   status: 'active' | 'inactive';
 };
 
 type Props = {
-  searchQuery: string;
   totalConsultationsCount: number;
-  activeConsultations: SpecialistConsultation[];
-  inactiveConsultations: SpecialistConsultation[];
+  consultations: Consultation[];
+  onMove: (id: number) => void;
   onDelete: (id: number) => void;
   onEdit: (id: SpecialistConsultation) => void;
-  onChangeSearchQuery: (query: string) => void;
 };
 
 export const SpecialistConsultationsList = ({
-  searchQuery,
   totalConsultationsCount,
-  activeConsultations,
-  inactiveConsultations,
-  onDelete,
+  consultations,
+  onMove,
   onEdit,
-  onChangeSearchQuery,
+  onDelete,
 }: Props) => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const formattedConsultationsList: SpecialistConsultation[] = consultations
+    .map(consultation => formatConsultation(consultation))
+    .filter(consultation =>
+      filterConsultationByQuery(consultation, searchQuery),
+    );
+
+  const activeConsultations = formattedConsultationsList.filter(
+    consultation => consultation.status === 'active',
+  );
+  const inactiveConsultations = formattedConsultationsList.filter(
+    consultation => consultation.status === 'inactive',
+  );
+
   return (
     <div className={s.usersList}>
       <SpecialistConsultationsHeader
         usersCount={totalConsultationsCount}
         searchInputValue={searchQuery}
-        onChangeSearchInput={onChangeSearchQuery}
+        onChangeSearchInput={setSearchQuery}
       />
       <table className={s.table}>
         <tr className={s.tableHeaderRow}>
@@ -51,7 +67,9 @@ export const SpecialistConsultationsList = ({
             key={consultation.id}
             date={consultation.date}
             time={consultation.time}
+            isMovable={!!consultation.meetingNumber}
             clientName={consultation.clientName}
+            onMove={() => onMove(consultation.id)}
             onDelete={() => onDelete(consultation.id)}
             onEdit={() => onEdit(consultation)}
           />
@@ -68,10 +86,12 @@ export const SpecialistConsultationsList = ({
         {inactiveConsultations.map(consultation => (
           <SpecialistConsultationsItem
             isPast={true}
+            isMovable={false}
             key={consultation.id}
             date={consultation.date}
             time={consultation.time}
             clientName={consultation.clientName}
+            onMove={() => onMove(consultation.id)}
             onDelete={() => onDelete(consultation.id)}
             onEdit={() => onEdit(consultation)}
           />
