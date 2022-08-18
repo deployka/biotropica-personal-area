@@ -5,7 +5,7 @@
   width: 350px;
 
   background: #ffffff;
-  box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+  box-shadow: 0px 0px 40px #6f61d01c;
   border-radius: 5px;
 
   display: flex;
@@ -168,11 +168,6 @@
       color: #ffffff;
     }
 
-    &.currentTariffBtn {
-      border: 1px solid rgb(97, 208, 127) !important;
-      color: rgb(97, 208, 127) !important;
-    }
-
     &.disabled {
       background-color: rgba(113, 98, 208, 0.1);
       border: 1px solid #7061d046;
@@ -182,6 +177,22 @@
         background-color: rgba(113, 98, 208, 0.1);
         border: 1px solid #7061d046;
         color: #7061d046;
+      }
+
+      &.currentTariffBtn {
+        background-color: #61d07f;
+        color: #fff;
+      }
+    }
+
+    &.currentTariffBtn {
+      border: 1px solid rgb(97, 208, 127);
+      color: #61d07f;
+
+      &:hover {
+        border: 1px solid rgb(97, 208, 127);
+        background-color: #61d07f;
+        color: #fff;
       }
     }
   }
