@@ -31,11 +31,9 @@ export const SpecialistConsultationsEditModal = ({
   onClose,
 }: Props) => {
   const handleSubmitForm = (data: FormData) => {
-    const date = new Date(data.date);
-    const time = data.time;
-    date.setHours(+time.slice(0, 2));
-    date.setMinutes(+time.slice(3));
-    onSubmit(date);
+    const { time, date } = data;
+
+    onSubmit(addTomeToDate(date, time));
   };
   return (
     <Modal className={s.modal} isOpened={isOpened} close={onClose}>
@@ -47,7 +45,7 @@ export const SpecialistConsultationsEditModal = ({
             time: defaultValues.time,
           }}
           validationSchema={validationSchema}
-          onSubmit={values => handleSubmitForm(values)}
+          onSubmit={handleSubmitForm}
         >
           {({
             values,

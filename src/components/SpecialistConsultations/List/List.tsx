@@ -85,7 +85,7 @@ export const SpecialistConsultationsList = ({
         </tr>
         {inactiveConsultations.map(consultation => (
           <SpecialistConsultationsItem
-            isPast={true}
+            isPast
             isMovable={false}
             key={consultation.id}
             date={consultation.date}

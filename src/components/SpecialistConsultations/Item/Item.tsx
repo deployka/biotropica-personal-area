@@ -28,17 +28,17 @@ export const SpecialistConsultationsItem = ({
 }: Props) => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
-  const onMoveToConsultation = () => {
+  const handleClickMove = () => {
     onMove();
     setIsPopupVisible(false);
   };
 
-  const onDeleteConsultation = () => {
+  const handleClickDelete = () => {
     onDelete();
     setIsPopupVisible(false);
   };
 
-  const onEditConsultation = () => {
+  const handleClickEdit = () => {
     onEdit();
     setIsPopupVisible(false);
   };
@@ -59,9 +59,9 @@ export const SpecialistConsultationsItem = ({
           <ItemPopup
             isPast={isPast}
             isMovable={isMovable}
-            onMove={onMoveToConsultation}
-            onDelete={onDeleteConsultation}
-            onEdit={onEditConsultation}
+            onMove={handleClickMove}
+            onDelete={handleClickDelete}
+            onEdit={handleClickEdit}
           />
         )}
       </tr>

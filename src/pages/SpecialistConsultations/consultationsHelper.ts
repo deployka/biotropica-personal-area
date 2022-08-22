@@ -39,9 +39,6 @@ export const filterConsultationByQuery = (
   );
 };
 
-// нифига я названьице выдал. Есть идеи как лучше назвать?
-// суть в том, что дата формата dd.mm.yyyy (русская) не преобразуется в объект через new Date()
-// ну я ее форматирую и преобразую. Объект нужен для DateInputCustom
 export const convertDateStringToObject = (date: string) => {
   const dates = date.split('.');
   const day = +dates[0];
