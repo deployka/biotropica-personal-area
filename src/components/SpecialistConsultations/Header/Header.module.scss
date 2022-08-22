@@ -1,0 +1,90 @@
+@import "./../../../styles/mixins.scss";
+@import "./../../../styles/variables.scss";
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 17px;
+    color: $color-black;
+    box-shadow: $box-shadow;
+
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+    }
+
+    .headerLeft {
+        display: flex;
+        align-items: center;
+
+        @media screen and (max-width: 768px) {
+            margin-bottom: 15px;
+        }
+
+        .headerTitle {
+            margin-right: 8px;
+        }
+
+        .usersCount {
+            padding: 3px 6px;
+            background: #f7f6fb;
+            border-radius: 4px;
+        }
+    }
+
+    .headerRight {
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        .searchIcon {
+            position: absolute;
+            left: 9px;
+            width: 20px;
+            height: 20px;
+
+            @media screen and (max-width: 576px) {
+                display: none;
+            }
+        }
+
+        .mobileSearchIcon {
+            display: none;
+
+            @media screen and (max-width: 576px) {
+                display: block;
+                padding: 2px 1px;
+            }
+        }
+
+        .searchInput {
+            width: 240px;
+            padding-left: 32px;
+            padding-right: 10px;
+            padding-top: 3px;
+            padding-bottom: 3px;
+            border: 1px solid #736f8b;
+            box-sizing: border-box;
+            border-radius: 100px;
+
+            @media screen and (max-width: 576px) {
+                width: 256px;
+                padding-left: 13px;
+                padding-top: 9px;
+                padding-bottom: 9px;
+                margin-right: 8px;
+                border: 1px solid #9e97be;
+            }
+        }
+
+        .searchInput::placeholder {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 20px;
+
+            @media screen and (max-width: 576px) {
+                opacity: 0.4;
+            }
+        }
+    }
+}

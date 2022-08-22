@@ -3,7 +3,7 @@ import { Client } from './Client';
 import { Specialist } from './Specialist';
 
 export type Consultation = BaseEntity & {
-  date: DateTimeString;
+  date: Date;
   specialist: Specialist;
   uuid: Uuid;
   user: Client;

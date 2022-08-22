@@ -1,0 +1,286 @@
+@import "./../../../styles/mixins.scss";
+@import "./../../../styles/variables.scss";
+
+.usersList {
+    position: relative;
+    box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+    border-radius: 15px;
+
+    .table {
+        position: relative;
+        max-height: 70vh;
+        overflow: hidden;
+        overflow-y: scroll;
+        border-collapse: collapse;
+        width: 100%;
+        padding: 0 10px;
+
+        .tableHeaderRow {
+            box-shadow: $box-shadow;
+            background-color: $color-divider;
+
+            th:first-child {
+                @media screen and (max-width: 576px) {
+                    padding-left: 10px;
+                }
+            }
+
+            th {
+                padding: 18px 17px;
+                text-align: left;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 16px;
+                color: #736f8b;
+                text-transform: uppercase;
+
+                @media screen and (max-width: 576px) {
+                    font-size: 12px;
+                    padding: 15px 10px;
+                    padding-left: 0;
+                }
+            }
+        }
+
+        .moreOptions {
+            position: relative;
+
+            @media screen and (max-width: 576px) {
+                padding-right: 10px;
+            }
+
+            .moreOptionsBtn {
+                img {
+                    width: 20px;
+                    height: 20px;
+                }
+
+                @media screen and (max-width: 768px) {
+                    transform: rotate(90deg);
+                }
+            }
+
+            .moreOptionsBtn:hover {
+                opacity: 0.7;
+            }
+
+            .contextMenu {
+                position: absolute;
+                right: 30px;
+                top: 25px;
+                width: 255px;
+                border-radius: 15px;
+                background: #ffffff;
+                color: #1e174d;
+                box-shadow: 0px 1px 10px rgba(30, 23, 77, 0.09);
+                z-index: 1000;
+
+                @media screen and (max-width: 768px) {
+                    right: 40px;
+                    top: -37px;
+                }
+
+                @media screen and (max-width: 576px) {
+                    width: 200px;
+                }
+
+                .contextMenuOption {
+                    padding: 15px 20px;
+                }
+
+                .contextMenuOption:last-child {
+                    margin-bottom: 0;
+                }
+
+                .contextMenuOption:hover {
+                    opacity: 0.7;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
+
+    @media screen and (min-width: 768px) {
+        ::-webkit-scrollbar {
+            -webkit-appearance: none;
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.5);
+            -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+        }
+    }
+}
+
+.dateTimeModal {
+    text-align: center;
+
+    @media screen and (max-width: 768px) {
+        padding: 30px 50px;
+    }
+
+    @media screen and (max-width: 620px) {
+        padding: 30px 50px;
+    }
+
+    @media screen and (max-width: 576px) {
+        height: 100%;
+        width: 100%;
+        padding: 30px 20px;
+        border-radius: 20px 20px 0px 0px;
+    }
+
+    .dateTimeHeader {
+        margin-bottom: 75px;
+
+        @media screen and (max-width: 768px) {
+            margin-bottom: 25px;
+        }
+
+        @media screen and (max-width: 576px) {
+            margin-bottom: 20px;
+        }
+    }
+
+    .dateTimeDivider {
+        display: none;
+
+        @media screen and (max-width: 768px) {
+            display: block;
+            margin-bottom: 50px;
+        }
+
+        @media screen and (max-width: 576px) {
+            margin-bottom: 30px;
+        }
+    }
+
+    .dateTimeInputs {
+        position: relative;
+        display: flex;
+        margin-bottom: 50px;
+
+        .wrapperInput {
+            margin-right: 20px;
+
+            @media screen and (max-width: 768px) {
+                margin-bottom: 20px;
+            }
+
+            @media screen and (max-width: 576px) {
+                margin: 0;
+                margin-bottom: 15px;
+            }
+        }
+
+        label {
+            left: 20px;
+        }
+
+        @media screen and (max-width: 768px) {
+            display: block;
+        }
+
+        @media screen and (max-width: 576px) {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .dateTimeLabel {
+            display: none;
+
+            @media screen and (max-width: 768px) {
+                display: block;
+                text-align: left;
+                font-style: normal;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 130%;
+                color: #9e97be;
+                margin-bottom: 5px;
+            }
+        }
+
+        input {
+            width: 370px;
+
+            &:focus ~ label {
+                left: 20px;
+            }
+
+            @media screen and (max-width: 900px) {
+                width: 270px;
+            }
+
+            @media screen and (max-width: 768px) {
+                width: 370px;
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            @media screen and (max-width: 576px) {
+                width: 100%;
+                max-width: unset;
+            }
+        }
+
+        .dateTimeInput::placeholder {
+            color: #9895a7;
+        }
+    }
+
+    .dateTimeControlBtns {
+        @media screen and (max-width: 576px) {
+            display: flex;
+            justify-content: left;
+            flex-direction: row-reverse;
+        }
+
+        .cancelBtn,
+        .submitBtn {
+            border: 1px solid #6f61d0;
+            box-sizing: border-box;
+            border-radius: 5px;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 120%;
+            color: #6f61d0;
+            padding: 6px 11px;
+
+            @media screen and (max-width: 768px) {
+                border-radius: 100px;
+            }
+        }
+
+        .cancelBtn {
+            margin-right: 20px;
+
+            @media screen and (max-width: 576px) {
+                margin-right: 0;
+                background: #6f61d0;
+                color: #fff;
+            }
+        }
+
+        .submitBtn {
+            background: #6f61d0;
+            color: #fff;
+
+            @media screen and (max-width: 576px) {
+                margin-right: 20px;
+            }
+        }
+
+        .cancelBtn:hover,
+        .submitBtn:hover {
+            opacity: 0.8;
+        }
+    }
+}
