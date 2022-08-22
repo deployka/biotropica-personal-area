@@ -16,7 +16,7 @@ import { RecommendationList } from '../../components/Recommendation/List/List';
 import s from './Recommendations.module.scss';
 import { useSelector } from 'react-redux';
 import { Tabs } from '../../components/Tabs/Tabs';
-import { selectIsDoctor } from '../../store/slices/authSlice';
+import { selectIsAdmin, selectIsDoctor } from '../../store/slices/authSlice';
 
 import { Specialization } from '../../@types/entities/Specialization';
 import {
@@ -49,6 +49,7 @@ export function Recommendations() {
   const [createRecommendation] = useCreateRecommendationMutation();
   const [deleteRecommendation] = useDeleteRecommendationMutation();
   const isSpecialist = useSelector(selectIsDoctor);
+  const isAdmin = useSelector(selectIsAdmin);
 
   const history = useHistory();
 
@@ -96,6 +97,8 @@ export function Recommendations() {
   const isLoading = isSpecializationsLoading || isRecommendationsLoading;
   const isError = isSpecializationsError || isRecommendationsError;
 
+  const isEditable = isSpecialist || isAdmin;
+
   return (
     <div>
       <Tabs
@@ -120,7 +123,7 @@ export function Recommendations() {
       />
       {isLoading && <p>Загрузка...</p>}
       {isError && <p>Произошла ошибка</p>}
-      {!isLoading && !isError && recommendations.length === 0 && !isSpecialist && (
+      {!isLoading && !isError && recommendations.length === 0 && !isEditable && (
         <div className={s.emptyWrapper}>
           <Empty className={s.empty}>
             <p>
@@ -131,13 +134,13 @@ export function Recommendations() {
         </div>
       )}
       {/* FIXME: сделать нормальный условный рендеринг */}
-      {((recommendations.length !== 0 && !isSpecialist) || isSpecialist) && (
+      {((recommendations.length !== 0 && !isEditable) || isEditable) && (
         <RecommendationsPage
           openedRecommendation={openedRecommendation}
           currentUserId={currentUserId}
           specializations={specializations}
           recommendations={recommendations}
-          isSpecialist={isSpecialist}
+          isSpecialist={isEditable}
           selectedSpecialization={selectedSpecialization}
           setSelectedSpecialization={setSelectedSpecialization}
           onSaveRecommendation={handleSaveRecommendation}

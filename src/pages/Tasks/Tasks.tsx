@@ -31,7 +31,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { NotificationButtons } from './NotificationButtons';
-import { selectIsDoctor } from '../../store/slices/authSlice';
+import { selectIsAdmin, selectIsDoctor } from '../../store/slices/authSlice';
 import { useCurrentUserQuery } from '../../api/user';
 
 import { Tabs } from '../../components/Tabs/Tabs';
@@ -42,9 +42,8 @@ export function Tasks() {
   const dispatch = useDispatch();
   const [updateTask, { isLoading: isUpdateLoading }] = useUpdateTaskMutation();
   const [createTask, { isLoading: isCreateLoading }] = useCreateTaskMutation();
-  const [deleteTask, { isLoading: isDeleteLoading }] = useDeleteTaskMutation();
-  const [addComment, { isLoading: isCommentLoading }] =
-    useAddTaskCommentMutation();
+  const [deleteTask] = useDeleteTaskMutation();
+  const [addComment] = useAddTaskCommentMutation();
 
   const { userId: rawUserId } = useParams<{ userId: string }>();
 
@@ -75,6 +74,7 @@ export function Tasks() {
   const currentMonth = useAppSelector(selectTasksPageCurrentMonth);
 
   const isSpecialist = useSelector(selectIsDoctor);
+  const isAdmin = useSelector(selectIsAdmin);
 
   const { data: tasks = [], isError } = useGetTaskListQuery({
     userId,
@@ -297,6 +297,7 @@ export function Tasks() {
 
       <TasksModal
         currentUserId={currentUser?.id || 0}
+        isAdmin={isAdmin}
         isSpecialist={isSpecialist}
         isLoading={isUpdateLoading || isCreateLoading}
         task={openedTask}

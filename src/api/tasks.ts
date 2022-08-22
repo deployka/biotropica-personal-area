@@ -1,3 +1,4 @@
+import { GetAllTasksDto } from '../@types/dto/tasks/getAll.dto';
 import { Comment } from '../@types/entities/Comment';
 import {
   CompetitionTask,
@@ -7,7 +8,6 @@ import {
   EventTask,
   SomeTask,
   Task,
-  TaskTemplate,
   TrainingTask,
 } from '../@types/entities/Task';
 import { baseApi } from './base-api';
@@ -23,17 +23,11 @@ type CreateTaskParam = Partial<
 export const taskApi = baseApi.injectEndpoints({
   endpoints(builder) {
     return {
-      getTaskList: builder.query<
-        SomeTask[],
-        {
-          userId: number;
-        }
-      >({
-        query(params) {
+      getTaskList: builder.query<SomeTask[], GetAllTasksDto>({
+        query(dto) {
           return {
             method: 'GET',
-            url: 'tasks',
-            params,
+            url: `tasks?userId=${dto.userId}`,
           };
         },
         providesTags: result =>
