@@ -13,6 +13,7 @@ export type TaskBaseEditorProps = {
   task: CreateTrainingTask | CreateEventTask | CreateCompetitionTask | null;
   title?: string;
   icon?: string;
+  isAdmin: boolean;
   isCurrentUser: boolean;
   isSpecialist: boolean;
   mode: 'edit' | 'view' | 'create';
@@ -33,6 +34,7 @@ export function TaskBaseEditor({
   mode,
   icon,
   title,
+  isAdmin,
   isSpecialist,
   isCurrentUser,
   children,
@@ -64,6 +66,7 @@ export function TaskBaseEditor({
         <Header
           isSpecialist={isSpecialist}
           isCurrentUser={isCurrentUser}
+          isEditable={isCurrentUser || isAdmin}
           taskId={taskId}
           mode={mode}
           title={title}

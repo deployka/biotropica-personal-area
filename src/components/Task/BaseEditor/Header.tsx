@@ -11,6 +11,7 @@ import { useHistory } from 'react-router';
 interface Props {
   mode: 'edit' | 'view' | 'create';
   isCurrentUser: boolean;
+  isEditable: boolean;
   title?: string;
   icon?: string;
   category?: string;
@@ -32,6 +33,7 @@ export const Header = ({
   type,
   category,
   taskId,
+  isEditable,
   isSpecialist,
   authorSpecialistId,
   authorName,
@@ -85,6 +87,8 @@ export const Header = ({
       return history.push('/profile');
     }
 
+    if (!id) return;
+
     return history.push(`/specialists/${id}`);
   };
 
@@ -116,12 +120,7 @@ export const Header = ({
               taskId={taskId}
             />
           )}
-          <img
-            className={s.closeIcon}
-            src={closeIcon}
-            alt="icon"
-            onClick={onClose}
-          />
+          <img className={s.closeIcon} src={closeIcon} onClick={onClose} />
         </div>
       </div>
 
@@ -138,11 +137,10 @@ export const Header = ({
                 <p className={s.rowText}>{category}</p>
               </div>
             )}
-            {isCurrentUser && (
+            {isEditable && (
               <img
                 className={s.editIcon}
                 src={editIcon}
-                alt=""
                 onClick={onEditBtnClick}
               />
             )}

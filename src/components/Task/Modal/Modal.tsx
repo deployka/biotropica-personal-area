@@ -14,10 +14,12 @@ import {
   translatedKindOfSport,
 } from '../../TaskEditor/Training/TrainingConstants';
 import { typeGroups } from '../TypeSelectModal/taskTypeConstants';
+import { getUserRolesList } from '../../../utils/getUserRolesList';
 
 type TasksModalProps = {
   task: SomeTask | CreateSomeTask | null;
   mode: 'edit' | 'view' | 'create';
+  isAdmin: boolean;
   isSpecialist: boolean;
   isOpened: boolean;
   isLoading: boolean;
@@ -44,6 +46,7 @@ export const TasksModal = ({
   currentUserId,
   isCommentsLoading,
   isLoading,
+  isAdmin,
   onCreateTemplate,
   onClose,
   onSave,
@@ -92,6 +95,7 @@ export const TasksModal = ({
     <TaskBaseEditor
       isCurrentUser={task?.authorId === currentUserId}
       isSpecialist={isSpecialist}
+      isAdmin={isAdmin}
       task={task}
       taskId={taskId}
       title={title}

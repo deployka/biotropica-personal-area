@@ -78,11 +78,13 @@ const routes = [
   {
     path: 'users/:userId/tasks',
     specialistComponent: Tasks,
+    adminComponent: Tasks,
     exact: true,
   },
   {
     path: 'users/:userId/recommendations',
     specialistComponent: Recommendations,
+    adminComponent: Recommendations,
     exact: true,
   },
   {
