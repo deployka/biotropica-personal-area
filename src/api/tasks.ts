@@ -27,7 +27,8 @@ export const taskApi = baseApi.injectEndpoints({
         query(dto) {
           return {
             method: 'GET',
-            url: `tasks?userId=${dto.userId}`,
+            url: 'tasks',
+            params: dto,
           };
         },
         providesTags: result =>
