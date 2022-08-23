@@ -6,8 +6,10 @@ import { Role, ROLE } from '../../../@types/entities/Role';
 import dotsIcon from './../../../assets/icons/dots-horizontal.svg';
 
 import s from './Item.module.scss';
+import { ActionMenu } from '../../UI/ActionsMenu/ActionsMenu';
 
 type User = {
+  id: number;
   fullName: string;
   isBanned: boolean;
   registrationDate: string;
@@ -68,6 +70,7 @@ export const UserItem = ({
         <div className={s.tariff}>
           <p>{user.tariff}</p>
           <div
+            id={`menu_${user.id}`}
             className={s.dots}
             onClick={showPopUp}
             style={visible ? { transform: 'rotate(90deg)' } : {}}
@@ -75,24 +78,12 @@ export const UserItem = ({
             <img src={dotsIcon} alt="" />
           </div>
         </div>
-        {visible && (
-          <ItemPopup
-            isBanned={user.isBanned}
-            onProfileClick={onProfile}
-            onToggleUserBanStatus={() => {
-              onToggleUserBanStatus();
-              setVisible(false);
-            }}
-            onWriteClick={() => {
-              onWrite();
-              setVisible(false);
-            }}
-          />
-        )}
       </div>
-      {visible && (
-        <div className={s.background} onClick={() => setVisible(false)}></div>
-      )}
+      <ActionMenu
+        forId={`menu_${user.id}`}
+        isOpened={visible}
+        onClose={() => setVisible(false)}
+      />
     </>
   );
 };
