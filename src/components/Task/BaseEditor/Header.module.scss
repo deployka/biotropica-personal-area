@@ -150,70 +150,20 @@
     cursor: pointer;
   }
 
-  .moreOptions {
-    position: relative;
+  .actionsMenu {
+    cursor: pointer;
     width: 32px;
     height: 32px;
-
-    @media screen and (max-width: 576px) {
-      padding-right: 10px;
-    }
-
-    .moreOptionsBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
       width: 32px;
       height: 32px;
-      img {
-        width: 32px;
-        height: 32px;
-      }
-
-      @media screen and (max-width: 768px) {
-        transform: rotate(90deg);
-      }
     }
 
-    .moreOptionsBtn:hover {
-      opacity: 0.7;
-    }
-
-    .delete {
-      color: #e53935;
-      background: #f7f6fb;
-      width: 100%;
-      text-align: left;
-    }
-
-    .contextMenu {
-      position: absolute;
-      right: 30px;
-      top: 25px;
-      width: 255px;
-      border-radius: 5px;
-      background: #ffffff;
-      color: #fff;
-      box-shadow: 0px 1px 10px rgba(30, 23, 77, 0.09);
-      z-index: 1000;
-
-      @media screen and (max-width: 768px) {
-        right: 40px;
-        top: -37px;
-      }
-
-      @media screen and (max-width: 576px) {
-        width: 200px;
-      }
-
-      .contextMenuOption {
-        padding: 15px 20px;
-      }
-
-      .contextMenuOption:last-child {
-        margin-bottom: 0;
-      }
-
-      .contextMenuOption:hover {
-        opacity: 0.7;
-      }
+    @media screen and (max-width: 768px) {
+      transform: rotate(90deg);
     }
   }
 }

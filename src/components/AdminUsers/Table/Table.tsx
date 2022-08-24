@@ -47,6 +47,7 @@ export function AdminUsersTable({
             const tariff = getUserTariff(tariffs, user);
 
             const formattedUser = {
+              id: user.id,
               fullName: getFullName(user.name, user.lastname),
               isBanned: user.banned,
               registrationDate: format(new Date(user.createdAt), 'dd.MM.yyyy'),

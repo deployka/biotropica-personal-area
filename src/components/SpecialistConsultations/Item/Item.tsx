@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import dotsIcon from './../../../assets/icons/dots-horizontal.svg';
-import { ItemPopup } from './ItemPopup';
+import { Action, ActionMenu } from '../../UI/ActionsMenu/ActionsMenu';
 
 import s from './Item.module.scss';
 
@@ -28,49 +28,44 @@ export const SpecialistConsultationsItem = ({
 }: Props) => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
-  const handleClickMove = () => {
-    onMove();
-    setIsPopupVisible(false);
-  };
-
-  const handleClickDelete = () => {
-    onDelete();
-    setIsPopupVisible(false);
-  };
-
-  const handleClickEdit = () => {
-    onEdit();
-    setIsPopupVisible(false);
-  };
+  const actions: Action[] = [
+    {
+      title: 'Перейти',
+      onClick: () => onMove(),
+      isHidden: !isMovable,
+    },
+    {
+      title: 'Изменить дату и время',
+      onClick: () => onEdit(),
+      isHidden: isPast,
+    },
+    {
+      title: 'Удалить',
+      onClick: () => onDelete(),
+      type: 'red',
+    },
+  ];
 
   return (
-    <>
-      <tr className={classNames(s.tableRow, { [s.past]: isPast })}>
-        <td>{date}</td>
-        <td>{time}</td>
-        <td>{clientName}</td>
-        <div
-          className={classNames(s.moreBtn, { [s.active]: isPopupVisible })}
-          onClick={() => setIsPopupVisible(true)}
+    <tr className={classNames(s.tableRow, { [s.past]: isPast })}>
+      <td>{date}</td>
+      <td>{time}</td>
+      <td className={s.clientName}>{clientName}</td>
+      <td>
+        <ActionMenu
+          actions={actions}
+          onClose={() => setIsPopupVisible(false)}
+          isOpened={isPopupVisible}
+          wrapperStyles={{ position: 'absolute', right: '10px', top: '50%' }}
         >
-          <img src={dotsIcon} />
-        </div>
-        {isPopupVisible && (
-          <ItemPopup
-            isPast={isPast}
-            isMovable={isMovable}
-            onMove={handleClickMove}
-            onDelete={handleClickDelete}
-            onEdit={handleClickEdit}
-          />
-        )}
-      </tr>
-      {isPopupVisible && (
-        <div
-          className={s.background}
-          onClick={() => setIsPopupVisible(false)}
-        ></div>
-      )}
-    </>
+          <div
+            className={classNames(s.moreBtn, { [s.active]: isPopupVisible })}
+            onClick={() => setIsPopupVisible(!isPopupVisible)}
+          >
+            <img src={dotsIcon} />
+          </div>
+        </ActionMenu>
+      </td>
+    </tr>
   );
 };

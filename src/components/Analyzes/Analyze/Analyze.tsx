@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import moment from 'moment';
+import classNames from 'classnames';
+import dotsIcon from './../../../assets/icons/dotsGrey.svg';
 import { getMediaLink } from '../../../utils/mediaHelper';
 import { Comments } from '../../../components/Comments/Comments';
 import { CommentsInfo } from '../../../components/Comments/CommentsInfo';
 import { AnalyzeAnswer } from '../../../@types/entities/AnalyzeAnswer';
-import dotsIcon from './../../../assets/icons/dotsGrey.svg';
 import { ProfileSvgSelector } from '../../../assets/icons/profile/ProfileSvgSelector';
-import { AnalyzePopup } from './AnalyzePopup';
+import { Action, ActionMenu } from '../../UI/ActionsMenu/ActionsMenu';
 
 import s from './Analyze.module.scss';
-import classNames from 'classnames';
 
 interface Props {
   analyze: AnalyzeAnswer;
@@ -19,6 +19,14 @@ interface Props {
 export const AnalyzesAnalyze = ({ analyze, onDelete }: Props) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
+
+  const actions: Action[] = [
+    {
+      title: 'Удалить',
+      onClick: onDelete,
+      type: 'red',
+    },
+  ];
 
   return (
     <div key={analyze.id} className={s.analyze}>
@@ -36,14 +44,29 @@ export const AnalyzesAnalyze = ({ analyze, onDelete }: Props) => {
         </a>
 
         <p className={s.createdAt}>{moment(analyze.createdAt).format('LL')}</p>
-        <div
-          className={classNames(s.actions, { [s.active]: isPopupOpen })}
-          onClick={() => {
-            setIsPopupOpen(true);
+        <ActionMenu
+          isOpened={isPopupOpen}
+          actions={actions}
+          onClose={() => setIsPopupOpen(false)}
+          wrapperStyles={{
+            position: 'absolute',
+            right: '-40px',
+            top: '50%',
+          }}
+          position={{
+            top: 15,
+            right: 10,
           }}
         >
-          <img src={dotsIcon} />
-        </div>
+          <div
+            className={classNames(s.actions, { [s.active]: isPopupOpen })}
+            onClick={() => {
+              setIsPopupOpen(!isPopupOpen);
+            }}
+          >
+            <img src={dotsIcon} />
+          </div>
+        </ActionMenu>
       </div>
 
       <div className={s.footer}>
@@ -59,20 +82,6 @@ export const AnalyzesAnalyze = ({ analyze, onDelete }: Props) => {
       </div>
       {isCommentsOpen && (
         <Comments comments={analyze.comments} isClient={true} />
-      )}
-      {isPopupOpen && (
-        <>
-          <AnalyzePopup
-            onDelete={() => {
-              onDelete();
-              setIsPopupOpen(false);
-            }}
-          />
-          <div
-            className={s.background}
-            onClick={() => setIsPopupOpen(false)}
-          ></div>
-        </>
       )}
     </div>
   );
