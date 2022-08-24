@@ -17,7 +17,7 @@ const Modal = (props: IProps) => {
   useLockBodyScroll();
 
   const handleClickOverlay = (event: React.MouseEvent<HTMLDivElement>) => {
-    (event.target as Element).id === 'modal-overlay' && close();
+    event.currentTarget.id === 'modal-overlay' && close();
   };
 
   return (

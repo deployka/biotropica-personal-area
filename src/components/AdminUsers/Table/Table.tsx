@@ -43,30 +43,18 @@ export function AdminUsersTable({
       </div>
       <div className={s.usersList}>
         {users.length !== 0 ? (
-          users.map((user, i) => {
-            const tariff = getUserTariff(tariffs, user);
-
-            const formattedUser = {
-              id: user.id,
-              fullName: getFullName(user.name, user.lastname),
-              isBanned: user.banned,
-              registrationDate: format(new Date(user.createdAt), 'dd.MM.yyyy'),
-              tariff,
-              roles: user.roles,
-            };
-
-            return (
-              <UserItem
-                key={i}
-                user={formattedUser}
-                onProfile={() => onProfile(user)}
-                onToggleUserBanStatus={() => {
-                  onToggleUserBanStatus(user.id);
-                }}
-                onWrite={() => onWrite(user.id)}
-              />
-            );
-          })
+          users.map((user, i) => (
+            <UserItem
+              key={i}
+              user={user}
+              tariffs={tariffs}
+              onProfile={() => onProfile(user)}
+              onToggleUserBanStatus={() => {
+                onToggleUserBanStatus(user.id);
+              }}
+              onWrite={() => onWrite(user.id)}
+            />
+          ))
         ) : (
           <p>Пользователи не найдены</p>
         )}
