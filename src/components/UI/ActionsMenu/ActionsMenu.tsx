@@ -1,13 +1,7 @@
-import classNames from 'classnames';
-import React, {
-  CSSProperties,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { CSSProperties, ReactNode, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { useOnClickOutside } from '../../../hooks/useOnClickOutsode';
+import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
+import classNames from 'classnames';
 
 import s from './ActionsMenu.module.scss';
 
@@ -31,7 +25,7 @@ type Props = {
   children: ReactNode;
   isOpened: boolean;
   actions: Action[];
-  wrapperStyles?: CSSProperties;
+  className?: string;
   position?: Position;
   onClose: () => void;
 };
@@ -41,7 +35,7 @@ export const ActionMenu = ({
   isOpened,
   actions,
   position,
-  wrapperStyles,
+  className,
   onClose,
 }: Props) => {
   const menuRef = useRef<HTMLDivElement>(null);
@@ -52,7 +46,7 @@ export const ActionMenu = ({
   const visibleActions = actions.filter(action => !action.isHidden);
 
   return (
-    <div ref={wrapperRef} className={s.wrapper} style={wrapperStyles}>
+    <div ref={wrapperRef} className={classNames(s.wrapper, className)}>
       {children}
       <CSSTransition
         in={isOpened}

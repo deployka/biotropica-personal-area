@@ -54,6 +54,12 @@
         }
     }
 
+    .actionsWrapper {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+    }
+
     .moreBtn {
         display: flex;
         align-items: center;

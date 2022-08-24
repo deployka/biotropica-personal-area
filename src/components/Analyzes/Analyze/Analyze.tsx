@@ -48,11 +48,7 @@ export const AnalyzesAnalyze = ({ analyze, onDelete }: Props) => {
           isOpened={isPopupOpen}
           actions={actions}
           onClose={() => setIsPopupOpen(false)}
-          wrapperStyles={{
-            position: 'absolute',
-            right: '-40px',
-            top: '50%',
-          }}
+          className={s.actionsWrapper}
           position={{
             top: 15,
             right: 10,

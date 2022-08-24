@@ -56,7 +56,7 @@ export const SpecialistConsultationsItem = ({
           actions={actions}
           onClose={() => setIsPopupVisible(false)}
           isOpened={isPopupVisible}
-          wrapperStyles={{ position: 'absolute', right: '10px', top: '50%' }}
+          className={s.actionsWrapper}
         >
           <div
             className={classNames(s.moreBtn, { [s.active]: isPopupVisible })}
