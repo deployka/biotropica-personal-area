@@ -1,5 +1,6 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
+import { useLockBodyScroll } from '../../../hooks/useLockBodyScroll';
 
 import './Modal.css';
 
@@ -12,6 +13,8 @@ interface IProps {
 
 const Modal = (props: IProps) => {
   const { children, isOpened, className, close } = props;
+
+  useLockBodyScroll();
 
   const handleClickOverlay = (event: React.MouseEvent<HTMLDivElement>) => {
     (event.target as Element).id === 'modal-overlay' && close();
@@ -33,18 +36,6 @@ const Modal = (props: IProps) => {
       </div>
     </CSSTransition>
   );
-
-  // return (
-  //   <>
-  //     <CSSTransition in={isOpened} timeout={500} classNames='show-up' unmountOnExit>
-  //       <div className={s.modal}>
-  //         {children}
-  //       </div>
-  //     </CSSTransition>
-  //     <div className={s.background} onClick={() => close()}>
-  //     </div>
-  //   </>
-  // )
 };
 
 export default Modal;

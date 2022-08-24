@@ -1,12 +1,13 @@
-import React, { RefObject } from 'react';
+import React, { RefObject, useState } from 'react';
 
 import classNames from 'classnames';
 import closeIcon from './../../../assets/icons/close_white.svg';
 import editIcon from './../../../assets/icons/edit_note.svg';
-import { MoreOptionsButton } from './MoreOptionsButton';
+import MoreIcon from '../../../assets/icons/global/more.svg';
+import { useHistory } from 'react-router';
 
 import s from './Header.module.scss';
-import { useHistory } from 'react-router';
+import { Action, ActionMenu } from '../../UI/ActionsMenu/ActionsMenu';
 
 interface Props {
   mode: 'edit' | 'view' | 'create';
@@ -32,20 +33,20 @@ export const Header = ({
   icon,
   type,
   category,
-  taskId,
   isEditable,
-  isSpecialist,
   authorSpecialistId,
   authorName,
-  onDeleteTask,
+  isCurrentUser,
   onClose,
   onCreateTemplate,
   onEditBtnClick,
-  isCurrentUser,
+  onDeleteTask,
 }: Props) => {
   let taskType = '';
   let headerColor = '';
   let headerTitle = '';
+
+  const [isMenuOpened, setIsMenuOpened] = useState(false);
 
   const history = useHistory();
 
@@ -82,6 +83,18 @@ export const Header = ({
       break;
   }
 
+  const actions: Action[] = [
+    {
+      title: 'Создать шаблон',
+      onClick: onCreateTemplate,
+    },
+    {
+      title: 'Удалить задачу',
+      onClick: onDeleteTask,
+      type: 'red',
+    },
+  ];
+
   const onClickAuthor = (id: number) => {
     if (isCurrentUser) {
       return history.push('/profile');
@@ -113,12 +126,18 @@ export const Header = ({
 
         <div className={s.rightContent}>
           {mode === 'edit' && (
-            <MoreOptionsButton
-              isSpecialist={isSpecialist}
-              onCreateTemplate={onCreateTemplate}
-              onDelete={onDeleteTask}
-              taskId={taskId}
-            />
+            <ActionMenu
+              actions={actions}
+              isOpened={isMenuOpened}
+              onClose={() => setIsMenuOpened(false)}
+            >
+              <div
+                className={s.actionsMenu}
+                onClick={() => setIsMenuOpened(!isMenuOpened)}
+              >
+                <img src={MoreIcon} />
+              </div>
+            </ActionMenu>
           )}
           <img className={s.closeIcon} src={closeIcon} onClick={onClose} />
         </div>

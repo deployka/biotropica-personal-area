@@ -1,49 +1,80 @@
-import React, { useEffect, useState } from 'react';
+import classNames from 'classnames';
+import React, {
+  CSSProperties,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { CSSTransition } from 'react-transition-group';
+import { useOnClickOutside } from '../../../hooks/useOnClickOutsode';
 
 import s from './ActionsMenu.module.scss';
 
 import './Animations.css';
 
+export type Action = {
+  title: string;
+  type?: 'red';
+  isHidden?: boolean;
+  onClick: () => void;
+};
+
+type Position = {
+  top?: number;
+  left?: number;
+  bottom?: number;
+  right?: number;
+};
+
 type Props = {
-  forId: string;
+  children: ReactNode;
   isOpened: boolean;
+  actions: Action[];
+  wrapperStyles?: CSSProperties;
+  position?: Position;
   onClose: () => void;
 };
 
-export const ActionMenu = ({ forId, isOpened, onClose }: Props) => {
-  const [position, setPosition] = useState<{ top: number; left: number }>({
-    top: 0,
-    left: 0,
-  });
+export const ActionMenu = ({
+  children,
+  isOpened,
+  actions,
+  position,
+  wrapperStyles,
+  onClose,
+}: Props) => {
+  const menuRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const el = document.querySelector(`#${forId}`);
-    if (!el) return;
+  useOnClickOutside(menuRef, onClose, wrapperRef);
 
-    const top = el.getBoundingClientRect().top;
-    const left = el.getBoundingClientRect().left;
-
-    console.log(top, left);
-
-    setPosition({ top, left });
-
-    console.log(el);
-  }, [forId]);
+  const visibleActions = actions.filter(action => !action.isHidden);
 
   return (
-    <CSSTransition
-      in={isOpened}
-      timeout={500}
-      classNames="show-up"
-      unmountOnExit
-    >
-      <div className={s.background} onClick={onClose}>
-        <div className={s.actionSelect} style={position}>
-          <div className={s.action}>Редактировать</div>
-          <div className={`${s.action} ${s.red}`}>Удалить</div>
+    <div ref={wrapperRef} className={s.wrapper} style={wrapperStyles}>
+      {children}
+      <CSSTransition
+        in={isOpened}
+        timeout={300}
+        classNames="show-up"
+        unmountOnExit
+      >
+        <div ref={menuRef} className={s.actionSelect} style={position}>
+          {visibleActions.map(action => (
+            <div
+              key={action.title}
+              onClick={() => {
+                action.onClick();
+                onClose();
+              }}
+              className={classNames(s.action, s[action?.type || ''])}
+            >
+              {action.title}
+            </div>
+          ))}
         </div>
-      </div>
-    </CSSTransition>
+      </CSSTransition>
+    </div>
   );
 };
