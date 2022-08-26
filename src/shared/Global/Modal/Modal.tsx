@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { useLockBodyScroll } from '../../../hooks/useLockBodyScroll';
+import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
 
 import './Modal.css';
 
@@ -16,9 +17,10 @@ const Modal = (props: IProps) => {
 
   useLockBodyScroll();
 
-  const handleClickOverlay = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.currentTarget.id === 'modal-overlay' && close();
-  };
+  const modalRef = useRef(null);
+  useLockBodyScroll();
+
+  useOnClickOutside(modalRef, close);
 
   return (
     <CSSTransition
@@ -27,12 +29,10 @@ const Modal = (props: IProps) => {
       classNames="show-up"
       unmountOnExit
     >
-      <div
-        className="modal-overlay"
-        id="modal-overlay"
-        onClick={handleClickOverlay}
-      >
-        <div className={'modal ' + className}>{children}</div>
+      <div className="modal-overlay" id="modal-overlay">
+        <div className={'modal ' + className} ref={modalRef}>
+          {children}
+        </div>
       </div>
     </CSSTransition>
   );
