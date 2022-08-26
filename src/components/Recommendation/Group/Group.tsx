@@ -1,12 +1,12 @@
 import React from 'react';
 import { getMediaLink } from '../../../utils/mediaHelper';
 import { RecommendationItem } from '../Item/Item';
-import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
-
-import s from './Group.module.scss';
 import { useHistory } from 'react-router';
 import { Recommendation } from '../../../@types/entities/Recommendation';
 import { BaseUser } from '../../../@types/entities/BaseUser';
+import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
+
+import s from './Group.module.scss';
 
 export type RecommendationGroupType = {
   specialist: BaseUser;
@@ -14,14 +14,14 @@ export type RecommendationGroupType = {
 };
 
 type RecommendationGroupProps = {
-  isCurrentUser: boolean;
+  isEditable: boolean;
   recommendationGroup: RecommendationGroupType;
   onDelete(id: number): void;
   onEdit(recommendation: Recommendation): void;
 };
 
 export const RecommendationGroup = ({
-  isCurrentUser,
+  isEditable,
   recommendationGroup,
   onDelete,
   onEdit,
@@ -53,7 +53,7 @@ export const RecommendationGroup = ({
       <div className={s.recommendationsList}>
         {recommendationList.map(recommendation => (
           <RecommendationItem
-            editable={isCurrentUser}
+            isEditable={isEditable}
             key={recommendation.id}
             title={recommendation.title}
             text={recommendation.description}

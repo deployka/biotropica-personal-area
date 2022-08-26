@@ -7,11 +7,6 @@ import {
 } from '../../api/recommendations';
 import { useGetSpecializationListQuery } from '../../api/specializations';
 import { useHistory, useParams } from 'react-router-dom';
-import {
-  SpecializationList,
-  SpecializationListProps,
-} from './../../components/Specialization/List/List';
-import { RecommendationList } from '../../components/Recommendation/List/List';
 
 import s from './Recommendations.module.scss';
 import { useSelector } from 'react-redux';
@@ -24,9 +19,11 @@ import {
   RecommendationStatus,
 } from '../../@types/entities/Recommendation';
 import { CreateRecommendationDto } from '../../@types/dto/recommendations/create.dto';
-import { RecommendationsPage } from '../../components/Recommnedations/Recommendations';
+import { RecommendationsPage } from '../../components/Recommendations/Recommendations';
 import { useCurrentUserQuery } from '../../api/user';
 import { Empty } from '../../components/Empty/Empty';
+import { UpdateRecommendationDto } from '../../@types/dto/recommendations/update.dto';
+import { EditModal } from '../../components/Recommendation/EditModal/EditModal';
 
 export function Recommendations() {
   const { data: currentUser } = useCurrentUserQuery();
@@ -57,7 +54,7 @@ export function Recommendations() {
     useState<Specialization | null>(null);
 
   const [openedRecommendation, setOpenedRecommendation] = useState<
-    Recommendation | CreateRecommendationDto | null
+    CreateRecommendationDto | UpdateRecommendationDto | null
   >(null);
 
   const handleSaveRecommendation = async (value: CreateRecommendationDto) => {
@@ -81,23 +78,44 @@ export function Recommendations() {
 
     setOpenedRecommendation(null);
   };
-  const handleClickEditRecommendation = (recommendation: Recommendation) => {
-    setOpenedRecommendation(recommendation);
-  };
+
   const handleCreateRecommendation = () => {
+    console.log('create');
+  };
+  const handleDeleteRecommendation = (id: number) => {
+    deleteRecommendation({ id });
+  };
+
+  const onClickCreateRecommendation = () => {
     setOpenedRecommendation({
       title: '',
       description: '',
     });
   };
-  const handleDeleteRecommendation = (id: number) => {
-    deleteRecommendation(id);
+
+  const onClickEditRecommendation = (recommendation: Recommendation) => {
+    setOpenedRecommendation(recommendation);
   };
 
   const isLoading = isSpecializationsLoading || isRecommendationsLoading;
   const isError = isSpecializationsError || isRecommendationsError;
 
   const isEditable = isSpecialist || isAdmin;
+
+  if (isLoading) return <p>Загрузка...</p>;
+  if (!isLoading && isError) return <p>Произошла ошибка</p>;
+  if (!isLoading && !isError && !recommendations.length && !isEditable) {
+    return (
+      <div className={s.emptyWrapper}>
+        <Empty className={s.empty}>
+          <p>
+            У вас еще нет рекомендаций. Они появятся здесь сразу после того, как
+            их составит специалист.
+          </p>
+        </Empty>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -121,35 +139,33 @@ export function Recommendations() {
           }
         }}
       />
-      {isLoading && <p>Загрузка...</p>}
-      {isError && <p>Произошла ошибка</p>}
-      {!isLoading && !isError && recommendations.length === 0 && !isEditable && (
-        <div className={s.emptyWrapper}>
-          <Empty className={s.empty}>
-            <p>
-              У вас еще нет рекомендаций. Они появятся здесь сразу после того,
-              как их составит специалист.
-            </p>
-          </Empty>
-        </div>
-      )}
-      {/* FIXME: сделать нормальный условный рендеринг */}
-      {((recommendations.length !== 0 && !isEditable) || isEditable) && (
+
+      {((!recommendations.length && !isEditable) || isEditable) && (
         <RecommendationsPage
+          isAdmin={isAdmin}
           openedRecommendation={openedRecommendation}
           currentUserId={currentUserId}
           specializations={specializations}
           recommendations={recommendations}
-          isSpecialist={isEditable}
+          isEditable={isEditable}
           selectedSpecialization={selectedSpecialization}
-          setSelectedSpecialization={setSelectedSpecialization}
-          onSaveRecommendation={handleSaveRecommendation}
-          onCreateRecommendation={handleCreateRecommendation}
-          onEditRecommendation={handleClickEditRecommendation}
-          onDeleteRecommendation={handleDeleteRecommendation}
-          setOpenedRecommendation={setOpenedRecommendation}
+          setSelected={setSelectedSpecialization}
+          onCreate={onClickCreateRecommendation}
+          onEdit={onClickEditRecommendation}
+          onDelete={handleDeleteRecommendation}
+          setOpened={setOpenedRecommendation}
         />
       )}
+
+      <EditModal
+        isOpened={!!openedRecommendation}
+        defaultValues={{
+          title: openedRecommendation?.title || '',
+          description: openedRecommendation?.description || '',
+        }}
+        onSave={handleSaveRecommendation}
+        onClose={() => setOpenedRecommendation(null)}
+      />
     </div>
   );
 }

@@ -1,21 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { BaseUser } from '../../../@types/entities/BaseUser';
 import { Recommendation } from '../../../@types/entities/Recommendation';
+import Button from '../../Button/Button';
 
 import { RecommendationGroup, RecommendationGroupType } from './../Group/Group';
 
 import s from './List.module.scss';
 
 type RecommendationListProps = {
+  isAdmin: boolean;
   currentUserId: number;
   recommendations: Recommendation[];
-  onDelete(id: number): void;
-  onEdit(recommendation: Recommendation): void;
+  isEditable: boolean;
+  onCreate: () => void;
+  onDelete: (id: number) => void;
+  onEdit: (recommendation: Recommendation) => void;
 };
 
 export const RecommendationList = ({
+  isAdmin,
+  isEditable,
   recommendations,
   currentUserId,
+  onCreate,
   onDelete,
   onEdit,
 }: RecommendationListProps) => {
@@ -54,9 +61,14 @@ export const RecommendationList = ({
 
   return (
     <div className={s.recommendationList}>
+      {isEditable && (
+        <Button className={s.addButton} isPrimary onClick={onCreate}>
+          Добавить рекомендацию
+        </Button>
+      )}
       {recommendationsGroups.map(group => (
         <RecommendationGroup
-          isCurrentUser={group.specialist.id === currentUserId}
+          isEditable={group.specialist.id === currentUserId || isAdmin}
           key={group.specialist.id}
           recommendationGroup={{
             specialist: group.specialist,

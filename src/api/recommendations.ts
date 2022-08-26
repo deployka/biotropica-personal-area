@@ -2,6 +2,8 @@ import { Recommendation } from '../@types/entities/Recommendation';
 import { Specialization } from '../@types/entities/Specialization';
 import { BaseUser } from '../@types/entities/BaseUser';
 import { baseApi } from './base-api';
+import { UpdateRecommendationDto } from '../@types/dto/recommendations/update.dto';
+import { DeleteRecommendationDto } from '../@types/dto/recommendations/delete.dto';
 
 // FIXME: DTO
 type CreateRecommendationDto = Pick<
@@ -60,11 +62,11 @@ export const recommendationApi = baseApi.injectEndpoints({
         Recommendation,
         CreateRecommendationDto
       >({
-        query(recommendation) {
+        query(dto) {
           return {
             method: 'POST',
             url: 'recommendations',
-            body: recommendation,
+            body: dto,
           };
         },
         invalidatesTags: [{ type: 'Recommendation', id: 'LIST' }],
@@ -72,23 +74,26 @@ export const recommendationApi = baseApi.injectEndpoints({
 
       updateRecommendation: builder.mutation<
         Recommendation,
-        Partial<Recommendation> & Pick<Recommendation, 'id'>
+        UpdateRecommendationDto
       >({
-        query(recommendation) {
+        query(dto) {
           return {
             method: 'PUT',
-            url: `recommendations/${recommendation.id}`,
-            body: recommendation,
+            url: `recommendations/${dto.id}`,
+            body: dto,
           };
         },
         invalidatesTags: (r, e, { id }) => [{ type: 'Recommendation', id }],
       }),
 
-      deleteRecommendation: builder.mutation<Recommendation, number>({
-        query(id) {
+      deleteRecommendation: builder.mutation<
+        Recommendation,
+        DeleteRecommendationDto
+      >({
+        query(dto) {
           return {
             method: 'DELETE',
-            url: `recommendations/${id}`,
+            url: `recommendations/${dto.id}`,
           };
         },
         invalidatesTags: [{ type: 'Recommendation', id: 'LIST' }],
