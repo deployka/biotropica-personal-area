@@ -8,10 +8,10 @@ import { RecommendationGroup, RecommendationGroupType } from './../Group/Group';
 import s from './List.module.scss';
 
 type RecommendationListProps = {
-  isAdmin: boolean;
-  currentUserId: number;
   recommendations: Recommendation[];
-  isEditable: boolean;
+  isAdmin: boolean;
+  currentUserId: BaseUser['id'];
+  canCreate: boolean;
   onCreate: () => void;
   onDelete: (id: number) => void;
   onEdit: (recommendation: Recommendation) => void;
@@ -19,7 +19,7 @@ type RecommendationListProps = {
 
 export const RecommendationList = ({
   isAdmin,
-  isEditable,
+  canCreate,
   recommendations,
   currentUserId,
   onCreate,
@@ -61,16 +61,17 @@ export const RecommendationList = ({
 
   return (
     <div className={s.recommendationList}>
-      {isEditable && (
+      {canCreate && (
         <Button className={s.addButton} isPrimary onClick={onCreate}>
           Добавить рекомендацию
         </Button>
       )}
       {recommendationsGroups.map(group => (
         <RecommendationGroup
-          isEditable={group.specialist.id === currentUserId || isAdmin}
           key={group.specialist.id}
+          isAdmin={isAdmin}
           recommendationGroup={{
+            isEditable: isAdmin || group.specialist.id === currentUserId,
             specialist: group.specialist,
             recommendationList: group.recommendationList,
           }}

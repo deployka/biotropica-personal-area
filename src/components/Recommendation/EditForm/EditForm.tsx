@@ -1,11 +1,12 @@
+import React from 'react';
 import classNames from 'classnames';
 import { Formik } from 'formik';
-import React from 'react';
 import Button from '../../Button/Button';
 import { HtmlEditor } from '../../HtmlEditor/HtmlEditor';
-import Input, { InputTypes } from '../../Input/Input';
+
 import validationSchema from './validationSchema';
 import s from './EditForm.module.scss';
+import { Input } from '../../../shared/Form/Input/Input';
 
 export type RecommendationForm = {
   title: string;
@@ -35,11 +36,12 @@ export function RecommendationEditForm({
           <div className={s.line}>
             <Input
               name="title"
-              type={InputTypes.TEXT}
+              type="text"
               label="Название"
               placeholder="Введите название"
               onChange={handleChange}
               onBlur={handleBlur}
+              value={values.title}
             />
           </div>
           <div className={s.line}>
@@ -56,10 +58,10 @@ export function RecommendationEditForm({
             />
           </div>
           <div className={s.buttons}>
-            <Button onClick={onClose}>Отмена</Button>
             <Button type="submit" isPrimary={true}>
               Сохранить
             </Button>
+            <Button onClick={onClose}>Отмена</Button>
           </div>
         </form>
       )}

@@ -1,18 +1,9 @@
 import { Recommendation } from '../@types/entities/Recommendation';
-import { Specialization } from '../@types/entities/Specialization';
 import { BaseUser } from '../@types/entities/BaseUser';
 import { baseApi } from './base-api';
-import { UpdateRecommendationDto } from '../@types/dto/recommendations/update.dto';
-import { DeleteRecommendationDto } from '../@types/dto/recommendations/delete.dto';
-
-// FIXME: DTO
-type CreateRecommendationDto = Pick<
-  Recommendation,
-  'title' | 'description' | 'status'
-> & {
-  userId: number;
-  specialization: Pick<Specialization, 'id'> | number;
-};
+import type { UpdateRecommendationDto } from '../@types/dto/recommendations/update.dto';
+import type { DeleteRecommendationDto } from '../@types/dto/recommendations/delete.dto';
+import type { CreateRecommendationDto } from '../@types/dto/recommendations/create.dto';
 
 export const recommendationApi = baseApi.injectEndpoints({
   endpoints(builder) {

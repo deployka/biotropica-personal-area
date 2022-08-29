@@ -7,32 +7,36 @@ import { BaseUser } from '../../../@types/entities/BaseUser';
 import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 
 import s from './Group.module.scss';
+import { getUserRolesList } from '../../../utils/getUserRolesList';
+import { ROLE } from '../../../@types/entities/Role';
 
 export type RecommendationGroupType = {
+  isEditable: boolean;
   specialist: BaseUser;
   recommendationList: Recommendation[];
 };
 
 type RecommendationGroupProps = {
-  isEditable: boolean;
+  isAdmin: boolean;
   recommendationGroup: RecommendationGroupType;
   onDelete(id: number): void;
   onEdit(recommendation: Recommendation): void;
 };
 
 export const RecommendationGroup = ({
-  isEditable,
+  isAdmin,
   recommendationGroup,
   onDelete,
   onEdit,
 }: RecommendationGroupProps) => {
-  const { specialist, recommendationList } = recommendationGroup;
+  const { isEditable, specialist, recommendationList } = recommendationGroup;
 
   const history = useHistory();
 
-  console.log('specialist', specialist);
+  const isAdminCreator = getUserRolesList(specialist).includes(ROLE.ADMIN);
 
   function moveToSpecialist() {
+    if (isAdminCreator) return;
     history.push('/specialists/' + specialist.specialist?.id);
   }
 
@@ -45,7 +49,9 @@ export const RecommendationGroup = ({
               src={getMediaLink(specialist.profilePhoto || '') || defaultAvatar}
             />
           </div>
-          {specialist.name} {specialist.lastname}
+          {isAdminCreator && !isAdmin
+            ? 'Администратор'
+            : `${specialist.name} ${specialist.lastname}`}
         </div>
         <div className={s.right}></div>
       </div>

@@ -1,29 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   useCreateRecommendationMutation,
   useDeleteRecommendationMutation,
   useGetRecommendationListQuery,
   useUpdateRecommendationMutation,
 } from '../../api/recommendations';
-import { useGetSpecializationListQuery } from '../../api/specializations';
 import { useHistory, useParams } from 'react-router-dom';
-
-import s from './Recommendations.module.scss';
 import { useSelector } from 'react-redux';
-import { Tabs } from '../../components/Tabs/Tabs';
+
+import type { UpdateRecommendationDto } from '../../@types/dto/recommendations/update.dto';
+import type { Specialization } from '../../@types/entities/Specialization';
+import { Recommendation } from '../../@types/entities/Recommendation';
+
+import { useCurrentUserQuery } from '../../api/user';
+import { useGetSpecializationListQuery } from '../../api/specializations';
 import { selectIsAdmin, selectIsDoctor } from '../../store/slices/authSlice';
 
-import { Specialization } from '../../@types/entities/Specialization';
-import {
-  Recommendation,
-  RecommendationStatus,
-} from '../../@types/entities/Recommendation';
-import { CreateRecommendationDto } from '../../@types/dto/recommendations/create.dto';
+import { Tabs } from '../../components/Tabs/Tabs';
 import { RecommendationsPage } from '../../components/Recommendations/Recommendations';
-import { useCurrentUserQuery } from '../../api/user';
 import { Empty } from '../../components/Empty/Empty';
-import { UpdateRecommendationDto } from '../../@types/dto/recommendations/update.dto';
 import { EditModal } from '../../components/Recommendation/EditModal/EditModal';
+
+import s from './Recommendations.module.scss';
+import {
+  errorCreateRecommendationNotification,
+  errorDeleteRecommendationNotification,
+  successCreateRecommendationNotification,
+  successDeleteRecommendationNotification,
+} from './recommendationsNotifications';
+import { ResponseError } from '../../@types/api/response';
+import { CreateRecommendationDto } from '../../@types/dto/recommendations/create.dto';
+import { RecommendationForm } from '../../components/Recommendation/EditForm/EditForm';
 
 export function Recommendations() {
   const { data: currentUser } = useCurrentUserQuery();
@@ -53,58 +60,70 @@ export function Recommendations() {
   const [selectedSpecialization, setSelectedSpecialization] =
     useState<Specialization | null>(null);
 
-  const [openedRecommendation, setOpenedRecommendation] = useState<
-    CreateRecommendationDto | UpdateRecommendationDto | null
-  >(null);
-
-  const handleSaveRecommendation = async (value: CreateRecommendationDto) => {
-    if (!selectedSpecialization || !openedRecommendation) return;
-    const { description, title } = value;
-    if ('id' in openedRecommendation) {
-      await updateRecommendation({
-        description,
-        title,
-        id: openedRecommendation.id,
-      });
-    } else {
-      await createRecommendation({
-        description,
-        title,
-        status: RecommendationStatus.INITIATED,
-        userId: +userId!,
-        specialization: selectedSpecialization,
-      });
-    }
-
-    setOpenedRecommendation(null);
-  };
-
-  const handleCreateRecommendation = () => {
-    console.log('create');
-  };
-  const handleDeleteRecommendation = (id: number) => {
-    deleteRecommendation({ id });
-  };
+  const [openedRecommendation, setOpenedRecommendation] =
+    useState<UpdateRecommendationDto | null>(null);
 
   const onClickCreateRecommendation = () => {
     setOpenedRecommendation({
+      id: 0,
       title: '',
       description: '',
     });
   };
-
   const onClickEditRecommendation = (recommendation: Recommendation) => {
     setOpenedRecommendation(recommendation);
+  };
+
+  const handleCreateRecommendation = async (data: RecommendationForm) => {
+    const executorUserId = +userId;
+    if (!selectedSpecialization || isNaN(executorUserId)) return;
+    try {
+      await createRecommendation({
+        ...data,
+        userId: executorUserId,
+        specializationId: selectedSpecialization.id,
+      }).unwrap();
+      successCreateRecommendationNotification();
+      setOpenedRecommendation(null);
+    } catch (error) {
+      console.log(error);
+      errorCreateRecommendationNotification(error as ResponseError);
+    }
+  };
+
+  const handleUpdateRecommendation = async (data: RecommendationForm) => {
+    if (!openedRecommendation) return;
+    try {
+      await updateRecommendation({
+        id: openedRecommendation.id,
+        ...data,
+      }).unwrap();
+      successCreateRecommendationNotification();
+      setOpenedRecommendation(null);
+    } catch (error) {
+      console.log(error);
+      errorCreateRecommendationNotification(error as ResponseError);
+    }
+  };
+
+  const handleDeleteRecommendation = async (id: number) => {
+    try {
+      await deleteRecommendation({ id }).unwrap();
+      successDeleteRecommendationNotification();
+    } catch (error) {
+      console.log(error);
+      errorDeleteRecommendationNotification();
+    }
   };
 
   const isLoading = isSpecializationsLoading || isRecommendationsLoading;
   const isError = isSpecializationsError || isRecommendationsError;
 
-  const isEditable = isSpecialist || isAdmin;
+  const canCreate = isSpecialist || isAdmin;
 
   if (isLoading) return <p>Загрузка...</p>;
   if (!isLoading && isError) return <p>Произошла ошибка</p>;
-  if (!isLoading && !isError && !recommendations.length && !isEditable) {
+  if (!isLoading && !isError && !canCreate && !recommendations.length) {
     return (
       <div className={s.emptyWrapper}>
         <Empty className={s.empty}>
@@ -140,30 +159,24 @@ export function Recommendations() {
         }}
       />
 
-      {((!recommendations.length && !isEditable) || isEditable) && (
-        <RecommendationsPage
-          isAdmin={isAdmin}
-          openedRecommendation={openedRecommendation}
-          currentUserId={currentUserId}
-          specializations={specializations}
-          recommendations={recommendations}
-          isEditable={isEditable}
-          selectedSpecialization={selectedSpecialization}
-          setSelected={setSelectedSpecialization}
-          onCreate={onClickCreateRecommendation}
-          onEdit={onClickEditRecommendation}
-          onDelete={handleDeleteRecommendation}
-          setOpened={setOpenedRecommendation}
-        />
-      )}
+      <RecommendationsPage
+        isAdmin={isAdmin}
+        currentUserId={currentUserId}
+        canCreate={canCreate}
+        specializations={specializations}
+        recommendations={recommendations}
+        selectedSpecialization={selectedSpecialization}
+        onClickSpecialization={setSelectedSpecialization}
+        onCreate={onClickCreateRecommendation}
+        onEdit={onClickEditRecommendation}
+        onDelete={handleDeleteRecommendation}
+      />
 
       <EditModal
         isOpened={!!openedRecommendation}
-        defaultValues={{
-          title: openedRecommendation?.title || '',
-          description: openedRecommendation?.description || '',
-        }}
-        onSave={handleSaveRecommendation}
+        recommendation={openedRecommendation}
+        onCreate={handleCreateRecommendation}
+        onEdit={handleUpdateRecommendation}
         onClose={() => setOpenedRecommendation(null)}
       />
     </div>
