@@ -54,7 +54,10 @@ export const RecommendationsPage = ({
   const specializationsTypes = getSpecializationTypes(
     specializations,
     groupedRecommendations,
-    canCreate,
+  );
+
+  const filteredSpecializationsTypes = specializationsTypes.filter(
+    type => !!type.count || canCreate,
   );
 
   return (
@@ -63,7 +66,7 @@ export const RecommendationsPage = ({
         className={classNames(s.left, selectedSpecialization ? s.opened : '')}
       >
         <SpecializationList
-          types={specializationsTypes}
+          types={filteredSpecializationsTypes}
           onSelect={onClickSpecialization}
           selectedType={selectedSpecialization}
         />

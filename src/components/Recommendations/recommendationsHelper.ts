@@ -21,14 +21,13 @@ export function groupRecommendationsBySpecialization(
 export function getSpecializationTypes(
   specializations: Specialization[],
   recommendationsGroups: SpecializationRecommendations,
-  canCreate: boolean,
 ) {
   return specializations.reduce<SpecializationListProps['types']>(
     (acc, specialization) => {
-      if (!canCreate) return acc;
+      const count = recommendationsGroups[specialization.key]?.length || 0;
       acc.push({
         specialization,
-        count: recommendationsGroups[specialization.key]?.length || 0,
+        count,
       });
       return acc;
     },
