@@ -14,12 +14,8 @@ interface IProps {
 
 const Modal = (props: IProps) => {
   const { children, isOpened, className, close } = props;
-
-  useLockBodyScroll();
-
   const modalRef = useRef(null);
   useLockBodyScroll();
-
   useOnClickOutside(modalRef, close);
 
   return (
