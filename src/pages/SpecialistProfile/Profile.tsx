@@ -1,19 +1,23 @@
 import React, { MouseEvent, useEffect, useState } from 'react';
 import { ROLE } from '../../@types/entities/Role';
-import { Specialization } from '../../@types/entities/Specialization';
+import type { Specialization } from '../../@types/entities/Specialization';
+import type { Tab } from '../../shared/Global/Tabs/Tabs';
+
 import { useGetSignUpLinkQuery } from '../../api/auth';
-import { useGetCurrentSpecialistQuery } from '../../api/specialists';
-import { useGetAllUsersQuery } from '../../api/user';
+import {
+  useGetCurrentSpecialistQuery,
+  useGetFollowedUsersBySpecialistQuery,
+} from '../../api/specialists';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { ProfileCard } from '../../components/Profile/Card/Card';
 import { SpecialistCoursesList } from '../../components/Specialist/Courses/List';
 import { SpecialistUsersList } from '../../components/Specialist/UsersList/UsersList';
-import { Tab } from '../../components/TabButtons/TabButtons';
 import { CopyField } from '../../components/UI/CopyField/CopyField';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { Tabs } from '../../shared/Global/Tabs/Tabs';
 
 import s from './Profile.module.scss';
+import { useHistory, useParams } from 'react-router';
 
 const tabs: Tab[] = [
   {
@@ -22,9 +26,15 @@ const tabs: Tab[] = [
   },
   {
     key: 'users',
-    value: 'Мои пездюки',
+    value: 'Пользователи',
   },
 ];
+
+const tabKeys = tabs.map(tab => tab.key);
+
+export interface Param {
+  tab: string;
+}
 
 // TODO: вынести в глобальный тип
 export type SpecialistData = {
@@ -35,6 +45,8 @@ export type SpecialistData = {
 
 const Profile = () => {
   const token = localStorage.getItem('invitedToken') || '';
+  const { tab } = useParams<Param>();
+  const history = useHistory();
   const [activeTab, setActiveTab] = useState(tabs[0].key);
   const {
     data: currentSpecialist,
@@ -42,9 +54,23 @@ const Profile = () => {
     isError,
   } = useGetCurrentSpecialistQuery();
 
-  const { data: users = [] } = useGetAllUsersQuery({
-    roles: [ROLE.CLIENT],
-  });
+  const {
+    data: users = [],
+    isLoading: isUsersLoading,
+    isError: isUsersError,
+  } = useGetFollowedUsersBySpecialistQuery();
+
+  useEffect(() => {
+    if (!tab) {
+      history.push(`/profile/${tabs[0].key}`);
+    }
+    if (!tabKeys.includes(tab)) {
+      setActiveTab(tabs[0].key);
+      history.push(tabs[0].key);
+    }
+
+    return setActiveTab(tab);
+  }, [tab]);
 
   const { data } = useGetSignUpLinkQuery(
     {
@@ -88,6 +114,15 @@ const Profile = () => {
     }
   }
 
+  const handleClickEdit = () => {
+    history.push('/profile/edit');
+  };
+
+  const onTabClick = (tab: Tab) => {
+    setActiveTab(tab.key);
+    history.push(`${tab.key}`);
+  };
+
   return (
     <div className={s.backgroundWrapper}>
       <div className={s.profile}>
@@ -99,6 +134,7 @@ const Profile = () => {
                 isEditable={true}
                 specialistData={specialistData}
                 profilePhoto={currentSpecialist.user.profilePhoto || ''}
+                onEditClick={handleClickEdit}
               />
               <CopyField
                 onClick={onCopyLink}
@@ -116,14 +152,20 @@ const Profile = () => {
                 activeTab={activeTab}
                 onActiveTabChanged={() => console.log('test')}
                 spaceBetween={50}
-                onTabClick={tab => setActiveTab(tab.key)}
+                onTabClick={onTabClick}
               />
             </div>
           </div>
           {activeTab === tabs[0].key && (
             <SpecialistCoursesList coursesList={courses} />
           )}
-          {activeTab === tabs[1].key && <SpecialistUsersList users={users} />}
+          {activeTab === tabs[1].key && (
+            <SpecialistUsersList
+              isLoading={isUsersLoading}
+              isError={isUsersError}
+              users={users}
+            />
+          )}
         </div>
       </div>
     </div>

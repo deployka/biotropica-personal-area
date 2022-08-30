@@ -9,12 +9,16 @@ type Props = {
   onChange: (query: string) => void;
 };
 
-export const SpecialistUsersListHeader = ({ query, onChange }: Props) => {
+export const SpecialistUsersListHeader = ({
+  usersCount,
+  query,
+  onChange,
+}: Props) => {
   return (
     <div className={s.header}>
       <div className={s.title}>
         <h2>Пользователи</h2>
-        <div className={s.count}>17</div>
+        <div className={s.count}>{usersCount}</div>
       </div>
       <SearchInput
         value={query}

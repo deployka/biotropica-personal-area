@@ -58,9 +58,14 @@ const routes = [
     exact: true,
   },
   {
-    path: 'profile/edit/:active',
+    path: 'profile/edit',
     component: Edit,
     specialistComponent: EditSpecialistProfile,
+    exact: true,
+  },
+  {
+    path: 'profile/:tab',
+    specialistComponent: SpecialistProfile,
     exact: true,
   },
   {

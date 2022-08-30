@@ -9,10 +9,12 @@ import s from './UsersList.module.scss';
 import { filterUserByQuery } from './usersListHelper';
 
 type Props = {
+  isLoading: boolean;
+  isError: boolean;
   users: BaseUser[];
 };
 
-export const SpecialistUsersList = ({ users }: Props) => {
+export const SpecialistUsersList = ({ users, isLoading, isError }: Props) => {
   const history = useHistory();
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -23,6 +25,14 @@ export const SpecialistUsersList = ({ users }: Props) => {
   const filteredUsers = users.filter(user =>
     filterUserByQuery(user, searchQuery),
   );
+
+  if (isLoading) {
+    <p>Загрузка...</p>;
+  }
+
+  if (isError) {
+    <p>Произошла ошибка</p>;
+  }
 
   return (
     <div className={s.users}>
