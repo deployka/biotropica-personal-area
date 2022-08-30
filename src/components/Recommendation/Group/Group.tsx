@@ -1,14 +1,16 @@
 import React from 'react';
+
+import type { BaseUser } from '../../../@types/entities/BaseUser';
+import { ROLE } from '../../../@types/entities/Role';
+
 import { getMediaLink } from '../../../utils/mediaHelper';
 import { RecommendationItem } from '../Item/Item';
 import { useHistory } from 'react-router';
 import { Recommendation } from '../../../@types/entities/Recommendation';
-import { BaseUser } from '../../../@types/entities/BaseUser';
-import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
-
-import s from './Group.module.scss';
 import { getUserRolesList } from '../../../utils/getUserRolesList';
-import { ROLE } from '../../../@types/entities/Role';
+
+import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
+import s from './Group.module.scss';
 
 export type RecommendationGroupType = {
   isEditable: boolean;
@@ -36,7 +38,7 @@ export const RecommendationGroup = ({
   const isAdminCreator = getUserRolesList(specialist).includes(ROLE.ADMIN);
 
   function moveToSpecialist() {
-    if (isAdminCreator) return;
+    if (isAdminCreator || !specialist.specialist?.id) return;
     history.push('/specialists/' + specialist.specialist?.id);
   }
 

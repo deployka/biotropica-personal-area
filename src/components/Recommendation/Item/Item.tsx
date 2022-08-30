@@ -24,7 +24,7 @@ export function RecommendationItem({
   onDelete,
   onEdit,
 }: RecommendationItemProps) {
-  const [height, setHeight] = useState<string | number>(0);
+  const [height, setHeight] = useState<'auto' | 0>(0);
 
   const [isActionSelectOpen, setIsActionSelectOpen] = useState<boolean>(false);
 

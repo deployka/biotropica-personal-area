@@ -12,6 +12,14 @@ import classNames from 'classnames';
 import type { BaseUser } from '../../@types/entities/BaseUser';
 
 import s from './Recommendations.module.scss';
+import {
+  getSpecializationTypes,
+  groupRecommendationsBySpecialization,
+} from './recommendationsHelper';
+
+type SpecializationRecommendations = Partial<
+  Record<Specialization['key'], Recommendation[]>
+>;
 
 type Props = {
   isAdmin: boolean;
@@ -38,36 +46,16 @@ export const RecommendationsPage = ({
   onDelete,
   onClickSpecialization,
 }: Props) => {
-  const [specializationsTypes, setSpecializationsTypes] = useState<
-    SpecializationListProps['types']
-  >([]);
+  const groupedRecommendations = groupRecommendationsBySpecialization(
+    recommendations,
+    specializations,
+  );
 
-  const [filteredRecommendation, setFilteredRecommendation] = useState<Record<
-    Specialization['key'],
-    Recommendation[]
-  > | null>(null);
-
-  useEffect(() => {
-    if (!specializations || !recommendations) return;
-
-    const newFilteredRecommendations = specializations.reduce((acc, spec) => {
-      acc[spec.key] = recommendations.filter(
-        rec => rec.specialization.key === spec.key,
-      );
-      return acc;
-    }, {} as Record<Specialization['key'], Recommendation[]>);
-
-    setFilteredRecommendation(newFilteredRecommendations);
-
-    let newSpecializationsTypes = specializations.map(specialization => ({
-      specialization: specialization,
-      count: newFilteredRecommendations[specialization.key]?.length || 0,
-    }));
-    if (!canCreate) {
-      newSpecializationsTypes = newSpecializationsTypes.filter(it => it.count);
-    }
-    setSpecializationsTypes(newSpecializationsTypes);
-  }, [specializations, recommendations]);
+  const specializationsTypes = getSpecializationTypes(
+    specializations,
+    groupedRecommendations,
+    canCreate,
+  );
 
   return (
     <div className={s.recommendationPage}>
@@ -89,9 +77,7 @@ export const RecommendationsPage = ({
             currentUserId={currentUserId}
             canCreate={canCreate}
             recommendations={
-              (filteredRecommendation &&
-                filteredRecommendation[selectedSpecialization.key]) ||
-              []
+              groupedRecommendations[selectedSpecialization.key] || []
             }
             onCreate={onCreate}
             onDelete={onDelete}

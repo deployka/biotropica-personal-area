@@ -32,7 +32,7 @@ export function RecommendationEditForm({
       validationSchema={validationSchema}
     >
       {({ values, handleSubmit, handleBlur, handleChange, setFieldValue }) => (
-        <form className={s.recommendationForm} onSubmit={e => handleSubmit(e)}>
+        <form className={s.recommendationForm} onSubmit={handleSubmit}>
           <div className={s.line}>
             <Input
               name="title"
@@ -51,9 +51,6 @@ export function RecommendationEditForm({
               onChange={value => {
                 handleChange(value);
                 setFieldValue('description', value);
-              }}
-              config={{
-                formats: [],
               }}
             />
           </div>

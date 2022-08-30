@@ -24,10 +24,10 @@ export const EditModal = ({
 }: Props) => {
   const handleSubmit = (data: RecommendationForm) => {
     if (!recommendation) return;
-    if (recommendation?.id) {
+    if (recommendation.id) {
       return onEdit(data);
     }
-    return onCreate(data);
+    onCreate(data);
   };
 
   return (
