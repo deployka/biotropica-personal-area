@@ -104,7 +104,7 @@ export const Profile = ({
         <div className={s.info}>
           <Card user={user} />
           <div className={s.userInfo}>
-            <Goals goalsLength={goalsLength} />
+            <Goals goalsCount={goalsLength} />
             <Tariff
               isPaid={currentTariff?.isPaid}
               title={currentTariff?.tariff?.title}

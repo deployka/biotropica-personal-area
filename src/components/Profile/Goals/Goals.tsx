@@ -5,6 +5,6 @@ type Props = {
   goalsCount: number;
 };
 
-export const Goals = ({ goalsCount }: Props) => {
+export const ProfileGoals = ({ goalsCount }: Props) => {
   return <div className={s.goals}>Активных целей: {goalsCount}</div>;
 };

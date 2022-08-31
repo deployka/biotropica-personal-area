@@ -74,12 +74,12 @@ const Profile = () => {
         <div className={s.info}>
           {currentSpecialist && (
             <>
-              <ProfileCard
+              {/* <ProfileCard
                 userData={currentSpecialist.user}
                 isEditable={true}
                 specialistData={specialistData}
                 profilePhoto={currentSpecialist.user.profilePhoto || ''}
-              />
+              /> */}
               <CopyField
                 onClick={onCopyLink}
                 label="Ссылка для регистрации"
