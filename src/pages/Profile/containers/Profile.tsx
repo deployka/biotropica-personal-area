@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-
+import { Card } from '../components/Card/Card';
+import { Tariff } from '../components/Tariff/Tariff';
+import { Goals } from '../components/Goals/Goals';
 import { Progress } from '../components/Progress/Progress';
 import { useModal } from '../../../hooks/useModal';
 import { ModalName } from '../../../providers/ModalProvider';
@@ -7,11 +9,13 @@ import { useHistory, useParams } from 'react-router';
 import { Param } from './Edit';
 import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 import { getTabByKey } from '../../../utils/tabsHelper';
+import { Button } from '../components/Button/Button';
 import { useGetGoalsQuery } from '../../../api/goals';
 import { BaseUser } from '../../../@types/entities/BaseUser';
 import { QuestionnaireResults } from '../components/QuestionnaireResults/QuestionnaireResults';
 import { useGetQuestionnaireAnswersQuery } from '../../../api/user';
 
+import s from './Profile.module.scss';
 import { Analyzes } from '../../../components/Analyzes/Analyzes';
 import { CreateAnalyzeAnswerDto } from '../../../@types/dto/analyzes/create.dto';
 import {
@@ -34,9 +38,6 @@ import unlockImg from '../../../assets/icons/unlock.svg';
 import { useGetInvoiceByProductUuidQuery } from '../../../api/invoice';
 import Modal from '../../../shared/Global/Modal/Modal';
 import { useUploadFileMutation } from '../../../api/files';
-import { ClientProfileLayout } from '../../../components/ProfileLayout/Client/Client';
-
-import s from './Profile.module.scss';
 
 interface Props {
   user: BaseUser;
@@ -103,7 +104,7 @@ const Profile = ({ user }: Props) => {
     },
   ];
 
-  const [activeTab, setActiveTab] = useState(
+  const [activeTab, setActiveTab] = useState<string>(
     getTabByKey(active, tabs)?.key || tabs[0].key,
   );
   const [uploadFile] = useUploadFileMutation();
@@ -192,17 +193,16 @@ const Profile = ({ user }: Props) => {
     }
   }, [active]);
 
-  const onBuyTariffClick = () => {
-    history.push('/tariffs');
-  };
+  function moveToTasks() {
+    history.push('/');
+  }
 
-  const onPayTariffClick = () => {
+  function onPaymentClick() {
+    if (!currentTariff) {
+      return history.push('/tariffs');
+    }
     setPaymentForm(invoice?.paymentForm || '');
-  };
-
-  const onEditClick = () => {
-    history.push('/profile/edit');
-  };
+  }
 
   return (
     <>
@@ -218,15 +218,35 @@ const Profile = ({ user }: Props) => {
         </div>
       </Modal>
 
-      <ClientProfileLayout
-        isPublic={false}
-        user={user}
-        goalsCount={goals.length}
-        currentTariff={currentTariff}
-        onEditClick={onEditClick}
-        onClickBuyTariff={onBuyTariffClick}
-        onClickPayTariff={onPayTariffClick}
-      >
+      <div className={s.profile}>
+        <div className={s.info}>
+          <Card isPaid={currentTariff?.isPaid || false} user={user} />
+          <div className={s.userInfo}>
+            <Goals goalsLength={goals.length} />
+            <Tariff
+              isPaid={currentTariff?.isPaid}
+              title={currentTariff?.tariff?.title}
+              expires={currentTariff?.expiredAt}
+              PaymentBtn={
+                <>
+                  {currentTariff?.tariff?.title
+                    ? 'Тариф не оплачен'
+                    : 'Купить тариф'}
+                  : {'  '}
+                  <img
+                    style={{ cursor: 'pointer' }}
+                    onClick={onPaymentClick}
+                    title="Оплатить тариф"
+                    src={payImg}
+                  />
+                </>
+              }
+            />
+          </div>
+          <div className={s.moveToTasks}>
+            <Button onClick={moveToTasks}>Задачи и рекомендации</Button>
+          </div>
+        </div>
         <div className={s.content}>
           <div className={s.tabs__container}>
             <div className={s.horizontalScroll}>
@@ -285,7 +305,7 @@ const Profile = ({ user }: Props) => {
             !isProgressAccess &&
             'Приобретите тариф, что получить доступ'}
         </div>
-      </ClientProfileLayout>
+      </div>
     </>
   );
 };

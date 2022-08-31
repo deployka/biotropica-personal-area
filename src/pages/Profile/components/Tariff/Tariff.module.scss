@@ -1,5 +1,5 @@
-@import "../../../styles/mixins.scss";
-@import "../../../styles/variables.scss";
+@import '../../../../styles/mixins.scss';
+@import '../../../../styles/variables.scss';
 .tariff {
   padding: 20px 30px;
   width: 100%;
@@ -10,7 +10,6 @@
   margin-bottom: 22px;
 
   transition: all 0.2s ease;
-
   @include for-phone {
     padding: 4px 0;
     margin: 0;
@@ -72,7 +71,6 @@
 
   .date {
     p {
-      margin: 7px 0 0 0;
       font-weight: 400;
       font-size: 16px;
       display: flex;
@@ -90,20 +88,15 @@
       }
     }
   }
-
   .isPaid {
     p {
-      margin: 5px 0 0 0;
-
       font-weight: 400;
       font-size: 16px;
-
       display: flex;
       align-items: center;
+      margin-top: 5px;
 
       color: #9e97be;
-      text-decoration: underline;
-      cursor: pointer;
 
       @include for-phone {
         font-size: 14px;

@@ -73,12 +73,12 @@ const PublicSpecialistProfile = () => {
     <div className={s.backgroundWrapper}>
       <div className={s.profile}>
         <div className={s.info}>
-          {/* <ProfileCard
+          <ProfileCard
             userData={specialist.user}
             isEditable={false}
             specialistData={specialistData}
             profilePhoto={specialist.user.profilePhoto || ''}
-          /> */}
+          />
           <button className={s.chatButton} onClick={handleCreateDialog}>
             Начать чат
           </button>
