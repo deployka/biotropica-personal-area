@@ -9,16 +9,19 @@ import s from './HtmlEditor.module.scss';
 
 export type HtmlEditorConfig = {
   modules?: StringMap;
-  formats: string[];
+  formats?: string[];
 };
 
 export type HtmlEditorProps = {
   value: string;
+  config?: HtmlEditorConfig;
   onChange(value: string): void;
-  config: HtmlEditorConfig; // тут должна быть возможность кастомизации редактора
 };
 
-export function HtmlEditor({ value, onChange, config }: HtmlEditorProps) {
+export function HtmlEditor({ value, config = {}, onChange }: HtmlEditorProps) {
+  config.formats ??= [];
+  config.modules ??= [];
+
   const modules = {
     toolbar: [
       [{ header: [1, 2, false] }],
@@ -33,7 +36,7 @@ export function HtmlEditor({ value, onChange, config }: HtmlEditorProps) {
       ['clean'],
     ],
 
-    ...config?.modules,
+    ...config.modules,
   };
 
   const formats = [

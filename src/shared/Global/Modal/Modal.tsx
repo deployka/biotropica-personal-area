@@ -15,8 +15,6 @@ interface IProps {
 const Modal = (props: IProps) => {
   const { children, isOpened, className, close } = props;
 
-  useLockBodyScroll();
-
   const modalRef = useRef(null);
   useLockBodyScroll();
 
@@ -30,7 +28,7 @@ const Modal = (props: IProps) => {
       unmountOnExit
     >
       <div className="modal-overlay" id="modal-overlay">
-        <div className={'modal ' + className} ref={modalRef}>
+        <div ref={modalRef} className={'modal ' + className}>
           {children}
         </div>
       </div>
