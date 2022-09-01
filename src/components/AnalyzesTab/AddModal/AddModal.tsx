@@ -1,37 +1,35 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { Formik } from 'formik';
-import { CreateAnalyzeAnswerDto } from '../../../@types/dto/analyzes/create.dto';
-import { ProfileSvgSelector } from '../../../assets/icons/profile/ProfileSvgSelector';
-import { MAX_IMAGE_SIZE, MAX_PDF_SIZE } from '../../../constants/files';
-import { useModal } from '../../../hooks/useModal';
-import { ModalName } from '../../../providers/ModalProvider';
+import type { CreateAnalyzeAnswerDto } from '../../../@types/dto/analyzes/create.dto';
+import { MAX_PDF_SIZE } from '../../../constants/files';
+
 import { Button } from '../../../shared/Form/Button/Button';
 import { Loader } from '../../../shared/Form/Loader/Loader';
-import { PopupBackground } from '../../../shared/Global/PopupBackground/PopupBackground';
 import {
   checkFileSize,
   checkFileType,
   FileType,
 } from '../../../utils/filesHelper';
-
 import { Input } from '../../../shared/Form/Input/Input';
-
-import s from './AddModal.module.scss';
+import { ProfileSvgSelector } from '../../../assets/icons/profile/ProfileSvgSelector';
 import { eventBus, EventTypes } from '../../../services/EventBus';
 import { NotificationType } from '../../GlobalNotifications/GlobalNotifications';
+import Modal from '../../../shared/Global/Modal/Modal';
+
 import { validationSchema } from './validationSchema';
+import s from './AddModal.module.scss';
 
 interface Props {
   onSubmit: (values: CreateAnalyzeAnswerDto) => void;
   isLoading: boolean;
-  isOpen: boolean;
+  isOpened: boolean;
   onClose: () => void;
 }
 
 export const AnalyzesAddModal = ({
   onSubmit,
-  isOpen,
+  isOpened,
   onClose,
   isLoading,
 }: Props) => {
@@ -46,7 +44,7 @@ export const AnalyzesAddModal = ({
       const paths = [FileType.PDF];
 
       if (!files) return;
-      if (checkFileSize(files[0], MAX_IMAGE_SIZE)) throw new Error();
+      if (checkFileSize(files[0], MAX_PDF_SIZE)) throw new Error();
       if (!checkFileType(files[0], paths)) throw new Error();
 
       setFileName(files[0].name);
@@ -70,8 +68,7 @@ export const AnalyzesAddModal = ({
   }
 
   return (
-    <>
-      <div onClick={onClose} className={s.popupBg}></div>
+    <Modal isOpened={isOpened} className={s.modal} close={onClose}>
       <Formik
         initialValues={{
           filePath: null,
@@ -97,7 +94,7 @@ export const AnalyzesAddModal = ({
         }) => (
           <form
             name="add_analyze"
-            onSubmit={e => e.preventDefault()}
+            onSubmit={handleSubmit}
             className={s.analyzeModal}
           >
             <div className={s.title}>
@@ -138,7 +135,6 @@ export const AnalyzesAddModal = ({
               <Button
                 disabled={isDisabled(isValid, dirty)}
                 type="submit"
-                onClick={() => handleSubmit()}
                 options={{
                   content: isLoading ? <Loader /> : 'Добавить',
                   setDisabledStyle: isDisabled(isValid, dirty),
@@ -155,6 +151,6 @@ export const AnalyzesAddModal = ({
           </form>
         )}
       </Formik>
-    </>
+    </Modal>
   );
 };

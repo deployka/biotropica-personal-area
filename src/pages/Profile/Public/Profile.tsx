@@ -12,7 +12,7 @@ import { BaseUser } from '../../../@types/entities/BaseUser';
 import { QuestionnaireTab } from '../../../components/QuestionnaireTab/QuestionnaireTab';
 import { useGetQuestionnaireAnswersQuery } from '../../../api/user';
 
-import { Analyzes } from '../../../components/Analyzes/Analyzes';
+import { AnalyzesTab } from '../../../components/AnalyzesTab/AnalyzesTab';
 import { CreateAnalyzeAnswerDto } from '../../../@types/dto/analyzes/create.dto';
 import {
   useCreateAnalyzeAnswerMutation,
@@ -44,7 +44,6 @@ interface Props {
 
 const Profile = ({ user }: Props) => {
   const { openModal, closeModal } = useModal();
-  const [isAnalyzeModalOpen, setIsAnalyzeModalOpen] = useState(false);
   const [paymentForm, setPaymentForm] = useState('');
 
   const { data: goals = [] } = useGetGoalsQuery();
@@ -110,15 +109,22 @@ const Profile = ({ user }: Props) => {
   const [createAnalyzeAnswer, { isLoading: isCreateAnalyzeAnswerLoading }] =
     useCreateAnalyzeAnswerMutation();
   const [deleteAnalyzeAnswer] = useDeleteAnalyzeAnswerMutation();
-  const { data: questionnaireAnswers = [] } = useGetQuestionnaireAnswersQuery(
-    user.id,
-  );
+  const {
+    data: questionnaireAnswers = [],
+    isLoading: isQuestionnaireAnswersLoading,
+  } = useGetQuestionnaireAnswersQuery(user.id, {
+    skip: activeTab !== tabs[1].key,
+  });
   const { data: analyzeTypes = [], isLoading: isAnalyzesTypesLoading = false } =
-    useGetAnalyzesQuery();
+    useGetAnalyzesQuery(undefined, { skip: activeTab !== tabs[0].key });
   const { data: analyzes = [], isLoading: isAnalyzesLoading = false } =
-    useGetAnalyzeAnswersQuery({
-      userId: user.id,
-    });
+    useGetAnalyzeAnswersQuery(
+      {
+        userId: user.id,
+      },
+      { skip: activeTab !== tabs[0].key },
+    );
+
   const { data: invoice } = useGetInvoiceByProductUuidQuery(
     currentTariff?.uuid || '',
     {
@@ -151,7 +157,6 @@ const Profile = ({ user }: Props) => {
         type: NotificationType.SUCCESS,
         autoClose: 10000,
       });
-      setIsAnalyzeModalOpen(false);
     } catch (error) {
       console.error(error);
       eventBus.emit(EventTypes.notification, {
@@ -171,7 +176,6 @@ const Profile = ({ user }: Props) => {
         type: NotificationType.SUCCESS,
         autoClose: 10000,
       });
-      setIsAnalyzeModalOpen(false);
     } catch (error) {
       console.error(error);
       eventBus.emit(EventTypes.notification, {
@@ -240,29 +244,23 @@ const Profile = ({ user }: Props) => {
             </div>
           </div>
           {activeTab === tabs[0].key && (
-            <>
-              {isAnalyzesAccess && (
-                <Analyzes
-                  isAnalyzesLoading={
-                    isAnalyzesTypesLoading || isAnalyzesLoading
-                  }
-                  onAddAnalyze={handleSubmitAnalyzes}
-                  isAddAnalyzeLoading={isCreateAnalyzeAnswerLoading}
-                  isModalOpen={isAnalyzeModalOpen}
-                  setIsModalOpen={setIsAnalyzeModalOpen}
-                  analyzes={analyzes}
-                  analyzeTypes={analyzeTypes}
-                  onDeleteAnalyze={id => {
-                    handleDeleteAnalyze({ id });
-                  }}
-                />
-              )}
-              {!isAnalyzesAccess && 'Приобретите тариф, что получить доступ'}
-            </>
+            <AnalyzesTab
+              isAccess={isAnalyzesAccess}
+              isEditable={true}
+              isAnalyzesLoading={isAnalyzesTypesLoading || isAnalyzesLoading}
+              onAddAnalyze={handleSubmitAnalyzes}
+              isAddAnalyzeLoading={isCreateAnalyzeAnswerLoading}
+              analyzes={analyzes}
+              analyzeTypes={analyzeTypes}
+              onDeleteAnalyze={id => {
+                handleDeleteAnalyze({ id });
+              }}
+            />
           )}
           {activeTab === tabs[1].key && (
             <QuestionnaireTab
               isAccess={isAnalyzesAccess}
+              isLoading={isQuestionnaireAnswersLoading}
               isPublic={false}
               answers={questionnaireAnswers}
             />

@@ -1,23 +1,8 @@
 @import "./../../../styles/mixins.scss";
 
-.analyzeModal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-
-  transform: translate(-50%, -50%);
-
+.modal {
   max-width: 840px;
   width: calc(100% - 60px);
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  background-color: #fff;
-  border-radius: 5px;
-
-  z-index: 500;
 
   @include for-phone {
     left: 0;
@@ -32,6 +17,18 @@
 
     transform: none;
   }
+}
+
+.analyzeModal {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: #fff;
+  border-radius: 5px;
+
+  z-index: 500;
 
   .title {
     padding: 20px 0;

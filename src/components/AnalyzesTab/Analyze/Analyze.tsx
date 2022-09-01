@@ -3,8 +3,8 @@ import moment from 'moment';
 import classNames from 'classnames';
 import dotsIcon from './../../../assets/icons/dotsGrey.svg';
 import { getMediaLink } from '../../../utils/mediaHelper';
-import { Comments } from '../../../components/Comments/Comments';
-import { CommentsInfo } from '../../../components/Comments/CommentsInfo';
+import { Comments } from '../../Comments/Comments';
+import { CommentsInfo } from '../../Comments/CommentsInfo';
 import { AnalyzeAnswer } from '../../../@types/entities/AnalyzeAnswer';
 import { ProfileSvgSelector } from '../../../assets/icons/profile/ProfileSvgSelector';
 import { Action, ActionMenu } from '../../UI/ActionsMenu/ActionsMenu';
@@ -12,11 +12,12 @@ import { Action, ActionMenu } from '../../UI/ActionsMenu/ActionsMenu';
 import s from './Analyze.module.scss';
 
 interface Props {
+  isEditable: boolean;
   analyze: AnalyzeAnswer;
   onDelete: () => void;
 }
 
-export const AnalyzesAnalyze = ({ analyze, onDelete }: Props) => {
+export const AnalyzesAnalyze = ({ isEditable, analyze, onDelete }: Props) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 
@@ -44,25 +45,27 @@ export const AnalyzesAnalyze = ({ analyze, onDelete }: Props) => {
         </a>
 
         <p className={s.createdAt}>{moment(analyze.createdAt).format('LL')}</p>
-        <ActionMenu
-          isOpened={isPopupOpen}
-          actions={actions}
-          onClose={() => setIsPopupOpen(false)}
-          className={s.actionsWrapper}
-          position={{
-            top: 15,
-            right: 10,
-          }}
-        >
-          <div
-            className={classNames(s.actions, { [s.active]: isPopupOpen })}
-            onClick={() => {
-              setIsPopupOpen(!isPopupOpen);
+        {isEditable && (
+          <ActionMenu
+            isOpened={isPopupOpen}
+            actions={actions}
+            onClose={() => setIsPopupOpen(false)}
+            className={s.actionsWrapper}
+            position={{
+              top: 15,
+              right: 10,
             }}
           >
-            <img src={dotsIcon} />
-          </div>
-        </ActionMenu>
+            <div
+              className={classNames(s.actions, { [s.active]: isPopupOpen })}
+              onClick={() => {
+                setIsPopupOpen(!isPopupOpen);
+              }}
+            >
+              <img src={dotsIcon} />
+            </div>
+          </ActionMenu>
+        )}
       </div>
 
       <div className={s.footer}>
