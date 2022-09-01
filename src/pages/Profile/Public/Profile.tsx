@@ -9,7 +9,7 @@ import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 import { getTabByKey } from '../../../utils/tabsHelper';
 import { useGetGoalsQuery } from '../../../api/goals';
 import { BaseUser } from '../../../@types/entities/BaseUser';
-import { QuestionnaireResults } from '../components/QuestionnaireResults/QuestionnaireResults';
+import { QuestionnaireTab } from '../../../components/QuestionnaireTab/QuestionnaireTab';
 import { useGetQuestionnaireAnswersQuery } from '../../../api/user';
 
 import { Analyzes } from '../../../components/Analyzes/Analyzes';
@@ -261,12 +261,11 @@ const Profile = ({ user }: Props) => {
             </>
           )}
           {activeTab === tabs[1].key && (
-            <>
-              {isAnalyzesAccess && (
-                <QuestionnaireResults answers={questionnaireAnswers} />
-              )}
-              {!isAnalyzesAccess && 'Приобретите тариф, что получить доступ'}
-            </>
+            <QuestionnaireTab
+              isAccess={isAnalyzesAccess}
+              isPublic={false}
+              answers={questionnaireAnswers}
+            />
           )}
           {isProgressAccess && (
             <>

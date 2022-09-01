@@ -1,15 +1,13 @@
 import React from 'react';
-import s from './Questionnaire.module.scss';
+import type { Answer } from '../../../@types/entities/Answer';
 
-import editSvg from '../../../../../assets/icons/profile/edit.svg';
-import { Link } from 'react-router-dom';
-import { Answer } from '../../../../../@types/entities/Answer';
+import s from './Answers.module.scss';
 
 interface Props {
   answers: Answer[];
 }
 
-export const Questionnaire = ({ answers }: Props) => {
+export const QuestionnaireTabAnswers = ({ answers }: Props) => {
   function getCurrentAnswer(answer: Answer) {
     try {
       return JSON.parse(answer.text)?.join(', ');
@@ -19,19 +17,6 @@ export const Questionnaire = ({ answers }: Props) => {
   }
   return (
     <div className={s.testCard}>
-      <div className={s.header}>
-        <div className={s.title}>
-          <p>Тестирование</p>
-        </div>
-        <div className={s.updateBtn}>
-          <Link to={'/questionnaire'}>
-            <div className={s.icon}>
-              <img src={editSvg} alt="" />
-            </div>
-            <p className={s.text}>редактировать</p>
-          </Link>
-        </div>
-      </div>
       <div className={s.list}>
         {answers.map((answer, i) => (
           <div className={s.item} key={answer.id}>
