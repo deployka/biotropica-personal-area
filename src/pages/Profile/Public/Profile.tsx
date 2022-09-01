@@ -4,7 +4,7 @@ import { Progress } from '../components/Progress/Progress';
 import { useModal } from '../../../hooks/useModal';
 import { ModalName } from '../../../providers/ModalProvider';
 import { useHistory, useParams } from 'react-router';
-import { Param } from './Edit';
+import { Param } from '../Edit/Edit';
 import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 import { getTabByKey } from '../../../utils/tabsHelper';
 import { useGetGoalsQuery } from '../../../api/goals';

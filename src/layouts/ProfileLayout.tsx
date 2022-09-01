@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { useCurrentUserQuery } from '../api/user';
-import Profile from '../pages/Profile/containers/Profile';
+import Profile from '../pages/Profile/Public/Profile';
 
 interface Props {
   isAuth?: boolean;

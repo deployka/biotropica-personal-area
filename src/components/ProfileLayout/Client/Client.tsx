@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { BaseUser } from '../../../@types/entities/BaseUser';
 import { CurrentTariff } from '../../../@types/entities/Tariff';
-import { ProfileCard } from '../../Profile/Card/Card';
+import { ProfileCard } from '../../Profile/Card/UserCard';
 import { ProfileGoals } from '../../Profile/Goals/Goals';
 import { ProfileTariff } from '../../Profile/Tariffs/Tariff';
 

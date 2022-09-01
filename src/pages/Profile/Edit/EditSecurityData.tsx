@@ -11,7 +11,7 @@ import {
 } from '../../../api/auth';
 import { ResponseError } from '../../../@types/api/response';
 
-export const Security = () => {
+export const EditSecurityData = () => {
   const { data: user } = useCurrentUserQuery();
   const [changePassword, { isLoading }] = useChangePasswordMutation();
   const [signout] = useSignOutMutation();

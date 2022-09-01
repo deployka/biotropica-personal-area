@@ -3,7 +3,6 @@ import { Specialization } from '../../@types/entities/Specialization';
 import { useGetSignUpLinkQuery } from '../../api/auth';
 import { useGetCurrentSpecialistQuery } from '../../api/specialists';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
-import { ProfileCard } from '../../components/Profile/Card/Card';
 import { SpecialistCoursesList } from '../../components/Specialist/Courses/List';
 import { CopyField } from '../../components/UI/CopyField/CopyField';
 import { eventBus, EventTypes } from '../../services/EventBus';

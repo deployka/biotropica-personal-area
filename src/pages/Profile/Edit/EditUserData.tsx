@@ -22,12 +22,12 @@ import {
 import { getMediaLink } from '../../../utils/mediaHelper';
 import { EditProfileData } from '../components/EditProfileData/EditProfileData';
 
-const EditProfile = () => {
-  const options = [
-    { value: 'Мужской', label: 'Мужской' },
-    { value: 'Женский', label: 'Женский' },
-  ];
+const options = [
+  { value: 'Мужской', label: 'Мужской' },
+  { value: 'Женский', label: 'Женский' },
+];
 
+export const EditUserData = () => {
   const history = useHistory();
 
   const { data: user } = useCurrentUserQuery();
@@ -120,5 +120,3 @@ const EditProfile = () => {
     />
   );
 };
-
-export default EditProfile;

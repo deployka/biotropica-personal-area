@@ -4,7 +4,7 @@ import AddGoal from '../pages/Goals/AddGoal';
 import EditGoal from '../pages/Goals/EditGoal';
 import Goals from '../pages/Goals/Goals';
 import Policy from '../pages/Policy/containers/Policy';
-import Edit from '../pages/Profile/containers/Edit';
+import Edit from '../pages/Profile/Edit/Edit';
 import { ProfileLayout } from '../layouts/ProfileLayout';
 import Questionnaire from '../pages/Questionnaire/Questionnaire';
 import { ConsultationsList } from '../pages/Consultations/ConsultationsList';

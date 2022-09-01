@@ -1,13 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router';
-import { ResponseError } from '../../@types/api/response';
-import { BaseUser } from '../../@types/entities/BaseUser';
 import { Specialization } from '../../@types/entities/Specialization';
-import { useCreateDialogMutation, useGetAllDialogsQuery } from '../../api/chat';
+import { useGetAllDialogsQuery } from '../../api/chat';
 import { useGetOneSpecialistQuery } from '../../api/specialists';
-import Button from '../../components/Button/Button';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
-import { ProfileCard } from '../../components/Profile/Card/Card';
 import { SpecialistCoursesList } from '../../components/Specialist/Courses/List';
 import { eventBus, EventTypes } from '../../services/EventBus';
 

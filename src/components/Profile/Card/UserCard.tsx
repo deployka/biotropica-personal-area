@@ -7,7 +7,7 @@ import edit from '../../../assets/icons/profile/edit.svg';
 import moment from 'moment';
 import 'moment/locale/ru';
 
-import s from './Card.module.scss';
+import s from './UserCard.module.scss';
 
 moment.locale('ru');
 interface Props {
