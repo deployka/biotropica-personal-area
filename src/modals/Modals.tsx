@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useModal } from '../hooks/useModal';
-import { AddPhotoModal } from '../pages/Profile/components/Progress/AddPhotoModal/AddPhotoModal';
-import { PhotoSliderModal } from '../pages/Profile/components/Progress/PhotoSliderModal/PhotoSliderModal';
 
 import { ModalName } from '../providers/ModalProvider';
 import { SidebarMenuPopup } from '../shared/Global/Sidebar/SidebarMenuPopup/SidebarMenuPopup';
@@ -17,10 +15,6 @@ export const Modals = () => {
         return null;
       }
       switch (modal) {
-        case ModalName.MODAL_ADD_PROGRESS_PHOTO:
-          return <AddPhotoModal {...modals[modal].props} />;
-        case ModalName.MODAL_PROGRESS_PHOTO_SLIDER:
-          return <PhotoSliderModal {...modals[modal].props} />;
         case ModalName.MODAL_SIDEBAR_MENU:
           return <SidebarMenuPopup {...modals[modal].props} />;
         case ModalName.MODAL_NOTIFICATIONS_MENU:

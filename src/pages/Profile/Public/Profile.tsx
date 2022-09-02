@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { Progress } from '../components/Progress/Progress';
 import { useModal } from '../../../hooks/useModal';
 import { ModalName } from '../../../providers/ModalProvider';
 import { useHistory, useParams } from 'react-router';
@@ -27,17 +26,31 @@ import { useSelector } from 'react-redux';
 import { selectCurrentTariffAccesses } from '../../../store/slices/tariff';
 import { DeleteAnalyzeAnswerDto } from '../../../@types/dto/analyzes/delete.dto';
 
-import payImg from '../../../assets/icons/transaction.svg';
+import Modal from '../../../shared/Global/Modal/Modal';
+import { useGetInvoiceByProductUuidQuery } from '../../../api/invoice';
+import {
+  useUploadFileMutation,
+  useUploadFilesMutation,
+} from '../../../api/files';
+import { ClientProfileLayout } from '../../../components/ProfileLayout/Client/Client';
+import { ProgressTab } from '../../../components/ProgressTab/ProgressTab';
+
+import {
+  useCreateProgressPostMutation,
+  useDeleteProgressPostMutation,
+  useGetProgressPostsQuery,
+} from '../../../api/progress';
+import { DeleteProgressPostDto } from '../../../@types/dto/progress/delete.dto';
+import { ProgressTabNotificationButtons } from '../../../components/ProgressTab/NotificationButtons/NotificationButtons';
+
 import lockImg from '../../../assets/icons/lock.svg';
 import unlockImg from '../../../assets/icons/unlock.svg';
-
-import { useGetInvoiceByProductUuidQuery } from '../../../api/invoice';
-import Modal from '../../../shared/Global/Modal/Modal';
-import { useUploadFileMutation } from '../../../api/files';
-import { ClientProfileLayout } from '../../../components/ProfileLayout/Client/Client';
-
 import s from './Profile.module.scss';
-
+import { ProgressPhotoType } from '../../../@types/entities/Progress';
+import { CreateProgressDto } from '../../../@types/dto/progress/create.dto';
+import { ResponseError } from '../../../@types/api/response';
+import { Files } from '../../../components/ProgressTab/AddPhotoModal/AddPhotoModal';
+import { FormikHelpers } from 'formik';
 interface Props {
   user: BaseUser;
 }
@@ -109,6 +122,11 @@ const Profile = ({ user }: Props) => {
   const [createAnalyzeAnswer, { isLoading: isCreateAnalyzeAnswerLoading }] =
     useCreateAnalyzeAnswerMutation();
   const [deleteAnalyzeAnswer] = useDeleteAnalyzeAnswerMutation();
+  const [deleteProgressPost] = useDeleteProgressPostMutation();
+  const [fetchUploadFiles, { isLoading: isFilesLoading }] =
+    useUploadFilesMutation();
+  const [createProgress, { isLoading: isCreateProgressLoading }] =
+    useCreateProgressPostMutation();
   const {
     data: questionnaireAnswers = [],
     isLoading: isQuestionnaireAnswersLoading,
@@ -117,6 +135,10 @@ const Profile = ({ user }: Props) => {
   });
   const { data: analyzeTypes = [], isLoading: isAnalyzesTypesLoading = false } =
     useGetAnalyzesQuery(undefined, { skip: activeTab !== tabs[0].key });
+  const { data: progressPosts = [], isLoading: isProgressLoading } =
+    useGetProgressPostsQuery({
+      userId: user.id,
+    });
   const { data: analyzes = [], isLoading: isAnalyzesLoading = false } =
     useGetAnalyzeAnswersQuery(
       {
@@ -204,6 +226,86 @@ const Profile = ({ user }: Props) => {
     setPaymentForm(invoice?.paymentForm || '');
   };
 
+  const deleteProgress = async (deletePostData: DeleteProgressPostDto) => {
+    try {
+      await deleteProgressPost(deletePostData).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        message: 'Запись удалена',
+        type: NotificationType.SUCCESS,
+        autoClose: 10000,
+      });
+    } catch (error) {
+      console.error(error);
+      eventBus.emit(EventTypes.notification, {
+        title: 'Ошибка!',
+        message: 'Произошла ошибка при удалении прогресса',
+        type: NotificationType.DANGER,
+        autoClose: 10000,
+      });
+    }
+  };
+
+  const clickDeleteProgress = (id: number) => {
+    eventBus.emit(EventTypes.notification, {
+      title: 'Удалить запись прогресса?',
+      // FIXME: вынести кнопки в отдельный компонент и везде переиспользовать
+      message: (
+        <ProgressTabNotificationButtons
+          onChange={() => deleteProgress({ id })}
+          onDiscard={() => {
+            console.log('Отмена');
+          }}
+        />
+      ),
+      type: NotificationType.INFO,
+      theme: 'light',
+    });
+  };
+
+  async function onCreateProgressPost(
+    values: Files,
+    options: FormikHelpers<Files>,
+  ) {
+    if (!values.back || !values.front || !values.side) {
+      return;
+    }
+    try {
+      const files = await fetchUploadFiles({
+        files: [values.back, values.front, values.side],
+      }).unwrap();
+
+      const data: CreateProgressDto = {
+        photos: [
+          {
+            filename: files[0].name,
+            type: ProgressPhotoType.BACK,
+          },
+          {
+            filename: files[1].name,
+            type: ProgressPhotoType.FRONT,
+          },
+          {
+            filename: files[2].name,
+            type: ProgressPhotoType.SIDE,
+          },
+        ],
+      };
+      await createProgress(data).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        title: 'Успешно!',
+        message: 'Фотографии успешно загружены!',
+        type: NotificationType.SUCCESS,
+      });
+      options.resetForm();
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        title: 'Ошибка!',
+        message: (error as ResponseError).data.message,
+        type: NotificationType.DANGER,
+      });
+    }
+  }
+
   const onEditClick = () => {
     history.push('/profile/edit');
   };
@@ -265,22 +367,15 @@ const Profile = ({ user }: Props) => {
               answers={questionnaireAnswers}
             />
           )}
-          {isProgressAccess && (
-            <>
-              {activeTab === tabs[2].key && (
-                <button
-                  onClick={openProgressModal}
-                  className={s.btn__add__photo}
-                >
-                  добавить фото
-                </button>
-              )}
-              {activeTab === tabs[2].key && <Progress user={user} />}
-            </>
+          {activeTab === tabs[2].key && (
+            <ProgressTab
+              isAccess={isProgressAccess}
+              isLoading={isProgressLoading}
+              progressPosts={progressPosts}
+              onCreatePost={onCreateProgressPost}
+              onDeletePost={clickDeleteProgress}
+            />
           )}
-          {activeTab === tabs[2].key &&
-            !isProgressAccess &&
-            'Приобретите тариф, что получить доступ'}
         </div>
       </ClientProfileLayout>
     </>

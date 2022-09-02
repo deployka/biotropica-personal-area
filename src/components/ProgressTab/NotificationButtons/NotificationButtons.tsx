@@ -1,12 +1,15 @@
 import React from 'react';
-import { Button } from '../../../../shared/Form/Button/Button';
+import { Button } from '../../../shared/Form/Button/Button';
 
 type Props = {
   onDiscard: () => void;
   onChange: () => void;
 };
 
-export const NotificationButtons = ({ onDiscard, onChange }: Props) => {
+export const ProgressTabNotificationButtons = ({
+  onDiscard,
+  onChange,
+}: Props) => {
   return (
     <>
       <Button
