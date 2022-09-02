@@ -118,9 +118,9 @@ const Profile = () => {
     history.push('/profile/edit');
   };
 
-  const onTabClick = (tab: Tab) => {
-    setActiveTab(tab.key);
-    history.push(`${tab.key}`);
+  const onTabClick = (tab: string) => {
+    setActiveTab(tab);
+    history.push(`${tab}`);
   };
 
   return (
@@ -150,9 +150,8 @@ const Profile = () => {
               <Tabs
                 tabs={tabs}
                 activeTab={activeTab}
-                onActiveTabChanged={() => console.log('test')}
+                onActiveTabChanged={onTabClick}
                 spaceBetween={50}
-                onTabClick={onTabClick}
               />
             </div>
           </div>
