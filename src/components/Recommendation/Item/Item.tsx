@@ -3,78 +3,72 @@ import s from './Item.module.scss';
 
 import AnimateHeight from 'react-animate-height';
 
-import moreIcon from './../../../assets/icons/more.svg';
+import moreIcon from './../../../assets/icons/dots-horizontal.svg';
+import { Action, ActionMenu } from '../../UI/ActionsMenu/ActionsMenu';
+import classNames from 'classnames';
 
 export type RecommendationItemProps = {
   title: string;
   text: string; // HTML
   createdAt: Date;
-  editable: boolean;
+  isEditable: boolean;
   onDelete(): void;
   onEdit(): void;
-};
-
-type ActionSelectProps = {
-  onDelete(): void;
-  onEdit(): void;
-  onClose(): void;
-};
-
-const ActionSelect = ({ onDelete, onEdit, onClose }: ActionSelectProps) => {
-  return (
-    <>
-      <div className={s.background} onClick={onClose}></div>
-      <div className={s.actionSelect}>
-        <div
-          className={s.action}
-          onClick={() => {
-            onEdit();
-            onClose();
-          }}
-        >
-          Редактировать
-        </div>
-        <div
-          className={`${s.action} ${s.red}`}
-          onClick={() => {
-            onDelete();
-            onClose();
-          }}
-        >
-          Удалить
-        </div>
-      </div>
-    </>
-  );
 };
 
 export function RecommendationItem({
   title,
   text,
   createdAt,
-  editable,
+  isEditable,
   onDelete,
   onEdit,
 }: RecommendationItemProps) {
-  const [height, setHeight] = useState<string | number>(0);
+  const [height, setHeight] = useState<'auto' | 0>(0);
 
   const [isActionSelectOpen, setIsActionSelectOpen] = useState<boolean>(false);
 
-  function onClick() {
+  const onClick = () => {
     setHeight(height ? 0 : 'auto');
-  }
+  };
+
+  const actions: Action[] = [
+    {
+      title: 'Редактировать',
+      onClick: onEdit,
+    },
+    {
+      title: 'Удалить',
+      onClick: onDelete,
+      type: 'red',
+    },
+  ];
 
   return (
     <div className={s.recommendationItem}>
       <div className={s.title}>
-        {title}{' '}
-        {editable && (
-          <img
-            src={moreIcon}
-            onClick={() => {
-              setIsActionSelectOpen(!isActionSelectOpen);
+        {title}
+        {isEditable && (
+          <ActionMenu
+            isOpened={isActionSelectOpen}
+            actions={actions}
+            onClose={() => {
+              setIsActionSelectOpen(false);
             }}
-          />
+          >
+            <div
+              className={classNames(s.moreBtn, {
+                [s.active]: isActionSelectOpen,
+              })}
+            >
+              <img
+                src={moreIcon}
+                onClick={() => {
+                  setIsActionSelectOpen(!isActionSelectOpen);
+                }}
+              />
+            </div>
+          </ActionMenu>
         )}
       </div>
       <AnimateHeight height={height}>
@@ -91,15 +85,6 @@ export function RecommendationItem({
           {height === 0 ? 'Показать' : 'Скрыть'}
         </div>
       </div>
-      {isActionSelectOpen && (
-        <ActionSelect
-          onDelete={onDelete}
-          onEdit={onEdit}
-          onClose={() => {
-            setIsActionSelectOpen(false);
-          }}
-        />
-      )}
     </div>
   );
 }

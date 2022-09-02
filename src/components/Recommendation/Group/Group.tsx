@@ -1,38 +1,44 @@
 import React from 'react';
+
+import type { BaseUser } from '../../../@types/entities/BaseUser';
+import { ROLE } from '../../../@types/entities/Role';
+
 import { getMediaLink } from '../../../utils/mediaHelper';
 import { RecommendationItem } from '../Item/Item';
-import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
-
-import s from './Group.module.scss';
 import { useHistory } from 'react-router';
 import { Recommendation } from '../../../@types/entities/Recommendation';
-import { BaseUser } from '../../../@types/entities/BaseUser';
+import { getUserRolesList } from '../../../utils/getUserRolesList';
+
+import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
+import s from './Group.module.scss';
 
 export type RecommendationGroupType = {
+  isEditable: boolean;
   specialist: BaseUser;
   recommendationList: Recommendation[];
 };
 
 type RecommendationGroupProps = {
-  isCurrentUser: boolean;
+  isAdmin: boolean;
   recommendationGroup: RecommendationGroupType;
   onDelete(id: number): void;
   onEdit(recommendation: Recommendation): void;
 };
 
 export const RecommendationGroup = ({
-  isCurrentUser,
+  isAdmin,
   recommendationGroup,
   onDelete,
   onEdit,
 }: RecommendationGroupProps) => {
-  const { specialist, recommendationList } = recommendationGroup;
+  const { isEditable, specialist, recommendationList } = recommendationGroup;
 
   const history = useHistory();
 
-  console.log('specialist', specialist);
+  const isAdminCreator = getUserRolesList(specialist).includes(ROLE.ADMIN);
 
   function moveToSpecialist() {
+    if (isAdminCreator || !specialist.specialist?.id) return;
     history.push('/specialists/' + specialist.specialist?.id);
   }
 
@@ -45,7 +51,9 @@ export const RecommendationGroup = ({
               src={getMediaLink(specialist.profilePhoto || '') || defaultAvatar}
             />
           </div>
-          {specialist.name} {specialist.lastname}
+          {isAdminCreator && !isAdmin
+            ? 'Администратор'
+            : `${specialist.name} ${specialist.lastname}`}
         </div>
         <div className={s.right}></div>
       </div>
@@ -53,7 +61,7 @@ export const RecommendationGroup = ({
       <div className={s.recommendationsList}>
         {recommendationList.map(recommendation => (
           <RecommendationItem
-            editable={isCurrentUser}
+            isEditable={isEditable}
             key={recommendation.id}
             title={recommendation.title}
             text={recommendation.description}

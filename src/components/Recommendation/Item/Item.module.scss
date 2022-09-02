@@ -19,6 +19,28 @@
         line-height: 120%;
 
         color: #1e174d;
+
+        .moreBtn {
+            width: 20px;
+            height: 20x;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transition: all 0.2s ease;
+
+            cursor: pointer;
+
+            img {
+                width: 20px;
+                height: 20px;
+            }
+
+            &.active {
+                transform: rotate(90deg);
+            }
+        }
     }
 
     .text {
