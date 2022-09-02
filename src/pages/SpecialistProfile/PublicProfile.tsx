@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { ResponseError } from '../../@types/api/response';
 import { BaseUser } from '../../@types/entities/BaseUser';
 import { Specialization } from '../../@types/entities/Specialization';
@@ -22,6 +22,7 @@ export type SpecialistData = {
 
 const PublicSpecialistProfile = () => {
   const { id } = useParams<{ id: string }>();
+  const history = useHistory();
   const specialistId = +id;
   const {
     data: specialist,
@@ -30,6 +31,10 @@ const PublicSpecialistProfile = () => {
   } = useGetOneSpecialistQuery({ id: specialistId });
 
   const { data: dialogs } = useGetAllDialogsQuery();
+
+  const handleClickEdit = () => {
+    history.push('/edit');
+  };
 
   if (isLoading) {
     return <p>Загрузка...</p>;
@@ -78,6 +83,7 @@ const PublicSpecialistProfile = () => {
             isEditable={false}
             specialistData={specialistData}
             profilePhoto={specialist.user.profilePhoto || ''}
+            onEditClick={handleClickEdit}
           />
           <button className={s.chatButton} onClick={handleCreateDialog}>
             Начать чат

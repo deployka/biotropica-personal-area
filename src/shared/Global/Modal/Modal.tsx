@@ -17,7 +17,6 @@ const Modal = (props: IProps) => {
 
   const modalRef = useRef(null);
   useLockBodyScroll();
-
   useOnClickOutside(modalRef, close);
 
   return (

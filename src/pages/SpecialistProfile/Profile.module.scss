@@ -1,8 +1,8 @@
-@import '../../styles/global.scss';
+@import "../../styles/global.scss";
 
 @media screen and (max-width: 576px) {
   .backgroundWrapper {
-    background-image: url('../../assets/images/ProfileBackground.jpg');
+    background-image: url("../../assets/images/ProfileBackground.jpg");
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -13,6 +13,39 @@
 
 .profile {
   width: 100%;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  .content {
+    width: calc(100% - 310px);
+
+    @include for-tablet {
+      width: calc(100% - 274px);
+    }
+
+    @include for-phone {
+      width: 100%;
+    }
+  }
+
+  .tabs__container {
+    margin: 0 0 30px 0;
+
+    @include for-laptop {
+      position: absolute;
+      width: calc(100vw - 110px);
+      top: 110px;
+      left: 0;
+    }
+
+    @include for-phone {
+      position: static;
+      width: 100%;
+      margin: 15px 10px 15px 0;
+    }
+  }
 
   .chatButton {
     width: 100%;
@@ -46,27 +79,8 @@
   }
 
   .info {
-    position: fixed;
-
     @media screen and (max-width: 650px) {
       position: relative;
-      width: 100%;
-    }
-  }
-
-  .courses {
-    position: relative;
-    margin-left: 315px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-    @media screen and (max-width: 768px) {
-      margin-left: 275px;
-    }
-
-    @media screen and (max-width: 650px) {
-      margin: 0;
       width: 100%;
     }
   }

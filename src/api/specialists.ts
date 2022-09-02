@@ -1,5 +1,6 @@
 import { ChangeCourseDto } from '../@types/dto/specialists/change-courses.dto';
 import { UpdateSpecialistDto } from '../@types/dto/specialists/update.dto';
+import { BaseUser } from '../@types/entities/BaseUser';
 import { Specialist } from '../@types/entities/Specialist';
 import { baseApi } from './base-api';
 
@@ -28,6 +29,13 @@ export const specialistsApi = baseApi.injectEndpoints({
       providesTags: ['Specialist'],
     }),
 
+    getFollowedUsersBySpecialist: builder.query<BaseUser[], void>({
+      query: () => ({
+        url: '/specialists/followedUsers',
+        method: 'GET',
+      }),
+    }),
+
     changeSpecialistData: builder.mutation<void, UpdateSpecialistDto>({
       query: dto => ({
         url: '/specialists/me',
@@ -54,6 +62,7 @@ export const {
   useGetOneSpecialistQuery,
   useGetSpecialistsQuery,
   useChangeCoursesMutation,
+  useGetFollowedUsersBySpecialistQuery,
 } = specialistsApi;
 
 export default specialistsApi;

@@ -54,7 +54,6 @@ function App(): ReactElement {
         <PublicRoute path="/users/:id/tabs/:active" isAuth={isAuth}>
           <ProfileLayout isAuth={isAuth} />
         </PublicRoute>
-
         <PrivateRoute path="/" isAuth={isAuth}>
           <Routes />
         </PrivateRoute>

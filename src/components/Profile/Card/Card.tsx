@@ -2,7 +2,6 @@ import React from 'react';
 import 'moment/locale/ru';
 import moment from 'moment';
 import classNames from 'classnames';
-import { Link, useRouteMatch } from 'react-router-dom';
 import { BaseUser } from '../../../@types/entities/BaseUser';
 import { SpecializationOptions } from '../../MultiSelect/MultiSelect';
 
@@ -20,6 +19,7 @@ export interface Props {
   specialistData?: SpecialistData;
   profilePhoto: string;
   isEditable: boolean;
+  onEditClick: () => void;
 }
 
 export const ProfileCard = ({
@@ -27,8 +27,8 @@ export const ProfileCard = ({
   specialistData,
   profilePhoto,
   isEditable,
+  onEditClick,
 }: Props) => {
-  const { url } = useRouteMatch();
   const { name, lastname, patronymic, email, phone } = userData;
 
   const specializations =
@@ -90,12 +90,12 @@ export const ProfileCard = ({
               </div>
             )}
             {isEditable && (
-              <Link className={s.profile__edit} to={`${url}/edit`}>
+              <p className={s.profile__edit} onClick={onEditClick}>
                 <div className={s.profile__editIcon}>
                   <img src={editIcon} alt="редактировать" />
                 </div>
                 <span>редактировать</span>
-              </Link>
+              </p>
             )}
           </div>
         </div>
