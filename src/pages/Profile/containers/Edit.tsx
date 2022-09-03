@@ -25,16 +25,12 @@ const Edit = () => {
     },
   ];
 
-  const history = useHistory();
   const { data: user } = useCurrentUserQuery();
 
   const { active } = useParams<Param>();
   const [activeTab, setActiveTab] = useState<string>(
-    getTabByKey(active as string, tabs)?.key || tabs[0].key,
+    getTabByKey(active, tabs)?.key || tabs[0].key,
   );
-  useEffect(() => {
-    history.push(`/profile/edit/${activeTab}`);
-  }, [activeTab]);
 
   return (
     <div className={s.edit__profile}>
@@ -43,8 +39,8 @@ const Edit = () => {
         activeTab={activeTab}
         onActiveTabChanged={setActiveTab}
       />
-      {active === tabs[0].key && user && <EditProfile />}
-      {active === tabs[1].key && user && <Security />}
+      {activeTab === tabs[0].key && user && <EditProfile />}
+      {activeTab === tabs[1].key && user && <Security />}
     </div>
   );
 };

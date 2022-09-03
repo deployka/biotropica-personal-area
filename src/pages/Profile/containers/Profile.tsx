@@ -13,7 +13,10 @@ import { Button } from '../components/Button/Button';
 import { useGetGoalsQuery } from '../../../api/goals';
 import { BaseUser } from '../../../@types/entities/BaseUser';
 import { QuestionnaireResults } from '../components/QuestionnaireResults/QuestionnaireResults';
-import { useGetQuestionnaireAnswersQuery } from '../../../api/user';
+import {
+  useGetFollowedSpecialistsQuery,
+  useGetQuestionnaireAnswersQuery,
+} from '../../../api/user';
 
 import s from './Profile.module.scss';
 import { Analyzes } from '../../../components/Analyzes/Analyzes';
@@ -38,6 +41,8 @@ import unlockImg from '../../../assets/icons/unlock.svg';
 import { useGetInvoiceByProductUuidQuery } from '../../../api/invoice';
 import Modal from '../../../shared/Global/Modal/Modal';
 import { useUploadFileMutation } from '../../../api/files';
+import { ROLE } from '../../../@types/entities/Role';
+import { UsersListTab } from '../../../components/UsersListTab/Tab';
 
 interface Props {
   user: BaseUser;
@@ -102,6 +107,18 @@ const Profile = ({ user }: Props) => {
         </>
       ),
     },
+    {
+      key: 'specialists',
+      value: (
+        <>
+          Специалисты &nbsp;
+          <img
+            className={s.lock}
+            src={isAnalyzesAccess ? unlockImg : lockImg}
+          />
+        </>
+      ),
+    },
   ];
 
   const [activeTab, setActiveTab] = useState<string>(
@@ -127,8 +144,21 @@ const Profile = ({ user }: Props) => {
     },
   );
 
+  const {
+    data: users = [],
+    isLoading: isUsersListLoading,
+    isError: isUsersListError,
+  } = useGetFollowedSpecialistsQuery(
+    {
+      id: user.id,
+    },
+    {
+      skip: activeTab !== tabs[3].key,
+    },
+  );
+
   function onTabClick(tab: Tab) {
-    history.push(`/profile/tabs/${tab.key}`);
+    history.push(`/profile/${tab.key}`);
   }
 
   function openProgressModal() {
@@ -187,9 +217,7 @@ const Profile = ({ user }: Props) => {
   useEffect(() => {
     if (active) {
       setActiveTab(getTabByKey(active, tabs)?.key || activeTab);
-      history.push(
-        `/profile/tabs/${getTabByKey(active, tabs)?.key || activeTab}`,
-      );
+      history.push(`/profile/${getTabByKey(active, tabs)?.key || activeTab}`);
     }
   }, [active]);
 
@@ -304,6 +332,13 @@ const Profile = ({ user }: Props) => {
           {activeTab === tabs[2].key &&
             !isProgressAccess &&
             'Приобретите тариф, что получить доступ'}
+          {activeTab === tabs[3].key && (
+            <UsersListTab
+              isLoading={isUsersListLoading}
+              isError={isUsersListError}
+              users={users}
+            />
+          )}
         </div>
       </div>
     </>

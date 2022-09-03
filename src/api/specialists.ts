@@ -29,13 +29,6 @@ export const specialistsApi = baseApi.injectEndpoints({
       providesTags: ['Specialist'],
     }),
 
-    getFollowedUsersBySpecialist: builder.query<BaseUser[], void>({
-      query: () => ({
-        url: '/specialists/followedUsers',
-        method: 'GET',
-      }),
-    }),
-
     changeSpecialistData: builder.mutation<void, UpdateSpecialistDto>({
       query: dto => ({
         url: '/specialists/me',
@@ -62,7 +55,6 @@ export const {
   useGetOneSpecialistQuery,
   useGetSpecialistsQuery,
   useChangeCoursesMutation,
-  useGetFollowedUsersBySpecialistQuery,
 } = specialistsApi;
 
 export default specialistsApi;
