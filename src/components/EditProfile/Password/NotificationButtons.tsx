@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '../../../../shared/Form/Button/Button';
+import { Button } from '../../../shared/Form/Button/Button';
 
 type Props = {
   onDiscard: () => void;

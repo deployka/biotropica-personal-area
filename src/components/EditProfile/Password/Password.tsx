@@ -1,60 +1,34 @@
 import React from 'react';
 import { Formik, FormikHelpers } from 'formik';
 import { Link, useHistory } from 'react-router-dom';
-import { Button } from '../../../../shared/Form/Button/Button';
-import { Input } from '../../../../shared/Form/Input/Input';
-import { Loader } from '../../../../shared/Form/Loader/Loader';
 
-import s from './EditPassword.module.scss';
+import type { ChangePasswordDto } from '../../../@types/dto/auth/change-password.dto';
+
+import { Button } from '../../../shared/Form/Button/Button';
+import { Input } from '../../../shared/Form/Input/Input';
+import { Loader } from '../../../shared/Form/Loader/Loader';
+
 import { validationSchema } from './validationSchema';
-import { eventBus, EventTypes } from '../../../../services/EventBus';
-import { NotificationButtons } from './NotificationButtons';
-import { NotificationType } from '../../../../components/GlobalNotifications/GlobalNotifications';
-import { ChangePasswordDto } from '../../../../@types/dto/auth/change-password.dto';
-import { BaseUser } from '../../../../@types/entities/BaseUser';
+import s from './Password.module.scss';
 
 interface Props {
-  user: BaseUser | undefined;
-  loader: boolean;
-  logout: () => void;
+  isLoading: boolean;
+  onRestorePassword: () => void;
+
   onSubmit: (
     values: ChangePasswordDto,
     options: FormikHelpers<ChangePasswordDto>,
   ) => void;
 }
 
-export const EditPassword = ({ loader, onSubmit, user, logout }: Props) => {
-  function isDisabled(isValid: boolean, dirty: boolean) {
-    return (!isValid && !dirty) || loader;
-  }
-
-  const history = useHistory();
-
-  function onDiscard() {
-    eventBus.emit(EventTypes.removeNotification, 'logout-notification');
-  }
-
-  function onConfirm() {
-    logout();
-    history.push(`/forgot-password?email=${user?.email || ''}`);
-  }
-
-  function showLogoutConfirmation() {
-    eventBus.emit(EventTypes.notification, {
-      message: (
-        <>
-          Для восстановления пароля будет выполнен выход из аккаунта
-          <br />
-          <br />
-          <NotificationButtons onDiscard={onDiscard} onConfirm={onConfirm} />
-        </>
-      ),
-      type: NotificationType.WARNING,
-      autoClose: false,
-      theme: 'dark',
-      toastId: 'logout-notification',
-    });
-  }
+export const EditProfilePassword = ({
+  isLoading,
+  onSubmit,
+  onRestorePassword,
+}: Props) => {
+  const isDisabled = (isValid: boolean, dirty: boolean) => {
+    return (!isValid && !dirty) || isLoading;
+  };
 
   return (
     <div className={s.edit__password}>
@@ -83,11 +57,7 @@ export const EditPassword = ({ loader, onSubmit, user, logout }: Props) => {
         }) => (
           <div className={s.form}>
             <div className={s.input__wrapper}>
-              <Link
-                to="#"
-                onClick={showLogoutConfirmation}
-                className={s.forgot}
-              >
+              <Link to="#" onClick={onRestorePassword} className={s.forgot}>
                 Восстановить
               </Link>
 
@@ -143,7 +113,7 @@ export const EditPassword = ({ loader, onSubmit, user, logout }: Props) => {
                 type="submit"
                 onClick={() => handleSubmit()}
                 options={{
-                  content: loader ? <Loader /> : 'Сохранить',
+                  content: isLoading ? <Loader /> : 'Сохранить',
                   setDisabledStyle: isDisabled(isValid, dirty),
                 }}
               />

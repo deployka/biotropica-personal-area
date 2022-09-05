@@ -6,8 +6,8 @@ type Props = {
   title?: string;
   expires?: string;
   isPaid?: boolean;
-  onClickBuyTariff: () => void;
-  onClickPayTariff: () => void;
+  onClickBuyTariff?: () => void;
+  onClickPayTariff?: () => void;
 };
 
 export const ProfileTariff = ({

@@ -1,33 +1,47 @@
-import React, { ReactNode } from 'react';
+import React, { PropsWithChildren, ReactNode } from 'react';
+import { useHistory } from 'react-router';
 import { BaseUser } from '../../../@types/entities/BaseUser';
 import { CurrentTariff } from '../../../@types/entities/Tariff';
+import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 import { ProfileCard } from '../../Profile/Card/UserCard';
 import { ProfileGoals } from '../../Profile/Goals/Goals';
 import { ProfileTariff } from '../../Profile/Tariffs/Tariff';
 
 import s from './Client.module.scss';
 
-type Props = {
+type Props = PropsWithChildren<{
   user: BaseUser;
   isPublic: boolean;
   goalsCount: number;
-  children: ReactNode;
+  isGoalsLoading?: boolean;
   currentTariff?: CurrentTariff;
-  onEditClick: () => void;
-  onClickBuyTariff: () => void;
-  onClickPayTariff: () => void;
-};
+  onEditClick?: () => void;
+  onClickBuyTariff?: () => void;
+  onClickPayTariff?: () => void;
+  tabs: Tab[];
+  activeTab: string;
+  onActiveTabChange: (tabKey: string) => void;
+}>;
 
 export const ClientProfileLayout = ({
   user,
-  isPublic,
-  goalsCount,
+  tabs,
   children,
+  isPublic,
+  activeTab,
+  goalsCount,
   currentTariff,
+  isGoalsLoading,
+  onActiveTabChange,
   onEditClick,
   onClickBuyTariff,
   onClickPayTariff,
 }: Props) => {
+  const history = useHistory();
+  const handleMoveToGoal = () => {
+    history.push('/goals');
+  };
+
   return (
     <div className={s.profile}>
       <div className={s.info}>
@@ -37,7 +51,11 @@ export const ClientProfileLayout = ({
           onEditClick={onEditClick}
         />
         <div className={s.statistics}>
-          <ProfileGoals goalsCount={goalsCount} />
+          <ProfileGoals
+            isLoading={isGoalsLoading}
+            onMoveToGoals={handleMoveToGoal}
+            goalsCount={goalsCount}
+          />
           <ProfileTariff
             title={currentTariff?.tariff?.title}
             expires={currentTariff?.expiredAt}
@@ -47,7 +65,19 @@ export const ClientProfileLayout = ({
           />
         </div>
       </div>
-      <div className={s.content}>{children}</div>
+      <div className={s.content}>
+        <div className={s.tabs__container}>
+          <div className={s.horizontalScroll}>
+            <Tabs
+              tabs={tabs}
+              activeTab={activeTab}
+              onActiveTabChanged={onActiveTabChange}
+              spaceBetween={50}
+            />
+          </div>
+        </div>
+        {children}
+      </div>
     </div>
   );
 };

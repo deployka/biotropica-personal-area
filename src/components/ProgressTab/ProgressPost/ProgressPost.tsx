@@ -7,11 +7,17 @@ import s from './ProgressPost.module.scss';
 
 interface Props {
   post: Progress;
+  isDeletable?: boolean;
   onClickPhoto: (post: Progress, index: number) => void;
-  onDelete: () => void;
+  onDelete?: () => void;
 }
 
-export const ProgressPost = ({ post, onClickPhoto, onDelete }: Props) => {
+export const ProgressPost = ({
+  post,
+  isDeletable,
+  onClickPhoto,
+  onDelete,
+}: Props) => {
   const { photos, createdAt } = post;
 
   const fromNow = moment(new Date(createdAt), 'YYYYMMDD').fromNow();
@@ -33,9 +39,11 @@ export const ProgressPost = ({ post, onClickPhoto, onDelete }: Props) => {
         <p>
           {fromNow}, {formattedDate}
         </p>
-        <p className={s.delete} onClick={onDelete}>
-          Удалить запись
-        </p>
+        {isDeletable && (
+          <p className={s.delete} onClick={onDelete}>
+            Удалить запись
+          </p>
+        )}
       </div>
     </div>
   );

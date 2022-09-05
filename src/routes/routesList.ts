@@ -4,8 +4,7 @@ import AddGoal from '../pages/Goals/AddGoal';
 import EditGoal from '../pages/Goals/EditGoal';
 import Goals from '../pages/Goals/Goals';
 import Policy from '../pages/Policy/containers/Policy';
-import Edit from '../pages/Profile/Edit/Edit';
-import { ProfileLayout } from '../layouts/ProfileLayout';
+import Edit from '../pages/ClientProfile/Edit/Edit';
 import Questionnaire from '../pages/Questionnaire/Questionnaire';
 import { ConsultationsList } from '../pages/Consultations/ConsultationsList';
 import Tariffs from '../pages/Tariffs/Tariffs';
@@ -20,6 +19,10 @@ import SpecialistConsultations from '../pages/SpecialistConsultations/Specialist
 import EditSpecialistProfile from '../pages/SpecialistProfile/Edit/Edit';
 import { Logs } from '../pages/Logs/containers/Logs';
 import PublicSpecialistProfile from '../pages/SpecialistProfile/PublicProfile';
+import ClientProfilePrivate from '../pages/ClientProfile/Private/Private';
+import { PrivateProfileLayout } from '../layouts/Profile/Private';
+import ClientProfilePublic from '../pages/ClientProfile/Public/Public';
+import { PublicProfileLayout } from '../layouts/Profile/Public';
 
 const routes = [
   {
@@ -52,9 +55,19 @@ const routes = [
   },
   {
     path: 'profile',
-    component: ProfileLayout,
+    component: PrivateProfileLayout,
     specialistComponent: SpecialistProfile,
     adminComponent: Edit,
+    exact: true,
+  },
+  {
+    path: 'profile/edit',
+    component: Edit,
+    exact: true,
+  },
+  {
+    path: 'profile/tabs/:active',
+    component: PrivateProfileLayout,
     exact: true,
   },
   {
@@ -64,15 +77,15 @@ const routes = [
     exact: true,
   },
   {
-    path: 'users/:id/tabs/:active',
-    component: ProfileLayout,
-    specialistComponent: PublicProfile,
+    path: 'users/:id',
+    specialistComponent: PublicProfileLayout,
+    adminComponent: PublicProfileLayout,
     exact: true,
   },
   {
-    path: 'users/:id',
-    specialistComponent: PublicProfile,
-    adminComponent: PublicProfile,
+    path: 'users/:id/tabs/:active',
+    specialistComponent: PublicProfileLayout,
+    adminComponent: PublicProfileLayout,
     exact: true,
   },
   {
@@ -90,16 +103,6 @@ const routes = [
   {
     path: 'logs',
     adminComponent: Logs,
-    exact: true,
-  },
-  {
-    path: 'profile/edit',
-    component: Edit,
-    exact: true,
-  },
-  {
-    path: 'profile/tabs/:active',
-    component: ProfileLayout,
     exact: true,
   },
   {

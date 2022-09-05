@@ -29,9 +29,7 @@ export const QuestionnaireTab = ({
 }: Props) => {
   if (!isAccess) return <p>Нет доступа</p>;
   // FIXME: add loader
-  if (isLoading) {
-    <p>Загрузка...</p>;
-  }
+  if (isLoading) return <p>Загрузка...</p>;
   if (!answers.length) return <InfoBar infoBar={questionnaireInfoBar} />;
   return (
     <div className={s.questionnaireCard}>

@@ -13,7 +13,7 @@ moment.locale('ru');
 interface Props {
   isPublic?: boolean;
   user: BaseUser;
-  onEditClick: () => void;
+  onEditClick?: () => void;
 }
 
 export const ProfileCard = ({ user, isPublic, onEditClick }: Props) => {

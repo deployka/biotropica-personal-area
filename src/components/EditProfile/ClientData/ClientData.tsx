@@ -2,29 +2,32 @@ import React from 'react';
 import classNames from 'classnames';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
-import { Loader } from '../../../../shared/Form/Loader/Loader';
+import ru from 'date-fns/locale/ru';
+import { registerLocale } from 'react-datepicker';
+import MaskedInput from 'react-maskedinput';
+
+import type { UpdateUserDto } from '../../../@types/dto/users/update.dto';
+import type { BaseUser } from '../../../@types/entities/BaseUser';
+
+import { Loader } from '../../../shared/Form/Loader/Loader';
 import {
   onPhoneInput,
   onPhoneKeyDown,
   onPhonePaste,
-} from '../../../../utils/phoneValidator';
-import s from './EditProfileData.module.scss';
-import { validationSchema } from './validationSchema';
-import { registerLocale } from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import MaskedInput from 'react-maskedinput';
-import { Input } from '../../../../shared/Form/Input/Input';
-import { DatePickerCustom } from '../../../../shared/Form/DatePicker/DatePickerCustom';
-import { Button } from '../../../../shared/Form/Button/Button';
+} from '../../../utils/phoneValidator';
+
+import { Input } from '../../../shared/Form/Input/Input';
+import { DatePickerCustom } from '../../../shared/Form/DatePicker/DatePickerCustom';
+import { Button } from '../../../shared/Form/Button/Button';
 import {
   ISelect,
   SelectCustom,
-} from '../../../../shared/Form/Select/SelectCustom';
-import { FormsSvgSelector } from '../../../../assets/icons/forms/FormsSvgSelector';
-import ru from 'date-fns/locale/ru';
-import { useMobile } from '../../../../hooks/useMobile';
-import { UpdateUserDto } from '../../../../@types/dto/users/update.dto';
-import { BaseUser } from '../../../../@types/entities/BaseUser';
+} from '../../../shared/Form/Select/SelectCustom';
+import { FormsSvgSelector } from '../../../assets/icons/forms/FormsSvgSelector';
+import { useMobile } from '../../../hooks/useMobile';
+
+import { validationSchema } from './validationSchema';
+import s from './ClientData.module.scss';
 
 registerLocale('ru', ru);
 
@@ -40,7 +43,7 @@ interface Props {
   onSubmit: (values: UpdateUserDto) => void;
 }
 
-export const EditProfileData = ({
+export const EditProfileClientData = ({
   user,
   loader,
   image,
@@ -48,15 +51,15 @@ export const EditProfileData = ({
   onAvatarLoaded,
   onSubmit,
 }: Props) => {
-  function isDisabled(isValid: boolean, dirty: boolean) {
+  const isDisabled = (isValid: boolean, dirty: boolean) => {
     return (!isValid && !dirty) || loader;
-  }
+  };
 
-  function getDateByUTC(date: Date) {
+  const getDateByUTC = (date: Date) => {
     return new Date(
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
     );
-  }
+  };
 
   const isMobile = useMobile();
 
@@ -77,7 +80,7 @@ export const EditProfileData = ({
           id: Number(user?.id),
         }}
         validateOnBlur
-        onSubmit={(values: UpdateUserDto) => onSubmit(values)}
+        onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
         {({
@@ -91,11 +94,7 @@ export const EditProfileData = ({
           dirty,
           setFieldValue,
         }) => (
-          <form
-            name="user_data"
-            onSubmit={e => e.preventDefault()}
-            className={s.form}
-          >
+          <form name="user_data" onSubmit={handleSubmit} className={s.form}>
             <div
               style={{
                 backgroundImage: `url(${image})`,
@@ -232,7 +231,6 @@ export const EditProfileData = ({
               <Button
                 disabled={isDisabled(isValid, dirty)}
                 type="submit"
-                onClick={() => handleSubmit()}
                 options={{
                   content: loader ? <Loader /> : 'Сохранить',
                   setDisabledStyle: isDisabled(isValid, dirty),
