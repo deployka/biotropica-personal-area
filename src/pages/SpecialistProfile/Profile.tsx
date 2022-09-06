@@ -1,23 +1,22 @@
 import React, { MouseEvent, useEffect, useState } from 'react';
-import { ROLE } from '../../@types/entities/Role';
+
 import type { Specialization } from '../../@types/entities/Specialization';
 import type { Tab } from '../../shared/Global/Tabs/Tabs';
 
 import { useGetSignUpLinkQuery } from '../../api/auth';
-import {
-  useGetCurrentSpecialistQuery,
-  useGetFollowedUsersBySpecialistQuery,
-} from '../../api/specialists';
+import { useGetCurrentSpecialistQuery } from '../../api/specialists';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { ProfileCard } from '../../components/Profile/Card/Card';
 import { SpecialistCoursesList } from '../../components/Specialist/Courses/List';
-import { SpecialistUsersList } from '../../components/Specialist/UsersList/UsersList';
+import { UsersListTab } from '../../components/UsersListTab/Tab';
 import { CopyField } from '../../components/UI/CopyField/CopyField';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { Tabs } from '../../shared/Global/Tabs/Tabs';
 
 import s from './Profile.module.scss';
 import { useHistory, useParams } from 'react-router';
+import { useGetFollowedUsersQuery } from '../../api/user';
+import { getTabByKey } from '../../utils/tabsHelper';
 
 const tabs: Tab[] = [
   {
@@ -30,10 +29,8 @@ const tabs: Tab[] = [
   },
 ];
 
-const tabKeys = tabs.map(tab => tab.key);
-
 export interface Param {
-  tab: string;
+  active: string;
 }
 
 // TODO: вынести в глобальный тип
@@ -45,32 +42,26 @@ export type SpecialistData = {
 
 const Profile = () => {
   const token = localStorage.getItem('invitedToken') || '';
-  const { tab } = useParams<Param>();
+  const { active } = useParams<Param>();
   const history = useHistory();
-  const [activeTab, setActiveTab] = useState(tabs[0].key);
+  const [activeTab, setActiveTab] = useState(
+    getTabByKey(active, tabs)?.key || tabs[0].key,
+  );
   const {
     data: currentSpecialist,
     isLoading,
     isError,
   } = useGetCurrentSpecialistQuery();
 
+  const currentSpecialistId = currentSpecialist?.user?.id || 0;
   const {
     data: users = [],
     isLoading: isUsersLoading,
     isError: isUsersError,
-  } = useGetFollowedUsersBySpecialistQuery();
-
-  useEffect(() => {
-    if (!tab) {
-      history.push(`/profile/${tabs[0].key}`);
-    }
-    if (!tabKeys.includes(tab)) {
-      setActiveTab(tabs[0].key);
-      history.push(tabs[0].key);
-    }
-
-    return setActiveTab(tab);
-  }, [tab]);
+  } = useGetFollowedUsersQuery(
+    { id: currentSpecialistId },
+    { skip: !currentSpecialistId || activeTab !== tabs[1].key },
+  );
 
   const { data } = useGetSignUpLinkQuery(
     {
@@ -85,6 +76,13 @@ const Profile = () => {
       localStorage.setItem('invitedToken', data.link.split('invitedToken=')[1]);
     }
   }, [data?.link]);
+
+  useEffect(() => {
+    if (active) {
+      setActiveTab(getTabByKey(active, tabs)?.key || activeTab);
+      history.push(`/profile/${getTabByKey(active, tabs)?.key || activeTab}`);
+    }
+  }, [active]);
 
   if (isLoading) {
     return <p>Загрузка...</p>;
@@ -120,7 +118,7 @@ const Profile = () => {
 
   const onTabClick = (tab: string) => {
     setActiveTab(tab);
-    history.push(`${tab}`);
+    history.push(`/profile/${tab}`);
   };
 
   return (
@@ -159,7 +157,7 @@ const Profile = () => {
             <SpecialistCoursesList coursesList={courses} />
           )}
           {activeTab === tabs[1].key && (
-            <SpecialistUsersList
+            <UsersListTab
               isLoading={isUsersLoading}
               isError={isUsersError}
               users={users}

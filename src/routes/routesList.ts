@@ -64,7 +64,8 @@ const routes = [
     exact: true,
   },
   {
-    path: 'profile/:tab',
+    path: 'profile/:active',
+    component: ProfileLayout,
     specialistComponent: SpecialistProfile,
     exact: true,
   },
@@ -98,20 +99,13 @@ const routes = [
     exact: true,
   },
   {
-    path: 'profile/edit',
-    component: Edit,
-    exact: true,
-  },
-  {
-    path: 'profile/tabs/:active',
-    component: ProfileLayout,
-    exact: true,
-  },
-  {
     path: 'specialists/:id',
     component: PublicSpecialistProfile,
   },
-
+  {
+    path: 'specialists/:id/tabs/:active',
+    component: PublicSpecialistProfile,
+  },
   {
     path: 'tariffs',
     clientComponent: Tariffs,

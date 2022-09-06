@@ -7,7 +7,7 @@ type Props = {
   onClick: () => void;
 };
 
-export const SpecialistUsersListItem = ({ fullName, onClick }: Props) => {
+export const UsersListTabItem = ({ fullName, onClick }: Props) => {
   return (
     <div className={s.item}>
       <span className={s.name} onClick={onClick}>

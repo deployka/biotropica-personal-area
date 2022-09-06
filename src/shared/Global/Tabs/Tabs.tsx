@@ -7,6 +7,7 @@ import s from './Tabs.module.scss';
 export interface Tab {
   key: string;
   value: ReactNode;
+  isHidden?: boolean;
 }
 interface Props {
   tabs: Tab[];
@@ -29,17 +30,20 @@ export const Tabs = ({
   }
   return (
     <div className={s.tabs} style={{ columnGap: spaceBetween || 40 }}>
-      {tabs.map((tab: Tab) => (
-        <div
-          onClick={() => handleClick(tab)}
-          key={tab.key}
-          className={classNames(s.tab, {
-            [s.active]: activeTab === tab.key,
-          })}
-        >
-          <p>{tab.value}</p>
-        </div>
-      ))}
+      {tabs.map(
+        (tab: Tab) =>
+          !tab.isHidden && (
+            <div
+              onClick={() => handleClick(tab)}
+              key={tab.key}
+              className={classNames(s.tab, {
+                [s.active]: activeTab === tab.key,
+              })}
+            >
+              <p>{tab.value}</p>
+            </div>
+          ),
+      )}
     </div>
   );
 };

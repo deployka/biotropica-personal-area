@@ -9,11 +9,7 @@ type Props = {
   onChange: (query: string) => void;
 };
 
-export const SpecialistUsersListHeader = ({
-  usersCount,
-  query,
-  onChange,
-}: Props) => {
+export const UsersListTabHeader = ({ usersCount, query, onChange }: Props) => {
   return (
     <div className={s.header}>
       <div className={s.title}>
