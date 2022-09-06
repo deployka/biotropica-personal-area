@@ -218,9 +218,12 @@ export function Tasks() {
       'templateName' in selectedType
         ? templates.find(t => t.id === selectedType.id)
         : createTaskByType(selectedType, userId);
-
+    if (newTask) {
+      setOpenedTask({ ...newTask, date: '', startTime: '', endTime: '' });
+    } else {
+      setOpenedTask(null);
+    }
     setOpenedTaskId('');
-    setOpenedTask(newTask || null);
     setIsTaskModalOpen(true);
     setIsTypeSelectModalOpened(false);
     setTaskModalMode('create');
@@ -238,7 +241,11 @@ export function Tasks() {
     await updateTask({ id: openedTaskId, factValue: value });
   }
   async function onChangeTemplateName(templateId: string, value: string) {
-    console.log(templateId, value);
+    try {
+      await updateTask({ id: templateId, templateName: value }).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   if (isError) {
