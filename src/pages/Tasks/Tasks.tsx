@@ -103,7 +103,7 @@ export function Tasks() {
   }
 
   async function handleSaveTask(task: CreateSomeTask | SomeTask) {
-    if ('id' in task) {
+    if ('id' in task && task.id) {
       try {
         await updateTask({ ...task }).unwrap();
         eventBus.emit(EventTypes.notification, {
@@ -161,6 +161,8 @@ export function Tasks() {
       ...openedTask,
       id: undefined,
       isTemplate: true,
+      data: '',
+      startTime: '',
       templateName: openedTask.title,
     };
     try {
@@ -219,7 +221,7 @@ export function Tasks() {
         ? templates.find(t => t.id === selectedType.id)
         : createTaskByType(selectedType, userId);
     if (newTask) {
-      setOpenedTask({ ...newTask, date: '', startTime: '', endTime: '' });
+      setOpenedTask({ ...newTask, id: undefined, isTemplate: false });
     } else {
       setOpenedTask(null);
     }
