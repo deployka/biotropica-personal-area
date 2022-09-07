@@ -162,7 +162,7 @@ export function Tasks() {
       id: undefined,
       isTemplate: true,
       data: '',
-      startTime: '',
+      startTime: undefined,
       templateName: openedTask.title,
     };
     try {
@@ -242,6 +242,21 @@ export function Tasks() {
   async function handleSaveFactValue(value: number) {
     await updateTask({ id: openedTaskId, factValue: value });
   }
+  async function handleDeleteTemplate(templateId: string) {
+    try {
+      await deleteTask(templateId).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        type: NotificationType.SUCCESS,
+        message: 'Шаблон удален',
+      });
+    } catch (error) {
+      console.log(error);
+      eventBus.emit(EventTypes.notification, {
+        type: NotificationType.DANGER,
+        message: 'Произошла ошибка',
+      });
+    }
+  }
   async function onChangeTemplateName(templateId: string, value: string) {
     try {
       await updateTask({ id: templateId, templateName: value }).unwrap();
@@ -297,6 +312,7 @@ export function Tasks() {
 
       <TaskTypeSelectModal
         onChangeTemplateName={onChangeTemplateName}
+        onDeleteTemplate={handleDeleteTemplate}
         templates={templates}
         isSpecialist={isSpecialist}
         isOpened={isTypeSelectModalOpened}

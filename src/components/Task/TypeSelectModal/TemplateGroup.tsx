@@ -13,12 +13,14 @@ export interface TaskTypeGroupModel {
 interface TaskTypeGroupProps {
   group: TaskTypeGroupModel;
   onSelect(type: TaskTemplate): void;
+  onDeleteTemplate: (templateId: string) => void;
   onChangeTemplateName(templateId: string, value: string): void;
 }
 
 export const TaskTemplateGroup = ({
   group,
   onSelect,
+  onDeleteTemplate,
   onChangeTemplateName,
 }: TaskTypeGroupProps) => {
   const { title, color, taskTemplateGroup } = group;
@@ -33,6 +35,7 @@ export const TaskTemplateGroup = ({
             <TemplateElement
               iconColor={color}
               taskType={type}
+              onDeleteTemplate={() => onDeleteTemplate(type.id)}
               onChangeTemplateName={onChangeTemplateName}
               onSelect={onSelect}
             />
