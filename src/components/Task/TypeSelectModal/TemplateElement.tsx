@@ -1,5 +1,7 @@
-import React, { ChangeEvent, MouseEvent, useState } from 'react';
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { TaskTemplate } from '../../../@types/entities/Task';
+import { useDebounce } from '../../../hooks/useDebounce';
+import { useChangeTemplateNameMutation } from '../../../api/tasks';
 
 import s from './TemplateElement.module.scss';
 interface Props {
@@ -17,6 +19,12 @@ export function TemplateElement({
 }: Props) {
   const [value, setValue] = useState(taskType.templateName);
 
+  const debouncedName = useDebounce(value, 1000);
+
+  useEffect(() => {
+    onChangeTemplateName(taskType.id, debouncedName);
+  }, [debouncedName]);
+
   function handleClick(e: MouseEvent) {
     if (e.target instanceof HTMLInputElement && e.target.tagName === 'INPUT') {
       return;
@@ -26,7 +34,6 @@ export function TemplateElement({
 
   function onChange(e: ChangeEvent<HTMLInputElement>) {
     setValue(e.target.value);
-    onChangeTemplateName(taskType.id, e.target.value);
   }
 
   return (

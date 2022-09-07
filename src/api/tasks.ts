@@ -128,6 +128,15 @@ export const taskApi = baseApi.injectEndpoints({
         },
         invalidatesTags: [{ type: 'Task', id: 'LIST' }],
       }),
+      changeTemplateName: builder.mutation<SomeTask, string>({
+        query(name: string) {
+          return {
+            method: 'PATCH',
+            body: { name },
+            url: 'tasks/templates/change-name',
+          };
+        },
+      }),
       getTemplatesList: builder.query<SomeTask[], void>({
         query() {
           return {
@@ -151,4 +160,5 @@ export const {
   useGetTaskCommentsQuery,
   useRemoveTaskCommentMutation,
   useGetTemplatesListQuery,
+  useChangeTemplateNameMutation,
 } = taskApi;
