@@ -3,6 +3,7 @@ import { useHistory } from 'react-router';
 import { BaseUser } from '../../../@types/entities/BaseUser';
 import { CurrentTariff } from '../../../@types/entities/Tariff';
 import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
+import Button from '../../Button/Button';
 import { ProfileCard } from '../../Profile/Card/UserCard';
 import { ProfileGoals } from '../../Profile/Goals/Goals';
 import { ProfileTariff } from '../../Profile/Tariffs/Tariff';
@@ -11,6 +12,8 @@ import s from './Client.module.scss';
 
 type Props = PropsWithChildren<{
   user: BaseUser;
+  tabs: Tab[];
+  activeTab: string;
   isPublic: boolean;
   goalsCount: number;
   isGoalsLoading?: boolean;
@@ -18,9 +21,8 @@ type Props = PropsWithChildren<{
   onEditClick?: () => void;
   onClickBuyTariff?: () => void;
   onClickPayTariff?: () => void;
-  tabs: Tab[];
-  activeTab: string;
   onActiveTabChange: (tabKey: string) => void;
+  onMoveToTasks?: () => void;
 }>;
 
 export const ClientProfileLayout = ({
@@ -36,6 +38,7 @@ export const ClientProfileLayout = ({
   onEditClick,
   onClickBuyTariff,
   onClickPayTariff,
+  onMoveToTasks,
 }: Props) => {
   const history = useHistory();
   const handleMoveToGoal = () => {
@@ -51,11 +54,13 @@ export const ClientProfileLayout = ({
           onEditClick={onEditClick}
         />
         <div className={s.statistics}>
-          <ProfileGoals
-            isLoading={isGoalsLoading}
-            onMoveToGoals={handleMoveToGoal}
-            goalsCount={goalsCount}
-          />
+          {!isPublic && (
+            <ProfileGoals
+              isLoading={isGoalsLoading}
+              onMoveToGoals={handleMoveToGoal}
+              goalsCount={goalsCount}
+            />
+          )}
           <ProfileTariff
             title={currentTariff?.tariff?.title}
             expires={currentTariff?.expiredAt}
@@ -63,6 +68,15 @@ export const ClientProfileLayout = ({
             onClickBuyTariff={onClickBuyTariff}
             onClickPayTariff={onClickPayTariff}
           />
+          {isPublic && (
+            <Button
+              isPrimary
+              className={s.moveToTasksBtn}
+              onClick={onMoveToTasks}
+            >
+              Задачи и рекомендации
+            </Button>
+          )}
         </div>
       </div>
       <div className={s.content}>

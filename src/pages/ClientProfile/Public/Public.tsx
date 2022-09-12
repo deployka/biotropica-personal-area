@@ -23,7 +23,10 @@ import {
 import { eventBus, EventTypes } from '../../../services/EventBus';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { useGetAnalyzesQuery } from '../../../api/analyzes';
-import { useGetCurrentTariffQuery } from '../../../api/tariffs';
+import {
+  useGetCurrentTariffQuery,
+  useGetUserTariffByIdQuery,
+} from '../../../api/tariffs';
 import { useSelector } from 'react-redux';
 import { selectCurrentTariffAccesses } from '../../../store/slices/tariff';
 import { DeleteAnalyzeAnswerDto } from '../../../@types/dto/analyzes/delete.dto';
@@ -91,8 +94,9 @@ const ClientProfilePublic = ({ user }: Props) => {
 
   const [createComment, { isLoading: isCreateCommentLoading }] =
     useCreateAnalyzeAnswerCommentMutation();
-
   const [deleteComment] = useDeleteAnalyzeAnswerCommentMutation();
+
+  const { data: tariff } = useGetUserTariffByIdQuery(user.id);
 
   const {
     data: questionnaireAnswers = [],
@@ -150,9 +154,13 @@ const ClientProfilePublic = ({ user }: Props) => {
     }
   };
 
-  function onTabClick(tab: Tab) {
-    history.push(`/users/${user.id}/tabs/${tab.key}`);
-  }
+  const onTabClick = (tab: string) => {
+    history.push(`/users/${user.id}/tabs/${tab}`);
+  };
+
+  const onMoveToTasksClick = () => {
+    history.push(`/users/${user.id}/tasks`);
+  };
 
   useEffect(() => {
     if (active) {
@@ -181,25 +189,13 @@ const ClientProfilePublic = ({ user }: Props) => {
         isPublic={true}
         user={user}
         goalsCount={goals.length}
-        currentTariff={undefined}
-        tabs={[]}
-        activeTab={''}
-        onActiveTabChange={function (tabKey: string): void {
-          throw new Error('Function not implemented.');
-        }}
+        currentTariff={tariff}
+        tabs={tabs}
+        activeTab={activeTab}
+        onActiveTabChange={onTabClick}
+        onMoveToTasks={onMoveToTasksClick}
       >
         <div className={s.content}>
-          <div className={s.tabs__container}>
-            <div className={s.horizontalScroll}>
-              <Tabs
-                tabs={tabs}
-                activeTab={activeTab}
-                onActiveTabChanged={setActiveTab}
-                spaceBetween={50}
-                onTabClick={onTabClick}
-              />
-            </div>
-          </div>
           {activeTab === tabs[0].key && (
             <AnalyzesTabPublic
               isAccess={true}

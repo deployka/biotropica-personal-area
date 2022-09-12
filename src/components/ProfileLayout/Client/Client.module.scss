@@ -27,6 +27,11 @@
     .statistics {
         width: 100%;
 
+        .moveToTasksBtn {
+            width: 100%;
+            border-radius: 50px;
+        }
+
         @include for-phone {
             display: flex;
             align-items: flex-start;
