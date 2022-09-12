@@ -4,7 +4,11 @@ export type Progress = BaseEntity & {
   photos: ProgressPhoto[];
 };
 
-export type ProgressPhotoType = 'front' | 'back' | 'side';
+export enum ProgressPhotoType {
+  BACK = 'back',
+  FRONT = 'front',
+  SIDE = 'side',
+}
 
 export type ProgressPhoto = {
   type: ProgressPhotoType;

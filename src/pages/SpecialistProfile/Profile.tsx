@@ -1,12 +1,14 @@
-import React, { MouseEvent, useEffect, useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router';
+import { useGetFollowedUsersQuery } from '../../api/user';
+import { getTabByKey } from '../../utils/tabsHelper';
+import { SpecialistCard } from '../../components/Profile/Card/SpecialistCard';
 import type { Specialization } from '../../@types/entities/Specialization';
 import type { Tab } from '../../shared/Global/Tabs/Tabs';
 
 import { useGetSignUpLinkQuery } from '../../api/auth';
 import { useGetCurrentSpecialistQuery } from '../../api/specialists';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
-import { ProfileCard } from '../../components/Profile/Card/Card';
 import { SpecialistCoursesList } from '../../components/Specialist/Courses/List';
 import { UsersListTab } from '../../components/UsersListTab/Tab';
 import { CopyField } from '../../components/UI/CopyField/CopyField';
@@ -14,9 +16,6 @@ import { eventBus, EventTypes } from '../../services/EventBus';
 import { Tabs } from '../../shared/Global/Tabs/Tabs';
 
 import s from './Profile.module.scss';
-import { useHistory, useParams } from 'react-router';
-import { useGetFollowedUsersQuery } from '../../api/user';
-import { getTabByKey } from '../../utils/tabsHelper';
 
 const tabs: Tab[] = [
   {
@@ -40,7 +39,7 @@ export type SpecialistData = {
   education: string;
 };
 
-const Profile = () => {
+const PrivateSpecialistProfile = () => {
   const token = localStorage.getItem('invitedToken') || '';
   const { active } = useParams<Param>();
   const history = useHistory();
@@ -80,7 +79,9 @@ const Profile = () => {
   useEffect(() => {
     if (active) {
       setActiveTab(getTabByKey(active, tabs)?.key || activeTab);
-      history.push(`/profile/${getTabByKey(active, tabs)?.key || activeTab}`);
+      history.push(
+        `/profile/tabs/${getTabByKey(active, tabs)?.key || activeTab}`,
+      );
     }
   }, [active]);
 
@@ -118,7 +119,7 @@ const Profile = () => {
 
   const onTabClick = (tab: string) => {
     setActiveTab(tab);
-    history.push(`/profile/${tab}`);
+    history.push(`/profile/tabs/${tab}`);
   };
 
   return (
@@ -127,9 +128,9 @@ const Profile = () => {
         <div className={s.info}>
           {currentSpecialist && (
             <>
-              <ProfileCard
-                userData={currentSpecialist.user}
-                isEditable={true}
+              <SpecialistCard
+                user={currentSpecialist.user}
+                isPublic={false}
                 specialistData={specialistData}
                 profilePhoto={currentSpecialist.user.profilePhoto || ''}
                 onEditClick={handleClickEdit}
@@ -169,4 +170,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default PrivateSpecialistProfile;

@@ -15,7 +15,6 @@ import ForgotPassword from './pages/Auth/containers/ForgotPassword';
 
 import GlobalNotifications from './components/GlobalNotifications/GlobalNotifications';
 import Policy from './pages/Policy/containers/Policy';
-import { ProfileLayout } from './layouts/ProfileLayout';
 import { useCurrentUserQuery } from './api/user';
 import { selectIsAuthorized } from './store/slices/authSlice';
 import { useAppSelector } from './store/storeHooks';
@@ -51,9 +50,7 @@ function App(): ReactElement {
         <PublicRoute path="/policy" isAuth={isAuth}>
           <Policy />
         </PublicRoute>
-        <PublicRoute path="/users/:id/tabs/:active" isAuth={isAuth}>
-          <ProfileLayout isAuth={isAuth} />
-        </PublicRoute>
+
         <PrivateRoute path="/" isAuth={isAuth}>
           <Routes />
         </PrivateRoute>

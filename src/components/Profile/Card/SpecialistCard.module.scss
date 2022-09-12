@@ -1,0 +1,133 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+.card {
+    width: 100%;
+    padding: 30px 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: #ffffff;
+    box-shadow: 0px 0px 6px rgba(205, 199, 230, 0.5);
+    border-radius: 5px;
+    margin-bottom: 21.5px;
+
+    .avatar {
+        position: relative;
+        width: 105px;
+        height: 105px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+        filter: drop-shadow(0 0 4px rgba(126, 134, 239, 0.15));
+        box-sizing: border-box;
+        pointer-events: none;
+
+        img {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            box-sizing: border-box;
+            border-radius: 50%;
+
+            object-fit: cover;
+        }
+
+        &:after {
+            content: "";
+            position: absolute;
+            width: 111px;
+            height: 111px;
+            border: 2px;
+            border-radius: 50%;
+            z-index: -1;
+            transition: 0.5s;
+            background-image: linear-gradient(to right top, #ff642e, #ff4163, #eb3994, #bb4dbb, #6f61d0);
+            animation: rotate 2s infinite;
+        }
+    }
+
+    .specializations {
+        margin: 20px 0 10px;
+        color: #6f61d0;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 120%;
+        margin-bottom: 10px;
+    }
+
+    .name {
+        text-align: center;
+
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 22px;
+        color: #04030a;
+    }
+
+    .line {
+        margin: 7px 0 0 0;
+
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 20px;
+        color: #736f8b;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        line-clamp: 1;
+        word-wrap: break-word;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .title {
+            color: #1e174d;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 151%;
+            margin-bottom: 5px;
+        }
+    }
+
+    .edit {
+        display: flex;
+        text-decoration: none;
+        cursor: pointer;
+        margin-top: 7px;
+
+        &Icon {
+            margin: -2px 10px 0 0;
+        }
+
+        span {
+            font-size: 14px;
+            color: #6f61d0;
+
+            &::after {
+                content: "";
+
+                display: block;
+                width: 100%;
+                height: 1px;
+
+                background-color: rgba(111, 97, 208, 0.5);
+                border-radius: 5px;
+            }
+        }
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

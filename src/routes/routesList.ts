@@ -4,15 +4,13 @@ import AddGoal from '../pages/Goals/AddGoal';
 import EditGoal from '../pages/Goals/EditGoal';
 import Goals from '../pages/Goals/Goals';
 import Policy from '../pages/Policy/containers/Policy';
-import Edit from '../pages/Profile/containers/Edit';
-import { ProfileLayout } from '../layouts/ProfileLayout';
+import Edit from '../pages/ClientProfile/Edit/Edit';
 import Questionnaire from '../pages/Questionnaire/Questionnaire';
 import { ConsultationsList } from '../pages/Consultations/ConsultationsList';
 import Tariffs from '../pages/Tariffs/Tariffs';
 import { ConsultationPage } from '../pages/Consultation/Consultation';
 import { Tasks } from '../pages/Tasks/Tasks';
 import { Recommendations } from '../pages/Recommendations/Recommendations';
-import SpecialistProfile from '../pages/SpecialistProfile/Profile';
 import { AdminUsers } from '../pages/AdminUsers/AdminUsers';
 import { PublicProfile } from '../components/PublicProfile/containers/PublicProfile';
 import { SpecialistUsers } from '../pages/SpecialistUsers/SpecialistUsers';
@@ -20,6 +18,11 @@ import SpecialistConsultations from '../pages/SpecialistConsultations/Specialist
 import EditSpecialistProfile from '../pages/SpecialistProfile/Edit/Edit';
 import { Logs } from '../pages/Logs/containers/Logs';
 import PublicSpecialistProfile from '../pages/SpecialistProfile/PublicProfile';
+import ClientProfilePrivate from '../pages/ClientProfile/Private/Private';
+import { PrivateProfileLayout } from '../layouts/Profile/Private';
+import ClientProfilePublic from '../pages/ClientProfile/Public/Public';
+import { PublicProfileLayout } from '../layouts/Profile/Public';
+import PrivateSpecialistProfile from '../pages/SpecialistProfile/Profile';
 
 const routes = [
   {
@@ -52,33 +55,38 @@ const routes = [
   },
   {
     path: 'profile',
-    component: ProfileLayout,
-    specialistComponent: SpecialistProfile,
+    component: PrivateProfileLayout,
+    specialistComponent: PrivateSpecialistProfile,
     adminComponent: Edit,
     exact: true,
   },
   {
     path: 'profile/edit',
     component: Edit,
+    exact: true,
+  },
+  {
+    path: 'profile/tabs/:active',
+    component: PrivateProfileLayout,
+    specialistComponent: PrivateSpecialistProfile,
+    exact: true,
+  },
+  {
+    path: 'profile/edit/:active',
+    component: Edit,
     specialistComponent: EditSpecialistProfile,
     exact: true,
   },
   {
-    path: 'profile/:active',
-    component: ProfileLayout,
-    specialistComponent: SpecialistProfile,
+    path: 'users/:id',
+    specialistComponent: PublicProfileLayout,
+    adminComponent: PublicProfileLayout,
     exact: true,
   },
   {
     path: 'users/:id/tabs/:active',
-    component: ProfileLayout,
-    specialistComponent: PublicProfile,
-    exact: true,
-  },
-  {
-    path: 'users/:id',
-    specialistComponent: PublicProfile,
-    adminComponent: PublicProfile,
+    specialistComponent: PublicProfileLayout,
+    adminComponent: PublicProfileLayout,
     exact: true,
   },
   {

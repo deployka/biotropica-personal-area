@@ -6,7 +6,7 @@ import { useGetAllDialogsQuery } from '../../api/chat';
 import { useGetOneSpecialistQuery } from '../../api/specialists';
 import { useGetFollowedUsersQuery } from '../../api/user';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
-import { ProfileCard } from '../../components/Profile/Card/Card';
+import { SpecialistCard } from '../../components/Profile/Card/SpecialistCard';
 import { SpecialistCoursesList } from '../../components/Specialist/Courses/List';
 import { UsersListTab } from '../../components/UsersListTab/Tab';
 import { eventBus, EventTypes } from '../../services/EventBus';
@@ -122,9 +122,9 @@ const PublicSpecialistProfile = () => {
     <div className={s.backgroundWrapper}>
       <div className={s.profile}>
         <div className={s.info}>
-          <ProfileCard
-            userData={specialist.user}
-            isEditable={false}
+          <SpecialistCard
+            user={specialist.user}
+            isPublic={true}
             specialistData={specialistData}
             profilePhoto={specialist.user.profilePhoto || ''}
             onEditClick={handleClickEdit}
