@@ -78,27 +78,35 @@ const Edit = () => {
   const isLoading =
     isUpdateLoading || isUpdateEmailLoading || isUploadFileLoading;
 
+  const saveChangedEmail = async (email?: string) => {
+    if (!email || user?.email === email) return;
+
+    const res = await updateEmail({ email }).unwrap();
+    eventBus.emit(EventTypes.notification, {
+      message: res?.message,
+      type: NotificationType.INFO,
+      autoClose: 10000,
+    });
+  };
+
+  const uploadPhoto = async (file: File) => {
+    const res = await uploadFile({ file }).unwrap();
+    return res.name;
+  };
+
   const onUpdateUserData = async (
     values: UpdateUserDto & UpdateSpecialistDto,
   ) => {
     try {
-      if (values.email && user?.email !== values.email) {
-        const res = await updateEmail({ email: values.email }).unwrap();
-        eventBus.emit(EventTypes.notification, {
-          message: res?.message,
-          type: NotificationType.INFO,
-          autoClose: 10000,
-        });
-      }
+      await saveChangedEmail(values.email);
 
-      let profilePhoto = values.profilePhoto;
+      let profilePhotoLink = '';
       if (values.profilePhoto instanceof File) {
-        const res = await uploadFile({ file: values.profilePhoto }).unwrap();
-        profilePhoto = res.name;
+        profilePhotoLink = await uploadPhoto(values.profilePhoto);
       }
       const data: UpdateUserDto = {
         ...values,
-        profilePhoto,
+        profilePhoto: profilePhotoLink,
         email: user?.email,
       };
       await updateClient(data);
