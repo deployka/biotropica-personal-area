@@ -39,7 +39,7 @@ export type SpecialistData = {
   education: string;
 };
 
-const Profile = () => {
+const PrivateSpecialistProfile = () => {
   const token = localStorage.getItem('invitedToken') || '';
   const { active } = useParams<Param>();
   const history = useHistory();
@@ -79,7 +79,9 @@ const Profile = () => {
   useEffect(() => {
     if (active) {
       setActiveTab(getTabByKey(active, tabs)?.key || activeTab);
-      history.push(`/profile/${getTabByKey(active, tabs)?.key || activeTab}`);
+      history.push(
+        `/profile/tabs/${getTabByKey(active, tabs)?.key || activeTab}`,
+      );
     }
   }, [active]);
 
@@ -117,7 +119,7 @@ const Profile = () => {
 
   const onTabClick = (tab: string) => {
     setActiveTab(tab);
-    history.push(`/profile/${tab}`);
+    history.push(`/profile/tabs/${tab}`);
   };
 
   return (
@@ -168,4 +170,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default PrivateSpecialistProfile;

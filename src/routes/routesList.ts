@@ -11,7 +11,6 @@ import Tariffs from '../pages/Tariffs/Tariffs';
 import { ConsultationPage } from '../pages/Consultation/Consultation';
 import { Tasks } from '../pages/Tasks/Tasks';
 import { Recommendations } from '../pages/Recommendations/Recommendations';
-import SpecialistProfile from '../pages/SpecialistProfile/Profile';
 import { AdminUsers } from '../pages/AdminUsers/AdminUsers';
 import { PublicProfile } from '../components/PublicProfile/containers/PublicProfile';
 import { SpecialistUsers } from '../pages/SpecialistUsers/SpecialistUsers';
@@ -23,6 +22,7 @@ import ClientProfilePrivate from '../pages/ClientProfile/Private/Private';
 import { PrivateProfileLayout } from '../layouts/Profile/Private';
 import ClientProfilePublic from '../pages/ClientProfile/Public/Public';
 import { PublicProfileLayout } from '../layouts/Profile/Public';
+import PrivateSpecialistProfile from '../pages/SpecialistProfile/Profile';
 
 const routes = [
   {
@@ -56,7 +56,7 @@ const routes = [
   {
     path: 'profile',
     component: PrivateProfileLayout,
-    specialistComponent: SpecialistProfile,
+    specialistComponent: PrivateSpecialistProfile,
     adminComponent: Edit,
     exact: true,
   },
@@ -68,6 +68,7 @@ const routes = [
   {
     path: 'profile/tabs/:active',
     component: PrivateProfileLayout,
+    specialistComponent: PrivateSpecialistProfile,
     exact: true,
   },
   {
