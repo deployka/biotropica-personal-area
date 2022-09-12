@@ -97,10 +97,6 @@ export const AnalyzesTab = ({
             onAddComment={onAddComment}
             onDeleteComment={onDeleteComment}
           />
-          {/* TODO: сделать подгурзку анализова частями */}
-          {/* <button onClick={onShowMoreClick} className={s.moreBtn}>
-              {analyzes.length >= 2 ? <ShowMore /> : ''}
-            </button> */}
         </div>
       )}
 

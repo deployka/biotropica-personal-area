@@ -13,6 +13,7 @@ import s from './Analyze.module.scss';
 import { useSort } from '../../../hooks/useSort';
 import { Order } from '../../../@types/constants/Order';
 import { AddCommentForm } from '../../PublicProfile/components/TestsAndAnalyze/AnalyzesCard/AddCommentForm';
+import { sortCommentsByDate } from '../helper';
 
 interface Props {
   isEditable: boolean;
@@ -41,13 +42,7 @@ export const AnalyzesAnalyze = ({
   const onSort = (by: Order) => setSort(by);
 
   const sortedComments = useMemo(
-    () =>
-      analyze.comments.slice().sort((a, b) => {
-        if (sort === 'ASC') {
-          return a.createdAt > b.createdAt ? 1 : -1;
-        }
-        return a.createdAt < b.createdAt ? 1 : -1;
-      }),
+    () => sortCommentsByDate(analyze.comments, sort),
     [sort, analyze.comments],
   );
 

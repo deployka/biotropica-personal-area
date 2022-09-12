@@ -4,13 +4,13 @@ import moment from 'moment';
 
 import type { BaseUser } from '../../../@types/entities/BaseUser';
 
-import { SpecializationOptions } from '../../MultiSelect/MultiSelect';
 import { getMediaLink } from '../../../utils/mediaHelper';
 import { SpecialistData } from '../../../pages/SpecialistProfile/Profile';
 
 import editIcon from '../../../assets/icons/edit.svg';
 import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
 import s from './SpecialistCard.module.scss';
+import { getSpecializationsString } from '../../../utils/getSpecializationsString';
 
 moment.locale('ru');
 
@@ -30,15 +30,9 @@ export const SpecialistCard = ({
 }: Props) => {
   const { name, lastname, patronymic, email, phone } = user;
 
-  const specializations =
-    specialistData?.specializations
-      .map(
-        spec =>
-          SpecializationOptions.find(option => option.value === spec.key)
-            ?.label,
-      )
-      .filter(specialization => specialization)
-      .join(', ') || [];
+  const specializations = getSpecializationsString(
+    specialistData?.specializations || [],
+  );
 
   return (
     <div className={s.card}>

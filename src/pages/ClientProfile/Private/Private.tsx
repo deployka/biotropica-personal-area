@@ -1,46 +1,25 @@
 import React, { useEffect, useState } from 'react';
-
 import { useHistory, useParams } from 'react-router';
-import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
+import { useSelector } from 'react-redux';
+
+import type { BaseUser } from '../../../@types/entities/BaseUser';
+
+import { Tab } from '../../../shared/Global/Tabs/Tabs';
 import { getTabByKey } from '../../../utils/tabsHelper';
 import { useGetGoalsQuery } from '../../../api/goals';
-import { BaseUser } from '../../../@types/entities/BaseUser';
-import { useGetQuestionnaireAnswersQuery } from '../../../api/user';
-
-import { eventBus, EventTypes } from '../../../services/EventBus';
-import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { useGetCurrentTariffQuery } from '../../../api/tariffs';
-import { useSelector } from 'react-redux';
+import { useGetInvoiceByProductUuidQuery } from '../../../api/invoice';
 import { selectCurrentTariffAccesses } from '../../../store/slices/tariff';
+import Modal from '../../../shared/Global/Modal/Modal';
+import { ClientProfileLayout } from '../../../components/ProfileLayout/Client/Client';
+import { Analyzes } from './Analyzes';
+import { Questionnaire } from './Questionnaire';
+import { Progress } from './Progress';
 
 import lockImg from '../../../assets/icons/lock.svg';
 import unlockImg from '../../../assets/icons/unlock.svg';
 
-import Modal from '../../../shared/Global/Modal/Modal';
-import { useGetInvoiceByProductUuidQuery } from '../../../api/invoice';
-import { useUploadFilesMutation } from '../../../api/files';
-import { ClientProfileLayout } from '../../../components/ProfileLayout/Client/Client';
-
-import {
-  useCreateProgressPostMutation,
-  useDeleteProgressPostMutation,
-  useGetProgressPostsQuery,
-} from '../../../api/progress';
-import { DeleteProgressPostDto } from '../../../@types/dto/progress/delete.dto';
-import { ProgressTabNotificationButtons } from '../../../components/ProgressTab/NotificationButtons/NotificationButtons';
-
-import { ProgressPhotoType } from '../../../@types/entities/Progress';
-import { CreateProgressDto } from '../../../@types/dto/progress/create.dto';
-import { ResponseError } from '../../../@types/api/response';
-import { Files } from '../../../components/ProgressTab/AddPhotoModal/AddPhotoModal';
-import { FormikHelpers } from 'formik';
-
 import s from './Private.module.scss';
-import { Analyzes } from './Analyzes';
-import { ProgressTab } from '../../../components/ProgressTab/ProgressTab';
-import { QuestionnaireTab } from '../../../components/QuestionnaireTab/QuestionnaireTab';
-import { Questionnaire } from './Questionnaire';
-import { Progress } from './Progress';
 
 type Props = {
   user: BaseUser;

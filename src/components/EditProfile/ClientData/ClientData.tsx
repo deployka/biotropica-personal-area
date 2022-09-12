@@ -28,6 +28,7 @@ import { useMobile } from '../../../hooks/useMobile';
 
 import { validationSchema } from './validationSchema';
 import s from './ClientData.module.scss';
+import { getDateByUTC } from '../../../utils/getDateByUTC';
 
 registerLocale('ru', ru);
 
@@ -53,12 +54,6 @@ export const EditProfileClientData = ({
 }: Props) => {
   const isDisabled = (isValid: boolean, dirty: boolean) => {
     return (!isValid && !dirty) || loader;
-  };
-
-  const getDateByUTC = (date: Date) => {
-    return new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
-    );
   };
 
   const isMobile = useMobile();
