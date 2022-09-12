@@ -1,5 +1,8 @@
-import React, { MouseEvent, useEffect, useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router';
+import { useGetFollowedUsersQuery } from '../../api/user';
+import { getTabByKey } from '../../utils/tabsHelper';
+import { SpecialistCard } from '../../components/Profile/Card/SpecialistCard';
 import type { Specialization } from '../../@types/entities/Specialization';
 import type { Tab } from '../../shared/Global/Tabs/Tabs';
 
@@ -13,9 +16,6 @@ import { eventBus, EventTypes } from '../../services/EventBus';
 import { Tabs } from '../../shared/Global/Tabs/Tabs';
 
 import s from './Profile.module.scss';
-import { useHistory, useParams } from 'react-router';
-import { useGetFollowedUsersQuery } from '../../api/user';
-import { getTabByKey } from '../../utils/tabsHelper';
 
 const tabs: Tab[] = [
   {
@@ -126,12 +126,13 @@ const Profile = () => {
         <div className={s.info}>
           {currentSpecialist && (
             <>
-              {/* <ProfileCard
-                userData={currentSpecialist.user}
-                isEditable={true}
+              <SpecialistCard
+                user={currentSpecialist.user}
+                isPublic={false}
                 specialistData={specialistData}
                 profilePhoto={currentSpecialist.user.profilePhoto || ''}
-              /> */}
+                onEditClick={handleClickEdit}
+              />
               <CopyField
                 onClick={onCopyLink}
                 label="Ссылка для регистрации"
