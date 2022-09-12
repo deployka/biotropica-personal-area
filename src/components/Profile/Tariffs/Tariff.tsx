@@ -7,7 +7,6 @@ type Props = {
   expires?: string;
   isPaid?: boolean;
   onClickBuyTariff?: () => void;
-  onClickPayTariff?: () => void;
 };
 
 export const ProfileTariff = ({
@@ -15,7 +14,6 @@ export const ProfileTariff = ({
   expires,
   isPaid,
   onClickBuyTariff,
-  onClickPayTariff,
 }: Props) => {
   const formattedExpires = expires
     ? format(new Date(expires), 'dd.MM.yyyy, HH:mm') || '-'
@@ -33,8 +31,11 @@ export const ProfileTariff = ({
       )}
       {!isPaid && (
         <div className={s.isPaid}>
-          {!title && <p onClick={onClickBuyTariff}>Купить тариф</p>}
-          {title && <p onClick={onClickPayTariff}>Отплатить тариф</p>}
+          {
+            <p onClick={onClickBuyTariff}>
+              {title ? 'Оплатить тариф' : ' Купить тариф'}
+            </p>
+          }
         </div>
       )}
     </div>

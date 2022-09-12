@@ -37,7 +37,6 @@ export const ClientProfileLayout = ({
   onActiveTabChange,
   onEditClick,
   onClickBuyTariff,
-  onClickPayTariff,
   onMoveToTasks,
 }: Props) => {
   const history = useHistory();
@@ -66,7 +65,6 @@ export const ClientProfileLayout = ({
             expires={currentTariff?.expiredAt}
             isPaid={currentTariff?.isPaid}
             onClickBuyTariff={onClickBuyTariff}
-            onClickPayTariff={onClickPayTariff}
           />
           {isPublic && (
             <Button

@@ -17,6 +17,7 @@ interface Props {
 }
 
 export const ProfileCard = ({ user, isPublic, onEditClick }: Props) => {
+  const userDob = user?.dob && moment(new Date(user?.dob || '')).format('LL');
   return (
     <div className={s.card}>
       <div className={s.avatar}>
@@ -38,9 +39,11 @@ export const ProfileCard = ({ user, isPublic, onEditClick }: Props) => {
       <div className={s.line}>
         <p>{user.phone}</p>
       </div>
-      <div className={s.line}>
-        <p>{user?.dob && moment(new Date(user?.dob || '')).format('LL')}</p>
-      </div>
+      {userDob && (
+        <div className={s.line}>
+          <p>{userDob}</p>
+        </div>
+      )}
       {!isPublic && (
         <p className={s.edit} onClick={onEditClick}>
           <div className={s.editIcon}>

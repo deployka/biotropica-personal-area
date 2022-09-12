@@ -74,10 +74,7 @@ const ClientProfilePrivate = ({ user }: Props) => {
   );
 
   const onBuyTariffClick = () => {
-    history.push('/tariffs');
-  };
-
-  const onPayTariffClick = () => {
+    if (!currentTariff?.tariff?.title) return history.push('/tariffs');
     setPaymentForm(invoice?.paymentForm || '');
   };
 
@@ -156,7 +153,6 @@ const ClientProfilePrivate = ({ user }: Props) => {
         currentTariff={currentTariff}
         onEditClick={onEditClick}
         onClickBuyTariff={onBuyTariffClick}
-        onClickPayTariff={onPayTariffClick}
         tabs={tabs}
         activeTab={activeTab}
         onActiveTabChange={handleChangeTab}
