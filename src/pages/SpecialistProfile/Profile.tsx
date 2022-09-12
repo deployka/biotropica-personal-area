@@ -1,13 +1,36 @@
 import React, { MouseEvent, useEffect, useState } from 'react';
-import { Specialization } from '../../@types/entities/Specialization';
+
+import type { Specialization } from '../../@types/entities/Specialization';
+import type { Tab } from '../../shared/Global/Tabs/Tabs';
+
 import { useGetSignUpLinkQuery } from '../../api/auth';
 import { useGetCurrentSpecialistQuery } from '../../api/specialists';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { SpecialistCoursesList } from '../../components/Specialist/Courses/List';
+import { UsersListTab } from '../../components/UsersListTab/Tab';
 import { CopyField } from '../../components/UI/CopyField/CopyField';
 import { eventBus, EventTypes } from '../../services/EventBus';
+import { Tabs } from '../../shared/Global/Tabs/Tabs';
 
 import s from './Profile.module.scss';
+import { useHistory, useParams } from 'react-router';
+import { useGetFollowedUsersQuery } from '../../api/user';
+import { getTabByKey } from '../../utils/tabsHelper';
+
+const tabs: Tab[] = [
+  {
+    key: 'courses',
+    value: 'Курсы',
+  },
+  {
+    key: 'users',
+    value: 'Пользователи',
+  },
+];
+
+export interface Param {
+  active: string;
+}
 
 // TODO: вынести в глобальный тип
 export type SpecialistData = {
@@ -18,12 +41,26 @@ export type SpecialistData = {
 
 const Profile = () => {
   const token = localStorage.getItem('invitedToken') || '';
-
+  const { active } = useParams<Param>();
+  const history = useHistory();
+  const [activeTab, setActiveTab] = useState(
+    getTabByKey(active, tabs)?.key || tabs[0].key,
+  );
   const {
     data: currentSpecialist,
     isLoading,
     isError,
   } = useGetCurrentSpecialistQuery();
+
+  const currentSpecialistId = currentSpecialist?.user?.id || 0;
+  const {
+    data: users = [],
+    isLoading: isUsersLoading,
+    isError: isUsersError,
+  } = useGetFollowedUsersQuery(
+    { id: currentSpecialistId },
+    { skip: !currentSpecialistId || activeTab !== tabs[1].key },
+  );
 
   const { data } = useGetSignUpLinkQuery(
     {
@@ -38,6 +75,13 @@ const Profile = () => {
       localStorage.setItem('invitedToken', data.link.split('invitedToken=')[1]);
     }
   }, [data?.link]);
+
+  useEffect(() => {
+    if (active) {
+      setActiveTab(getTabByKey(active, tabs)?.key || activeTab);
+      history.push(`/profile/${getTabByKey(active, tabs)?.key || activeTab}`);
+    }
+  }, [active]);
 
   if (isLoading) {
     return <p>Загрузка...</p>;
@@ -67,6 +111,15 @@ const Profile = () => {
     }
   }
 
+  const handleClickEdit = () => {
+    history.push('/profile/edit');
+  };
+
+  const onTabClick = (tab: string) => {
+    setActiveTab(tab);
+    history.push(`/profile/${tab}`);
+  };
+
   return (
     <div className={s.backgroundWrapper}>
       <div className={s.profile}>
@@ -87,8 +140,28 @@ const Profile = () => {
             </>
           )}
         </div>
-
-        {courses && <SpecialistCoursesList coursesList={courses} />}
+        <div className={s.content}>
+          <div className={s.tabs__container}>
+            <div className={s.horizontalScroll}>
+              <Tabs
+                tabs={tabs}
+                activeTab={activeTab}
+                onActiveTabChanged={onTabClick}
+                spaceBetween={50}
+              />
+            </div>
+          </div>
+          {activeTab === tabs[0].key && (
+            <SpecialistCoursesList coursesList={courses} />
+          )}
+          {activeTab === tabs[1].key && (
+            <UsersListTab
+              isLoading={isUsersLoading}
+              isError={isUsersError}
+              users={users}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

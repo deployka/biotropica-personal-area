@@ -109,7 +109,10 @@ const routes = [
     path: 'specialists/:id',
     component: PublicSpecialistProfile,
   },
-
+  {
+    path: 'specialists/:id/tabs/:active',
+    component: PublicSpecialistProfile,
+  },
   {
     path: 'tariffs',
     clientComponent: Tariffs,

@@ -97,11 +97,25 @@ const userApi = baseApi.injectEndpoints({
       providesTags: result =>
         [
           ...(result || []).map(({ id }) => ({
-            type: 'Users' as const,
+            type: 'User' as const,
             id,
           })),
           { type: 'User', id: 'LIST' },
         ] as { type: 'User'; id: string | number }[],
+    }),
+
+    getFollowedUsers: builder.query<Client[], { id: number }>({
+      query: dto => ({
+        method: 'GET',
+        url: `users/${dto.id}/followedUsers`,
+      }),
+    }),
+
+    getFollowedSpecialists: builder.query<BaseUser[], { id: number }>({
+      query: dto => ({
+        method: 'GET',
+        url: `users/${dto.id}/followedSpecialists`,
+      }),
     }),
   }),
 });
@@ -116,6 +130,8 @@ export const {
   useUpdateUserMutation,
   useGetQuestionnaireAnswersQuery,
   useGetUserQuery,
+  useGetFollowedUsersQuery,
+  useGetFollowedSpecialistsQuery,
 } = userApi;
 
 export default userApi;

@@ -1,5 +1,6 @@
 import { ChangeCourseDto } from '../@types/dto/specialists/change-courses.dto';
 import { UpdateSpecialistDto } from '../@types/dto/specialists/update.dto';
+import { BaseUser } from '../@types/entities/BaseUser';
 import { Specialist } from '../@types/entities/Specialist';
 import { baseApi } from './base-api';
 

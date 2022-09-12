@@ -11,6 +11,7 @@ import { useGetProgressPostsQuery } from '../../../api/progress';
 import { useGetCurrentSpecialistQuery } from '../../../api/specialists';
 import { useGetUserTariffByIdQuery } from '../../../api/tariffs';
 import {
+  useGetFollowedSpecialistsQuery,
   useGetQuestionnaireAnswersQuery,
   useGetUserQuery,
 } from '../../../api/user';
@@ -76,6 +77,13 @@ export const PublicProfile = () => {
     }
   };
 
+  const { data: specialistsList = [] } = useGetFollowedSpecialistsQuery(
+    {
+      id: userId,
+    },
+    { skip: !userId },
+  );
+
   const onDeleteComment = async (id: number) => {
     try {
       await deleteComment({ id }).unwrap();
@@ -109,6 +117,7 @@ export const PublicProfile = () => {
         onDeleteComment={onDeleteComment}
         isLoadingComment={isCreateCommentLoading || isDeleteCommentLoading}
         onAddComment={onAddComment}
+        specialistsList={specialistsList}
         progress={progress}
         progressIsLoading={isProgressLoading}
         goalsLength={goalsList?.length || 0}

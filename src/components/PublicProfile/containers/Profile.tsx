@@ -21,9 +21,11 @@ import { PublicAnalyzes } from '../components/TestsAndAnalyze/Analyzes/Analyzes'
 import s from './Profile.module.scss';
 import { Test } from '../components/TestsAndAnalyze/Tests/Tests';
 import { CurrentTariff } from '../../../@types/entities/Tariff';
+import { UsersListTab } from '../../UsersListTab/Tab';
 
 interface Props {
   user: BaseUser;
+  specialistsList: BaseUser[];
   currentUserId: number;
   goalsLength: number;
   analyzeTypes: Analyze[];
@@ -52,6 +54,7 @@ export const Profile = ({
   onAddComment,
   onDeleteComment,
   isLoadingComment,
+  specialistsList,
   progressIsLoading,
   currentTariff,
 }: Props) => {
@@ -67,6 +70,10 @@ export const Profile = ({
     {
       key: 'progress',
       value: 'Прогресс',
+    },
+    {
+      key: 'specialists',
+      value: 'Специалисты',
     },
   ];
 
@@ -157,6 +164,9 @@ export const Profile = ({
           )}
           {activeTab === tabs[2].key && (
             <Progress progress={progress} isLoading={progressIsLoading} />
+          )}
+          {activeTab === tabs[3].key && (
+            <UsersListTab users={specialistsList} />
           )}
         </div>
       </div>

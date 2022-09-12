@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 
 import s from './Edit.module.scss';
 // import EditProfile from '../components/EditProfile/EditProfile';
@@ -37,6 +37,7 @@ import Safety from '../components/Safety/Safety';
 import { Courses } from '../components/Courses/Courses';
 import { ChangeCourseDto } from '../../../@types/dto/specialists/change-courses.dto';
 import { ResponseError } from '../../../@types/api/response';
+import { getTabByKey } from '../../../utils/tabsHelper';
 
 export interface Param {
   active: string;
@@ -63,7 +64,10 @@ const tabs: Tab[] = [
 ];
 
 const EditSpecialistProfile = () => {
-  const [activeTab, setActiveTab] = useState<string>(tabs[0].key);
+  const { active } = useParams<Param>();
+  const [activeTab, setActiveTab] = useState<string>(
+    getTabByKey(active, tabs)?.key || tabs[0].key,
+  );
   const history = useHistory();
 
   const { data: currentSpecialist } = useGetCurrentSpecialistQuery();
