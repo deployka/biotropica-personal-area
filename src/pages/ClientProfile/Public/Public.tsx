@@ -14,7 +14,9 @@ import { useGetQuestionnaireAnswersQuery } from '../../../api/user';
 import { AnalyzesTab } from '../../../components/AnalyzesTab/AnalyzesTab';
 import { CreateAnalyzeAnswerDto } from '../../../@types/dto/analyzes/create.dto';
 import {
+  useCreateAnalyzeAnswerCommentMutation,
   useCreateAnalyzeAnswerMutation,
+  useDeleteAnalyzeAnswerCommentMutation,
   useDeleteAnalyzeAnswerMutation,
   useGetAnalyzeAnswersQuery,
 } from '../../../api/analyze-answers';
@@ -53,6 +55,7 @@ import { Files } from '../../../components/ProgressTab/AddPhotoModal/AddPhotoMod
 import { FormikHelpers } from 'formik';
 import { ProgressTabPublic } from '../../../components/ProgressTab/ProgressTabPublic';
 import { CurrentTariff } from '../../../@types/entities/Tariff';
+import { AnalyzesTabPublic } from '../../../components/AnalyzesTab/AnalyzesTabPublic';
 
 type Props = {
   user: BaseUser;
@@ -86,6 +89,11 @@ const ClientProfilePublic = ({ user }: Props) => {
     getTabByKey(active, tabs)?.key || tabs[0].key,
   );
 
+  const [createComment, { isLoading: isCreateCommentLoading }] =
+    useCreateAnalyzeAnswerCommentMutation();
+
+  const [deleteComment] = useDeleteAnalyzeAnswerCommentMutation();
+
   const {
     data: questionnaireAnswers = [],
     isLoading: isQuestionnaireAnswersLoading,
@@ -98,6 +106,7 @@ const ClientProfilePublic = ({ user }: Props) => {
     useGetProgressPostsQuery({
       userId: user.id,
     });
+
   const { data: analyzes = [], isLoading: isAnalyzesLoading = false } =
     useGetAnalyzeAnswersQuery(
       {
@@ -105,6 +114,41 @@ const ClientProfilePublic = ({ user }: Props) => {
       },
       { skip: activeTab !== tabs[0].key },
     );
+
+  const onAddComment = async (comment: string, analyzeId: number) => {
+    try {
+      await createComment({
+        text: comment,
+        analyzeAnswerId: analyzeId,
+      }).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        message: 'Комментарий добавлен!',
+        type: NotificationType.SUCCESS,
+      });
+    } catch (error) {
+      console.error(error);
+      eventBus.emit(EventTypes.notification, {
+        message: 'Произошла ошибка, попробуйте еще раз!',
+        type: NotificationType.DANGER,
+      });
+    }
+  };
+
+  const onDeleteComment = async (id: number) => {
+    try {
+      await deleteComment({ id }).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        message: 'Комментарий удален',
+        type: NotificationType.SUCCESS,
+      });
+    } catch (error) {
+      console.log(error);
+      eventBus.emit(EventTypes.notification, {
+        message: 'Произошла ошибка, попробуйте еще раз!',
+        type: NotificationType.DANGER,
+      });
+    }
+  };
 
   function onTabClick(tab: Tab) {
     history.push(`/users/${user.id}/tabs/${tab.key}`);
@@ -156,20 +200,18 @@ const ClientProfilePublic = ({ user }: Props) => {
               />
             </div>
           </div>
-          {/* {activeTab === tabs[0].key && (
-            <AnalyzesTab
-              isAccess={isAnalyzesAccess}
-              isEditable={true}
+          {activeTab === tabs[0].key && (
+            <AnalyzesTabPublic
+              isAccess={true}
+              isEditable={false}
               isAnalyzesLoading={isAnalyzesTypesLoading || isAnalyzesLoading}
-              onAddAnalyze={handleSubmitAnalyzes}
-              isAddAnalyzeLoading={isCreateAnalyzeAnswerLoading}
               analyzes={analyzes}
               analyzeTypes={analyzeTypes}
-              onDeleteAnalyze={id => {
-                handleDeleteAnalyze({ id });
-              }}
+              isLoadingComment={isCreateCommentLoading}
+              onAddComment={onAddComment}
+              onDeleteComment={onDeleteComment}
             />
-          )} */}
+          )}
           {activeTab === tabs[1].key && (
             <QuestionnaireTab
               isAccess={true}

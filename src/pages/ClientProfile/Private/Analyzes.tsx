@@ -3,7 +3,9 @@ import { CreateAnalyzeAnswerDto } from '../../../@types/dto/analyzes/create.dto'
 import { DeleteAnalyzeAnswerDto } from '../../../@types/dto/analyzes/delete.dto';
 import { BaseUser } from '../../../@types/entities/BaseUser';
 import {
+  useCreateAnalyzeAnswerCommentMutation,
   useCreateAnalyzeAnswerMutation,
+  useDeleteAnalyzeAnswerCommentMutation,
   useDeleteAnalyzeAnswerMutation,
   useGetAnalyzeAnswersQuery,
 } from '../../../api/analyze-answers';
@@ -13,9 +15,13 @@ import { useCurrentUserQuery } from '../../../api/user';
 import { AnalyzesTab } from '../../../components/AnalyzesTab/AnalyzesTab';
 import { ClientProfileLayout } from '../../../components/ProfileLayout/Client/Client';
 import {
+  errorCreateCommentNotification,
   errorDeleteAnalyzeNotification,
+  errorDeleteCommentNotification,
   successCreateAnalyzeNotification,
+  successCreateCommentNotification,
   successDeleteAnalyzeNotification,
+  successDeleteCommentNotification,
 } from './notifications';
 
 type Props = {
@@ -33,6 +39,10 @@ export const Analyzes = ({ userId, isAccess }: Props) => {
   const [createAnalyzeAnswer, { isLoading: isCreateAnalyzeAnswerLoading }] =
     useCreateAnalyzeAnswerMutation();
   const [deleteAnalyzeAnswer] = useDeleteAnalyzeAnswerMutation();
+
+  const [createComment, { isLoading: isCreateCommentLoading }] =
+    useCreateAnalyzeAnswerCommentMutation();
+  const [deleteComment] = useDeleteAnalyzeAnswerCommentMutation();
 
   const handleSubmitAnalyzes = async (values: CreateAnalyzeAnswerDto) => {
     try {
@@ -61,6 +71,29 @@ export const Analyzes = ({ userId, isAccess }: Props) => {
     }
   };
 
+  const onAddComment = async (comment: string, analyzeId: number) => {
+    try {
+      await createComment({
+        text: comment,
+        analyzeAnswerId: analyzeId,
+      }).unwrap();
+      successCreateCommentNotification();
+    } catch (error) {
+      console.error(error);
+      errorCreateCommentNotification();
+    }
+  };
+
+  const onDeleteComment = async (id: number) => {
+    try {
+      await deleteComment({ id }).unwrap();
+      successDeleteCommentNotification();
+    } catch (error) {
+      console.log(error);
+      errorDeleteCommentNotification();
+    }
+  };
+
   return (
     <AnalyzesTab
       isAccess={isAccess}
@@ -71,6 +104,8 @@ export const Analyzes = ({ userId, isAccess }: Props) => {
       analyzeTypes={analyzeTypes}
       onAddAnalyze={handleSubmitAnalyzes}
       onDeleteAnalyze={handleDeleteAnalyze}
+      onAddComment={onAddComment}
+      onDeleteComment={onDeleteComment}
     />
   );
 };

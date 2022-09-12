@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import dotsIcon from './../../../assets/icons/dotsGrey.svg';
@@ -10,18 +10,48 @@ import { ProfileSvgSelector } from '../../../assets/icons/profile/ProfileSvgSele
 import { Action, ActionMenu } from '../../UI/ActionsMenu/ActionsMenu';
 
 import s from './Analyze.module.scss';
+import { useSort } from '../../../hooks/useSort';
+import { Order } from '../../../@types/constants/Order';
+import { AddCommentForm } from '../../PublicProfile/components/TestsAndAnalyze/AnalyzesCard/AddCommentForm';
 
 interface Props {
   isEditable: boolean;
   analyze: AnalyzeAnswer;
-  onDelete: () => void;
+  currentUserId: number;
+  isLoadingComment?: boolean;
+  onDelete?: () => void;
+  onAddComment: (comment: string, analyzeId: number) => void;
+  onDeleteComment: (id: number) => void;
 }
 
-export const AnalyzesAnalyze = ({ isEditable, analyze, onDelete }: Props) => {
+export const AnalyzesAnalyze = ({
+  isEditable,
+  analyze,
+  currentUserId,
+  isLoadingComment = false,
+  onDelete,
+  onAddComment,
+  onDeleteComment,
+}: Props) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 
-  const actions: Action[] = [
+  const { setSort, sort } = useSort('DESC');
+
+  const onSort = (by: Order) => setSort(by);
+
+  const sortedComments = useMemo(
+    () =>
+      analyze.comments.slice().sort((a, b) => {
+        if (sort === 'ASC') {
+          return a.createdAt > b.createdAt ? 1 : -1;
+        }
+        return a.createdAt < b.createdAt ? 1 : -1;
+      }),
+    [sort, analyze.comments],
+  );
+
+  const actions: Action[] | undefined = onDelete && [
     {
       title: 'Удалить',
       onClick: onDelete,
@@ -45,7 +75,7 @@ export const AnalyzesAnalyze = ({ isEditable, analyze, onDelete }: Props) => {
         </a>
 
         <p className={s.createdAt}>{moment(analyze.createdAt).format('LL')}</p>
-        {isEditable && (
+        {isEditable && actions && (
           <ActionMenu
             isOpened={isPopupOpen}
             actions={actions}
@@ -69,10 +99,29 @@ export const AnalyzesAnalyze = ({ isEditable, analyze, onDelete }: Props) => {
       </div>
 
       <div className={s.footer}>
-        {analyze.comments.length === 0 ? (
-          <p className={s.noComments}>Нет комментариев</p>
-        ) : (
+        <div className={s.createdAt}>
+          {moment(analyze.createdAt).format('LL')}
+        </div>
+
+        {isCommentsOpen && (
+          <AddCommentForm
+            isLoading={isLoadingComment}
+            onSubmit={onAddComment}
+            analyzeId={analyze.id}
+          />
+        )}
+        {analyze.comments.length === 0 && (
+          <p
+            className={s.noComments}
+            onClick={() => setIsCommentsOpen(!isCommentsOpen)}
+          >
+            Создать комментарий
+          </p>
+        )}
+        {analyze.comments.length !== 0 && (
           <CommentsInfo
+            sort={sort}
+            onSort={onSort}
             isOpen={isCommentsOpen}
             onToggle={() => setIsCommentsOpen(!isCommentsOpen)}
             length={analyze.comments.length}
@@ -80,7 +129,12 @@ export const AnalyzesAnalyze = ({ isEditable, analyze, onDelete }: Props) => {
         )}
       </div>
       {isCommentsOpen && (
-        <Comments comments={analyze.comments} isClient={true} />
+        <Comments
+          isClient={false}
+          currentUserId={currentUserId}
+          onDelete={onDeleteComment}
+          comments={sortedComments}
+        />
       )}
     </div>
   );

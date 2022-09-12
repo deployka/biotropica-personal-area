@@ -18,6 +18,10 @@
     box-shadow: 0px 0px 6px rgba(205, 199, 230, 0.6);
     border-radius: 4px;
 
+    &.public {
+      padding: 30px;
+    }
+
     .moreBtn {
       padding: 0 0 2px 0;
 

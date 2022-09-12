@@ -18,8 +18,11 @@ interface Props {
   isAddAnalyzeLoading: boolean;
   analyzes: AnalyzeAnswer[];
   analyzeTypes: Analyze[];
+  isLoadingComment?: boolean;
   onAddAnalyze: (values: CreateAnalyzeAnswerDto) => void;
   onDeleteAnalyze: (id: number) => void;
+  onAddComment: (comment: string, analyzeId: number) => void;
+  onDeleteComment: (id: number) => void;
 }
 
 export const AnalyzesTab = ({
@@ -29,8 +32,11 @@ export const AnalyzesTab = ({
   analyzeTypes,
   isAnalyzesLoading,
   isAddAnalyzeLoading,
+  isLoadingComment,
   onAddAnalyze,
   onDeleteAnalyze,
+  onAddComment,
+  onDeleteComment,
 }: Props) => {
   const [isModalOpened, setIsModalOpened] = useState(false);
 
@@ -87,6 +93,9 @@ export const AnalyzesTab = ({
             onDelete={onDeleteAnalyze}
             analyzes={analyzes}
             isEditable={isEditable}
+            isLoadingComment={isLoadingComment}
+            onAddComment={onAddComment}
+            onDeleteComment={onDeleteComment}
           />
           {/* TODO: сделать подгурзку анализова частями */}
           {/* <button onClick={onShowMoreClick} className={s.moreBtn}>
