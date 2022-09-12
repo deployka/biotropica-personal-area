@@ -11,6 +11,7 @@ export const baseApi = createApi({
     'Specialization',
     'Recommendation',
     'Task',
+    'TemplateTask',
     'TaskComment',
     'Progress',
     'Goal',

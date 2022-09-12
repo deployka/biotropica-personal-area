@@ -126,7 +126,7 @@ export const taskApi = baseApi.injectEndpoints({
             url: `tasks/${id}`,
           };
         },
-        invalidatesTags: [{ type: 'Task', id: 'LIST' }],
+        invalidatesTags: [{ type: 'Task', id: 'LIST' }, 'TemplateTask'],
       }),
       changeTemplateName: builder.mutation<SomeTask, string>({
         query(name: string) {
@@ -136,6 +136,7 @@ export const taskApi = baseApi.injectEndpoints({
             url: 'tasks/templates/change-name',
           };
         },
+        invalidatesTags: ['TemplateTask'],
       }),
       getTemplatesList: builder.query<SomeTask[], void>({
         query() {
@@ -144,6 +145,7 @@ export const taskApi = baseApi.injectEndpoints({
             url: 'tasks/templates',
           };
         },
+        providesTags: ['TemplateTask'],
       }),
     };
   },

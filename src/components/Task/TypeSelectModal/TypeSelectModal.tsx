@@ -19,19 +19,21 @@ import { typeGroups } from './taskTypeConstants';
 
 export type TaskTypeSelectModalProps = {
   isOpened: boolean;
-  onClose(): void;
   isSpecialist: boolean;
-  onSelect(type: TaskType | TaskTemplate): void;
   templates: SomeTask[];
+  onClose(): void;
+  onSelect(type: TaskType | TaskTemplate): void;
+  onDeleteTemplate: (templateId: string) => void;
   onChangeTemplateName(templateId: string, value: string): void;
 };
 
 export function TaskTypeSelectModal({
   isOpened,
-  onClose,
-  onSelect,
   isSpecialist,
   templates,
+  onClose,
+  onSelect,
+  onDeleteTemplate,
   onChangeTemplateName,
 }: TaskTypeSelectModalProps) {
   type TabTypes = 'tasks' | 'templates';
@@ -127,6 +129,7 @@ export function TaskTypeSelectModal({
           {selectedTab === 'templates' &&
             Object.entries(templateGroups).map(([key, value]) => (
               <TaskTemplateGroup
+                onDeleteTemplate={onDeleteTemplate}
                 onChangeTemplateName={onChangeTemplateName}
                 key={key}
                 group={value}

@@ -1,13 +1,14 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { TaskTemplate } from '../../../@types/entities/Task';
 import { useDebounce } from '../../../hooks/useDebounce';
-import { useChangeTemplateNameMutation } from '../../../api/tasks';
+import closeIcon from './../../../assets/icons/closeRed.svg';
 
 import s from './TemplateElement.module.scss';
 interface Props {
   iconColor: string;
   taskType: TaskTemplate;
   onSelect(type: TaskTemplate): void;
+  onDeleteTemplate: () => void;
   onChangeTemplateName(templateId: string, value: string): void;
 }
 
@@ -15,6 +16,7 @@ export function TemplateElement({
   taskType,
   iconColor,
   onSelect,
+  onDeleteTemplate,
   onChangeTemplateName,
 }: Props) {
   const [value, setValue] = useState(taskType.templateName);
@@ -40,14 +42,23 @@ export function TemplateElement({
     <div
       title="Название шаблона сохраняется автоматически"
       className={s.taskType}
-      onClick={handleClick}
     >
-      <input
-        value={value}
-        onChange={onChange}
-        placeholder="Введите название шаблона"
-      />
-      <div className={s.content}>
+      <div className={s.name}>
+        <input
+          className={s.input}
+          value={value}
+          onChange={onChange}
+          placeholder="Введите название шаблона"
+        />
+        <div
+          className={s.delete}
+          title="удалить шаблон"
+          onClick={onDeleteTemplate}
+        >
+          <img src={closeIcon} />
+        </div>
+      </div>
+      <div className={s.content} onClick={handleClick}>
         <div className={s.iconBg} style={{ backgroundColor: iconColor }}>
           <img className={s.icon} src={taskType.icon} />
         </div>
