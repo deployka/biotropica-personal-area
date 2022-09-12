@@ -8,7 +8,6 @@ import {
   useUpdateUserMutation,
 } from '../../../api/user';
 
-import s from './Edit.module.scss';
 import { EditProfilePassword } from '../../../components/EditProfile/Password/Password';
 import { FormikHelpers } from 'formik';
 import {
@@ -100,7 +99,7 @@ const Edit = () => {
     try {
       await saveChangedEmail(values.email);
 
-      let profilePhotoLink = '';
+      let profilePhotoLink = user?.profilePhoto;
       if (values.profilePhoto instanceof File) {
         profilePhotoLink = await uploadPhoto(values.profilePhoto);
       }
@@ -205,7 +204,7 @@ const Edit = () => {
   };
 
   return (
-    <div className={s.edit}>
+    <div>
       <Tabs
         tabs={tabs}
         activeTab={activeTab}
