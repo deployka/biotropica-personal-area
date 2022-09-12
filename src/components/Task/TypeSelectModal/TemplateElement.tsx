@@ -42,7 +42,6 @@ export function TemplateElement({
     <div
       title="Название шаблона сохраняется автоматически"
       className={s.taskType}
-      style={{ zIndex: 1 }}
     >
       <div className={s.name}>
         <input

@@ -36,6 +36,7 @@ import { useCurrentUserQuery } from '../../api/user';
 
 import { Tabs } from '../../components/Tabs/Tabs';
 import { TasksModal } from '../../components/Task/Modal/Modal';
+import { tasksNotifications } from './tasksNotifications';
 
 export function Tasks() {
   const { data: currentUser } = useCurrentUserQuery();
@@ -106,28 +107,16 @@ export function Tasks() {
     if ('id' in task && task.id) {
       try {
         await updateTask({ ...task }).unwrap();
-        eventBus.emit(EventTypes.notification, {
-          type: NotificationType.SUCCESS,
-          message: 'Задача успешно обновлена!',
-        });
+        tasksNotifications.successUpdateTask();
       } catch (error) {
-        eventBus.emit(EventTypes.notification, {
-          type: NotificationType.DANGER,
-          message: 'Не удалось сохранить задачу',
-        });
+        tasksNotifications.errorUpdateTask();
       }
     } else {
       try {
         await createTask({ ...task, executorId: userId }).unwrap();
-        eventBus.emit(EventTypes.notification, {
-          type: NotificationType.SUCCESS,
-          message: 'Задача успешно создана!',
-        });
+        tasksNotifications.successCreateTask();
       } catch (error) {
-        eventBus.emit(EventTypes.notification, {
-          type: NotificationType.DANGER,
-          message: 'Не удалось создать задачу',
-        });
+        tasksNotifications.errorCreateTask();
       }
     }
     handleCloseTask();
@@ -157,25 +146,19 @@ export function Tasks() {
   async function handleCreateTemplate() {
     if (!openedTask) return;
 
-    const newTemplate = {
+    const newTemplate: CreateSomeTask & { id: undefined } = {
       ...openedTask,
       id: undefined,
       isTemplate: true,
-      data: '',
+      date: '',
       startTime: undefined,
       templateName: openedTask.title,
     };
     try {
       await createTask({ ...newTemplate, executorId: userId }).unwrap();
-      eventBus.emit(EventTypes.notification, {
-        type: NotificationType.SUCCESS,
-        message: 'Шаблон успешно создан!',
-      });
+      tasksNotifications.successCreateTemplate();
     } catch (error) {
-      eventBus.emit(EventTypes.notification, {
-        type: NotificationType.DANGER,
-        message: 'Произошла ошибка при создании шаблона!',
-      });
+      tasksNotifications.successDeleteTemplate();
     }
 
     handleCloseTask();
@@ -245,16 +228,10 @@ export function Tasks() {
   async function handleDeleteTemplate(templateId: string) {
     try {
       await deleteTask(templateId).unwrap();
-      eventBus.emit(EventTypes.notification, {
-        type: NotificationType.SUCCESS,
-        message: 'Шаблон удален',
-      });
+      tasksNotifications.successDeleteTemplate();
     } catch (error) {
       console.log(error);
-      eventBus.emit(EventTypes.notification, {
-        type: NotificationType.DANGER,
-        message: 'Произошла ошибка',
-      });
+      tasksNotifications.errorDeleteTemplate();
     }
   }
   async function onChangeTemplateName(templateId: string, value: string) {
