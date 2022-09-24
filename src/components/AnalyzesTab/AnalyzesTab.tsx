@@ -82,7 +82,7 @@ export const AnalyzesTab = ({
   return (
     <div className={s.analyzes}>
       {!analyzes.length && <InfoBar infoBar={analyzesInfoBar} />}
-      {analyzes.length && (
+      {!!analyzes.length && (
         <div className={s.card}>
           <AnalyzesHeader
             onAddAnalyzeClick={onAddAnalyzeClick}
