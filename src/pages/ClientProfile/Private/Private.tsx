@@ -76,7 +76,15 @@ const ClientProfilePrivate = ({ user }: Props) => {
     },
     {
       key: 'questionnaire',
-      value: 'Тестирование',
+      value: (
+        <>
+          Тестирование &nbsp;
+          <img
+            className={s.lock}
+            src={isAnalyzesAccess ? unlockImg : lockImg}
+          />
+        </>
+      ),
     },
     {
       key: 'progress',
@@ -141,7 +149,7 @@ const ClientProfilePrivate = ({ user }: Props) => {
             <Analyzes userId={user.id} isAccess={isAnalyzesAccess} />
           )}
           {activeTab === tabs[1].key && (
-            <Questionnaire userId={user.id} isAccess={true} />
+            <Questionnaire userId={user.id} isAccess={isAnalyzesAccess} />
           )}
           {activeTab === tabs[2].key && (
             <Progress userId={user.id} isAccess={isProgressAccess} />

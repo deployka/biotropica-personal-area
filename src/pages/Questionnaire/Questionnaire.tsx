@@ -47,14 +47,13 @@ const Questionnaire = () => {
     return <div>Ошибка</div>;
   }
 
-  const { question, index, total } = currentQuestionData;
+  const { question, index, total, status } = currentQuestionData;
+
+  const isQuestionnaireFinished = status === 'finished';
 
   async function giveAnswer(answer: CreateAnswerDto) {
     try {
       await fetchCreateAnswer(answer).unwrap();
-      // if (index === total) {
-      //   return history.push('/');
-      // }
       refetchCurrentQuestionData();
     } catch (error) {
       console.log(error);
@@ -63,7 +62,7 @@ const Questionnaire = () => {
 
   return (
     <div className={s.questionnaire}>
-      {question && (
+      {question && !isQuestionnaireFinished && (
         <QuestionnaireBody
           question={question}
           progress={{ currentIndex: index, total: total + 1 }}
@@ -81,16 +80,18 @@ const Questionnaire = () => {
         />
       )}
 
-      {console.log(currentUser.questionHash)}
-
-      {currentUser.questionHash?.includes('FINISHED') && (
+      {isQuestionnaireFinished && (
         <div className={s.infoBar}>
           <p className={s.title}>Анкета заполнена!</p>
           <p className={s.text}>
             Специалисты смогу просматривать ее для назначения более точных
             рекомендаций. Рекомендуем проходить анкету повторно каждые 3 месяца.
           </p>
-          <Button onClick={onMoveToProfile}>В профиль</Button>
+          <div className={s.buttons}>
+            <Button isPrimary onClick={onMoveToProfile}>
+              В профиль
+            </Button>
+          </div>
         </div>
       )}
     </div>
