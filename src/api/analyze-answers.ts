@@ -39,7 +39,7 @@ export const analyzeAnswersApi = baseApi.injectEndpoints({
     }),
     deleteAnalyzeAnswer: builder.mutation<void, DeleteAnalyzeAnswerDto>({
       query: dto => ({
-        url: `/analyzes/delete/${dto.id}`,
+        url: `/analyzes/answers/${dto.id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Analyze'],
