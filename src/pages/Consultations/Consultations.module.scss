@@ -1,5 +1,5 @@
-@import '../../styles/mixins.scss';
-@import '../../styles/variables.scss';
+@import "../../styles/mixins.scss";
+@import "../../styles/variables.scss";
 
 .headerWrapper {
   width: 100%;
@@ -40,6 +40,8 @@
     }
 
     @include for-tablet {
+      width: 100%;
+      max-width: unset;
       background-color: #6f61d0;
       border-color: #6f61d0;
       color: #fff;
