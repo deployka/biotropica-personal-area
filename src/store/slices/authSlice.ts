@@ -64,6 +64,9 @@ export const selectUserRoles = (state: RootState): Role[] =>
   state.authSlice.roles;
 export const selectIsAuthorized = (state: RootState): boolean =>
   state.authSlice.isAuthorized;
+export const selectCurrentUser = (
+  state: RootState,
+): Client | Admin | Specialist | undefined => state.authSlice.currentUser;
 export const selectIsDoctor = (state: RootState): boolean =>
   state.authSlice.roles.some(it => it.name === ROLE.SPECIALIST);
 export const selectIsAdmin = (state: RootState): boolean =>

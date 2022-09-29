@@ -20,7 +20,8 @@ export type Question = BaseEntity & {
 };
 
 export type CurrentQuestion = {
-  question: Question;
+  question?: Question;
+  status: 'inProgress' | 'finished';
   index: number;
   total: number;
 };
