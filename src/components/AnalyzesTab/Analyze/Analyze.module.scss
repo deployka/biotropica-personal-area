@@ -28,6 +28,10 @@
         position: absolute;
         right: -40px;
         top: 50%;
+
+        @include for-tablet {
+            right: 0;
+        }
     }
 
     .actions {
