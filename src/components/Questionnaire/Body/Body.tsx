@@ -46,10 +46,6 @@ export const QuestionnaireBody = ({
     if (multiAnswer.length) setMultiAnswer([]);
   }, [progress]);
 
-  useEffect(() => {
-    console.log('effectAnswer', answer);
-  }, [answer]);
-
   const options = question.allowedAnswers
     ? question.allowedAnswers.map(it => ({
         value: it,

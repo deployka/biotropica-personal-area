@@ -14,6 +14,7 @@ import {
 import s from './AddForm.module.scss';
 import { GoalUnits } from '../../../@types/entities/Goal';
 import { CreateGoalFormDto } from '../../../@types/dto/goals/create-form.dto';
+import { NumberInput } from '../../../shared/Form/NumberInput/NumberInput';
 
 export interface FormGoalData
   extends Omit<CreateGoalFormDto, 'endResult' | 'startResult'> {
@@ -112,13 +113,12 @@ export const GoalAddForm = ({
               </div>
 
               <div className={s.input__wrapper}>
-                <Input
+                <NumberInput
                   onChange={handleChange}
                   onBlur={handleBlur}
                   label="Желаемый результат"
                   name="endResult"
-                  value={values.endResult}
-                  type="text"
+                  value={values.endResult || undefined}
                   options={{
                     touched,
                     errors,
@@ -127,13 +127,12 @@ export const GoalAddForm = ({
               </div>
 
               <div className={s.input__wrapper}>
-                <Input
+                <NumberInput
                   onChange={handleChange}
                   onBlur={handleBlur}
                   label="Текущий результат"
                   name="startResult"
-                  value={values.startResult}
-                  type="text"
+                  value={values.startResult || undefined}
                   options={{
                     touched,
                     errors,

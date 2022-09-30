@@ -14,7 +14,7 @@ export const QuestionnaireTabHeader = ({ isPublic }: Props) => {
       <div className={s.title}>
         <p>Тестирование</p>
       </div>
-      {!isPublic && (
+      {/* {!isPublic && (
         <div className={s.updateBtn}>
           <Link to="/questionnaire">
             <div className={s.icon}>
@@ -23,7 +23,7 @@ export const QuestionnaireTabHeader = ({ isPublic }: Props) => {
             <p className={s.text}>редактировать</p>
           </Link>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

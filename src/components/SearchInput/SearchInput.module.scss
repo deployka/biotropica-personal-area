@@ -11,8 +11,8 @@
   border: 1px solid #736f8b;
   box-sizing: border-box;
   border-radius: 100px;
-  cursor: pointer;
   transition: all 0.3s ease;
+  cursor: pointer;
 
   @include for-phone {
     width: 100%;
@@ -24,6 +24,8 @@
     font-size: 14px;
     border: none;
     outline: none;
+
+    background-color: transparent;
 
     &::placeholder {
       font-size: 14px;
