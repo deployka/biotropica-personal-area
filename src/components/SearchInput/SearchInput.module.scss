@@ -3,11 +3,10 @@
 
 .search {
   padding: 0 8px;
-  width: 240px;
+  width: 100%;
   height: 32px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   border: 1px solid #736f8b;
   box-sizing: border-box;
   border-radius: 100px;
@@ -19,7 +18,9 @@
   }
 
   input {
-    width: 196px;
+    margin: 0 0 0 10px;
+    min-width: 196px;
+
     height: 20px;
     font-size: 14px;
     border: none;
@@ -34,6 +35,9 @@
   }
 
   .searchIcon {
+    width: 20px;
+    height: 20px;
+
     display: flex;
     align-items: center;
     justify-content: center;

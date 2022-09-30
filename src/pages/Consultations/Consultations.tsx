@@ -326,9 +326,10 @@ const Consultations = () => {
             onSearchChange={onSearchChange}
             searchValue={searchQuery}
           />
-          <div className={s.link}>
-            <Link to="/consultations/list">Мои видеоконсультации</Link>
-          </div>
+
+          <Link className={s.link} to="/consultations/list">
+            Мои видеоконсультации
+          </Link>
         </div>
         {isSpecialistLoading && <p>Загрузка...</p>}
         {!isSpecialistLoading && (

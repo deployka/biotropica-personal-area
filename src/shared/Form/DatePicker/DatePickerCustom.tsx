@@ -56,7 +56,6 @@ export const DatePickerCustom = (props: Props) => {
         locale={ru}
         customInput={customInput}
         calendarStartDay={1}
-        startOpen
       />
       {touched[props.name] && errors[props.name] && (
         <ErrorMessage message={errors[props.name] || ''} />

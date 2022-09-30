@@ -33,11 +33,13 @@ export function UsersTableHeader({
           {isFiltersOpen ? 'Скрыть фильтры' : 'Показать фильтры'}
         </button>
 
-        <SearchInput
-          value={query}
-          onChange={onSearch}
-          placeholder="Поиск пользователей"
-        />
+        <div className={s.searchInput}>
+          <SearchInput
+            value={query}
+            onChange={onSearch}
+            placeholder="Поиск пользователей"
+          />
+        </div>
       </div>
     </div>
   );

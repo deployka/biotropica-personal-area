@@ -38,6 +38,7 @@ import { Courses } from '../components/Courses/Courses';
 import { ChangeCourseDto } from '../../../@types/dto/specialists/change-courses.dto';
 import { ResponseError } from '../../../@types/api/response';
 import { getTabByKey } from '../../../utils/tabsHelper';
+import { Tabs } from '../../../shared/Global/Tabs/Tabs';
 
 export interface Param {
   active: string;
@@ -226,11 +227,13 @@ const EditSpecialistProfile = () => {
 
   return (
     <div className={s.edit}>
-      <TabButtons
-        tabs={tabs}
-        activeTab={activeTab}
-        onActiveTabChanged={setActiveTab}
-      />
+      <div className={s.tabs__container}>
+        <Tabs
+          tabs={tabs}
+          activeTab={activeTab}
+          onActiveTabChanged={setActiveTab}
+        />
+      </div>
       {activeTab === tabs[0].key && (
         <EditProfileData
           onSubmit={handleSubmitProfileData}
