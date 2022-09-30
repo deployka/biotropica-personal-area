@@ -10,15 +10,13 @@
 
     flex-wrap: wrap;
 
+    row-gap: 10px;
+
     box-shadow: inset 0px -1px 0px #e4e4e7;
 
     .title {
         display: flex;
         align-items: center;
-
-        @include for-phone {
-            margin: 0 0 10px 0;
-        }
 
         .count {
             margin: 0 0 0 10px;
