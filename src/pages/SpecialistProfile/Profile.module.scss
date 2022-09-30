@@ -29,6 +29,10 @@
     @include for-tablet {
       width: 250px;
     }
+
+    @include for-phone {
+      width: 100%;
+    }
   }
 
   .content {
