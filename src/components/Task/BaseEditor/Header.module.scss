@@ -1,0 +1,169 @@
+.header {
+  padding: 28px 30px;
+
+  width: 100%;
+
+  position: sticky;
+  top: 0;
+
+  z-index: 10;
+
+  background-color: #3b82f6;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .rightContent {
+    display: flex;
+    align-items: center;
+  }
+
+  .taskTitle {
+    display: flex;
+    align-items: center;
+
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 120%;
+
+    color: #ffffff;
+
+    .icon {
+      margin: 0 8px 0 0;
+
+      width: 24px;
+      height: 24px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background-color: #fff;
+    }
+
+    .iconMask {
+      width: 24px;
+      height: 24px;
+      mask-repeat: no-repeat;
+      mask-position: center;
+    }
+  }
+
+  .title {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &.underline {
+      padding: 0 0 18px 0;
+
+      border-bottom: 1px solid rgba(247, 246, 251, 0.2);
+    }
+
+    .closeIcon {
+      cursor: pointer;
+    }
+  }
+
+  .taskInfo {
+    position: relative;
+
+    margin: 16px 0 0 0;
+    width: 100%;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    .row {
+      width: 170px;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+    .rowTitle {
+      font-weight: 500;
+      font-size: 11px;
+      line-height: 18px;
+
+      text-transform: uppercase;
+
+      color: #ffffff;
+
+      opacity: 0.7;
+    }
+
+    .rowText {
+      margin: 4px 0 0 0;
+
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 18px;
+
+      color: #ffffff;
+    }
+  }
+
+  .authorInfo {
+    margin: 5px 0 0 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    color: #fff;
+
+    .title {
+      width: unset;
+      font-weight: 500;
+      font-size: 11px;
+      line-height: 18px;
+
+      text-transform: uppercase;
+
+      color: #ffffff;
+
+      opacity: 0.7;
+    }
+
+    .name {
+      margin: 4px 0 0 0;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 18px;
+      cursor: pointer;
+      color: #ffffff;
+    }
+  }
+
+  .editIcon {
+    position: absolute;
+
+    bottom: 0;
+    right: 0;
+
+    cursor: pointer;
+  }
+
+  .actionsMenu {
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 32px;
+      height: 32px;
+    }
+
+    @media screen and (max-width: 768px) {
+      transform: rotate(90deg);
+    }
+  }
+}

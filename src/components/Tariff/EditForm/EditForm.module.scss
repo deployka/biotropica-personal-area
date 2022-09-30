@@ -1,0 +1,43 @@
+@import "../../../styles/global.scss";
+@import "../../../styles/mixins.scss";
+
+.form {
+	width: 100%;
+}
+
+.input {
+	margin-bottom: 12px;
+}
+
+.addFieldBtn {
+	width: 100%;
+	margin-bottom: 10px;
+
+	@include for-phone {
+		width: 100%;
+	}
+}
+
+.closeAndSave {
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 10px;
+
+	.closeBtn {
+		margin-right: 10px;
+	}
+
+	button {
+		width: 100%;
+	}
+}
+
+.deleteBtn {
+	margin: 10px 0 0 0;
+	text-decoration: underline;
+	cursor: pointer;
+
+	text-decoration: none;
+
+	color: rgb(208, 99, 97);
+}

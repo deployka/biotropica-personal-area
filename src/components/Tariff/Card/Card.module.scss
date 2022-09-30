@@ -1,0 +1,199 @@
+@import "./../../../styles/mixins.scss";
+
+.card {
+  padding: 30px;
+  width: 350px;
+
+  background: #ffffff;
+  box-shadow: 0px 0px 40px #6f61d01c;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+
+  @include for-laptop {
+    width: 300px;
+  }
+
+  @include for-phone {
+    padding: 20px;
+    margin: 10px 0 0 0;
+
+    width: 100%;
+    height: unset;
+  }
+
+  .header {
+    display: flex;
+  }
+
+  .price {
+    display: flex;
+
+    .text {
+      p {
+        font-weight: 500;
+        font-size: 18px;
+        color: #6f61d0;
+      }
+    }
+  }
+
+  .subText {
+    margin: 0 0 0 10px;
+
+    p {
+      font-weight: 400;
+      font-size: 17px;
+      color: #9e97be;
+    }
+  }
+
+  // .rate__headline
+
+  .title {
+    margin: 20px 0 0 0;
+
+    h3 {
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 24px;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  // .rate__list
+
+  .list {
+    width: 100%;
+    line-height: 120%;
+
+    @include for-phone {
+      width: 100%;
+      margin: 10px 0 0 0;
+    }
+  }
+
+  // .rate__list-elem
+
+  .listEl {
+    margin: 20px 0 0 0;
+
+    width: 100%;
+
+    display: flex;
+
+    img {
+      margin: 0 15px 0 0;
+    }
+
+    p {
+      color: #1e174d;
+
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 120%;
+    }
+  }
+
+  // .rate__bottom
+
+  .bottom {
+    position: relative;
+    margin: 30px 0 0 0;
+    width: 100%;
+
+    @include for-phone {
+      margin: 30px 0 0 0;
+    }
+  }
+
+  .editBtn {
+    position: relative;
+    border-radius: 100px;
+    top: 0;
+    left: 0;
+    transition: all 0.2s ease;
+
+    &.centered {
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  .orderButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 1px solid #6f61d0;
+    opacity: 1;
+
+    &.right {
+      right: 0;
+      img {
+        transform: rotateY(180deg);
+      }
+    }
+
+    transition: all 0.2s ease;
+  }
+
+  .button {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 120%;
+
+    padding: 7px 15px;
+    background-color: #ffffff00;
+    border: 1px solid #6f61d0;
+    box-sizing: border-box;
+    border-radius: 5px;
+
+    font-weight: 500;
+    font-size: 14px;
+
+    color: #6f61d0;
+
+    transition: all 0.15s ease-in;
+
+    &:hover {
+      background-color: #6f61d0;
+      color: #ffffff;
+    }
+
+    &.disabled {
+      background-color: rgba(113, 98, 208, 0.1);
+      border: 1px solid #7061d046;
+      color: #7061d046;
+      cursor: not-allowed;
+      &:hover {
+        background-color: rgba(113, 98, 208, 0.1);
+        border: 1px solid #7061d046;
+        color: #7061d046;
+      }
+
+      &.currentTariffBtn {
+        background-color: #61d07f;
+        color: #fff;
+      }
+    }
+
+    &.currentTariffBtn {
+      border: 1px solid rgb(97, 208, 127);
+      color: #61d07f;
+
+      &:hover {
+        border: 1px solid rgb(97, 208, 127);
+        background-color: #61d07f;
+        color: #fff;
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.form {
+    width: 100%;
+    max-width: 850px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: #ffffff;
+    border-radius: 5px;
+
+    z-index: 10;
+    transition: all 0.3s ease;
+
+    .header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .title {
+            font-family: "Montserrat", sans-serif;
+
+            font-weight: 500;
+            font-size: 24px;
+            color: #000000;
+
+            @include for-phone {
+                font-size: 18px;
+            }
+        }
+
+        .closeIcon {
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    .divider {
+        width: 100%;
+        height: 1px;
+
+        margin: 10px 0 10px 0;
+
+        background-color: $color-divider;
+
+        @include for-phone {
+            margin: 10px 0 15px 0;
+        }
+    }
+
+    .inputsLine {
+        margin: 0 0 7px 0;
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        @include for-phone {
+            margin: 0;
+            flex-direction: column;
+        }
+    }
+
+    .inputWrapper {
+        width: 48%;
+
+        @include for-phone {
+            margin: 0 0 5px 0;
+            width: 100%;
+        }
+
+        input {
+            width: 365px;
+
+            @include for-laptop {
+                width: 100%;
+            }
+        }
+    }
+}

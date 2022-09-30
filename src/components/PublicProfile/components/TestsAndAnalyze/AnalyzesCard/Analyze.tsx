@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import moment from 'moment';
-import { AnalyzeAnswer } from '../../../../../store/ducks/analyze/contracts/state';
+
 import { getMediaLink } from '../../../../../utils/mediaHelper';
 import documentSvg from '../../../../../assets/icons/profile/document.svg';
 
@@ -9,18 +9,21 @@ import { Comments } from '../../../../../components/Comments/Comments';
 import { CommentsInfo } from '../../../../Comments/CommentsInfo';
 import { AddCommentForm } from './AddCommentForm';
 import { useSort } from './useSort';
-import { Order } from '../../../../../types/constants/Order';
+import { Order } from '../../../../../@types/constants/Order';
+import { AnalyzeAnswer } from '../../../../../@types/entities/AnalyzeAnswer';
 
 interface Props {
   analyze: AnalyzeAnswer;
   onAddComment: (comment: string, analyzeId: number) => void;
   isLoadingComment: boolean;
+  currentUserId: number;
   onDeleteComment: (id: number) => void;
 }
 
 export const Analyze = ({
   analyze,
   onAddComment,
+  currentUserId,
   isLoadingComment,
   onDeleteComment,
 }: Props) => {
@@ -69,17 +72,28 @@ export const Analyze = ({
             analyzeId={analyze.id}
           />
         )}
-        <CommentsInfo
-          sort={sort}
-          onSort={onSort}
-          isOpen={isCommentsOpen}
-          onToggle={() => setIsCommentsOpen(!isCommentsOpen)}
-          length={analyze.comments.length}
-        />
+        {analyze.comments.length === 0 && (
+          <p
+            className={s.noComments}
+            onClick={() => setIsCommentsOpen(!isCommentsOpen)}
+          >
+            Создать комментарий
+          </p>
+        )}
+        {analyze.comments.length !== 0 && (
+          <CommentsInfo
+            sort={sort}
+            onSort={onSort}
+            isOpen={isCommentsOpen}
+            onToggle={() => setIsCommentsOpen(!isCommentsOpen)}
+            length={analyze.comments.length}
+          />
+        )}
       </div>
       {isCommentsOpen && (
         <Comments
-          withTrash={true}
+          isClient={false}
+          currentUserId={currentUserId}
           onDelete={onDeleteComment}
           comments={sortedComments}
         />

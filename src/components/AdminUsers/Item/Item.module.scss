@@ -1,0 +1,101 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.user {
+    padding: 0 16px;
+    width: 100%;
+    height: 62px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid #e4e4e7;
+
+    @include for-phone {
+        padding: 15px 0 20px 0;
+        height: unset;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    p {
+        font-size: 14px;
+
+        color: $color-black;
+    }
+
+    .name {
+        width: 35%;
+
+        @include for-phone {
+            margin: 0 0 10px 0;
+            width: 100%;
+        }
+
+        p {
+            font-weight: 500;
+        }
+    }
+
+    .date {
+        width: 20%;
+
+        @include for-phone {
+            margin: 0 0 10px 0;
+            width: 100%;
+        }
+    }
+
+    .role {
+        width: 20%;
+        p {
+            color: #6f61d0;
+        }
+
+        @include for-phone {
+            margin: 0 0 10px 0;
+            width: 100%;
+        }
+    }
+
+    .tariff {
+        width: 25%;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        @include for-phone {
+            width: 100%;
+        }
+    }
+
+    .dots {
+        height: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+
+        user-select: none;
+        cursor: pointer;
+
+        @include for-phone {
+            position: absolute;
+            right: 0;
+        }
+    }
+}
+
+.background {
+    position: absolute;
+    top: -1;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vw;
+    z-index: 5;
+}

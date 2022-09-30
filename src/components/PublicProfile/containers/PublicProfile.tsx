@@ -1,128 +1,132 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import AnalyzeService from '../../../services/AnalyzeService';
+import {
+  useCreateAnalyzeAnswerCommentMutation,
+  useDeleteAnalyzeAnswerCommentMutation,
+  useGetAnalyzeAnswersQuery,
+} from '../../../api/analyze-answers';
+import { useGetAnalyzesQuery } from '../../../api/analyzes';
+import { useGetGoalsQuery } from '../../../api/goals';
+import { useGetProgressPostsQuery } from '../../../api/progress';
+import { useGetCurrentSpecialistQuery } from '../../../api/specialists';
+import { useGetUserTariffByIdQuery } from '../../../api/tariffs';
+import {
+  useGetFollowedSpecialistsQuery,
+  useGetQuestionnaireAnswersQuery,
+  useGetUserQuery,
+} from '../../../api/user';
 import { eventBus, EventTypes } from '../../../services/EventBus';
-import UserService from '../../../services/UserService';
-import {
-  Analyze,
-  AnalyzeAnswer,
-} from '../../../store/ducks/analyze/contracts/state';
-import {
-  fetchAnalyzesData,
-  setAnalyzesData,
-} from '../../../store/ducks/analyzes/actionCreators';
-import { selectAnalyzesData } from '../../../store/ducks/analyzes/selectors';
-import { fetchGoalsDataById } from '../../../store/ducks/goals/actionCreators';
-import { selectGoalsData } from '../../../store/ducks/goals/selectors';
-import { fetchProgressData } from '../../../store/ducks/progress/actionCreators';
-import {
-  selectProgressData,
-  selectProgressLoadingStatus,
-} from '../../../store/ducks/progress/selectors';
-import { fetchRecommendationsData } from '../../../store/ducks/recommendations/actionCreators';
-import { selectSortedRecommendationsData } from '../../../store/ducks/recommendations/selectors';
-import { fetchUserDataById } from '../../../store/ducks/user/actionCreators';
-import { selectUserData } from '../../../store/ducks/user/selectors';
 import { NotificationType } from '../../GlobalNotifications/GlobalNotifications';
 import { Profile } from './Profile';
 
 export const PublicProfile = () => {
   const { id } = useParams<{ id: string }>();
-
   const userId = +id;
-  const dispatch = useDispatch();
-  const user = useSelector(selectUserData);
-  const progress = useSelector(selectProgressData) || [];
-  const goalsLength = useSelector(selectGoalsData).length;
-  const progressLoadingStatus = useSelector(selectProgressLoadingStatus);
-  const analyzes = useSelector(selectAnalyzesData);
 
-  const [answers, setAnswers] = useState<Answer[]>([]);
-  const [analyzeTypes, setAnalyzeTypes] = useState<Analyze[]>([]);
-  const [isLoadingComment, setIsLoadingComment] = useState(false);
+  const {
+    data: user,
+    isLoading: isUserLoading,
+    isError: isUserError,
+  } = useGetUserQuery(userId, { skip: !userId });
 
-  useEffect(() => {
-    dispatch(fetchUserDataById(userId));
-    dispatch(fetchProgressData(userId));
-    dispatch(fetchAnalyzesData(userId));
-    dispatch(fetchGoalsDataById(userId));
-    dispatch(fetchRecommendationsData(userId));
+  const { data: currentSpecialist } = useGetCurrentSpecialistQuery();
 
-    const fetchAnswers = () => {
-      UserService.answers(userId).then(({ data }) => setAnswers(data));
-    };
-    function fetchAllTypes() {
-      AnalyzeService.geAllTypes().then(({ data }) => setAnalyzeTypes(data));
-    }
-    fetchAllTypes();
-    fetchAnswers();
-  }, [dispatch, userId]);
+  const [createComment, { isLoading: isCreateCommentLoading }] =
+    useCreateAnalyzeAnswerCommentMutation();
 
-  function onAddComment(comment: string, analyzeId: number) {
-    const data = {
-      text: comment,
-      analyzeAnswerId: analyzeId,
-    };
+  const [deleteComment, { isLoading: isDeleteCommentLoading }] =
+    useDeleteAnalyzeAnswerCommentMutation();
 
-    setIsLoadingComment(true);
+  const { data: progress = [], isLoading: isProgressLoading } =
+    useGetProgressPostsQuery({ userId }, { skip: !userId });
 
-    AnalyzeService.addComment(data)
-      .then(() => {
-        dispatch(fetchAnalyzesData(userId));
-        setIsLoadingComment(false);
-      })
-      .catch(() => {
-        setIsLoadingComment(false);
-        eventBus.emit(EventTypes.notification, {
-          message: 'Произошла ошибка, попробуйте еще раз!',
-          type: NotificationType.DANGER,
-        });
-      });
+  const { data: goalsList } = useGetGoalsQuery();
 
-    eventBus.emit(EventTypes.notification, {
-      message: 'Комментарий добавлен!',
-      type: NotificationType.SUCCESS,
-    });
-  }
+  const { data: analyzeTypes = [] } = useGetAnalyzesQuery();
 
-  function onDeleteComment(id: number) {
-    setIsLoadingComment(true);
-
-    AnalyzeService.deleteComment({ id })
-      .then(() => {
-        dispatch(fetchAnalyzesData(userId));
-        setIsLoadingComment(false);
-        eventBus.emit(EventTypes.notification, {
-          message: 'Комментарий удален',
-          type: NotificationType.SUCCESS,
-        });
-      })
-      .catch(() => {
-        setIsLoadingComment(false);
-        eventBus.emit(EventTypes.notification, {
-          message: 'Произошла ошибка, попробуйте еще раз!',
-          type: NotificationType.DANGER,
-        });
-      });
-  }
-
-  if (!user) {
-    return <div>Загрузка...</div>;
-  }
-
-  return (
-    <Profile
-      user={user}
-      onDeleteComment={onDeleteComment}
-      isLoadingComment={isLoadingComment}
-      onAddComment={onAddComment}
-      progress={progress}
-      progressLoadingStatus={progressLoadingStatus}
-      goalsLength={goalsLength}
-      questionnaireAnswers={answers}
-      analyzeTypes={analyzeTypes}
-      analyzes={analyzes}
-    />
+  const { data: analyzes = [] } = useGetAnalyzeAnswersQuery(
+    { userId },
+    { skip: !userId },
   );
+
+  const { data: currentTariff } = useGetUserTariffByIdQuery(userId, {
+    skip: !userId,
+  });
+
+  const { data: questionnaireAnswers = [] } = useGetQuestionnaireAnswersQuery(
+    userId,
+    { skip: !userId },
+  );
+
+  const onAddComment = async (comment: string, analyzeId: number) => {
+    try {
+      await createComment({
+        text: comment,
+        analyzeAnswerId: analyzeId,
+      }).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        message: 'Комментарий добавлен!',
+        type: NotificationType.SUCCESS,
+      });
+    } catch (error) {
+      console.error(error);
+      eventBus.emit(EventTypes.notification, {
+        message: 'Произошла ошибка, попробуйте еще раз!',
+        type: NotificationType.DANGER,
+      });
+    }
+  };
+
+  const { data: specialistsList = [] } = useGetFollowedSpecialistsQuery(
+    {
+      id: userId,
+    },
+    { skip: !userId },
+  );
+
+  const onDeleteComment = async (id: number) => {
+    try {
+      await deleteComment({ id }).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        message: 'Комментарий удален',
+        type: NotificationType.SUCCESS,
+      });
+    } catch (error) {
+      console.log(error);
+      eventBus.emit(EventTypes.notification, {
+        message: 'Произошла ошибка, попробуйте еще раз!',
+        type: NotificationType.DANGER,
+      });
+    }
+  };
+
+  if (isUserLoading) {
+    return <p>Загрузка...</p>;
+  }
+
+  if (!isUserLoading && isUserError) {
+    return <div>Произошла ошибка</div>;
+  }
+
+  if (!isUserLoading && user) {
+    return (
+      <Profile
+        currentTariff={currentTariff}
+        currentUserId={currentSpecialist?.id || 0}
+        user={user}
+        onDeleteComment={onDeleteComment}
+        isLoadingComment={isCreateCommentLoading || isDeleteCommentLoading}
+        onAddComment={onAddComment}
+        specialistsList={specialistsList}
+        progress={progress}
+        progressIsLoading={isProgressLoading}
+        goalsLength={goalsList?.length || 0}
+        questionnaireAnswers={questionnaireAnswers}
+        analyzeTypes={analyzeTypes}
+        analyzes={analyzes}
+      />
+    );
+  }
+
+  return <></>;
 };

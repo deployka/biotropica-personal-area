@@ -1,14 +1,48 @@
-import React, { useState, Suspense } from 'react';
+import React, { ElementType, ReactElement, Suspense } from 'react';
 
 import { Route, Switch } from 'react-router';
 import routes from './routesList';
 import { Loader } from '../shared/Global/Loader/Loader';
 import { PrivateLayout } from '../layouts/PrivateLayout';
 import { useSelector } from 'react-redux';
-import { selectIsDoctor } from '../store/rtk/slices/authSlice';
+import {
+  selectIsDoctor,
+  selectIsAdmin,
+  selectIsClient,
+} from '../store/slices/authSlice';
+import ErrorPage from '../pages/ErrorPage/containers/ErrorPage';
+import { useCurrentUserQuery } from '../api/user';
+
+type Props = {
+  DefaultComponent?: ElementType;
+  Specialist?: ElementType;
+  Client?: ElementType;
+  Admin?: ElementType;
+};
+
+function RoleComponent({
+  DefaultComponent,
+  Client,
+  Specialist,
+  Admin,
+}: Props): ReactElement {
+  const isSpecialist = useSelector(selectIsDoctor);
+  const isAdmin = useSelector(selectIsAdmin);
+  const isClient = useSelector(selectIsClient);
+
+  if (isSpecialist && Specialist) {
+    return <Specialist />;
+  } else if (isAdmin && Admin) {
+    return <Admin />;
+  } else if (isClient && Client) {
+    return <Client />;
+  } else if (DefaultComponent) {
+    return <DefaultComponent />;
+  }
+  return <ErrorPage />;
+}
 
 export const Routes = () => {
-  const isSpecialist = useSelector(selectIsDoctor);
   return (
     <Switch>
       <PrivateLayout>
@@ -18,15 +52,18 @@ export const Routes = () => {
               ({
                 component: Component,
                 specialistComponent: SpecialistComponent,
+                adminComponent: AdminComponent,
+                clientComponent: ClientComponent,
                 path,
                 exact,
               }) => (
                 <Route path={`/${path}`} key={path} exact={exact}>
-                  {isSpecialist && SpecialistComponent ? (
-                    <SpecialistComponent />
-                  ) : (
-                    Component && <Component />
-                  )}
+                  <RoleComponent
+                    DefaultComponent={Component}
+                    Client={ClientComponent}
+                    Specialist={SpecialistComponent}
+                    Admin={AdminComponent}
+                  />
                 </Route>
               ),
             )}

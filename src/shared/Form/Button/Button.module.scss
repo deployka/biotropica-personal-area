@@ -24,6 +24,12 @@
     }
   }
 
+  &.delete {
+    &:hover {
+      background: none;
+    }
+  }
+
   &__discard {
     border: 1px solid #9e97be;
     background: transparent;

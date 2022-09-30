@@ -1,14 +1,15 @@
 import React from 'react';
-import s from './AnalyzesCard.module.scss';
-import {
-  Analyze,
-  AnalyzeAnswer,
-} from '../../../../../store/ducks/analyze/contracts/state';
+
 import { AnalyzeTypes } from './AnalyzeTypes';
 import { Analyzes } from './Analyzes';
+import { AnalyzeAnswer } from '../../../../../@types/entities/AnalyzeAnswer';
+import { Analyze } from '../../../../../@types/entities/Analyze';
+
+import s from './AnalyzesCard.module.scss';
 
 interface Props {
   analyzes: AnalyzeAnswer[];
+  currentUserId: number;
   analyzeTypes: Analyze[];
   isLoadingComment: boolean;
   onAddComment: (comment: string, analyzeId: number) => void;
@@ -19,6 +20,7 @@ export const AnalyzesCard = ({
   analyzes,
   analyzeTypes,
   onAddComment,
+  currentUserId,
   isLoadingComment,
   onDeleteComment,
 }: Props) => {
@@ -31,6 +33,7 @@ export const AnalyzesCard = ({
       </div>
       <AnalyzeTypes analyzeTypes={analyzeTypes} />
       <Analyzes
+        currentUserId={currentUserId}
         onDeleteComment={onDeleteComment}
         isLoadingComment={isLoadingComment}
         onAddComment={onAddComment}

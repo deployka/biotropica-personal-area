@@ -12,10 +12,6 @@ module.exports = function override(config, env) {
         'biotropika-chat': process.env.REACT_APP_MF_CHAT_URL,
       },
       filename: 'remoteEntry.js',
-      exposes: {
-        './PublicProfile':
-          './src/components/PublicProfile/containers/PublicProfile',
-      },
       shared: ['react', 'react-dom'],
     }),
     new ExternalTemplateRemotesPlugin(),

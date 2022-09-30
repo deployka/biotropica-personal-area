@@ -1,8 +1,8 @@
-@import '../../styles/global.scss';
+@import "../../styles/global.scss";
 
 @media screen and (max-width: 576px) {
   .backgroundWrapper {
-    background-image: url('../../assets/images/ProfileBackground.jpg');
+    background-image: url("../../assets/images/ProfileBackground.jpg");
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -12,42 +12,87 @@
 }
 
 .profile {
+  margin: 60px 0 0 0;
+
   width: 100%;
-  overflow-x: hidden;
-  overflow-y: scroll;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  @include for-phone {
+    margin: 0;
+  }
+
+  .info {
+    width: 280px;
+    @include for-tablet {
+      width: 250px;
+    }
+
+    @include for-phone {
+      width: 100%;
+    }
+  }
+
+  .content {
+    width: calc(100% - 310px);
+
+    @include for-tablet {
+      width: calc(100% - 270px);
+    }
+
+    @include for-phone {
+      width: 100%;
+    }
+  }
+
+  .tabs__container {
+    margin: 0 0 30px 0;
+
+    @include for-laptop {
+      position: absolute;
+      width: calc(100vw - 110px);
+      top: 110px;
+      left: 0;
+    }
+
+    @include for-phone {
+      position: static;
+      width: 100%;
+      margin: 15px 10px 15px 0;
+    }
+  }
+
+  .chatButton {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 26px;
+
+    background: #6f61d0;
+    color: #fff;
+    border-radius: 100px;
+
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #7061d0b2;
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+  }
 
   @media screen and (max-width: 650px) {
     padding: 20px 10px;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-  }
-
-  .info {
-    position: fixed;
-
-    @media screen and (max-width: 650px) {
-      position: relative;
-      width: 100%;
-    }
-  }
-
-  .courses {
-    position: relative;
-    margin-left: 315px;
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-    @media screen and (max-width: 768px) {
-      margin-left: 275px;
-    }
-
-    @media screen and (max-width: 650px) {
-      margin: 0;
-      width: 100%;
-    }
   }
 
   .postList {

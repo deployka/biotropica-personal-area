@@ -52,7 +52,7 @@ export const Input = (props: Props) => {
         {...inputProps}
         placeholder={props.placeholder}
       />
-      {props.label ? <Label active={false} value={props.label} /> : null }
+      {props.label && <Label active={props.value !== ''} value={props.label} />}
       {touched[props.name] && errors[props.name] && (
         <ErrorMessage message={errors[props.name] || ''} />
       )}

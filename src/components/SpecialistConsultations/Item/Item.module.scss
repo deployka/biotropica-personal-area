@@ -1,0 +1,75 @@
+@import "./../../../styles/mixins.scss";
+@import "./../../../styles/variables.scss";
+
+.tableRow {
+    position: relative;
+    box-shadow: $box-shadow;
+    background-color: white;
+
+    td:first-child {
+        @media screen and (max-width: 576px) {
+            padding-left: 10px;
+        }
+    }
+
+    td {
+        padding: 26px 17px;
+        text-align: left;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        color: $color-black;
+        width: 30%;
+        max-width: 30%;
+
+        @media screen and (max-width: 600px) {
+            font-size: 14px;
+        }
+
+        @media screen and (max-width: 576px) {
+            font-size: 12px;
+            line-height: 120%;
+            padding: 20px 0;
+            padding-right: 10px;
+            padding-left: 0;
+        }
+    }
+
+    .tableNoData {
+        color: #9895a7;
+    }
+
+    &:last-child {
+        border-radius: 15px;
+
+        @media screen and (max-width: 576px) {
+            border-radius: 0;
+        }
+    }
+
+    &.past {
+        td {
+            color: #9895a7;
+        }
+    }
+
+    .actionsWrapper {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+    }
+
+    .moreBtn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        transform: translateY(-50%);
+
+        transition: all 0.2s ease;
+        &.active {
+            transform: translateY(-50%) rotate(90deg);
+        }
+    }
+}

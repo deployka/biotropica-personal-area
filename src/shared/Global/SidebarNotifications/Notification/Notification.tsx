@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import s from './Notification.module.scss';
+import { Notification as INotification } from '../../../../@types/entities/Notification';
 
 interface Props {
   notification: INotification;

@@ -9,8 +9,8 @@ export const PublicRoute = ({ children, isAuth, ...rest }: Props) => {
       render={({ location }) =>
         !isAuth
           ? (
-            children
-          )
+              children
+            )
           : (
             <Redirect
               to={{
@@ -18,7 +18,7 @@ export const PublicRoute = ({ children, isAuth, ...rest }: Props) => {
                 state: { from: location },
               }}
             />
-          )
+            )
       }
     />
   );

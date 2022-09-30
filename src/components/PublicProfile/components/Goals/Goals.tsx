@@ -2,9 +2,9 @@ import React from 'react';
 import s from './Goals.module.scss';
 
 type Props = {
-  goalsLength: number;
+  goalsCount: number;
 };
 
-export const Goals = ({ goalsLength }: Props) => {
-  return <div className={s.goals}>Активных целей: {goalsLength}</div>;
+export const Goals = ({ goalsCount }: Props) => {
+  return <div className={s.goals}>Активных целей: {goalsCount}</div>;
 };
