@@ -27,7 +27,6 @@ interface Props {
   label?: string;
   name: string;
   value?: number;
-  type?: string;
   options?: {
     classes?: Classes;
     touched: FormikTouched<{ [key in string]: unknown }>;
@@ -61,6 +60,7 @@ export const NumberInput = ({ onChange, ...props }: Props) => {
         {...inputProps}
         onInput={handleInput}
         placeholder={props.placeholder}
+        inputMode="numeric"
       />
       {props.label && (
         <Label active={props.value !== undefined} value={props.label} />

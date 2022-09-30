@@ -118,7 +118,7 @@ export const GoalAddForm = ({
                   onBlur={handleBlur}
                   label="Желаемый результат"
                   name="endResult"
-                  value={values.endResult === 0 ? undefined : values.endResult}
+                  value={values.endResult || undefined}
                   options={{
                     touched,
                     errors,
@@ -132,10 +132,7 @@ export const GoalAddForm = ({
                   onBlur={handleBlur}
                   label="Текущий результат"
                   name="startResult"
-                  value={
-                    values.startResult === 0 ? undefined : values.startResult
-                  }
-                  type="text"
+                  value={values.startResult || undefined}
                   options={{
                     touched,
                     errors,
