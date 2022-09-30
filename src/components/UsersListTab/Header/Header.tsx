@@ -16,11 +16,13 @@ export const UsersListTabHeader = ({ usersCount, query, onChange }: Props) => {
         <h2>Пользователи</h2>
         <div className={s.count}>{usersCount}</div>
       </div>
-      <SearchInput
-        value={query}
-        onChange={onChange}
-        placeholder="Поиск пользователей"
-      />
+      <div className={s.searchInput}>
+        <SearchInput
+          value={query}
+          onChange={onChange}
+          placeholder="Поиск пользователей"
+        />
+      </div>
     </div>
   );
 };

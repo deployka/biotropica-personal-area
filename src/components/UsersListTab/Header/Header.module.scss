@@ -14,6 +14,14 @@
 
     box-shadow: inset 0px -1px 0px #e4e4e7;
 
+    .searchInput {
+        max-width: 220px;
+        width: 100%;
+        @include for-tablet {
+            max-width: unset;
+        }
+    }
+
     .title {
         display: flex;
         align-items: center;
