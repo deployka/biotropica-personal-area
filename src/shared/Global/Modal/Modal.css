@@ -11,7 +11,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  z-index: 40;
+  z-index: 999;
 }
 
 .modal-overlay .modal {
@@ -57,7 +57,7 @@
 
 @media screen and (max-width: 432px) {
   .modal-overlay .modal {
-    width: 90vw;
+    width: 100vw;
   }
 }
 

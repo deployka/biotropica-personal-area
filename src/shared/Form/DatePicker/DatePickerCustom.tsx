@@ -9,6 +9,7 @@ import { Label } from '../Label/Label';
 import { Locale } from 'date-fns';
 import { Classes } from '../Input/Input';
 import { FormikErrors, FormikTouched } from 'formik';
+import { ru } from 'date-fns/locale';
 
 interface Props {
   onChange: (date: Date) => void;
@@ -34,7 +35,8 @@ interface Props {
 
 export const DatePickerCustom = (props: Props) => {
   const { options, ...inputProps } = props;
-  const { touched, errors, yearDropdownItemNumber, customInput, label } = options;
+  const { touched, errors, yearDropdownItemNumber, customInput, label } =
+    options;
   return (
     <>
       <Label active={true} value={label} />
@@ -51,7 +53,10 @@ export const DatePickerCustom = (props: Props) => {
         onChange={props.onChange}
         yearDropdownItemNumber={yearDropdownItemNumber}
         scrollableYearDropdown
+        locale={ru}
         customInput={customInput}
+        calendarStartDay={1}
+        startOpen
       />
       {touched[props.name] && errors[props.name] && (
         <ErrorMessage message={errors[props.name] || ''} />

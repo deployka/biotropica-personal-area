@@ -49,7 +49,6 @@ export function TaskPreviewComments({
 
       <div className={s.commentsList}>
         {isLoading && <p className={s.loading}>Загрузка комментариев...</p>}
-        {!isLoading && comments.length === 0 && <p>Нет комментариев</p>}
         {!isLoading &&
           comments.length !== 0 &&
           comments.map(comment => (

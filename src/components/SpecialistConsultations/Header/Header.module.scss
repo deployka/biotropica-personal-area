@@ -36,6 +36,10 @@
         align-items: center;
         position: relative;
 
+        @include for-phone {
+            width: 100%;
+        }
+
         .searchIcon {
             position: absolute;
             left: 9px;
@@ -67,7 +71,7 @@
             border-radius: 100px;
 
             @media screen and (max-width: 576px) {
-                width: 256px;
+                width: 100%;
                 padding-left: 13px;
                 padding-top: 9px;
                 padding-bottom: 9px;

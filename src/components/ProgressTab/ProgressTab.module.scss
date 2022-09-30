@@ -12,6 +12,7 @@
 
   @include for-phone {
     max-height: unset;
+    width: 100%;
     row-gap: 10px;
   }
 }
@@ -20,7 +21,8 @@
   max-width: 200px;
   margin: 0 0 20px 0;
 
-  @include for-laptop {
+  @include for-tablet {
+    max-width: unset;
     margin: 0 0 15px 0;
     width: 100%;
   }
