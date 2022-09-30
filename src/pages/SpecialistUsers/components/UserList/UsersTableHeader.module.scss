@@ -1,5 +1,6 @@
 @import "../../../../styles/global";
 @import "../../../../styles/breakpoints";
+@import "../../../../styles/mixins.scss";
 
 .titleLine {
   padding: 0 16px;
@@ -28,6 +29,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+    }
+  }
+
+  .searchInput {
+    max-width: 220px;
+    width: 100%;
+    @include for-tablet {
+      max-width: unset;
     }
   }
 
