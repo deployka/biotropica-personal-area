@@ -143,7 +143,7 @@ export const EditProfileData = ({
                   <Input
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    placeholder="Фамилия"
+                    label="Фамилия"
                     name="lastname"
                     value={values.lastname}
                     type="text"
@@ -155,7 +155,7 @@ export const EditProfileData = ({
                   <Input
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    placeholder="Имя"
+                    label="Имя"
                     name="name"
                     value={values.name}
                     type="text"
@@ -168,7 +168,7 @@ export const EditProfileData = ({
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="Email"
+                  label="Email"
                   name="email"
                   value={values.email}
                   type="email"
@@ -180,7 +180,7 @@ export const EditProfileData = ({
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="Отчество"
+                  label="Отчество"
                   name="patronymic"
                   value={values.patronymic}
                   type="text"
@@ -224,7 +224,7 @@ export const EditProfileData = ({
                   onInput={onPhoneInput}
                   onPaste={onPhonePaste}
                   onBlur={handleBlur}
-                  placeholder="Телефон"
+                  label="Телефон"
                   name="phone"
                   value={values.phone}
                   type="phone"
