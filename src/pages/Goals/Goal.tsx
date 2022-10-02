@@ -66,7 +66,6 @@ export const Goal = ({
       type: NotificationType.INFO,
       autoClose: false,
       toastId: 'delete-notification',
-      theme: 'dark',
       onClose: () => {
         setVisibleDeleteNotification(false);
       },

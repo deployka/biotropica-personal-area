@@ -12,11 +12,8 @@ export const NotificationButtons = ({ onDiscard, onDelete }: Props) => {
       <Button
         style={{
           marginRight: '20px',
-          color: '#fff',
           marginBottom: '5px',
           marginTop: '5px',
-          border: '1px solid #fff',
-          background: 'none ',
         }}
         name="discard"
         onClick={onDelete}
@@ -31,8 +28,6 @@ export const NotificationButtons = ({ onDiscard, onDelete }: Props) => {
         style={{
           marginBottom: '5px',
           marginTop: '5px',
-          background: '#fff',
-          color: '#000',
         }}
         onClick={onDiscard}
         options={{
