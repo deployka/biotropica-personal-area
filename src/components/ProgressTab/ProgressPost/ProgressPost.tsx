@@ -20,13 +20,15 @@ export const ProgressPost = ({
 }: Props) => {
   const { photos, createdAt } = post;
 
+  const reversPhotos = [...photos].reverse();
+
   const fromNow = moment(new Date(createdAt), 'YYYYMMDD').fromNow();
   const formattedDate = moment(createdAt).format('Do MMMM YYYY г.');
 
   return (
     <div className={s.card}>
       <div className={s.imagesWrapper}>
-        {photos.map((image, i: number) => (
+        {reversPhotos.map((image, i: number) => (
           <div key={image.filename} className={s.img}>
             <img
               onClick={() => onClickPhoto(post, i)}
