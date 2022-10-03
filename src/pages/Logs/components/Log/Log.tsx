@@ -5,29 +5,28 @@ import { format } from 'date-fns';
 import { UserEvent } from '../../../../@types/entities/UserEvent';
 interface Props {
   log: UserEvent;
+  onClickUser?: () => void;
 }
 
-export const Log = ({ log }: Props) => {
+export const Log = ({ log, onClickUser }: Props) => {
   const datetime = new Date(log.createdAt);
   const date = format(datetime, 'dd.MM.yyyy');
   const time = format(datetime, 'HH:mm');
   const userName = log.user?.name + ' ' + log.user?.lastname;
 
   return (
-    <tr className={s.log}>
-      <td className={s.info}>
+    <div className={s.log}>
+      <div className={s.info}>
         <div className={s.date}>
-          <p>
-            {date} {time}
-          </p>
+          {date} {time}
         </div>
-      </td>
-      <td className={s.user}>
+      </div>
+      <div className={s.user} onClick={onClickUser}>
         <p>{userName}</p>
-      </td>
-      <td className={s.action}>
+      </div>
+      <div className={s.action}>
         <p>{log.description}</p>
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 };

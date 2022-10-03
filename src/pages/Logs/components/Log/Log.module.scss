@@ -1,7 +1,21 @@
-@import "./../../../../styles/global.scss";
+@import "./../../../../styles/mixins.scss";
 
 .log {
-    margin: 0 0 15px 0;
+    width: 100%;
+    padding: 10px 0;
+
+    display: flex;
+    column-gap: 10px;
+
+    font-size: 15px;
+
+    @include for-tablet {
+        flex-direction: column;
+        row-gap: 5px;
+
+        border-bottom: 1px solid rgb(115, 111, 139, 0.5);
+    }
+
     .info {
         margin: 0 10px 0 0;
         display: flex;
@@ -9,31 +23,15 @@
         justify-content: space-between;
     }
 
-    .date,
-    .time {
-        p {
-            color: #323232;
-            font-size: 15px;
+    .user {
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
         }
     }
 
     .date {
-        margin: 0 10px 0 0;
-        p {
-            font-size: 15px;
-        }
-    }
-
-    .user {
-        margin: 0 10px 0 0;
-        p {
-            font-size: 15px;
-        }
-    }
-
-    .action {
-        p {
-            font-size: 15px;
-        }
+        color: #736f8b;
     }
 }

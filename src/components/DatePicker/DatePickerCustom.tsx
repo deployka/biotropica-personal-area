@@ -3,11 +3,12 @@ import { useField } from 'formik';
 import classNames from 'classnames';
 import DatePicker from 'react-datepicker';
 
-import s from './DatePickerCustom.module.scss';
-
 import Label from '../Label/Label';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import MaskedInput from 'react-maskedinput';
+import { ru } from 'date-fns/locale';
+
+import s from './DatePickerCustom.module.scss';
 
 export interface Props {
   name: string;
@@ -61,7 +62,6 @@ const DatePickerCustom = (props: Props) => {
           [s.error__input]: isError,
         })}
         {...inputProps}
-        locale={'ru'}
         showYearDropdown
         showMonthDropdown
         scrollableYearDropdown
@@ -74,6 +74,7 @@ const DatePickerCustom = (props: Props) => {
         onBlur={e => onBlur(e)}
         onSelect={(date: Date) => onChange(getDateByUTC(date))}
         onChange={(date: Date) => onChange(getDateByUTC(date))}
+        calendarStartDay={1}
       />
       {meta.touched && meta.error && <ErrorMessage message={meta.error} />}
     </>

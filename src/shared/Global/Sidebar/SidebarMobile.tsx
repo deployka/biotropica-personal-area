@@ -38,57 +38,63 @@ export const SidebarMobile = memo(
     return (
       <div className={s.sidebar}>
         <div className={s.wrapper}>
-          <div
-            className={s.menu}
-            onClick={() =>
-              openModal(ModalName.MODAL_SIDEBAR_MENU, {
-                nav,
-                onNavClick,
-                openChat,
-                logout,
-                user,
-                pages,
-                location,
-              })
-            }
-          >
-            <div className="icon">
-              <SidebarSvgSelector id="menu" />
+          <div className={s.left}>
+            <div
+              className={s.menu}
+              onClick={() =>
+                openModal(ModalName.MODAL_SIDEBAR_MENU, {
+                  nav,
+                  onNavClick,
+                  openChat,
+                  logout,
+                  user,
+                  pages,
+                  location,
+                })
+              }
+            >
+              <div className="icon">
+                <SidebarSvgSelector id="menu" />
+              </div>
+              <p>Меню</p>
             </div>
-            <p>Меню</p>
           </div>
 
-          <Link
-            key={nav[0].page}
-            onClick={() => onNavClick(nav[0])}
-            to={nav[0].link}
-            className={classNames(
-              s.homeLink,
-              nav[0].link === '/' + location.pathname.split('/')[1]
-                ? s.active
-                : '',
-            )}
-          >
-            <div className={s.icon}>{nav[0].svg}</div>
-          </Link>
+          <div className={s.center}>
+            <Link
+              key={nav[0].page}
+              onClick={() => onNavClick(nav[0])}
+              to={nav[0].link}
+              className={classNames(
+                s.homeLink,
+                nav[0].link === '/' + location.pathname.split('/')[1]
+                  ? s.active
+                  : '',
+              )}
+            >
+              <div className={s.icon}>{nav[0].svg}</div>
+            </Link>
+          </div>
 
-          <div
-            className={s.chatButton}
-            onClick={() => {
-              openModal(ModalName.MODAL_NOTIFICATIONS_MENU, {
-                setSidebarChatOpen: setSidebarChatOpen,
-                setSidebarNotificationsOpen: setSidebarNotificationsOpen,
-                onNavClick,
-                pages,
-                user,
-                location,
-              });
-            }}
-          >
-            <div className={s.icon}>
-              <SidebarSvgSelector id="chat" />
+          <div className={s.right}>
+            <div
+              className={s.chatButton}
+              onClick={() => {
+                openModal(ModalName.MODAL_NOTIFICATIONS_MENU, {
+                  setSidebarChatOpen: setSidebarChatOpen,
+                  setSidebarNotificationsOpen: setSidebarNotificationsOpen,
+                  onNavClick,
+                  pages,
+                  user,
+                  location,
+                });
+              }}
+            >
+              <div className={s.icon}>
+                <SidebarSvgSelector id="chat" />
+              </div>
+              <p>Входящие</p>
             </div>
-            <p>Входящие</p>
           </div>
         </div>
       </div>
