@@ -35,8 +35,10 @@ import { selectIsAdmin, selectIsDoctor } from '../../store/slices/authSlice';
 import { useCurrentUserQuery } from '../../api/user';
 
 import { Tabs } from '../../components/Tabs/Tabs';
-import { TasksModal } from '../../components/Task/Modal/Modal';
+
 import { tasksNotifications } from './tasksNotifications';
+import { triggerNotification } from '../../utils/notifications';
+import { TasksModal } from '../../components/Task/Modal/Modal';
 
 export function Tasks() {
   const { data: currentUser } = useCurrentUserQuery();
@@ -60,7 +62,7 @@ export function Tasks() {
 
   const [isTypeSelectModalOpened, setIsTypeSelectModalOpened] = useState(false);
 
-  const [openedTaskId, setOpenedTaskId] = useState<string>('');
+  const [openedTaskId, setOpenedTaskId] = useState<string | null>(null);
 
   const [openedTask, setOpenedTask] = useState<
     CreateSomeTask | SomeTask | null
@@ -85,7 +87,7 @@ export function Tasks() {
 
   const { data: comments = [], isFetching: isCommentsLoading } =
     useGetTaskCommentsQuery(
-      { taskId: openedTaskId },
+      { taskId: openedTaskId || '' },
       {
         skip: !openedTaskId,
       },
@@ -94,10 +96,10 @@ export function Tasks() {
   useEffect(() => {
     if (!openedTask || !comments.length) return;
     setOpenedTask({ ...openedTask, comments });
-  }, [comments, setOpenedTask]);
+  }, [comments, openedTask, setOpenedTask]);
 
   function handleCloseTask() {
-    setOpenedTaskId('');
+    setOpenedTaskId(null);
     setOpenedTask(null);
     setIsTaskModalOpen(false);
     setTaskModalMode('view');
@@ -123,6 +125,7 @@ export function Tasks() {
   }
 
   async function onDelete() {
+    if (!openedTaskId) return;
     try {
       eventBus.emit(EventTypes.removeNotification, 'delete-notification');
       await deleteTask(openedTaskId);
@@ -138,11 +141,9 @@ export function Tasks() {
       });
     }
   }
-
   function onDiscard() {
     eventBus.emit(EventTypes.removeNotification, 'delete-notification');
   }
-
   async function handleCreateTemplate() {
     if (!openedTask) return;
 
@@ -163,7 +164,6 @@ export function Tasks() {
 
     handleCloseTask();
   }
-
   async function handleDeleteTask() {
     eventBus.emit(EventTypes.notification, {
       type: NotificationType.WARNING,
@@ -176,8 +176,16 @@ export function Tasks() {
     });
   }
   async function handleSendComment(commentText: string) {
-    // TODO: добавить обработку ошибок
-    await addComment({ taskId: openedTaskId, commentText }).unwrap();
+    if (!openedTaskId) return;
+    try {
+      await addComment({ taskId: openedTaskId, commentText }).unwrap();
+      triggerNotification('Комментарий отправлен', NotificationType.SUCCESS);
+    } catch (error) {
+      triggerNotification(
+        'Ошибка создания комментария',
+        NotificationType.DANGER,
+      );
+    }
   }
   function handelTaskClick(taskId: string) {
     setOpenedTaskId(taskId);
@@ -217,12 +225,15 @@ export function Tasks() {
     dispatch(setCurrentMonth(month));
   }
   async function handleSaveFirstFactValue(value: number | undefined) {
+    if (!openedTaskId) return;
     await updateTask({ id: openedTaskId, firstFactValue: value });
   }
   async function handleSaveSecondFactValue(value: number | undefined) {
+    if (!openedTaskId) return;
     await updateTask({ id: openedTaskId, secondFactValue: value });
   }
   async function handleSaveFactValue(value: number) {
+    if (!openedTaskId) return;
     await updateTask({ id: openedTaskId, factValue: value });
   }
   async function handleDeleteTemplate(templateId: string) {
@@ -303,7 +314,7 @@ export function Tasks() {
         isSpecialist={isSpecialist}
         isLoading={isUpdateLoading || isCreateLoading}
         task={openedTask}
-        taskId={openedTaskId}
+        taskId={openedTaskId || ''}
         mode={taskModalMode}
         isOpened={isTaskModalOpen}
         onClose={handleCloseTask}
