@@ -1,0 +1,25 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+
+.analyzesTypes {
+    margin: 0 0 20px 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    row-gap: 5px;
+
+    .text {
+        p {
+            color: $color-secondary;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 130%;
+        }
+
+        .answer {
+            color: #9e97be;
+        }
+    }
+}

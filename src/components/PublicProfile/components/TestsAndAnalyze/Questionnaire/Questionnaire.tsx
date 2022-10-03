@@ -1,4 +1,5 @@
 import React from 'react';
+import { Answer } from '../../../../../@types/entities/Answer';
 import s from './Questionnaire.module.scss';
 
 interface Props {

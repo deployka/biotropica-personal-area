@@ -1,4 +1,4 @@
-import { Specialization } from '../store/ducks/specialist/contracts/state';
+import { Specialization } from '../@types/entities/Specialization';
 
 export function formatSpecializationsToString(
   specializations: Specialization[],

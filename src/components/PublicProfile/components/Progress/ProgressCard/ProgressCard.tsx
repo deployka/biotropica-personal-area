@@ -3,15 +3,15 @@ import moment from 'moment';
 import { useModal } from '../../../../../hooks/useModal';
 import { ModalName } from '../../../../../providers/ModalProvider';
 import {
-  Photo,
   Progress,
-} from '../../../../../store/ducks/progress/contracts/state';
+  ProgressPhoto,
+} from '../../../../../@types/entities/Progress';
+
 import s from './ProgressCard.module.scss';
 
 interface Props {
   card: Progress;
 }
-
 interface CreatedAtProps {
   createdAt: Date;
 }
@@ -28,13 +28,15 @@ export function CreatedAt({ createdAt }: CreatedAtProps) {
 export const ProgressCard = ({ card }: Props) => {
   const { openModal } = useModal();
 
-  const photos: Photo[] = card.photos;
+  const photos: ProgressPhoto[] = card.photos;
+
+  const createdAtDate = new Date(card.createdAt);
 
   function onImgClick(i: number) {
     return () => {
       openModal(ModalName.MODAL_PROGRESS_PHOTO_SLIDER, {
         photos,
-        createdAt: card.createdAt,
+        createdAt: createdAtDate,
         i,
       });
     };
@@ -43,7 +45,7 @@ export const ProgressCard = ({ card }: Props) => {
   return (
     <div className={s.card}>
       <div className={s.imagesWrapper}>
-        {card.photos.map((image: Photo, i: number) => (
+        {card.photos.map((image: ProgressPhoto, i: number) => (
           <div key={image.filename} className={s.img}>
             <img
               onClick={onImgClick(i)}
@@ -53,7 +55,7 @@ export const ProgressCard = ({ card }: Props) => {
         ))}
       </div>
       <div className={s.date}>
-        <CreatedAt createdAt={card.createdAt} />
+        <CreatedAt createdAt={createdAtDate} />
       </div>
     </div>
   );

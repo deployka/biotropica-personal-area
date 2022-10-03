@@ -1,6 +1,7 @@
 import classNames from 'classnames';
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { Link } from 'react-router-dom';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
 import { HeaderSvgSelector } from '../../../../assets/icons/header/HeaderSvgSelector';
 import { useModal } from '../../../../hooks/useModal';
 import { Nav, Page } from '../../../../layouts/PrivateLayout';
@@ -15,7 +16,7 @@ interface Props {
   setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
   setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
   onNavClick: (nav: Partial<Nav>) => void;
-  user: User | undefined;
+  user: BaseUser | undefined;
   pages: Page[];
   location: Location;
 }

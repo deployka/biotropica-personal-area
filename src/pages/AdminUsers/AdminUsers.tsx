@@ -1,73 +1,152 @@
-import { CreateUserModal } from './components/CreateUserModal/CreateUserModal';
 import React, { useState } from 'react';
-import { BlockUserConfirmModal } from './components/BlockUserConfirmModal';
-import { UserList } from './components/UserList/UserList';
+
 import { eventBus, EventTypes } from '../../services/EventBus';
 import {
-  useBlockUserMutation,
-  useCreateUserMutation,
+  useBanUserMutation,
   useGetAllUsersQuery,
-} from '../../store/rtk/requests/user';
-import ChatService from '../../services/ChatService';
-import { useGetAllRolesQuery } from '../../store/rtk/requests/roles';
-import { User } from '../../store/rtk/types/user';
+  useUnbanUserMutation,
+} from '../../api/user';
+
+import { useGetAllRolesQuery } from '../../api/roles';
+import { BaseUser } from '../../@types/entities/BaseUser';
+import { useCreateDialogMutation } from '../../api/chat';
+import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
+import { ResponseError } from '../../@types/api/response';
+import { AdminUsersList } from '../../components/AdminUsers/List/List';
+import { CreateUserModal } from '../../components/AdminUsers/CreateModal/CreateModal';
+import { BanStatusModal } from '../../components/AdminUsers/BanStatusModal/BanStatusModal';
+import { useSignUpMutation } from '../../api/auth';
+import { CreateUserDto } from '../../@types/dto/users/create-user.dto';
+import { useHistory } from 'react-router';
+import { useGetAllTariffsQuery } from '../../api/tariffs';
+import {
+  errorBanNotification,
+  errorCreateUserNotification,
+  errorUnbanNotification,
+  successBanNotification,
+  successCreateUserNotification,
+  successUnbanNotification,
+} from './adminUsersNotifications';
+import { getRoleKeyByName } from '../../utils/getRoleKey';
 
 export function AdminUsers() {
+  const history = useHistory();
   const [popup, setPopup] = useState<boolean>(false);
-  const [blockUserModalOpened, setBlockUserModalOpened] =
-    useState<boolean>(false);
-  const [userToBlock, setUserToBlock] = useState<User | null>(null);
-  const [createUser] = useCreateUserMutation();
-  const [blockUser] = useBlockUserMutation();
+  const [blockUserModalMode, setBlockUserModalMode] = useState<
+    'block' | 'unblock' | null
+  >(null);
+  const [blockedUserId, setBlockedUserId] = useState<number | null>(null);
+  const [signUp, { isLoading: isCreateUserLoading }] = useSignUpMutation();
+  const [banUser] = useBanUserMutation();
+  const [unbanUser] = useUnbanUserMutation();
+  const [createDialog] = useCreateDialogMutation();
+  const { data: tariffs = [] } = useGetAllTariffsQuery();
 
-  const { data: users } = useGetAllUsersQuery();
+  const { data: users } = useGetAllUsersQuery({});
   const { data: roles } = useGetAllRolesQuery();
 
-  function askBlockUser(user: User) {
-    setUserToBlock(user);
-    setBlockUserModalOpened(true);
+  const moveToProfile = (user: BaseUser) => {
+    const specialistId = user.specialist?.id;
+    if (specialistId) {
+      history.push(`/specialists/${specialistId}`);
+    } else {
+      history.push(`/users/${user.id}`);
+    }
+  };
+
+  const toggleUserBanStatus = (id: number) => {
+    const user = users?.find(it => it.id === id);
+    if (!user) return;
+
+    setBlockUserModalMode(user.banned ? 'unblock' : 'block');
+    setBlockedUserId(id);
+  };
+
+  async function writeUser(userId: number) {
+    try {
+      const dialog = await createDialog({
+        userId,
+        title: 'Техподдержка',
+        isAccess: true,
+      }).unwrap();
+      eventBus.emit(EventTypes.chatOpen, dialog.id);
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        title: 'Произошла ошибка!',
+        message: (error as ResponseError).data.message,
+        type: NotificationType.DANGER,
+      });
+    }
   }
 
-  async function writeUser(user: User) {
-    const { data: dialog } = await ChatService.createDialog(
-      user.id as number,
-      'Техподдержка',
-    );
-    eventBus.emit(EventTypes.chatOpen, dialog.id);
-  }
-
-  async function createUserHandler(user: User) {
-    await createUser(user);
+  const handleCreateUser = async (user: CreateUserDto) => {
+    try {
+      const role = getRoleKeyByName(user.roles[0]);
+      await signUp({ ...user, role: role || '' }).unwrap();
+      successCreateUserNotification();
+    } catch (error) {
+      console.error(error);
+      errorCreateUserNotification(error as ResponseError);
+    }
     setPopup(false);
-  }
+  };
 
-  async function handleBlockUser() {
-    if (!userToBlock?.id) {
+  const handleBlockUser = async (banReason: string) => {
+    if (!blockedUserId) {
       return;
     }
-    await blockUser(userToBlock.id);
-    setBlockUserModalOpened(false);
-  }
+
+    try {
+      await banUser({ id: blockedUserId, banReason }).unwrap();
+      successBanNotification();
+      setBlockUserModalMode(null);
+      setBlockedUserId(null);
+    } catch (error) {
+      console.log(error);
+      errorBanNotification();
+    }
+  };
+
+  const handleUnblockUser = async () => {
+    if (!blockedUserId) {
+      return;
+    }
+
+    try {
+      await unbanUser({ id: blockedUserId }).unwrap();
+      successUnbanNotification();
+      setBlockUserModalMode(null);
+      setBlockedUserId(null);
+    } catch (error) {
+      console.log(error);
+      errorUnbanNotification();
+    }
+  };
 
   return (
     <div>
       <CreateUserModal
+        isLoading={isCreateUserLoading}
         popup={popup}
         setPopup={setPopup}
         roles={roles || []}
-        onUserCreate={createUserHandler}
+        onUserCreate={handleCreateUser}
       />
-      <BlockUserConfirmModal
-        opened={blockUserModalOpened}
-        onDisagreed={() => setBlockUserModalOpened(false)}
-        onAgreed={handleBlockUser}
+      <BanStatusModal
+        isOpened={!!blockUserModalMode}
+        type={blockUserModalMode}
+        onReject={() => setBlockUserModalMode(null)}
+        onBlock={handleBlockUser}
+        onUnblock={handleUnblockUser}
       />
       {users ? (
-        <UserList
+        <AdminUsersList
           users={users}
+          tariffs={tariffs}
+          onProfile={moveToProfile}
           onCreateUser={() => setPopup(true)}
-          onWriteUser={(user: User) => writeUser(user)}
-          onBlockUser={(user: User) => askBlockUser(user)}
+          onWriteUser={writeUser}
+          onToggleUserBanStatus={toggleUserBanStatus}
         />
       ) : (
         ''

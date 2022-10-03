@@ -1,57 +1,57 @@
-import React, { useState } from 'react';
-
-import s from '../../Users.module.scss';
-import {
-  filterUsersByQuery,
-  filterUsersByRoles,
-  filterUsersByTariffs,
-} from '../../helpers/usersHelper';
+import React, { useEffect, useState } from 'react';
 import { UsersTableHeader } from './UsersTableHeader';
 import { UsersTable } from './UsersTable';
-import { TARIFF, User } from '../../../../store/rtk/types/user';
-import { ROLE } from '../../../../store/@types/User';
+import { BaseUser } from '../../../../@types/entities/BaseUser';
+import { Filter } from '../../../../components/Filter/Filter';
+import { filterUsersByQuery, usersFilters } from './usersHelper';
+
+import s from '../../Users.module.scss';
 
 type Props = {
-  users: User[];
+  users: BaseUser[];
+  setIsWaitingUsersList: (isWaiting: boolean) => void;
 };
 
 type Filters = {
-  roles: (ROLE | undefined)[];
-  tariff: (TARIFF | undefined)[];
+  waitingForRecommendation: string[];
+  ward: string[];
 };
 
-export function UserList({ users }: Props) {
-  const [filterOpened, setFilterOpened] = useState<boolean>(false);
+export function UserList({ users, setIsWaitingUsersList }: Props) {
+  const [isFilterOpened, setIsFilterOpened] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const [filters, setFilters] = useState<Filters>({
-    roles: [undefined],
-    tariff: [undefined],
+    waitingForRecommendation: ['no'],
+    ward: ['all'],
   });
 
   let filteredUsers = users;
-  if (filters.roles.length) {
-    filteredUsers = filterUsersByRoles(filteredUsers, filters.roles);
-  }
-
-  if (filters.tariff.length) {
-    filteredUsers = filterUsersByTariffs(filteredUsers, filters.tariff);
-  }
 
   if (query) {
     filteredUsers = filterUsersByQuery(filteredUsers, query);
   }
 
-  const [checked, setChecked] = useState(false);
+  useEffect(() => {
+    const isWaitingUsersList = filters.waitingForRecommendation[0] === 'yes';
+    setIsWaitingUsersList(isWaitingUsersList);
+  }, [filters.waitingForRecommendation]);
 
   return (
     <div className={s.adminPanel}>
-      <div className={`${s.listPanel} ${filterOpened ? '' : s.full}`}>
+      <Filter
+        isHidden={!isFilterOpened}
+        onClose={() => {
+          setIsFilterOpened(false);
+        }}
+        filters={usersFilters}
+        selectedFilters={filters}
+        onChange={(filters: Filters) => setFilters(filters)}
+      />
+      <div className={`${s.listPanel} ${isFilterOpened ? '' : s.full}`}>
         <UsersTableHeader
-          checked={checked}
-          onChecked={setChecked}
           userLength={filteredUsers.length}
-          onFilterBtnClick={() => setFilterOpened(!filterOpened)}
-          filterOpened={filterOpened}
+          onFilterBtnClick={() => setIsFilterOpened(!isFilterOpened)}
+          isFiltersOpen={isFilterOpened}
           query={query}
           onSearch={setQuery}
         />

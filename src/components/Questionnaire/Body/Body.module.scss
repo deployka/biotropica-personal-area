@@ -1,0 +1,10 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+
+.questionnaire {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

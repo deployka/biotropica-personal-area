@@ -1,0 +1,67 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+
+.header {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    position: sticky;
+    padding: 30px 0 20px 0;
+    opacity: 0.7;
+    top: 0px;
+    background: #fff;
+
+    .title {
+        p {
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 120%;
+
+            color: $color-black;
+        }
+    }
+
+    .updateBtn {
+        padding: 0 0 2px 0;
+
+        @include for-phone {
+            border: none;
+        }
+
+        p {
+            border-bottom: 1px solid $color-primary;
+            margin: 0;
+        }
+
+        a {
+            .icon {
+                margin-right: 5px;
+                width: 20px;
+                height: 20px;
+                margin-top: 4px;
+            }
+            font-size: 16px;
+            line-height: 120%;
+            text-decoration: none;
+            color: $color-primary;
+            display: flex;
+            align-items: center;
+            @include for-phone {
+                .text {
+                    display: none;
+                }
+                .icon {
+                    display: block;
+
+                    img {
+                        width: 24px;
+                        height: 24px;
+                    }
+                }
+            }
+        }
+    }
+}

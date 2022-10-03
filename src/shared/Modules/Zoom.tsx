@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import s from './Zoom.module.scss';
 import { AppModule } from './AppModule';
 
 export type ZoomProps = {

@@ -19,7 +19,7 @@ const listeners: Record<EventTypes, EventListenerCallback<EventTypes>[]> = {
   [EventTypes.removeNotification]: [],
 };
 type EventListenerCallback<T extends EventTypes> = (
-  payload: EventArguments[T]
+  payload: EventArguments[T],
 ) => void;
 
 class EventBus {
@@ -39,6 +39,8 @@ class EventBus {
     if (index === -1) {
       return;
     }
+
+    console.log('off');
 
     this.listeners[key].splice(index, 1);
   }

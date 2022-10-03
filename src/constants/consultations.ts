@@ -1,1 +1,0 @@
-export const FREE_CONSULTATIONS_COUNT = 3;

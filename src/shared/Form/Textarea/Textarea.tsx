@@ -47,9 +47,9 @@ export const Textarea = (props: Props) => {
           [s.error__textarea]: touched[props.name] && errors[props.name],
         })}
         {...inputProps}
-        placeholder={props.placeholder}
+        placeholder={undefined}
       />
-      {props.placeholder ? <Label active={false} value={props.placeholder} /> : null}
+      {props.placeholder && <Label active={false} value={props.placeholder} />}
       {touched[props.name] && errors[props.name] && (
         <ErrorMessage message={errors[props.name] || ''} />
       )}

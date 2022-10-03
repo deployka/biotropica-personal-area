@@ -1,0 +1,126 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+
+.content {
+  position: relative;
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  @include for-laptop {
+    position: static;
+  }
+
+  @include for-phone {
+    position: relative;
+
+    margin: 0;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .moveToTasks {
+    width: 100%;
+
+    button {
+      width: 100%;
+      height: 44px;
+    }
+
+    @include for-phone {
+      margin: 13px 0 0 0;
+    }
+  }
+
+  .content {
+    width: calc(100% - 310px);
+
+    @include for-tablet {
+      width: calc(100% - 274px);
+    }
+
+    @include for-phone {
+      width: 100%;
+    }
+  }
+
+  .tabs__container {
+    margin: 0 0 30px 0;
+
+    @include for-laptop {
+      width: calc(100vw - 110px);
+    }
+
+    @include for-phone {
+      width: 100%;
+      margin: 15px 10px 15px 0;
+    }
+  }
+
+  .info {
+    padding: 0 0 30px 0;
+    width: 280px;
+
+    @include for-tablet {
+      width: 244px;
+    }
+
+    @include for-phone {
+      padding: 0;
+      width: 100%;
+      height: unset;
+    }
+  }
+
+  .userInfo {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @include for-phone {
+      margin: 0 0 10px 0;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+}
+
+.edit {
+  background: #fff;
+}
+
+.horizontalScroll {
+  @include for-tablet {
+    position: relative;
+    padding: 0 10px;
+    left: -10px;
+
+    width: calc(100% - 30px);
+    overflow-x: scroll;
+    overflow-y: visible;
+
+    &::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  @include for-phone {
+    width: 100%;
+  }
+}
+
+.lock {
+  width: 15px;
+}

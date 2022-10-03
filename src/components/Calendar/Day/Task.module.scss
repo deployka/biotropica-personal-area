@@ -1,0 +1,96 @@
+@import "./../../../styles/mixins.scss";
+
+.task {
+    margin: 12px 0 0 0;
+    display: flex;
+    align-items: flex-start;
+
+    @include for-tablet {
+        margin: 0 0 12px 0;
+        &:last-child {
+            margin: 0;
+        }
+    }
+
+    cursor: pointer;
+
+    &.old {
+        opacity: 0.5;
+    }
+
+    .type {
+        margin: 0 8px 0 0;
+
+        height: 16px;
+
+        display: flex;
+        align-items: center;
+
+        .dot {
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            &.event {
+                background: #00ccb3;
+            }
+
+            &.training {
+                background-color: #3b82f6;
+            }
+
+            &.competition {
+                background: #f6963b;
+            }
+        }
+    }
+
+    .info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .time {
+        margin: 0 0 5px 0;
+        p {
+            margin: 0;
+
+            font-family: "Roboto", sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 16px;
+
+            color: #9e97be;
+        }
+    }
+
+    .title {
+        display: flex;
+
+        margin: 0;
+
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 16px;
+        color: #1e174d;
+
+        &.inProgress {
+            color: #1e174d;
+        }
+
+        &.completed {
+            color: #00915d;
+        }
+
+        &.failed {
+            color: #d06361;
+        }
+
+        &.nearly {
+            color: #bfb81c;
+        }
+    }
+}

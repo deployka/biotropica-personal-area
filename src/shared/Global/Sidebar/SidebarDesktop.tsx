@@ -7,6 +7,7 @@ import { Avatar } from './components/Avatar';
 import { NavItem } from './components/NavItem';
 import { SupportChatBtn } from './components/SupportChatBtn';
 import { LogoutBtn } from './components/LogoutBtn';
+import { BaseUser } from '../../../@types/entities/BaseUser';
 
 interface Props {
   onNavClick: (nav: Partial<Nav>) => void;
@@ -15,7 +16,8 @@ interface Props {
   openChat: () => void;
   logout: () => void;
   nav: Nav[];
-  user: User | undefined;
+  user: BaseUser | undefined;
+  isPaid: boolean;
 }
 
 export const SidebarDesktop = memo(
@@ -27,6 +29,7 @@ export const SidebarDesktop = memo(
     openChat,
     logout,
     user,
+    isPaid,
   }: Props) => {
     const [selected, setSelected] = useState<string>(defaultSelected);
 
@@ -49,6 +52,7 @@ export const SidebarDesktop = memo(
         <div className={s.wrapper}>
           <div className={s.top}>
             <Avatar
+              isPaid={isPaid}
               avatar={user?.profilePhoto || ''}
               isActive={isSelectedItem('profile')}
               onClick={handleItemClick({ link: 'profile', page: 'Профиль' })}

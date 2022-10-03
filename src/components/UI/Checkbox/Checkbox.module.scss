@@ -1,0 +1,49 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+@import "../../../styles/breakpoints";
+
+.checkbox {
+    margin: 0 0 14px 0;
+    display: flex;
+    align-items: center;
+
+    &:last-child {
+        margin: 0;
+    }
+
+    input[type="checkbox"] {
+        display: none;
+
+        &:checked + label .checkboxSquere {
+            background-color: #9e97be;
+        }
+    }
+
+    label {
+        display: flex;
+        align-items: center;
+
+        user-select: none;
+
+        .checkboxSquere {
+            margin: 0 10px 0 0;
+            width: 20px;
+            height: 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 5px;
+
+            border: 1px solid #9e97be;
+        }
+
+        p {
+            font-size: 14px;
+            font-weight: 400;
+
+            color: $color-black;
+        }
+    }
+}

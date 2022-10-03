@@ -1,0 +1,54 @@
+@import "../../../styles/variables.scss";
+
+.wrapper {
+  position: relative;
+
+  .actionSelect {
+    position: absolute;
+    right: 50px;
+    top: 20px;
+    width: 100%;
+    min-width: 150px;
+
+    background: #ffffff;
+    box-shadow: 0px 0px 40px rgba(111, 97, 208, 0.11);
+
+    border-radius: 5px;
+    overflow: hidden;
+
+    z-index: 10;
+
+    transition: all 0.3s ease;
+
+    cursor: pointer;
+
+    .action {
+      padding: 10px 20px;
+
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      user-select: none;
+
+      color: $color-black;
+      font-weight: 400;
+      font-size: 16px;
+
+      &.red {
+        color: #d06361;
+      }
+
+      &:hover {
+        background-color: $color-divider;
+        color: $color-primary;
+
+        &.red {
+          color: #d06361;
+          background-color: $color-divider;
+        }
+      }
+    }
+  }
+}

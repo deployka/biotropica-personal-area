@@ -1,61 +1,44 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { FormikHelpers } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useQuery } from '../../../hooks/useQuery';
 import { eventBus, EventTypes } from '../../../services/EventBus';
-import { fetchCreatePassword } from '../../../store/ducks/user/actionCreators';
-import { RestorePasswordData } from '../../../store/ducks/user/contracts/state';
 
-import {
-  selectUserLoadingStatus,
-  selectUserResponse,
-} from '../../../store/ducks/user/selectors';
-import { LoadingStatus } from '../../../store/types';
 import { RestoreForm, Type } from '../components/RestoreForm/RestoreForm';
 import { validationSchema } from '../components/RestoreForm/validationSchema';
 import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
+import { RestorePasswordDto } from '../../../@types/dto/auth/restore-password.dto';
+import { useCreatePasswordMutation } from '../../../api/auth';
+import { ResponseError } from '../../../@types/api/response';
 
 const CreatePassword = () => {
-  const dispatch = useDispatch();
-  const response = useSelector(selectUserResponse);
   const history = useHistory();
   const query = useQuery();
 
-  const loadingStatus = useSelector(selectUserLoadingStatus);
-  const loader = loadingStatus === LoadingStatus.LOADING;
-
   const token = query.get('token') || '';
-  const refResetForm = useRef<(() => void) | null>(null);
 
-  useEffect(() => {
-    switch (loadingStatus) {
-      case LoadingStatus.ERROR:
-        if (!refResetForm.current) return;
-        refResetForm.current();
-        history.push('/signin');
-        break;
-      case LoadingStatus.SUCCESS:
-        eventBus.emit(EventTypes.notification, {
-          title: 'Успешно!',
-          message: response?.message || 'Успешно!',
-          type: NotificationType.SUCCESS,
-        });
-        history.push('/signin');
-        break;
-      default:
-        break;
-    }
-  }, [history, loadingStatus]);
+  const [createPassword, { isLoading }] = useCreatePasswordMutation();
 
   async function onSubmit(
-    values: RestorePasswordData,
-    options: FormikHelpers<RestorePasswordData>,
+    values: RestorePasswordDto,
+    options: FormikHelpers<RestorePasswordDto>,
   ) {
-    refResetForm.current = options.resetForm;
     try {
-      dispatch(fetchCreatePassword(values));
-    } catch (error) {}
+      await createPassword(values).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        message: 'Пароль успешно создан!',
+        type: NotificationType.SUCCESS,
+      });
+      history.push('/signin');
+    } catch (error) {
+      eventBus.emit(EventTypes.notification, {
+        title: 'Произошла ошибка!',
+        message: (error as ResponseError).data.message,
+        type: NotificationType.DANGER,
+      });
+    } finally {
+      options.resetForm();
+    }
   }
 
   return (
@@ -64,7 +47,7 @@ const CreatePassword = () => {
         token={token}
         type={Type.CREATE}
         onSubmit={onSubmit}
-        loader={loader}
+        loader={isLoading}
         validationSchema={validationSchema}
       />
     </div>

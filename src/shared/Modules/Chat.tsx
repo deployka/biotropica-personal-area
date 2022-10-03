@@ -1,12 +1,14 @@
 import React, { Suspense } from 'react';
+import { BaseUser } from '../../@types/entities/BaseUser';
 
 const ChatApp: React.FC<{
   isOpened: boolean;
   isAuth: boolean;
   token: string;
-  currentUser: ChatUser;
+  currentUser: BaseUser;
   isUnread: boolean;
   activeDialogId?: number;
+  accesses: string[];
 
   onClose(): void;
   onChangeReading(isUnread: boolean): void;
@@ -16,7 +18,8 @@ const ChatApp: React.FC<{
 
 export type ChatProps = {
   token: string;
-  currentUser: ChatUser;
+  currentUser: BaseUser;
+  accesses: string[];
   activeDialogId?: number;
   onClose(): void;
 };
@@ -29,6 +32,7 @@ export function Chat(props: ChatProps) {
     <Suspense fallback={'loading...'}>
       <ChatApp
         isOpened={true}
+        accesses={props.accesses}
         isAuth={true}
         isUnread={false}
         token={props.token}

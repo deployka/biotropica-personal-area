@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { ROLE } from '../../@types/entities/Role';
+import { useGetWaitingUsersQuery } from '../../api/recommendations';
+import { useGetAllUsersQuery } from '../../api/user';
 import { UserList } from './components/UserList/UserList';
-import { useGetAllUsersQuery } from '../../store/rtk/requests/user';
 
 export function SpecialistUsers() {
-  const { data: users } = useGetAllUsersQuery();
+  const [isWaitingUsersList, setIsWaitingUsersList] = useState(false);
 
-  return <div>{users ? <UserList users={users} /> : 'У вас нет доступа'}</div>;
+  const { data: users = [] } = useGetAllUsersQuery({
+    roles: [ROLE.CLIENT],
+  });
+
+  const { data: waitingUsers = [] } = useGetWaitingUsersQuery();
+
+  return (
+    <div>
+      {users ? (
+        <UserList
+          users={isWaitingUsersList ? waitingUsers : users}
+          setIsWaitingUsersList={setIsWaitingUsersList}
+        />
+      ) : (
+        'У вас нет доступа'
+      )}
+    </div>
+  );
 }

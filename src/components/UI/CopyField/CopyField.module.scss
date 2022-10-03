@@ -1,0 +1,39 @@
+.copyField {
+    width: 100%;
+    padding: 15px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #ffffff;
+
+    border: 1px solid #9e97be;
+    border-radius: 4px;
+
+    input {
+        width: calc(100% - 34px);
+        border: none;
+        outline: none;
+
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 120%;
+
+        color: #9e97be;
+    }
+
+    .icon {
+        width: 24px;
+        cursor: pointer;
+    }
+}
+
+.label {
+    margin: 0 0 6px 0;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 120%;
+
+    color: #1e184d;
+}

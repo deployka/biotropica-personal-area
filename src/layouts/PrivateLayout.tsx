@@ -8,21 +8,27 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { selectCurrentUserData } from '../store/ducks/user/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMobile } from '../hooks/useMobile';
 import { SidebarSvgSelector } from '../assets/icons/sidebar/SIdebarSvgSelector';
 import { useLocation } from 'react-router';
-import { fetchSignout, setUserData } from '../store/ducks/user/actionCreators';
 import { SidebarDesktop } from '../shared/Global/Sidebar/SidebarDesktop';
 import { SidebarMobile } from '../shared/Global/Sidebar/SidebarMobile';
 import { SidebarWrapper } from '../shared/Global/SidebarWrapper/SidebarWrapper';
 import { Chat } from '../shared/Modules/Chat';
 import { eventBus, EventTypes } from '../services/EventBus';
-import { chatApi } from '../shared/Global/Chat/services/chatApi';
-import { selectUserRoles } from '../store/rtk/slices/authSlice';
+import {
+  selectAccessToken,
+  selectIsAdmin,
+  selectIsDoctor,
+} from '../store/slices/authSlice';
 import { getCurrentPage } from '../utils/getCurrentPage';
-import { ROLE } from '../store/rtk/types/user';
+import { useCurrentUserQuery } from '../api/user';
+import { useGetAllDialogsQuery } from '../api/chat';
+import { useSignOutMutation } from '../api/auth';
+import { useAppSelector } from '../store/storeHooks';
+import { useGetCurrentTariffQuery } from '../api/tariffs';
+import { selectChatAccesses } from '../store/slices/tariff';
 
 interface Props {
   children: React.ReactNode;
@@ -51,9 +57,10 @@ const pages = [
   },
   { page: 'Анкета', link: 'questionnaire' },
   { page: 'Пользователи', link: 'users' },
-  { page: 'Пользователи', link: 'admin' },
+  { page: 'Пользователи', link: '/' },
   { page: 'Специалист', link: 'specialists' },
   { page: 'Рекомендации', link: 'recommendations' },
+  { page: 'Логи', link: 'logs' },
 ];
 
 const clientNav: Nav[] = [
@@ -105,51 +112,57 @@ const specialistNav: Nav[] = [
 
 const adminNav: Nav[] = [
   {
-    page: 'Пользователи',
-    link: '/',
-    svg: <SidebarSvgSelector id="home" />,
+    ...pages[9],
+    svg: <SidebarSvgSelector id="users" />,
   },
   {
-    page: 'Логи',
-    link: '/logs',
+    ...pages[12],
     svg: <SidebarSvgSelector id="logs" />,
+  },
+  {
+    ...pages[3],
+    svg: <SidebarSvgSelector id="tariffs" />,
   },
 ];
 
-async function sendMessage() {
-  const dialogs = await chatApi.fetchDialogs();
-  const dialog = dialogs.find(it => it.title === 'Техподдержка');
-  if (dialog) {
-    eventBus.emit(EventTypes.chatOpen, dialog.id);
-  }
-}
-
 export function PrivateLayout(props: Props) {
-  const currentUser = useSelector(selectCurrentUserData);
+  const { refetch, data: currentUser } = useCurrentUserQuery();
+  const { data: dialogs = [] } = useGetAllDialogsQuery();
+  const [fetchLogout] = useSignOutMutation();
+
+  async function sendMessage() {
+    const dialog = dialogs.find(it => it.title === 'Техподдержка');
+    if (dialog) {
+      eventBus.emit(EventTypes.chatOpen, dialog.id);
+    }
+  }
 
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  const roles = useSelector(selectUserRoles);
+  const isAdmin = useSelector(selectIsAdmin);
+  const isSpecialist = useSelector(selectIsDoctor);
+  const { data: currentTariff } = useGetCurrentTariffQuery();
 
   const currentPage = useMemo(() => getCurrentPage(pathname), [pathname]);
 
   let nav: Nav[] = [];
-  if (roles.includes(ROLE.ADMIN)) {
+  if (isAdmin) {
     nav = adminNav;
-  } else if (roles.includes(ROLE.SPECIALIST)) {
+  } else if (isSpecialist) {
     nav = specialistNav;
   } else {
     nav = clientNav;
   }
 
-  const defaultPageName = nav
+  const currentPageName = nav
     .concat(pages)
     .find(p => p.link === currentPage)?.page;
-  const [page, setPage] = useState<string>(defaultPageName || 'Страница 404');
+
+  const [page, setPage] = useState<string>(currentPageName || 'Страница 404');
 
   useEffect(() => {
-    setPage(defaultPageName || 'Страница 404');
-  }, [defaultPageName]);
+    setPage(currentPageName || 'Страница 404');
+  }, [currentPageName]);
 
   const isMobile = useMobile();
 
@@ -163,6 +176,9 @@ export function PrivateLayout(props: Props) {
     useState<boolean>(false);
   const [chatNotificationsOpen, setSidebarChatOpen] = useState<boolean>(false);
 
+  const token = useAppSelector(selectAccessToken);
+  const chatAccesses = useAppSelector(selectChatAccesses);
+
   eventBus.on(EventTypes.chatOpen, (id: number) => {
     setSidebarChatOpen(true);
     setOpenedDialog(id);
@@ -175,9 +191,11 @@ export function PrivateLayout(props: Props) {
     });
   }, [chatNotificationsOpen]);
 
-  const logout = useCallback(() => {
-    dispatch(fetchSignout());
-    dispatch(setUserData(undefined));
+  const logout = useCallback(async () => {
+    await fetchLogout().unwrap();
+    refetch();
+    document.location.reload();
+    localStorage.setItem('token', '');
   }, [dispatch]);
 
   const onNavClick = useCallback(
@@ -200,6 +218,7 @@ export function PrivateLayout(props: Props) {
           openChat={openChat}
           logout={logout}
           nav={nav}
+          isPaid={currentTariff?.isPaid || false}
           user={currentUser}
         />
       ) : (
@@ -222,9 +241,10 @@ export function PrivateLayout(props: Props) {
           onClose={() => setSidebarChatOpen(false)}
         >
           <Chat
-            token={localStorage.getItem('token') as string}
+            accesses={chatAccesses}
+            token={token || ''}
             activeDialogId={openedDialog}
-            currentUser={currentUser as ChatUser}
+            currentUser={currentUser}
             onClose={() => setSidebarChatOpen(false)}
           />
         </SidebarWrapper>

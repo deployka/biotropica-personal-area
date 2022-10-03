@@ -1,0 +1,18 @@
+@import "../../../styles/variables.scss";
+
+.textInput {
+  padding: 15px 20px;
+  max-width: 370px;
+  width: 100%;
+
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 120%;
+
+  border-radius: 15px;
+  border: 1px solid $color-grey-2;
+
+  &::placeholder {
+    color: $color-grey-2;
+  }
+}
