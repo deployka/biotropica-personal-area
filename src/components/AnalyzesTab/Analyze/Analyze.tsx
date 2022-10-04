@@ -94,10 +94,6 @@ export const AnalyzesAnalyze = ({
       </div>
 
       <div className={s.footer}>
-        <div className={s.createdAt}>
-          {moment(analyze.createdAt).format('LL')}
-        </div>
-
         {isCommentsOpen && (
           <AddCommentForm
             isLoading={isLoadingComment}

@@ -18,10 +18,10 @@ type Props = PropsWithChildren<{
   goalsCount: number;
   isGoalsLoading?: boolean;
   currentTariff?: CurrentTariff;
-  onEditClick?: () => void;
-  onClickBuyTariff?: () => void;
-  onClickPayTariff?: () => void;
   onActiveTabChange: (tabKey: string) => void;
+  onEditClick?: () => void;
+  onChatClick?: () => void;
+  onClickBuyTariff?: () => void;
   onMoveToTasks?: () => void;
 }>;
 
@@ -37,6 +37,7 @@ export const ClientProfileLayout = ({
   onActiveTabChange,
   onEditClick,
   onClickBuyTariff,
+  onChatClick,
   onMoveToTasks,
 }: Props) => {
   const history = useHistory();
@@ -73,6 +74,16 @@ export const ClientProfileLayout = ({
               onClick={onMoveToTasks}
             >
               Задачи и рекомендации
+            </Button>
+          )}
+          {isPublic && (
+            <Button
+              css={{ margin: '10px 0 0 0' }}
+              isFunctional
+              className={s.moveToTasksBtn}
+              onClick={onChatClick}
+            >
+              Начать чат
             </Button>
           )}
         </div>

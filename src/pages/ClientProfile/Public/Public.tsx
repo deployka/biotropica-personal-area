@@ -25,6 +25,8 @@ import { AnalyzesTabPublic } from '../../../components/AnalyzesTab/AnalyzesTabPu
 import { selectCurrentUser } from '../../../store/slices/authSlice';
 
 import s from './Public.module.scss';
+import { useCreateDialogMutation } from '../../../api/chat';
+import { triggerNotification } from '../../../utils/notifications';
 
 type Props = {
   user: BaseUser;
@@ -46,7 +48,8 @@ const tabs: Tab[] = [
 ];
 
 const ClientProfilePublic = ({ user }: Props) => {
-  const [paymentForm, setPaymentForm] = useState('');
+  const userId = user.id;
+  const [createDialog] = useCreateDialogMutation();
 
   const { data: goals = [] } = useGetGoalsQuery();
 
@@ -64,25 +67,25 @@ const ClientProfilePublic = ({ user }: Props) => {
     useCreateAnalyzeAnswerCommentMutation();
   const [deleteComment] = useDeleteAnalyzeAnswerCommentMutation();
 
-  const { data: tariff } = useGetUserTariffByIdQuery(user.id);
+  const { data: tariff } = useGetUserTariffByIdQuery(userId);
 
   const {
     data: questionnaireAnswers = [],
     isLoading: isQuestionnaireAnswersLoading,
-  } = useGetQuestionnaireAnswersQuery(user.id, {
+  } = useGetQuestionnaireAnswersQuery(userId, {
     skip: activeTab !== tabs[1].key,
   });
   const { data: analyzeTypes = [], isLoading: isAnalyzesTypesLoading = false } =
     useGetAnalyzesQuery(undefined, { skip: activeTab !== tabs[0].key });
   const { data: progressPosts = [], isLoading: isProgressLoading } =
     useGetProgressPostsQuery({
-      userId: user.id,
+      userId,
     });
 
   const { data: analyzes = [], isLoading: isAnalyzesLoading = false } =
     useGetAnalyzeAnswersQuery(
       {
-        userId: user.id,
+        userId,
       },
       { skip: activeTab !== tabs[0].key },
     );
@@ -122,19 +125,32 @@ const ClientProfilePublic = ({ user }: Props) => {
     }
   };
 
+  const startChat = async () => {
+    if (!userId) return;
+    try {
+      const dialog = await createDialog({
+        userId: user.id,
+        isAccess: true,
+      }).unwrap();
+      eventBus.emit(EventTypes.chatOpen, dialog.id);
+    } catch (error) {
+      triggerNotification('Ошибка при создании чата', NotificationType.DANGER);
+    }
+  };
+
   const onTabClick = (tab: string) => {
-    history.push(`/users/${user.id}/tabs/${tab}`);
+    history.push(`/users/${userId}/tabs/${tab}`);
   };
 
   const onMoveToTasksClick = () => {
-    history.push(`/users/${user.id}/tasks`);
+    history.push(`/users/${userId}/tasks`);
   };
 
   useEffect(() => {
     if (active) {
       setActiveTab(getTabByKey(active, tabs)?.key || activeTab);
       history.push(
-        `/users/${user.id}/tabs/${getTabByKey(active, tabs)?.key || activeTab}`,
+        `/users/${userId}/tabs/${getTabByKey(active, tabs)?.key || activeTab}`,
       );
     }
   }, [active]);
@@ -150,6 +166,7 @@ const ClientProfilePublic = ({ user }: Props) => {
         activeTab={activeTab}
         onActiveTabChange={onTabClick}
         onMoveToTasks={onMoveToTasksClick}
+        onChatClick={startChat}
       >
         <div className={s.content}>
           {activeTab === tabs[0].key && (
