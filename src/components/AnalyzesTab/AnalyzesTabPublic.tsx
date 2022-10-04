@@ -65,7 +65,7 @@ export const AnalyzesTabPublic = ({
   return (
     <div className={s.analyzes}>
       {!analyzes.length && <InfoBar infoBar={analyzesInfoBar} />}
-      {analyzes.length && (
+      {!!analyzes.length && (
         <div className={classNames(s.card, s.public)}>
           <AnalyzeTypes analyzeTypes={analyzeTypes} />
           <AnalyzesList
