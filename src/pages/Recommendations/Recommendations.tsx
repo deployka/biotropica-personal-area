@@ -116,6 +116,14 @@ export function Recommendations() {
     }
   };
 
+  const onSelectTab = (value: 'recommendations' | 'tasks') => {
+    if (value === 'tasks' && !userId) {
+      history.push('/');
+    } else if (value === 'tasks' && userId) {
+      history.push(`/users/${userId}/tasks`);
+    }
+  };
+
   const isLoading = isSpecializationsLoading || isRecommendationsLoading;
   const isError = isSpecializationsError || isRecommendationsError;
 
@@ -138,13 +146,7 @@ export function Recommendations() {
               value: 'recommendations',
             },
           ]}
-          onSelect={value => {
-            if (value === 'tasks' && !userId) {
-              history.push('/');
-            } else if (value === 'tasks' && userId) {
-              history.push(`/users/${userId}/tasks`);
-            }
-          }}
+          onSelect={onSelectTab}
         />
         <div className={s.emptyWrapper}>
           <Empty className={s.empty}>
@@ -172,13 +174,7 @@ export function Recommendations() {
             value: 'recommendations',
           },
         ]}
-        onSelect={value => {
-          if (value === 'tasks' && !userId) {
-            history.push('/');
-          } else if (value === 'tasks' && userId) {
-            history.push(`/users/${userId}/tasks`);
-          }
-        }}
+        onSelect={onSelectTab}
       />
 
       <RecommendationsPage

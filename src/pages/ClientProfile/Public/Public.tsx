@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
-import { useSelector } from 'react-redux';
 
 import { Param } from '../Edit/Edit';
 import { Tab } from '../../../shared/Global/Tabs/Tabs';
@@ -27,6 +26,7 @@ import { selectCurrentUser } from '../../../store/slices/authSlice';
 import s from './Public.module.scss';
 import { useCreateDialogMutation } from '../../../api/chat';
 import { triggerNotification } from '../../../utils/notifications';
+import { useAppSelector } from '../../../store/storeHooks';
 
 type Props = {
   user: BaseUser;
@@ -61,7 +61,7 @@ const ClientProfilePublic = ({ user }: Props) => {
     getTabByKey(active, tabs)?.key || tabs[0].key,
   );
 
-  const currentUser = useSelector(selectCurrentUser);
+  const currentUser = useAppSelector(selectCurrentUser);
 
   const [createComment, { isLoading: isCreateCommentLoading }] =
     useCreateAnalyzeAnswerCommentMutation();
