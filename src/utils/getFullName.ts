@@ -3,9 +3,10 @@ export const getFullName = (
   lastName: string,
   patronymic?: string,
 ): string => {
-  let fullName = name + ' ' + lastName;
+  let fullName = name.trim() + ' ' + lastName.trim();
+
   if (patronymic) {
-    fullName = fullName + ' ' + patronymic;
+    fullName = fullName + ' ' + patronymic.trim();
   }
   return fullName
     .split(' ')
