@@ -40,6 +40,31 @@
     }
   }
 
+  .options {
+    display: flex;
+    align-items: center;
+
+    @include for-phone {
+      flex-wrap: wrap;
+    }
+
+    .button {
+      margin: 0 10px 0 0;
+      padding: 0 10px;
+      height: 32px;
+      border-radius: 50px;
+      min-width: 175px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @include for-phone {
+        width: 100%;
+        margin: 0 0 10px 0;
+      }
+    }
+  }
+
   .filterButton {
     margin: 0 10px 0 0;
 
@@ -110,15 +135,6 @@
   p {
     font-size: 14px;
     color: $color-black;
-  }
-}
-
-.options {
-  display: flex;
-  align-items: center;
-
-  @include for-phone {
-    flex-wrap: wrap;
   }
 }
 
