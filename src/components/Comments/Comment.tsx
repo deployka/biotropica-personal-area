@@ -11,13 +11,17 @@ import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
 import { useHistory } from 'react-router';
 import { Specialization } from '../../@types/entities/Specialization';
+import { BaseUser } from '../../@types/entities/BaseUser';
+import { getUserRolesList } from '../../utils/getUserRolesList';
+import { ROLE } from '../../@types/entities/Role';
+import classNames from 'classnames';
 
 type Props = {
   comment: CommentType;
   withTrash?: boolean;
+  currentUserId?: BaseUser['id'];
   id?: number;
-  specializations: Specialization[];
-  specialistId: number;
+  author: BaseUser;
   onDelete?: (id: number) => void;
 };
 
@@ -25,15 +29,20 @@ export function Comment({
   comment,
   withTrash = false,
   id,
-  specialistId,
-  specializations,
+  currentUserId = 0,
+  author,
   onDelete,
 }: Props) {
-  const {
-    createdAt,
-    text,
-    author: { lastname, name, profilePhoto },
-  } = comment;
+  const { createdAt, text } = comment;
+
+  const { name, lastname, profilePhoto } = author;
+
+  const authorSpecialistId = author?.specialist?.id;
+  const authorSpecializations = author?.specialist?.specializations || [];
+  const isAuthorAdmin = getUserRolesList(author).includes(ROLE.ADMIN);
+  const isAuthorSpecialist = getUserRolesList(author).includes(ROLE.SPECIALIST);
+
+  const isUserMovable = !isAuthorAdmin && !(currentUserId === author.id);
 
   const fullName = getFullName(name, lastname);
   const avatar = profilePhoto ? getMediaLink(profilePhoto) : defaultAvatar;
@@ -65,24 +74,35 @@ export function Comment({
     showDeleteConfirmation();
   }
 
-  function moveToSpecialist() {
-    history.push(`/specialists/${specialistId}`);
+  function moveToAuthor() {
+    if (!isUserMovable) return;
+    if (!isAuthorSpecialist || !authorSpecialistId) return;
+    return history.push(`/specialists/${authorSpecialistId}`);
   }
 
   // TODO: вынести в глобальный helper. Используется в некоторых местах
-  const specializationsList = specializations
-    .map(spec => spec.title)
+  const specializationsList = authorSpecializations
+    .map(specialization => specialization.title)
     .join(', ');
 
   return (
     <div className={s.comment}>
       <div className={s.header}>
-        <div className={s.avatar} onClick={moveToSpecialist}>
+        <div
+          className={classNames(s.avatar, { [s.clickable]: isUserMovable })}
+          onClick={moveToAuthor}
+        >
           <img src={avatar} />
         </div>
-        <div className={s.specialist} onClick={moveToSpecialist}>
+        <div
+          className={classNames(s.author, { [s.clickable]: isUserMovable })}
+          onClick={moveToAuthor}
+        >
           <p className={s.name}>{fullName}</p>
-          <p className={s.specialization}>{specializationsList}</p>
+          {!!specializationsList.length && (
+            <p className={s.specialization}>{specializationsList}</p>
+          )}
+          {isAuthorAdmin && <p className={s.specialization}>Администратор</p>}
         </div>
         {withTrash && (
           <div className={s.deleteBtn} onClick={handleDelete}>

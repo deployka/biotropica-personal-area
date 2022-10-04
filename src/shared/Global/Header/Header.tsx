@@ -3,6 +3,7 @@ import { HeaderSvgSelector } from '../../../assets/icons/header/HeaderSvgSelecto
 
 import s from './Header.module.scss';
 import classNames from 'classnames';
+import { useMobile } from '../../../hooks/useMobile';
 interface Props {
   page: string;
   isChatUnread: boolean;
@@ -21,6 +22,8 @@ export const Header = memo(
     isNotificationsUnread,
     centerComponent,
   }: Props) => {
+    const isMobile = useMobile();
+
     return (
       <header className={s.header}>
         <div className={s.header__wrapper}>
@@ -28,32 +31,30 @@ export const Header = memo(
             <h2>{page}</h2>
           </div>
           {centerComponent || ''}
-          <div className={s.header__links}>
-            <div
-              onClick={() => setSidebarNotificationsOpen(true)}
-              className={s.header__link}
-            >
-              {isNotificationsUnread
-                ? (
+          {!isMobile && (
+            <div className={s.header__links}>
+              <div
+                onClick={() => setSidebarNotificationsOpen(true)}
+                className={s.header__link}
+              >
+                {isNotificationsUnread ? (
                   <HeaderSvgSelector id="notification-active" />
-                  )
-                : (
+                ) : (
                   <HeaderSvgSelector id="notification" />
-                  )}
-            </div>
-            <div
-              onClick={() => setSidebarChatOpen(true)}
-              className={s.header__link}
-            >
-              {isChatUnread
-                ? (
+                )}
+              </div>
+              <div
+                onClick={() => setSidebarChatOpen(true)}
+                className={s.header__link}
+              >
+                {isChatUnread ? (
                   <HeaderSvgSelector id="chat-active" />
-                  )
-                : (
+                ) : (
                   <HeaderSvgSelector id="chat" />
-                  )}
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </header>
     );

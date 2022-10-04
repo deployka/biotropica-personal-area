@@ -116,6 +116,14 @@ export function Recommendations() {
     }
   };
 
+  const onSelectTab = (value: 'recommendations' | 'tasks') => {
+    if (value === 'tasks' && !userId) {
+      history.push('/');
+    } else if (value === 'tasks' && userId) {
+      history.push(`/users/${userId}/tasks`);
+    }
+  };
+
   const isLoading = isSpecializationsLoading || isRecommendationsLoading;
   const isError = isSpecializationsError || isRecommendationsError;
 
@@ -125,19 +133,35 @@ export function Recommendations() {
   if (!isLoading && isError) return <p>Произошла ошибка</p>;
   if (!isLoading && !isError && !canCreate && !recommendations.length) {
     return (
-      <div className={s.emptyWrapper}>
-        <Empty className={s.empty}>
-          <p>
-            У вас еще нет рекомендаций. Они появятся здесь сразу после того, как
-            их составит специалист.
-          </p>
-        </Empty>
-      </div>
+      <>
+        <Tabs
+          value="recommendations"
+          options={[
+            {
+              label: 'Задачи',
+              value: 'tasks',
+            },
+            {
+              label: 'Рекомендации',
+              value: 'recommendations',
+            },
+          ]}
+          onSelect={onSelectTab}
+        />
+        <div className={s.emptyWrapper}>
+          <Empty className={s.empty}>
+            <p>
+              У вас еще нет рекомендаций. Они появятся здесь сразу после того,
+              как их составит специалист.
+            </p>
+          </Empty>
+        </div>
+      </>
     );
   }
 
   return (
-    <div>
+    <>
       <Tabs
         value="recommendations"
         options={[
@@ -150,13 +174,7 @@ export function Recommendations() {
             value: 'recommendations',
           },
         ]}
-        onSelect={value => {
-          if (value === 'tasks' && !userId) {
-            history.push('/');
-          } else if (value === 'tasks' && userId) {
-            history.push(`/users/${userId}/tasks`);
-          }
-        }}
+        onSelect={onSelectTab}
       />
 
       <RecommendationsPage
@@ -179,6 +197,6 @@ export function Recommendations() {
         onEdit={handleUpdateRecommendation}
         onClose={() => setOpenedRecommendation(null)}
       />
-    </div>
+    </>
   );
 }
