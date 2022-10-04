@@ -238,7 +238,7 @@ const Tariffs = () => {
         }}
       >
         <div>
-          <p style={{ marginBottom: '15px' }}>Выберете способ оплаты:</p>
+          <p style={{ marginBottom: '15px' }}>Выберите способ оплаты:</p>
           <div dangerouslySetInnerHTML={{ __html: paymentForm }} />
         </div>
       </Modal>
