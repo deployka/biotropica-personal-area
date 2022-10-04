@@ -168,10 +168,10 @@ export const EditProfileData = ({
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  label="Email"
-                  name="email"
-                  value={values.email}
-                  type="email"
+                  label="Отчество"
+                  name="patronymic"
+                  value={values.patronymic}
+                  type="text"
                   options={{ touched, errors }}
                 />
               </div>
@@ -180,10 +180,10 @@ export const EditProfileData = ({
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  label="Отчество"
-                  name="patronymic"
-                  value={values.patronymic}
-                  type="text"
+                  label="Email"
+                  name="email"
+                  value={values.email}
+                  type="email"
                   options={{ touched, errors }}
                 />
               </div>
