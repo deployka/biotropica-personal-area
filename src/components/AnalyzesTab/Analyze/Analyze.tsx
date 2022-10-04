@@ -125,7 +125,6 @@ export const AnalyzesAnalyze = ({
       </div>
       {isCommentsOpen && (
         <Comments
-          isClient={false}
           currentUserId={currentUserId}
           onDelete={onDeleteComment}
           comments={sortedComments}
