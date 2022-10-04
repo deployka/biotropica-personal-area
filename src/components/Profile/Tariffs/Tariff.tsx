@@ -6,6 +6,7 @@ type Props = {
   title?: string;
   expires?: string;
   isPaid?: boolean;
+  isPublic?: boolean;
   onClickBuyTariff?: () => void;
 };
 
@@ -13,6 +14,7 @@ export const ProfileTariff = ({
   title,
   expires,
   isPaid,
+  isPublic = false,
   onClickBuyTariff,
 }: Props) => {
   const formattedExpires = expires
@@ -22,14 +24,16 @@ export const ProfileTariff = ({
   return (
     <div style={{ textDecoration: 'none' }} className={s.tariff}>
       <div className={s.title}>
-        <p>{title || 'У вас нет тарифа'}</p>
+        <p>
+          {title || isPublic ? 'У пользователя нет тарифа' : 'У вас нет тарифа'}
+        </p>
       </div>
       {formattedExpires && (
         <div className={s.date}>
           <p>До {formattedExpires}</p>
         </div>
       )}
-      {!isPaid && (
+      {!isPaid && !isPublic && (
         <div className={s.isPaid}>
           {
             <p onClick={onClickBuyTariff}>

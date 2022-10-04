@@ -62,6 +62,7 @@ export const ClientProfileLayout = ({
             />
           )}
           <ProfileTariff
+            isPublic={isPublic}
             title={currentTariff?.tariff?.title}
             expires={currentTariff?.expiredAt}
             isPaid={currentTariff?.isPaid}
