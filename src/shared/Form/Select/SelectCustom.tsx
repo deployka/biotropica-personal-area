@@ -4,6 +4,8 @@ import Select, { OptionTypeBase } from 'react-select';
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 import { Label } from '../Label/Label';
 
+import s from './SelectCustom.module.scss';
+
 export type Styles = {
   [key in string]: string;
 };
@@ -65,7 +67,7 @@ export const SelectCustom = (props: Props) => {
   const { settings, ...selectProps } = props;
   const { touched, errors } = settings || { touched: {}, errors: {} };
   return (
-    <>
+    <div className={s.select}>
       {props.hideLabel || <Label active={true} value={props.placeholder} />}
       <Select
         {...selectProps}
@@ -77,6 +79,6 @@ export const SelectCustom = (props: Props) => {
           message={(errors[props.name]?.[0] as { value: string }).value || ''}
         />
       )}
-    </>
+    </div>
   );
 };
