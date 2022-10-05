@@ -5,6 +5,7 @@ import { AnalyzesAnalyze } from '../Analyze/Analyze';
 import s from './List.module.scss';
 
 interface Props {
+  currentUserId: number;
   isEditable: boolean;
   analyzes: AnalyzeAnswer[];
   isLoadingComment?: boolean;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export const AnalyzesList = ({
+  currentUserId,
   isEditable,
   analyzes,
   isLoadingComment,
@@ -35,7 +37,7 @@ export const AnalyzesList = ({
           }
           isEditable={isEditable}
           analyze={analyze}
-          currentUserId={0}
+          currentUserId={currentUserId}
           isLoadingComment={isLoadingComment}
           onAddComment={onAddComment}
           onDeleteComment={onDeleteComment}

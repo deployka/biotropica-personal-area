@@ -1,7 +1,7 @@
 import React from 'react';
+import Button from '../../../../components/Button/Button';
 
 import SearchInput from '../../../../components/SearchInput/SearchInput';
-import Button from '../../../../components/Button/Button';
 
 import s from './UsersTableHeader.module.scss';
 
@@ -29,9 +29,9 @@ export function UsersTableHeader({
         </div>
       </div>
       <div className={s.options}>
-        <button className={s.filterButton} onClick={onFilterBtnClick}>
+        <Button className={s.button} isPrimary onClick={onFilterBtnClick}>
           {isFiltersOpen ? 'Скрыть фильтры' : 'Показать фильтры'}
-        </button>
+        </Button>
 
         <div className={s.searchInput}>
           <SearchInput

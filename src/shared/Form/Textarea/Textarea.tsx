@@ -37,10 +37,9 @@ export const Textarea = (props: Props) => {
   const { options, ...inputProps } = props;
   const { touched, errors, classes } = options || { touched: {}, errors: {} };
   return (
-    <>
+    <div className={classNames(s.textareaContainer, { ...classes })}>
       <textarea
         className={classNames({
-          ...classes,
           [s.textarea]: true,
           [s.active]: !!props.value,
           [s.success__textarea]: touched[props.name] && !errors[props.name],
@@ -53,6 +52,6 @@ export const Textarea = (props: Props) => {
       {touched[props.name] && errors[props.name] && (
         <ErrorMessage message={errors[props.name] || ''} />
       )}
-    </>
+    </div>
   );
 };

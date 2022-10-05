@@ -6,35 +6,23 @@ import s from './Comments.module.scss';
 import { BaseUser } from '../../@types/entities/BaseUser';
 
 type Props = {
-  isClient: boolean;
   comments: CommentType[];
   onDelete?: (id: number) => void;
   withTrash?: boolean;
   currentUserId?: number;
 };
 
-export function Comments({
-  comments = [],
-  onDelete,
-  currentUserId,
-  isClient,
-}: Props) {
+export function Comments({ comments = [], onDelete, currentUserId }: Props) {
   return (
     <div className={s.comments}>
       {!comments.length && <p>Нет комментариев</p>}
       {comments.map(comment => (
         <Comment
-          withTrash={
-            currentUserId === (comment.author as BaseUser)?.specialist?.id &&
-            !isClient
-          }
-          specializations={
-            (comment.author as BaseUser)?.specialist?.specializations || []
-          }
+          withTrash={currentUserId === (comment.author as BaseUser)?.id}
           key={comment.id}
           id={comment.id}
-          // TODO: пофиксить any
-          specialistId={(comment.author as BaseUser)?.specialist?.id || 0}
+          currentUserId={currentUserId}
+          author={comment.author as BaseUser}
           onDelete={onDelete}
           comment={comment}
         />

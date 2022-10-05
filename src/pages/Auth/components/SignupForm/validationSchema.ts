@@ -1,7 +1,4 @@
 import * as yup from 'yup';
-const phoneRegExp =
-  // eslint-disable-next-line
-  /^(\+7)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
 
 export const validationSchema = yup.object().shape({
   name: yup.string().typeError('Должно быть строкой').required('Введите имя'),
@@ -17,7 +14,16 @@ export const validationSchema = yup.object().shape({
   phone: yup
     .string()
     .typeError('Должно быть строкой')
-    .matches(phoneRegExp, 'Некорректный номер телефона')
+    .test(
+      'minLen',
+      'Номер не должен быть короче 10 цифр',
+      str => (str || '').length > 11,
+    )
+    .test(
+      'maxLen',
+      'Номер не должен быть длиннее 15 цифр',
+      str => (str || '').length < 17,
+    )
     .required('Введите телефон'),
   password: yup
     .string()

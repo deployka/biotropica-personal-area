@@ -11,6 +11,7 @@ import s from './AnalyzesTab.module.scss';
 import classNames from 'classnames';
 
 type Props = {
+  currentUserId: number;
   isEditable?: boolean;
   isAccess?: boolean;
   isLoadingComment?: boolean;
@@ -45,6 +46,7 @@ const analyzesInfoBar: IInfoBar = {
 export const AnalyzesTabPublic = ({
   isEditable = false,
   isAccess = false,
+  currentUserId,
   analyzes,
   isLoadingComment,
   analyzeTypes,
@@ -65,10 +67,11 @@ export const AnalyzesTabPublic = ({
   return (
     <div className={s.analyzes}>
       {!analyzes.length && <InfoBar infoBar={analyzesInfoBar} />}
-      {analyzes.length && (
+      {!!analyzes.length && (
         <div className={classNames(s.card, s.public)}>
           <AnalyzeTypes analyzeTypes={analyzeTypes} />
           <AnalyzesList
+            currentUserId={currentUserId}
             analyzes={analyzes}
             isEditable={isEditable}
             isLoadingComment={isLoadingComment}

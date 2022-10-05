@@ -118,7 +118,7 @@ export const EditProfileClientData = ({
                   <Input
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    placeholder="Фамилия"
+                    label="Фамилия"
                     name="lastname"
                     value={values.lastname}
                     type="text"
@@ -130,7 +130,7 @@ export const EditProfileClientData = ({
                   <Input
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    placeholder="Имя"
+                    label="Имя"
                     name="name"
                     value={values.name}
                     type="text"
@@ -143,10 +143,10 @@ export const EditProfileClientData = ({
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="Email"
-                  name="email"
-                  value={values.email}
-                  type="email"
+                  label="Отчество"
+                  name="patronymic"
+                  value={values.patronymic}
+                  type="text"
                   options={{ touched, errors }}
                 />
               </div>
@@ -155,10 +155,10 @@ export const EditProfileClientData = ({
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="Отчество"
-                  name="patronymic"
-                  value={values.patronymic}
-                  type="text"
+                  label="Email"
+                  name="email"
+                  value={values.email}
+                  type="email"
                   options={{ touched, errors }}
                 />
               </div>
@@ -199,7 +199,7 @@ export const EditProfileClientData = ({
                   onInput={onPhoneInput}
                   onPaste={onPhonePaste}
                   onBlur={handleBlur}
-                  placeholder="Телефон"
+                  label="Телефон"
                   name="phone"
                   value={values.phone}
                   type="phone"

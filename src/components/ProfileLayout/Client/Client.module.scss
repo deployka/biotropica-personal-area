@@ -27,6 +27,11 @@
     .statistics {
         width: 100%;
 
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        row-gap: 10px;
+
         .moveToTasksBtn {
             width: 100%;
             border-radius: 50px;
