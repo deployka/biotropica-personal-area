@@ -1,13 +1,14 @@
 import React from 'react';
+import { useHistory } from 'react-router';
+
+import type { BaseUser } from '../../@types/entities/BaseUser';
+
+import { useRequestUserEventsQuery } from '../../api/user-events';
+import { LogItem } from '../../components/Logs/Item/Item';
 
 import s from './Logs.module.scss';
 
-import { Log } from '../components/Log/Log';
-import { useRequestUserEventsQuery } from '../../../api/user-events';
-import { BaseUser } from '../../../@types/entities/BaseUser';
-import { useHistory } from 'react-router';
-
-export const Logs = () => {
+const Logs = () => {
   const history = useHistory();
   const { data: events } = useRequestUserEventsQuery();
 
@@ -22,11 +23,13 @@ export const Logs = () => {
     return <div />;
   }
 
+  console.log(events);
+
   return (
     <div className={s.logs}>
       <div className={s.list}>
         {events.map(log => (
-          <Log
+          <LogItem
             key={log.id}
             log={log}
             onClickUser={() => {
@@ -38,3 +41,5 @@ export const Logs = () => {
     </div>
   );
 };
+
+export default Logs;

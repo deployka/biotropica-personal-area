@@ -1,4 +1,4 @@
-@import "./../../../../styles/mixins.scss";
+@import "./../../../styles/mixins.scss";
 
 .log {
     width: 100%;
@@ -16,22 +16,34 @@
         border-bottom: 1px solid rgb(115, 111, 139, 0.5);
     }
 
-    .info {
+    .date {
+        width: 130px;
         margin: 0 10px 0 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        color: #736f8b;
+
+        @include for-phone {
+            width: 100%;
+        }
     }
 
     .user {
+        width: 220px;
         cursor: pointer;
+
+        @include for-phone {
+            width: 100%;
+        }
 
         &:hover {
             text-decoration: underline;
         }
     }
 
-    .date {
-        color: #736f8b;
+    .action {
+        width: calc(100% - 370px);
+
+        @include for-phone {
+            width: 100%;
+        }
     }
 }

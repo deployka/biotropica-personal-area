@@ -69,6 +69,10 @@
     .inputWrapper {
         width: 48%;
 
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
         @include for-phone {
             margin: 0 0 5px 0;
             width: 100%;
