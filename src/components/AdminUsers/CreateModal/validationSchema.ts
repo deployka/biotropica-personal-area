@@ -22,7 +22,7 @@ export const validationSchema = yup.object().shape({
     .test(
       'maxLen',
       'Номер не должен быть длиннее 15 цифр',
-      str => (str || '').length < 16,
+      str => (str || '').length < 17,
     )
     .required('Введите телефон'),
   roles: yup.array().length(1, 'Выберите роль').required('Выберите роль'),

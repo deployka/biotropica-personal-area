@@ -27,7 +27,7 @@ export const validationSchema = yup.object().shape({
     .test(
       'maxLen',
       'Номер не должен быть длиннее 15 цифр',
-      str => (str || '').length < 16,
+      str => (str || '').length < 17,
     )
     .required('Введите телефон'),
   email: yup
