@@ -96,6 +96,7 @@ export const Analyzes = ({ userId, isAccess }: Props) => {
 
   return (
     <AnalyzesTab
+      currentUserId={userId}
       isAccess={isAccess}
       isEditable={true}
       isAnalyzesLoading={isAnalyzesTypesLoading || isAnalyzesLoading}

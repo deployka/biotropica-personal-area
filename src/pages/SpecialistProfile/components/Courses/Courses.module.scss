@@ -13,7 +13,6 @@
     }
 
     &:hover {
-
       .course__closeBtn {
         opacity: 1;
         border: none;
@@ -24,6 +23,7 @@
     &__inputs {
       display: flex;
       flex-direction: column;
+      row-gap: 10px;
       width: 100%;
       margin-right: 10px;
     }
@@ -57,14 +57,14 @@
       font-size: 16px;
       width: 100%;
       max-width: 508px;
-    
+
       &:placeholder {
         color: transparent;
       }
-  
+
       border: 1px solid #9895a7;
       border-radius: 10px;
-  
+
       &:focus ~ label {
         font-weight: 500;
         font-size: 12px;
@@ -76,7 +76,7 @@
         background: #fff;
         z-index: 40;
       }
-  
+
       .active {
         & ~ label {
           font-weight: 500;
@@ -91,18 +91,17 @@
         }
       }
     }
-    
+
     .error__input {
       border: 1px solid #d06361;
       color: #d06361;
     }
-    
+
     .success__input {
       border: 1px solid #309a74;
       color: #309a74;
     }
   }
-
 
   .wrapperTextarea {
     position: relative;
@@ -121,13 +120,13 @@
       border-radius: 10px;
       width: 100%;
       max-width: 508px;
-      
+
       & ~ label {
         top: 20px;
         left: 20px;
         background-color: transparent;
       }
-      
+
       &:focus ~ label {
         font-weight: 500;
         font-size: 12px;
@@ -145,7 +144,7 @@
     textarea::-webkit-resizer {
       width: 18.71px;
       height: 18.71px;
-      background-image: url('../../../../assets/icons/resize-grabber.svg');
+      background-image: url("../../../../assets/icons/resize-grabber.svg");
       background-repeat: no-repeat;
       background-size: 70%;
     }
@@ -163,12 +162,12 @@
         z-index: 40;
       }
     }
-    
+
     .error__textarea {
       border: 1px solid #d06361;
       color: #d06361;
     }
-    
+
     .success__textarea {
       border: 1px solid #309a74;
       color: #309a74;
@@ -187,11 +186,10 @@
   }
 
   .cancelBtn {
-
     margin-right: 20px;
 
     a {
-      color: #9895A7;
+      color: #9895a7;
       transition: 0.3s;
     }
 

@@ -12,6 +12,7 @@ import { AnalyzesList } from './List/List';
 import s from './AnalyzesTab.module.scss';
 
 interface Props {
+  currentUserId: number;
   isEditable?: boolean;
   isAccess?: boolean;
   isAnalyzesLoading: boolean;
@@ -28,6 +29,7 @@ interface Props {
 export const AnalyzesTab = ({
   isEditable = false,
   isAccess = false,
+  currentUserId,
   analyzes,
   analyzeTypes,
   isAnalyzesLoading,
@@ -90,6 +92,7 @@ export const AnalyzesTab = ({
           />
           <AnalyzeTypes analyzeTypes={analyzeTypes} />
           <AnalyzesList
+            currentUserId={currentUserId}
             onDelete={onDeleteAnalyze}
             analyzes={analyzes}
             isEditable={isEditable}

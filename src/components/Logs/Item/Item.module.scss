@@ -1,0 +1,49 @@
+@import "./../../../styles/mixins.scss";
+
+.log {
+    width: 100%;
+    padding: 10px 0;
+
+    display: flex;
+    column-gap: 10px;
+
+    font-size: 15px;
+
+    @include for-tablet {
+        flex-direction: column;
+        row-gap: 5px;
+
+        border-bottom: 1px solid rgb(115, 111, 139, 0.5);
+    }
+
+    .date {
+        width: 130px;
+        margin: 0 10px 0 0;
+        color: #736f8b;
+
+        @include for-phone {
+            width: 100%;
+        }
+    }
+
+    .user {
+        width: 220px;
+        cursor: pointer;
+
+        @include for-phone {
+            width: 100%;
+        }
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .action {
+        width: calc(100% - 370px);
+
+        @include for-phone {
+            width: 100%;
+        }
+    }
+}

@@ -78,10 +78,13 @@
       height: 100%;
       object-fit: cover;
     }
+
+    &.clickable {
+      cursor: pointer;
+    }
   }
 
   .header {
-    cursor: pointer;
     width: 100%;
 
     display: flex;

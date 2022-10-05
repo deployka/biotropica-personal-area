@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
+import { BaseUser } from '../../@types/entities/BaseUser';
+import { Specialist } from '../../@types/entities/Specialist';
 import { Specialization } from '../../@types/entities/Specialization';
 import { useGetAllDialogsQuery } from '../../api/chat';
 import { useGetOneSpecialistQuery } from '../../api/specialists';
@@ -11,7 +13,12 @@ import { SpecialistCoursesList } from '../../components/Specialist/Courses/List'
 import { UsersListTab } from '../../components/UsersListTab/Tab';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { Tab, Tabs } from '../../shared/Global/Tabs/Tabs';
-import { selectIsAdmin, selectIsDoctor } from '../../store/slices/authSlice';
+import {
+  selectCurrentUser,
+  selectIsAdmin,
+  selectIsDoctor,
+} from '../../store/slices/authSlice';
+import { useAppSelector } from '../../store/storeHooks';
 import { getTabByKey } from '../../utils/tabsHelper';
 
 import s from './Profile.module.scss';
@@ -40,6 +47,8 @@ const PublicSpecialistProfile = () => {
 
   const isAdmin = useSelector(selectIsAdmin);
   const isSpecialist = useSelector(selectIsDoctor);
+
+  const currentUser = useAppSelector(selectCurrentUser);
 
   const tabs: Tab[] = [
     {
@@ -91,6 +100,10 @@ const PublicSpecialistProfile = () => {
   // FIXME:
   if (!specialist) {
     return <p>Специалист не найден</p>;
+  }
+
+  if ((currentUser as BaseUser)?.specialist?.id === specialist.id) {
+    history.push('/profile');
   }
 
   const handleCreateDialog = async () => {

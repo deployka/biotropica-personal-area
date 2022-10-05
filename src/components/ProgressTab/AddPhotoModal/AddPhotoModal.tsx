@@ -180,6 +180,7 @@ export const AddPhotoModal = ({
               <Button
                 disabled={isDisabled(isValid, dirty)}
                 type="submit"
+                onClick={onClose}
                 options={{
                   width: '109px',
                   height: '32px',

@@ -24,26 +24,20 @@ export function AdminUsersHeader(props: UsersTableHeaderProps) {
         </div>
       </div>
       <div className={s.options}>
-        <SearchInput
-          value={undefined as unknown as string}
-          onChange={val => {
-            return props.onSearch(val);
-          }}
-          placeholder="Поиск пользователей"
-        />
+        <div className={s.searchInput}>
+          <SearchInput
+            value={undefined as unknown as string}
+            onChange={val => {
+              return props.onSearch(val);
+            }}
+            placeholder="Поиск пользователей"
+          />
+        </div>
         <div className={s.panelBtns}>
           <Button className={s.createBtn} onClick={props.onFilterBtnClick}>
             {props.filterOpened ? 'Скрыть фильтры' : 'Показать фильтры'}
           </Button>
-          {/* TODO: реализовать метод формирования XLSX таблицы */}
-          {/* <a */}
-          {/*    className={`${s.button} ${s.buttonPrimary} ${s.xlsxBtn}`} */}
-          {/*    href={process.env.REACT_APP_BACKEND_URL + '/users/xlsx'} */}
-          {/*    download */}
-          {/*    target="_blank" */}
-          {/* > */}
-          {/*    Выгрузить xlsx */}
-          {/* </a> */}
+
           <Button
             isPrimary={true}
             className={`${s.createBtn}`}
