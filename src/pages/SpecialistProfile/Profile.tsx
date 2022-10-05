@@ -107,7 +107,7 @@ const PrivateSpecialistProfile = () => {
   function onCopyLink(text: string) {
     if (text) {
       eventBus.emit(EventTypes.notification, {
-        message: 'Ссылка скопирована :]',
+        message: 'Ссылка скопирована',
         type: NotificationType.SUCCESS,
       });
     }
