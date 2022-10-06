@@ -27,15 +27,10 @@ export const Courses = ({ courses, onChange }: Props) => {
   );
 
   const [isDataChanged, setIsDataChanged] = useState(false);
-  const [courseIdToDelete, setCourseIdToDelete] = useState(NaN);
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
-
-  const showDeleteModal = () => {
-    setIsDeleteModalVisible(true);
-  };
+  const [deletedCourseId, setDeletedCourseId] = useState<number | null>(null);
 
   const closeDeleteModal = () => {
-    setIsDeleteModalVisible(false);
+    setDeletedCourseId(null);
   };
 
   const handleChange = (
@@ -80,8 +75,7 @@ export const Courses = ({ courses, onChange }: Props) => {
 
   const handleClickDeleteBtn = (id: number) => {
     if (coursesList.length === courses.length) {
-      setCourseIdToDelete(id);
-      showDeleteModal();
+      setDeletedCourseId(id);
     } else {
       const editedCourses = coursesList.filter(
         (course: Course) => course.id !== id,
@@ -90,14 +84,17 @@ export const Courses = ({ courses, onChange }: Props) => {
     }
   };
 
-  const handleClickDeleteCourse = (id: number) => {
+  const handleClickDeleteCourse = () => {
+    if (!deletedCourseId) return;
     const editedCourses = coursesList.filter(
-      (course: Course) => course.id !== id,
+      (course: Course) => course.id !== deletedCourseId,
     );
+    console.log(editedCourses);
+
     setCoursesList(editedCourses);
     closeDeleteModal();
 
-    const coursesWithoutIds = coursesList.map((course: Course) => ({
+    const coursesWithoutIds = editedCourses.map((course: Course) => ({
       title: course.title,
       description: course.description,
       date: course.date,
@@ -199,11 +196,9 @@ export const Courses = ({ courses, onChange }: Props) => {
           </div>
         </form>
       </div>
-      <Modal isOpened={isDeleteModalVisible} close={() => closeDeleteModal()}>
+      <Modal isOpened={!!deletedCourseId} close={() => closeDeleteModal()}>
         <Confirm
-          accept={() => {
-            !!courseIdToDelete && handleClickDeleteCourse(courseIdToDelete);
-          }}
+          accept={handleClickDeleteCourse}
           reject={() => closeDeleteModal()}
         >
           Вы уверены, что хотите удалить курс?
