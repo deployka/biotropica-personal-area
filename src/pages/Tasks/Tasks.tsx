@@ -45,8 +45,8 @@ export function Tasks() {
   const dispatch = useDispatch();
   const [updateTask, { isLoading: isUpdateLoading }] = useUpdateTaskMutation();
   const [createTask, { isLoading: isCreateLoading }] = useCreateTaskMutation();
-  const [deleteTask] = useDeleteTaskMutation();
   const [addComment] = useAddTaskCommentMutation();
+  const [deleteTask] = useDeleteTaskMutation();
 
   const { userId: rawUserId } = useParams<{ userId: string }>();
 
@@ -94,9 +94,12 @@ export function Tasks() {
     );
 
   useEffect(() => {
-    if (!openedTask || !comments.length) return;
-    setOpenedTask({ ...openedTask, comments });
-  }, [comments, openedTask, setOpenedTask]);
+    if (!comments.length) return;
+    setOpenedTask(prevState => {
+      if (!prevState) return null;
+      return { ...prevState, comments };
+    });
+  }, [comments]);
 
   function handleCloseTask() {
     setOpenedTaskId(null);
