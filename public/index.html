@@ -1,65 +1,68 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Biotropika" />
-    <link rel="stylesheet" href="loader.css" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>Biotropika</title>
-  </head>
 
-  <body>
-    <!-- Filler HTML as our app starts up -->
-    <div id="root">
-      <div class="App">
-        <div class="loading-container-wrapper">
-          <div class="title-loader-wrapper">
-            <h2>Биотропика загружается и приветствует вас!</h2>
-            <div class="lds-grid">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Biotropika" />
+  <link rel="stylesheet" href="loader.css" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
+  <title>Biotropika</title>
+</head>
+
+<body>
+  <!-- Filler HTML as our app starts up -->
+  <div id="root">
+    <div class="App">
+      <div class="loading-container-wrapper">
+        <div class="title-loader-wrapper">
+          <h2>Биотропика загружается и приветствует вас!</h2>
+          <div class="lds-grid">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function () {
-          navigator.serviceWorker
-            .register('service-worker.js')
-            .then(
-              function (registration) {
-                // Registration was successful
-                console.log(
-                  'ServiceWorker registration successful with scope: ',
-                  registration.scope,
-                );
-              },
-              function (err) {
-                // registration failed :(
-                console.log('ServiceWorker registration failed: ', err);
-              },
-            )
-            .catch(function (err) {
-              console.log(err);
-            });
-        });
-      } else {
-        console.log('service worker is not supported');
-      }
-    </script>
-    <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
-  </body>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker
+          .register('service-worker.js')
+          .then(
+            function (registration) {
+              // Registration was successful
+              console.log(
+                'ServiceWorker registration successful with scope: ',
+                registration.scope,
+              );
+            },
+            function (err) {
+              // registration failed :(
+              console.log('ServiceWorker registration failed: ', err);
+            },
+          )
+          .catch(function (err) {
+            console.log(err);
+          });
+      });
+    } else {
+      console.log('service worker is not supported');
+    }
+  </script>
+  <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
+</body>
+
 </html>
