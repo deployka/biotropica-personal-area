@@ -88,6 +88,10 @@
     width: 47.4%;
     margin-bottom: 15px;
 
+    &.select {
+      margin: 0 0 60px 0;
+    }
+
     @include for-tablet {
       width: 60%;
     }
