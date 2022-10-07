@@ -10,6 +10,7 @@ import dangerIcon from './../../../assets/icons/taskType/danger.svg';
 import dumbbellIcon from './../../../assets/icons/taskType/dumbbell.svg';
 import elseIcon from './../../../assets/icons/taskType/else.svg';
 import femaleIcon from './../../../assets/icons/taskType/female.svg';
+import regimeIcon from './../../../assets/icons/taskType/regime.svg';
 import foodIcon from './../../../assets/icons/taskType/food.svg';
 import noteIcon from './../../../assets/icons/taskType/note.svg';
 import pillIcon from './../../../assets/icons/taskType/pill.svg';
@@ -150,7 +151,7 @@ export const typeGroups: Record<Task['type'], TaskTypeGroupModel> = {
       },
       {
         title: 'Нарушение режима',
-        icon: femaleIcon,
+        icon: regimeIcon,
         type: 'event',
         key: KindOfEvent.regime,
       },
