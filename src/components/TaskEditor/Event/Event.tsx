@@ -30,6 +30,9 @@ export function EventTaskEditor({
   onSave,
   isLoading,
 }: EventTaskEditorProps) {
+  const isIdExist = 'id' in task;
+  console.log('isIdExist :', isIdExist);
+
   function onSubmit(values: Partial<CreateEventTask>) {
     onSave({ ...task, ...values });
   }
@@ -77,101 +80,105 @@ export function EventTaskEditor({
                 onChange={handleChange}
               />
             </div>
-            <div className={s.line}>
-              <div className={s.line}>
-                <SelectCustom
-                  name="kindOfEvent"
-                  placeholder="Тип события"
-                  label="Тип события"
-                  value={values.kindOfEvent || ''}
-                  options={eventTaskOptions}
-                  touched={!!touched.kindOfEvent}
-                  error={errors.kindOfEvent as string}
-                  onBlur={handleBlur}
-                  onChange={value => {
-                    setFieldValue('kindOfEvent', value);
-                  }}
-                />
-              </div>
-              <DatePickerCustom
-                name="date"
-                minDate={NEW_DATE}
-                selected={values.date ? new Date(values.date) : null}
-                label={'Дата'}
-                onBlur={handleBlur}
-                onChange={(date: Date) => setFieldValue('date', date)}
-                onSelect={(date: Date) => setFieldValue('date', date)}
-              />
-            </div>
-            <div className={s.line}>
-              <SelectCustom
-                name="repeatType"
-                placeholder="Тип повторения"
-                label="Тип повторения"
-                value={values.repeatType || ''}
-                options={selectRepeatType}
-                touched={!!touched.repeatType}
-                error={errors.repeatType}
-                onBlur={handleBlur}
-                onChange={repeatType => {
-                  setFieldValue('repeatType', repeatType);
-                }}
-              />
-            </div>
-            <div className={s.line}>
-              <SelectCustom
-                name="completionType"
-                placeholder="Принцип завершения"
-                label="Принцип завершения"
-                value={values.completionType}
-                options={selectCompletionType}
-                onBlur={handleBlur}
-                touched={!!touched.completionType}
-                error={errors.completionType as string}
-                onChange={option => {
-                  values.completionValue = undefined;
-                  setFieldValue('completionType', option);
-                }}
-              />
-            </div>
-            <div className={s.line}>
-              {values.completionType ? (
-                values.completionType === 'byDate' ? (
+            {!isIdExist && (
+              <>
+                <div className={s.line}>
+                  <div className={s.line}>
+                    <SelectCustom
+                      name="kindOfEvent"
+                      placeholder="Тип события"
+                      label="Тип события"
+                      value={values.kindOfEvent || ''}
+                      options={eventTaskOptions}
+                      touched={!!touched.kindOfEvent}
+                      error={errors.kindOfEvent as string}
+                      onBlur={handleBlur}
+                      onChange={value => {
+                        setFieldValue('kindOfEvent', value);
+                      }}
+                    />
+                  </div>
                   <DatePickerCustom
-                    name="completionDate"
+                    name="date"
                     minDate={NEW_DATE}
-                    selected={
-                      typeof values.completionValue !== 'number' &&
-                      values.completionValue
-                        ? new Date(values.completionValue)
-                        : null
-                    }
-                    label={'Дата завершения'}
+                    selected={values.date ? new Date(values.date) : null}
+                    label={'Дата'}
                     onBlur={handleBlur}
-                    onChange={(date: Date) =>
-                      setFieldValue('completionValue', date)
-                    }
-                    onSelect={(date: Date) =>
-                      setFieldValue('completionValue', date)
-                    }
+                    onChange={(date: Date) => setFieldValue('date', date)}
+                    onSelect={(date: Date) => setFieldValue('date', date)}
                   />
-                ) : (
-                  <Input
-                    type={InputTypes.NUMBER}
-                    placeholder="Количество повторений"
-                    label="Количество повторений"
-                    name="completionValue"
-                    value={
-                      values.completionValue ? +values.completionValue : ''
-                    }
+                </div>
+                <div className={s.line}>
+                  <SelectCustom
+                    name="repeatType"
+                    placeholder="Тип повторения"
+                    label="Тип повторения"
+                    value={values.repeatType || ''}
+                    options={selectRepeatType}
+                    touched={!!touched.repeatType}
+                    error={errors.repeatType}
                     onBlur={handleBlur}
-                    onChange={handleChange}
+                    onChange={repeatType => {
+                      setFieldValue('repeatType', repeatType);
+                    }}
                   />
-                )
-              ) : (
-                ''
-              )}
-            </div>
+                </div>
+                <div className={s.line}>
+                  <SelectCustom
+                    name="completionType"
+                    placeholder="Принцип завершения"
+                    label="Принцип завершения"
+                    value={values.completionType}
+                    options={selectCompletionType}
+                    onBlur={handleBlur}
+                    touched={!!touched.completionType}
+                    error={errors.completionType as string}
+                    onChange={option => {
+                      values.completionValue = undefined;
+                      setFieldValue('completionType', option);
+                    }}
+                  />
+                </div>
+                <div className={s.line}>
+                  {values.completionType ? (
+                    values.completionType === 'byDate' ? (
+                      <DatePickerCustom
+                        name="completionDate"
+                        minDate={NEW_DATE}
+                        selected={
+                          typeof values.completionValue !== 'number' &&
+                          values.completionValue
+                            ? new Date(values.completionValue)
+                            : null
+                        }
+                        label={'Дата завершения'}
+                        onBlur={handleBlur}
+                        onChange={(date: Date) =>
+                          setFieldValue('completionValue', date)
+                        }
+                        onSelect={(date: Date) =>
+                          setFieldValue('completionValue', date)
+                        }
+                      />
+                    ) : (
+                      <Input
+                        type={InputTypes.NUMBER}
+                        placeholder="Количество повторений"
+                        label="Количество повторений"
+                        name="completionValue"
+                        value={
+                          values.completionValue ? +values.completionValue : ''
+                        }
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                      />
+                    )
+                  ) : (
+                    ''
+                  )}
+                </div>
+              </>
+            )}
             <div className={s.line}>
               <HtmlEditor
                 value={values.description || ''}
@@ -182,15 +189,17 @@ export function EventTaskEditor({
                 }}
               />
             </div>
-            <div className="line">
-              <Checkbox
-                id="visibilityCheckbox"
-                name="isPrivate"
-                label="Приватная задача"
-                isChecked={values.isPrivate}
-                onChange={value => setFieldValue('isPrivate', value)}
-              />
-            </div>
+            {!isIdExist && (
+              <div className="line">
+                <Checkbox
+                  id="visibilityCheckbox"
+                  name="isPrivate"
+                  label="Приватная задача"
+                  isChecked={values.isPrivate}
+                  onChange={value => setFieldValue('isPrivate', value)}
+                />
+              </div>
+            )}
             <div className={s.buttons}>
               <Button
                 isDisabled={isLoading}

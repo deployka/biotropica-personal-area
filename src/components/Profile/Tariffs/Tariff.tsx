@@ -21,12 +21,14 @@ export const ProfileTariff = ({
     ? format(new Date(expires), 'dd.MM.yyyy, HH:mm') || '-'
     : '';
 
+  const emptyTariff = isPublic
+    ? 'У пользователя нет тарифа'
+    : 'У вас нет тарифа';
+
   return (
     <div style={{ textDecoration: 'none' }} className={s.tariff}>
       <div className={s.title}>
-        <p>
-          {title || isPublic ? 'У пользователя нет тарифа' : 'У вас нет тарифа'}
-        </p>
+        <p>{title || emptyTariff}</p>
       </div>
       {formattedExpires && (
         <div className={s.date}>

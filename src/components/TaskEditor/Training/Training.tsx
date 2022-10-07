@@ -151,10 +151,10 @@ export function TrainingTaskEditor({
               </div>
               <div className={`${s.half} ${s.secondValue}`}>
                 <Input
-                  type={InputTypes.NAME}
+                  type={InputTypes.TEXT}
                   placeholder="Значение"
                   name="firstTargetValue"
-                  value={values.firstTargetValue}
+                  value={values.firstTargetValue || undefined}
                   onBlur={handleBlur}
                   onChange={handleChange}
                 />
@@ -178,10 +178,10 @@ export function TrainingTaskEditor({
               </div>
               <div className={`${s.half} ${s.secondValue}`}>
                 <Input
-                  type={InputTypes.NAME}
+                  type={InputTypes.TEXT}
                   placeholder="Значение"
                   name="secondTargetValue"
-                  value={values.secondTargetValue}
+                  value={values.secondTargetValue || undefined}
                   onBlur={handleBlur}
                   onChange={handleChange}
                 />
