@@ -1,5 +1,4 @@
 export default {
-
   // eslint-disable-next-line
   control: (styles: any) => ({
     ...styles,
