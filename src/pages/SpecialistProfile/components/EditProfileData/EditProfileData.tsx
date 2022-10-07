@@ -266,7 +266,7 @@ export const EditProfileData = ({
                 />
               </div>
 
-              <div className={s.input__wrapper}>
+              <div className={classNames(s.input__wrapper, s.select)}>
                 <MultiSelect
                   name="specializations"
                   placeholder="Специальность"
