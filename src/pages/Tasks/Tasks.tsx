@@ -215,7 +215,7 @@ export function Tasks() {
         ? templates.find(t => t.id === selectedType.id)
         : createTaskByType(selectedType, userId);
     if (newTask) {
-      setOpenedTask({ ...newTask, id: undefined, isTemplate: false });
+      setOpenedTask({ ...newTask, isTemplate: false });
     } else {
       setOpenedTask(null);
     }
