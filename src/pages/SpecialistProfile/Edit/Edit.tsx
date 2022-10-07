@@ -71,7 +71,11 @@ const EditSpecialistProfile = () => {
   );
   const history = useHistory();
 
-  const { data: currentSpecialist } = useGetCurrentSpecialistQuery();
+  const {
+    data: currentSpecialist,
+    isLoading: isSpecialistLoading,
+    isError: isSpecialistError,
+  } = useGetCurrentSpecialistQuery();
 
   const userImage =
     currentSpecialist?.user?.profilePhoto &&
@@ -215,8 +219,16 @@ const EditSpecialistProfile = () => {
     }
   };
 
+  if (isSpecialistLoading) {
+    return <p>Загрузка...</p>;
+  }
+
+  if (!isSpecialistLoading && isSpecialistError) {
+    return <p>Произошла ошибка</p>;
+  }
+
   if (!currentSpecialist) {
-    return <p>Ошибка</p>;
+    return <p>Произошла ошибка</p>;
   }
 
   const specialistData = {
