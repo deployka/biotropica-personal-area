@@ -32,9 +32,9 @@ type TasksModalProps = {
   onDeleteTask(): void;
   onSave(task: CreateSomeTask): void;
   onSendComment(newCommentText: string): void;
-  onSaveFactValue(value: number): void;
-  onSaveFirstValue(value: number | undefined): void;
-  onSaveSecondValue(value: number | undefined): void;
+  onSaveFactValue(value: string): void;
+  onSaveFirstValue(value: string | undefined): void;
+  onSaveSecondValue(value: string | undefined): void;
 };
 
 export const TasksModal = ({

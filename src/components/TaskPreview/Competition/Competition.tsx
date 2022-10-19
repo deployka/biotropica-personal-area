@@ -15,7 +15,7 @@ export type CompetitionTaskPreviewProps = {
   task: CompetitionTask;
   isSpecialist: boolean;
   isCommentsLoading?: boolean;
-  onSaveFactValue(value: number | undefined): void;
+  onSaveFactValue(value: string | undefined): void;
   onSendComment(newCommentText: string): void;
 };
 
@@ -32,7 +32,7 @@ export function CompetitionTaskPreview({
     day: 'numeric',
   });
 
-  function onSave(factValue: number | undefined) {
+  function onSave(factValue: string | undefined) {
     onSaveFactValue(factValue);
   }
 
