@@ -25,7 +25,7 @@ const task: CreateCompetitionTask = {
   priority: TaskPriority.A,
   startTime: '12:30',
   isPrivate: true,
-  targetValue: 0,
+  targetValue: '',
   title: 'Test',
   date: '',
   status: 'init',

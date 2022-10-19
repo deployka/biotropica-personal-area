@@ -126,7 +126,6 @@ export function Tasks() {
     }
     handleCloseTask();
   }
-
   async function onDelete() {
     if (!openedTaskId) return;
     try {
@@ -227,15 +226,15 @@ export function Tasks() {
   function handleChangeMonth(month: string) {
     dispatch(setCurrentMonth(month));
   }
-  async function handleSaveFirstFactValue(value: number | undefined) {
+  async function handleSaveFirstFactValue(value: string | undefined) {
     if (!openedTaskId) return;
     await updateTask({ id: openedTaskId, firstFactValue: value });
   }
-  async function handleSaveSecondFactValue(value: number | undefined) {
+  async function handleSaveSecondFactValue(value: string | undefined) {
     if (!openedTaskId) return;
     await updateTask({ id: openedTaskId, secondFactValue: value });
   }
-  async function handleSaveFactValue(value: number) {
+  async function handleSaveFactValue(value: string) {
     if (!openedTaskId) return;
     await updateTask({ id: openedTaskId, factValue: value });
   }

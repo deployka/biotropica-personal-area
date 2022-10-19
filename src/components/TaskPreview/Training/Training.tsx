@@ -18,8 +18,8 @@ export type TrainingTaskPreviewProps = {
   task: TrainingTask;
   isSpecialist: boolean;
   isCommentsLoading?: boolean;
-  onSaveFirstValue(value: number | undefined): void;
-  onSaveSecondValue(value: number | undefined): void;
+  onSaveFirstValue(value: string | undefined): void;
+  onSaveSecondValue(value: string | undefined): void;
   onSendComment(newCommentText: string): void;
 };
 
