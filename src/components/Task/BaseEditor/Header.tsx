@@ -84,10 +84,10 @@ export const Header = ({
   }
 
   const actions: Action[] = [
-    {
+    /*{
       title: 'Создать шаблон',
       onClick: onCreateTemplate,
-    },
+    },*/
     {
       title: 'Удалить задачу',
       onClick: onDeleteTask,
