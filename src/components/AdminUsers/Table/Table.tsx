@@ -56,7 +56,7 @@ export function AdminUsersTable({
             />
           ))
         ) : (
-          <p>Пользователи не найдены</p>
+          <p className={s.emptyList}>Пользователи не найдены</p>
         )}
       </div>
     </>
