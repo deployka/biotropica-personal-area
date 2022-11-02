@@ -86,7 +86,7 @@ export function TariffAddForm({ defaultValues, onClose, onSubmit }: Props) {
           />
           {tariffFeatures.map((feature, index) => (
             <Input
-              key={feature}
+              key={`${feature}_${index}`}
               name={`includedField/${index}`}
               type={InputTypes.TEXT}
               label={index === 0 ? 'что входит в план' : undefined}
