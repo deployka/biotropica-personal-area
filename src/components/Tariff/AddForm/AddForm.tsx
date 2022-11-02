@@ -94,7 +94,7 @@ export function TariffAddForm({ defaultValues, onClose, onSubmit }: Props) {
               value={feature.toString()}
               isError={feature.trim() === ''}
               classes={s.input}
-              onChange={e => changeIncludedField(e.currentTarget.value, index)}
+              onKeyDown={e => changeIncludedField(e.currentTarget.value, index)}
               withCancel
               onCancel={() => deleteIncludedField(index)}
             />
