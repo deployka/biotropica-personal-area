@@ -18,6 +18,25 @@ export const usersFilters: FilterField[] = [
     ],
   },
   {
+    name: 'Анализы',
+    key: 'analyzes',
+    type: 'radio',
+    filters: [
+      {
+        value: 'all',
+        label: 'Все',
+      },
+      {
+        value: 'loaded',
+        label: 'Загружены',
+      },
+      {
+        value: 'notLoaded',
+        label: 'Не загружены',
+      },
+    ],
+  },
+  {
     name: 'Подопечные',
     key: 'ward',
     type: 'radio',
@@ -63,4 +82,16 @@ export function filterUsersByWaiting(users: BaseUser[], q: string) {
       user.email?.toLowerCase().includes(query)
     );
   });
+}
+
+export function filterUsersByAnalyzes(
+  analyzesFilter: ('loaded' | 'notLoaded' | 'all')[],
+) {
+  const analyzesStatus = {
+    loaded: true,
+    notLoaded: false,
+    all: undefined,
+  };
+
+  return analyzesStatus[analyzesFilter[0]];
 }
