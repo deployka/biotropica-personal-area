@@ -73,6 +73,7 @@
 
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 
     font-weight: 500;
     font-size: 16px;
@@ -81,19 +82,31 @@
     color: #1e174d;
 
     .left {
+      order: 1;
       width: 33.3%;
+
+      @include for-tablet {
+        width: 100%;
+      }
     }
     .center {
+      order: 2;
       width: 33.3%;
 
       display: flex;
       align-items: center;
       justify-content: center;
+
+      @include for-tablet {
+        margin: 10px 0 0 0;
+        width: 100%;
+      }
     }
 
     .closeBtn {
       position: absolute;
       right: 0;
+      top: 0;
       &:hover {
         cursor: pointer;
       }
