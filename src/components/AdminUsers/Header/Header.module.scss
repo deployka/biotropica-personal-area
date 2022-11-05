@@ -113,6 +113,10 @@
     color: $color-black;
   }
 
+  @include for-laptop {
+    width: 220px;
+  }
+
   @include for-phone {
     margin: 0 0 20px 0;
     width: 100%;
@@ -121,10 +125,6 @@
     h3 {
       font-size: 16px;
     }
-  }
-
-  @include for-laptop {
-    width: 220px;
   }
 }
 
@@ -151,15 +151,16 @@
   display: flex;
   align-items: center;
 
-  @include for-phone {
-    flex-wrap: wrap;
-  }
-
   @include for-laptop {
     width: calc(100% - 220px);
     flex-direction: column;
     align-items: center;
     justify-content: unset;
+  }
+
+  @include for-phone {
+    flex-wrap: wrap;
+    width: 100%;
   }
 }
 
