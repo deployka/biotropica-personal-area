@@ -121,6 +121,10 @@
     align-items: center;
 
     overflow: auto;
+
+    @include for-tablet {
+      padding-bottom: 40px;
+    }
   }
 
   &.hidden {
