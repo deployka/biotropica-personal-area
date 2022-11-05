@@ -84,14 +84,8 @@ export function filterUsersByWaiting(users: BaseUser[], q: string) {
   });
 }
 
-export function filterUsersByAnalyzes(
-  analyzesFilter: ('loaded' | 'notLoaded' | 'all')[],
-) {
-  const analyzesStatus = {
-    loaded: true,
-    notLoaded: false,
-    all: undefined,
-  };
-
-  return analyzesStatus[analyzesFilter[0]];
-}
+export const analyzePassedStatus: Record<string, boolean | undefined> = {
+  loaded: true,
+  notLoaded: false,
+  all: undefined,
+};

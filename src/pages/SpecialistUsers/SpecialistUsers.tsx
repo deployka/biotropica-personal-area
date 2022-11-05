@@ -3,7 +3,7 @@ import { ROLE } from '../../@types/entities/Role';
 import { useGetWaitingUsersQuery } from '../../api/recommendations';
 import { useGetAllUsersQuery } from '../../api/user';
 import { UserList } from './components/UserList/UserList';
-import { filterUsersByAnalyzes } from './components/UserList/usersHelper';
+import { analyzePassedStatus } from './components/UserList/usersHelper';
 
 export type Filters = {
   waitingForRecommendation: string[];
@@ -26,7 +26,7 @@ export function SpecialistUsers() {
     isFetching,
   } = useGetAllUsersQuery({
     roles: [ROLE.CLIENT],
-    isAnalyzesPassed: filterUsersByAnalyzes(filters.analyzes),
+    isAnalyzesPassed: analyzePassedStatus[filters.analyzes[0]],
   });
 
   const { data: waitingUsers = [] } = useGetWaitingUsersQuery();
