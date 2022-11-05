@@ -30,7 +30,7 @@
         align-items: center;
 
         background: #ffffff;
-        filter: drop-shadow(0px 3px 16px rgba(233, 229, 247, 0.5));
+        border: 1px solid rgba(111, 97, 208, 0.5);
         border-radius: 50%;
 
         z-index: 21;
@@ -38,10 +38,6 @@
         cursor: pointer;
 
         transition: all 0.2s ease;
-
-        @include for-tablet {
-            display: none;
-        }
 
         &:hover {
             svg {
@@ -51,12 +47,47 @@
             }
             background: $color-primary;
         }
+
+        @include for-tablet {
+            width: 26px;
+            height: 26px;
+
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -webkit-tap-highlight-color: transparent;
+
+            svg {
+                width: 12px;
+                height: 12px;
+            }
+
+            &:hover {
+                svg {
+                    path {
+                        stroke: #000000;
+                    }
+                }
+                background: #ffffff;
+            }
+        }
     }
     .right {
         right: -16px;
+        @include for-tablet {
+            right: -10px;
+        }
+
+        @include for-phone {
+            right: -8px;
+        }
     }
     .left {
         left: -16px;
+        @include for-tablet {
+            left: -10px;
+        }
+        @include for-phone {
+            right: -8px;
+        }
     }
 
     .container {
