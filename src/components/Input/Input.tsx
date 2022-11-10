@@ -35,7 +35,7 @@ export interface Props {
   isError?: boolean;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onInput?: (e: React.FormEvent<HTMLInputElement>) => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onPaste?: (e: React.ClipboardEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onAccept?: () => void;
