@@ -7,6 +7,8 @@
   overflow-y: auto;
   transition: all 0.3s ease;
 
+  filter: drop-shadow(0px 0px 40px rgba(111, 97, 208, 0.11));
+
   .header {
     padding: 20px 10px;
     width: 100%;
@@ -14,6 +16,10 @@
     display: none;
     align-items: center;
     justify-content: space-between;
+
+    @include for-laptop {
+      padding: 20px;
+    }
   }
 
   &.hidden {
@@ -30,13 +36,13 @@
 
   height: calc(100vh - 100px);
 
-  @include for-phone {
-    width: 100vw;
-    height: 100vh;
-
+  @include for-laptop {
     position: fixed;
     top: 0;
-    left: 0;
+    left: 80px;
+
+    width: 240px;
+    height: 100vh;
 
     display: flex;
     flex-direction: column;
@@ -49,5 +55,10 @@
     .header {
       display: flex;
     }
+  }
+
+  @include for-phone {
+    width: 100vw;
+    height: 100vh;
   }
 }

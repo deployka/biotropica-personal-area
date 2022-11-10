@@ -22,7 +22,15 @@
     justify-content: unset;
   }
 
+  @include for-laptop {
+    padding: 10px;
+    height: unset;
+  }
+
   .searchInput {
+    @include for-laptop {
+      width: 100%;
+    }
   }
 
   .panelBtns {
@@ -37,6 +45,19 @@
       button {
         width: 47%;
         margin: 0;
+      }
+    }
+
+    @include for-laptop {
+      width: 100%;
+      margin: 5px 0 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      button {
+        margin: 0;
+        width: calc(50% - 10px);
       }
     }
   }
@@ -101,6 +122,10 @@
       font-size: 16px;
     }
   }
+
+  @include for-laptop {
+    width: 220px;
+  }
 }
 
 .counter {
@@ -128,6 +153,13 @@
 
   @include for-phone {
     flex-wrap: wrap;
+  }
+
+  @include for-laptop {
+    width: calc(100% - 220px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: unset;
   }
 }
 
