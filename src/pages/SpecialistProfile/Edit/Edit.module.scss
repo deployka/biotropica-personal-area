@@ -21,4 +21,27 @@
       margin: 15px 10px 15px 0;
     }
   }
+
+  .horizontalScroll {
+    @include for-tablet {
+      position: relative;
+      padding: 0 10px;
+      left: -10px;
+
+      width: calc(100% - 30px);
+      overflow-x: scroll;
+      overflow-y: visible;
+
+      &::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+      }
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    @include for-phone {
+      width: 100%;
+    }
+  }
 }

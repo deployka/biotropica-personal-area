@@ -30,18 +30,21 @@ export const ProfileTariff = ({
       <div className={s.title}>
         <p>{title || emptyTariff}</p>
       </div>
-      {formattedExpires && (
+      {formattedExpires && isPaid && (
         <div className={s.date}>
           <p>До {formattedExpires}</p>
         </div>
       )}
       {!isPaid && !isPublic && (
         <div className={s.isPaid}>
-          {
-            <p onClick={onClickBuyTariff}>
-              {title ? 'Оплатить тариф' : ' Купить тариф'}
-            </p>
-          }
+          <p onClick={onClickBuyTariff}>
+            {title ? 'Оплатить тариф' : ' Купить тариф'}
+          </p>
+        </div>
+      )}
+      {isPublic && !isPaid && title && (
+        <div className={s.isPaid}>
+          <p>Тариф не оплачен</p>
         </div>
       )}
     </div>

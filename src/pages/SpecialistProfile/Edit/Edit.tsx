@@ -240,11 +240,13 @@ const EditSpecialistProfile = () => {
   return (
     <div className={s.edit}>
       <div className={s.tabs__container}>
-        <Tabs
-          tabs={tabs}
-          activeTab={activeTab}
-          onActiveTabChanged={setActiveTab}
-        />
+        <div className={s.horizontalScroll}>
+          <Tabs
+            tabs={tabs}
+            activeTab={activeTab}
+            onActiveTabChanged={setActiveTab}
+          />
+        </div>
       </div>
       {activeTab === tabs[0].key && (
         <EditProfileData
