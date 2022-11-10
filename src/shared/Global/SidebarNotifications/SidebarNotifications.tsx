@@ -7,17 +7,20 @@ import { Notification } from './Notification/Notification';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import { PopupBackground } from '../PopupBackground/PopupBackground';
+import CloseIcon from './../../../assets/icons/close-light.svg';
 import { Notification as INotification } from '../../../@types/entities/Notification';
 import { useGetNotificationsQuery } from '../../../api/notifications';
 
 interface Props {
   open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpen: (open: boolean) => void;
 }
 
 export const SidebarNotifications = ({ open, setOpen }: Props) => {
   const { data: notifications = [] } = useGetNotificationsQuery();
-
+  const close = () => {
+    setOpen(false);
+  };
   return (
     <>
       <div onClick={() => setOpen(false)}>
@@ -33,7 +36,9 @@ export const SidebarNotifications = ({ open, setOpen }: Props) => {
           <div className={s.title}>
             <p>Уведомления</p>
           </div>
-          <BtnClose setOpen={setOpen} />
+          <button className={s.closeBtn} onClick={close}>
+            <img src={CloseIcon} alt="close" />
+          </button>
         </div>
         <div className={s.notifications}>
           {!notifications.length && 'Список уведомлений пуст'}

@@ -34,6 +34,22 @@
     z-index: 5;
   }
 
+  .closeBtn {
+    width: 18px;
+    height: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
   .notificationsList {
     width: 100%;
   }
