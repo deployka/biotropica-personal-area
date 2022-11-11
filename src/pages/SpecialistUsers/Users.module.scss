@@ -1,5 +1,5 @@
-@import './../../styles/global.scss';
-@import './../../styles/breakpoints.scss';
+@import "./../../styles/global.scss";
+@import "./../../styles/breakpoints.scss";
 
 .adminPanel {
   width: 100%;
@@ -10,6 +10,10 @@
 .listPanel {
   position: relative;
   width: calc(100% - 220px);
+
+  @include for-laptop {
+    width: 100%;
+  }
 
   background: #ffffff;
   filter: drop-shadow(0px 0px 40px rgba(111, 97, 208, 0.11));
