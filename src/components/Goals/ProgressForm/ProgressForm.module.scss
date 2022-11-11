@@ -75,6 +75,14 @@
 
     row-gap: 10px;
 
+    @include for-laptop {
+      margin: 15px 0 0 0;
+    }
+
+    @include for-phone {
+      margin: 0;
+    }
+
     .action {
       width: 100%;
       display: flex;

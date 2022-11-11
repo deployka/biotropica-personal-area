@@ -7,6 +7,7 @@
   flex-direction: column;
 
   @include for-phone {
+    margin: 0;
     align-items: center;
   }
 

@@ -116,7 +116,7 @@ const Tariffs = () => {
     if (currentTariff) {
       const isTariffCurrent = currentTariff.tariffId === tariff.id;
       const title = isTariffCurrent
-        ? 'Продлить тариф?'
+        ? 'Оплатить тариф?'
         : `У вас уже есть тариф "${currentTariff.tariff.title}". Вы хотите заменить его?`;
       const type = isTariffCurrent ? 'extend' : 'replace';
 

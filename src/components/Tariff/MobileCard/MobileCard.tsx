@@ -44,7 +44,7 @@ export const TariffMobileCard = ({
 
   const tariffBtnText =
     currentTariff && !isPaid
-      ? 'продлить тариф'
+      ? 'ожидает оплаты'
       : isPaid
       ? 'действует'
       : 'купить тариф';

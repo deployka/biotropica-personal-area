@@ -42,14 +42,14 @@ export const Header = ({ active, goals, onGoalClick }: Props) => {
           breakpoints={{
             0: {
               slidesPerView: 1,
+            },
+            600: {
+              slidesPerView: 2,
               pagination: {
                 el: '.swiper-pagination-goals-header',
                 type: 'bullets',
                 clickable: true,
               },
-            },
-            600: {
-              slidesPerView: 2,
             },
             1180: {
               slidesPerView: 3,

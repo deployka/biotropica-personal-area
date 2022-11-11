@@ -100,7 +100,6 @@ export const CreateUserModal = ({
                   onBlur={handleBlur}
                   placeholder="Имя"
                   name="name"
-                  label="Имя"
                   value={values.name}
                   type="name"
                   options={{ touched, errors }}
