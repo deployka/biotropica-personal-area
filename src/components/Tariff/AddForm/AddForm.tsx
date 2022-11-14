@@ -44,7 +44,7 @@ export function TariffAddForm({ defaultValues, onClose, onSubmit }: Props) {
     <Formik
       enableReinitialize
       initialValues={{
-        cost: defaultValues?.cost || 0,
+        cost: defaultValues?.cost || NaN,
         description: defaultValues?.description || '',
         title: defaultValues?.title || '',
         zakazSystemId: defaultValues?.zakazSystemId || '',
