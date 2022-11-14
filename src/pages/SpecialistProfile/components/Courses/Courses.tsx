@@ -28,6 +28,7 @@ export const Courses = ({ courses, onChange }: Props) => {
 
   const [isDataChanged, setIsDataChanged] = useState(false);
   const [deletedCourseId, setDeletedCourseId] = useState<number | null>(null);
+  const [counter, setCounter] = useState(1);
 
   const closeDeleteModal = () => {
     setDeletedCourseId(null);
@@ -65,12 +66,14 @@ export const Courses = ({ courses, onChange }: Props) => {
     setCoursesList([
       ...coursesList,
       {
-        id: Number(courses.length) + 1,
+        id: Number(courses.length) + counter,
         title: '',
         description: '',
         date: moment().toISOString(),
       },
     ]);
+
+    setCounter(counter + 1);
   };
 
   const handleClickDeleteBtn = (id: number) => {
