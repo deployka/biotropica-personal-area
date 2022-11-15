@@ -23,7 +23,7 @@ type Props = {
 };
 
 const analyzesInfoBar: IInfoBar = {
-  title: 'Пользователь не добавляли анализы',
+  title: 'Пользователь не добавлял анализы',
   text: (
     <ul>
       <p className={s.text}>

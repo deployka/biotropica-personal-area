@@ -62,11 +62,14 @@ export function AdminUsers() {
     setBlockedUserId(id);
   };
 
-  async function writeUser(userId: number) {
+  async function writeUser(user: BaseUser) {
     try {
+      const userId = user.id;
+      const userName = user.name;
+      const userFIO = user.lastname;
       const dialog = await createDialog({
         userId,
-        title: 'Техподдержка',
+        title: userName + ' ' + userFIO,
         isAccess: true,
       }).unwrap();
       eventBus.emit(EventTypes.chatOpen, dialog.id);

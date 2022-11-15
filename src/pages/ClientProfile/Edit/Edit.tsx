@@ -113,7 +113,9 @@ const Edit = () => {
         message: 'Данные профиля обновлены!',
         type: NotificationType.SUCCESS,
       });
-      history.push('/profile');
+      if (user?.roles[0].name === 'CLIENT') {
+        history.push('/profile');
+      }
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
         message: (error as ResponseError)?.data?.message,

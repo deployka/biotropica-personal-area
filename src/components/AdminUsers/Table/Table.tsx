@@ -15,7 +15,7 @@ export type UsersTableProps = {
   tariffs: Tariff[];
   onProfile: (user: BaseUser) => void;
   onToggleUserBanStatus: (id: number) => void;
-  onWrite: (id: number) => void;
+  onWrite: (user: BaseUser) => void;
 };
 
 export function AdminUsersTable({
@@ -52,11 +52,11 @@ export function AdminUsersTable({
               onToggleUserBanStatus={() => {
                 onToggleUserBanStatus(user.id);
               }}
-              onWrite={() => onWrite(user.id)}
+              onWrite={() => onWrite(user)}
             />
           ))
         ) : (
-          <p>Пользователи не найдены</p>
+          <p className={s.emptyList}>Пользователи не найдены</p>
         )}
       </div>
     </>

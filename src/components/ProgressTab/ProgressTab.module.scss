@@ -10,7 +10,7 @@
   align-items: center;
   row-gap: 20px;
 
-  @include for-phone {
+  @include for-tablet {
     max-height: unset;
     width: 100%;
     row-gap: 10px;

@@ -35,11 +35,11 @@ export type TrainingTask = Task & {
   kindOfSport: KindOfSport;
   category: TrainingCategory;
   firstTargetType: 'time' | 'distance'; // Время / Дистанция
-  firstTargetValue: number;
+  firstTargetValue: string;
   secondTargetType: 'pulse' | 'pace'; // Пульс / Темп
-  secondTargetValue: number;
-  firstFactValue?: number;
-  secondFactValue?: number;
+  secondTargetValue: string;
+  firstFactValue?: string;
+  secondFactValue?: string;
 };
 
 export type CreateTrainingTask = CreateTask<TrainingTask>;
@@ -64,8 +64,8 @@ export type CompetitionTask = Task & {
     | CyclingCompetitionType
     | SkisCompetitionType;
   priority: TaskPriority;
-  targetValue: number;
-  factValue?: number;
+  targetValue: string;
+  factValue?: string;
 };
 
 export type TaskStatus =

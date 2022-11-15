@@ -67,6 +67,11 @@ export const AnalyzesAddModal = ({
     return (!isValid && !dirty) || isLoading;
   }
 
+  const handleClose = () => {
+    onClose();
+    setFileName('');
+  };
+
   return (
     <Modal isOpened={isOpened} className={s.modal} close={onClose}>
       <Formik
@@ -135,6 +140,7 @@ export const AnalyzesAddModal = ({
               <Button
                 disabled={isDisabled(isValid, dirty)}
                 type="submit"
+                onClick={handleClose}
                 options={{
                   content: isLoading ? <Loader /> : 'Добавить',
                   setDisabledStyle: isDisabled(isValid, dirty),

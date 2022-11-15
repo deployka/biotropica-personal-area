@@ -27,11 +27,10 @@
   width: 100%;
   max-width: 350px;
 
-  &:placeholder {
+  &::placeholder {
     color: #736f8b;
   }
 
-  border: 1px solid #f7f6fb;
   box-sizing: border-box;
   border-radius: 4px;
 

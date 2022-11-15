@@ -14,11 +14,15 @@ type Props = {
   isPublic?: boolean;
 };
 
-const questionnaireInfoBar: IInfoBar = {
+const privateInfoBar: IInfoBar = {
   title: 'Вы не заполняли анкету',
   text: 'Пожалуйста, заполните анкету',
   href: '/questionnaire',
   bottomLink: 'Заполнить анкету',
+};
+
+const publicInfoBar: IInfoBar = {
+  title: 'Пользователь не заполнял анкету',
 };
 
 export const QuestionnaireTab = ({
@@ -30,7 +34,9 @@ export const QuestionnaireTab = ({
   if (!isAccess) return <p>Нет доступа</p>;
   // FIXME: add loader
   if (isLoading) return <p>Загрузка...</p>;
-  if (!answers.length) return <InfoBar infoBar={questionnaireInfoBar} />;
+  if (!answers.length) {
+    return <InfoBar infoBar={isPublic ? publicInfoBar : privateInfoBar} />;
+  }
   return (
     <div className={s.questionnaireCard}>
       <QuestionnaireTabHeader isPublic={isPublic} />

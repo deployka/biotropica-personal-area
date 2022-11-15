@@ -34,11 +34,7 @@ export function UsersTableHeader({
         </Button>
 
         <div className={s.searchInput}>
-          <SearchInput
-            value={query}
-            onChange={onSearch}
-            placeholder="Поиск пользователей"
-          />
+          <SearchInput value={query} onChange={onSearch} placeholder="Поиск" />
         </div>
       </div>
     </div>

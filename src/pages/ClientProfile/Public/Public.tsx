@@ -190,7 +190,7 @@ const ClientProfilePublic = ({ user }: Props) => {
             <QuestionnaireTab
               isAccess={true}
               isLoading={isQuestionnaireAnswersLoading}
-              isPublic={false}
+              isPublic={true}
               answers={questionnaireAnswers}
             />
           )}

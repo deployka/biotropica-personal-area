@@ -15,6 +15,7 @@ type RecommendationListProps = {
   onCreate: () => void;
   onDelete: (id: number) => void;
   onEdit: (recommendation: Recommendation) => void;
+  onClose: () => void;
 };
 
 export const RecommendationList = ({
@@ -25,6 +26,7 @@ export const RecommendationList = ({
   onCreate,
   onDelete,
   onEdit,
+  onClose,
 }: RecommendationListProps) => {
   const [recommendationsGroups, setRecommendationsGroups] = useState<
     RecommendationGroupType[]
@@ -61,11 +63,13 @@ export const RecommendationList = ({
 
   return (
     <div className={s.recommendationList}>
-      {canCreate && (
-        <Button className={s.addButton} isPrimary onClick={onCreate}>
-          Добавить рекомендацию
+      <div className={s.buttons}>
+        <Button className={s.backButton} isPrimary onClick={onClose}>
+          Назад
         </Button>
-      )}
+        {canCreate && <Button onClick={onCreate}>Добавить рекомендацию</Button>}
+      </div>
+
       {recommendationsGroups.map(group => (
         <RecommendationGroup
           key={group.specialist.id}

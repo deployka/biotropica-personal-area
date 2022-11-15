@@ -5,5 +5,5 @@ export default yup.object().shape({
     .string()
     .typeError('Должно быть строкой')
     .required('Введите название'),
-  description: yup.string().required(),
+  description: yup.string().required('Введите описание'),
 });

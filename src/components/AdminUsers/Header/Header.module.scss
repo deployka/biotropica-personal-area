@@ -22,7 +22,15 @@
     justify-content: unset;
   }
 
+  @include for-laptop {
+    padding: 10px;
+    height: unset;
+  }
+
   .searchInput {
+    @include for-laptop {
+      width: 100%;
+    }
   }
 
   .panelBtns {
@@ -37,6 +45,19 @@
       button {
         width: 47%;
         margin: 0;
+      }
+    }
+
+    @include for-laptop {
+      width: 100%;
+      margin: 5px 0 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      button {
+        margin: 0;
+        width: calc(50% - 10px);
       }
     }
   }
@@ -92,6 +113,10 @@
     color: $color-black;
   }
 
+  @include for-laptop {
+    width: 220px;
+  }
+
   @include for-phone {
     margin: 0 0 20px 0;
     width: 100%;
@@ -100,6 +125,10 @@
     h3 {
       font-size: 16px;
     }
+  }
+
+  @include for-laptop {
+    width: 220px;
   }
 }
 
@@ -126,8 +155,23 @@
   display: flex;
   align-items: center;
 
+  @include for-laptop {
+    width: calc(100% - 220px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: unset;
+  }
+
   @include for-phone {
     flex-wrap: wrap;
+    width: 100%;
+  }
+
+  @include for-laptop {
+    width: calc(100% - 220px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: unset;
   }
 }
 

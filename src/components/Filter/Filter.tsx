@@ -24,16 +24,16 @@ type UsersFilterProps = {
   isHidden?: boolean;
   filters: FilterField[];
   selectedFilters: SelectedFilters;
-  onClose?: () => void;
   onChange(selectedFilters: SelectedFilters): void;
+  onClose?: () => void;
 };
 
 export function Filter({
   isHidden,
-  onClose,
   filters,
   selectedFilters,
   onChange,
+  onClose,
 }: UsersFilterProps) {
   function handleOnChange(key: string, value: string[]) {
     onChange({ ...selectedFilters, [key]: value });
