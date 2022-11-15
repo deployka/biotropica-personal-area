@@ -1,3 +1,4 @@
+@import "./../../../styles/mixins.scss";
 .recommendationList {
     margin: 25px 0 0 0;
 
@@ -8,4 +9,18 @@
     align-items: flex-start;
 
     row-gap: 35px;
+
+    .buttons {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .backButton {
+            display: none;
+            @include for-tablet {
+                display: flex;
+            }
+        }
+    }
 }

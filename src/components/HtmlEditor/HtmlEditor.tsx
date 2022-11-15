@@ -6,6 +6,7 @@ import { StringMap } from 'quill';
 import 'react-quill/dist/quill.snow.css';
 
 import s from './HtmlEditor.module.scss';
+import { ErrorMessage } from '../../shared/Form/ErrorMessage/ErrorMessage';
 
 export type HtmlEditorConfig = {
   modules?: StringMap;
@@ -16,9 +17,15 @@ export type HtmlEditorProps = {
   value: string;
   config?: HtmlEditorConfig;
   onChange(value: string): void;
+  error?: string;
 };
 
-export function HtmlEditor({ value, config = {}, onChange }: HtmlEditorProps) {
+export function HtmlEditor({
+  value,
+  config = {},
+  error,
+  onChange,
+}: HtmlEditorProps) {
   config.formats ??= [];
   config.modules ??= [];
 
@@ -61,6 +68,7 @@ export function HtmlEditor({ value, config = {}, onChange }: HtmlEditorProps) {
         modules={modules}
         theme="snow"
       ></ReactQuill>
+      {error && <ErrorMessage message={error} />}
     </div>
   );
 }

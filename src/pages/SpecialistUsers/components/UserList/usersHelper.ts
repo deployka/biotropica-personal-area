@@ -18,6 +18,25 @@ export const usersFilters: FilterField[] = [
     ],
   },
   {
+    name: 'Анализы',
+    key: 'analyzes',
+    type: 'radio',
+    filters: [
+      {
+        value: 'all',
+        label: 'Все',
+      },
+      {
+        value: 'loaded',
+        label: 'Загружены',
+      },
+      {
+        value: 'notLoaded',
+        label: 'Не загружены',
+      },
+    ],
+  },
+  {
     name: 'Подопечные',
     key: 'ward',
     type: 'radio',
@@ -64,3 +83,9 @@ export function filterUsersByWaiting(users: BaseUser[], q: string) {
     );
   });
 }
+
+export const analyzePassedStatus: Record<string, boolean | undefined> = {
+  loaded: true,
+  notLoaded: false,
+  all: undefined,
+};

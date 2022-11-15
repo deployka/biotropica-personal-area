@@ -44,7 +44,7 @@ export function TariffAddForm({ defaultValues, onClose, onSubmit }: Props) {
     <Formik
       enableReinitialize
       initialValues={{
-        cost: defaultValues?.cost || 0,
+        cost: defaultValues?.cost || NaN,
         description: defaultValues?.description || '',
         title: defaultValues?.title || '',
         zakazSystemId: defaultValues?.zakazSystemId || '',
@@ -86,7 +86,7 @@ export function TariffAddForm({ defaultValues, onClose, onSubmit }: Props) {
           />
           {tariffFeatures.map((feature, index) => (
             <Input
-              key={feature}
+              key={`${feature}_${index}`}
               name={`includedField/${index}`}
               type={InputTypes.TEXT}
               label={index === 0 ? 'что входит в план' : undefined}
@@ -94,7 +94,7 @@ export function TariffAddForm({ defaultValues, onClose, onSubmit }: Props) {
               value={feature.toString()}
               isError={feature.trim() === ''}
               classes={s.input}
-              onChange={e => changeIncludedField(e.currentTarget.value, index)}
+              onKeyDown={e => changeIncludedField(e.currentTarget.value, index)}
               withCancel
               onCancel={() => deleteIncludedField(index)}
             />

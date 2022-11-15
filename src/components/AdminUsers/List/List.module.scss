@@ -10,6 +10,9 @@
 
 .listPanel {
     position: relative;
+    @include for-laptop {
+        width: 100%;
+    }
     width: calc(100% - 220px);
 
     background: #ffffff;

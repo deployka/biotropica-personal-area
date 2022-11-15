@@ -31,7 +31,15 @@ export function RecommendationEditForm({
       onSubmit={onSave}
       validationSchema={validationSchema}
     >
-      {({ values, handleSubmit, handleBlur, handleChange, setFieldValue }) => (
+      {({
+        values,
+        errors,
+        touched,
+        handleSubmit,
+        handleBlur,
+        handleChange,
+        setFieldValue,
+      }) => (
         <form className={s.recommendationForm} onSubmit={handleSubmit}>
           <div className={s.line}>
             <Input
@@ -42,6 +50,7 @@ export function RecommendationEditForm({
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.title}
+              options={{ errors, touched }}
             />
           </div>
           <div className={s.line}>
@@ -52,6 +61,7 @@ export function RecommendationEditForm({
                 handleChange(value);
                 setFieldValue('description', value);
               }}
+              error={errors.description}
             />
           </div>
           <div className={s.buttons}>

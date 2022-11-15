@@ -23,7 +23,7 @@ type Props = {
   onCreateUser(): void;
   onProfile: (user: BaseUser) => void;
   onToggleUserBanStatus: (id: number) => void;
-  onWriteUser: (id: number) => void;
+  onWriteUser: (user: BaseUser) => void;
 };
 
 type Filters = {

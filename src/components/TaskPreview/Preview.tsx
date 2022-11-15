@@ -10,9 +10,9 @@ type TaskPreviewProps = {
   isSpecialist: boolean;
   isCommentsLoading?: boolean;
   onSendComment(newCommentText: string): void;
-  onSaveFactValue(value: number | undefined): void;
-  onSaveFirstValue(value: number | undefined): void;
-  onSaveSecondValue(value: number | undefined): void;
+  onSaveFactValue(value: string | undefined): void;
+  onSaveFirstValue(value: string | undefined): void;
+  onSaveSecondValue(value: string | undefined): void;
 };
 
 export const TaskPreview = ({
