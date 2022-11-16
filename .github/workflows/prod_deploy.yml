@@ -14,9 +14,9 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/ci-key
           chmod 700 ~/.ssh
-          chmod 600 ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/ci-key
           echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_PROD }}
