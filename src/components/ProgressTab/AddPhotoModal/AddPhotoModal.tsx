@@ -64,6 +64,21 @@ export const AddPhotoModal = ({
     return (!isValid && !dirty) || isLoading;
   };
 
+  const handleClose = () => {
+    onClose();
+    setInputs({
+      side: {
+        src: '',
+      },
+      front: {
+        src: '',
+      },
+      back: {
+        src: '',
+      },
+    });
+  };
+
   async function loadFile(
     e: React.ChangeEvent<HTMLInputElement>,
     type: ProgressPhotoType,
@@ -168,7 +183,7 @@ export const AddPhotoModal = ({
 
             <div className={s.buttons}>
               <Button
-                onClick={onClose}
+                onClick={handleClose}
                 options={{
                   width: '90px',
                   height: '32px',
@@ -180,7 +195,7 @@ export const AddPhotoModal = ({
               <Button
                 disabled={isDisabled(isValid, dirty)}
                 type="submit"
-                onClick={onClose}
+                onClick={handleClose}
                 options={{
                   width: '109px',
                   height: '32px',

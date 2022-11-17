@@ -74,7 +74,6 @@ export const Courses = ({ courses, onChange }: Props) => {
     ]);
 
     setCounter(counter + 1);
-
   };
 
   const handleClickDeleteBtn = (id: number) => {

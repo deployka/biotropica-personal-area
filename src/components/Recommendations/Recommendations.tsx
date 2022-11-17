@@ -60,6 +60,10 @@ export const RecommendationsPage = ({
     type => !!type.count || canCreate,
   );
 
+  const closeRecommendation = () => {
+    onClickSpecialization(null);
+  };
+
   return (
     <div className={s.recommendationPage}>
       <div
@@ -82,6 +86,7 @@ export const RecommendationsPage = ({
             recommendations={
               groupedRecommendations[selectedSpecialization.key] || []
             }
+            onClose={closeRecommendation}
             onCreate={onCreate}
             onDelete={onDelete}
             onEdit={onEdit}

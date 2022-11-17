@@ -6,35 +6,29 @@ import { Filter } from '../../../../components/Filter/Filter';
 import { filterUsersByQuery, usersFilters } from './usersHelper';
 
 import s from '../../Users.module.scss';
+import { Filters } from '../../SpecialistUsers';
 
 type Props = {
   users: BaseUser[];
-  setIsWaitingUsersList: (isWaiting: boolean) => void;
+  filters: Filters;
+  isLoading?: boolean;
+  setFilters: (filters: Filters) => void;
 };
 
-type Filters = {
-  waitingForRecommendation: string[];
-  ward: string[];
-};
-
-export function UserList({ users, setIsWaitingUsersList }: Props) {
+export function UserList({
+  users,
+  isLoading = false,
+  filters,
+  setFilters,
+}: Props) {
   const [isFilterOpened, setIsFilterOpened] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
-  const [filters, setFilters] = useState<Filters>({
-    waitingForRecommendation: ['no'],
-    ward: ['all'],
-  });
 
   let filteredUsers = users;
 
   if (query) {
     filteredUsers = filterUsersByQuery(filteredUsers, query);
   }
-
-  useEffect(() => {
-    const isWaitingUsersList = filters.waitingForRecommendation[0] === 'yes';
-    setIsWaitingUsersList(isWaitingUsersList);
-  }, [filters.waitingForRecommendation]);
 
   return (
     <div className={s.adminPanel}>
@@ -55,10 +49,12 @@ export function UserList({ users, setIsWaitingUsersList }: Props) {
           query={query}
           onSearch={setQuery}
         />
-        {!filteredUsers.length && (
+
+        {isLoading && <p className={s.empty}>Загрузка списка пользователей</p>}
+        {!isLoading && !filteredUsers.length && (
           <p className={s.empty}>Пользователи не найдены</p>
         )}
-        <UsersTable users={filteredUsers} />
+        {!isLoading && <UsersTable users={filteredUsers} />}
       </div>
     </div>
   );

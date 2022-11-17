@@ -26,7 +26,7 @@ const task: CompetitionTask = {
   competitionType: RunCompetitionType.tenKm,
   priority: TaskPriority.A,
   startTime: '',
-  targetValue: 0,
+  targetValue: '',
   title: 'test',
   date: '01.02.2022',
   status: 'init',

@@ -61,6 +61,13 @@
 
     .tariff {
         width: 25%;
+        max-width: 25%;
+
+        p {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         display: flex;
         align-items: center;

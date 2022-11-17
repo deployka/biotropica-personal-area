@@ -68,6 +68,11 @@
 
     .inputWrapper {
         width: 48%;
+        height: 70px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
 
         display: flex;
         flex-direction: column;

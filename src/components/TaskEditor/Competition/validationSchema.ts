@@ -9,5 +9,5 @@ export default yup.object().shape({
   competitionType: yup.string().required('Выберите тип соревнования'),
   priority: yup.string().required('Выберите приоритет'),
   date: yup.mixed<Date | null>().required('Выберите дату'),
-  targetValue: yup.number().positive('Должно быть больше 0').required('Выберите плановое значение'),
+  targetValue: yup.string().required('Выберите плановое значение'),
 });
