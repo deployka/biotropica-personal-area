@@ -13,9 +13,9 @@ jobs:
       - uses: actions/checkout@v3
       - name: Setup SSH
         run: |
-          mkdir -p ~/.ssh
+          mkdir -p /root/.ssh
           echo "$SSH_PRIVATE_KEY" > /root/.ssh/id_rsa
-          chmod 700 ~/.ssh
+          chmod 700 /root/.ssh
           chmod 600 /root/.ssh/id_rsa
           echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
         env:
