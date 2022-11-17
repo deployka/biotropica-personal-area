@@ -226,6 +226,15 @@ export function Tasks() {
   function handleChangeMonth(month: string) {
     dispatch(setCurrentMonth(month));
   }
+  async function handleSaveFirstFactValue(value: string | undefined) {
+    if (!openedTaskId) return;
+    await updateTask({ id: openedTaskId, firstFactValue: value });
+  }
+  async function handleSaveSecondFactValue(value: string | undefined) {
+    if (!openedTaskId) return;
+    await updateTask({ id: openedTaskId, secondFactValue: value });
+  }
+  async function handleSaveFactValue(value: string) {
     if (!openedTaskId) return;
     await updateTask({ id: openedTaskId, factValue: value });
   }
