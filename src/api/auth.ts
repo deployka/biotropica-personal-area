@@ -44,9 +44,9 @@ const authApi = baseApi.injectEndpoints({
     }),
 
     restorePassword: builder.mutation<Response, RestorePasswordDto>({
-      query: payload => ({
+      query: dto => ({
         url: '/auth/restore-password',
-        params: payload,
+        body: dto,
         method: 'POST',
       }),
     }),
