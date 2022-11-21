@@ -70,7 +70,7 @@ const authApi = baseApi.injectEndpoints({
     forgotPassword: builder.mutation<Response, ForgotPasswordDto>({
       query: payload => ({
         url: '/auth/forgot-password',
-        params: payload,
+        body: payload,
         method: 'POST',
       }),
     }),
