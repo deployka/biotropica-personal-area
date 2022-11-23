@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 
 import { Filter, FilterField } from '../../Filter/Filter';
 import {
@@ -8,6 +8,7 @@ import {
   filterUserByRoles,
   filterUserByTariffs,
   usersFilters,
+  Filters,
 } from '../adminUsersHelper';
 import { ROLE } from '../../../@types/entities/Role';
 import { BaseUser } from '../../../@types/entities/BaseUser';
@@ -20,22 +21,19 @@ import s from './List.module.scss';
 type Props = {
   users: Array<BaseUser>;
   tariffs: Tariff[];
+  filters: Filters;
+  setFilters: Dispatch<SetStateAction<Filters>>;
   onCreateUser(): void;
   onProfile: (user: BaseUser) => void;
   onToggleUserBanStatus: (id: number) => void;
   onWriteUser: (user: BaseUser) => void;
 };
 
-type Filters = {
-  roles: (ROLE | 'all')[];
-  questionnaire: ('all' | 'finished' | 'notFinished')[];
-  tariffs: string[];
-  banned: ('all' | 'yes' | 'no')[];
-};
-
 export function AdminUsersList({
   users,
+  filters,
   tariffs,
+  setFilters,
   onProfile,
   onCreateUser,
   onToggleUserBanStatus,
@@ -43,14 +41,6 @@ export function AdminUsersList({
 }: Props) {
   const [isFilterOpened, setIsFilterOpened] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
-  const [filters, setFilters] = useState<Filters>({
-    roles: ['all'],
-    questionnaire: ['all'],
-    tariffs: ['all'],
-    banned: ['all'],
-  });
-
-  // let filteredUsers = users;
 
   const filteredUsers = users.filter(user => {
     const isValidRole = filterUserByRoles(user, filters.roles);

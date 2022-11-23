@@ -5,6 +5,14 @@ import { Tariff } from '../../@types/entities/Tariff';
 
 import { FilterField } from '../Filter/Filter';
 
+export type Filters = {
+  roles: (ROLE | 'all')[];
+  questionnaire: ('all' | 'finished' | 'notFinished')[];
+  analyzes: ('all' | 'loaded' | 'notLoaded')[];
+  tariffs: string[];
+  banned: ('all' | 'yes' | 'no')[];
+};
+
 export const usersFilters: FilterField[] = [
   {
     name: 'Роль',
@@ -26,6 +34,25 @@ export const usersFilters: FilterField[] = [
       {
         value: ROLE.ADMIN,
         label: 'Администратор',
+      },
+    ],
+  },
+  {
+    name: 'Анализы',
+    key: 'analyzes',
+    type: 'radio',
+    filters: [
+      {
+        value: 'all',
+        label: 'Все',
+      },
+      {
+        value: 'loaded',
+        label: 'Загружены',
+      },
+      {
+        value: 'notLoaded',
+        label: 'Не загружены',
       },
     ],
   },
@@ -140,3 +167,9 @@ export function getUserTariff(tariffs: Tariff[], user: BaseUser) {
 
   return tariff;
 }
+
+export const analyzePassedStatus: Record<string, boolean | undefined> = {
+  loaded: true,
+  notLoaded: false,
+  all: undefined,
+};
