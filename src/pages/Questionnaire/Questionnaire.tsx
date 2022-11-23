@@ -82,10 +82,11 @@ const Questionnaire = () => {
 
       {isQuestionnaireFinished && (
         <div className={s.infoBar}>
-          <p className={s.title}>Анкета заполнена!</p>
+          <p className={s.title}>Отлично, Вы заполнили анкету!</p>
           <p className={s.text}>
-            Специалисты смогу просматривать ее для назначения более точных
-            рекомендаций. Рекомендуем проходить анкету повторно каждые 3 месяца.
+            Специалисты могут просматривать её, чтобы давать вам более точные
+            рекомендации. Анкета автоматически удалится через три месяца, и вы
+            сможете заполнить её повторно.
           </p>
           <div className={s.buttons}>
             <Button isPrimary onClick={onMoveToProfile}>
