@@ -32,7 +32,7 @@ export const TaskTypeGroup = ({ group, onSelect }: TaskTypeGroupProps) => {
         {taskTypeGroup.map(type => (
           <div key={type.key} className={s.typeWrapper}>
             <TypeElement
-              iconColor={color}
+              iconColor={type.color || color}
               taskType={type}
               onSelect={onSelect}
             />

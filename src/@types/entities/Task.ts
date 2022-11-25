@@ -79,6 +79,7 @@ export type TaskType = {
   title: string;
   icon: string;
   type: Task['type'];
+  color?: string;
   key: KindOfSport | KindOfEvent | KindOfCompetitionSport; // вспомогательное значения для упрощения работы с данными
 };
 

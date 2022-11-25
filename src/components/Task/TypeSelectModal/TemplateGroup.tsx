@@ -33,7 +33,7 @@ export const TaskTemplateGroup = ({
         {taskTemplateGroup.map(type => (
           <div key={type.icon} className={s.typeWrapper}>
             <TemplateElement
-              iconColor={color}
+              iconColor={type.color || color}
               taskType={type}
               onDeleteTemplate={() => onDeleteTemplate(type.id)}
               onChangeTemplateName={onChangeTemplateName}
