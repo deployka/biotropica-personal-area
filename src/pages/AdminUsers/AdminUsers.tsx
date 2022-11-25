@@ -28,8 +28,21 @@ import {
   successUnbanNotification,
 } from './adminUsersNotifications';
 import { getRoleKeyByName } from '../../utils/getRoleKey';
+import { ROLE } from '../../@types/entities/Role';
+import {
+  analyzePassedStatus,
+  Filters,
+} from '../../components/AdminUsers/adminUsersHelper';
 
 export function AdminUsers() {
+  const [filters, setFilters] = useState<Filters>({
+    roles: ['all'],
+    questionnaire: ['all'],
+    analyzes: ['all'],
+    tariffs: ['all'],
+    banned: ['all'],
+  });
+
   const history = useHistory();
   const [popup, setPopup] = useState<boolean>(false);
   const [blockUserModalMode, setBlockUserModalMode] = useState<
@@ -42,7 +55,9 @@ export function AdminUsers() {
   const [createDialog] = useCreateDialogMutation();
   const { data: tariffs = [] } = useGetAllTariffsQuery();
 
-  const { data: users } = useGetAllUsersQuery({});
+  const { data: users = [] } = useGetAllUsersQuery({
+    isAnalyzesPassed: analyzePassedStatus[filters.analyzes[0]],
+  });
   const { data: roles } = useGetAllRolesQuery();
 
   const moveToProfile = (user: BaseUser) => {
@@ -146,6 +161,8 @@ export function AdminUsers() {
         <AdminUsersList
           users={users}
           tariffs={tariffs}
+          filters={filters}
+          setFilters={setFilters}
           onProfile={moveToProfile}
           onCreateUser={() => setPopup(true)}
           onWriteUser={writeUser}
