@@ -32,8 +32,9 @@ export const SidebarDesktop = memo(
     isPaid,
   }: Props) => {
     const [selected, setSelected] = useState<string>(defaultSelected);
-
+    const [isAdmin, setIsAdmin] = useState(true);
     useEffect(() => {
+      if (user?.roles[0].name === 'ADMIN') setIsAdmin(false);
       setSelected(defaultSelected);
     }, [defaultSelected]);
 
@@ -73,11 +74,13 @@ export const SidebarDesktop = memo(
           </div>
 
           <div className={s.bottom}>
-            <SupportChatBtn
+            { isAdmin ? (
+              <SupportChatBtn
               onClick={openChat}
               isActive={chatNotificationsOpen}
             />
-
+            ) : (' ')
+            }
             <div className={s.divider}></div>
 
             <LogoutBtn onClick={logout} />
