@@ -23,4 +23,4 @@ jobs:
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS_PROD }}
       - name: Restart the application
         run: |
-          ssh -p 22 root@62.109.22.175 "pushd /var/www/gour/biotropika/master/client-front && git fetch origin && git reset --hard origin/main && git pull && npm install && npm run build"
+          ssh -p 22 root@62.109.22.175 "pushd /var/www/biotropika/master/client-front && git fetch origin && git reset --hard origin/main && git pull && npm install && npm run build"
