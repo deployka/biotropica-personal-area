@@ -14,13 +14,13 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 700 ~/.ssh
-          chmod 600 ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_rsa
           echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_PROD }}
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS_PROD }}
       - name: Restart the application
         run: |
-          ssh -p 22 biodeploy@62.109.22.175 "pushd /var/www/gour/biotropika/master/client-front && git fetch origin && git reset --hard origin/main && git pull && npm install && npm run build"
+          ssh -p 22 root@62.109.22.175 "pushd /var/www/gour/biotropika/master/client-front && git fetch origin && git reset --hard origin/main && git pull && npm install && npm run build"
