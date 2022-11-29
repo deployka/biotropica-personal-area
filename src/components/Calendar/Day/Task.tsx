@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
-import classNames from 'classnames';
+import React from 'react';
+import cn from 'classnames';
 import { SomeTask } from '../../../@types/entities/Task';
 
 import s from './Task.module.scss';
+import { getTaskDecor, getTaskStatus } from './dayHelper';
+import useMediaQuery from '../../../hooks/useMediaQuery';
 
 interface Props {
   task: SomeTask;
@@ -14,40 +16,45 @@ export const CalendarTask = ({ task, onClickTask, isPast }: Props) => {
   const startTime = task.startTime?.slice(0, 5);
   const endTime = task.endTime?.slice(0, 5);
 
-  let status = isPast ? 'completed' : 'inProgress';
+  const isMobile = useMediaQuery('(max-width: 767px)');
 
-  if (task.type === 'training') {
-    const factValue = task.firstFactValue || 0;
-    if (factValue === 0) {
-      status = 'failed';
-    }
-
-    if (factValue !== 0 && factValue < task.firstTargetValue) {
-      status = 'nearly';
-    }
-  }
+  const status = getTaskStatus(task, isPast);
+  const { color, icon } = getTaskDecor(task);
 
   return (
     <div
-      className={classNames(s.task, isPast ? s.old : '')}
+      className={cn(s.task, { [s.old]: isPast })}
       onClick={() => {
         onClickTask(task.id);
       }}
+      style={{ backgroundColor: isMobile ? color : undefined }}
     >
-      <div className={s.type}>
-        <div className={classNames(s.dot, s[task.type])}></div>
-      </div>
-      <div className={s.info}>
-        {task.startTime && (
+      {!isMobile && (
+        <div className={s.type}>
+          <div className={cn(s.dot, s[task.type])}></div>
+        </div>
+      )}
+      {isMobile && (
+        <div className={s.iconWrapper}>
+          <div
+            className={s.icon}
+            style={{
+              backgroundColor: color,
+              WebkitMaskImage: `url(${icon})`,
+              maskImage: `url(${icon})`,
+            }}
+          />
+        </div>
+      )}
+      <div className={cn(s.info)}>
+        {!isMobile && task.startTime && (
           <div className={s.time}>
             <p>
               {startTime} {task.endTime ? `– ${endTime}` : ''}
             </p>
           </div>
         )}
-        <div className={classNames(s.title, { [s[status]]: isPast })}>
-          {task.title}
-        </div>
+        <div className={cn(s.title, { [s[status]]: isPast })}>{task.title}</div>
       </div>
     </div>
   );
