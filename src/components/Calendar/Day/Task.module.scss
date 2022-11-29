@@ -1,11 +1,19 @@
-@import "./../../../styles/mixins.scss";
+@import "./../../../styles/breakpoints.scss";
 
 .task {
     margin: 12px 0 0 0;
-    display: flex;
-    align-items: flex-start;
+    width: 100%;
 
-    @include for-tablet {
+    border-radius: 4px;
+
+    display: flex;
+
+    @include for-phone {
+        align-items: center;
+        padding: 15px 10px;
+    }
+
+    @media (max-width: 860px) {
         margin: 0 0 12px 0;
         &:last-child {
             margin: 0;
@@ -16,6 +24,59 @@
 
     &.old {
         opacity: 0.5;
+    }
+
+    .iconWrapper {
+        height: 30px;
+        width: 30px;
+        border-radius: 30px;
+        background-color: #fff;
+    }
+
+    .icon {
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        mask-position: center;
+    }
+
+    .info {
+        margin: 0 0 0 5px;
+        width: calc(100% - 35px);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .time {
+        margin: 0 0 5px 0;
+        p {
+            margin: 0;
+
+            font-family: "Roboto", sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 16px;
+
+            color: #9e97be;
+        }
+    }
+
+    .title {
+        display: flex;
+        margin: 0;
+
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 16px;
+        color: #1e174d;
+
+        @include for-phone {
+            color: #ffffff;
+        }
     }
 
     .type {
@@ -43,54 +104,6 @@
             &.competition {
                 background: #f6963b;
             }
-        }
-    }
-
-    .info {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .time {
-        margin: 0 0 5px 0;
-        p {
-            margin: 0;
-
-            font-family: "Roboto", sans-serif;
-            font-weight: 400;
-            font-size: 12px;
-            line-height: 16px;
-
-            color: #9e97be;
-        }
-    }
-
-    .title {
-        display: flex;
-
-        margin: 0;
-
-        font-family: "Roboto", sans-serif;
-        font-weight: 400;
-        font-size: 13px;
-        line-height: 16px;
-        color: #1e174d;
-
-        &.inProgress {
-            color: #1e174d;
-        }
-
-        &.completed {
-            color: #00915d;
-        }
-
-        &.failed {
-            color: #d06361;
-        }
-
-        &.nearly {
-            color: #bfb81c;
         }
     }
 }

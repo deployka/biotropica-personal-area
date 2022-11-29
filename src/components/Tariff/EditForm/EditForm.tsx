@@ -28,17 +28,19 @@ export function TariffEditForm({ tariff, onClose, onDelete, onSubmit }: Props) {
   };
 
   const changeIncludedField = (value: string, i: number) => {
-    const updatedFields = tariffFeatures.slice();
-    updatedFields.splice(i, 1, value);
-
-    setTariffFeatures(updatedFields);
+    setTariffFeatures(prevState => {
+      const updatedFields = [...prevState];
+      updatedFields[i] = value;
+      return updatedFields;
+    });
   };
 
   const deleteIncludedField = (i: number) => {
-    const updatedFields = tariffFeatures.slice();
-    updatedFields.splice(i, 1);
-
-    setTariffFeatures(updatedFields);
+    setTariffFeatures(prevState => {
+      const updatedFields = prevState.slice();
+      updatedFields.splice(i, 1);
+      return updatedFields;
+    });
   };
 
   return (

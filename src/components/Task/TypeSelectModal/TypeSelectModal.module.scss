@@ -6,7 +6,7 @@
   left: 80px;
 
   width: calc(100vw - 80px);
-  height: 100vh;
+  height: 100%;
 
   @include for-phone {
     display: none;
@@ -57,7 +57,7 @@
 
   @include for-phone {
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     top: 0;
     left: 0;
     transform: translate(0);

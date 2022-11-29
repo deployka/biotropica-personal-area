@@ -84,19 +84,19 @@ export function TariffAddForm({ defaultValues, onClose, onSubmit }: Props) {
             onChange={handleChange}
             classes={s.input}
           />
-          {tariffFeatures.map((feature, index) => (
+          {tariffFeatures.map((feature, i) => (
             <Input
-              key={`${feature}_${index}`}
-              name={`includedField/${index}`}
+              key={i}
+              name={`includedField/${i}`}
               type={InputTypes.TEXT}
-              label={index === 0 ? 'что входит в план' : undefined}
+              label={i === 0 ? 'что входит в план' : undefined}
               placeholder="Введите опцию"
               value={feature.toString()}
               isError={feature.trim() === ''}
               classes={s.input}
-              onKeyDown={e => changeIncludedField(e.currentTarget.value, index)}
+              onChange={e => changeIncludedField(e.currentTarget.value, i)}
               withCancel
-              onCancel={() => deleteIncludedField(index)}
+              onCancel={() => deleteIncludedField(i)}
             />
           ))}
           <Button

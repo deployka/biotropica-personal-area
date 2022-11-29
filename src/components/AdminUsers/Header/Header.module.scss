@@ -166,13 +166,6 @@
     flex-wrap: wrap;
     width: 100%;
   }
-
-  @include for-laptop {
-    width: calc(100% - 220px);
-    flex-direction: column;
-    align-items: center;
-    justify-content: unset;
-  }
 }
 
 .xlsxBtn {
