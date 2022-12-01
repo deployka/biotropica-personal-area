@@ -25,14 +25,16 @@ export const TariffMobileCard = ({
   isSelectLoading,
   onSelect,
 }: Props) => {
-  const { id, cost, title, includedFields, zakazSystemId } = tariff;
+  const { cost, title, includedFields } = tariff;
 
   const [height, setHeight] = useState<number | string>(0);
 
   const [isEditTariffModalVisible, setIsEditTariffModalVisible] =
     useState(false);
 
-  const { data: currentTariff } = useGetCurrentTariffQuery();
+  const { data: currentTariff } = useGetCurrentTariffQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
   function toggle() {
     height === 0 ? setHeight('auto') : setHeight(0);
@@ -42,8 +44,9 @@ export const TariffMobileCard = ({
 
   const isPaid = currentTariff?.isPaid || false;
 
+  const isCurrentTariff = currentTariff?.tariff?.title === title;
   const tariffBtnText =
-    currentTariff && !isPaid
+    isCurrentTariff && !isPaid
       ? 'ожидает оплаты'
       : isPaid
       ? 'действует'
@@ -116,7 +119,11 @@ export const TariffMobileCard = ({
                   }
                 }}
               >
-                {isSelectLoading ? <Loader color="#6f61d0" /> : tariffBtnText}
+                {isSelectLoading && isCurrentTariff ? (
+                  <Loader color="#6f61d0" />
+                ) : (
+                  tariffBtnText
+                )}
               </button>
             )}
           </div>
