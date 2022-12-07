@@ -21,6 +21,7 @@ import {
 import { UpdateGoalValuesDto } from '../../@types/dto/goals/update-values.dto';
 import { eventBus, EventTypes } from '../../services/EventBus';
 import { NotificationType } from '../../components/GlobalNotifications/GlobalNotifications';
+import { createCookie, readCookie } from '../../utils/cookie';
 export interface Dates {
   startDate: Date;
   endDate: Date;
@@ -86,6 +87,34 @@ const Goals = () => {
       });
     }
   }
+
+  useEffect(() => {
+
+    const shopDateView = Number(readCookie('shop_date_view'));
+
+    if (shopDateView && shopDateView + 604800 > Date.now()) {
+      return;
+    }
+
+    if (!shopDateView) {
+      createCookie('shop_date_view', Date.now().toString(), 365);
+    }
+
+    eventBus.emit(EventTypes.notification, {
+      message: (
+        <div>
+          {'Вы можете приобрести товары для спорта и здорового образа жизни в нашем интернет-магазине по приятным ценам '}
+          <button
+            style={{ marginLeft: '10px' }}
+            onClick={() => (document.location = 'https://biotropika.ru/shop/')}
+          >
+            Перейти
+          </button>
+        </div>
+      ),
+      type: NotificationType.INFO,
+    });
+  }, []);
 
   async function onUpdateGoal(
     { value, createdAt }: UpdateGoalValuesDto,

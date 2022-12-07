@@ -4,6 +4,9 @@ import { useSelector } from 'react-redux';
 
 import type { BaseUser } from '../../../@types/entities/BaseUser';
 
+import { createCookie, readCookie } from '../../../utils/cookie';
+import { eventBus, EventTypes } from '../../../services/EventBus';
+import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { Tab } from '../../../shared/Global/Tabs/Tabs';
 import { getTabByKey } from '../../../utils/tabsHelper';
 import { useGetGoalsQuery } from '../../../api/goals';
@@ -117,6 +120,34 @@ const ClientProfilePrivate = ({ user }: Props) => {
       );
     }
   }, [active]);
+
+  useEffect(() => {
+
+    const blogDateView = Number(readCookie('blog_date_view'));
+
+    if (blogDateView && blogDateView + 604800 > Date.now()) {
+      return;
+    }
+
+    if (!blogDateView) {
+      createCookie('blog_date_view', Date.now().toString(), 365);
+    }
+
+    eventBus.emit(EventTypes.notification, {
+      message: (
+        <div>
+          {'Не забудьте заглянуть в наш блог, где собраны лучшие статьи от специалистов BioTropica'}
+          <button
+            style={{ marginLeft: '10px' }}
+            onClick={() => (document.location = 'https://biotropika.ru/blog/')}
+          >
+            Перейти
+          </button>
+        </div>
+      ),
+      type: NotificationType.INFO,
+    });
+  }, []);
 
   return (
     <>
