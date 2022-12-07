@@ -25,7 +25,6 @@ export function AdminUsersTable({
   onProfile,
   onToggleUserBanStatus,
 }: UsersTableProps) {
-  console.log(users);
   return (
     <>
       <div className={s.infoBar}>
