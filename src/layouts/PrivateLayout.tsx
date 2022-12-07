@@ -166,7 +166,7 @@ export function PrivateLayout(props: Props) {
 
   const isMobile = useMobile();
 
-  const [isUnread] = useState(false);
+  const [isUnread, setUnread] = useState(false);
   const [isNotificationsUnread] = useState(false);
   const [openedDialog, setOpenedDialog] = useState<number | undefined>(
     undefined,
@@ -235,7 +235,7 @@ export function PrivateLayout(props: Props) {
         />
       )}
 
-      {currentUser ? (
+      {currentUser && (
         <SidebarWrapper
           isOpened={chatNotificationsOpen}
           onClose={() => setSidebarChatOpen(false)}
@@ -246,10 +246,9 @@ export function PrivateLayout(props: Props) {
             activeDialogId={openedDialog}
             currentUser={currentUser}
             onClose={() => setSidebarChatOpen(false)}
+            onChangeReading={setUnread}
           />
         </SidebarWrapper>
-      ) : (
-        <div />
       )}
       <SidebarNotifications
         open={sidebarNotificationsOpen}

@@ -22,6 +22,7 @@ export type ChatProps = {
   accesses: string[];
   activeDialogId?: number;
   onClose(): void;
+  onChangeReading(usUnread: boolean) : void;
 };
 
 export function Chat(props: ChatProps) {
@@ -39,7 +40,7 @@ export function Chat(props: ChatProps) {
         activeDialogId={props.activeDialogId}
         currentUser={props.currentUser}
         onClose={props.onClose}
-        onChangeReading={() => null}
+        onChangeReading={props.onChangeReading}
       />
     </Suspense>
   );
