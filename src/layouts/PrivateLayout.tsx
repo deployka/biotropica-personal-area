@@ -235,7 +235,7 @@ export function PrivateLayout(props: Props) {
         />
       )}
 
-      {currentUser ? (
+      {currentUser && (
         <SidebarWrapper
           isOpened={chatNotificationsOpen}
           onClose={() => setSidebarChatOpen(false)}
@@ -249,8 +249,6 @@ export function PrivateLayout(props: Props) {
             onChangeReading={setUnread}
           />
         </SidebarWrapper>
-      ) : (
-        <div />
       )}
       <SidebarNotifications
         open={sidebarNotificationsOpen}
