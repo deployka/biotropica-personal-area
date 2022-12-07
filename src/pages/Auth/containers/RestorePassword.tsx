@@ -24,7 +24,7 @@ const RestorePassword = () => {
       const res = await restorePassword(values).unwrap();
       eventBus.emit(EventTypes.notification, {
         title: 'Успешно!',
-        message: res?.message || 'Успешно!',
+        message: res?.message || 'Ваш пароль успешно изменен!',
         type: NotificationType.SUCCESS,
       });
       history.push('/signin');
