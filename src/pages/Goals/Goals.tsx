@@ -92,7 +92,7 @@ const Goals = () => {
 
     const shopDateView = Number(readCookie('shop_date_view'));
 
-    if (shopDateView && shopDateView + 604800 > Date.now()) {
+    if (shopDateView + 604800 > Date.now()) {
       return;
     }
 

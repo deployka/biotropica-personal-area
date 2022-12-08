@@ -124,8 +124,7 @@ const ClientProfilePrivate = ({ user }: Props) => {
   useEffect(() => {
 
     const blogDateView = Number(readCookie('blog_date_view'));
-
-    if (blogDateView && blogDateView + 604800 > Date.now()) {
+    if (blogDateView + 604800 > Date.now()) {
       return;
     }
 
