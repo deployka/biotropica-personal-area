@@ -167,7 +167,7 @@ export function PrivateLayout(props: Props) {
   const isMobile = useMobile();
 
   const [isUnread, setUnread] = useState(false);
-  const [isNotificationsUnread] = useState(false);
+  const [isNotificationsUnread, setNotificationsUnread] = useState(false);
   const [openedDialog, setOpenedDialog] = useState<number | undefined>(
     undefined,
   );
@@ -255,6 +255,7 @@ export function PrivateLayout(props: Props) {
       <SidebarNotifications
         open={sidebarNotificationsOpen}
         setOpen={setSidebarNotificationsOpen}
+        onChangeNotification={setNotificationsUnread}
       />
       <div className="container">
         <Header
