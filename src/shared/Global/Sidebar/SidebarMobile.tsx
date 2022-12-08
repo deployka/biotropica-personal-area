@@ -15,6 +15,7 @@ interface Props {
   setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
   setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
   chatNotificationsOpen: boolean;
+  isChatUnread: boolean;
   openChat: () => void;
   logout: () => void;
   pages: Page[];
@@ -27,6 +28,7 @@ export const SidebarMobile = memo(
     onNavClick,
     setSidebarChatOpen,
     setSidebarNotificationsOpen,
+    isChatUnread,
     pages,
     nav,
     openChat,
@@ -91,7 +93,11 @@ export const SidebarMobile = memo(
               }}
             >
               <div className={s.icon}>
-                <SidebarSvgSelector id="chat" />
+                {isChatUnread ? (
+                  <SidebarSvgSelector id="chat-active" />
+                ) : (
+                  <SidebarSvgSelector id="chat" />
+                )}
               </div>
               <p>Входящие</p>
             </div>
