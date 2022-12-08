@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { UsersTableHeader } from './UsersTableHeader';
 import { UsersTable } from './UsersTable';
 import { BaseUser } from '../../../../@types/entities/BaseUser';
 import { Filter } from '../../../../components/Filter/Filter';
-import { filterUsersByQuery, usersFilters } from './usersHelper';
+import { filterUsersByQuery, filterUsersByWard, usersFilters } from './usersHelper';
+import { useGetCurrentSpecialistQuery } from '../../../../api/specialists';
 
 import s from '../../Users.module.scss';
 import { Filters } from '../../SpecialistUsers';
 
 type Props = {
-  users: BaseUser[];
+  users: Array<BaseUser>;
   filters: Filters;
   isLoading?: boolean;
-  setFilters: (filters: Filters) => void;
+  setFilters: Dispatch<SetStateAction<Filters>>;
 };
 
 export function UserList({
@@ -24,7 +25,18 @@ export function UserList({
   const [isFilterOpened, setIsFilterOpened] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
 
-  let filteredUsers = users;
+  const {
+    data: currentSpecialist,
+  } = useGetCurrentSpecialistQuery();
+
+  const currentSpecialistId = currentSpecialist?.user?.id || 0;
+
+  let filteredUsers = users.filter(user => {
+    const isValidWard = filterUsersByWard(user, filters.ward, currentSpecialistId);
+    return (
+      isValidWard
+    );
+  });
 
   if (query) {
     filteredUsers = filterUsersByQuery(filteredUsers, query);

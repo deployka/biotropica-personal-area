@@ -1,5 +1,6 @@
 import { BaseUser } from '../../../../@types/entities/BaseUser';
 import { FilterField } from '../../../../components/Filter/Filter';
+import user from '../../../../store/slices/user';
 
 export const usersFilters: FilterField[] = [
   {
@@ -68,9 +69,24 @@ export function filterUsersByQuery(users: BaseUser[], q: string) {
   });
 }
 
-export function filterUsersByWard(users: BaseUser[], ward: boolean) {
-  // filter by ward
-  return users;
+export function filterUsersByWard(users: BaseUser, wards: string[], specialistId: number) {
+  const ward = wards[0];
+  if (ward === 'all' || !ward) {
+    return users;
+  }
+  if (users.specialistId === specialistId) {
+    console.log('users.specialistId');
+    console.log(users);
+    console.log('specialistId');
+    console.log(specialistId);
+  }
+  if (ward === 'yes') {
+    if (users.specialistId === specialistId) {
+      return users.specialistId;
+    }
+  } else {
+    return !users.specialistId;
+  }
 }
 
 export function filterUsersByWaiting(users: BaseUser[], q: string) {
