@@ -7,7 +7,10 @@ import { getTaskDecor, getTaskStatus } from './dayHelper';
 import useMediaQuery from '../../../hooks/useMediaQuery';
 import { useSelector } from 'react-redux';
 import { useAppSelector } from '../../../store/storeHooks';
-import { selectCurrentUser } from '../../../store/slices/authSlice';
+import {
+  selectCurrentUser,
+  selectIsDoctor,
+} from '../../../store/slices/authSlice';
 
 interface Props {
   task: SomeTask;
@@ -20,13 +23,15 @@ export const CalendarTask = ({ task, onClickTask, isPast }: Props) => {
   const endTime = task.endTime?.slice(0, 5);
 
   const currentUser = useAppSelector(selectCurrentUser);
+  const isDoctor = useAppSelector(selectIsDoctor);
 
   const isMobile = useMediaQuery('(max-width: 767px)');
 
   const status = getTaskStatus(task, isPast);
   const { color, icon } = getTaskDecor(task);
 
-  const isPrivate = task.isPrivate && currentUser?.id !== task.authorId;
+  const isPrivate =
+    task.isPrivate && currentUser?.id !== task.authorId && isDoctor;
 
   const backgroundColor = !isMobile ? undefined : isPrivate ? '#8f8f8f' : color;
 

@@ -49,6 +49,8 @@ export function Tasks() {
   const [addComment] = useAddTaskCommentMutation();
   const [deleteTask] = useDeleteTaskMutation();
 
+  const isDoctor = useAppSelector(selectIsDoctor);
+
   const { userId: rawUserId } = useParams<{ userId: string }>();
 
   const id = rawUserId || currentUser?.id;
@@ -197,7 +199,10 @@ export function Tasks() {
       return;
     }
 
-    if (task.isPrivate && currentUser?.id !== task.authorId) {
+    const isPrivate =
+      task.isPrivate && currentUser?.id !== task.authorId && isDoctor;
+
+    if (isPrivate) {
       return;
     }
 
