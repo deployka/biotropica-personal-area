@@ -153,7 +153,7 @@ export function Tasks() {
       ...openedTask,
       id: undefined,
       isTemplate: true,
-      date: '',
+      date: openedTask.date,
       startTime: undefined,
       templateName: openedTask.title,
     };
@@ -161,7 +161,7 @@ export function Tasks() {
       await createTask({ ...newTemplate, executorId: userId }).unwrap();
       tasksNotifications.successCreateTemplate();
     } catch (error) {
-      tasksNotifications.successDeleteTemplate();
+      tasksNotifications.errorCreateTemplate();
     }
 
     handleCloseTask();
