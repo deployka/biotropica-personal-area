@@ -72,6 +72,8 @@ export const UserItem = ({
     },
   ];
 
+  if (formattedUser.isBanned === true) formattedUser.fullName += ' (Заблокирован)'; 
+
   return (
     <div className={s.user}>
       <div className={s.name}>
