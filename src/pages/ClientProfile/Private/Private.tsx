@@ -143,7 +143,7 @@ const ClientProfilePrivate = ({ user }: Props) => {
           Не забудьте заглянуть в наш блог, где собраны лучшие статьи от специалистов BioTropica
           <button
             style={{ marginLeft: '10px' }}
-            onClick={() => goToBlog()}
+            onClick={goToBlog}
           >
             Перейти
           </button>
