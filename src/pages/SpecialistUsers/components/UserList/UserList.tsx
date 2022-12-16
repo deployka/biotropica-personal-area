@@ -32,9 +32,8 @@ export function UserList({
   const currentSpecialistId = currentSpecialist?.user?.id || 0;
 
   let filteredUsers = users.filter(user => {
-    const isValidWard = filterUsersByWard(user, filters.ward, currentSpecialistId);
     return (
-      isValidWard
+      filterUsersByWard(user, filters.ward, currentSpecialistId)
     );
   });
 
