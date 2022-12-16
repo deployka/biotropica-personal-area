@@ -74,16 +74,8 @@ export function filterUsersByWard(users: BaseUser, wards: string[], specialistId
   if (ward === 'all' || !ward) {
     return users;
   }
-  if (users.specialistId === specialistId) {
-    console.log('users.specialistId');
-    console.log(users);
-    console.log('specialistId');
-    console.log(specialistId);
-  }
-  if (ward === 'yes') {
-    if (users.specialistId === specialistId) {
-      return users.specialistId;
-    }
+  if (ward === 'yes' && users.specialistId === specialistId) {
+    return users.specialistId;
   } else {
     return !users.specialistId;
   }

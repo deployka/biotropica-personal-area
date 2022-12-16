@@ -10,10 +10,10 @@ import s from '../../Users.module.scss';
 import { Filters } from '../../SpecialistUsers';
 
 type Props = {
-  users: Array<BaseUser>;
+  users: BaseUser[];
   filters: Filters;
   isLoading?: boolean;
-  setFilters: Dispatch<SetStateAction<Filters>>;
+  setFilters: (filters: Filters) => void;
 };
 
 export function UserList({
