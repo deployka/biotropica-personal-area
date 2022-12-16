@@ -32,6 +32,7 @@ const Goals = () => {
 
   const { id } = useParams<{ id: string }>();
   const paramGoalId = +id;
+  const SEVEN_DAY = 604800;
 
   const { data: goals = [], isFetching: isLoadingGoals } = useGetGoalsQuery();
   const {
@@ -92,7 +93,7 @@ const Goals = () => {
 
     const shopDateView = Number(readCookie('shop_date_view'));
 
-    if (shopDateView + 604800 > Date.now()) {
+    if (shopDateView + SEVEN_DAY > Date.now()) {
       return;
     }
 

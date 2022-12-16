@@ -31,6 +31,7 @@ type Props = {
 const ClientProfilePrivate = ({ user }: Props) => {
   const history = useHistory();
   const { active } = useParams<{ active: string }>();
+  const SEVEN_DAY = 604800;
 
   const tariffAccesses = useSelector(selectCurrentTariffAccesses);
 
@@ -124,7 +125,7 @@ const ClientProfilePrivate = ({ user }: Props) => {
   useEffect(() => {
 
     const blogDateView = Number(readCookie('blog_date_view'));
-    if (blogDateView + 604800 > Date.now()) {
+    if (blogDateView + SEVEN_DAY > Date.now()) {
       return;
     }
 
@@ -135,10 +136,10 @@ const ClientProfilePrivate = ({ user }: Props) => {
     eventBus.emit(EventTypes.notification, {
       message: (
         <div>
-          {'Не забудьте заглянуть в наш блог, где собраны лучшие статьи от специалистов BioTropica'}
+          Не забудьте заглянуть в наш блог, где собраны лучшие статьи от специалистов BioTropica
           <button
             style={{ marginLeft: '10px' }}
-            onClick={() => (document.location = 'https://biotropika.ru/blog/')}
+            onClick={() => goToBlog()}
           >
             Перейти
           </button>
@@ -147,6 +148,10 @@ const ClientProfilePrivate = ({ user }: Props) => {
       type: NotificationType.INFO,
     });
   }, []);
+
+  function goToBlog(){
+    document.location = 'https://biotropika.ru/blog/';
+  }
 
   return (
     <>
