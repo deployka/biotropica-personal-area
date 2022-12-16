@@ -44,7 +44,7 @@ export const TariffMobileCard = ({
 
   const isPaid = currentTariff?.isPaid || false;
 
-  const isCurrentTariff = currentTariff?.tariff?.title === title;
+  const isCurrentTariff = currentTariff?.tariff?.id === tariff.id;
   const tariffBtnText =
     isCurrentTariff && !isPaid
       ? 'ожидает оплаты'
@@ -119,7 +119,7 @@ export const TariffMobileCard = ({
                   }
                 }}
               >
-                {isSelectLoading && isCurrentTariff ? (
+                {isSelectLoading ? (
                   <Loader color="#6f61d0" />
                 ) : (
                   tariffBtnText
