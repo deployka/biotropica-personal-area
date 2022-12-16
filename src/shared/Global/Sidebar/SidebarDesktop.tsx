@@ -75,13 +75,13 @@ export const SidebarDesktop = memo(
           </div>
 
           <div className={s.bottom}>
-            { isAdmin ? (
+            { 
+            isAdmin && (
               <SupportChatBtn
               onClick={openChat}
               isActive={chatNotificationsOpen}
             />
-            ) : (' ')
-            }
+            )}
 
             <div className={s.divider}></div>
 
