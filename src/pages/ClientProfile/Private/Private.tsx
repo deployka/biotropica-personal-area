@@ -18,6 +18,8 @@ import { ClientProfileLayout } from '../../../components/ProfileLayout/Client/Cl
 import { Analyzes } from './Analyzes';
 import { Questionnaire } from './Questionnaire';
 import { Progress } from './Progress';
+import { useGetFollowedSpecialistsQuery } from '../../../api/user';
+import { SpecialistListTab } from '../../../components/SpecialistListTab/Tab';
 
 import lockImg from '../../../assets/icons/lock.svg';
 import unlockImg from '../../../assets/icons/unlock.svg';
@@ -99,6 +101,14 @@ const ClientProfilePrivate = ({ user }: Props) => {
             className={s.lock}
             src={isAnalyzesAccess ? unlockImg : lockImg}
           />
+        </>
+      ),
+    },
+    {
+      key: 'specialist',
+      value: (
+        <>
+          Специалисты &nbsp;
         </>
       ),
     },
@@ -188,6 +198,13 @@ const ClientProfilePrivate = ({ user }: Props) => {
           )}
           {activeTab === tabs[2].key && (
             <Progress userId={user.id} isAccess={isProgressAccess} />
+          )}
+          {activeTab === tabs[3].key && (
+            <SpecialistListTab
+              isLoading={isUsersLoading}
+              isError={isUsersError}
+              users={users}
+            />
           )}
         </div>
       </ClientProfileLayout>

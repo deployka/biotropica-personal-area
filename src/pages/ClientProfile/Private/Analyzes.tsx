@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CreateAnalyzeAnswerDto } from '../../../@types/dto/analyzes/create.dto';
 import { DeleteAnalyzeAnswerDto } from '../../../@types/dto/analyzes/delete.dto';
 import { BaseUser } from '../../../@types/entities/BaseUser';
@@ -23,6 +23,9 @@ import {
   successDeleteAnalyzeNotification,
   successDeleteCommentNotification,
 } from './notifications';
+import { eventBus, EventTypes } from '../../../services/EventBus';
+import { Button } from '../../../shared/Form/Button/Button';
+import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 
 type Props = {
   userId: number;
@@ -94,6 +97,51 @@ export const Analyzes = ({ userId, isAccess }: Props) => {
     }
   };
 
+  const deleteAnalize = async (
+    id: number,
+  ) => {
+    eventBus.emit(EventTypes.notification, {
+      title: 'Удаление анализа',
+      message: (
+        <>
+          <Button
+            style={{
+              marginRight: '20px',
+              marginBottom: '5px',
+              marginTop: '5px',
+              background: '#fff',
+              color: '#000',
+            }}
+            onClick={() => handleDeleteAnalyze(id)}
+            options={{
+              content: 'Удалить',
+              width: '100px',
+              height: '30px',
+            }}
+          />
+          <Button
+            style={{
+              color: '#fff',
+              marginBottom: '5px',
+              marginTop: '5px',
+              border: '1px solid #fff',
+            }}
+            name="discard"
+            options={{
+              content: 'Отмена',
+              width: '100px',
+              height: '30px',
+              classes: { discard: true },
+            }}
+          />
+        </>
+      ),
+      type: NotificationType.INFO,
+      theme: 'dark',
+      autoClose: false,
+    });
+  };
+
   return (
     <AnalyzesTab
       currentUserId={userId}
@@ -104,7 +152,7 @@ export const Analyzes = ({ userId, isAccess }: Props) => {
       analyzes={analyzes}
       analyzeTypes={analyzeTypes}
       onAddAnalyze={handleSubmitAnalyzes}
-      onDeleteAnalyze={handleDeleteAnalyze}
+      onDeleteAnalyze={deleteAnalize}
       onAddComment={onAddComment}
       onDeleteComment={onDeleteComment}
     />
