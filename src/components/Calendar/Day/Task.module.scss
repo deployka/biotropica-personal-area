@@ -26,6 +26,26 @@
         opacity: 0.5;
     }
 
+    &.private {
+        .title {
+            color: #8f8f8f !important;
+
+            @include for-phone {
+                color: #ffffff !important;
+            }
+        }
+
+        .dot {
+            background: #8f8f8f !important;
+        }
+
+        .time {
+            p {
+                color: #8f8f8f !important;
+            }
+        }
+    }
+
     .iconWrapper {
         height: 30px;
         width: 30px;

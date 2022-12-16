@@ -228,6 +228,7 @@ export function PrivateLayout(props: Props) {
           setSidebarNotificationsOpen={setSidebarNotificationsOpen}
           chatNotificationsOpen={chatNotificationsOpen}
           openChat={openChat}
+          isChatUnread={isUnread}
           logout={logout}
           pages={pages}
           nav={nav}
