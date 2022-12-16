@@ -5,6 +5,12 @@ import { SomeTask } from '../../../@types/entities/Task';
 import s from './Task.module.scss';
 import { getTaskDecor, getTaskStatus } from './dayHelper';
 import useMediaQuery from '../../../hooks/useMediaQuery';
+import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../../store/storeHooks';
+import {
+  selectCurrentUser,
+  selectIsDoctor,
+} from '../../../store/slices/authSlice';
 
 interface Props {
   task: SomeTask;
@@ -16,18 +22,26 @@ export const CalendarTask = ({ task, onClickTask, isPast }: Props) => {
   const startTime = task.startTime?.slice(0, 5);
   const endTime = task.endTime?.slice(0, 5);
 
+  const currentUser = useAppSelector(selectCurrentUser);
+  const isDoctor = useAppSelector(selectIsDoctor);
+
   const isMobile = useMediaQuery('(max-width: 767px)');
 
   const status = getTaskStatus(task, isPast);
   const { color, icon } = getTaskDecor(task);
 
+  const isPrivate =
+    task.isPrivate && currentUser?.id !== task.authorId && isDoctor;
+
+  const backgroundColor = !isMobile ? undefined : isPrivate ? '#8f8f8f' : color;
+
   return (
     <div
-      className={cn(s.task, { [s.old]: isPast })}
+      className={cn(s.task, { [s.old]: isPast, [s.private]: isPrivate })}
       onClick={() => {
         onClickTask(task.id);
       }}
-      style={{ backgroundColor: isMobile ? color : undefined }}
+      style={{ backgroundColor }}
     >
       {!isMobile && (
         <div className={s.type}>
@@ -39,7 +53,7 @@ export const CalendarTask = ({ task, onClickTask, isPast }: Props) => {
           <div
             className={s.icon}
             style={{
-              backgroundColor: color,
+              backgroundColor: task.isPrivate ? backgroundColor : color,
               WebkitMaskImage: `url(${icon})`,
               maskImage: `url(${icon})`,
             }}

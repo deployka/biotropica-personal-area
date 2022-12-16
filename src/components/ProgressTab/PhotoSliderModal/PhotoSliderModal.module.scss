@@ -84,6 +84,11 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+
+    @include for-phone {
+      width: 100%;
+    }
+
     & button {
       width: 32px;
       height: 32px;
