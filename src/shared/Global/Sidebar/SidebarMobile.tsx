@@ -93,7 +93,7 @@ export const SidebarMobile = memo(
               }}
             >
               <div className={s.icon}>
-                <SidebarSvgSelector id="chat" />
+                <SidebarSvgSelector id={isChatUnread ? 'chat-active' : 'chat' } />
               </div>
               <p>Входящие</p>
             </div>
