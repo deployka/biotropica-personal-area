@@ -1,4 +1,5 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { useState } from 'react';
+
 import { UsersTableHeader } from './UsersTableHeader';
 import { UsersTable } from './UsersTable';
 import { BaseUser } from '../../../../@types/entities/BaseUser';
@@ -54,6 +55,7 @@ export function UserList({
       />
       <div className={`${s.listPanel} ${isFilterOpened ? '' : s.full}`}>
         <UsersTableHeader
+          title={filters.waitingForRecommendation[0] === 'all' ? 'Все пользователи' : 'Ожидают рекомендации'}
           userLength={filteredUsers.length}
           onFilterBtnClick={() => setIsFilterOpened(!isFilterOpened)}
           isFiltersOpen={isFilterOpened}
