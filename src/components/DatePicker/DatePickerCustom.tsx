@@ -70,6 +70,7 @@ const DatePickerCustom = (props: Props) => {
         selected={selected}
         minDate={minDate}
         maxDate={maxDate}
+        locale={ru}
         yearDropdownItemNumber={yearDropdownItemNumber}
         onBlur={e => onBlur(e)}
         onSelect={(date: Date) => onChange(getDateByUTC(date))}

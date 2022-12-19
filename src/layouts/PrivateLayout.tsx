@@ -167,7 +167,7 @@ export function PrivateLayout(props: Props) {
   const isMobile = useMobile();
 
   const [isUnread, setUnread] = useState(false);
-  const [isNotificationsUnread] = useState(false);
+  const [isNotificationsUnread, setNotificationsUnread] = useState(false);
   const [openedDialog, setOpenedDialog] = useState<number | undefined>(
     undefined,
   );
@@ -228,6 +228,7 @@ export function PrivateLayout(props: Props) {
           setSidebarNotificationsOpen={setSidebarNotificationsOpen}
           chatNotificationsOpen={chatNotificationsOpen}
           openChat={openChat}
+          isChatUnread={isUnread}
           logout={logout}
           pages={pages}
           nav={nav}
@@ -235,7 +236,7 @@ export function PrivateLayout(props: Props) {
         />
       )}
 
-      {currentUser ? (
+      {currentUser && (
         <SidebarWrapper
           isOpened={chatNotificationsOpen}
           onClose={() => setSidebarChatOpen(false)}
@@ -249,12 +250,11 @@ export function PrivateLayout(props: Props) {
             onChangeReading={setUnread}
           />
         </SidebarWrapper>
-      ) : (
-        <div />
       )}
       <SidebarNotifications
         open={sidebarNotificationsOpen}
         setOpen={setSidebarNotificationsOpen}
+        onChangeNotification={setNotificationsUnread}
       />
       <div className="container">
         <Header

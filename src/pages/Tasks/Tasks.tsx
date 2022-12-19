@@ -39,6 +39,7 @@ import { Tabs } from '../../components/Tabs/Tabs';
 import { tasksNotifications } from './tasksNotifications';
 import { triggerNotification } from '../../utils/notifications';
 import { TasksModal } from '../../components/Task/Modal/Modal';
+import user from '../../store/slices/user';
 
 export function Tasks() {
   const { data: currentUser } = useCurrentUserQuery();
@@ -47,6 +48,8 @@ export function Tasks() {
   const [createTask, { isLoading: isCreateLoading }] = useCreateTaskMutation();
   const [addComment] = useAddTaskCommentMutation();
   const [deleteTask] = useDeleteTaskMutation();
+
+  const isDoctor = useAppSelector(selectIsDoctor);
 
   const { userId: rawUserId } = useParams<{ userId: string }>();
 
@@ -153,7 +156,7 @@ export function Tasks() {
       ...openedTask,
       id: undefined,
       isTemplate: true,
-      date: '',
+      date: openedTask.date,
       startTime: undefined,
       templateName: openedTask.title,
     };
@@ -161,7 +164,7 @@ export function Tasks() {
       await createTask({ ...newTemplate, executorId: userId }).unwrap();
       tasksNotifications.successCreateTemplate();
     } catch (error) {
-      tasksNotifications.successDeleteTemplate();
+      tasksNotifications.errorCreateTemplate();
     }
 
     handleCloseTask();
@@ -190,17 +193,26 @@ export function Tasks() {
     }
   }
   function handelTaskClick(taskId: string) {
-    setOpenedTaskId(taskId);
-
     const task = tasks.find(task => task.id === taskId);
 
-    if (task) {
-      setOpenedTask({
-        ...(task as TrainingTask | CompetitionTask | EventTask),
-        comments: [],
-      });
-      return setIsTaskModalOpen(true);
+    if (!task) {
+      return;
     }
+
+    const isPrivate =
+      task.isPrivate && currentUser?.id !== task.authorId && isDoctor;
+
+    if (isPrivate) {
+      return;
+    }
+
+    setOpenedTaskId(taskId);
+
+    setOpenedTask({
+      ...(task as TrainingTask | CompetitionTask | EventTask),
+      comments: [],
+    });
+    return setIsTaskModalOpen(true);
   }
   function handleEditClick() {
     setTaskModalMode('edit');

@@ -18,8 +18,6 @@ type Props = {
 };
 
 export const SpecialistListTab = ({ users, isLoading, isError }: Props) => {
-  console.log('isError :', isError);
-  console.log('isLoading :', isLoading);
   const history = useHistory();
   const [searchQuery, setSearchQuery] = useState('');
 

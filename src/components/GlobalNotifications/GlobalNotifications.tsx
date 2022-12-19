@@ -106,11 +106,11 @@ const GlobalNotifications = (): ReactElement => {
             </button>
           </div>
         ),
-        autoClose: 20000,
+        autoClose: 10000,
         type: NotificationType.INFO,
       });
     });
-  }, [history, isAuth]);
+  }, [notifications]);
 
   return <></>;
 };
