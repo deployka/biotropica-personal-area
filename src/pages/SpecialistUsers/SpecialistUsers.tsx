@@ -14,7 +14,7 @@ export type Filters = {
 
 export function SpecialistUsers() {
   const [filters, setFilters] = useState<Filters>({
-    waitingForRecommendation: ['yes'],
+    waitingForRecommendation: ['all'],
     analyzes: ['all'],
     questionnaire: ['all'],
     ward: ['all'],

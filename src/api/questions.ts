@@ -4,7 +4,7 @@ import { baseApi } from './base-api';
 
 export const questionsApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getQuestionsList: builder.query<void, void>({
+    getQuestionsList: builder.query<Question[], void>({
       query() {
         return {
           method: 'GET',
@@ -36,6 +36,16 @@ export const questionsApi = baseApi.injectEndpoints({
           body: answer,
         };
       },
+      invalidatesTags: ['QuestionnaireAnswers'],
+    }),
+    reset: builder.mutation<void, void>({
+      query() {
+        return {
+          method: 'DELETE',
+          url: 'questions/reset',
+        };
+      },
+      invalidatesTags: ['QuestionnaireAnswers', 'CurrentUser'],
     }),
   }),
 });
@@ -45,4 +55,5 @@ export const {
   useGetQuestionsQuery,
   useCreateAnswerMutation,
   useGetQuestionsListQuery,
+  useResetMutation,
 } = questionsApi;

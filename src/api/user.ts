@@ -51,6 +51,7 @@ const userApi = baseApi.injectEndpoints({
         method: 'GET',
         url: `users/${id}/answers`,
       }),
+      providesTags: ['QuestionnaireAnswers'],
     }),
 
     createUser: builder.mutation<

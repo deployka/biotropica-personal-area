@@ -50,7 +50,6 @@ function App(): ReactElement {
         <PublicRoute path="/policy" isAuth={isAuth}>
           <Policy />
         </PublicRoute>
-
         <PrivateRoute path="/" isAuth={isAuth}>
           <Routes />
         </PrivateRoute>
