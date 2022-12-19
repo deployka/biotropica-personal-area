@@ -2,6 +2,7 @@ import { BaseUser } from '../../../../@types/entities/BaseUser';
 import { Client } from '../../../../@types/entities/Client';
 import { ROLE } from '../../../../@types/entities/Role';
 import { FilterField } from '../../../../components/Filter/Filter';
+import user from '../../../../store/slices/user';
 
 export const usersFilters: FilterField[] = [
   {
@@ -89,9 +90,16 @@ export function filterUsersByQuery(users: BaseUser[], q: string) {
   });
 }
 
-export function filterUsersByWard(users: BaseUser[], ward: boolean) {
-  // filter by ward
-  return users;
+export function filterUsersByWard(users: BaseUser, wards: string[], specialistId: number) {
+  const ward = wards[0];
+  if (ward === 'all' || !ward) {
+    return users;
+  }
+  if (ward === 'yes' && users.specialistId === specialistId) {
+    return users.specialistId;
+  } else {
+    return !users.specialistId;
+  }
 }
 
 export function filterUsersByWaiting(users: BaseUser[], q: string) {

@@ -132,6 +132,7 @@ const ClientProfilePrivate = ({ user }: Props) => {
     }
   }, [active]);
 
+
   function goToBlog() {
     document.location = 'https://biotropika.ru/blog/';
   }
@@ -162,6 +163,17 @@ const ClientProfilePrivate = ({ user }: Props) => {
       type: NotificationType.INFO,
     });
   }, []);
+
+  const currentUserId = user?.id || 0;
+  const {
+    data: users = [],
+    isLoading: isUsersLoading,
+    isError: isUsersError,
+  } = useGetFollowedSpecialistsQuery(
+    { id: currentUserId },
+    { skip: !currentUserId || activeTab !== tabs[3].key },
+  );
+
 
   return (
     <>
