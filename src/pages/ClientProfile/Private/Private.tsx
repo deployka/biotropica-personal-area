@@ -131,7 +131,6 @@ const ClientProfilePrivate = ({ user }: Props) => {
     }
   }, [active]);
 
-
   function goToBlog() {
     document.location = 'https://biotropika.ru/blog/';
   }
@@ -172,7 +171,6 @@ const ClientProfilePrivate = ({ user }: Props) => {
     { id: currentUserId },
     { skip: !currentUserId || activeTab !== tabs[3].key },
   );
-
 
   return (
     <>
