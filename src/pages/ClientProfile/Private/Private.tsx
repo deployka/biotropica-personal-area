@@ -59,8 +59,7 @@ const ClientProfilePrivate = ({ user }: Props) => {
   );
 
   const onBuyTariffClick = () => {
-    if (!currentTariff?.tariff?.title) return history.push('/tariffs');
-    setPaymentForm(invoice?.paymentForm || '');
+    return history.push('/tariffs');
   };
 
   const onEditClick = () => {
