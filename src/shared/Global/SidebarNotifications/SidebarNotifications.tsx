@@ -14,13 +14,16 @@ import { useGetNotificationsQuery } from '../../../api/notifications';
 interface Props {
   open: boolean;
   setOpen: (open: boolean) => void;
+  onChangeNotification(isNotificationsUnread: boolean): void;
 }
 
-export const SidebarNotifications = ({ open, setOpen }: Props) => {
+export const SidebarNotifications = (
+    { open, setOpen, onChangeNotification }: Props) => {
   const { data: notifications = [] } = useGetNotificationsQuery();
   const close = () => {
     setOpen(false);
   };
+  onChangeNotification(!!notifications.length);
   return (
     <>
       <div onClick={() => setOpen(false)}>

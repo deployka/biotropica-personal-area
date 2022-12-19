@@ -4,6 +4,9 @@ import { useSelector } from 'react-redux';
 
 import type { BaseUser } from '../../../@types/entities/BaseUser';
 
+import { createCookie, readCookie } from '../../../utils/cookie';
+import { eventBus, EventTypes } from '../../../services/EventBus';
+import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { Tab } from '../../../shared/Global/Tabs/Tabs';
 import { getTabByKey } from '../../../utils/tabsHelper';
 import { useGetGoalsQuery } from '../../../api/goals';
@@ -30,6 +33,7 @@ type Props = {
 const ClientProfilePrivate = ({ user }: Props) => {
   const history = useHistory();
   const { active } = useParams<{ active: string }>();
+  const SEVEN_DAY = 604800;
 
   const tariffAccesses = useSelector(selectCurrentTariffAccesses);
 
@@ -128,6 +132,38 @@ const ClientProfilePrivate = ({ user }: Props) => {
     }
   }, [active]);
 
+
+  function goToBlog() {
+    document.location = 'https://biotropika.ru/blog/';
+  }
+  
+  useEffect(() => {
+
+    const blogDateView = Number(readCookie('blog_date_view'));
+    if (blogDateView + SEVEN_DAY > Date.now()) {
+      return;
+    }
+
+    if (!blogDateView) {
+      createCookie('blog_date_view', Date.now().toString(), 365);
+    }
+
+    eventBus.emit(EventTypes.notification, {
+      message: (
+        <div>
+          Не забудьте заглянуть в наш блог, где собраны лучшие статьи от специалистов BioTropica
+          <button
+            style={{ marginLeft: '10px' }}
+            onClick={goToBlog}
+          >
+            Перейти
+          </button>
+        </div>
+      ),
+      type: NotificationType.INFO,
+    });
+  }, []);
+
   const currentUserId = user?.id || 0;
   const {
     data: users = [],
@@ -137,6 +173,7 @@ const ClientProfilePrivate = ({ user }: Props) => {
     { id: currentUserId },
     { skip: !currentUserId || activeTab !== tabs[3].key },
   );
+
 
   return (
     <>
