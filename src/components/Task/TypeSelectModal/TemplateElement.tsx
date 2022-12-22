@@ -1,4 +1,10 @@
-import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  MouseEvent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { TaskTemplate } from '../../../@types/entities/Task';
 import { useDebounce } from '../../../hooks/useDebounce';
 import closeIcon from './../../../assets/icons/closeRed.svg';
@@ -27,10 +33,14 @@ export function TemplateElement({
     onChangeTemplateName(taskType.id, debouncedName);
   }, [debouncedName]);
 
-  function handleClick(e: MouseEvent) {
-    if (e.target instanceof HTMLInputElement && e.target.tagName === 'INPUT') {
-      return;
-    }
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const deleteButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  function handleClick(e: MouseEvent<HTMLDivElement>) {
+    if (
+      inputRef?.current?.contains(e.target as Node) ||
+      deleteButtonRef?.current?.contains(e.target as Node)
+    ) return;
     onSelect(taskType);
   }
 
@@ -42,23 +52,26 @@ export function TemplateElement({
     <div
       title="Название шаблона сохраняется автоматически"
       className={s.taskType}
+      onClick={handleClick}
     >
       <div className={s.name}>
         <input
           className={s.input}
           value={value}
           onChange={onChange}
+          ref={inputRef}
           placeholder="Введите название шаблона"
         />
-        <div
+        <button
           className={s.delete}
           title="удалить шаблон"
+          ref={deleteButtonRef}
           onClick={onDeleteTemplate}
         >
           <img src={closeIcon} />
-        </div>
+        </button>
       </div>
-      <div className={s.content} onClick={handleClick}>
+      <div className={s.content}>
         <div className={s.iconBg} style={{ backgroundColor: iconColor }}>
           <img className={s.icon} src={taskType.icon} />
         </div>

@@ -160,6 +160,7 @@ export function Tasks() {
       startTime: undefined,
       templateName: openedTask.title,
     };
+
     try {
       await createTask({ ...newTemplate, executorId: userId }).unwrap();
       tasksNotifications.successCreateTemplate();
@@ -221,14 +222,13 @@ export function Tasks() {
     setIsTypeSelectModalOpened(true);
   }
   function handleSelectTaskType(selectedType: TaskType | TaskTemplate) {
-    const newTask =
-      'templateName' in selectedType
-        ? templates.find(t => t.id === selectedType.id)
-        : createTaskByType(selectedType, userId);
-    if (newTask) {
-      setOpenedTask({ ...newTask, isTemplate: false });
+    if ('templateName' in selectedType) {
+      const newTask = templates.find(t => t.id === selectedType.id);
+      if (!newTask) return setOpenedTask(null);
+      const { id, ...newTemplateTask } = newTask;
+      setOpenedTask({ ...newTemplateTask, isTemplate: false });
     } else {
-      setOpenedTask(null);
+      setOpenedTask(createTaskByType(selectedType, userId));
     }
     setOpenedTaskId('');
     setIsTaskModalOpen(true);
