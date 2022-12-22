@@ -127,6 +127,13 @@
     }
   }
 
+  .emptyText{
+    margin: 10px 0 0 0;
+    color: #1e174d;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
   &.hidden {
     z-index: -1;
     opacity: 0;

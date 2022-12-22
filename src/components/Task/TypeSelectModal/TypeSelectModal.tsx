@@ -125,7 +125,7 @@ export function TaskTypeSelectModal({
             Object.entries(typeGroups).map(([key, value]) => (
               <TaskTypeGroup key={key} group={value} onSelect={onSelect} />
             ))}
-          {selectedTab === 'templates' && !templates.length && 'Нет шаблонов'}
+          {selectedTab === 'templates' && !templates.length && <p className={s.emptyText}>Нет шаблонов</p>}
           {selectedTab === 'templates' &&
             Object.entries(templateGroups).map(([key, value]) => (
               <TaskTemplateGroup
