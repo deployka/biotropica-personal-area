@@ -95,10 +95,10 @@ export function filterUsersByWard(users: BaseUser, wards: string[], specialistId
   if (ward === 'all' || !ward) {
     return users;
   }
-  if (ward === 'yes' && users.specialistId === specialistId) {
-    return users.specialistId;
-  } else {
+  if (ward === 'no') {
     return !users.specialistId;
+  } else {
+    return users.specialistId;
   }
 }
 
