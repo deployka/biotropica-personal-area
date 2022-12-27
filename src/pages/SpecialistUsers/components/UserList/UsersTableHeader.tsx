@@ -6,6 +6,7 @@ import SearchInput from '../../../../components/SearchInput/SearchInput';
 import s from './UsersTableHeader.module.scss';
 
 type UsersTableHeaderProps = {
+  title: string;
   userLength: number;
   query: string;
   isFiltersOpen: boolean;
@@ -14,6 +15,7 @@ type UsersTableHeaderProps = {
 };
 
 export function UsersTableHeader({
+  title,
   userLength,
   query,
   isFiltersOpen,
@@ -23,7 +25,7 @@ export function UsersTableHeader({
   return (
     <div className={s.titleLine}>
       <div className={s.title}>
-        <h3>Все пользователи</h3>
+        <h3>{title}</h3>
         <div className={s.counter}>
           <p>{userLength}</p>
         </div>

@@ -6,15 +6,17 @@ import { UserList } from './components/UserList/UserList';
 import { analyzePassedStatus } from './components/UserList/usersHelper';
 
 export type Filters = {
-  waitingForRecommendation: string[];
+  waitingForRecommendation: ('all' | 'yes')[];
   analyzes: ('loaded' | 'notLoaded' | 'all')[];
+  questionnaire: ('all' | 'notFinished' | 'finished')[];
   ward: string[];
 };
 
 export function SpecialistUsers() {
   const [filters, setFilters] = useState<Filters>({
-    waitingForRecommendation: ['no'],
+    waitingForRecommendation: ['all'],
     analyzes: ['all'],
+    questionnaire: ['all'],
     ward: ['all'],
   });
 

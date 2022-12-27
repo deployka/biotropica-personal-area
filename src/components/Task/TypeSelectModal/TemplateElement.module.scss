@@ -35,11 +35,17 @@
     }
 
     .delete {
+      border-radius: 90px;
       cursor: pointer;
 
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: all .2s ease;
+      
+      &:hover{
+        background-color: #d063614c;
+      }
     }
   }
 

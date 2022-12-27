@@ -1,5 +1,8 @@
 import { BaseUser } from '../../../../@types/entities/BaseUser';
+import { Client } from '../../../../@types/entities/Client';
+import { ROLE } from '../../../../@types/entities/Role';
 import { FilterField } from '../../../../components/Filter/Filter';
+import user from '../../../../store/slices/user';
 
 export const usersFilters: FilterField[] = [
   {
@@ -8,8 +11,8 @@ export const usersFilters: FilterField[] = [
     type: 'radio',
     filters: [
       {
-        value: 'no',
-        label: 'Не ожидают',
+        value: 'all',
+        label: 'Все',
       },
       {
         value: 'yes',
@@ -33,6 +36,25 @@ export const usersFilters: FilterField[] = [
       {
         value: 'notLoaded',
         label: 'Не загружены',
+      },
+    ],
+  },
+  {
+    name: 'Анкета',
+    key: 'questionnaire',
+    type: 'radio',
+    filters: [
+      {
+        value: 'all',
+        label: 'Все',
+      },
+      {
+        value: 'finished',
+        label: 'Заполнена',
+      },
+      {
+        value: 'notFinished',
+        label: 'Не заполнена',
       },
     ],
   },
@@ -68,9 +90,16 @@ export function filterUsersByQuery(users: BaseUser[], q: string) {
   });
 }
 
-export function filterUsersByWard(users: BaseUser[], ward: boolean) {
-  // filter by ward
-  return users;
+export function filterUsersByWard(users: BaseUser, wards: string[], specialistId: number) {
+  const ward = wards[0];
+  if (ward === 'all' || !ward) {
+    return users;
+  }
+  if (ward === 'yes' && users.specialistId === specialistId) {
+    return users.specialistId;
+  } else {
+    return !users.specialistId;
+  }
 }
 
 export function filterUsersByWaiting(users: BaseUser[], q: string) {
@@ -82,6 +111,22 @@ export function filterUsersByWaiting(users: BaseUser[], q: string) {
       user.email?.toLowerCase().includes(query)
     );
   });
+}
+
+export function filterUserByQuestionnaire(
+  user: BaseUser,
+  value: 'all' | 'finished' | 'notFinished',
+) {
+
+  if (value === 'all') return true;
+
+  if (value === 'finished') {
+    return (user as Client).questionHash?.includes('FINISHED');
+  }
+  if (value === 'notFinished') {
+    return (user as Client).questionHash === null;
+  }
+  return false;
 }
 
 export const analyzePassedStatus: Record<string, boolean | undefined> = {

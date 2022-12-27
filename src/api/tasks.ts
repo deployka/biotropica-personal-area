@@ -56,7 +56,7 @@ export const taskApi = baseApi.injectEndpoints({
             body: task,
           };
         },
-        invalidatesTags: [{ type: 'Task', id: 'LIST' }],
+        invalidatesTags: [{ type: 'Task', id: 'LIST' }, 'TemplateTask'],
       }),
       addTaskComment: builder.mutation<
         Comment,

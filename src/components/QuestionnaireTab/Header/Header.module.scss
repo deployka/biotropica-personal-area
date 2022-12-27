@@ -25,6 +25,7 @@
     }
 
     .updateBtn {
+        cursor: pointer;
         padding: 0 0 2px 0;
 
         @include for-phone {
@@ -36,30 +37,28 @@
             margin: 0;
         }
 
-        a {
-            .icon {
-                margin-right: 5px;
-                width: 20px;
-                height: 20px;
-                margin-top: 4px;
+        .icon {
+            margin-right: 5px;
+            width: 20px;
+            height: 20px;
+            margin-top: 4px;
+        }
+        font-size: 16px;
+        line-height: 120%;
+        text-decoration: none;
+        color: $color-primary;
+        display: flex;
+        align-items: center;
+        @include for-phone {
+            .text {
+                display: none;
             }
-            font-size: 16px;
-            line-height: 120%;
-            text-decoration: none;
-            color: $color-primary;
-            display: flex;
-            align-items: center;
-            @include for-phone {
-                .text {
-                    display: none;
-                }
-                .icon {
-                    display: block;
+            .icon {
+                display: block;
 
-                    img {
-                        width: 24px;
-                        height: 24px;
-                    }
+                img {
+                    width: 24px;
+                    height: 24px;
                 }
             }
         }
