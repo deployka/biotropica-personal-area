@@ -2,6 +2,7 @@ import { BaseUser } from '../../../../@types/entities/BaseUser';
 import { Client } from '../../../../@types/entities/Client';
 import { ROLE } from '../../../../@types/entities/Role';
 import { FilterField } from '../../../../components/Filter/Filter';
+import { SpecialistCard } from '../../../../components/Profile/Card/SpecialistCard';
 import user from '../../../../store/slices/user';
 
 export const usersFilters: FilterField[] = [
@@ -95,11 +96,16 @@ export function filterUsersByWard(users: BaseUser, wards: string[], specialistId
   if (ward === 'all' || !ward) {
     return users;
   }
-  if (ward === 'no') {
-    return !users.specialistId;
+  if (ward === 'yes') {
+    if (users.specialistId === specialistId) {
+      return users.specialistId;
+    }
   } else {
-    return users.specialistId;
+    if (users.specialistId !== specialistId || users.specialistId === undefined) {
+      return users;
+    }
   }
+
 }
 
 export function filterUsersByWaiting(users: BaseUser[], q: string) {
