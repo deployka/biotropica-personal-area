@@ -27,6 +27,7 @@ export const questionsApi = baseApi.injectEndpoints({
           url: 'questions/current',
         };
       },
+      providesTags: ['CurrentQuestion'],
     }),
     createAnswer: builder.mutation<void, CreateAnswerDto>({
       query(answer) {
@@ -36,7 +37,7 @@ export const questionsApi = baseApi.injectEndpoints({
           body: answer,
         };
       },
-      invalidatesTags: ['QuestionnaireAnswers'],
+      invalidatesTags: ['QuestionnaireAnswers', 'CurrentQuestion'],
     }),
     reset: builder.mutation<void, void>({
       query() {
@@ -45,7 +46,7 @@ export const questionsApi = baseApi.injectEndpoints({
           url: 'questions/reset',
         };
       },
-      invalidatesTags: ['QuestionnaireAnswers', 'CurrentUser'],
+      invalidatesTags: ['QuestionnaireAnswers', 'CurrentQuestion'],
     }),
   }),
 });

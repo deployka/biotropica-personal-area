@@ -2,7 +2,11 @@ import React from 'react';
 import { useHistory } from 'react-router';
 import type { Answer } from '../../@types/entities/Answer';
 import { Client } from '../../@types/entities/Client';
-import { useResetMutation } from '../../api/questions';
+import {
+  useGetCurrentQuestionQuery,
+  useResetMutation,
+} from '../../api/questions';
+import { useCurrentUserQuery } from '../../api/user';
 
 import { IInfoBar, InfoBar } from '../../shared/Global/InfoBar/InfoBar';
 import { selectCurrentUser } from '../../store/slices/authSlice';
@@ -40,8 +44,9 @@ export const QuestionnaireTab = ({
 
   const [resetQuestionnaire] = useResetMutation();
 
-  const currentUser = useAppSelector(selectCurrentUser);
-  const isFinished = (currentUser as Client | undefined)?.questionHash?.includes('FINISHED');
+  const { data: currentQuestionData, isLoading: currentQuestionLoading } =
+    useGetCurrentQuestionQuery();
+  const isFinished = currentQuestionData?.status === 'finished';
 
   const handleResetQuestionnaire = async () => {
     try {
@@ -58,7 +63,7 @@ export const QuestionnaireTab = ({
 
   if (!isAccess) return <p>Нет доступа</p>;
   // FIXME: add loader
-  if (isLoading) return <p>Загрузка...</p>;
+  if (isLoading || currentQuestionLoading) return <p>Загрузка...</p>;
   if (!answers.length) {
     return <InfoBar infoBar={isPublic ? publicInfoBar : privateInfoBar} />;
   }

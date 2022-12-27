@@ -30,10 +30,10 @@ const Questionnaire = () => {
     useCreateAnswerMutation();
 
   const onMoveToProfile = () => {
-    history.push('/profile');
+    history.push('profile/tabs/questionnaire');
   };
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return <p>Загрузка...</p>;
   }
 

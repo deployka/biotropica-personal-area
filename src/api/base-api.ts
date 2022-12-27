@@ -26,6 +26,7 @@ export const baseApi = createApi({
     'SpecialistConsultation',
     'Tariff',
     'QuestionnaireAnswers',
+    'CurrentQuestion',
   ],
   endpoints: () => ({}),
 });
