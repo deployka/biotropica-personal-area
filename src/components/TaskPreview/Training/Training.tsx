@@ -1,7 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { intlFormat } from 'date-fns';
-import { Formik } from 'formik';
-import Input, { InputTypes } from '../../Input/Input';
 import { TaskPreviewComments } from '../../Task/PreviewComments/PreviewComments';
 import { TaskValuePreview } from '../../Task/ValuePreview/ValuePreview';
 import {
@@ -9,10 +7,9 @@ import {
   translatedSecondTargetType,
 } from '../../TaskEditor/Training/TrainingConstants';
 
-import submitIcon from './../../../assets/icons/submit.svg';
-
 import s from './Training.module.scss';
 import { TrainingTask } from '../../../@types/entities/Task';
+import { useDebounce } from '../../../hooks/useDebounce';
 
 export type TrainingTaskPreviewProps = {
   task: TrainingTask;
@@ -37,10 +34,24 @@ export function TrainingTaskPreview({
     day: 'numeric',
   });
 
+  const [firstFactValue, setFirstFactValue] = useState(task.firstFactValue);
+  const [secondFactValue, setSecondFactValue] = useState(task.secondFactValue);
+
+  const debouncedFirstValue = useDebounce(firstFactValue, 400);
+  const debouncedSecondValue = useDebounce(secondFactValue, 400);
+
+  useEffect(() => {
+    onSaveFirstValue(debouncedFirstValue);
+  }, [debouncedFirstValue]);
+
+  useEffect(() => {
+    onSaveSecondValue(debouncedSecondValue);
+  }, [debouncedSecondValue]);
+
   function TaskTime() {
     if (!task.startTime) return <></>;
     return (
-      <TaskValuePreview title={'Время'} value={task.startTime.slice(0, 5)} />
+      <TaskValuePreview title="Время" value={task.startTime.slice(0, 5)} />
     );
   }
 
@@ -73,30 +84,17 @@ export function TrainingTaskPreview({
           </div>
         )}
         {!isSpecialist && (
-          <Formik
-            enableReinitialize
-            initialValues={{ firstFactValue: task.firstFactValue }}
-            onSubmit={values => onSaveFirstValue(values.firstFactValue)}
-          >
-            {({ values, handleBlur, handleChange, handleSubmit }) => (
-              <form className={s.half} onSubmit={handleSubmit}>
-                <Input
-                  type={InputTypes.NAME}
-                  placeholder="Факт"
-                  name="firstFactValue"
-                  label="Факт"
-                  value={values.firstFactValue}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                />
-                {values.firstFactValue !== task.firstFactValue && (
-                  <button className={s.submitButton} type="submit">
-                    <img src={submitIcon} />
-                  </button>
-                )}
-              </form>
-            )}
-          </Formik>
+          <div className={s.half}>
+            <div className={s.input}>
+              <p className={s.title}>Факт</p>
+              <input
+                placeholder="Факт"
+                name="firstFactValue"
+                value={firstFactValue}
+                onChange={e => setFirstFactValue(e.target.value)}
+              />
+            </div>
+          </div>
         )}
       </div>
       <div className={s.line}>
@@ -115,30 +113,17 @@ export function TrainingTaskPreview({
           </div>
         )}
         {!isSpecialist && (
-          <Formik
-            enableReinitialize
-            initialValues={{ secondFactValue: task.secondFactValue }}
-            onSubmit={values => onSaveSecondValue(values.secondFactValue)}
-          >
-            {({ values, handleBlur, handleChange, handleSubmit }) => (
-              <form className={s.half} onSubmit={handleSubmit}>
-                <Input
-                  type={InputTypes.NAME}
-                  placeholder="Факт"
-                  name="secondFactValue"
-                  label="Факт"
-                  value={values.secondFactValue}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                />
-                {values.secondFactValue !== task.secondFactValue && (
-                  <button className={s.submitButton} type="submit">
-                    <img src={submitIcon} />
-                  </button>
-                )}
-              </form>
-            )}
-          </Formik>
+          <div className={s.half}>
+            <div className={s.input}>
+              <p className={s.title}>Факт</p>
+              <input
+                placeholder="Факт"
+                name="secondFactValue"
+                value={secondFactValue}
+                onChange={e => setSecondFactValue(e.target.value)}
+              />
+            </div>
+          </div>
         )}
       </div>
       {task.description && (
