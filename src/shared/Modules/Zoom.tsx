@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppModule } from './AppModule';
 
 export type ZoomProps = {
-  meetingNumber: number;
+  meetingNumber: string;
   password: string;
   username: string;
   role: number;
@@ -12,16 +12,13 @@ export type ZoomProps = {
 
 export function Zoom(props: ZoomProps) {
   const [mediaAccess, setMediaAccess] = useState(false);
-  navigator.mediaDevices
-    .getUserMedia({ audio: true, video: true })
-    .then(r => {
-      setMediaAccess(true);
-      console.log('result', r);
-    })
-    .catch(e => {
-      setMediaAccess(true);
-      console.log('error', e);
-    });
+
+  useEffect(() => {
+    navigator.mediaDevices
+      .getUserMedia({ audio: true, video: true })
+      .then(() => setMediaAccess(true))
+      .catch(() => setMediaAccess(true));
+  }, []);
 
   if (!mediaAccess) {
     return (
@@ -38,7 +35,7 @@ export function Zoom(props: ZoomProps) {
       className={props.className}
       url={process.env.REACT_APP_ZOOM_FRONT_URL as string}
       params={{
-        meetingNumber: props.meetingNumber.toString(),
+        meetingNumber: props.meetingNumber,
         password: props.password,
         username: props.username,
         role: props.role.toString(),

@@ -15,7 +15,7 @@ export type SpecialistConsultation = {
   date: string;
   time: string;
   clientName: string;
-  meetingNumber: number;
+  meetingNumber: string;
   status: 'active' | 'inactive';
 };
 

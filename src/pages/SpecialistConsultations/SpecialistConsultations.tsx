@@ -47,10 +47,10 @@ const SpecialistConsultations = () => {
       skip: !specialist?.id,
     });
   const [deleteConsultation] = useDeleteConsultationMutation();
-  const [changeConsultationDate] = useUpdateConsultationDateMutation();
+  const [changeConsultationDate] = useUpdateConsultationMutation();
 
   const handleMoveToConsultation = (id: number) => {
-    return history.push('/consultations/' + id);
+    return history.push('/consultations/list/' + id);
   };
   const handleUpdateConsultation = async (date: Date) => {
     if (!editedConsultation) return;

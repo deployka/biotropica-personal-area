@@ -91,6 +91,13 @@ export const consultationsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['SpecialistConsultation'],
     }),
+
+    generateZAK: builder.query<{ token: string; }, void>({
+      query: () => ({
+        url: '/consultations/zak',
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
@@ -104,6 +111,7 @@ export const {
   useGetLastConsultationQuery,
   useGetConsultationQuery,
   useUpdateConsultationDateMutation,
+  useLazyGenerateZAKQuery,
 } = consultationsApi;
 
 export default consultationsApi;

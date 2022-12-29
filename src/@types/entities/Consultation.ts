@@ -9,7 +9,7 @@ export type Consultation = BaseEntity & {
   user: Client;
   specialistId: UniqueId;
   userId: UniqueId;
-  meetingNumber: number;
+  meetingNumber: string;
   meetingPassword: string;
   isPaid: boolean;
   isFree: boolean;
