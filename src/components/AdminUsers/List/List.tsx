@@ -6,13 +6,10 @@ import {
   filterUserByBanStatus,
   filterUserByQuestionnaire,
   filterUserByRoles,
-  filterUserByTariffs,
   usersFilters,
   Filters,
 } from '../adminUsersHelper';
-import { ROLE } from '../../../@types/entities/Role';
 import { BaseUser } from '../../../@types/entities/BaseUser';
-import { Tariff } from '../../../@types/entities/Tariff';
 import { AdminUsersHeader } from '../Header/Header';
 import { AdminUsersTable } from '../Table/Table';
 
@@ -20,7 +17,6 @@ import s from './List.module.scss';
 
 type Props = {
   users: Array<BaseUser>;
-  tariffs: Tariff[];
   filters: Filters;
   setFilters: Dispatch<SetStateAction<Filters>>;
   onCreateUser(): void;
@@ -32,7 +28,6 @@ type Props = {
 export function AdminUsersList({
   users,
   filters,
-  tariffs,
   setFilters,
   onProfile,
   onCreateUser,
@@ -48,35 +43,12 @@ export function AdminUsersList({
       user,
       filters.questionnaire[0],
     );
-    const isValidTariff = filterUserByTariffs(user, filters.tariffs);
     const isValidBanStatus = filterUserByBanStatus(user, filters.banned[0]);
     const isQueryValid = filterUserByQuery(user, query);
     return (
-      isValidRole &&
-      isValidQuestionnaire &&
-      isValidTariff &&
-      isValidBanStatus &&
-      isQueryValid
+      isValidRole && isValidQuestionnaire && isValidBanStatus && isQueryValid
     );
   });
-
-  const tariffsFilters = tariffs.map(tariff => ({
-    value: `${tariff.id}`,
-    label: tariff.title,
-  }));
-  const test: FilterField[] = [
-    ...usersFilters,
-    {
-      name: 'Тариф',
-      key: 'tariffs',
-      type: 'radio',
-      filters: [
-        { value: 'all', label: 'Все' },
-        ...tariffsFilters,
-        { value: 'noTariff', label: 'Нет тарифа' },
-      ],
-    },
-  ];
 
   return (
     <div className={s.adminPanel}>
@@ -85,7 +57,7 @@ export function AdminUsersList({
         onClose={() => {
           setIsFilterOpened(false);
         }}
-        filters={test}
+        filters={usersFilters}
         selectedFilters={filters}
         onChange={(filters: Filters) => setFilters(filters)}
       />
@@ -100,7 +72,6 @@ export function AdminUsersList({
         />
         <AdminUsersTable
           users={filteredUsers}
-          tariffs={tariffs}
           onProfile={onProfile}
           onToggleUserBanStatus={onToggleUserBanStatus}
           onWrite={onWriteUser}

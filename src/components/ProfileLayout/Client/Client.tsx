@@ -61,13 +61,13 @@ export const ClientProfileLayout = ({
               goalsCount={goalsCount}
             />
           )}
-          <ProfileTariff
+          {/* <ProfileTariff
             isPublic={isPublic}
             title={currentTariff?.tariff?.title}
             expires={currentTariff?.expiredAt}
             isPaid={currentTariff?.isPaid}
             onClickBuyTariff={onClickBuyTariff}
-          />
+          /> */}
           {isPublic && (
             <Button
               isPrimary

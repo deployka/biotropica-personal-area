@@ -9,7 +9,6 @@ export type Filters = {
   roles: (ROLE | 'all')[];
   questionnaire: ('all' | 'finished' | 'notFinished')[];
   analyzes: ('all' | 'loaded' | 'notLoaded')[];
-  tariffs: string[];
   banned: ('all' | 'yes' | 'no')[];
 };
 

@@ -111,12 +111,12 @@ const routes = [
     path: 'specialists/:id/tabs/:active',
     component: PublicSpecialistProfile,
   },
-  {
-    path: 'tariffs',
-    clientComponent: Tariffs,
-    adminComponent: Tariffs,
-    exact: true,
-  },
+  // {
+  //   path: 'tariffs',
+  //   clientComponent: Tariffs,
+  //   adminComponent: Tariffs,
+  //   exact: true,
+  // },
   {
     path: 'goals/add',
     clientComponent: AddGoal,

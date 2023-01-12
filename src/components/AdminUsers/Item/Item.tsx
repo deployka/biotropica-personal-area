@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import type { BaseUser } from '../../../@types/entities/BaseUser';
-import type { Tariff } from '../../../@types/entities/Tariff';
 import { ROLE } from '../../../@types/entities/Role';
 import { Action, ActionMenu } from '../../UI/ActionsMenu/ActionsMenu';
-import { getUserTariff } from '../adminUsersHelper';
 import { getFullName } from '../../../utils/getFullName';
 import { format } from 'date-fns';
 import dotsIcon from '../../../assets/icons/dots-horizontal.svg';
@@ -11,7 +9,6 @@ import s from './Item.module.scss';
 
 type Props = {
   user: BaseUser;
-  tariffs: Tariff[];
   onProfile: () => void;
   onToggleUserBanStatus: () => void;
   onWrite: () => void;
@@ -31,7 +28,6 @@ export const ROLE_COLOR = {
 
 export const UserItem = ({
   user,
-  tariffs,
   onProfile,
   onToggleUserBanStatus,
   onWrite,
@@ -42,14 +38,11 @@ export const UserItem = ({
     setVisible(prevState => !prevState);
   }
 
-  const tariff = getUserTariff(tariffs, user);
-
   const formattedUser = {
     id: user.id,
     fullName: getFullName(user.name, user.lastname),
     isBanned: user.banned,
     registrationDate: format(new Date(user.createdAt), 'dd.MM.yyyy'),
-    tariff,
     roles: user.roles,
   };
 
@@ -72,7 +65,9 @@ export const UserItem = ({
     },
   ];
 
-  if (formattedUser.isBanned === true) formattedUser.fullName += ' (Заблокирован)'; 
+  if (formattedUser.isBanned === true) {
+    formattedUser.fullName += ' (Заблокирован)';
+  }
 
   return (
     <div className={s.user}>
@@ -84,9 +79,6 @@ export const UserItem = ({
       </div>
       <div className={s.role}>
         <p style={{ color: ROLE_COLOR[role?.name] }}>{roleTranslation}</p>
-      </div>
-      <div className={s.tariff}>
-        <p>{formattedUser.tariff}</p>
         <ActionMenu
           actions={actions}
           onClose={() => setVisible(false)}
@@ -101,6 +93,10 @@ export const UserItem = ({
           </div>
         </ActionMenu>
       </div>
+      {/* <div className={s.tariff}>
+        <p>{formattedUser.tariff}</p>
+
+      </div> */}
     </div>
   );
 };

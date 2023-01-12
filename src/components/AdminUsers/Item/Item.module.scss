@@ -26,7 +26,7 @@
     }
 
     .name {
-        width: 35%;
+        width: 60%;
 
         @include for-phone {
             margin: 0 0 10px 0;
@@ -51,19 +51,7 @@
         width: 20%;
         p {
             color: #6f61d0;
-        }
 
-        @include for-phone {
-            margin: 0 0 10px 0;
-            width: 100%;
-        }
-    }
-
-    .tariff {
-        width: 25%;
-        max-width: 25%;
-
-        p {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -75,6 +63,11 @@
 
         @include for-phone {
             max-width: unset;
+            width: 100%;
+        }
+
+        @include for-phone {
+            margin: 0 0 10px 0;
             width: 100%;
         }
     }

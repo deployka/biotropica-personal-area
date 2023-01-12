@@ -28,7 +28,6 @@ import {
   successUnbanNotification,
 } from './adminUsersNotifications';
 import { getRoleKeyByName } from '../../utils/getRoleKey';
-import { ROLE } from '../../@types/entities/Role';
 import {
   analyzePassedStatus,
   Filters,
@@ -39,7 +38,6 @@ export function AdminUsers() {
     roles: ['all'],
     questionnaire: ['all'],
     analyzes: ['all'],
-    tariffs: ['all'],
     banned: ['all'],
   });
 
@@ -160,7 +158,6 @@ export function AdminUsers() {
       {users ? (
         <AdminUsersList
           users={users}
-          tariffs={tariffs}
           filters={filters}
           setFilters={setFilters}
           onProfile={moveToProfile}

@@ -1,5 +1,5 @@
-@import '../../../styles/global';
-@import '../../../styles/breakpoints';
+@import "../../../styles/global";
+@import "../../../styles/breakpoints";
 
 .infoBar {
   padding: 0 16px;
@@ -12,19 +12,16 @@
   background-color: $color-divider;
 
   .name {
-    width: 35%;
+    width: 60%;
   }
 
   .date {
     width: 20%;
+    
   }
 
   .role {
     width: 20%;
-  }
-
-  .tariff {
-    width: 25%;
   }
 
   p {
@@ -46,6 +43,6 @@
   overflow-y: scroll;
 }
 
-.emptyList{
+.emptyList {
   margin: 20px;
 }

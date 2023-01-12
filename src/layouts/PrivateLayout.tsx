@@ -111,10 +111,6 @@ const adminNav: Nav[] = [
     ...pages[12],
     svg: <SidebarSvgSelector id="logs" />,
   },
-  {
-    ...pages[3],
-    svg: <SidebarSvgSelector id="tariffs" />,
-  },
 ];
 
 export function PrivateLayout(props: Props) {
