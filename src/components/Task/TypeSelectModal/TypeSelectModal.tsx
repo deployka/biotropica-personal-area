@@ -19,7 +19,7 @@ import { typeGroups } from './taskTypeConstants';
 
 export type TaskTypeSelectModalProps = {
   isOpened: boolean;
-  isSpecialist: boolean;
+  isClient: boolean;
   templates: SomeTask[];
   onClose(): void;
   onSelect(type: TaskType | TaskTemplate): void;
@@ -29,7 +29,7 @@ export type TaskTypeSelectModalProps = {
 
 export function TaskTypeSelectModal({
   isOpened,
-  isSpecialist,
+  isClient,
   templates,
   onClose,
   onSelect,
@@ -109,7 +109,7 @@ export function TaskTypeSelectModal({
             <p>Выберите тип задачи</p>
           </div>
           <div className={s.center}>
-            {isSpecialist && (
+            {!isClient && (
               <Tabs
                 options={options}
                 value={selectedTab}

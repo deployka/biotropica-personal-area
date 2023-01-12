@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Formik } from 'formik';
 import Input, { InputTypes } from '../../Input/Input';
@@ -10,6 +10,7 @@ import { CompetitionTask } from '../../../@types/entities/Task';
 import submitIcon from './../../../assets/icons/submit.svg';
 
 import s from './Competition.module.scss';
+import { useDebounce } from '../../../hooks/useDebounce';
 
 export type CompetitionTaskPreviewProps = {
   task: CompetitionTask;
@@ -32,9 +33,13 @@ export function CompetitionTaskPreview({
     day: 'numeric',
   });
 
-  function onSave(factValue: string | undefined) {
-    onSaveFactValue(factValue);
-  }
+  const [factValue, setFactValue] = useState(task.factValue);
+
+  const debouncedFactValue = useDebounce(factValue, 400);
+
+  useEffect(() => {
+    onSaveFactValue(debouncedFactValue);
+  }, [debouncedFactValue]);
 
   return (
     <div className={s.competitionsTaskPreview}>
@@ -61,30 +66,17 @@ export function CompetitionTaskPreview({
           </div>
         )}
         {!isSpecialist && (
-          <Formik
-            enableReinitialize
-            initialValues={{ factValue: task.factValue }}
-            onSubmit={values => onSave(values.factValue)}
-          >
-            {({ values, handleBlur, handleChange, handleSubmit }) => (
-              <form className={s.half} onSubmit={handleSubmit}>
-                <Input
-                  type={InputTypes.NAME}
-                  placeholder="Факт"
-                  name="factValue"
-                  label="Факт"
-                  value={values.factValue}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                />
-                {values.factValue !== task.factValue && (
-                  <button className={s.submitButton} type="submit">
-                    <img src={submitIcon} />
-                  </button>
-                )}
-              </form>
-            )}
-          </Formik>
+          <div className={s.half}>
+            <div className={s.input}>
+              <p className={s.title}>Факт</p>
+              <input
+                placeholder="Факт"
+                name="factValue"
+                value={factValue}
+                onChange={e => setFactValue(e.target.value)}
+              />
+            </div>
+          </div>
         )}
       </div>
       {task.description && (

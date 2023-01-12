@@ -158,7 +158,7 @@ export function Tasks() {
       isTemplate: true,
       date: openedTask.date,
       startTime: undefined,
-      templateName: openedTask.title,
+      templateName: '',
     };
 
     try {
@@ -316,7 +316,7 @@ export function Tasks() {
         onChangeTemplateName={onChangeTemplateName}
         onDeleteTemplate={handleDeleteTemplate}
         templates={templates}
-        isSpecialist={isSpecialist}
+        isClient={!isSpecialist && !isAdmin}
         isOpened={isTypeSelectModalOpened}
         onClose={() => setIsTypeSelectModalOpened(false)}
         onSelect={handleSelectTaskType}

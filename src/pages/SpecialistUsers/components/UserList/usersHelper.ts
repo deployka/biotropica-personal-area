@@ -1,8 +1,6 @@
 import { BaseUser } from '../../../../@types/entities/BaseUser';
 import { Client } from '../../../../@types/entities/Client';
-import { ROLE } from '../../../../@types/entities/Role';
 import { FilterField } from '../../../../components/Filter/Filter';
-import user from '../../../../store/slices/user';
 
 export const usersFilters: FilterField[] = [
   {
@@ -90,15 +88,26 @@ export function filterUsersByQuery(users: BaseUser[], q: string) {
   });
 }
 
-export function filterUsersByWard(users: BaseUser, wards: string[], specialistId: number) {
+export function filterUsersByWard(
+  users: BaseUser,
+  wards: string[],
+  specialistId: number,
+) {
   const ward = wards[0];
   if (ward === 'all' || !ward) {
     return users;
   }
-  if (ward === 'yes' && users.specialistId === specialistId) {
-    return users.specialistId;
+  if (ward === 'yes') {
+    if (users.specialistId === specialistId) {
+      return users.specialistId;
+    }
   } else {
-    return !users.specialistId;
+    if (
+      users.specialistId !== specialistId ||
+      users.specialistId === undefined
+    ) {
+      return users;
+    }
   }
 }
 
@@ -117,7 +126,6 @@ export function filterUserByQuestionnaire(
   user: BaseUser,
   value: 'all' | 'finished' | 'notFinished',
 ) {
-
   if (value === 'all') return true;
 
   if (value === 'finished') {
