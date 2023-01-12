@@ -4,7 +4,12 @@ import { UsersTableHeader } from './UsersTableHeader';
 import { UsersTable } from './UsersTable';
 import { BaseUser } from '../../../../@types/entities/BaseUser';
 import { Filter } from '../../../../components/Filter/Filter';
-import { filterUsersByQuery, filterUsersByWard, usersFilters } from './usersHelper';
+import {
+  filterUserByQuestionnaire,
+  filterUsersByQuery,
+  filterUsersByWard,
+  usersFilters,
+} from './usersHelper';
 import { useGetCurrentSpecialistQuery } from '../../../../api/specialists';
 
 import s from '../../Users.module.scss';
@@ -26,17 +31,15 @@ export function UserList({
   const [isFilterOpened, setIsFilterOpened] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
 
-  const {
-    data: currentSpecialist,
-  } = useGetCurrentSpecialistQuery();
+  const { data: currentSpecialist } = useGetCurrentSpecialistQuery();
 
   const currentSpecialistId = currentSpecialist?.user?.id || 0;
 
-  let filteredUsers = users.filter(user => {
-    return (
-      filterUsersByWard(user, filters.ward, currentSpecialistId)
-    );
-  });
+  let filteredUsers = users.filter(
+    user =>
+      filterUsersByWard(user, filters.ward, currentSpecialistId) &&
+      filterUserByQuestionnaire(user, filters.questionnaire[0]),
+  );
 
   if (query) {
     filteredUsers = filterUsersByQuery(filteredUsers, query);
@@ -55,7 +58,7 @@ export function UserList({
       />
       <div className={`${s.listPanel} ${isFilterOpened ? '' : s.full}`}>
         <UsersTableHeader
-          title={filters.waitingForRecommendation[0] === 'all' ? 'Все пользователи' : 'Ожидают рекомендации'}
+          title="Все пользователи"
           userLength={filteredUsers.length}
           onFilterBtnClick={() => setIsFilterOpened(!isFilterOpened)}
           isFiltersOpen={isFilterOpened}

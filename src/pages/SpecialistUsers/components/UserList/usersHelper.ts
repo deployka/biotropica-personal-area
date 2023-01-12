@@ -3,21 +3,21 @@ import { Client } from '../../../../@types/entities/Client';
 import { FilterField } from '../../../../components/Filter/Filter';
 
 export const usersFilters: FilterField[] = [
-  {
-    name: 'Рекомендация',
-    key: 'waitingForRecommendation',
-    type: 'radio',
-    filters: [
-      {
-        value: 'all',
-        label: 'Все',
-      },
-      {
-        value: 'yes',
-        label: 'Ожидают',
-      },
-    ],
-  },
+  // {
+  //   name: 'Рекомендация',
+  //   key: 'waitingForRecommendation',
+  //   type: 'radio',
+  //   filters: [
+  //     {
+  //       value: 'all',
+  //       label: 'Все',
+  //     },
+  //     {
+  //       value: 'yes',
+  //       label: 'Ожидают',
+  //     },
+  //   ],
+  // },
   {
     name: 'Анализы',
     key: 'analyzes',
