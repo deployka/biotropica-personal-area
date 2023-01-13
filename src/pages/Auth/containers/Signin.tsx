@@ -17,20 +17,8 @@ const Signin = () => {
     try {
       await signIn(values).unwrap();
 
-      eventBus.emit(EventTypes.notification, {
-        message: 'Вход выполнен!',
-        type: NotificationType.SUCCESS,
-      });
-
-      eventBus.emit(EventTypes.notification, {
-        title: 'Внимание!',
-        message:
-          'Проводятся технические работы с системой оплаты тарифных планов. Вам доступны основные функции личного кабинета, кроме взаимодействия со специалистами Biotropika. Мы работаем над устранением проблемы',
-        autoClose: false,
-        type: NotificationType.INFO,
-      });
-
       options.resetForm();
+      
     } catch (error) {
       options.setFieldValue('password', '');
       eventBus.emit(EventTypes.notification, {
