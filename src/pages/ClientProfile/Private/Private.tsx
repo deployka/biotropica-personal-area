@@ -69,18 +69,18 @@ const ClientProfilePrivate = ({ user }: Props) => {
       createCookie('blog_date_view', Date.now().toString(), 365);
     }
 
-    eventBus.emit(EventTypes.notification, {
-      message: (
-        <div>
-          Не забудьте заглянуть в наш блог, где собраны лучшие статьи от
-          специалистов BioTropika
-          <button style={{ marginLeft: '10px' }} onClick={goToBlog}>
-            Перейти
-          </button>
-        </div>
-      ),
-      type: NotificationType.INFO,
-    });
+    // eventBus.emit(EventTypes.notification, {
+    //   message: (
+    //     <div>
+    //       Не забудьте заглянуть в наш блог, где собраны лучшие статьи от
+    //       специалистов BioTropika
+    //       <button style={{ marginLeft: '10px' }} onClick={goToBlog}>
+    //         Перейти
+    //       </button>
+    //     </div>
+    //   ),
+    //   type: NotificationType.INFO,
+    // });
   }, []);
 
   const currentUserId = user?.id || 0;
