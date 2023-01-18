@@ -33,9 +33,9 @@ const ClientProfilePrivate = ({ user }: Props) => {
   // const onBuyTariffClick = () => {
   //   return history.push('/tariffs');
   // };
-  // const onEditClick = () => {
-  //   history.push('/profile/edit');
-  // };
+  const onEditClick = () => {
+    history.push('/profile/edit');
+  };
 
   const [activeTab, setActiveTab] = useState(
     getTabByKey(active, tabs)?.key || tabs[0].key,

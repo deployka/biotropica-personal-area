@@ -64,16 +64,16 @@ export const PublicProfile = () => {
         text: comment,
         analyzeAnswerId: analyzeId,
       }).unwrap();
-      eventBus.emit(EventTypes.notification, {
-        message: 'Комментарий добавлен!',
-        type: NotificationType.SUCCESS,
-      });
+      // eventBus.emit(EventTypes.notification, {
+      //   message: 'Комментарий добавлен!',
+      //   type: NotificationType.SUCCESS,
+      // }
     } catch (error) {
       console.error(error);
-      eventBus.emit(EventTypes.notification, {
-        message: 'Произошла ошибка, попробуйте еще раз!',
-        type: NotificationType.DANGER,
-      });
+      // eventBus.emit(EventTypes.notification, {
+      //   message: 'Произошла ошибка, попробуйте еще раз!',
+      //   type: NotificationType.DANGER,
+      // });
     }
   };
 
