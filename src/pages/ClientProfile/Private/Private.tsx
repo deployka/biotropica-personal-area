@@ -55,9 +55,9 @@ const ClientProfilePrivate = ({ user }: Props) => {
     }
   }, [active]);
 
-  function goToBlog() {
-    document.location = 'https://biotropika.ru/blog';
-  }
+  // function goToBlog() {
+  //   document.location = 'https://biotropika.ru/blog';
+  // }
 
   useEffect(() => {
     const blogDateView = Number(readCookie('blog_date_view'));
