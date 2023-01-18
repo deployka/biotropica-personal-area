@@ -33,9 +33,9 @@ const ClientProfilePrivate = ({ user }: Props) => {
   // const onBuyTariffClick = () => {
   //   return history.push('/tariffs');
   // };
-  // const onEditClick = () => {
-  //   history.push('/profile/edit');
-  // };
+  const onEditClick = () => {
+    history.push('/profile/edit');
+  };
 
   const [activeTab, setActiveTab] = useState(
     getTabByKey(active, tabs)?.key || tabs[0].key,
@@ -54,10 +54,10 @@ const ClientProfilePrivate = ({ user }: Props) => {
       );
     }
   }, [active]);
-
-  function goToBlog() {
-    document.location = 'https://biotropika.ru/blog';
-  }
+//
+  // function goToBlog() {
+  //   document.location = 'https://biotropika.ru/blog';
+  // }
 
   useEffect(() => {
     const blogDateView = Number(readCookie('blog_date_view'));
@@ -69,18 +69,18 @@ const ClientProfilePrivate = ({ user }: Props) => {
       createCookie('blog_date_view', Date.now().toString(), 365);
     }
 
-    eventBus.emit(EventTypes.notification, {
-      message: (
-        <div>
-          Не забудьте заглянуть в наш блог, где собраны лучшие статьи от
-          специалистов BioTropika
-          <button style={{ marginLeft: '10px' }} onClick={goToBlog}>
-            Перейти
-          </button>
-        </div>
-      ),
-      type: NotificationType.INFO,
-    });
+    // eventBus.emit(EventTypes.notification, {
+    //   message: (
+    //     <div>
+    //       Не забудьте заглянуть в наш блог, где собраны лучшие статьи от
+    //       специалистов BioTropika
+    //       <button style={{ marginLeft: '10px' }} onClick={goToBlog}>
+    //         Перейти
+    //       </button>
+    //     </div>
+    //   ),
+    //   type: NotificationType.INFO,
+    // });
   }, []);
 
   const currentUserId = user?.id || 0;

@@ -45,7 +45,7 @@ export interface Nav extends Page {
 
 const pages = [
   { page: 'Профиль', link: 'profile' },
-  { page: 'Главная', link: '/' },
+  { page: 'Дневник спортсмена BUTMANA', link: '/' },
   { page: 'Цели', link: 'goals' },
   { page: 'Тарифы', link: 'tariffs' },
   { page: 'Видеоконсультации', link: 'consultations' },
