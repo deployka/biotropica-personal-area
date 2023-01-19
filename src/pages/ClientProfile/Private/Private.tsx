@@ -90,7 +90,7 @@ const ClientProfilePrivate = ({ user }: Props) => {
     isError: isUsersError,
   } = useGetFollowedSpecialistsQuery(
     { id: currentUserId },
-    { skip: !currentUserId || activeTab !== tabs[3].key },
+    { skip: !currentUserId || activeTab !== tabs[2].key },
   );
 
   return (
@@ -105,16 +105,16 @@ const ClientProfilePrivate = ({ user }: Props) => {
         onActiveTabChange={handleChangeTab}
       >
         <div className={s.content}>
-          {activeTab === tabs[0].key && (
+          {/* {activeTab === tabs[0].key && (
             <Analyzes userId={user.id} isAccess={true} />
-          )}
-          {activeTab === tabs[1].key && (
+          )} */}
+          {activeTab === tabs[0].key && (
             <Questionnaire userId={user.id} isAccess={true} />
           )}
-          {activeTab === tabs[2].key && (
+          {activeTab === tabs[1].key && (
             <Progress userId={user.id} isAccess={true} />
           )}
-          {activeTab === tabs[3].key && (
+          {activeTab === tabs[2].key && (
             <SpecialistListTab
               isLoading={isUsersLoading}
               isError={isUsersError}

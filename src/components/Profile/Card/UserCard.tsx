@@ -45,12 +45,20 @@ export const ProfileCard = ({ user, isPublic, onEditClick }: Props) => {
         </div>
       )}
       {!isPublic && (
-        <p className={s.edit} onClick={onEditClick}>
-          <div className={s.editIcon}>
-            <img src={edit} alt="редактировать" />
-          </div>
-          <span>редактировать</span>
-        </p>
+        // <p className={s.edit} onClick={onEditClick}>
+        //   <div className={s.editIcon}>
+        //     <img src={edit} alt="редактировать" />
+        //   </div>
+        //   <span>редактировать</span>
+        // </p>
+        <Link to="/profile/edit">
+          <p className={s.edit} >
+            <div className={s.editIcon}>
+              <img src={edit} alt="редактировать" />
+            </div>
+            <span>редактировать</span>
+          </p>
+        </Link>
       )}
     </div>
   );

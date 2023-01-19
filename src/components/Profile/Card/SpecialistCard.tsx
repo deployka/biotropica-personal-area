@@ -2,6 +2,8 @@ import React from 'react';
 import 'moment/locale/ru';
 import moment from 'moment';
 
+import { Link } from 'react-router-dom';
+
 import type { BaseUser } from '../../../@types/entities/BaseUser';
 
 import { getMediaLink } from '../../../utils/mediaHelper';
@@ -67,12 +69,20 @@ export const SpecialistCard = ({
         </div>
       )}
       {!isPublic && (
-        <p className={s.edit} onClick={onEditClick}>
-          <div className={s.editIcon}>
-            <img src={editIcon} alt="редактировать" />
-          </div>
-          <span>редактировать</span>
-        </p>
+        // <p className={s.edit} onClick={onEditClick}>
+        //   <div className={s.editIcon}>
+        //     <img src={editIcon} alt="редактировать" />
+        //   </div>
+        //   <span>редактировать</span>
+        // </p>
+        <Link to="/profile/edit">
+          <p className={s.edit} >
+            <div className={s.editIcon}>
+              <img src={editIcon} alt="редактировать" />
+            </div>
+            <span>редактировать</span>
+          </p>
+        </Link>
       )}
     </div>
   );

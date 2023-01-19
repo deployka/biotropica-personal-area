@@ -112,16 +112,16 @@ const ClientProfilePublic = ({ user }: Props) => {
   const onDeleteComment = async (id: number) => {
     try {
       await deleteComment({ id }).unwrap();
-      eventBus.emit(EventTypes.notification, {
-        message: 'Комментарий удален',
-        type: NotificationType.SUCCESS,
-      });
+      // eventBus.emit(EventTypes.notification, {
+      //   message: 'Комментарий удален',
+      //   type: NotificationType.SUCCESS,
+      // });
     } catch (error) {
       console.log(error);
-      eventBus.emit(EventTypes.notification, {
-        message: 'Произошла ошибка, попробуйте еще раз!',
-        type: NotificationType.DANGER,
-      });
+      // eventBus.emit(EventTypes.notification, {
+      //   message: 'Произошла ошибка, попробуйте еще раз!',
+      //   type: NotificationType.DANGER,
+      // });
     }
   };
 
