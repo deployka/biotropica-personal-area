@@ -211,7 +211,7 @@ export function Tasks() {
 
     setOpenedTask({
       ...(task as TrainingTask | CompetitionTask | EventTask),
-      comments: [],
+      comments,
     });
     return setIsTaskModalOpen(true);
   }
