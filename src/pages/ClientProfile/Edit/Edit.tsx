@@ -109,10 +109,12 @@ const Edit = () => {
         email: user?.email,
       };
       await updateClient(data);
-      eventBus.emit(EventTypes.notification, {
-        message: 'Данные профиля обновлены!',
-        type: NotificationType.SUCCESS,
-      });
+      // locked popup
+      
+      // eventBus.emit(EventTypes.notification, {
+      //   message: 'Данные профиля обновлены!',
+      //   type: NotificationType.SUCCESS,
+      // });
       if (user?.roles[0].name === 'CLIENT') {
         history.push('/profile');
       }
