@@ -25,7 +25,7 @@ export const ConsultationsTable = ({
   return (
     <table className={s.table}>
       <tr className={s.tableHeaderRow}>
-        <th>Дата2</th>
+        <th>Дата</th>
         <th>Время</th>
         <th>Специалист</th>
         <th></th>
