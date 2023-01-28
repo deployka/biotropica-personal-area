@@ -6,6 +6,10 @@
 @import 'rangepicker.scss';
 @import 'datepicker.scss';
 
+#zmmtg-root {
+  display: none;
+}
+
 * {
   box-sizing: border-box;
 }
