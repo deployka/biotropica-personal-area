@@ -9,6 +9,8 @@ import { useHistory } from 'react-router';
 import s from './Header.module.scss';
 import { Action, ActionMenu } from '../../UI/ActionsMenu/ActionsMenu';
 
+import { Button } from '../../../shared/Form/Button/Button';
+
 interface Props {
   mode: 'edit' | 'view' | 'create';
   isCurrentUser: boolean;
@@ -139,6 +141,21 @@ export const Header = ({
               </div>
             </ActionMenu>
           )}
+            <Button
+            style={{
+              marginRight: '20px',
+              marginBottom: '5px',
+              marginTop: '5px',
+              background: '#fff',
+              color: '#3b82f6',
+            }}
+            onClick={onDeleteTask}
+            options={{
+              content: 'Удалить задачу',
+              width: '120px',
+              height: '30px',
+            }}
+          />
           <img className={s.closeIcon} src={closeIcon} onClick={onClose} />
         </div>
       </div>
