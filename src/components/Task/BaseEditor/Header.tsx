@@ -149,10 +149,10 @@ export const Header = ({
               background: '#fff',
               color: '#3b82f6',
             }}
-            onClick={onDeleteTask}
+            onClick={onEditBtnClick}
             options={{
-              content: 'Удалить задачу',
-              width: '120px',
+              content: 'Редактировать задачу',
+              width: '140px',
               height: '30px',
             }}
           />
