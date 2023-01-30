@@ -61,14 +61,3 @@ export const ConsultationTableItemGroup = ({
     </>
   );
 };
-
-// onClick: () => {
-//   moveToConsultation(consultation.id);
-// },
-
-// onClick={() => {
-//   onSendMessageClick(
-//     specialists.find(s => s.id === consultation.specialistId)
-//       ?.userId,
-//   );
-// }}

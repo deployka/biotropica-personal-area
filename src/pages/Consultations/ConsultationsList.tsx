@@ -27,7 +27,7 @@ export const ConsultationsList = () => {
   );
   const consultationsWithoutData = consultations.filter(c => !c.date);
 
-  const moveToConsultation = (id: number) => () => {
+  const moveToConsultation = (id: number) => {
     history.push(`/consultations/list/${id}`);
   };
 

@@ -35,6 +35,12 @@ const routes = [
     exact: true,
   },
   {
+    path: 'consultations/list/:id',
+    clientComponent: ConsultationPage,
+    specialistComponent: ConsultationPage,
+    exact: true,
+  },
+  {
     path: 'consultations',
     clientComponent: Consultations,
     specialistComponent: SpecialistConsultations,
@@ -43,11 +49,6 @@ const routes = [
   {
     path: 'consultations/list',
     clientComponent: ConsultationsList,
-    exact: true,
-  },
-  {
-    path: 'consultations/list/:id',
-    clientComponent: ConsultationPage,
     exact: true,
   },
   {

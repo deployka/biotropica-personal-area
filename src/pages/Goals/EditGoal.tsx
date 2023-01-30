@@ -23,13 +23,13 @@ const EditGoal = () => {
   ) {
     try {
       const goal = await updateGoal(values).unwrap();
-      eventBus.emit(EventTypes.notification, {
-        title: `Цель «${goal.name}» успешно обновлена!`,
-        message:
-          'Не забывайте регулярно отмечать свой прогресс в достижении цели',
-        type: NotificationType.INFO,
-        autoClose: 5000,
-      });
+      // eventBus.emit(EventTypes.notification, {
+      //   title: `Цель «${goal.name}» успешно обновлена!`,
+      //   message:
+      //     'Не забывайте регулярно отмечать свой прогресс в достижении цели',
+      //   type: NotificationType.INFO,
+      //   autoClose: 5000,
+      // });
       history.push(`/goals/${values.id}`);
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
