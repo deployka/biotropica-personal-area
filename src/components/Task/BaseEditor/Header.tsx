@@ -153,7 +153,7 @@ export const Header = ({
             options={{
               content: 'Редактировать задачу',
               width: '140px',
-              height: '40px',
+              height: '45px',
             }}
           />
           <img className={s.closeIcon} src={closeIcon} onClick={onClose} />
