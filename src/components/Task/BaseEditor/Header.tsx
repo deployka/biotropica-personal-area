@@ -124,6 +124,7 @@ export const Header = ({
             </div>
           )}
           {headerTitle}
+          
         </div>
 
         <div className={s.rightContent}>
@@ -141,9 +142,15 @@ export const Header = ({
               </div>
             </ActionMenu>
           )}
-            <Button
+          <img className={s.closeIcon} src={closeIcon} onClick={onClose} />
+        </div>
+      </div>
+
+      {mode === 'view' && (
+        <>
+         <Button
             style={{
-              marginRight: '20px',
+              marginLeft: '0px',
               marginBottom: '5px',
               marginTop: '5px',
               background: '#fff',
@@ -153,15 +160,9 @@ export const Header = ({
             options={{
               content: 'Редактировать задачу',
               width: '140px',
-              height: '30px',
+              height: '40px',
             }}
           />
-          <img className={s.closeIcon} src={closeIcon} onClick={onClose} />
-        </div>
-      </div>
-
-      {mode === 'view' && (
-        <>
           <div className={s.taskInfo}>
             <div className={s.row}>
               <p className={s.rowTitle}>тип задачи</p>
