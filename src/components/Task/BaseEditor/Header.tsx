@@ -124,6 +124,7 @@ export const Header = ({
             </div>
           )}
           {headerTitle}
+          
         </div>
 
         <div className={s.rightContent}>
@@ -162,6 +163,25 @@ export const Header = ({
 
       {mode === 'view' && (
         <>
+        <div className={s.editTaskButton}>
+          <div>
+              <Button
+               style={{
+               marginBottom: '5px',
+               marginTop: '5px',
+               background: '#fff',
+               color: '#3b82f6',
+               }}
+               onClick={onEditBtnClick}
+               options={{
+               content: 'Редактировать задачу',
+               width: '140px',
+               height: '40px',
+                }}
+                
+              />
+            </div>
+          </div>
           <div className={s.taskInfo}>
             <div className={s.row}>
               <p className={s.rowTitle}>тип задачи</p>

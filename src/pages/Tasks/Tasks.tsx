@@ -292,7 +292,7 @@ export function Tasks() {
             value: 'tasks',
           },
           {
-            label: 'Рекомендации',
+            label: 'Оповещения',
             value: 'recommendations',
           },
         ]}
