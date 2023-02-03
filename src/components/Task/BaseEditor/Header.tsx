@@ -150,7 +150,7 @@ export const Header = ({
         <>
         <div className={s.editTaskButton}>
           <div>
-              <Button
+              <Button 
                style={{
                marginBottom: '5px',
                marginTop: '5px',
@@ -178,13 +178,13 @@ export const Header = ({
                 <p className={s.rowText}>{category}</p>
               </div>
             )}
-            {isEditable && (
+            {/* {isEditable && (
               <img
                 className={s.editIcon}
                 src={editIcon}
                 onClick={onEditBtnClick}
               />
-            )}
+            )} */}
           </div>
 
           {authorName && (
