@@ -142,6 +142,21 @@ export const Header = ({
               </div>
             </ActionMenu>
           )}
+            <Button
+            style={{
+              marginRight: '20px',
+              marginBottom: '5px',
+              marginTop: '5px',
+              background: '#fff',
+              color: '#3b82f6',
+            }}
+            onClick={onEditBtnClick}
+            options={{
+              content: 'Редактировать задачу',
+              width: '140px',
+              height: '30px',
+            }}
+          />
           <img className={s.closeIcon} src={closeIcon} onClick={onClose} />
         </div>
       </div>
