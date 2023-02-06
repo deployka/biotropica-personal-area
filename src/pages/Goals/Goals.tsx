@@ -101,20 +101,21 @@ const Goals = () => {
       createCookie('shop_date_view', Date.now().toString(), 365);
     }
 
-    eventBus.emit(EventTypes.notification, {
-      message: (
-        <div>
-          {'Вы можете приобрести товары для спорта и здорового образа жизни в нашем интернет-магазине по приятным ценам '}
-          <button
-            style={{ marginLeft: '10px' }}
-            onClick={() => (document.location = 'https://biotropika.ru/shop/')}
-          >
-            Перейти
-          </button>
-        </div>
-      ),
-      type: NotificationType.INFO,
-    });
+    // eventBus.emit(EventTypes.notification, {
+    //   message: (
+    //     <div>
+    //       {'Вы можете приобрести товары для спорта и здорового 
+    //       образа жизни в нашем интернет-магазине по приятным ценам '}
+    //       <button
+    //         style={{ marginLeft: '10px' }}
+    //         onClick={() => (document.location = 'https://biotropika.ru/shop/')}
+    //       >
+    //         Перейти
+    //       </button>
+    //     </div>
+    //   ),
+    //   type: NotificationType.INFO,
+    // });
   }, []);
 
   async function onUpdateGoal(
