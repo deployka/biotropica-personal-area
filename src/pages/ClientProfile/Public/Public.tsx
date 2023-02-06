@@ -96,10 +96,11 @@ const ClientProfilePublic = ({ user }: Props) => {
         text: comment,
         analyzeAnswerId: analyzeId,
       }).unwrap();
-      eventBus.emit(EventTypes.notification, {
-        message: 'Комментарий добавлен!',
-        type: NotificationType.SUCCESS,
-      });
+      // Скрывается плашка
+      // eventBus.emit(EventTypes.notification, {
+      //   message: 'Комментарий добавлен!',
+      //   type: NotificationType.SUCCESS,
+      // });
     } catch (error) {
       console.error(error);
       eventBus.emit(EventTypes.notification, {
