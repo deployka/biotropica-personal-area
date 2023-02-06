@@ -122,7 +122,7 @@ export function Tasks() {
     } else {
       try {
         await createTask({ ...task, executorId: userId }).unwrap();
-        tasksNotifications.successCreateTask();
+      //  tasksNotifications.successCreateTask();
       } catch (error) {
         tasksNotifications.errorCreateTask();
       }
@@ -134,10 +134,11 @@ export function Tasks() {
     try {
       eventBus.emit(EventTypes.removeNotification, 'delete-notification');
       await deleteTask(openedTaskId);
-      eventBus.emit(EventTypes.notification, {
-        type: NotificationType.SUCCESS,
-        message: `Задача "${openedTask?.title}" успешно удалена!`,
-      });
+      //  Скрываем плашку 
+      // eventBus.emit(EventTypes.notification, {
+      //   type: NotificationType.SUCCESS,
+      //   message: `Задача "${openedTask?.title}" успешно удалена!`,
+      // });
       handleCloseTask();
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
