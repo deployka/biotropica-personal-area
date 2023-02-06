@@ -45,6 +45,10 @@ const tabs: Tab[] = [
     key: 'progress',
     value: 'Прогресс',
   },
+  {
+    key: 'specialist',
+    value: 'Специалисты',
+  },
 ];
 
 const ClientProfilePublic = ({ user }: Props) => {
