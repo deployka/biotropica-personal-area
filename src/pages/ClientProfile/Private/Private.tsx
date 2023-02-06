@@ -105,16 +105,16 @@ const ClientProfilePrivate = ({ user }: Props) => {
         onActiveTabChange={handleChangeTab}
       >
         <div className={s.content}>
-          {/* {activeTab === tabs[0].key && (
-            <Analyzes userId={user.id} isAccess={true} />
-          )} */}
           {activeTab === tabs[0].key && (
-            <Questionnaire userId={user.id} isAccess={true} />
+            <Analyzes userId={user.id} isAccess={true} />
           )}
           {activeTab === tabs[1].key && (
-            <Progress userId={user.id} isAccess={true} />
+            <Questionnaire userId={user.id} isAccess={true} />
           )}
           {activeTab === tabs[2].key && (
+            <Progress userId={user.id} isAccess={true} />
+          )}
+          {activeTab === tabs[3].key && (
             <SpecialistListTab
               isLoading={isUsersLoading}
               isError={isUsersError}

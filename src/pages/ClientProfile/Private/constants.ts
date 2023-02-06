@@ -3,10 +3,10 @@ import { Tab } from '../../../shared/Global/Tabs/Tabs';
 export const SEVEN_DAYS = 604800;
 
 export const tabs: Tab[] = [
-  // {
-  //   key: 'analyzes',
-  //   value: 'Анализы',
-  // },
+  {
+    key: 'analyzes',
+    value: 'Анализы',
+  },
   {
     key: 'questionnaire',
     value: 'Тестирование',
