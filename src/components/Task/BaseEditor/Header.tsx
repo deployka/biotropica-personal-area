@@ -2,6 +2,7 @@ import React, { RefObject, useState } from 'react';
 
 import classNames from 'classnames';
 import closeIcon from './../../../assets/icons/close_white.svg';
+import deleteTask from './../../../assets/icons/taskType/trash.png';
 import editIcon from './../../../assets/icons/edit_note.svg';
 import MoreIcon from '../../../assets/icons/global/more.svg';
 import { useHistory } from 'react-router';
@@ -149,7 +150,7 @@ export const Header = ({
       {mode === 'view' && (
         <>
         <div className={s.editTaskButton}>
-          <div>
+          <div style={{ position: 'relative' }}>
               <Button 
                style={{
                marginBottom: '5px',
@@ -163,7 +164,15 @@ export const Header = ({
                width: '140px',
                height: '40px',
                 }}
-
+              />
+            </div>
+            <div>
+               <img src={deleteTask} onClick={onDeleteTask}
+                style={{
+                position: 'absolute',
+                top: '740px',
+                right: '10px',
+                }}
               />
             </div>
           </div>
