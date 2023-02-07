@@ -40,12 +40,15 @@ export function CalendarDay({ calendarDay, onClickTask }: CalendarDayProps) {
       ref={isCurrentDay ? ref : null}
       className={classNames(s.calendarDay, calendarDay.isGrey ? s.grey : '')}
     >
-      <div className={classNames(s.date, isCurrentDay ? s.currentDate : '')}>
-        {day} 
+      <div className={classNames(s.dateAndDay)}>
+        <div className={classNames(s.date, isCurrentDay ? s.currentDate : '')}>
+          {day}
+        </div>
+        <div className={classNames(s.date_day, isCurrentDay ? s.currentDate : '')}>
+          {nameOfDay} 
+        </div>
       </div>
-      <div className={classNames(s.date, isCurrentDay ? s.currentDate : '')}>
-        {nameOfDay} 
-      </div>
+      
       <div className={s.tasksList}>
         {sortedTasks.map(task => (
           <CalendarTask
