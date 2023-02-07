@@ -20,6 +20,7 @@ const props: Partial<CalendarDayProps> = {
     day: 15,
     tasks: [],
     isCurrentDay: true,
+    nameOfDay: '',
   },
 };
 
