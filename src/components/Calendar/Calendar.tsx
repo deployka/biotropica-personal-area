@@ -18,7 +18,8 @@ export const Calendar = ({ tasks, currentMonth, onClickTask }: Props) => {
   useEffect(() => {
     let isPast = true;
     const period = getCalendarPageDays(currentMonth);
-    const currentDate = formatISO(new Date()).slice(0, 10);
+    const now = new Date();
+    const currentDate = formatISO(now).slice(0, 10);
 
     setDaysWithTasks(
       period.map(date => {
@@ -27,11 +28,19 @@ export const Calendar = ({ tasks, currentMonth, onClickTask }: Props) => {
         if (currentDate === date) {
           isPast = false;
         }
+        
+        const nameOfDay = new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          +day,
+        ).toLocaleString('ru', { weekday: 'short' });
+
         return {
           isPast,
           isGrey: month !== currentMonth,
           isCurrentDay: currentDate === date,
           day: +day,
+          nameOfDay,
           tasks: tasks.filter(task => task.date === date),
         };
       }),
