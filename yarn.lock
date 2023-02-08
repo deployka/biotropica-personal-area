@@ -5665,13 +5665,6 @@ binary-extensions@^2.0.0:
   resolved "https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.2.0.tgz"
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
 
-bindings@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.npmjs.org/bindings/-/bindings-1.5.0.tgz"
-  integrity sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==
-  dependencies:
-    file-uri-to-path "1.0.0"
-
 bluebird@^3.5.5:
   version "3.7.2"
   resolved "https://registry.npmjs.org/bluebird/-/bluebird-3.7.2.tgz"
@@ -6332,10 +6325,10 @@ clone@^2.1.1:
   resolved "https://registry.npmjs.org/clone/-/clone-2.1.2.tgz"
   integrity sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==
 
-clsx@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/clsx/-/clsx-1.1.1.tgz"
-  integrity sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==
+clsx@^1.1.1, clsx@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/clsx/-/clsx-1.2.1.tgz"
+  integrity sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==
 
 co@^4.6.0:
   version "4.6.0"
@@ -7651,6 +7644,11 @@ domhandler@^4.0.0, domhandler@^4.2.0, domhandler@^4.3.1:
   dependencies:
     domelementtype "^2.2.0"
 
+dommatrix@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/dommatrix/-/dommatrix-1.0.3.tgz"
+  integrity sha512-l32Xp/TLgWb8ReqbVJAFIvXmY7go4nTxxlWiAFyhoQw9RKEOHBZNnyGvJWqDVSPmq3Y9HlM4npqF/T6VMOXhww==
+
 domutils@^1.7.0:
   version "1.7.0"
   resolved "https://registry.npmjs.org/domutils/-/domutils-1.7.0.tgz"
@@ -8758,11 +8756,6 @@ file-system-cache@^1.0.5:
     fs-extra "^10.1.0"
     ramda "^0.28.0"
 
-file-uri-to-path@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz"
-  integrity sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==
-
 filelist@^1.0.1:
   version "1.0.4"
   resolved "https://registry.npmjs.org/filelist/-/filelist-1.0.4.tgz"
@@ -9127,19 +9120,6 @@ fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
-
-fsevents@^1.2.7:
-  version "1.2.13"
-  resolved "https://registry.npmjs.org/fsevents/-/fsevents-1.2.13.tgz"
-  integrity sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==
-  dependencies:
-    bindings "^1.5.0"
-    nan "^2.12.1"
-
-fsevents@^2.1.2, fsevents@^2.3.2, fsevents@~2.3.2:
-  version "2.3.2"
-  resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz"
-  integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
 
 function-bind@^1.1.1:
   version "1.1.1"
@@ -11705,6 +11685,11 @@ magic-string@^0.25.0, magic-string@^0.25.7:
   dependencies:
     sourcemap-codec "^1.4.8"
 
+make-cancellable-promise@^1.0.0:
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/make-cancellable-promise/-/make-cancellable-promise-1.2.1.tgz"
+  integrity sha512-nigEn7brgUhjUb2lEobWUW4ZiJdIZ/Wct0UsmDsqaZhgLMvY1OC6FGLa/5SU2RvnyuilkjM7g5JGxt6CJZQGNw==
+
 make-dir@^2.0.0, make-dir@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/make-dir/-/make-dir-2.1.0.tgz"
@@ -12205,11 +12190,6 @@ multicast-dns@^7.2.5:
   dependencies:
     dns-packet "^5.2.2"
     thunky "^1.0.2"
-
-nan@^2.12.1:
-  version "2.16.0"
-  resolved "https://registry.npmjs.org/nan/-/nan-2.16.0.tgz"
-  integrity sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==
 
 nanoclone@^0.2.1:
   version "0.2.1"
@@ -12953,6 +12933,14 @@ pbkdf2@^3.0.3:
     ripemd160 "^2.0.1"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+pdfjs-dist@2.16.105:
+  version "2.16.105"
+  resolved "https://registry.npmjs.org/pdfjs-dist/-/pdfjs-dist-2.16.105.tgz"
+  integrity sha512-J4dn41spsAwUxCpEoVf6GVoz908IAA3mYiLmNxg8J9kfRXc2jxpbUepcP0ocp0alVNLFthTAM8DZ1RaHh8sU0A==
+  dependencies:
+    dommatrix "^1.0.3"
+    web-streams-polyfill "^3.2.1"
 
 perfect-scrollbar@^1.5.0:
   version "1.5.5"
@@ -14403,6 +14391,21 @@ react-outside-click-handler@^1.2.4:
     document.contains "^1.0.1"
     object.values "^1.1.0"
     prop-types "^15.7.2"
+
+react-pdf@^6.2.2:
+  version "6.2.2"
+  resolved "https://registry.npmjs.org/react-pdf/-/react-pdf-6.2.2.tgz"
+  integrity sha512-huNWhzzTAb3t1mWA6WOR9yQRCbcZ6uXCGC46cEAgEhGqvXTB6RcHm+1DS2r9OdPNUZ9SZTuR6jZ1BNOJIiEing==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    clsx "^1.2.1"
+    make-cancellable-promise "^1.0.0"
+    make-event-props "^1.1.0"
+    merge-refs "^1.0.0"
+    pdfjs-dist "2.16.105"
+    prop-types "^15.6.2"
+    tiny-invariant "^1.0.0"
+    tiny-warning "^1.0.0"
 
 react-perfect-scrollbar@~1.5.8:
   version "1.5.8"
@@ -16745,7 +16748,7 @@ timers-browserify@^2.0.4:
   dependencies:
     setimmediate "^1.0.4"
 
-tiny-invariant@^1.0.2:
+tiny-invariant@^1.0.0, tiny-invariant@^1.0.2:
   version "1.2.0"
   resolved "https://registry.npmjs.org/tiny-invariant/-/tiny-invariant-1.2.0.tgz"
   integrity sha512-1Uhn/aqw5C6RI4KejVeTg6mIS7IqxnLJ8Mv2tV5rTc0qWobay7pDUz6Wi392Cnc8ak1H0F2cjoRzb2/AW4+Fvg==
@@ -17455,6 +17458,11 @@ web-namespaces@^1.0.0:
   version "1.1.4"
   resolved "https://registry.npmjs.org/web-namespaces/-/web-namespaces-1.1.4.tgz"
   integrity sha512-wYxSGajtmoP4WxfejAPIr4l0fVh+jeMXZb08wNc0tMg6xsfZXj3cECqIK0G7ZAqUq0PP8WlMDtaOGVBTAWztNw==
+
+web-streams-polyfill@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.npmjs.org/web-streams-polyfill/-/web-streams-polyfill-3.2.1.tgz"
+  integrity sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==
 
 web-vitals@~1.0.1:
   version "1.0.1"

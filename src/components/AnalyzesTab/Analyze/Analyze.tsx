@@ -8,7 +8,7 @@ import { CommentsInfo } from '../../Comments/CommentsInfo';
 import { AnalyzeAnswer } from '../../../@types/entities/AnalyzeAnswer';
 import { ProfileSvgSelector } from '../../../assets/icons/profile/ProfileSvgSelector';
 import { Action, ActionMenu } from '../../UI/ActionsMenu/ActionsMenu';
-
+import { Document } from 'react-pdf';
 import s from './Analyze.module.scss';
 import { useSort } from '../../../hooks/useSort';
 import { Order } from '../../../@types/constants/Order';
@@ -68,7 +68,12 @@ export const AnalyzesAnalyze = ({
           </div>
           <p className={s.text}>{analyze.text}</p>
         </a>
-
+        <Document>
+          <div> 
+            test
+          </div>
+        </Document>
+      
         <p className={s.createdAt}>{moment(analyze.createdAt).format('LL')}</p>
         {isEditable && actions && (
           <ActionMenu
