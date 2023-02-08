@@ -25,23 +25,25 @@
     }
   }
 
+  .dateAndDay {
+    display: flex;
+    flex-direction: column;
+  }
+
   &.grey {
     height: 100%;
     .date {
       color: #aeaeae;
     }
   }
-
+  
   .date {
-    margin: 25px 0 0 0;
-    padding: 3px 4px;
-
+    margin: 5px 0 5px 0;
+    padding: 4px 5px;
     font-family: 'Roboto', sans-serif;
-
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
-
     color: #1e174d;
 
     @include for-tablet {
@@ -54,6 +56,24 @@
       border-radius: 6px;
 
       color: #fff;
+    }
+  }
+
+  .date_day {
+    margin: 0 0 0 0;
+    padding: 3px 4px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+  }
+
+  @media screen and (min-width: 861px) {
+    .date_day {
+      display: none;
+    }
+
+    .date {
+      margin: 5px 0 5px 0;
     }
   }
 }
