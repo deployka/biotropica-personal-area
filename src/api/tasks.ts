@@ -92,18 +92,17 @@ export const taskApi = baseApi.injectEndpoints({
       removeTaskComment: builder.mutation<
         Comment,
         Partial<{
-          taskId: number;
-          commentId: number;
+        commentId: string,
         }>
       >({
-        query({ taskId, commentId }) {
+        query({ commentId }) {
           return {
             method: 'DELETE',
-            url: `tasks/${taskId}/comments/${commentId}`,
+            url: `/comments/${commentId}`,
           };
         },
-        invalidatesTags: (r, e, { taskId }) => [
-          { type: 'TaskComment', taskId },
+        invalidatesTags: (r, e, _) => [
+          { type: 'TaskComment' },
         ],
       }),
       updateTask: builder.mutation<Task, UpdateTaskParam>({

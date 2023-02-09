@@ -150,7 +150,7 @@ export const Header = ({
       {mode === 'view' && (
         <>
         <div className={s.editTaskButton}>
-          <div style={{ position: 'relative' }}>
+          <div>
               <Button 
                style={{
                marginBottom: '5px',
@@ -167,11 +167,18 @@ export const Header = ({
               />
             </div>
             <div>
-               <img src={deleteTask} onClick={onDeleteTask}
-                style={{
-                position: 'absolute',
-                top: '740px',
-                right: '10px',
+            <Button 
+               style={{
+               marginBottom: '5px',
+               marginTop: '5px',
+               background: '#fff',
+               color: '#3b82f6',
+               }}
+               onClick={onDeleteTask}
+               options={{
+               content: 'Удалить задачу',
+               width: '140px',
+               height: '40px',
                 }}
               />
             </div>

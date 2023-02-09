@@ -13,12 +13,14 @@ export type TaskPreviewCommentsProps = {
   comments: Comment[];
   isLoading?: boolean;
   onSend(newCommentText: string): void;
+  onDeleteComment(commentId: string): void;
 };
 
 export function TaskPreviewComments({
   isLoading,
   comments,
   onSend,
+  onDeleteComment,
 }: TaskPreviewCommentsProps) {
   return (
     <div className={s.taskPreviewComments}>
@@ -52,7 +54,7 @@ export function TaskPreviewComments({
         {!isLoading &&
           comments.length !== 0 &&
           comments.map(comment => (
-            <TaskPreviewComment key={comment.uuid} comment={comment} />
+            <TaskPreviewComment key={comment.uuid} comment={comment} onDeleteComment={onDeleteComment} />
           ))}
       </div>
     </div>

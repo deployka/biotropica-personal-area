@@ -35,6 +35,7 @@ type TasksModalProps = {
   onSaveFactValue(value: string): void;
   onSaveFirstValue(value: string | undefined): void;
   onSaveSecondValue(value: string | undefined): void;
+  onDeleteComment(commentId: string): void;
 };
 
 export const TasksModal = ({
@@ -56,6 +57,7 @@ export const TasksModal = ({
   onSaveFirstValue,
   onSaveSecondValue,
   onSaveFactValue,
+  onDeleteComment,
 }: TasksModalProps) => {
   let category = '';
   let title = '';
@@ -122,6 +124,7 @@ export const TasksModal = ({
         onSaveFirstValue={onSaveFirstValue}
         onSaveSecondValue={onSaveSecondValue}
         isCommentsLoading={isCommentsLoading}
+        onDeleteComment={onDeleteComment}
       />
     </TaskBaseEditor>
   );

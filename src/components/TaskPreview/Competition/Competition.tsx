@@ -18,6 +18,7 @@ export type CompetitionTaskPreviewProps = {
   isCommentsLoading?: boolean;
   onSaveFactValue(value: string | undefined): void;
   onSendComment(newCommentText: string): void;
+  onDeleteComment(commentId: string): void;
 };
 
 export function CompetitionTaskPreview({
@@ -26,6 +27,7 @@ export function CompetitionTaskPreview({
   isCommentsLoading,
   onSendComment,
   onSaveFactValue,
+  onDeleteComment,
 }: CompetitionTaskPreviewProps) {
   const formatDate = intlFormat(new Date(task.date), {
     year: 'numeric',
@@ -95,6 +97,7 @@ export function CompetitionTaskPreview({
           comments={task.comments}
           isLoading={isCommentsLoading}
           onSend={onSendComment}
+          onDeleteComment={onDeleteComment}
         />
       </div>
     </div>

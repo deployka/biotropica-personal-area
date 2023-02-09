@@ -5,12 +5,14 @@ import s from './PreviewComment.module.scss';
 import { Comment } from '../../../@types/entities/Comment';
 import { getMediaLink } from '../../../utils/mediaHelper';
 import defaultAvatar from '../../../assets/images/profile/default_avatar.png';
+import iconDelComment from '../../../assets/icons/remove-task.png';
 
 export type TaskPreviewCommentProps = {
   comment: Comment;
+  onDeleteComment(commentId: string): void;
 };
 
-export function TaskPreviewComment({ comment }: TaskPreviewCommentProps) {
+export function TaskPreviewComment({ comment, onDeleteComment }: TaskPreviewCommentProps) {
   const { datetime, text, author } = comment;
   const { lastname, name, profilePhoto } = author;
 
@@ -28,8 +30,14 @@ export function TaskPreviewComment({ comment }: TaskPreviewCommentProps) {
             {name} {lastname}
           </div>
           <div className={s.date}>{formatDate(datetime)}</div>
+          <div style={{
+            
+          }}>
+            <img src={iconDelComment} onClick={() => onDeleteComment(comment.uuid)} width="15px" height="15px" alt="" />
+          </div>
         </div>
         <p className={s.text}>{text}</p>
+
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import {
   useGetTaskCommentsQuery,
   useGetTaskListQuery,
   useGetTemplatesListQuery,
+  useRemoveTaskCommentMutation,
   useUpdateTaskMutation,
 } from '../../api/tasks';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,7 +49,7 @@ export function Tasks() {
   const [createTask, { isLoading: isCreateLoading }] = useCreateTaskMutation();
   const [addComment] = useAddTaskCommentMutation();
   const [deleteTask] = useDeleteTaskMutation();
-
+  const [deleteComment] = useRemoveTaskCommentMutation();
   const isDoctor = useAppSelector(selectIsDoctor);
 
   const { userId: rawUserId } = useParams<{ userId: string }>();
@@ -146,6 +147,19 @@ export function Tasks() {
         message: 'При удалении произошла ошибка, попробуйте еще раз',
       });
     }
+  }
+
+  async function handleDeleteComment(commentId: string) {
+
+    // Скрываем плашку
+
+    // вызвать API для удаления комментария
+      await deleteComment({ commentId });
+
+      eventBus.emit(EventTypes.notification, {
+        type: NotificationType.SUCCESS,
+        message: 'Комментарий успешно удален!',
+      });
   }
   function onDiscard() {
     eventBus.emit(EventTypes.removeNotification, 'delete-notification');
@@ -341,6 +355,7 @@ export function Tasks() {
         onSaveFirstValue={handleSaveFirstFactValue}
         onSaveSecondValue={handleSaveSecondFactValue}
         onSaveFactValue={handleSaveFactValue}
+        onDeleteComment={handleDeleteComment}
         isCommentsLoading={isCommentsLoading}
       />
     </>
