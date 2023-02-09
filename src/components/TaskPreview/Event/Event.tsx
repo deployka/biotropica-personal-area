@@ -11,12 +11,14 @@ export interface EventTaskPreviewProps {
   task: EventTask;
   isCommentsLoading?: boolean;
   onSendComment(ewCommentText: string): void;
+  onDeleteComment(commentId: string): void;
 }
 
 export const EventTaskPreview = ({
   task,
   isCommentsLoading,
   onSendComment,
+  onDeleteComment,
 }: EventTaskPreviewProps) => {
   const formatDate = intlFormat(new Date(task.date), {
     year: 'numeric',
@@ -46,6 +48,7 @@ export const EventTaskPreview = ({
           comments={task.comments}
           isLoading={isCommentsLoading}
           onSend={onSendComment}
+          onDeleteComment={onDeleteComment}
         />
       </div>
     </div>

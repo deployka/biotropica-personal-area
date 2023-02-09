@@ -15,6 +15,7 @@ type TaskLayoutProps = {
   onSaveFactValue(value: string): void;
   onSaveFirstValue(value: string | undefined): void;
   onSaveSecondValue(value: string | undefined): void;
+  onDeleteComment(commentId: string): void;
 };
 
 export function TaskLayout({
@@ -29,6 +30,7 @@ export function TaskLayout({
   onSaveFirstValue,
   onSaveSecondValue,
   onSaveFactValue,
+  onDeleteComment,
 }: TaskLayoutProps) {
   if (!task) return <></>;
   if (mode === 'view' && 'id' in task) {
@@ -41,6 +43,7 @@ export function TaskLayout({
         onSaveFirstValue={onSaveFirstValue}
         onSaveSecondValue={onSaveSecondValue}
         isCommentsLoading={isCommentsLoading}
+        onDeleteComment={onDeleteComment}
       />
     );
   }
