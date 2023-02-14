@@ -3,13 +3,12 @@ import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 
 // TODO: Replace the following with your app's Firebase project configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyDDLqebPaXkj6S3sj1XMxz-0pt-PxWg6-U',
-  authDomain: 'biotropika-01.firebaseapp.com',
-  projectId: 'biotropika-01',
-  storageBucket: 'biotropika-01.appspot.com',
-  messagingSenderId: '822782535539',
-  appId: '1:822782535539:web:2e750714e6522fa20a8706',
-  measurementId: 'G-9DJWWP4XQJ',
+  apiKey: process.env.FB_API_KEY,
+  authDomain: process.env.FB_AUTH_DOMAIN,
+  projectId: process.env.FB_PROJECT_ID,
+  storageBucket: process.env.FB_STORAGE_BUCKET,
+  messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
+  appId: process.env.FB_APP_ID,
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -19,6 +18,7 @@ const messaging = getMessaging(firebaseApp);
 getToken(messaging, { vapidKey: process.env.FB_VAPID_KEY })
   .then(currentToken => {
     if (currentToken) {
+      console.log('current token for client: ', currentToken);
       // Send the token to your server and update the UI if necessary
       // ...
     } else {
