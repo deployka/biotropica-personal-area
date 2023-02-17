@@ -73,6 +73,10 @@ const clientNav: Nav[] = [
     svg: <SidebarSvgSelector id="goals" />,
   },
   {
+    ...pages[4],
+    svg: <SidebarSvgSelector id="video" />,
+  },
+  {
     ...pages[5],
     svg: <SidebarSvgSelector id="edit-square" />,
   },
