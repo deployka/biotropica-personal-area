@@ -73,7 +73,7 @@ export const Profile = ({
     },
     {
       key: 'specialists',
-      value: 'Специалисты',
+      value: 'Тренеры',
     },
   ];
 

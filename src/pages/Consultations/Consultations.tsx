@@ -171,7 +171,7 @@ const Consultations = () => {
 
   const InfoBarLastConsultationOptions = {
     title: 'Консультация без даты!',
-    text: `Вы записались на консультацию к специалисту  ${getSpecialistName(
+    text: `Вы записались на консультацию к тренеру  ${getSpecialistName(
       lastAddedConsultation,
     )}, пожалуйста, обсудите удобное время и дату консультацию в чате, после подтверждения оплаты.`,
     textLink:

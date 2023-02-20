@@ -58,7 +58,7 @@ const pages = [
   { page: 'Анкета', link: 'questionnaire' },
   { page: 'Пользователи', link: 'users' },
   { page: 'Пользователи', link: '/' },
-  { page: 'Специалист', link: 'specialists' },
+  { page: 'Тренер', link: 'specialists' },
   { page: 'Рекомендации', link: 'recommendations' },
   { page: 'Логи', link: 'logs' },
 ];

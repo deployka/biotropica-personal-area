@@ -27,7 +27,7 @@ export const ConsultationsTable = ({
       <tr className={s.tableHeaderRow}>
         <th>Дата</th>
         <th>Время</th>
-        <th>Специалист</th>
+        <th>Тренер</th>
         <th></th>
       </tr>
       <ConsultationTableItemGroup
