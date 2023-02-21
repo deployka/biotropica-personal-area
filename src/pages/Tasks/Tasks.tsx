@@ -89,16 +89,21 @@ export function Tasks() {
 
   const { data: templates = [] } = useGetTemplatesListQuery();
 
-  const { data: comments = [], isFetching: isCommentsLoading } =
-    useGetTaskCommentsQuery(
-      { taskId: openedTaskId || '' },
-      {
-        skip: !openedTaskId,
-      },
-    );
+  const { data: comments = [], isFetching: isCommentsLoading } = useGetTaskCommentsQuery(
+    { taskId: openedTaskId || '' },
+    {
+      skip: !openedTaskId,
+    },
+  );
 
   useEffect(() => {
-    if (!comments.length) return;
+    if (!comments.length) {
+      setOpenedTask(prevState => {
+        if (!prevState) return null;
+        return { ...prevState, comments: [] };
+      });
+      return;
+    }
     setOpenedTask(prevState => {
       if (!prevState) return null;
       return { ...prevState, comments };
@@ -135,7 +140,7 @@ export function Tasks() {
     try {
       eventBus.emit(EventTypes.removeNotification, 'delete-notification');
       await deleteTask(openedTaskId);
-      //  Скрываем плашку 
+      //  Скрываем плашку
       // eventBus.emit(EventTypes.notification, {
       //   type: NotificationType.SUCCESS,
       //   message: `Задача "${openedTask?.title}" успешно удалена!`,
@@ -154,12 +159,12 @@ export function Tasks() {
     // Скрываем плашку
 
     // вызвать API для удаления комментария
-      await deleteComment({ commentId });
+    await deleteComment({ commentId });
 
-      eventBus.emit(EventTypes.notification, {
-        type: NotificationType.SUCCESS,
-        message: 'Комментарий успешно удален!',
-      });
+    eventBus.emit(EventTypes.notification, {
+      type: NotificationType.SUCCESS,
+      message: 'Комментарий успешно удален!',
+    });
   }
   function onDiscard() {
     eventBus.emit(EventTypes.removeNotification, 'delete-notification');
@@ -223,10 +228,9 @@ export function Tasks() {
     }
 
     setOpenedTaskId(taskId);
-
     setOpenedTask({
       ...(task as TrainingTask | CompetitionTask | EventTask),
-      comments,
+      comments: [],
     });
     return setIsTaskModalOpen(true);
   }

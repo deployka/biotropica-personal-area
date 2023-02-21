@@ -50,7 +50,7 @@ export function TaskPreviewComments({
       </Formik>
 
       <div className={s.commentsList}>
-        {isLoading && <p className={s.loading}>Загрузка комментариев...</p>}
+        {isLoading && <div className={s.indicator} ><Loader color={'#3b82f6'} /></div>}
         {!isLoading &&
           comments.length !== 0 &&
           comments.map(comment => (
