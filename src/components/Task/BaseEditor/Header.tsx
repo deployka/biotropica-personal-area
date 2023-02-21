@@ -125,7 +125,6 @@ export const Header = ({
             </div>
           )}
           {headerTitle}
-          
         </div>
 
         <div className={s.rightContent}>
@@ -149,36 +148,38 @@ export const Header = ({
 
       {mode === 'view' && (
         <>
-        <div className={s.editTaskButton}>
-          <div>
-              <Button 
-               style={{
-               marginBottom: '5px',
-               marginTop: '5px',
-               background: '#fff',
-               color: '#3b82f6',
-               }}
-               onClick={onEditBtnClick}
-               options={{
-               content: 'Редактировать задачу',
-               width: '140px',
-               height: '40px',
+          <div className={s.editTaskButton}>
+            <div>
+              <Button
+                style={{
+                  marginBottom: '5px',
+                  marginTop: '5px',
+                  marginRight: '5px',
+                  background: '#fff',
+                  color: '#3b82f6',
+                }}
+                onClick={onEditBtnClick}
+                options={{
+                  content: 'Редактировать задачу',
+                  width: '140px',
+                  height: '40px',
                 }}
               />
             </div>
             <div>
-            <Button 
-               style={{
-               marginBottom: '5px',
-               marginTop: '5px',
-               background: '#fff',
-               color: '#3b82f6',
-               }}
-               onClick={onDeleteTask}
-               options={{
-               content: 'Удалить задачу',
-               width: '140px',
-               height: '40px',
+              <Button
+                style={{
+                  marginBottom: '5px',
+                  marginTop: '5px',
+                  marginLeft: '5px',
+                  background: '#fff',
+                  color: '#3b82f6',
+                }}
+                onClick={onDeleteTask}
+                options={{
+                  content: 'Удалить задачу',
+                  width: '140px',
+                  height: '40px',
                 }}
               />
             </div>
