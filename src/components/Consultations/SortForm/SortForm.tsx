@@ -62,7 +62,7 @@ export const ConsultationsSearchForm = ({
           onChange={(e: ISelect<string>) => {
             onSelectChange([e]);
           }}
-          placeholder="Тренер"
+          placeholder="Специализация"
           name="specialist"
           isClearable={true}
           value={selectValue && selectValue[0]}
