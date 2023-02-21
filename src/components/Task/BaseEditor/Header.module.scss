@@ -1,3 +1,8 @@
+.editTaskButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
 .header {
   padding: 28px 30px;
 
@@ -161,10 +166,6 @@
     img {
       width: 32px;
       height: 32px;
-    }
-   
-    .editTaskButton{
-      display: flex;
     }
 
     @media screen and (max-width: 768px) {
