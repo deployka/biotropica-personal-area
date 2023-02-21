@@ -9,6 +9,7 @@ type TaskLayoutProps = {
   isLoading: boolean;
   isSpecialist: boolean;
   isCommentsLoading?: boolean;
+  isDoneButtonClick: boolean;
   onClose(): void;
   onSave(task: CreateSomeTask): void;
   onSendComment(newCommentText: string): void;
@@ -26,6 +27,7 @@ export function TaskLayout({
   onSave,
   isLoading,
   isCommentsLoading,
+  isDoneButtonClick,
   onSendComment,
   onSaveFirstValue,
   onSaveSecondValue,
@@ -44,6 +46,7 @@ export function TaskLayout({
         onSaveSecondValue={onSaveSecondValue}
         isCommentsLoading={isCommentsLoading}
         onDeleteComment={onDeleteComment}
+        isDoneButtonClick={isDoneButtonClick}
       />
     );
   }

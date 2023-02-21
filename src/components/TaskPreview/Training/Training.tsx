@@ -15,6 +15,7 @@ export type TrainingTaskPreviewProps = {
   task: TrainingTask;
   isSpecialist: boolean;
   isCommentsLoading?: boolean;
+  isDoneButtonClick?: boolean;
   onSaveFirstValue(value: string | undefined): void;
   onSaveSecondValue(value: string | undefined): void;
   onSendComment(newCommentText: string): void;
@@ -29,6 +30,7 @@ export function TrainingTaskPreview({
   onSendComment,
   isCommentsLoading,
   onDeleteComment,
+  isDoneButtonClick,
 }: TrainingTaskPreviewProps) {
   const formatDate = intlFormat(new Date(task.date), {
     year: 'numeric',
@@ -145,6 +147,7 @@ export function TrainingTaskPreview({
           onSend={onSendComment}
           isLoading={isCommentsLoading}
           onDeleteComment={onDeleteComment}
+          isDoneButtonClick={isDoneButtonClick}
         />
       </div>
     </div>

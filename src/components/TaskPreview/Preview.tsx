@@ -9,6 +9,7 @@ type TaskPreviewProps = {
   task: SomeTask;
   isSpecialist: boolean;
   isCommentsLoading?: boolean;
+  isDoneButtonClick?: boolean;
   onSendComment(newCommentText: string): void;
   onSaveFactValue(value: string | undefined): void;
   onSaveFirstValue(value: string | undefined): void;
@@ -25,12 +26,14 @@ export const TaskPreview = ({
   onSaveFirstValue,
   onSaveSecondValue,
   onDeleteComment,
+  isDoneButtonClick,
 }: TaskPreviewProps) => {
   switch (task.type) {
     case 'training':
       return (
         <TrainingTaskPreview
           isSpecialist={isSpecialist}
+          isDoneButtonClick={isDoneButtonClick}
           task={task}
           onSaveFirstValue={onSaveFirstValue}
           onSaveSecondValue={onSaveSecondValue}
@@ -40,7 +43,12 @@ export const TaskPreview = ({
         />
       );
     case 'event':
-      return <EventTaskPreview task={task} onSendComment={onSendComment} onDeleteComment={onDeleteComment} />;
+      return <EventTaskPreview
+        task={task}
+        onSendComment={onSendComment}
+        onDeleteComment={onDeleteComment}
+        isDoneButtonClick={isDoneButtonClick}
+      />;
     case 'competition':
       return (
         <CompetitionTaskPreview
@@ -49,6 +57,7 @@ export const TaskPreview = ({
           onSaveFactValue={onSaveFactValue}
           onSendComment={onSendComment}
           onDeleteComment={onDeleteComment}
+          isDoneButtonClick={isDoneButtonClick}
         />
       );
     default:

@@ -8,10 +8,12 @@ import sendIcon from './../../../assets/icons/Send.svg';
 
 import s from './PreviewComments.module.scss';
 import { Loader } from '../../../shared/Form/Loader/Loader';
+import { TaskStatus } from '../../../@types/entities/Task';
 
 export type TaskPreviewCommentsProps = {
   comments: Comment[];
   isLoading?: boolean;
+  isDoneButtonClick?: boolean;
   onSend(newCommentText: string): void;
   onDeleteComment(commentId: string): void;
 };
@@ -21,6 +23,7 @@ export function TaskPreviewComments({
   comments,
   onSend,
   onDeleteComment,
+  isDoneButtonClick,
 }: TaskPreviewCommentsProps) {
   return (
     <div className={s.taskPreviewComments}>
@@ -39,6 +42,7 @@ export function TaskPreviewComments({
               value={values.comment}
               onBlur={handleBlur}
               onChange={handleChange}
+              isDoneButtonClick={isDoneButtonClick}
             />
             {values.comment.trim() && (
               <button className={s.inputButton} type="submit">
