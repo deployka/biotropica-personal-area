@@ -22,13 +22,14 @@ export type ChatProps = {
   accesses: string[];
   activeDialogId?: number;
   onClose(): void;
-  onChangeReading(usUnread: boolean) : void;
+  onChangeReading(usUnread: boolean): void;
 };
 
 export function Chat(props: ChatProps) {
   if (!process.env.REACT_APP_CHAT_FRONT_URL) {
     throw new Error('Добавьте REACT_APP_CHAT_FRONT_URL в .env');
   }
+  console.log('loading...');
   return (
     <Suspense fallback={'loading...'}>
       <ChatApp

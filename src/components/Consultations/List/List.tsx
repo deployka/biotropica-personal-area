@@ -34,9 +34,6 @@ export const ConsultationsList = ({
         <div className={s.specialization}>
           <p>Специализация</p>
         </div>
-        <div className={s.price}>
-          <p>Стоимость</p>
-        </div>
         <div className={s.appointment}>
           <p>Запись</p>
         </div>

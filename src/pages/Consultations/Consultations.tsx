@@ -201,13 +201,6 @@ const Consultations = () => {
     onClick: () => onOpenDialog(lastAddedConsultation),
   };
 
-  const InfoBarBase = {
-    title: 'Информация',
-    bottomLink: `Количество бесплатных консультаций: 
-    ${restOfFreeConsultationsCount} из ${freeConsultationCount}`,
-    href: '',
-  };
-
   function onSelectChange(sort: ISelect<string>[] | undefined) {
     setSelectedSort(sort);
     queryParam.set('sort', sort?.[0]?.label || '');
@@ -312,7 +305,6 @@ const Consultations = () => {
         </div>
       </Modal>
       <div className={s.consultations}>
-        <InfoBar infoBar={InfoBarBase} />
         {closestConsultation && (
           <InfoBar infoBar={InfoBarClosestConsultationOptions} />
         )}
