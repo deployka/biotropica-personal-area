@@ -86,7 +86,7 @@ export const taskApi = baseApi.injectEndpoints({
           };
         },
         providesTags: (result, error, { taskId }) => [
-          { type: 'TaskComment', taskId },
+          { type: 'TaskComment', id: taskId },
         ],
       }),
       removeTaskComment: builder.mutation<

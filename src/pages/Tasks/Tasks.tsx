@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   useAddTaskCommentMutation,
   useCreateTaskMutation,
@@ -97,18 +97,12 @@ export function Tasks() {
   );
 
   useEffect(() => {
-    if (!comments.length) {
-      setOpenedTask(prevState => {
-        if (!prevState) return null;
-        return { ...prevState, comments: [] };
-      });
-      return;
-    }
+    if (!comments.length) return;
     setOpenedTask(prevState => {
       if (!prevState) return null;
       return { ...prevState, comments };
     });
-  }, [comments]);
+  }, [comments, openedTaskId]);
 
   function handleCloseTask() {
     setOpenedTaskId(null);
@@ -213,7 +207,7 @@ export function Tasks() {
       );
     }
   }
-  function handelTaskClick(taskId: string) {
+  const handelTaskClick = useCallback((taskId: string) => {
     const task = tasks.find(task => task.id === taskId);
 
     if (!task) {
@@ -233,7 +227,8 @@ export function Tasks() {
       comments: [],
     });
     return setIsTaskModalOpen(true);
-  }
+  }, [currentUser?.id, isDoctor, tasks]);
+
   function handleEditClick() {
     setTaskModalMode('edit');
   }
