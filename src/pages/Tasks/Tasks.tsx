@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   useAddTaskCommentMutation,
   useCreateTaskMutation,
   useDeleteTaskMutation,
-  useGetTaskCommentsQuery,
   useGetTaskListQuery,
   useGetTemplatesListQuery,
   useRemoveTaskCommentMutation,
@@ -22,6 +21,7 @@ import {
   CreateSomeTask,
   EventTask,
   SomeTask,
+  TaskStatus,
   TaskTemplate,
   TaskType,
   TrainingTask,
@@ -51,6 +51,9 @@ export function Tasks() {
   const [deleteTask] = useDeleteTaskMutation();
   const [deleteComment] = useRemoveTaskCommentMutation();
   const isDoctor = useAppSelector(selectIsDoctor);
+
+  const blockedRc = useRef(false);
+  const [isDoneButtonClick, setIsDoneButtonClick] = useState(false);
 
   const { userId: rawUserId } = useParams<{ userId: string }>();
 
@@ -89,26 +92,12 @@ export function Tasks() {
 
   const { data: templates = [] } = useGetTemplatesListQuery();
 
-  const { data: comments = [], isFetching: isCommentsLoading } = useGetTaskCommentsQuery(
-    { taskId: openedTaskId || '' },
-    {
-      skip: !openedTaskId,
-    },
-  );
-
-  useEffect(() => {
-    if (!comments.length) return;
-    setOpenedTask(prevState => {
-      if (!prevState) return null;
-      return { ...prevState, comments };
-    });
-  }, [comments, openedTaskId]);
-
   function handleCloseTask() {
     setOpenedTaskId(null);
     setOpenedTask(null);
     setIsTaskModalOpen(false);
     setTaskModalMode('view');
+    setIsDoneButtonClick(false);
   }
 
   async function handleSaveTask(task: CreateSomeTask | SomeTask) {
@@ -207,7 +196,12 @@ export function Tasks() {
       );
     }
   }
-  const handelTaskClick = useCallback((taskId: string) => {
+
+  function doneButtonHandler() {
+    setIsDoneButtonClick(true);
+  }
+
+  const handleTaskClick = useCallback((taskId: string) => {
     const task = tasks.find(task => task.id === taskId);
 
     if (!task) {
@@ -221,13 +215,17 @@ export function Tasks() {
       return;
     }
 
+    blockedRc.current = false;
     setOpenedTaskId(taskId);
-    setOpenedTask({
-      ...(task as TrainingTask | CompetitionTask | EventTask),
-      comments: [],
-    });
+    setOpenedTask(task as TrainingTask | CompetitionTask | EventTask);
     return setIsTaskModalOpen(true);
   }, [currentUser?.id, isDoctor, tasks]);
+
+  async function handleDoneTask() {
+    openedTaskId &&
+    await updateTask({ id: openedTaskId, status: 'completed' }).unwrap();
+    handleCloseTask();
+  }
 
   function handleEditClick() {
     setTaskModalMode('edit');
@@ -290,7 +288,8 @@ export function Tasks() {
           currentMonth={currentMonth}
           onChangeCurrentMonth={handleChangeMonth}
           onAddTask={handleCreateNewTask}
-          onClickTask={handelTaskClick}
+          onClickTask={handleTaskClick}
+          doneButtonHandler={doneButtonHandler}
         />
       </>
     );
@@ -323,7 +322,8 @@ export function Tasks() {
         currentMonth={currentMonth}
         onChangeCurrentMonth={handleChangeMonth}
         onAddTask={handleCreateNewTask}
-        onClickTask={handelTaskClick}
+        onClickTask={handleTaskClick}
+        doneButtonHandler={doneButtonHandler}
       />
 
       <TaskTypeSelectModal
@@ -341,6 +341,8 @@ export function Tasks() {
         isAdmin={isAdmin}
         isSpecialist={isSpecialist}
         isLoading={isUpdateLoading || isCreateLoading}
+        isDoneButtonClick={isDoneButtonClick}
+        onDoneTask={handleDoneTask}
         task={openedTask}
         taskId={openedTaskId || ''}
         mode={taskModalMode}
@@ -355,7 +357,6 @@ export function Tasks() {
         onSaveSecondValue={handleSaveSecondFactValue}
         onSaveFactValue={handleSaveFactValue}
         onDeleteComment={handleDeleteComment}
-        isCommentsLoading={isCommentsLoading}
       />
     </>
   );

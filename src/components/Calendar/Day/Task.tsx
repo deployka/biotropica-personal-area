@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import { SomeTask } from '../../../@types/entities/Task';
+import { SomeTask, TaskStatus } from '../../../@types/entities/Task';
 
 import s from './Task.module.scss';
 import { getTaskDecor, getTaskStatus } from './dayHelper';
@@ -15,10 +15,11 @@ import {
 interface Props {
   task: SomeTask;
   isPast: boolean;
-  onClickTask(taskId: string): void;
+  onClickTask(taskId: string, status?: TaskStatus): void;
+  doneButtonHandler(): void;
 }
 
-export const CalendarTask = ({ task, onClickTask, isPast }: Props) => {
+export const CalendarTask = ({ task, onClickTask, isPast, doneButtonHandler }: Props) => {
   const startTime = task.startTime?.slice(0, 5);
   const endTime = task.endTime?.slice(0, 5);
 
@@ -35,8 +36,20 @@ export const CalendarTask = ({ task, onClickTask, isPast }: Props) => {
 
   const backgroundColor = !isMobile ? undefined : isPrivate ? '#8f8f8f' : color;
 
+  const buttonClickHandlerMobile = () => {
+    task.status !== 'completed' && doneButtonHandler();
+  };
+
+  const buttonClickHandlerDesktop = () => {
+    onClickTask(task.id);
+    if (task.status !== 'completed') {
+      doneButtonHandler();
+    }
+  };
+
   return (
-    <div
+    <>
+        <div
       className={cn(s.task, { [s.old]: isPast, [s.private]: isPrivate })}
       onClick={() => {
         onClickTask(task.id);
@@ -68,8 +81,24 @@ export const CalendarTask = ({ task, onClickTask, isPast }: Props) => {
             </p>
           </div>
         )}
-        <div className={cn(s.title, { [s[status]]: isPast })}>{task.title}</div>
+        <div className={cn([s.title, { [s[status]]: isPast }, task.status === 'completed' && s.taskIsDoneText])}>{task.title}</div>
       </div>
+      {isMobile && 
+        (<button 
+          onClick={buttonClickHandlerMobile}
+          className={[s.button, task.status === 'completed' && s.taskIsDone].join(' ')}
+          disabled={isPast}
+        >Выполнено</button>
+        )
+      }
     </div>
+    { !isMobile && 
+      (<button 
+        onClick={buttonClickHandlerDesktop}
+        className={[s.button, task.status === 'completed' && s.taskIsDone].join(' ')}
+        disabled={isPast}
+      >Выполнено</button>)
+    }
+    </>
   );
 };
