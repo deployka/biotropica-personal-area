@@ -129,7 +129,7 @@ export const Header = ({
             </div>
           )}
           {headerTitle}
-          
+
         </div>
 
         <div className={s.rightContent}>
@@ -155,54 +155,54 @@ export const Header = ({
         <>
         <div className={s.editTaskButton}>
           <div>
-              <Button 
+              <Button
                style={{
-               marginBottom: '5px',
-               marginTop: '5px',
-               background: '#fff',
-               color: '#3b82f6',
+                 marginBottom: '5px',
+                 marginTop: '5px',
+                 background: '#fff',
+                 color: '#3b82f6',
                }}
                onClick={onEditBtnClick}
                options={{
-               content: 'Редактировать задачу',
-               width: '140px',
-               height: '40px',
-                }}
+                 content: 'Редактировать задачу',
+                 width: '140px',
+                 height: '40px',
+               }}
               />
             </div>
             <div>
-            <Button 
+            <Button
                style={{
-               marginBottom: '5px',
-               marginTop: '5px',
-               background: '#fff',
-               color: '#3b82f6',
+                 marginBottom: '5px',
+                 marginTop: '5px',
+                 background: '#fff',
+                 color: '#3b82f6',
                }}
                onClick={onDeleteTask}
                options={{
-               content: 'Удалить задачу',
-               width: '140px',
-               height: '40px',
-                }}
+                 content: 'Удалить задачу',
+                 width: '140px',
+                 height: '40px',
+               }}
               />
             </div>
             {
             isDoneButtonClick &&
             isCurrentUser &&
             <div>
-            <Button 
+            <Button
                style={{
-               marginBottom: '5px',
-               marginTop: '5px',
-               background: '#fff',
-               color: '#3b82f6',
+                 marginBottom: '5px',
+                 marginTop: '5px',
+                 background: '#fff',
+                 color: '#3b82f6',
                }}
                onClick={onDoneTask}
                options={{
-               content: 'Завершить задачу',
-               width: '140px',
-               height: '40px',
-                }}
+                 content: 'Завершить задачу',
+                 width: '140px',
+                 height: '40px',
+               }}
               />
             </div>
             }

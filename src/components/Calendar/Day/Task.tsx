@@ -83,8 +83,8 @@ export const CalendarTask = ({ task, onClickTask, isPast, doneButtonHandler }: P
         )}
         <div className={cn([s.title, { [s[status]]: isPast }, task.status === 'completed' && s.taskIsDoneText])}>{task.title}</div>
       </div>
-      {isMobile && 
-        (<button 
+      {isMobile &&
+        (<button
           onClick={buttonClickHandlerMobile}
           className={[s.button, task.status === 'completed' && s.taskIsDone].join(' ')}
           disabled={isPast}
@@ -92,8 +92,8 @@ export const CalendarTask = ({ task, onClickTask, isPast, doneButtonHandler }: P
         )
       }
     </div>
-    { !isMobile && 
-      (<button 
+    { !isMobile &&
+      (<button
         onClick={buttonClickHandlerDesktop}
         className={[s.button, task.status === 'completed' && s.taskIsDone].join(' ')}
         disabled={isPast}

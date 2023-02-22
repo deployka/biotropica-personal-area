@@ -35,7 +35,7 @@ export function CalendarDay({ calendarDay, onClickTask, doneButtonHandler }: Cal
     if ((a.startTime ?? '') > (b.startTime ?? '')) return 1;
     return -1;
   });
-  
+
   return (
     <div
       ref={isCurrentDay ? ref : null}
@@ -46,10 +46,10 @@ export function CalendarDay({ calendarDay, onClickTask, doneButtonHandler }: Cal
           {day}
         </div>
         <div className={classNames(s.date_day, isCurrentDay ? s.currentDate : '')}>
-          {nameOfDay} 
+          {nameOfDay}
         </div>
       </div>
-      
+
       <div className={s.tasksList}>
         {sortedTasks.map(task => (
           <CalendarTask

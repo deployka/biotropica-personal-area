@@ -29,7 +29,7 @@ export const Calendar = ({ tasks, currentMonth, onClickTask, doneButtonHandler }
         if (currentDate === date) {
           isPast = false;
         }
-        
+
         const nameOfDay = new Date(
           now.getFullYear(),
           now.getMonth(),
