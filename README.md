@@ -1,5 +1,26 @@
-Инструкция по развертыванию проекта:
+## Installation
 
-1. npm ci. Не используйте команду npm install, чтобы не нарушить версионированность в package.lock.json. Не используйте yarn.
-2. cp example.env .env.local
-3. npm run start
+#### IMPORTANT: node version - 16
+
+```bash
+$ npm install --legacy-peer-deps
+```
+
+## Running the app
+
+```bash
+# development
+$ npm run start
+```
+
+## Running for prod
+
+```bash
+# development
+$ npm run build
+```
+
+Запуск статики в:
+```
+/build/index.html
+```
