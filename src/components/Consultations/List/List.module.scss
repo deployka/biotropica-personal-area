@@ -1,4 +1,4 @@
-@import "../../../styles/mixins.scss";
+@import '../../../styles/mixins.scss';
 
 .specialistList {
   margin: 40px 0 0 0;
@@ -58,16 +58,6 @@
     @include for-tablet {
       width: 25%;
       justify-content: flex-start;
-    }
-  }
-
-  .price {
-    width: 22%;
-    display: flex;
-    justify-content: center;
-
-    @include for-tablet {
-      width: 25%;
     }
   }
 
