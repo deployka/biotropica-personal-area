@@ -9,16 +9,16 @@ import s from './Event.module.scss';
 
 export interface EventTaskPreviewProps {
   task: EventTask;
-  isCommentsLoading?: boolean;
+  isDoneButtonClick?: boolean;
   onSendComment(ewCommentText: string): void;
   onDeleteComment(commentId: string): void;
 }
 
 export const EventTaskPreview = ({
   task,
-  isCommentsLoading,
   onSendComment,
   onDeleteComment,
+  isDoneButtonClick,
 }: EventTaskPreviewProps) => {
   const formatDate = intlFormat(new Date(task.date), {
     year: 'numeric',
@@ -45,8 +45,8 @@ export const EventTaskPreview = ({
       )}
       <div className={s.line}>
         <TaskPreviewComments
-          comments={task.comments}
-          isLoading={isCommentsLoading}
+          taskId={task?.id || null}
+          isDoneButtonClick={isDoneButtonClick}
           onSend={onSendComment}
           onDeleteComment={onDeleteComment}
         />

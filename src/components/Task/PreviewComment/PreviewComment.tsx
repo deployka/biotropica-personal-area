@@ -31,7 +31,7 @@ export function TaskPreviewComment({ comment, onDeleteComment }: TaskPreviewComm
           </div>
           <div className={s.date}>{formatDate(datetime)}</div>
           <div style={{
-            
+
           }}>
             <img src={iconDelComment} onClick={() => onDeleteComment(comment.uuid)} width="15px" height="15px" alt="" />
           </div>
