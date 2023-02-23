@@ -27,7 +27,7 @@ export function ConsultationPage() {
     useCurrentUserQuery();
 
   const connectToConference = async () => {
-    if (!consultation || !currentUser) {
+    if (!consultation?.meetingNumber || !currentUser) {
       return;
     }
 
@@ -76,6 +76,9 @@ export function ConsultationPage() {
   }
   if (!consultation) {
     return <div>Консультация не найдена</div>;
+  }
+  if (!consultation.meetingNumber) {
+    return <div>Время консультации не назначено! Пожалуйста, свяжитесь со специалистом для уточнения времени</div>;
   }
 
   return <div className={s.consultation} ref={zoomRef} />;
