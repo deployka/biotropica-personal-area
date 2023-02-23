@@ -40,7 +40,7 @@ export function Comment({
   const authorSpecialistId = author?.specialist?.id;
   const authorSpecializations = author?.specialist?.specializations || [];
   const isAuthorAdmin = getUserRolesList(author).includes(ROLE.ADMIN);
-  const isAuthorSpecialist = getUserRolesList(author).includes(ROLE.SPECIALIST);
+  const isAuthorSpecialist = getUserRolesList(author).includes(ROLE.TRAINER);
 
   const isUserMovable = !isAuthorAdmin && !(currentUserId === author.id);
 

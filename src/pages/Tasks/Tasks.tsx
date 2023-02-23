@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   useAddTaskCommentMutation,
   useCreateTaskMutation,
@@ -89,13 +89,12 @@ export function Tasks() {
 
   const { data: templates = [] } = useGetTemplatesListQuery();
 
-  const { data: comments = [], isFetching: isCommentsLoading } =
-    useGetTaskCommentsQuery(
-      { taskId: openedTaskId || '' },
-      {
-        skip: !openedTaskId,
-      },
-    );
+  const { data: comments = [], isFetching: isCommentsLoading } = useGetTaskCommentsQuery(
+    { taskId: openedTaskId || '' },
+    {
+      skip: !openedTaskId,
+    },
+  );
 
   useEffect(() => {
     if (!comments.length) return;
@@ -103,7 +102,7 @@ export function Tasks() {
       if (!prevState) return null;
       return { ...prevState, comments };
     });
-  }, [comments]);
+  }, [comments, openedTaskId]);
 
   function handleCloseTask() {
     setOpenedTaskId(null);
@@ -135,7 +134,7 @@ export function Tasks() {
     try {
       eventBus.emit(EventTypes.removeNotification, 'delete-notification');
       await deleteTask(openedTaskId);
-      //  Скрываем плашку 
+      //  Скрываем плашку
       // eventBus.emit(EventTypes.notification, {
       //   type: NotificationType.SUCCESS,
       //   message: `Задача "${openedTask?.title}" успешно удалена!`,
@@ -154,12 +153,12 @@ export function Tasks() {
     // Скрываем плашку
 
     // вызвать API для удаления комментария
-      await deleteComment({ commentId });
+    await deleteComment({ commentId });
 
-      eventBus.emit(EventTypes.notification, {
-        type: NotificationType.SUCCESS,
-        message: 'Комментарий успешно удален!',
-      });
+    eventBus.emit(EventTypes.notification, {
+      type: NotificationType.SUCCESS,
+      message: 'Комментарий успешно удален!',
+    });
   }
   function onDiscard() {
     eventBus.emit(EventTypes.removeNotification, 'delete-notification');
@@ -208,7 +207,7 @@ export function Tasks() {
       );
     }
   }
-  function handelTaskClick(taskId: string) {
+  const handelTaskClick = useCallback((taskId: string) => {
     const task = tasks.find(task => task.id === taskId);
 
     if (!task) {
@@ -223,13 +222,13 @@ export function Tasks() {
     }
 
     setOpenedTaskId(taskId);
-
     setOpenedTask({
       ...(task as TrainingTask | CompetitionTask | EventTask),
-      comments,
+      comments: [],
     });
     return setIsTaskModalOpen(true);
-  }
+  }, [currentUser?.id, isDoctor, tasks]);
+
   function handleEditClick() {
     setTaskModalMode('edit');
   }
