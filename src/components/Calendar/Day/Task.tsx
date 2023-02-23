@@ -87,7 +87,6 @@ export const CalendarTask = ({ task, onClickTask, isPast, doneButtonHandler }: P
         (<button
           onClick={buttonClickHandlerMobile}
           className={[s.button, task.status === 'completed' && s.taskIsDone].join(' ')}
-          disabled={isPast}
         >Выполнено</button>
         )
       }
@@ -96,7 +95,6 @@ export const CalendarTask = ({ task, onClickTask, isPast, doneButtonHandler }: P
       (<button
         onClick={buttonClickHandlerDesktop}
         className={[s.button, task.status === 'completed' && s.taskIsDone].join(' ')}
-        disabled={isPast}
       >Выполнено</button>)
     }
     </>
