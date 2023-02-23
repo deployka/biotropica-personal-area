@@ -73,13 +73,6 @@ export const ConsultationItem = ({
     }
   }, [isLoadingSignUp]);
 
-  const Price = useCallback(() => {
-    if (!restOfFreeConsultationsCount) {
-      return <>{getMarkStringByValue(price)} ₽</>;
-    }
-    return <>Бесплатно</>;
-  }, [price, restOfFreeConsultationsCount, getMarkStringByValue]);
-
   return (
     <div className={s.specialist}>
       <div className={s.specialistInfo}>
@@ -107,10 +100,6 @@ export const ConsultationItem = ({
         <p>
           {getMarkStringByValue(formatSpecializationsToString(specializations))}
         </p>
-      </div>
-
-      <div className={s.price}>
-        <p>{<Price />}</p>
       </div>
 
       <div className={s.appointment}>
