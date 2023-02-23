@@ -110,7 +110,7 @@ const Edit = () => {
       };
       await updateClient(data);
       // locked popup
-      
+
       // eventBus.emit(EventTypes.notification, {
       //   message: 'Данные профиля обновлены!',
       //   type: NotificationType.SUCCESS,

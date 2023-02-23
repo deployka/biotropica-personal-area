@@ -8,20 +8,30 @@ import sendIcon from './../../../assets/icons/Send.svg';
 
 import s from './PreviewComments.module.scss';
 import { Loader } from '../../../shared/Form/Loader/Loader';
+import { TaskStatus } from '../../../@types/entities/Task';
+import { useGetTaskCommentsQuery } from '../../../api/tasks';
 
 export type TaskPreviewCommentsProps = {
-  comments: Comment[];
-  isLoading?: boolean;
+  taskId: string | null,
+  comments?: Comment[];
+  isDoneButtonClick?: boolean;
   onSend(newCommentText: string): void;
   onDeleteComment(commentId: string): void;
 };
 
 export function TaskPreviewComments({
-  isLoading,
-  comments,
+  taskId,
   onSend,
   onDeleteComment,
+  isDoneButtonClick,
 }: TaskPreviewCommentsProps) {
+  const { data: comments = [], isFetching: isCommentsLoading } = useGetTaskCommentsQuery(
+    { taskId: taskId || '' },
+    {
+      skip: !taskId,
+    },
+  );
+
   return (
     <div className={s.taskPreviewComments}>
       <Formik
@@ -39,6 +49,7 @@ export function TaskPreviewComments({
               value={values.comment}
               onBlur={handleBlur}
               onChange={handleChange}
+              isDoneButtonClick={isDoneButtonClick}
             />
             {values.comment.trim() && (
               <button className={s.inputButton} type="submit">
@@ -50,8 +61,8 @@ export function TaskPreviewComments({
       </Formik>
 
       <div className={s.commentsList}>
-        {isLoading && <div className={s.indicator} ><Loader color={'#3b82f6'} /></div>}
-        {!isLoading &&
+        {isCommentsLoading && <div className={s.indicator} ><Loader color={'#3b82f6'} /></div>}
+        {!isCommentsLoading &&
           comments.length !== 0 &&
           comments.map(comment => (
             <TaskPreviewComment key={comment.uuid} comment={comment} onDeleteComment={onDeleteComment} />
