@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { ISelect } from '../../shared/Form/Select/SelectCustom';
-import { InfoBar } from '../../shared/Global/InfoBar/InfoBar';
+import { IInfoBar, InfoBar } from '../../shared/Global/InfoBar/InfoBar';
 
 import moment from 'moment';
 import { useQuery } from '../../hooks/useQuery';
@@ -53,9 +53,14 @@ const Consultations = () => {
 
   const [paymentForm, setPaymentForm] = useState('');
 
-  async function sendMessage(userId: number) {
+  async function createDialogHandler(userId: number, consultation: Consultation) {
     try {
-      const dialog = await createDialog({ userId, isAccess: true }).unwrap();
+      const dialog = await createDialog({
+        userId,
+        isAccess: true,
+        authorId: consultation.specialist.id,
+        consultationId: consultation.id,
+      }).unwrap();
       eventBus.emit(EventTypes.chatOpen, dialog.id);
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
@@ -144,21 +149,18 @@ const Consultations = () => {
 
   const onOpenDialog = (cns?: Consultation) => {
     const specialist = specialists.find(s => s.id === cns?.specialistId);
-    if (!specialist) {
+    if (!specialist || !cns) {
       return;
     }
-    return sendMessage(specialist.user.id);
+    return createDialogHandler(specialist.user.id, cns);
   };
 
-  const InfoBarClosestConsultationOptions = {
+  const InfoBarClosestConsultationOptions: IInfoBar = {
     title: 'Ближайшая запись',
     text: `Ваша ближайшая запись на персональную консультацию у ${getSpecialistName(
       closestConsultation,
     )} ${getCnsDate(closestConsultation)}`,
     textLink: 'перейти в диалог',
-    bottomLink: `Остаток бесплатных консультаций: 
-    ${restOfFreeConsultationsCount}  из ${freeConsultationCount}`,
-    href: '',
     onClick: () => onOpenDialog(closestConsultation),
   };
 
@@ -173,7 +175,7 @@ const Consultations = () => {
     title: 'Консультация без даты!',
     text: `Вы записались на консультацию к специалисту  ${getSpecialistName(
       lastAddedConsultation,
-    )}, пожалуйста, обсудите удобное время и дату консультацию в чате, после подтверждения оплаты.`,
+    )}, пожалуйста, обсудите удобное время и дату консультацию в чате.`,
     textLink:
       lastAddedConsultation?.isPaid || lastAddedConsultation?.isFree
         ? 'перейти в диалог'
@@ -209,19 +211,19 @@ const Consultations = () => {
 
   const onCreateConsultation = async (specialistId: number) => {
     try {
-      if (restOfFreeConsultationsCount) {
-        await createConsultation({ specialistId }).unwrap();
-        eventBus.emit(EventTypes.notification, {
-          title: 'Успешно!',
-          message: 'Вы успешно записались на бесплатную консультацию!',
-          type: NotificationType.SUCCESS,
-        });
-      } else {
-        const { tinkoffForm } = await createConsultation({
-          specialistId,
-        }).unwrap();
-        setPaymentForm(tinkoffForm);
-      }
+      // if (restOfFreeConsultationsCount) {
+      await createConsultation({ specialistId }).unwrap();
+      eventBus.emit(EventTypes.notification, {
+        title: 'Успешно!',
+        message: 'Вы успешно записались на бесплатную консультацию!',
+        type: NotificationType.SUCCESS,
+      });
+      // } else {
+      //   const { tinkoffForm } = await createConsultation({
+      //     specialistId,
+      //   }).unwrap();
+      //   setPaymentForm(tinkoffForm);
+      // }
       refetchConsultations();
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
