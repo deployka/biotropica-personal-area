@@ -16,7 +16,6 @@ $ npm run start
 ## Running for prod
 
 ```bash
-# development
 $ npm run build
 ```
 
