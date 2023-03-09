@@ -1,5 +1,5 @@
 // Set this to true for production
-const doCache = false;
+const doCache = true;
 
 // Name our cache
 const CACHE_NAME = 'my-pwa-cache-v1';
@@ -38,6 +38,7 @@ self.addEventListener('install', function (event) {
               // We could also cache any static assets like CSS or images
               const urlsToCache = [
                 '/',
+                '/index.html',
                 assets['main.js'],
               ];
               cache.addAll(urlsToCache);
