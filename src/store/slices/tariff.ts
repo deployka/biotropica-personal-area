@@ -30,7 +30,7 @@ const slice = createSlice({
         state.restOfFreeConsultationsCount = payload.isPaid ? count : 0;
         state.freeConsultationsCount = payload.isPaid
           ? payload?.tariff?.access?.find(a => a.key === 'CONSULTATION')
-              ?.value || 0
+            ?.value || 0
           : 0;
 
         state.accesses = payload?.isPaid
@@ -39,8 +39,8 @@ const slice = createSlice({
 
         state.chatAccesses = payload?.isPaid
           ? payload?.tariff?.access
-              .filter(it => it.key.split('_').includes('CHAT'))
-              .map(it => it.key)
+            .filter(it => it.key.split('_').includes('CHAT'))
+            .map(it => it.key)
           : [];
       },
     );
