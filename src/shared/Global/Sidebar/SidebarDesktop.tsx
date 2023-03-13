@@ -66,7 +66,7 @@ export const SidebarDesktop = memo(
               {nav.map((item: Nav) => (
                 <NavItem
                   item={item}
-                  key={item.link}
+                  key={item.page}
                   isActive={item.link ? isSelectedItem(item.link) : false}
                   onClick={handleItemClick(item)}
                 />
