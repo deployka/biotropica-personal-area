@@ -165,23 +165,23 @@ export function PrivateLayout(props: Props) {
   );
 
   useEffect(() => {
-    function wsConnect(){
+    function wsConnect () {
       const ws = new WebSocket(`${process.env.REACT_APP_WS_URL}?token=${localStorage.getItem('token') || ''}`);
-      ws.onmessage = function(){
+      ws.onmessage = function () {
         setUnread(true);
         console.warn('Message is taked');
       };
-      ws.onclose = function(){
+      ws.onclose = function () {
         setTimeout(wsConnect, 1000);
       };
-      ws.onerror = function(err){
+      ws.onerror = function (err) {
         console.warn('Some error on WS Connection: ', err);
         ws.close();
       };
-    };
+    }
 
     wsConnect();
-  }, [])
+  }, []);
 
   const [sidebarNotificationsOpen, setSidebarNotificationsOpen] =
     useState<boolean>(false);
