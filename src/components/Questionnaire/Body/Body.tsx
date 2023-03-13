@@ -48,9 +48,9 @@ export const QuestionnaireBody = ({
 
   const options = question.allowedAnswers
     ? question.allowedAnswers.map(it => ({
-        value: it,
-        label: it,
-      }))
+      value: it,
+      label: it,
+    }))
     : [];
 
   return (
