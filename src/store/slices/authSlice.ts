@@ -52,7 +52,7 @@ const slice = createSlice({
           state.isAuthorized = false;
         },
       )
-      .addMatcher(authApi.endpoints.signOut.matchFulfilled, state => {
+      .addMatcher(authApi.endpoints.signOut.matchFulfilled, (state, action) => {
         state.isAuthorized = false;
       });
   },
