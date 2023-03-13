@@ -166,21 +166,21 @@ export function PrivateLayout(props: Props) {
 
   useEffect(() => {
     function wsConnect(){
-      const ws = new WebSocket(`${process.env.REACT_APP_WS_URL}?token=${localStorage.getItem('token') || ''}`)
+      const ws = new WebSocket(`${process.env.REACT_APP_WS_URL}?token=${localStorage.getItem('token') || ''}`);
       ws.onmessage = function(){
-        setUnread(true)
-        console.warn('Message is taked')
-      }
+        setUnread(true);
+        console.warn('Message is taked');
+      };
       ws.onclose = function(){
-        setTimeout(wsConnect, 1000)
-      }
+        setTimeout(wsConnect, 1000);
+      };
       ws.onerror = function(err){
-        console.warn('Some error on WS Connection: ', err)
-        ws.close()
-      }
-    }
+        console.warn('Some error on WS Connection: ', err);
+        ws.close();
+      };
+    };
 
-    wsConnect()
+    wsConnect();
   }, [])
 
   const [sidebarNotificationsOpen, setSidebarNotificationsOpen] =
