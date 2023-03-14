@@ -1,5 +1,5 @@
-@import '../../../styles/mixins.scss';
-@import '../../../styles/variables.scss';
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
 
 .specialist {
   position: relative;
@@ -119,6 +119,22 @@
     font-size: 16px;
 
     color: #9e97be;
+  }
+}
+
+.price {
+  width: 22%;
+
+  display: flex;
+  justify-content: center;
+
+  @include for-tablet {
+    width: 25%;
+  }
+  @include for-phone {
+    margin: 5px 0 0 0;
+    width: calc(100% - 65px);
+    justify-content: flex-start;
   }
 }
 

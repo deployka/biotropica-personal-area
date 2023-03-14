@@ -99,28 +99,6 @@
         }
     }
 
-    .button {
-        margin: 0;
-        padding: 10px;
-        border: 1px solid rgb(151, 147, 147);
-        border-radius: 20px;
-
-        background-color: rgb(151, 147, 147);
-
-        color: white;
-        font-size: 13px;
-        font-weight: 600;
-    }
-
-    .taskIsDone {
-        background-color:  #59d059;
-        border: 1px solid  #59d059;
-    }
-
-    .taskIsDoneText {
-        text-decoration: line-through;
-    }
-
     .type {
         margin: 0 8px 0 0;
 
@@ -148,22 +126,4 @@
             }
         }
     }
-}
-
-.button {
-    margin: 5px auto 0;
-    padding: 5px;
-    border: 1px solid rgb(151, 147, 147);
-    border-radius: 15px;
-
-    background-color: rgb(151, 147, 147);
-
-    color: white;
-    font-size: 13px;
-    font-weight: 500;
-}
-
-.taskIsDone {
-    background-color:  #59d059;
-    border: 1px solid  #59d059;
 }

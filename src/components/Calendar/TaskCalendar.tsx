@@ -12,7 +12,6 @@ export type TaskCalendarProps = {
   onChangeCurrentMonth(currentMonth: TaskCalendarProps['currentMonth']): void;
   onAddTask(): void;
   onClickTask(taskId: string): void;
-  doneButtonHandler(): void;
 };
 
 const tableHeader = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
@@ -23,7 +22,6 @@ export function TaskCalendar({
   onChangeCurrentMonth,
   onAddTask,
   onClickTask,
-  doneButtonHandler,
 }: TaskCalendarProps) {
   return (
     <div className={s.tasksCalendar}>
@@ -45,7 +43,6 @@ export function TaskCalendar({
           tasks={tasks}
           currentMonth={currentMonth}
           onClickTask={onClickTask}
-          doneButtonHandler={doneButtonHandler}
         />
       </div>
     </div>

@@ -23,9 +23,9 @@ type TasksModalProps = {
   isSpecialist: boolean;
   isOpened: boolean;
   isLoading: boolean;
-  isDoneButtonClick: boolean;
   taskId: string;
   currentUserId: number;
+  isCommentsLoading?: boolean;
   onClose(): void;
   onEditBtnClick(): void;
   onCreateTemplate(): void;
@@ -36,7 +36,6 @@ type TasksModalProps = {
   onSaveFirstValue(value: string | undefined): void;
   onSaveSecondValue(value: string | undefined): void;
   onDeleteComment(commentId: string): void;
-  onDoneTask(): void;
 };
 
 export const TasksModal = ({
@@ -46,9 +45,9 @@ export const TasksModal = ({
   isSpecialist,
   isOpened,
   currentUserId,
+  isCommentsLoading,
   isLoading,
   isAdmin,
-  isDoneButtonClick,
   onCreateTemplate,
   onClose,
   onSave,
@@ -59,7 +58,6 @@ export const TasksModal = ({
   onSaveSecondValue,
   onSaveFactValue,
   onDeleteComment,
-  onDoneTask,
 }: TasksModalProps) => {
   let category = '';
   let title = '';
@@ -113,21 +111,19 @@ export const TasksModal = ({
       isOpened={isOpened}
       onClose={onClose}
       onEditBtnClick={onEditBtnClick}
-      isDoneButtonClick={isDoneButtonClick}
-      onDoneTask={onDoneTask}
     >
       <TaskLayout
         isSpecialist={isSpecialist}
         task={task}
         mode={mode}
         isLoading={isLoading}
-        isDoneButtonClick={isDoneButtonClick}
         onSave={onSave}
         onClose={onClose}
         onSendComment={onSendComment}
         onSaveFactValue={onSaveFactValue}
         onSaveFirstValue={onSaveFirstValue}
         onSaveSecondValue={onSaveSecondValue}
+        isCommentsLoading={isCommentsLoading}
         onDeleteComment={onDeleteComment}
       />
     </TaskBaseEditor>

@@ -17,20 +17,18 @@ import './styles/global.scss';
 
 import { ModalProvider } from './providers/ModalProvider';
 
-setTimeout(() => {
-  ReactDOM.render(
-    <React.StrictMode>
-      <Router>
-        <Provider store={store}>
-          <ToastContainer />
-          <ModalProvider>
-            <App />
-          </ModalProvider>
-        </Provider>
-      </Router>
-    </React.StrictMode>,
-    document.getElementById('root'),
-  );
-}, 1000);
+ReactDOM.render(
+  <React.StrictMode>
+    <Router>
+      <Provider store={store}>
+        <ToastContainer />
+        <ModalProvider>
+          <App />
+        </ModalProvider>
+      </Provider>
+    </Router>
+  </React.StrictMode>,
+  document.getElementById('root'),
+);
 
 reportWebVitals();

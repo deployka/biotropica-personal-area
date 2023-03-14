@@ -2,7 +2,7 @@ import { BaseEntity } from './BaseEntity';
 
 export enum ROLE {
   CLIENT = 'CLIENT',
-  TRAINER = 'TRAINER',
+  SPECIALIST = 'SPECIALIST',
   ADMIN = 'ADMIN',
 }
 

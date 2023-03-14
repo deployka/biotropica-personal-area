@@ -50,8 +50,8 @@ export const TariffCard = ({
     isCurrentTariff && !isPaid
       ? 'ожидает оплаты'
       : isPaid && isCurrentTariff
-        ? 'тариф оплачен'
-        : 'купить тариф';
+      ? 'тариф оплачен'
+      : 'купить тариф';
 
   const isDisabledBtn = isPaid;
 

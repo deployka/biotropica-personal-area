@@ -18,7 +18,7 @@ interface Props {
 }
 
 export const SidebarNotifications = (
-  { open, setOpen, onChangeNotification }: Props) => {
+    { open, setOpen, onChangeNotification }: Props) => {
   const { data: notifications = [] } = useGetNotificationsQuery();
   const close = () => {
     setOpen(false);
