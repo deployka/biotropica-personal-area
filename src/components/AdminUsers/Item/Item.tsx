@@ -17,13 +17,13 @@ type Props = {
 export const ROLE_TRANSLATIONS = {
   [ROLE.CLIENT]: 'Пользователь',
   [ROLE.ADMIN]: 'Администратор',
-  [ROLE.TRAINER]: 'Тренер',
+  [ROLE.SPECIALIST]: 'Специалист',
 };
 
 export const ROLE_COLOR = {
   [ROLE.CLIENT]: '#6f61d0',
   [ROLE.ADMIN]: '#D06361',
-  [ROLE.TRAINER]: '#309A74',
+  [ROLE.SPECIALIST]: '#309A74',
 };
 
 export const UserItem = ({

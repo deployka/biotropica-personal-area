@@ -13,14 +13,14 @@ export const UsersListTabHeader = ({ usersCount, query, onChange }: Props) => {
   return (
     <div className={s.header}>
       <div className={s.title}>
-        <h2>Тренеры</h2>
+        <h2>Специалисты</h2>
         <div className={s.count}>{usersCount}</div>
       </div>
       <div className={s.searchInput}>
         <SearchInput
           value={query}
           onChange={onChange}
-          placeholder="Поиск тренеров"
+          placeholder="Поиск специалистов"
         />
       </div>
     </div>
