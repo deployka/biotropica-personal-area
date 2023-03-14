@@ -2,7 +2,7 @@
 const doCache = true;
 
 // Name our cache
-const CACHE_NAME = 'my-pwa-cache-v1';
+const CACHE_NAME = 'my-pwa-cache-v2';
 
 // Delete old caches that are not our current one!
 self.addEventListener('activate', event => {
