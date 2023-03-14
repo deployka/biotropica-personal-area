@@ -99,7 +99,7 @@ const PublicSpecialistProfile = () => {
 
   // FIXME:
   if (!specialist) {
-    return <p>Специалист не найден</p>;
+    return <p>Тренер не найден</p>;
   }
 
   if ((currentUser as BaseUser)?.specialist?.id === specialist.id) {

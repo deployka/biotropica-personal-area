@@ -58,7 +58,7 @@ const pages = [
   { page: 'Анкета', link: 'questionnaire' },
   { page: 'Пользователи', link: 'users' },
   { page: 'Пользователи', link: '/' },
-  { page: 'Специалист', link: 'specialists' },
+  { page: 'Тренер', link: 'specialists' },
   { page: 'Рекомендации', link: 'recommendations' },
   { page: 'Логи', link: 'logs' },
 ];
@@ -71,6 +71,10 @@ const clientNav: Nav[] = [
   {
     ...pages[2],
     svg: <SidebarSvgSelector id="goals" />,
+  },
+  {
+    ...pages[4],
+    svg: <SidebarSvgSelector id="video" />,
   },
   {
     ...pages[5],
@@ -159,6 +163,25 @@ export function PrivateLayout(props: Props) {
   const [openedDialog, setOpenedDialog] = useState<number | undefined>(
     undefined,
   );
+
+  useEffect(() => {
+    function wsConnect() {
+      const ws = new WebSocket(`${process.env.REACT_APP_WS_URL}?token=${localStorage.getItem('token') || ''}`);
+      ws.onmessage = function () {
+        setUnread(true);
+        console.warn('Message is taked');
+      };
+      ws.onclose = function () {
+        setTimeout(wsConnect, 1000);
+      };
+      ws.onerror = function (err) {
+        console.warn('Some error on WS Connection: ', err);
+        ws.close();
+      };
+    }
+
+    wsConnect();
+  }, []);
 
   const [sidebarNotificationsOpen, setSidebarNotificationsOpen] =
     useState<boolean>(false);

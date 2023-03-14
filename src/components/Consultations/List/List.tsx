@@ -29,13 +29,10 @@ export const ConsultationsList = ({
     <div className={s.specialistList}>
       <div className={s.title}>
         <div className={s.name}>
-          <p>ФИО специалиста</p>
+          <p>ФИО тренера</p>
         </div>
         <div className={s.specialization}>
           <p>Специализация</p>
-        </div>
-        <div className={s.price}>
-          <p>Стоимость</p>
         </div>
         <div className={s.appointment}>
           <p>Запись</p>
@@ -55,7 +52,7 @@ export const ConsultationsList = ({
                 searchQuery={searchQuery}
               />
             ))}
-          {!specialists.length && <p>Специалисты не найдены</p>}
+          {!specialists.length && <p>Тренеры не найдены</p>}
         </div>
       </PerfectScrollbar>
     </div>

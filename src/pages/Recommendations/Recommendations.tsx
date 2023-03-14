@@ -152,7 +152,7 @@ export function Recommendations() {
           <Empty className={s.empty}>
             <p>
               У вас еще нет рекомендаций. Они появятся здесь сразу после того,
-              как их составит специалист.
+              как их составит тренер.
             </p>
           </Empty>
         </div>

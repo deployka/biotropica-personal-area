@@ -52,7 +52,7 @@ const slice = createSlice({
           state.isAuthorized = false;
         },
       )
-      .addMatcher(authApi.endpoints.signOut.matchFulfilled, (state, action) => {
+      .addMatcher(authApi.endpoints.signOut.matchFulfilled, state => {
         state.isAuthorized = false;
       });
   },
@@ -68,7 +68,7 @@ export const selectCurrentUser = (
   state: RootState,
 ): Client | Admin | Specialist | undefined => state.authSlice.currentUser;
 export const selectIsDoctor = (state: RootState): boolean =>
-  state.authSlice.roles.some(it => it.name === ROLE.SPECIALIST);
+  state.authSlice.roles.some(it => it.name === ROLE.TRAINER);
 export const selectIsAdmin = (state: RootState): boolean =>
   state.authSlice.roles.some(it => it.name === ROLE.ADMIN);
 export const selectIsClient = (state: RootState): boolean =>
