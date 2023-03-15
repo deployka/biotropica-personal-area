@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react';
-import st from './Header.icons.module.scss'
+import { ReactElement } from 'react';
+import st from './Header.icons.module.scss';
 interface Props {
   id: string;
   unreadCount?: number;
