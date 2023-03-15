@@ -18,6 +18,7 @@ import planeIcon from './../../../assets/icons/taskType/plane.svg';
 import rowingIcon from './../../../assets/icons/taskType/rowing.svg';
 import runIcon from './../../../assets/icons/taskType/run.svg';
 import skiIcon from './../../../assets/icons/taskType/ski.svg';
+import campaignIcon from './../../../assets/icons/taskType/campaign.svg';
 import swimIcon from './../../../assets/icons/taskType/swim.svg';
 import triathlonIcon from './../../../assets/icons/taskType/triathlon.svg';
 import videoIcon from './../../../assets/icons/taskType/video.svg';
@@ -164,6 +165,12 @@ export const typeGroups: Record<Task['type'], TaskTypeGroupModel> = {
         icon: regimeIcon,
         type: 'event',
         key: KindOfEvent.regime,
+      },
+      {
+        title: 'Поход',
+        icon: campaignIcon,
+        type: 'event',
+        key: KindOfEvent.campaign,
       },
     ],
   },
