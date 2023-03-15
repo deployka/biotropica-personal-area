@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import st from './Header.icons.module.scss';
 interface Props {
   id: string;
