@@ -129,7 +129,7 @@ export const Header = ({
             </div>
           )}
           {headerTitle}
-
+          
         </div>
 
         <div className={s.rightContent}>
