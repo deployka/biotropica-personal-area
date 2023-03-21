@@ -24,7 +24,7 @@ export const Calendar = ({ tasks, currentMonth, onClickTask, doneButtonHandler }
 
     setDaysWithTasks(
       period.map(date => {
-        const month = date.slice(0, 7);
+        // const month = date.slice(0, 7);
         const day = date.slice(8, 10);
         if (currentDate === date) {
           isPast = false;
@@ -38,7 +38,7 @@ export const Calendar = ({ tasks, currentMonth, onClickTask, doneButtonHandler }
 
         return {
           isPast,
-          isGrey: month !== currentMonth,
+          isGrey: false,
           isCurrentDay: currentDate === date,
           day: +day,
           nameOfDay,
