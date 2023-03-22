@@ -11,7 +11,7 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import { useMobile } from '../hooks/useMobile';
 import { SidebarSvgSelector } from '../assets/icons/sidebar/SIdebarSvgSelector';
-import { useLocation } from 'react-router';
+import { useLocation, useHistory } from 'react-router';
 import { SidebarDesktop } from '../shared/Global/Sidebar/SidebarDesktop';
 import { SidebarMobile } from '../shared/Global/Sidebar/SidebarMobile';
 import { SidebarWrapper } from '../shared/Global/SidebarWrapper/SidebarWrapper';
@@ -29,6 +29,7 @@ import { useSignOutMutation } from '../api/auth';
 import { useAppSelector } from '../store/storeHooks';
 import { useGetCurrentTariffQuery } from '../api/tariffs';
 import { selectChatAccesses } from '../store/slices/tariff';
+import { NotificationType } from '../components/GlobalNotifications/GlobalNotifications';
 
 interface Props {
   children: React.ReactNode;
@@ -117,6 +118,7 @@ export function PrivateLayout(props: Props) {
   const { refetch, data: currentUser } = useCurrentUserQuery();
   const { data: dialogs = [] } = useGetAllDialogsQuery();
   const [fetchLogout] = useSignOutMutation();
+  const history = useHistory();
 
   async function sendMessage() {
     const dialog = dialogs.find(it => it.title === 'Техподдержка');
@@ -193,6 +195,46 @@ export function PrivateLayout(props: Props) {
     },
     [window],
   );
+
+  useEffect(() => {
+    if (currentUser) {
+      const connect = () => {
+        const ws = new WebSocket(`${process.env.REACT_APP_NOTIFICATIONS_WS_URL}?userId=${currentUser.id || ''}`);
+        ws.onopen = () => {
+          console.warn('Notifications WS is opened!');
+        };
+        ws.onclose = data => {
+          console.warn('Notifications WS is closed! ', data);
+          connect();
+        };
+        ws.onerror = err => {
+          console.warn('Something where wrong! ', err);
+          ws.close();
+        };
+        ws.onmessage = (e: MessageEvent) => {
+          const notification = JSON.parse(e.data);
+          setNotificationsUnread(prev => prev + 1);
+          eventBus.emit(EventTypes.notification, {
+            message: (
+              <div>
+                {notification.message}
+                <button
+                  style={{ marginLeft: '10px' }}
+                  onClick={() => history.push(notification.link)}
+                >
+                  перейти
+                </button>
+              </div>
+            ),
+            autoClose: 5000,
+            type: NotificationType.INFO,
+          });
+        };
+      };
+
+      connect();
+    }
+  }, []);
 
   return (
     <div className="global__container">
