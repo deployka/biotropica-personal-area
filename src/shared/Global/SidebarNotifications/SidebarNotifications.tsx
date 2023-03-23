@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import classNames from 'classnames';
 import s from './SidebarNotifications.module.scss';
+import { BtnClose } from '../../buttons/BtnClose/BtnClose';
 import { Notification } from './Notification/Notification';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -22,11 +23,7 @@ export const SidebarNotifications = (
   const close = () => {
     setOpen(false);
   };
-
-  useEffect(() => {
-    onChangeNotification(notifications.length);
-  }, [notifications.length]);
-
+  onChangeNotification(notifications.length);
   return (
     <>
       <div onClick={() => setOpen(false)}>
@@ -53,7 +50,7 @@ export const SidebarNotifications = (
               notifications.map((notification: INotification, i: number) => {
                 return (
                   <Notification
-                    key={`${notification.id}${i}`}
+                    key={i + notification.id}
                     notification={notification}
                   />
                 );
