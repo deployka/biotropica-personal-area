@@ -14,7 +14,6 @@ import {
   trainingCategoryOptions,
 } from './TrainingConstants';
 import { TimePickerValue } from 'react-time-picker';
-import { NEW_DATE } from '../../../constants/dates';
 
 import s from './Training.module.scss';
 import {
@@ -113,7 +112,7 @@ export function TrainingTaskEditor({
             <div>
               <DatePickerCustom
                 name="date"
-                minDate={NEW_DATE}
+                // minDate={}
                 selected={values.date ? new Date(values.date as string) : null}
                 label={'Дата'}
                 onBlur={handleBlur}

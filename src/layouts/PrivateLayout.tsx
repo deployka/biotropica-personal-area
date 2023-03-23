@@ -58,7 +58,7 @@ const pages = [
   { page: 'Анкета', link: 'questionnaire' },
   { page: 'Пользователи', link: 'users' },
   { page: 'Пользователи', link: '/' },
-  { page: 'Тренер', link: 'specialists' },
+  { page: 'Специалист', link: 'specialists' },
   { page: 'Рекомендации', link: 'recommendations' },
   { page: 'Логи', link: 'logs' },
 ];
@@ -71,10 +71,6 @@ const clientNav: Nav[] = [
   {
     ...pages[2],
     svg: <SidebarSvgSelector id="goals" />,
-  },
-  {
-    ...pages[4],
-    svg: <SidebarSvgSelector id="video" />,
   },
   {
     ...pages[5],
@@ -158,8 +154,8 @@ export function PrivateLayout(props: Props) {
 
   const isMobile = useMobile();
 
-  const [isUnread, setUnread] = useState(false);
-  const [isNotificationsUnread, setNotificationsUnread] = useState(false);
+  const [isUnread, setUnread] = useState(0);
+  const [isNotificationsUnread, setNotificationsUnread] = useState(0);
   const [openedDialog, setOpenedDialog] = useState<number | undefined>(
     undefined,
   );

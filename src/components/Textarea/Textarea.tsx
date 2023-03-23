@@ -8,7 +8,6 @@ import Label from '../../components/Label/Label';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 import TextareaAutosize from 'react-textarea-autosize';
-import { TaskStatus } from '../../@types/entities/Task';
 
 interface Props {
   name: string;
@@ -18,7 +17,6 @@ interface Props {
   label?: string;
   autoComplete?: string;
   maxRows?: number;
-  isDoneButtonClick?: boolean;
   onBlur?: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
   onInput?: (e: React.FormEvent<HTMLTextAreaElement>) => void;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -33,15 +31,12 @@ const Textarea = (props: Props) => {
     placeholder,
     label,
     maxRows,
-    isDoneButtonClick,
   } = props;
 
   const [field, meta] = useField(props);
   const isError = meta.touched && meta.error;
-  const textarea = useRef<HTMLTextAreaElement>(null);
-  if (textarea.current && isDoneButtonClick) {
-    textarea.current.focus();
-  }
+  const textarea = useRef(null);
+
   return (
     <>
       <TextareaAutosize

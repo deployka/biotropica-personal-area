@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { ISelect } from '../../shared/Form/Select/SelectCustom';
-import { IInfoBar, InfoBar } from '../../shared/Global/InfoBar/InfoBar';
+import { InfoBar } from '../../shared/Global/InfoBar/InfoBar';
 
 import moment from 'moment';
 import { useQuery } from '../../hooks/useQuery';
@@ -53,14 +53,9 @@ const Consultations = () => {
 
   const [paymentForm, setPaymentForm] = useState('');
 
-  async function createDialogHandler(userId: number, consultation: Consultation) {
+  async function sendMessage(userId: number) {
     try {
-      const dialog = await createDialog({
-        userId,
-        isAccess: true,
-        authorId: consultation.specialist.id,
-        consultationId: consultation.id,
-      }).unwrap();
+      const dialog = await createDialog({ userId, isAccess: true }).unwrap();
       eventBus.emit(EventTypes.chatOpen, dialog.id);
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
@@ -149,18 +144,21 @@ const Consultations = () => {
 
   const onOpenDialog = (cns?: Consultation) => {
     const specialist = specialists.find(s => s.id === cns?.specialistId);
-    if (!specialist || !cns) {
+    if (!specialist) {
       return;
     }
-    return createDialogHandler(specialist.user.id, cns);
+    return sendMessage(specialist.user.id);
   };
 
-  const InfoBarClosestConsultationOptions: IInfoBar = {
+  const InfoBarClosestConsultationOptions = {
     title: 'Ближайшая запись',
     text: `Ваша ближайшая запись на персональную консультацию у ${getSpecialistName(
       closestConsultation,
     )} ${getCnsDate(closestConsultation)}`,
     textLink: 'перейти в диалог',
+    bottomLink: `Остаток бесплатных консультаций: 
+    ${restOfFreeConsultationsCount}  из ${freeConsultationCount}`,
+    href: '',
     onClick: () => onOpenDialog(closestConsultation),
   };
 
@@ -173,9 +171,9 @@ const Consultations = () => {
 
   const InfoBarLastConsultationOptions = {
     title: 'Консультация без даты!',
-    text: `Вы записались на консультацию к тренеру  ${getSpecialistName(
+    text: `Вы записались на консультацию к специалисту  ${getSpecialistName(
       lastAddedConsultation,
-    )}, пожалуйста, обсудите удобное время и дату консультацию в чате.`,
+    )}, пожалуйста, обсудите удобное время и дату консультацию в чате, после подтверждения оплаты.`,
     textLink:
       lastAddedConsultation?.isPaid || lastAddedConsultation?.isFree
         ? 'перейти в диалог'
@@ -203,6 +201,13 @@ const Consultations = () => {
     onClick: () => onOpenDialog(lastAddedConsultation),
   };
 
+  const InfoBarBase = {
+    title: 'Информация',
+    bottomLink: `Количество бесплатных консультаций: 
+    ${restOfFreeConsultationsCount} из ${freeConsultationCount}`,
+    href: '',
+  };
+
   function onSelectChange(sort: ISelect<string>[] | undefined) {
     setSelectedSort(sort);
     queryParam.set('sort', sort?.[0]?.label || '');
@@ -211,19 +216,19 @@ const Consultations = () => {
 
   const onCreateConsultation = async (specialistId: number) => {
     try {
-      // if (restOfFreeConsultationsCount) {
-      await createConsultation({ specialistId }).unwrap();
-      eventBus.emit(EventTypes.notification, {
-        title: 'Успешно!',
-        message: 'Вы успешно записались на бесплатную консультацию!',
-        type: NotificationType.SUCCESS,
-      });
-      // } else {
-      //   const { tinkoffForm } = await createConsultation({
-      //     specialistId,
-      //   }).unwrap();
-      //   setPaymentForm(tinkoffForm);
-      // }
+      if (restOfFreeConsultationsCount) {
+        await createConsultation({ specialistId }).unwrap();
+        eventBus.emit(EventTypes.notification, {
+          title: 'Успешно!',
+          message: 'Вы успешно записались на бесплатную консультацию!',
+          type: NotificationType.SUCCESS,
+        });
+      } else {
+        const { tinkoffForm } = await createConsultation({
+          specialistId,
+        }).unwrap();
+        setPaymentForm(tinkoffForm);
+      }
       refetchConsultations();
     } catch (error) {
       eventBus.emit(EventTypes.notification, {
@@ -307,6 +312,7 @@ const Consultations = () => {
         </div>
       </Modal>
       <div className={s.consultations}>
+        <InfoBar infoBar={InfoBarBase} />
         {closestConsultation && (
           <InfoBar infoBar={InfoBarClosestConsultationOptions} />
         )}

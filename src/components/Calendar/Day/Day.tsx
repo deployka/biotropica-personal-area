@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { CalendarTask } from './Task';
-import { SomeTask, TaskStatus } from '../../../@types/entities/Task';
+import { SomeTask } from '../../../@types/entities/Task';
 
 import s from './Day.module.scss';
 
@@ -18,11 +18,10 @@ export type CalendarDayType = {
 
 export type CalendarDayProps = {
   calendarDay: CalendarDayType;
-  onClickTask(taskId: string, status: TaskStatus): void;
-  doneButtonHandler(): void;
+  onClickTask(taskId: string): void;
 };
 
-export function CalendarDay({ calendarDay, onClickTask, doneButtonHandler }: CalendarDayProps) {
+export function CalendarDay({ calendarDay, onClickTask }: CalendarDayProps) {
   const { isCurrentDay, day, nameOfDay, tasks, isPast } = calendarDay;
 
   const ref = useRef<HTMLDivElement | null>(null);
@@ -35,7 +34,7 @@ export function CalendarDay({ calendarDay, onClickTask, doneButtonHandler }: Cal
     if ((a.startTime ?? '') > (b.startTime ?? '')) return 1;
     return -1;
   });
-
+  
   return (
     <div
       ref={isCurrentDay ? ref : null}
@@ -46,10 +45,10 @@ export function CalendarDay({ calendarDay, onClickTask, doneButtonHandler }: Cal
           {day}
         </div>
         <div className={classNames(s.date_day, isCurrentDay ? s.currentDate : '')}>
-          {nameOfDay}
+          {nameOfDay} 
         </div>
       </div>
-
+      
       <div className={s.tasksList}>
         {sortedTasks.map(task => (
           <CalendarTask
@@ -57,7 +56,6 @@ export function CalendarDay({ calendarDay, onClickTask, doneButtonHandler }: Cal
             isPast={isPast}
             task={task}
             onClickTask={onClickTask}
-            doneButtonHandler={doneButtonHandler}
           />
         ))}
       </div>

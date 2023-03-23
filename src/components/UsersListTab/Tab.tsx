@@ -24,7 +24,7 @@ export const UsersListTab = ({ users, isLoading, isError }: Props) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleClick = (user: BaseUser) => {
-    if (getUserRolesList(user).includes(ROLE.TRAINER)) {
+    if (getUserRolesList(user).includes(ROLE.SPECIALIST)) {
       if (!user.specialist) return;
       history.push(`/specialists/${user.specialist.id}`);
     }
