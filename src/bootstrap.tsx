@@ -16,7 +16,6 @@ import 'react-dates/lib/css/_datepicker.css';
 import './styles/global.scss';
 
 import { ModalProvider } from './providers/ModalProvider';
-import './services/FirebaseService';
 
 ReactDOM.render(
   <React.StrictMode>
