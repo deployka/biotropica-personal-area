@@ -6,8 +6,8 @@ import classNames from 'classnames';
 import { useMobile } from '../../../hooks/useMobile';
 interface Props {
   page: string;
-  isChatUnread: number;
-  isNotificationsUnread: number;
+  isChatUnread: boolean;
+  isNotificationsUnread: boolean;
   setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
   setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
   centerComponent?: ReactElement;
@@ -37,13 +37,21 @@ export const Header = memo(
                 onClick={() => setSidebarNotificationsOpen(true)}
                 className={s.header__link}
               >
-                <HeaderSvgSelector id="notification" unreadCount={isNotificationsUnread} />
+                {isNotificationsUnread ? (
+                  <HeaderSvgSelector id="notification-active" />
+                ) : (
+                  <HeaderSvgSelector id="notification" />
+                )}
               </div>
               <div
                 onClick={() => setSidebarChatOpen(true)}
                 className={s.header__link}
               >
-                <HeaderSvgSelector id="chat" unreadCount={isChatUnread} />
+                {isChatUnread ? (
+                  <HeaderSvgSelector id="chat-active" />
+                ) : (
+                  <HeaderSvgSelector id="chat" />
+                )}
               </div>
             </div>
           )}

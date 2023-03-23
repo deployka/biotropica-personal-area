@@ -10,9 +10,10 @@ interface Props {
   tasks: SomeTask[];
   currentMonth: string;
   onClickTask(taskId: string): void;
+  doneButtonHandler(): void;
 }
 
-export const Calendar = ({ tasks, currentMonth, onClickTask }: Props) => {
+export const Calendar = ({ tasks, currentMonth, onClickTask, doneButtonHandler }: Props) => {
   const [daysWithTasks, setDaysWithTasks] = useState<CalendarDayType[]>([]);
 
   useEffect(() => {
@@ -23,12 +24,12 @@ export const Calendar = ({ tasks, currentMonth, onClickTask }: Props) => {
 
     setDaysWithTasks(
       period.map(date => {
-        // const month = date.slice(0, 7);
+        const month = date.slice(0, 7);
         const day = date.slice(8, 10);
         if (currentDate === date) {
           isPast = false;
         }
-        
+
         const nameOfDay = new Date(
           now.getFullYear(),
           now.getMonth(),
@@ -37,7 +38,7 @@ export const Calendar = ({ tasks, currentMonth, onClickTask }: Props) => {
 
         return {
           isPast,
-          isGrey: false,
+          isGrey: month !== currentMonth,
           isCurrentDay: currentDate === date,
           day: +day,
           nameOfDay,
@@ -51,7 +52,7 @@ export const Calendar = ({ tasks, currentMonth, onClickTask }: Props) => {
     <div className={s.calendarBody}>
       {daysWithTasks.map((date: CalendarDayType, i: number) => (
         <div key={`${date.day}_${i}`} className={s.cell}>
-          <CalendarDay calendarDay={date} onClickTask={onClickTask} />
+          <CalendarDay calendarDay={date} onClickTask={onClickTask} doneButtonHandler={doneButtonHandler}/>
         </div>
       ))}
     </div>

@@ -49,8 +49,8 @@ export const TariffMobileCard = ({
     isCurrentTariff && !isPaid
       ? 'ожидает оплаты'
       : isPaid
-      ? 'действует'
-      : 'купить тариф';
+        ? 'действует'
+        : 'купить тариф';
 
   const isDisabledBtn = isPaid;
 

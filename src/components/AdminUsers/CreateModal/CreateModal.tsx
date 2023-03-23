@@ -35,8 +35,8 @@ const selectOptions: ISelect<ROLE>[] = [
     value: ROLE.CLIENT,
   },
   {
-    label: 'Специалист',
-    value: ROLE.SPECIALIST,
+    label: 'Тренер',
+    value: ROLE.TRAINER,
   },
   {
     label: 'Администратор',
@@ -66,7 +66,7 @@ export const CreateUserModal = ({
           lastname: '',
           email: '',
           phone: '',
-          roles: [ROLE.SPECIALIST],
+          roles: [ROLE.TRAINER],
         }}
         validateOnBlur
         onSubmit={onUserCreate}

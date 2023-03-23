@@ -19,8 +19,8 @@ export const ConsultationTableItem = ({
 }: Props) => {
   return (
     <tr className={s.tableRow}>
-      <td>{date ? moment(date).format('LL') : 'укажет специалист'}</td>
-      <td>{date ? moment(date).format('LT') : 'укажет специалист'}</td>
+      <td>{date ? moment(date).format('LL') : 'укажет тренер'}</td>
+      <td>{date ? moment(date).format('LT') : 'укажет тренер'}</td>
       <td>{specialistName}</td>
       <td
         style={{
