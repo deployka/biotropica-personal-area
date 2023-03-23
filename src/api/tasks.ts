@@ -54,6 +54,9 @@ export const taskApi = baseApi.injectEndpoints({
             method: 'POST',
             url: 'tasks',
             body: task,
+            headers: {
+              authorization: 'Bearer ' + localStorage.getItem('token') || '',
+            },
           };
         },
         invalidatesTags: [{ type: 'Task', id: 'LIST' }, 'TemplateTask'],
