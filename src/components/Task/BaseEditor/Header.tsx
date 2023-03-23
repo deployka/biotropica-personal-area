@@ -166,8 +166,6 @@ export const Header = ({
                 }}
               />
             </div>
-            {
-            isDoneButtonClick &&
             <div>
             <Button 
                style={{
@@ -184,7 +182,6 @@ export const Header = ({
                 }}
               />
             </div>
-            }
           </div>
           <div className={s.taskInfo}>
             <div className={s.row}>
