@@ -190,7 +190,6 @@ export const Header = ({
             </div>
             {
             isDoneButtonClick &&
-            isCurrentUser &&
             <div>
             <Button
                style={{
