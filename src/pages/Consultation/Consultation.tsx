@@ -1,24 +1,24 @@
 import React, { useEffect, useRef } from 'react';
-import s from './Consultation.module.scss';
-import { Zoom } from '../../shared/Modules/Zoom';
 import { useHistory, useParams } from 'react-router';
+import ZoomMtgEmbedded from '@zoomus/websdk/embedded';
+
 import { useCurrentUserQuery } from '../../api/user';
 import {
   useGetConsultationQuery,
   useLazyGenerateZAKQuery,
 } from '../../api/consultations';
-import { ROLE } from '../../@types/entities/Role';
 import { generateSignature } from '../../utils/generateSignature';
+import { ROLE } from '../../@types/entities/Role';
 import { zoomConfig } from '../../config/zoom';
 
-import ZoomMtgEmbedded from '@zoomus/websdk/embedded';
+import s from './Consultation.module.scss';
 
 const zoomClient = ZoomMtgEmbedded.createClient();
 
 export function ConsultationPage() {
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
-  const zoomRef = useRef<HTMLDivElement | null>(null);
+  const zoomRef = useRef<HTMLDivElement>(null);
 
   const [fetchZAKToken, { data: zakToken }] = useLazyGenerateZAKQuery();
   const { data: consultation, isFetching: isConsultationFetching } =
@@ -27,19 +27,17 @@ export function ConsultationPage() {
     useCurrentUserQuery();
 
   const connectToConference = async () => {
-    if (!consultation || !currentUser) {
+    if (!consultation?.meetingNumber || !currentUser) {
       return;
     }
 
     zoomClient.init({
       zoomAppRoot: zoomRef.current!,
       language: 'ru-RU',
-      // language: 'en-US',
-      debug: true,
     });
 
     const isSpecialist = currentUser.roles.find(
-      role => role.name === ROLE.SPECIALIST,
+      role => role.name === ROLE.TRAINER,
     );
     const role = isSpecialist ? 1 : 0;
     const userName = currentUser.name + ' ' + currentUser.lastname;
@@ -48,7 +46,12 @@ export function ConsultationPage() {
     if (isSpecialist) {
       ({ token: zakToken } = await fetchZAKToken().unwrap());
     }
-    const signature = generateSignature(zoomConfig.sdkKey, zoomConfig.sdkSecret, consultation.meetingNumber, role);
+    const signature = generateSignature(
+      zoomConfig.sdkKey,
+      zoomConfig.sdkSecret,
+      consultation.meetingNumber,
+      role,
+    );
 
     zoomClient.join({
       sdkKey: zoomConfig.sdkKey,
@@ -56,8 +59,8 @@ export function ConsultationPage() {
       meetingNumber: consultation.meetingNumber,
       password: consultation.meetingPassword,
       userName,
-      // userEmail: currentUser.email,
-      // zak: zakToken,
+      userEmail: currentUser.email,
+      zak: zakToken,
     });
   };
 
@@ -74,21 +77,9 @@ export function ConsultationPage() {
   if (!consultation) {
     return <div>Консультация не найдена</div>;
   }
+  if (!consultation.meetingNumber) {
+    return <div>Время консультации не назначено! Пожалуйста, свяжитесь со специалистом для уточнения времени</div>;
+  }
 
-  return (
-    <div
-      ref={node => {
-        zoomRef.current = node;
-      }}
-    />
-
-    // <Zoom
-    //   className={s.consultation}
-    //   meetingNumber={consultation.meetingNumber}
-    //   password={consultation.meetingPassword}
-    //   role={0}
-    //   username={username}
-    //   onClose={() => history.push('/consultations/list')}
-    // />
-  );
+  return <div className={s.consultation} ref={zoomRef} />;
 }

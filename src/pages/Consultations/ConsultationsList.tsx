@@ -59,7 +59,7 @@ export const ConsultationsList = () => {
               history.push('/consultations');
             }}
           >
-            Список специалистов
+            Список тренеров
           </Button>
         </div>
       </div>

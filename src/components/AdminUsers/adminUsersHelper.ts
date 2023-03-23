@@ -27,8 +27,8 @@ export const usersFilters: FilterField[] = [
         label: 'Пользователь',
       },
       {
-        value: ROLE.SPECIALIST,
-        label: 'Специалист',
+        value: ROLE.TRAINER,
+        label: 'Тренер',
       },
       {
         value: ROLE.ADMIN,

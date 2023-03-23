@@ -14,7 +14,7 @@ import { useDebounce } from '../../../hooks/useDebounce';
 export type TrainingTaskPreviewProps = {
   task: TrainingTask;
   isSpecialist: boolean;
-  isCommentsLoading?: boolean;
+  isDoneButtonClick?: boolean;
   onSaveFirstValue(value: string | undefined): void;
   onSaveSecondValue(value: string | undefined): void;
   onSendComment(newCommentText: string): void;
@@ -27,8 +27,8 @@ export function TrainingTaskPreview({
   onSaveFirstValue,
   onSaveSecondValue,
   onSendComment,
-  isCommentsLoading,
   onDeleteComment,
+  isDoneButtonClick,
 }: TrainingTaskPreviewProps) {
   const formatDate = intlFormat(new Date(task.date), {
     year: 'numeric',
@@ -141,10 +141,10 @@ export function TrainingTaskPreview({
       )}
       <div className={s.line}>
         <TaskPreviewComments
-          comments={task.comments}
+          taskId={task?.id || null}
           onSend={onSendComment}
-          isLoading={isCommentsLoading}
           onDeleteComment={onDeleteComment}
+          isDoneButtonClick={isDoneButtonClick}
         />
       </div>
     </div>

@@ -54,7 +54,7 @@ const ClientProfilePrivate = ({ user }: Props) => {
       );
     }
   }, [active]);
-//
+  //
   // function goToBlog() {
   //   document.location = 'https://biotropika.ru/blog';
   // }

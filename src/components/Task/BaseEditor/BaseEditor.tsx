@@ -16,6 +16,7 @@ export type TaskBaseEditorProps = {
   isAdmin: boolean;
   isCurrentUser: boolean;
   isSpecialist: boolean;
+  isDoneButtonClick?: boolean;
   mode: 'edit' | 'view' | 'create';
   category?: string;
   children: ReactNode;
@@ -27,6 +28,7 @@ export type TaskBaseEditorProps = {
   onDeleteTask(): void;
   onClose(): void;
   onEditBtnClick(): void;
+  onDoneTask(): void;
 };
 
 export function TaskBaseEditor({
@@ -47,6 +49,8 @@ export function TaskBaseEditor({
   onCreateTemplate,
   onDeleteTask,
   onEditBtnClick,
+  isDoneButtonClick,
+  onDoneTask,
 }: TaskBaseEditorProps) {
   useEffect(() => {
     if (isOpened) {
@@ -79,6 +83,8 @@ export function TaskBaseEditor({
           onClose={onClose}
           onCreateTemplate={onCreateTemplate}
           onEditBtnClick={onEditBtnClick}
+          isDoneButtonClick={isDoneButtonClick}
+          onDoneTask={onDoneTask}
         />
         <div className={s.body}>{children}</div>
       </div>

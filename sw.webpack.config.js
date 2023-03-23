@@ -14,7 +14,7 @@ module.exports = {
                         options: {
                             compilerOptions: {
                                 isolatedModules: false,
-                                noEmit: false,
+                                noEmit: false
                             }
                         }
                     }

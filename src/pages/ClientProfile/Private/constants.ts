@@ -17,6 +17,6 @@ export const tabs: Tab[] = [
   },
   {
     key: 'specialist',
-    value: 'Специалисты',
+    value: 'Тренеры',
   },
 ];
