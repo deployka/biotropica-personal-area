@@ -184,7 +184,6 @@ export const Header = ({
                 }}
               />
             </div>
-            }
           </div>
           <div className={s.taskInfo}>
             <div className={s.row}>
