@@ -8,7 +8,7 @@ type TaskLayoutProps = {
   mode: 'edit' | 'view' | 'create';
   isLoading: boolean;
   isSpecialist: boolean;
-  isDoneButtonClick: boolean;
+  isCommentsLoading?: boolean;
   onClose(): void;
   onSave(task: CreateSomeTask): void;
   onSendComment(newCommentText: string): void;
@@ -25,7 +25,7 @@ export function TaskLayout({
   isSpecialist,
   onSave,
   isLoading,
-  isDoneButtonClick,
+  isCommentsLoading,
   onSendComment,
   onSaveFirstValue,
   onSaveSecondValue,
@@ -42,8 +42,8 @@ export function TaskLayout({
         onSaveFactValue={onSaveFactValue}
         onSaveFirstValue={onSaveFirstValue}
         onSaveSecondValue={onSaveSecondValue}
+        isCommentsLoading={isCommentsLoading}
         onDeleteComment={onDeleteComment}
-        isDoneButtonClick={isDoneButtonClick}
       />
     );
   }

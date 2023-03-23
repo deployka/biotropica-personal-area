@@ -1,12 +1,7 @@
-import { baseApi } from './base-api';
 import { CreateDialogDto } from '../@types/dto/chat/create-dialog.dto';
 import { GetOneDialogDto } from '../@types/dto/chat/get-one-dialog.dto';
 import { Dialog } from '../@types/entities/Chat';
-
-type CreateConferenceMessage = {
-  authorId: number;
-  consultationId: number;
-};
+import { baseApi } from './base-api';
 
 export const chatApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -24,7 +19,7 @@ export const chatApi = baseApi.injectEndpoints({
       }),
     }),
 
-    createDialog: builder.mutation<Dialog, CreateDialogDto & Partial<CreateConferenceMessage>>({
+    createDialog: builder.mutation<Dialog, CreateDialogDto>({
       query: dto => ({
         url: 'dialogs',
         method: 'POST',

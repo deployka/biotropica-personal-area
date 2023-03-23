@@ -10,10 +10,9 @@ interface Props {
   tasks: SomeTask[];
   currentMonth: string;
   onClickTask(taskId: string): void;
-  doneButtonHandler(): void;
 }
 
-export const Calendar = ({ tasks, currentMonth, onClickTask, doneButtonHandler }: Props) => {
+export const Calendar = ({ tasks, currentMonth, onClickTask }: Props) => {
   const [daysWithTasks, setDaysWithTasks] = useState<CalendarDayType[]>([]);
 
   useEffect(() => {
@@ -29,7 +28,7 @@ export const Calendar = ({ tasks, currentMonth, onClickTask, doneButtonHandler }
         if (currentDate === date) {
           isPast = false;
         }
-
+        
         const nameOfDay = new Date(
           now.getFullYear(),
           now.getMonth(),
@@ -52,7 +51,7 @@ export const Calendar = ({ tasks, currentMonth, onClickTask, doneButtonHandler }
     <div className={s.calendarBody}>
       {daysWithTasks.map((date: CalendarDayType, i: number) => (
         <div key={`${date.day}_${i}`} className={s.cell}>
-          <CalendarDay calendarDay={date} onClickTask={onClickTask} doneButtonHandler={doneButtonHandler}/>
+          <CalendarDay calendarDay={date} onClickTask={onClickTask} />
         </div>
       ))}
     </div>

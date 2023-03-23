@@ -15,7 +15,7 @@ import { useDebounce } from '../../../hooks/useDebounce';
 export type CompetitionTaskPreviewProps = {
   task: CompetitionTask;
   isSpecialist: boolean;
-  isDoneButtonClick?: boolean;
+  isCommentsLoading?: boolean;
   onSaveFactValue(value: string | undefined): void;
   onSendComment(newCommentText: string): void;
   onDeleteComment(commentId: string): void;
@@ -24,10 +24,10 @@ export type CompetitionTaskPreviewProps = {
 export function CompetitionTaskPreview({
   task,
   isSpecialist,
+  isCommentsLoading,
   onSendComment,
   onSaveFactValue,
   onDeleteComment,
-  isDoneButtonClick,
 }: CompetitionTaskPreviewProps) {
   const formatDate = intlFormat(new Date(task.date), {
     year: 'numeric',
@@ -94,8 +94,8 @@ export function CompetitionTaskPreview({
       )}
       <div className={s.line}>
         <TaskPreviewComments
-          taskId={task?.id || null}
-          isDoneButtonClick={isDoneButtonClick}
+          comments={task.comments}
+          isLoading={isCommentsLoading}
           onSend={onSendComment}
           onDeleteComment={onDeleteComment}
         />

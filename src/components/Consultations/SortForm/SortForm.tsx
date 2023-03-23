@@ -46,7 +46,7 @@ export const ConsultationsSearchForm = ({
           type="text"
           name="search"
           id="searchInput-1"
-          placeholder="Введите имя тренера"
+          placeholder="Введите имя специалиста"
           value={searchValue}
           onChange={e => {
             onSearchChange(e.target.value);
@@ -62,7 +62,7 @@ export const ConsultationsSearchForm = ({
           onChange={(e: ISelect<string>) => {
             onSelectChange([e]);
           }}
-          placeholder="Специализация"
+          placeholder="Специалист"
           name="specialist"
           isClearable={true}
           value={selectValue && selectValue[0]}

@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   useAddTaskCommentMutation,
   useCreateTaskMutation,
   useDeleteTaskMutation,
+  useGetTaskCommentsQuery,
   useGetTaskListQuery,
   useGetTemplatesListQuery,
   useRemoveTaskCommentMutation,
@@ -21,7 +22,6 @@ import {
   CreateSomeTask,
   EventTask,
   SomeTask,
-  TaskStatus,
   TaskTemplate,
   TaskType,
   TrainingTask,
@@ -51,9 +51,6 @@ export function Tasks() {
   const [deleteTask] = useDeleteTaskMutation();
   const [deleteComment] = useRemoveTaskCommentMutation();
   const isDoctor = useAppSelector(selectIsDoctor);
-
-  const blockedRc = useRef(false);
-  const [isDoneButtonClick, setIsDoneButtonClick] = useState(false);
 
   const { userId: rawUserId } = useParams<{ userId: string }>();
 
@@ -92,12 +89,27 @@ export function Tasks() {
 
   const { data: templates = [] } = useGetTemplatesListQuery();
 
+  const { data: comments = [], isFetching: isCommentsLoading } =
+    useGetTaskCommentsQuery(
+      { taskId: openedTaskId || '' },
+      {
+        skip: !openedTaskId,
+      },
+    );
+
+  useEffect(() => {
+    if (!comments.length) return;
+    setOpenedTask(prevState => {
+      if (!prevState) return null;
+      return { ...prevState, comments };
+    });
+  }, [comments]);
+
   function handleCloseTask() {
     setOpenedTaskId(null);
     setOpenedTask(null);
     setIsTaskModalOpen(false);
     setTaskModalMode('view');
-    setIsDoneButtonClick(false);
   }
 
   async function handleSaveTask(task: CreateSomeTask | SomeTask) {
@@ -123,7 +135,7 @@ export function Tasks() {
     try {
       eventBus.emit(EventTypes.removeNotification, 'delete-notification');
       await deleteTask(openedTaskId);
-      //  Скрываем плашку
+      //  Скрываем плашку 
       // eventBus.emit(EventTypes.notification, {
       //   type: NotificationType.SUCCESS,
       //   message: `Задача "${openedTask?.title}" успешно удалена!`,
@@ -142,12 +154,12 @@ export function Tasks() {
     // Скрываем плашку
 
     // вызвать API для удаления комментария
-    await deleteComment({ commentId });
+      await deleteComment({ commentId });
 
-    eventBus.emit(EventTypes.notification, {
-      type: NotificationType.SUCCESS,
-      message: 'Комментарий успешно удален!',
-    });
+      eventBus.emit(EventTypes.notification, {
+        type: NotificationType.SUCCESS,
+        message: 'Комментарий успешно удален!',
+      });
   }
   function onDiscard() {
     eventBus.emit(EventTypes.removeNotification, 'delete-notification');
@@ -196,12 +208,7 @@ export function Tasks() {
       );
     }
   }
-
-  function doneButtonHandler() {
-    setIsDoneButtonClick(true);
-  }
-
-  const handleTaskClick = useCallback((taskId: string) => {
+  function handelTaskClick(taskId: string) {
     const task = tasks.find(task => task.id === taskId);
 
     if (!task) {
@@ -215,18 +222,14 @@ export function Tasks() {
       return;
     }
 
-    blockedRc.current = false;
     setOpenedTaskId(taskId);
-    setOpenedTask(task as TrainingTask | CompetitionTask | EventTask);
+
+    setOpenedTask({
+      ...(task as TrainingTask | CompetitionTask | EventTask),
+      comments,
+    });
     return setIsTaskModalOpen(true);
-  }, [currentUser?.id, isDoctor, tasks]);
-
-  async function handleDoneTask() {
-    openedTaskId &&
-    await updateTask({ id: openedTaskId, status: 'completed' }).unwrap();
-    handleCloseTask();
   }
-
   function handleEditClick() {
     setTaskModalMode('edit');
   }
@@ -288,8 +291,7 @@ export function Tasks() {
           currentMonth={currentMonth}
           onChangeCurrentMonth={handleChangeMonth}
           onAddTask={handleCreateNewTask}
-          onClickTask={handleTaskClick}
-          doneButtonHandler={doneButtonHandler}
+          onClickTask={handelTaskClick}
         />
       </>
     );
@@ -322,8 +324,7 @@ export function Tasks() {
         currentMonth={currentMonth}
         onChangeCurrentMonth={handleChangeMonth}
         onAddTask={handleCreateNewTask}
-        onClickTask={handleTaskClick}
-        doneButtonHandler={doneButtonHandler}
+        onClickTask={handelTaskClick}
       />
 
       <TaskTypeSelectModal
@@ -341,8 +342,6 @@ export function Tasks() {
         isAdmin={isAdmin}
         isSpecialist={isSpecialist}
         isLoading={isUpdateLoading || isCreateLoading}
-        isDoneButtonClick={isDoneButtonClick}
-        onDoneTask={handleDoneTask}
         task={openedTask}
         taskId={openedTaskId || ''}
         mode={taskModalMode}
@@ -357,6 +356,7 @@ export function Tasks() {
         onSaveSecondValue={handleSaveSecondFactValue}
         onSaveFactValue={handleSaveFactValue}
         onDeleteComment={handleDeleteComment}
+        isCommentsLoading={isCommentsLoading}
       />
     </>
   );

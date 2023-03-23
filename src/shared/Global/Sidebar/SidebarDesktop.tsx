@@ -75,7 +75,7 @@ export const SidebarDesktop = memo(
           </div>
 
           <div className={s.bottom}>
-            {
+            { 
             isAdmin && (
               <SupportChatBtn
               onClick={openChat}
