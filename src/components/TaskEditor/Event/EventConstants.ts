@@ -19,6 +19,7 @@ export const translatedKindOfEvent: Record<EventTask['kindOfEvent'], string> = {
   menstruation: 'Женский цикл',
   vitamins: 'Витамины',
   video: 'Видео',
+  campaign: 'Поход',
 };
 
 export const eventTaskOptions: SelectOptions<EventTask['kindOfEvent']>[] =
