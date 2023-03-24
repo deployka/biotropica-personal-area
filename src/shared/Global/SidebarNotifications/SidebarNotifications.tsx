@@ -14,7 +14,7 @@ import { useGetNotificationsQuery } from '../../../api/notifications';
 interface Props {
   open: boolean;
   setOpen: (open: boolean) => void;
-  onChangeNotification(isNotificationsUnread: boolean): void;
+  onChangeNotification(isNotificationsUnread: number): void;
 }
 
 export const SidebarNotifications = (
@@ -23,7 +23,7 @@ export const SidebarNotifications = (
   const close = () => {
     setOpen(false);
   };
-  onChangeNotification(!!notifications.length);
+  onChangeNotification(notifications.length);
   return (
     <>
       <div onClick={() => setOpen(false)}>
