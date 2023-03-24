@@ -11,7 +11,7 @@ const ChatApp: React.FC<{
   accesses: string[];
 
   onClose(): void;
-  onChangeReading(isUnread: number): void;
+  onChangeReading(isUnread: boolean): void;
   // eslint-disable-next-line
   // @ts-ignore
 }> = React.lazy(() => import('biotropika-chat/Chat'));
@@ -22,7 +22,7 @@ export type ChatProps = {
   accesses: string[];
   activeDialogId?: number;
   onClose(): void;
-  onChangeReading(usUnread: number) : void;
+  onChangeReading(usUnread: boolean): void;
 };
 
 export function Chat(props: ChatProps) {

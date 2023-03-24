@@ -158,8 +158,8 @@ export function PrivateLayout(props: Props) {
 
   const isMobile = useMobile();
 
-  const [isUnread, setUnread] = useState(0);
-  const [isNotificationsUnread, setNotificationsUnread] = useState(0);
+  const [isUnread, setUnread] = useState(false);
+  const [isNotificationsUnread, setNotificationsUnread] = useState(false);
   const [openedDialog, setOpenedDialog] = useState<number | undefined>(
     undefined,
   );

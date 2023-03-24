@@ -15,7 +15,7 @@ interface Props {
   setSidebarChatOpen: Dispatch<SetStateAction<boolean>>;
   setSidebarNotificationsOpen: Dispatch<SetStateAction<boolean>>;
   chatNotificationsOpen: boolean;
-  isChatUnread: number;
+  isChatUnread: boolean;
   openChat: () => void;
   logout: () => void;
   pages: Page[];
