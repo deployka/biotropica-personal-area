@@ -136,6 +136,7 @@ export enum KindOfEvent {
   menstruation = 'menstruation', // Женский цикл
   vitamins = 'vitamins', // Витамины
   video = 'video', // Видео
+  campaign = 'campaign', // Поход
 }
 
 export enum KindOfCompetitionSport {
