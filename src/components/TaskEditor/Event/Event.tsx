@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment'
 import { Formik } from 'formik';
 import { NEW_DATE } from '../../../constants/dates';
 import Button from '../../Button/Button';
@@ -101,7 +102,7 @@ export function EventTaskEditor({
                   <DatePickerCustom
                     name="date"
                     minDate={NEW_DATE}
-                    selected={values.date ? new Date(values.date) : null}
+                    selected={values.date ? moment(values.date, 'DD.MM.YYYY').toDate() : null}
                     label={'Дата'}
                     onBlur={handleBlur}
                     onChange={(date: Date) => setFieldValue('date', date)}
