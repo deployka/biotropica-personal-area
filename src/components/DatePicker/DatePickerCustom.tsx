@@ -51,11 +51,11 @@ const DatePickerCustom = (props: Props) => {
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
     );
     return returnedDate;
-  }
+  };
 
   const changeAndSelectHandler = (date: Date): void => {
-    onChange(getDateByUTC(date))
-  }
+    onChange(getDateByUTC(date));
+  };
 
   return (
     <>

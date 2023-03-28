@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment'
+import moment from 'moment';
 import { Formik } from 'formik';
 import { NEW_DATE } from '../../../constants/dates';
 import Button from '../../Button/Button';
