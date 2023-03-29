@@ -46,11 +46,16 @@ const DatePickerCustom = (props: Props) => {
   const [, meta] = useField(props);
   const isError = meta.touched && meta.error;
 
-  function getDateByUTC(date: Date): Date {
-    return new Date(
+  const getDateByUTC = (date: Date): Date => {
+    const returnedDate = new Date(
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
     );
-  }
+    return returnedDate;
+  };
+
+  const changeAndSelectHandler = (date: Date): void => {
+    onChange(getDateByUTC(date));
+  };
 
   return (
     <>
@@ -66,15 +71,15 @@ const DatePickerCustom = (props: Props) => {
         showMonthDropdown
         scrollableYearDropdown
         dateFormat={'dd.MM.yyyy'}
-        customInput={<MaskedInput mask="11.11.1111" placeholder="dd.mm.yyyy" />}
+        customInput={<MaskedInput mask="11.11.1111" placeholder="DD.MM.YYYY" />}
         selected={selected}
         minDate={minDate}
         maxDate={maxDate}
         locale={ru}
         yearDropdownItemNumber={yearDropdownItemNumber}
         onBlur={e => onBlur(e)}
-        onSelect={(date: Date) => onChange(getDateByUTC(date))}
-        onChange={(date: Date) => onChange(getDateByUTC(date))}
+        onSelect={changeAndSelectHandler}
+        onChange={changeAndSelectHandler}
         calendarStartDay={1}
       />
       {meta.touched && meta.error && <ErrorMessage message={meta.error} />}
