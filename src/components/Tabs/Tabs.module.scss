@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 .center {
   display: flex;
   align-items: center;
@@ -34,6 +36,24 @@
       background: #736f8b;
       font-weight: bold;
       color: #ffffff;
+    }
+
+    &.with_notify {
+      display: block;
+      position: relative;
+      overflow: visible;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: calc(50% - 6px);
+        right: 20px;
+        display: block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: $color-green-2;
+      }
     }
   }
 }
