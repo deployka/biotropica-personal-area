@@ -23,7 +23,7 @@ export function Tabs<T extends string>(props: TabsProps<T>) {
             className={classNames(
               s.toggleButton,
               it.value === props.value ? s.active : '',
-              it.withNotify ? s.with_notify : ''
+              it.withNotify ? s.with_notify : '',
             )}
           >
             {it.label}

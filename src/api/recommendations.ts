@@ -59,7 +59,7 @@ export const recommendationApi = baseApi.injectEndpoints({
         },
       }),
 
-      readRecommendations: builder.mutation<any,ReadRecommendationDto>({
+      readRecommendations: builder.mutation<any, ReadRecommendationDto>({
         query(body) {
           return {
             method: 'PATCH',
