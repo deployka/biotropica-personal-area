@@ -8,6 +8,9 @@ import {
   useRemoveTaskCommentMutation,
   useUpdateTaskMutation,
 } from '../../api/tasks';
+import {
+  useGetCountUnreadRecsQuery,
+} from '../../api/recommendations';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectTasksPageCurrentMonth,
@@ -44,6 +47,7 @@ import user from '../../store/slices/user';
 
 export function Tasks() {
   const { data: currentUser } = useCurrentUserQuery();
+  const { data: unreadRecsCount } = useGetCountUnreadRecsQuery();
   const dispatch = useDispatch();
   const [updateTask, { isLoading: isUpdateLoading }] = useUpdateTaskMutation();
   const [createTask, { isLoading: isCreateLoading }] = useCreateTaskMutation();
@@ -307,6 +311,7 @@ export function Tasks() {
           {
             label: 'Оповещения',
             value: 'recommendations',
+            withNotify: !!unreadRecsCount,
           },
         ]}
         onSelect={value => {

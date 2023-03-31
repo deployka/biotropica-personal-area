@@ -4,6 +4,7 @@ import { baseApi } from './base-api';
 import type { UpdateRecommendationDto } from '../@types/dto/recommendations/update.dto';
 import type { DeleteRecommendationDto } from '../@types/dto/recommendations/delete.dto';
 import type { CreateRecommendationDto } from '../@types/dto/recommendations/create.dto';
+import type { ReadRecommendationDto } from '../@types/dto/recommendations/read.dto';
 
 export const recommendationApi = baseApi.injectEndpoints({
   endpoints(builder) {
@@ -47,6 +48,25 @@ export const recommendationApi = baseApi.injectEndpoints({
           };
         },
         providesTags: (result, error, id) => [{ type: 'Recommendation', id }],
+      }),
+
+      getCountUnreadRecs: builder.query<number, void>({
+        query() {
+          return {
+            method: 'GET',
+            url: 'recommendations/unread_count',
+          };
+        },
+      }),
+
+      readRecommendations: builder.mutation<any, ReadRecommendationDto>({
+        query(body) {
+          return {
+            method: 'PATCH',
+            url: 'recommendations/read',
+            body,
+          };
+        },
       }),
 
       createRecommendation: builder.mutation<
@@ -101,4 +121,6 @@ export const {
   useLazyGetRecommendationQuery,
   useUpdateRecommendationMutation,
   useGetWaitingUsersQuery,
+  useReadRecommendationsMutation,
+  useGetCountUnreadRecsQuery,
 } = recommendationApi;

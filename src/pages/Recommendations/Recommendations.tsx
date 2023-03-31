@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   useCreateRecommendationMutation,
   useDeleteRecommendationMutation,
   useGetRecommendationListQuery,
   useUpdateRecommendationMutation,
+  useReadRecommendationsMutation,
 } from '../../api/recommendations';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import type { UpdateRecommendationDto } from '../../@types/dto/recommendations/update.dto';
 import type { Specialization } from '../../@types/entities/Specialization';
-import { Recommendation } from '../../@types/entities/Recommendation';
+import {
+  Recommendation,
+  RecommendationStatus,
+} from '../../@types/entities/Recommendation';
 
 import { useCurrentUserQuery } from '../../api/user';
 import { useGetSpecializationListQuery } from '../../api/specializations';
@@ -49,6 +53,7 @@ export function Recommendations() {
     isLoading: isSpecializationsLoading,
     isError: isSpecializationsError,
   } = useGetSpecializationListQuery();
+  const [readRecommendations] = useReadRecommendationsMutation();
   const [updateRecommendation] = useUpdateRecommendationMutation();
   const [createRecommendation] = useCreateRecommendationMutation();
   const [deleteRecommendation] = useDeleteRecommendationMutation();
@@ -128,6 +133,16 @@ export function Recommendations() {
   const isError = isSpecializationsError || isRecommendationsError;
 
   const canCreate = isSpecialist || isAdmin;
+
+  useEffect(() => {
+    const newRecommendations = recommendations.filter(rec => rec.status === RecommendationStatus.INITIATED);
+    if (newRecommendations.length) {
+      readRecommendations({
+        userId: +userId || currentUserId,
+        recommendationsIds: newRecommendations.map(r => r.id),
+      });
+    }
+  }, [recommendations]);
 
   if (isLoading) return <p>Загрузка...</p>;
   if (!isLoading && isError) return <p>Произошла ошибка</p>;
