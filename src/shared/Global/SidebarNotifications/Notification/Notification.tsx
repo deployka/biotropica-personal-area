@@ -1,15 +1,23 @@
 import React from 'react';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import s from './Notification.module.scss';
 import { Notification as INotification } from '../../../../@types/entities/Notification';
 
 interface Props {
   notification: INotification;
+  closeNotifications: () => void;
 }
 
-export const Notification = ({ notification }: Props) => {
+export const Notification = ({ notification, closeNotifications=()=>{} }: Props) => {
+  const history = useHistory();
   const { message, link, createdAt } = notification;
+
+  const btnListener = () => {
+    history.push(link);
+    closeNotifications();
+  }
+
   return (
     <div className={s.notification}>
       <div className={s.info}>
@@ -21,11 +29,14 @@ export const Notification = ({ notification }: Props) => {
         </div>
       </div>
       <div className={s.actions}>
-        <Link to={link} className={s.link}>
-          перейти
-        </Link>
+        <div
+          className={s.link_to_btn}
+          onClick={btnListener}
+        >
+          Перейти
+        </div>
         <div className={s.delete}>
-          <p>удалить</p>
+          <p>Удалить</p>
         </div>
       </div>
     </div>
