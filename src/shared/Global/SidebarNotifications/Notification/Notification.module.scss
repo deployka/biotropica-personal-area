@@ -40,21 +40,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
 
-  .link {
-    padding-bottom: 1px;
-
-    display: block;
-
-    font-size: 16px;
-    line-height: 120%;
-    text-decoration: none;
-    color: $color-primary;
-
-    border-bottom: 1px solid $color-primary;
-
-    cursor: pointer;
+    .link_to_btn {
+      padding-bottom: 1px;
+      font-size: 16px;
+      line-height: 120%;
+      text-decoration: none;
+      color: $color-primary;
+      border-bottom: 1px solid $color-primary;
+      cursor: pointer;
+    }
   }
 
   .delete {

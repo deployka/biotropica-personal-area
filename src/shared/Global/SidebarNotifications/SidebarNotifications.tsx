@@ -55,6 +55,7 @@ export const SidebarNotifications = (
                   <Notification
                     key={`${notification.id}${i}`}
                     notification={notification}
+                    closeNotifications={close}
                   />
                 );
               })}
