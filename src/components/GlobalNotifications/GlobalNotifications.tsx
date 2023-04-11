@@ -89,28 +89,28 @@ const GlobalNotifications = (): ReactElement => {
     };
   }, []);
 
-  useEffect(() => {
-    if (!isAuth) {
-      return;
-    }
-    notifications.forEach(notification => {
-      eventBus.emit(EventTypes.notification, {
-        message: (
-          <div>
-            {notification.message}
-            <button
-              style={{ marginLeft: '10px' }}
-              onClick={() => history.push(notification.link)}
-            >
-              перейти
-            </button>
-          </div>
-        ),
-        autoClose: 10000,
-        type: NotificationType.INFO,
-      });
-    });
-  }, [notifications]);
+  // useEffect(() => {
+  //   if (!isAuth) {
+  //     return;
+  //   }
+  //   notifications.forEach(notification => {
+  //     eventBus.emit(EventTypes.notification, {
+  //       message: (
+  //         <div>
+  //           {notification.message}
+  //           <button
+  //             style={{ marginLeft: '10px' }}
+  //             onClick={() => history.push(notification.link)}
+  //           >
+  //             перейти
+  //           </button>
+  //         </div>
+  //       ),
+  //       autoClose: 10000,
+  //       type: NotificationType.INFO,
+  //     });
+  //   });
+  // }, [notifications]);
 
   return <></>;
 };
