@@ -10,7 +10,7 @@ $font-primary: 'Montserrat', sans-serif;
 }
 
 @mixin font-title($color) {
-  @include typography(24px, 600, $color);
+  @include typography(14px, 600, $color);
   font-family: $font-primary;
 
   letter-spacing: 0.75%;
