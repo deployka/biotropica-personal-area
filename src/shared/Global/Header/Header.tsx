@@ -1,7 +1,7 @@
 import React, { Dispatch, memo, ReactElement, SetStateAction } from 'react';
 import { HeaderSvgSelector } from '../../../assets/icons/header/HeaderSvgSelector';
 
-import headerIcon  from '../../../assets/icons/temp/logo.png';
+import headerIcon from '../../../assets/icons/temp/logo.png';
 
 import s from './Header.module.scss';
 import classNames from 'classnames';
