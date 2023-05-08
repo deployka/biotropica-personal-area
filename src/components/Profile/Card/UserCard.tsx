@@ -12,11 +12,12 @@ import s from './UserCard.module.scss';
 moment.locale('ru');
 interface Props {
   isPublic?: boolean;
+  isFollower?: boolean;
   user: BaseUser;
   onEditClick?: () => void;
 }
 
-export const ProfileCard = ({ user, isPublic, onEditClick }: Props) => {
+export const ProfileCard = ({ user, isPublic, onEditClick, isFollower }: Props) => {
   const userDob = user?.dob && moment(new Date(user?.dob || '')).format('LL');
   return (
     <div className={s.card}>
@@ -33,12 +34,18 @@ export const ProfileCard = ({ user, isPublic, onEditClick }: Props) => {
           {user.lastname} {user.name}
         </p>
       </div>
-      <div className={s.line}>
-        <p>{user.email}</p>
-      </div>
-      <div className={s.line}>
-        <p>{user.phone}</p>
-      </div>
+      { isFollower && (
+        <>
+          <div className={s.line}>
+            <p>{user.email}</p>
+          </div>
+          <div className={s.line}>
+            <p>{user.phone}</p>
+          </div>
+        </>
+      )
+
+      }
       {userDob && (
         <div className={s.line}>
           <p>{userDob}</p>
