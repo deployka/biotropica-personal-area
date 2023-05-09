@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 
 import type { BaseUser } from '../../../@types/entities/BaseUser';
@@ -17,6 +17,11 @@ import { SpecialistListTab } from '../../../components/SpecialistListTab/Tab';
 
 import s from './Private.module.scss';
 import { SEVEN_DAYS, tabs } from './constants';
+import { SubscribersListTab } from '../../../components/SubscribersListTab/SubscribersListTab';
+import { SubscribeStatus } from '../../../@types/dto/subscribers/update-subscriber.dto';
+import { Subscribe } from '../../../@types/entities/Subscribe';
+import { useCurrentUserSubscribersQuery, useSubscribersByUserIdQuery } from '../../../api/subscribers';
+import { UsersListTab } from '../../../components/UsersListTab/Tab';
 
 type Props = {
   user: BaseUser;
@@ -26,7 +31,18 @@ const ClientProfilePrivate = ({ user }: Props) => {
   const history = useHistory();
   const { active } = useParams<{ active: string }>();
 
+  const [activeTab, setActiveTab] = useState(
+    getTabByKey(active, tabs)?.key || tabs[0].key,
+  );
+
   const { data: goals = [], isLoading: isGoalsLoading } = useGetGoalsQuery();
+
+  const { data: userSubscribers } = useCurrentUserSubscribersQuery();
+
+  const users = useMemo(() => {
+    const activeSubscribers = userSubscribers?.filter((s: Subscribe) => s.status === SubscribeStatus.SUBSCRIBE);
+    return activeSubscribers?.map(s => s.specialist?.user);
+  }, [userSubscribers]);
 
   // Тарифы скрыты
   // const { data: currentTariff } = useGetCurrentTariffQuery();
@@ -36,10 +52,6 @@ const ClientProfilePrivate = ({ user }: Props) => {
   const onEditClick = () => {
     history.push('/profile/edit');
   };
-
-  const [activeTab, setActiveTab] = useState(
-    getTabByKey(active, tabs)?.key || tabs[0].key,
-  );
 
   const handleChangeTab = (tab: string) => {
     setActiveTab(tab);
@@ -83,15 +95,15 @@ const ClientProfilePrivate = ({ user }: Props) => {
     // });
   }, []);
 
-  const currentUserId = user?.id || 0;
-  const {
-    data: users = [],
-    isLoading: isUsersLoading,
-    isError: isUsersError,
-  } = useGetFollowedSpecialistsQuery(
-    { id: currentUserId },
-    { skip: !currentUserId || activeTab !== tabs[2].key },
-  );
+  // const currentUserId = user?.id || 0;
+  // const {
+  //   data: users = [],
+  //   isLoading: isUsersLoading,
+  //   isError: isUsersError,
+  // } = useGetFollowedSpecialistsQuery(
+  //   { id: currentUserId },
+  //   { skip: !currentUserId || activeTab !== tabs[2].key },
+  // );
 
   return (
     <>
@@ -103,6 +115,7 @@ const ClientProfilePrivate = ({ user }: Props) => {
         tabs={tabs}
         activeTab={activeTab}
         onActiveTabChange={handleChangeTab}
+        onEditClick={onEditClick}
       >
         <div className={s.content}>
           {activeTab === tabs[0].key && (
@@ -116,9 +129,12 @@ const ClientProfilePrivate = ({ user }: Props) => {
           )}
           {activeTab === tabs[3].key && (
             <SpecialistListTab
-              isLoading={isUsersLoading}
-              isError={isUsersError}
-              users={users}
+              users={users || []}
+            />
+          )}
+          {activeTab === tabs[4].key && (
+            <SubscribersListTab
+              subscribes={userSubscribers || []}
             />
           )}
         </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useCurrentUserQuery } from '../../api/user';
 import ClientProfilePrivate from '../../pages/ClientProfile/Private/Private';
 

@@ -10,6 +10,7 @@ import { filterUserByQuery } from './usersListHelper';
 import s from './Tab.module.scss';
 import { getUserRolesList } from '../../utils/getUserRolesList';
 import { ROLE } from '../../@types/entities/Role';
+import { Specialist } from '../../@types/entities/Specialist';
 
 type Props = {
   isLoading?: boolean;

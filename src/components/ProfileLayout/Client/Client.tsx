@@ -50,12 +50,12 @@ export const ClientProfileLayout = ({
   const { data: currentSpecialist } = useGetCurrentSpecialistQuery();
 
   const [
-    createSubscriber, 
+    createSubscriber,
     {
       isLoading: isCreateLoading, 
       isSuccess: isCreateSuccess,
-    }, 
-    ] = useCreateSubscribersMutation();
+    },
+  ] = useCreateSubscribersMutation();
   const { data: userSubscribers } = useSubscribersByUserIdQuery(user.id);
 
   const isFollower = user?.specialistId === currentSpecialist?.id;
@@ -129,13 +129,13 @@ export const ClientProfileLayout = ({
       );
     }
   }, [
-    isFollower, 
-    isSpecialistExist, 
-    onChatClick, 
-    onMoveToTasks, 
-    onSubscribeClick, 
-    subscribeStatus, 
-    isCreateLoading, 
+    isFollower,
+    isSpecialistExist,
+    onChatClick,
+    onMoveToTasks,
+    onSubscribeClick,
+    subscribeStatus,
+    isCreateLoading,
     isCreateSuccess,
   ]);
 

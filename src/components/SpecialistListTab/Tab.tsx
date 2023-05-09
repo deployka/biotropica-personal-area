@@ -48,7 +48,7 @@ export const SpecialistListTab = ({ users, isLoading, isError }: Props) => {
         />
       ))}
       {filteredUsers.length === 0 && (
-        <div className={s.notFound}>Тренеры не найдены</div>
+        <div className={s.notFound}>Специалисты не найдены</div>
       )}
     </div>
   );

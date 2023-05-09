@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { useGetFollowedUsersQuery } from '../../api/user';
 import { getTabByKey } from '../../utils/tabsHelper';
@@ -16,6 +16,10 @@ import { eventBus, EventTypes } from '../../services/EventBus';
 import { Tabs } from '../../shared/Global/Tabs/Tabs';
 
 import s from './Profile.module.scss';
+import { useCurrentUserSubscribersQuery, useSubscribersByUserIdQuery } from '../../api/subscribers';
+import { Subscribe } from '../../@types/entities/Subscribe';
+import { SubscribersListTab } from '../../components/SubscribersListTab/SubscribersListTab';
+import { SubscribeStatus } from '../../@types/dto/subscribers/update-subscriber.dto';
 
 const tabs: Tab[] = [
   {
@@ -25,6 +29,10 @@ const tabs: Tab[] = [
   {
     key: 'users',
     value: 'Пользователи',
+  },
+  {
+    key: 'subscribes',
+    value: 'Заявки',
   },
 ];
 
@@ -52,15 +60,21 @@ const PrivateSpecialistProfile = () => {
     isError,
   } = useGetCurrentSpecialistQuery();
 
-  const currentSpecialistId = currentSpecialist?.user?.id || 0;
-  const {
-    data: users = [],
-    isLoading: isUsersLoading,
-    isError: isUsersError,
-  } = useGetFollowedUsersQuery(
-    { id: currentSpecialistId },
-    { skip: !currentSpecialistId || activeTab !== tabs[1].key },
-  );
+  // const {
+  //   data: users = [],
+  //   isLoading: isUsersLoading,
+  //   isError: isUsersError,
+  // } = useGetFollowedUsersQuery(
+  //   { id: currentSpecialistId },
+  //   { skip: !currentSpecialistId || activeTab !== tabs[1].key },
+  // );
+
+  const { data: specialistSubscribers } = useCurrentUserSubscribersQuery();
+
+  const users = useMemo(() => {
+    const activeSubscribers = specialistSubscribers?.filter((s: Subscribe) => s.status === SubscribeStatus.SUBSCRIBE);
+    return activeSubscribers?.map(s => s.user);
+  }, [specialistSubscribers]);
 
   const { data } = useGetSignUpLinkQuery(
     {
@@ -159,9 +173,13 @@ const PrivateSpecialistProfile = () => {
           )}
           {activeTab === tabs[1].key && (
             <UsersListTab
-              isLoading={isUsersLoading}
-              isError={isUsersError}
-              users={users}
+              users={users || []}
+            />
+          )}
+          {activeTab === tabs[2].key && (
+            <SubscribersListTab
+              subscribes={specialistSubscribers || []}
+              isSpecialist={true}
             />
           )}
         </div>
