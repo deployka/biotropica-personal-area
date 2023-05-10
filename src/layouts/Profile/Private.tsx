@@ -4,6 +4,5 @@ import ClientProfilePrivate from '../../pages/ClientProfile/Private/Private';
 
 export const PrivateProfileLayout = () => {
   const { data: user } = useCurrentUserQuery();
-
   return <>{user && <ClientProfilePrivate user={user} />}</>;
 };

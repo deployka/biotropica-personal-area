@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { useGetFollowedUsersQuery } from '../../api/user';
 import { getTabByKey } from '../../utils/tabsHelper';
@@ -16,10 +16,11 @@ import { eventBus, EventTypes } from '../../services/EventBus';
 import { Tabs } from '../../shared/Global/Tabs/Tabs';
 
 import s from './Profile.module.scss';
-import { useCurrentUserSubscribersQuery, useSubscribersByUserIdQuery } from '../../api/subscribers';
+import { useSubscribersByUserIdQuery, useUpdateSubscribByIdMutation } from '../../api/subscribers';
 import { Subscribe } from '../../@types/entities/Subscribe';
 import { SubscribersListTab } from '../../components/SubscribersListTab/SubscribersListTab';
 import { SubscribeStatus } from '../../@types/dto/subscribers/update-subscriber.dto';
+import { Specialist } from '../../@types/entities/Specialist';
 
 const tabs: Tab[] = [
   {
@@ -60,6 +61,8 @@ const PrivateSpecialistProfile = () => {
     isError,
   } = useGetCurrentSpecialistQuery();
 
+  const [updateSubscribes] = useUpdateSubscribByIdMutation();
+
   // const {
   //   data: users = [],
   //   isLoading: isUsersLoading,
@@ -69,12 +72,20 @@ const PrivateSpecialistProfile = () => {
   //   { skip: !currentSpecialistId || activeTab !== tabs[1].key },
   // );
 
-  const { data: specialistSubscribers } = useCurrentUserSubscribersQuery();
+  const { data: specialistSubscribers } = useSubscribersByUserIdQuery((currentSpecialist as Specialist)?.id);
+
+  const [subscribes, setSubscribes] = useState<Subscribe[]>([]);
+
+  useEffect(() => {
+    if (specialistSubscribers) {
+      setSubscribes(specialistSubscribers);
+    }
+  }, [specialistSubscribers]);
 
   const users = useMemo(() => {
-    const activeSubscribers = specialistSubscribers?.filter((s: Subscribe) => s.status === SubscribeStatus.SUBSCRIBE);
+    const activeSubscribers = subscribes?.filter((s: Subscribe) => s.status === SubscribeStatus.SUBSCRIBE);
     return activeSubscribers?.map(s => s.user);
-  }, [specialistSubscribers]);
+  }, [subscribes]);
 
   const { data } = useGetSignUpLinkQuery(
     {
@@ -98,6 +109,26 @@ const PrivateSpecialistProfile = () => {
       );
     }
   }, [active]);
+
+  const changeStatusHandler = useCallback((id: number, status: SubscribeStatus) => {
+    const newSubscribes = [...subscribes];
+    const idx = newSubscribes.findIndex(s => s.id === id);
+    newSubscribes[idx] = {
+      ...newSubscribes[idx],
+      status,
+    };
+    setSubscribes(newSubscribes);
+  }, [subscribes]);
+
+  const handleRejectClick = useCallback(async (id: number) => {
+    await updateSubscribes({ id, status: SubscribeStatus.REJECTED });
+    changeStatusHandler(id, SubscribeStatus.REJECTED);
+  }, [changeStatusHandler, updateSubscribes]);
+
+  const handleApplyClick = useCallback(async (id: number) => {
+    await updateSubscribes({ id, status: SubscribeStatus.SUBSCRIBE });
+    changeStatusHandler(id, SubscribeStatus.SUBSCRIBE);
+  }, [changeStatusHandler, updateSubscribes]);
 
   if (isLoading) {
     return <p>Загрузка...</p>;
@@ -173,13 +204,15 @@ const PrivateSpecialistProfile = () => {
           )}
           {activeTab === tabs[1].key && (
             <UsersListTab
-              users={users || []}
+              users={users}
             />
           )}
           {activeTab === tabs[2].key && (
             <SubscribersListTab
-              subscribes={specialistSubscribers || []}
+              subscribes={subscribes}
               isSpecialist={true}
+              handleRejectClick={handleRejectClick}
+              handleApplyClick={handleApplyClick}
             />
           )}
         </div>

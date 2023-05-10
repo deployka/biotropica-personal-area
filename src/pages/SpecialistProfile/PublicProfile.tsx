@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { BaseUser } from '../../@types/entities/BaseUser';
@@ -22,6 +22,9 @@ import { useAppSelector } from '../../store/storeHooks';
 import { getTabByKey } from '../../utils/tabsHelper';
 
 import s from './Profile.module.scss';
+import Button from '../../components/Button/Button';
+import { useCreateSubscribersMutation, useSubscribersByUserIdQuery } from '../../api/subscribers';
+import { SubscribeStatus } from '../../@types/dto/subscribers/update-subscriber.dto';
 
 // TODO: вынести в глобальный тип
 export type SpecialistData = {
@@ -49,6 +52,10 @@ const PublicSpecialistProfile = () => {
   const isSpecialist = useSelector(selectIsDoctor);
 
   const currentUser = useAppSelector(selectCurrentUser);
+
+  console.log(currentUser, specialist);
+
+  const isFollower = (currentUser as BaseUser)?.specialistId === specialist?.id;
 
   const tabs: Tab[] = [
     {
@@ -78,7 +85,17 @@ const PublicSpecialistProfile = () => {
     { skip: !userId || activeTab === tabs[1].key || !isAdmin || !isSpecialist },
   );
 
+  const [
+    createSubscriber,
+    {
+      isLoading: isCreateLoading,
+      isSuccess: isCreateSuccess,
+    },
+  ] = useCreateSubscribersMutation();
+
   const { data: dialogs } = useGetAllDialogsQuery();
+
+  const { data: userSubscribers } = useSubscribersByUserIdQuery(currentUser ? currentUser.id : 0);
 
   const handleClickEdit = () => {
     history.push('/edit');
@@ -88,6 +105,77 @@ const PublicSpecialistProfile = () => {
     setActiveTab(tab);
     history.push(`/specialists/${id}/tabs/${tab}`);
   };
+
+  const handleCreateDialog = useCallback(async () => {
+    if (!specialist) {
+      return;
+    }
+    const dialogId =
+      dialogs?.find(d => d.participants.find(p => p.id === specialist.user.id))
+        ?.id || -1;
+
+    try {
+      if (dialogId === -1) {
+        eventBus.emit(EventTypes.notification, {
+          title: 'Произошла ошибка!',
+          message: 'У вас нет доступа :[',
+          type: NotificationType.DANGER,
+        });
+        return;
+      }
+      eventBus.emit(EventTypes.chatOpen, dialogId);
+    } catch (error) { }
+  }, [dialogs, specialist]);
+
+  const onSubscribeClick = useCallback(async () => {
+    const userId = currentUser?.id;
+    const specialistId = specialist?.id;
+
+    if (specialistId && userId) {
+      await createSubscriber({
+        userId,
+        specialistId,
+      });
+    }
+  }, [createSubscriber, specialist, currentUser]);
+
+  const subscribeStatus = useMemo(() => {
+    const subsc = userSubscribers?.filter(s => s.initiatorId === currentUser?.id)[0];
+    if (!subsc) {
+      return null;
+    }
+    return subsc.status;
+  }, [currentUser?.id, userSubscribers]);
+
+  const renderSubscribeStatus = useMemo(() => {
+    if (subscribeStatus === SubscribeStatus.IN_PROGRESS || isCreateSuccess) {
+      return <div className={[s.subscribeStatus, s.progressSubscribe].join(' ')}><h5>Заявка на рассмотрении</h5></div>;
+    }
+    if (subscribeStatus === SubscribeStatus.REJECTED) {
+      return <div className={[s.subscribeStatus, s.rejectedSubscribe].join(' ')}><h5>Заявка отклонена</h5></div>;
+    }
+  }, [subscribeStatus, isCreateSuccess]);
+
+  const renderButtons = useMemo(() => {
+    if (isCreateLoading || isCreateSuccess) {
+      return null;
+    }
+    if (isFollower) {
+      return (
+        <button className={s.chatButton} onClick={handleCreateDialog}>
+          Начать чат
+        </button>
+      );
+    }
+
+    if (!subscribeStatus) {
+      return (
+        <button className={s.chatButton} onClick={onSubscribeClick}>
+          Предложить тренировку
+        </button>
+      );
+    }
+  }, [handleCreateDialog, isCreateLoading, isCreateSuccess, isFollower, onSubscribeClick, subscribeStatus]);
 
   if (isLoading) {
     return <p>Загрузка...</p>;
@@ -105,24 +193,6 @@ const PublicSpecialistProfile = () => {
   if ((currentUser as BaseUser)?.specialist?.id === specialist.id) {
     history.push('/profile');
   }
-
-  const handleCreateDialog = async () => {
-    const dialogId =
-      dialogs?.find(d => d.participants.find(p => p.id === specialist.user.id))
-        ?.id || -1;
-
-    try {
-      if (dialogId === -1) {
-        eventBus.emit(EventTypes.notification, {
-          title: 'Произошла ошибка!',
-          message: 'У вас нет доступа :[',
-          type: NotificationType.DANGER,
-        });
-        return;
-      }
-      eventBus.emit(EventTypes.chatOpen, dialogId);
-    } catch (error) {}
-  };
 
   const courses = specialist.courses;
   const specialistData = {
@@ -142,9 +212,8 @@ const PublicSpecialistProfile = () => {
             profilePhoto={specialist.user.profilePhoto || ''}
             onEditClick={handleClickEdit}
           />
-          <button className={s.chatButton} onClick={handleCreateDialog}>
-            Начать чат
-          </button>
+          {renderButtons}
+          {!isFollower && renderSubscribeStatus}
         </div>
         <div className={s.content}>
           <div className={s.tabs__container}>

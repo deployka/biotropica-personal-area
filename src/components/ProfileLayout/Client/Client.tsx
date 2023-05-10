@@ -52,7 +52,7 @@ export const ClientProfileLayout = ({
   const [
     createSubscriber,
     {
-      isLoading: isCreateLoading, 
+      isLoading: isCreateLoading,
       isSuccess: isCreateSuccess,
     },
   ] = useCreateSubscribersMutation();

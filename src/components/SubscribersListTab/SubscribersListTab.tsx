@@ -17,9 +17,18 @@ type Props = {
   isError?: boolean;
   subscribes: Subscribe[];
   isSpecialist?: boolean;
+  handleRejectClick: (id:number) => void;
+  handleApplyClick: (id:number) => void;
 };
 
-export const SubscribersListTab = ({ subscribes, isLoading, isError, isSpecialist }: Props) => {
+export const SubscribersListTab = ({ 
+  subscribes,
+  isLoading,
+  isError,
+  isSpecialist,
+  handleApplyClick,
+  handleRejectClick,
+}: Props) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const [subcribeList, setSubscribeList] = useState<Subscribe[]>([]);
@@ -58,11 +67,6 @@ export const SubscribersListTab = ({ subscribes, isLoading, isError, isSpecialis
     }
   }, [isSpecialist]);
 
-  const bntSubscribeClickHandler = useCallback((id: number) => {
-    const filtred = subcribeList.filter(s => s.id !== id);
-    setSubscribeList(filtred);
-  }, [subcribeList]);
-
   if (isLoading) return <p>Загрузка...</p>;
 
   if (!isLoading && isError) return <p>Произошла ошибка</p>;
@@ -79,9 +83,12 @@ export const SubscribersListTab = ({ subscribes, isLoading, isError, isSpecialis
           key={subscribe.id}
           id={subscribe.id}
           handleUserClick={() => handleUserClick(isSpecialist ? subscribe.user : subscribe.specialist.user)}
-          bntClickHandler={bntSubscribeClickHandler}
           status={subscribe.status}
           fullName={getSubscribersFullName(subscribe)}
+          initiatorId={subscribe.initiatorId}
+          user={isSpecialist ? subscribe.user : subscribe.specialist.user}
+          handleRejectClick={handleRejectClick}
+          handleApplyClick={handleApplyClick}
         />
       ))}
       {filteredSubscribesByStatus.length === 0 && (

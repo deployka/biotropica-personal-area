@@ -1,0 +1,223 @@
+@import "./../../styles/global.scss";
+@import "./../../styles/breakpoints";
+@import "./../../styles/mixins.scss";
+
+.adminPanel {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.listPanel {
+  position: relative;
+  width: calc(100% - 220px);
+
+  @include for-laptop {
+    width: 100%;
+  }
+
+  background: #ffffff;
+  filter: drop-shadow(0px 0px 40px rgba(111, 97, 208, 0.11));
+
+  border-radius: 15px 15px 0 0;
+
+  transition: all 0.3s ease;
+
+  .empty {
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+
+  &.full {
+    width: 100%;
+  }
+
+  @include for-phone {
+    width: 100%;
+
+    filter: none;
+  }
+}
+
+
+.titleLine {
+  padding: 0 16px;
+  width: 100%;
+  height: 62px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #e4e4e7;
+
+  @include for-phone {
+    padding: 0;
+    border: none;
+    margin: 0 0 20px 0;
+    height: unset;
+    flex-direction: column;
+    align-items: center;
+    justify-content: unset;
+  }
+
+  .panelBtns {
+    @include for-phone {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .searchInput {
+    max-width: 220px;
+    width: 100%;
+    @include for-tablet {
+      max-width: unset;
+    }
+  }
+
+  .options {
+    display: flex;
+    align-items: center;
+
+    @include for-phone {
+      flex-wrap: wrap;
+    }
+
+    .button {
+      margin: 0 10px 0 0;
+      padding: 0 10px;
+      height: 32px;
+      border-radius: 50px;
+      min-width: 175px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @include for-phone {
+        width: 100%;
+        margin: 0 0 10px 0;
+      }
+    }
+  }
+
+  .filterButton {
+    margin: 0 10px 0 0;
+
+    padding: 0 25px;
+    height: 32px;
+    border: 1px solid #6f61d0;
+    color: #6f61d0;
+    border-radius: 100px;
+
+    transition: all 0.2s ease;
+
+    @include for-phone {
+      margin: 0 0 10px 0;
+      width: 100%;
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &:hover {
+      background-color: #6f61d0;
+      color: #fff;
+    }
+  }
+
+  .createBtn {
+    @include for-phone {
+      width: calc(100% - 60px);
+      height: 34px;
+    }
+  }
+}
+
+.title {
+  margin: 0 10px 0 0;
+  display: flex;
+  align-items: center;
+  h3 {
+    font-weight: 400;
+    font-size: 18px;
+    color: $color-black;
+  }
+
+  @include for-phone {
+    margin: 0 0 20px 0;
+    width: 100%;
+    justify-content: space-between;
+
+    h3 {
+      font-size: 16px;
+    }
+  }
+}
+
+.counter {
+  margin: 0 0 0 8px;
+
+  padding: 0 6px;
+  height: 20px;
+
+  background-color: $color-divider;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 4px;
+  p {
+    font-size: 14px;
+    color: $color-black;
+  }
+}
+
+.xlsxBtn {
+  @include for-phone {
+    display: none;
+  }
+}
+
+.closeIcon {
+  position: fixed;
+  top: 18px;
+  left: 10px;
+
+  z-index: 10;
+}
+
+.checkbox__wrapper {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+  span {
+    font-size: 16px;
+    color: #736f8b;
+  }
+  .checkbox {
+    min-width: 24px;
+    height: 24px;
+    border: 1px solid #9895a7;
+    border-radius: 5px;
+    margin-right: 15px;
+    transition: 0.2s;
+  }
+  input:checked ~ label {
+    background: url("./../../assets/icons/forms/check.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  input {
+    cursor: pointer;
+    position: absolute;
+    min-width: 24px;
+    height: 24px;
+    opacity: 0;
+  }
+}
+
