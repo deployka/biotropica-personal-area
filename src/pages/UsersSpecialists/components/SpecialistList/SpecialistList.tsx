@@ -61,7 +61,7 @@ export function SpecialistList({
           <div className={s.title}>
             <h3>Все специалисты</h3>
             <div className={s.counter}>
-              <p>{filteredSpecialist.length}</p>
+              <p>{specialists.length}</p>
             </div>
           </div>
         <div className={s.options}>

@@ -23,5 +23,5 @@ export type BaseUser = BaseEntity & {
   confirmedHash: string | null;
   restoreToken: string | null;
   specialist: Specialist | null;
-  specialistId: number | null;
+  specialists: Specialist[];
 };

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactNode, useCallback, useMemo } from 'react';
+import React, { PropsWithChildren, useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router';
 import { BaseUser } from '../../../@types/entities/BaseUser';
 import { CurrentTariff } from '../../../@types/entities/Tariff';
@@ -58,9 +58,13 @@ export const ClientProfileLayout = ({
   ] = useCreateSubscribersMutation();
   const { data: userSubscribers } = useSubscribersByUserIdQuery(user.id);
 
-  const isFollower = user?.specialistId === currentSpecialist?.id;
-
-  const isSpecialistExist = user.specialistId !== null;
+  const isFollower = useMemo(() => {
+    if (!user.specialists.length) {
+      return false;
+    }
+    const isMatch = user.specialists.find(s => s.id === currentSpecialist?.id);
+    return Boolean(isMatch);
+  }, [currentSpecialist?.id, user.specialists]);
 
   const subscribeStatus = useMemo(() => {
     const subsc = userSubscribers?.filter(s => s.initiatorId === currentSpecialist?.user.id)[0];
@@ -116,7 +120,7 @@ export const ClientProfileLayout = ({
         </>
       );
     }
-    if (!isSpecialistExist && !subscribeStatus) {
+    if (!subscribeStatus) {
       return (
         <Button
           css={{ margin: '10px 0 0 0' }}
@@ -130,7 +134,6 @@ export const ClientProfileLayout = ({
     }
   }, [
     isFollower,
-    isSpecialistExist,
     onChatClick,
     onMoveToTasks,
     onSubscribeClick,

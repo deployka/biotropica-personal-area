@@ -98,16 +98,12 @@ export function filterSpecialistByWard(
     return users;
   }
   if (ward === 'yes') {
-    if (users.specialistId === specialistId) {
-      return users.specialistId;
+    const specialist = users.specialists.filter(s => s.id === specialistId)[0];
+    if (specialist) {
+      return specialist.id;
     }
   } else {
-    if (
-      users.specialistId !== specialistId ||
-      users.specialistId === undefined
-    ) {
-      return users;
-    }
+    return users;
   }
 }
 

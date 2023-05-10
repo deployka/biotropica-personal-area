@@ -53,9 +53,13 @@ const PublicSpecialistProfile = () => {
 
   const currentUser = useAppSelector(selectCurrentUser);
 
-  console.log(currentUser, specialist);
-
-  const isFollower = (currentUser as BaseUser)?.specialistId === specialist?.id;
+  const isFollower = useMemo(() => {
+    if (!(currentUser as BaseUser).specialists.length) {
+      return false;
+    }
+    const isMatch = (currentUser as BaseUser)?.specialists.find(s => s.id === specialist?.id);
+    return Boolean(isMatch);
+  }, [currentUser, specialist?.id]);
 
   const tabs: Tab[] = [
     {
