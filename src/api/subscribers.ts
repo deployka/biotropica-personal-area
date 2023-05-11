@@ -36,11 +36,11 @@ const subscribersApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [{ type: 'User', id: 'LIST' }],
     }),
-    removeSubscribById: builder.mutation<Subscribe, UpdateSubscribersDto>({
-      query(dto) {
+    removeSubscribById: builder.mutation<Subscribe, number>({
+      query(id) {
         return {
           method: 'DELETE',
-          url: `/subscribers/${dto.id}`,
+          url: `/subscribers/${id}`,
         };
       },
     }),

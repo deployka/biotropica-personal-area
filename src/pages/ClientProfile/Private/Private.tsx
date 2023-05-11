@@ -4,8 +4,6 @@ import { useHistory, useParams } from 'react-router';
 import type { BaseUser } from '../../../@types/entities/BaseUser';
 
 import { createCookie, readCookie } from '../../../utils/cookie';
-import { eventBus, EventTypes } from '../../../services/EventBus';
-import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { getTabByKey } from '../../../utils/tabsHelper';
 import { useGetGoalsQuery } from '../../../api/goals';
 import { ClientProfileLayout } from '../../../components/ProfileLayout/Client/Client';
@@ -19,7 +17,7 @@ import { SEVEN_DAYS, tabs } from './constants';
 import { SubscribersListTab } from '../../../components/SubscribersListTab/SubscribersListTab';
 import { SubscribeStatus } from '../../../@types/dto/subscribers/update-subscriber.dto';
 import { Subscribe } from '../../../@types/entities/Subscribe';
-import { useCurrentUserSubscribersQuery, useUpdateSubscribByIdMutation } from '../../../api/subscribers';
+import { useCurrentUserSubscribersQuery, useRemoveSubscribByIdMutation, useUpdateSubscribByIdMutation } from '../../../api/subscribers';
 
 type Props = {
   user: BaseUser;
@@ -34,6 +32,7 @@ const ClientProfilePrivate = ({ user }: Props) => {
   );
 
   const [updateSubscribes] = useUpdateSubscribByIdMutation();
+  const [removeSubscribe] = useRemoveSubscribByIdMutation();
 
   const { data: goals = [], isLoading: isGoalsLoading } = useGetGoalsQuery();
 
@@ -47,9 +46,12 @@ const ClientProfilePrivate = ({ user }: Props) => {
     }
   }, [userSubscribers]);
 
-  const users = useMemo(() => {
+  const specialists = useMemo(() => {
     const activeSubscribers = subscribes?.filter((s: Subscribe) => s.status === SubscribeStatus.SUBSCRIBE);
-    return activeSubscribers?.map(s => s.specialist?.user);
+    return activeSubscribers?.map(s => ({
+      user: s.specialist?.user,
+      subscribeId: s.id,
+    }));
   }, [subscribes]);
 
   // Тарифы скрыты
@@ -123,6 +125,12 @@ const ClientProfilePrivate = ({ user }: Props) => {
     changeStatusHandler(id, SubscribeStatus.SUBSCRIBE);
   }, [changeStatusHandler, updateSubscribes]);
 
+  const handleRemoveClick = useCallback(async (id: number) => {
+    await removeSubscribe(id);
+    const newArray = subscribes.filter(s => s.id !== id);
+    setSubscribes(newArray);
+  }, [removeSubscribe, subscribes]);
+
   // const currentUserId = user?.id || 0;
   // const {
   //   data: users = [],
@@ -157,7 +165,8 @@ const ClientProfilePrivate = ({ user }: Props) => {
           )}
           {activeTab === tabs[3].key && (
             <SpecialistListTab
-              users={users}
+              specialists={specialists}
+              handleRejectClick={handleRejectClick}
             />
           )}
           {activeTab === tabs[4].key && (
@@ -165,6 +174,7 @@ const ClientProfilePrivate = ({ user }: Props) => {
               subscribes={subscribes}
               handleRejectClick={handleRejectClick}
               handleApplyClick={handleApplyClick}
+              handleRemoveClick={handleRemoveClick}
             />
           )}
         </div>

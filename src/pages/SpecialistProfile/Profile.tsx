@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router';
-import { useGetFollowedUsersQuery } from '../../api/user';
 import { getTabByKey } from '../../utils/tabsHelper';
 import { SpecialistCard } from '../../components/Profile/Card/SpecialistCard';
 import type { Specialization } from '../../@types/entities/Specialization';
@@ -16,7 +15,7 @@ import { eventBus, EventTypes } from '../../services/EventBus';
 import { Tabs } from '../../shared/Global/Tabs/Tabs';
 
 import s from './Profile.module.scss';
-import { useSubscribersByUserIdQuery, useUpdateSubscribByIdMutation } from '../../api/subscribers';
+import { useRemoveSubscribByIdMutation, useSubscribersByUserIdQuery, useUpdateSubscribByIdMutation } from '../../api/subscribers';
 import { Subscribe } from '../../@types/entities/Subscribe';
 import { SubscribersListTab } from '../../components/SubscribersListTab/SubscribersListTab';
 import { SubscribeStatus } from '../../@types/dto/subscribers/update-subscriber.dto';
@@ -29,7 +28,7 @@ const tabs: Tab[] = [
   },
   {
     key: 'users',
-    value: 'Пользователи',
+    value: 'Клиенты',
   },
   {
     key: 'subscribes',
@@ -62,6 +61,7 @@ const PrivateSpecialistProfile = () => {
   } = useGetCurrentSpecialistQuery();
 
   const [updateSubscribes] = useUpdateSubscribByIdMutation();
+  const [removeSubscribe] = useRemoveSubscribByIdMutation();
 
   // const {
   //   data: users = [],
@@ -129,6 +129,12 @@ const PrivateSpecialistProfile = () => {
     await updateSubscribes({ id, status: SubscribeStatus.SUBSCRIBE });
     changeStatusHandler(id, SubscribeStatus.SUBSCRIBE);
   }, [changeStatusHandler, updateSubscribes]);
+
+  const handleRemoveClick = useCallback(async (id: number) => {
+    await removeSubscribe(id);
+    const newArray = subscribes.filter(s => s.id !== id);
+    setSubscribes(newArray);
+  }, [removeSubscribe, subscribes]);
 
   if (isLoading) {
     return <p>Загрузка...</p>;
@@ -213,6 +219,7 @@ const PrivateSpecialistProfile = () => {
               isSpecialist={true}
               handleRejectClick={handleRejectClick}
               handleApplyClick={handleApplyClick}
+              handleRemoveClick={handleRemoveClick}
             />
           )}
         </div>

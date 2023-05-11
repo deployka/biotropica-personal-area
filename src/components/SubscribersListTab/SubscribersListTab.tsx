@@ -19,15 +19,17 @@ type Props = {
   isSpecialist?: boolean;
   handleRejectClick: (id:number) => void;
   handleApplyClick: (id:number) => void;
+  handleRemoveClick: (id:number) => void;
 };
 
-export const SubscribersListTab = ({ 
+export const SubscribersListTab = ({
   subscribes,
   isLoading,
   isError,
   isSpecialist,
   handleApplyClick,
   handleRejectClick,
+  handleRemoveClick,
 }: Props) => {
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -81,14 +83,13 @@ export const SubscribersListTab = ({
       {filteredSubscribesByStatus.map(subscribe => (
         <SubscribersListTabItem
           key={subscribe.id}
-          id={subscribe.id}
           handleUserClick={() => handleUserClick(isSpecialist ? subscribe.user : subscribe.specialist.user)}
-          status={subscribe.status}
           fullName={getSubscribersFullName(subscribe)}
           initiatorId={subscribe.initiatorId}
           user={isSpecialist ? subscribe.user : subscribe.specialist.user}
-          handleRejectClick={handleRejectClick}
-          handleApplyClick={handleApplyClick}
+          handleRejectClick={() => handleRejectClick(subscribe.id)}
+          handleApplyClick={() => handleApplyClick(subscribe.id)}
+          handleRemoveClick={() => handleRemoveClick(subscribe.id)}
         />
       ))}
       {filteredSubscribesByStatus.length === 0 && (

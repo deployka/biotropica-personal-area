@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ROLE } from '../../@types/entities/Role';
 import { useGetAllUsersQuery } from '../../api/user';
 import { SpecialistList } from './components/SpecialistList/SpecialistList';

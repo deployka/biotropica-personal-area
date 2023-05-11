@@ -1,27 +1,25 @@
 import React from 'react';
 
 import s from './Item.module.scss';
-import { SubscribeStatus } from '../../../@types/dto/subscribers/update-subscriber.dto';
 import { BaseUser } from '../../../@types/entities/BaseUser';
 
 type Props = {
   fullName: string;
-  id: number;
-  status: SubscribeStatus;
   initiatorId: number;
   user: BaseUser;
   handleUserClick: () => void;
-  handleRejectClick: (id:number) => void;
-  handleApplyClick: (id:number) => void;
+  handleRejectClick: () => void;
+  handleApplyClick: () => void;
+  handleRemoveClick: () => void;
 };
 
 export const SubscribersListTabItem = (
   {
     fullName,
     handleUserClick,
-    id,
     handleRejectClick,
     handleApplyClick,
+    handleRemoveClick,
     initiatorId,
     user,
   }: Props) => {
@@ -31,8 +29,13 @@ export const SubscribersListTabItem = (
         {fullName}
       </span>
       <div>
-         {initiatorId === user.id && <button className={[s.btn, s.apply].join(' ')} onClick={() => handleApplyClick(id)}>Подтвердить</button>}
-          <button className={[s.btn, s.reject].join(' ')} onClick={() => handleRejectClick(id)}>Отказать</button>
+         {initiatorId === user.id &&
+         <>
+          <button className={[s.btn, s.apply].join(' ')} onClick={handleApplyClick}>Подтвердить</button>
+          : <button className={[s.btn, s.reject].join(' ')} onClick={handleRejectClick}>Отказать</button>
+         </>
+         }
+          {initiatorId !== user.id && <button className={[s.btn, s.reject].join(' ')} onClick={handleRemoveClick}>Отменить</button>}
       </div>
     </div>
   );

@@ -5,6 +5,7 @@
     flex-direction: row;
 
     justify-content: space-between;
+    align-items: center;
 
     padding: 20px 17px;
     box-shadow: inset 0px -1px 0px #e4e4e7;
@@ -24,13 +25,13 @@
     }
 
     .reject {
-        background-color: rgb(243, 155, 173);
+        background-color: rgb(245, 196, 206);
     }
 
     .btn {
         border: 1px solid grey;
         border-radius: 15px;
-        padding: 4px;
-        margin: 0 10px;
+        padding: 10px;
+        margin: -5px 10px;
     }
 }
