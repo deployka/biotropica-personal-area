@@ -17,7 +17,7 @@ import { SEVEN_DAYS, tabs } from './constants';
 import { SubscribersListTab } from '../../../components/SubscribersListTab/SubscribersListTab';
 import { SubscribeStatus } from '../../../@types/dto/subscribers/update-subscriber.dto';
 import { Subscribe } from '../../../@types/entities/Subscribe';
-import { useCurrentUserSubscribersQuery, useRemoveSubscribByIdMutation, useUpdateSubscribByIdMutation } from '../../../api/subscribers';
+import { useCurrentUserSubscribersMutation, useRemoveSubscribByIdMutation, useUpdateSubscribByIdMutation } from '../../../api/subscribers';
 
 type Props = {
   user: BaseUser;
@@ -36,15 +36,19 @@ const ClientProfilePrivate = ({ user }: Props) => {
 
   const { data: goals = [], isLoading: isGoalsLoading } = useGetGoalsQuery();
 
-  const { data: userSubscribers } = useCurrentUserSubscribersQuery();
+  const [getUserSubscribers] = useCurrentUserSubscribersMutation();
 
   const [subscribes, setSubscribes] = useState<Subscribe[]>([]);
 
   useEffect(() => {
-    if (userSubscribers) {
-      setSubscribes(userSubscribers);
-    }
-  }, [userSubscribers]);
+    getUserSubscribers()
+      .then(({ data }: any) => {
+        if (data) {
+          setSubscribes(data);
+        }
+      })
+      .catch(e => console.log(e));
+  }, [getUserSubscribers, active]);
 
   const specialists = useMemo(() => {
     const activeSubscribers = subscribes?.filter((s: Subscribe) => s.status === SubscribeStatus.SUBSCRIBE);
@@ -126,10 +130,11 @@ const ClientProfilePrivate = ({ user }: Props) => {
   }, [changeStatusHandler, updateSubscribes]);
 
   const handleRemoveClick = useCallback(async (id: number) => {
+    await updateSubscribes({ id, status: SubscribeStatus.REJECTED });
     await removeSubscribe(id);
     const newArray = subscribes.filter(s => s.id !== id);
     setSubscribes(newArray);
-  }, [removeSubscribe, subscribes]);
+  }, [removeSubscribe, subscribes, updateSubscribes]);
 
   // const currentUserId = user?.id || 0;
   // const {
@@ -166,7 +171,7 @@ const ClientProfilePrivate = ({ user }: Props) => {
           {activeTab === tabs[3].key && (
             <SpecialistListTab
               specialists={specialists}
-              handleRejectClick={handleRejectClick}
+              handleRemoveClick={handleRemoveClick}
             />
           )}
           {activeTab === tabs[4].key && (

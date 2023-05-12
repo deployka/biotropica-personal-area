@@ -13,10 +13,10 @@ type Props = {
   isLoading?: boolean;
   isError?: boolean;
   specialists: {user: BaseUser, subscribeId: number}[];
-  handleRejectClick: (id:number) => void;
+  handleRemoveClick: (id:number) => void;
 };
 
-export const SpecialistListTab = ({ specialists, isLoading, isError, handleRejectClick }: Props) => {
+export const SpecialistListTab = ({ specialists, isLoading, isError, handleRemoveClick }: Props) => {
   const history = useHistory();
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -42,7 +42,7 @@ export const SpecialistListTab = ({ specialists, isLoading, isError, handleRejec
         <SpecialistListTabItem
           key={user.id}
           handleUserClick={() => handleClick(user)}
-          handleRejectClick={() => handleRejectClick(subscribeId)}
+          handleRemoveClick={() => handleRemoveClick(subscribeId)}
           fullName={getFullName(user.name, user.lastname)}
         />
       ))}

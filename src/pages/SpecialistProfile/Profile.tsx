@@ -15,7 +15,7 @@ import { eventBus, EventTypes } from '../../services/EventBus';
 import { Tabs } from '../../shared/Global/Tabs/Tabs';
 
 import s from './Profile.module.scss';
-import { useRemoveSubscribByIdMutation, useSubscribersByUserIdQuery, useUpdateSubscribByIdMutation } from '../../api/subscribers';
+import { useRemoveSubscribByIdMutation, useUpdateSubscribByIdMutation, useSubscribersByUserIdMutation } from '../../api/subscribers';
 import { Subscribe } from '../../@types/entities/Subscribe';
 import { SubscribersListTab } from '../../components/SubscribersListTab/SubscribersListTab';
 import { SubscribeStatus } from '../../@types/dto/subscribers/update-subscriber.dto';
@@ -72,20 +72,24 @@ const PrivateSpecialistProfile = () => {
   //   { skip: !currentSpecialistId || activeTab !== tabs[1].key },
   // );
 
-  const { data: specialistSubscribers } = useSubscribersByUserIdQuery((currentSpecialist as Specialist)?.id);
+  const [getSpecialistSubscribers] = useSubscribersByUserIdMutation();
 
-  const [subscribes, setSubscribes] = useState<Subscribe[]>([]);
+  const [subscribers, setSubscribes] = useState<Subscribe[]>([]);
 
   useEffect(() => {
-    if (specialistSubscribers) {
-      setSubscribes(specialistSubscribers);
-    }
-  }, [specialistSubscribers]);
+    getSpecialistSubscribers((currentSpecialist as Specialist)?.id)
+      .then(({ data }: any) => {
+        if (data) {
+          setSubscribes(data);
+        }
+      })
+      .catch(e => console.log(e));
+  }, [getSpecialistSubscribers, activeTab, currentSpecialist]);
 
   const users = useMemo(() => {
-    const activeSubscribers = subscribes?.filter((s: Subscribe) => s.status === SubscribeStatus.SUBSCRIBE);
+    const activeSubscribers = subscribers?.filter((s: Subscribe) => s.status === SubscribeStatus.SUBSCRIBE);
     return activeSubscribers?.map(s => s.user);
-  }, [subscribes]);
+  }, [subscribers]);
 
   const { data } = useGetSignUpLinkQuery(
     {
@@ -111,14 +115,14 @@ const PrivateSpecialistProfile = () => {
   }, [active]);
 
   const changeStatusHandler = useCallback((id: number, status: SubscribeStatus) => {
-    const newSubscribes = [...subscribes];
+    const newSubscribes = [...subscribers];
     const idx = newSubscribes.findIndex(s => s.id === id);
     newSubscribes[idx] = {
       ...newSubscribes[idx],
       status,
     };
     setSubscribes(newSubscribes);
-  }, [subscribes]);
+  }, [subscribers]);
 
   const handleRejectClick = useCallback(async (id: number) => {
     await updateSubscribes({ id, status: SubscribeStatus.REJECTED });
@@ -132,9 +136,9 @@ const PrivateSpecialistProfile = () => {
 
   const handleRemoveClick = useCallback(async (id: number) => {
     await removeSubscribe(id);
-    const newArray = subscribes.filter(s => s.id !== id);
+    const newArray = subscribers.filter(s => s.id !== id);
     setSubscribes(newArray);
-  }, [removeSubscribe, subscribes]);
+  }, [removeSubscribe, subscribers]);
 
   if (isLoading) {
     return <p>Загрузка...</p>;
@@ -215,7 +219,7 @@ const PrivateSpecialistProfile = () => {
           )}
           {activeTab === tabs[2].key && (
             <SubscribersListTab
-              subscribes={subscribes}
+              subscribes={subscribers}
               isSpecialist={true}
               handleRejectClick={handleRejectClick}
               handleApplyClick={handleApplyClick}

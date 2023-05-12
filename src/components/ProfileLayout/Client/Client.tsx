@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useCallback, useMemo } from 'react';
+import React, { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
 import { BaseUser } from '../../../@types/entities/BaseUser';
 import { CurrentTariff } from '../../../@types/entities/Tariff';
@@ -10,8 +10,9 @@ import { ProfileTariff } from '../../Profile/Tariffs/Tariff';
 
 import s from './Client.module.scss';
 import { useGetCurrentSpecialistQuery } from '../../../api/specialists';
-import { useCreateSubscribersMutation, useSubscribersByUserIdQuery } from '../../../api/subscribers';
+import { useCreateSubscribersMutation, useSubscribersByUserIdMutation } from '../../../api/subscribers';
 import { SubscribeStatus } from '../../../@types/dto/subscribers/update-subscriber.dto';
+import { Subscribe } from '../../../@types/entities/Subscribe';
 
 type Props = PropsWithChildren<{
   user: BaseUser;
@@ -56,7 +57,19 @@ export const ClientProfileLayout = ({
       isSuccess: isCreateSuccess,
     },
   ] = useCreateSubscribersMutation();
-  const { data: userSubscribers } = useSubscribersByUserIdQuery(user.id);
+  const [getUserSubscribers] = useSubscribersByUserIdMutation();
+
+  const [subscribers, setSubscribes] = useState<Subscribe[]>([]);
+
+  useEffect(() => {
+    getUserSubscribers(user.id)
+      .then(({ data }: any) => {
+        if (data) {
+          setSubscribes(data);
+        }
+      })
+      .catch(e => console.log(e));
+  }, [getUserSubscribers, activeTab, user.id]);
 
   const isFollower = useMemo(() => {
     if (!user.specialists.length) {
@@ -67,12 +80,12 @@ export const ClientProfileLayout = ({
   }, [currentSpecialist?.id, user.specialists]);
 
   const subscribeStatus = useMemo(() => {
-    const subsc = userSubscribers?.filter(s => s.initiatorId === currentSpecialist?.user.id)[0];
+    const subsc = subscribers?.filter(s => s.specialistId === currentSpecialist?.id)[0];
     if (!subsc) {
       return null;
     }
     return subsc.status;
-  }, [currentSpecialist?.user.id, userSubscribers]);
+  }, [currentSpecialist?.id, subscribers]);
 
   const onSubscribeClick = useCallback(async () => {
     const userId = user.id;

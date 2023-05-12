@@ -32,7 +32,7 @@ export const SubscribersListTabItem = (
          {initiatorId === user.id &&
          <>
           <button className={[s.btn, s.apply].join(' ')} onClick={handleApplyClick}>Подтвердить</button>
-          : <button className={[s.btn, s.reject].join(' ')} onClick={handleRejectClick}>Отказать</button>
+          <button className={[s.btn, s.reject].join(' ')} onClick={handleRejectClick}>Отказать</button>
          </>
          }
           {initiatorId !== user.id && <button className={[s.btn, s.reject].join(' ')} onClick={handleRemoveClick}>Отменить</button>}

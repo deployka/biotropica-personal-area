@@ -1,17 +1,17 @@
 import { baseApi } from './base-api';
 import { CreateSubscribersDto } from '../@types/dto/subscribers/create-subscriber.dto';
-import { UpdateSubscribersDto } from '../@types/dto/subscribers/update-subscriber.dto';
+import { ResponseSubscribers, UpdateSubscribersDto } from '../@types/dto/subscribers/update-subscriber.dto';
 import { Subscribe } from '../@types/entities/Subscribe';
 
 const subscribersApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    currentUserSubscribers: builder.query<Subscribe[], void>({
+    currentUserSubscribers: builder.mutation<ResponseSubscribers, void>({
       query: () => ({
         url: '/subscribers',
         method: 'GET',
       }),
     }),
-    subscribersByUserId: builder.query<Subscribe[], number>({
+    subscribersByUserId: builder.mutation<ResponseSubscribers, number>({
       query: id => ({
         url: `/subscribers/${id}`,
         method: 'GET',
@@ -49,10 +49,10 @@ const subscribersApi = baseApi.injectEndpoints({
 
 export const {
   useCreateSubscribersMutation,
-  useCurrentUserSubscribersQuery,
+  useCurrentUserSubscribersMutation,
   useRemoveSubscribByIdMutation,
   useUpdateSubscribByIdMutation,
-  useSubscribersByUserIdQuery,
+  useSubscribersByUserIdMutation,
 } = subscribersApi;
 
 export default subscribersApi;

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { BaseUser } from '../../@types/entities/BaseUser';
@@ -23,8 +23,9 @@ import { getTabByKey } from '../../utils/tabsHelper';
 
 import s from './Profile.module.scss';
 import Button from '../../components/Button/Button';
-import { useCreateSubscribersMutation, useSubscribersByUserIdQuery } from '../../api/subscribers';
+import { useCreateSubscribersMutation, useSubscribersByUserIdMutation } from '../../api/subscribers';
 import { SubscribeStatus } from '../../@types/dto/subscribers/update-subscriber.dto';
+import { Subscribe } from '../../@types/entities/Subscribe';
 
 // TODO: вынести в глобальный тип
 export type SpecialistData = {
@@ -52,14 +53,6 @@ const PublicSpecialistProfile = () => {
   const isSpecialist = useSelector(selectIsDoctor);
 
   const currentUser = useAppSelector(selectCurrentUser);
-
-  const isFollower = useMemo(() => {
-    if (!(currentUser as BaseUser).specialists.length) {
-      return false;
-    }
-    const isMatch = (currentUser as BaseUser)?.specialists.find(s => s.id === specialist?.id);
-    return Boolean(isMatch);
-  }, [currentUser, specialist?.id]);
 
   const tabs: Tab[] = [
     {
@@ -99,7 +92,29 @@ const PublicSpecialistProfile = () => {
 
   const { data: dialogs } = useGetAllDialogsQuery();
 
-  const { data: userSubscribers } = useSubscribersByUserIdQuery(currentUser ? currentUser.id : 0);
+  const [getSpecialistSubscribers] = useSubscribersByUserIdMutation();
+
+  const [subscribers, setSubscribes] = useState<Subscribe[]>([]);
+
+  useEffect(() => {
+    if (currentUser) {
+      getSpecialistSubscribers(currentUser.id)
+        .then(({ data }: any) => {
+          if (data) {
+            setSubscribes(data);
+          }
+        })
+        .catch(e => console.log(e));
+    }
+  }, [getSpecialistSubscribers, activeTab, currentUser]);
+
+  const isFollower = useMemo(() => {
+    if (!(currentUser as BaseUser).specialists.length) {
+      return false;
+    }
+    const isMatch = subscribers.find(s => s.specialistId === specialist?.id);
+    return Boolean(isMatch);
+  }, [currentUser, specialist?.id, subscribers]);
 
   const handleClickEdit = () => {
     history.push('/edit');
@@ -144,12 +159,12 @@ const PublicSpecialistProfile = () => {
   }, [createSubscriber, specialist, currentUser]);
 
   const subscribeStatus = useMemo(() => {
-    const subsc = userSubscribers?.filter(s => s.initiatorId === currentUser?.id)[0];
+    const subsc = subscribers?.filter(s => s.specialistId === specialist?.id)[0];
     if (!subsc) {
       return null;
     }
     return subsc.status;
-  }, [currentUser?.id, userSubscribers]);
+  }, [specialist?.id, subscribers]);
 
   const renderSubscribeStatus = useMemo(() => {
     if (subscribeStatus === SubscribeStatus.IN_PROGRESS || isCreateSuccess) {
