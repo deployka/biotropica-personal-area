@@ -14,10 +14,11 @@ interface Props {
   open: boolean;
   setOpen: (open: boolean) => void;
   onChangeNotification(isNotificationsUnread: number): void;
+  onDeleteNotification(id:number): void;
 }
 
 export const SidebarNotifications = (
-  { open, setOpen, onChangeNotification }: Props) => {
+  { open, setOpen, onChangeNotification, onDeleteNotification }: Props) => {
   const { data: notifications = [] } = useGetNotificationsQuery();
   const close = () => {
     setOpen(false);
@@ -55,6 +56,8 @@ export const SidebarNotifications = (
                   <Notification
                     key={`${notification.id}${i}`}
                     notification={notification}
+                    onDeleteNotification={onDeleteNotification}
+
                   />
                 );
               })}

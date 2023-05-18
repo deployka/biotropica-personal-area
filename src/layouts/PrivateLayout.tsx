@@ -30,6 +30,7 @@ import { useAppSelector } from '../store/storeHooks';
 import { useGetCurrentTariffQuery } from '../api/tariffs';
 import { selectChatAccesses } from '../store/slices/tariff';
 import { NotificationType } from '../components/GlobalNotifications/GlobalNotifications';
+import { useDeleteNotificationMutation } from '../api/notifications';
 
 interface Props {
   children: React.ReactNode;
@@ -166,6 +167,8 @@ export function PrivateLayout(props: Props) {
     undefined,
   );
 
+  const [deleteNotification] = useDeleteNotificationMutation();
+
   const [sidebarNotificationsOpen, setSidebarNotificationsOpen] =
     useState<boolean>(false);
   const [chatNotificationsOpen, setSidebarChatOpen] = useState<boolean>(false);
@@ -177,6 +180,22 @@ export function PrivateLayout(props: Props) {
     setSidebarChatOpen(true);
     setOpenedDialog(id);
   });
+
+  const onDeleteNotification = async (id: number) => {
+    try {
+      await deleteNotification({ id }).unwrap();
+      // eventBus.emit(EventTypes.notification, {
+      //   message: ' удален',
+      //   type: NotificationType.SUCCESS,
+      // });
+    } catch (error) {
+      console.log(error);
+      // eventBus.emit(EventTypes.notification, {
+      //   message: 'Произошла ошибка, попробуйте еще раз!',
+      //   type: NotificationType.DANGER,
+      // });
+    }
+  };
 
   const openChat = useCallback(() => {
     sendMessage().then(() => {
@@ -286,6 +305,7 @@ export function PrivateLayout(props: Props) {
         </SidebarWrapper>
       )}
       <SidebarNotifications
+      onDeleteNotification={onDeleteNotification}
         open={sidebarNotificationsOpen}
         setOpen={setSidebarNotificationsOpen}
         onChangeNotification={setNotificationsUnread}

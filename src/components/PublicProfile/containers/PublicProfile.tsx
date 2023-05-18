@@ -18,6 +18,7 @@ import {
 import { eventBus, EventTypes } from '../../../services/EventBus';
 import { NotificationType } from '../../GlobalNotifications/GlobalNotifications';
 import { Profile } from './Profile';
+import { useDeleteNotificationMutation } from '../../../api/notifications';
 
 export const PublicProfile = () => {
   const { id } = useParams<{ id: string }>();
@@ -36,6 +37,9 @@ export const PublicProfile = () => {
 
   const [deleteComment, { isLoading: isDeleteCommentLoading }] =
     useDeleteAnalyzeAnswerCommentMutation();
+    
+  const [deleteNotification] =
+    useDeleteNotificationMutation();
 
   const { data: progress = [], isLoading: isProgressLoading } =
     useGetProgressPostsQuery({ userId }, { skip: !userId });
