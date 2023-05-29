@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ROLE } from '../../@types/entities/Role';
 import { useGetAllUsersQuery } from '../../api/user';
-import { UserList } from './components/UserList/UserList';
-import { analyzePassedStatus } from './components/UserList/usersHelper';
+import { SpecialistList } from './components/SpecialistList/SpecialistList';
+import { analyzePassedStatus } from './components/SpecialistList/specialistHelper';
 
 export type Filters = {
   analyzes: ('loaded' | 'notLoaded' | 'all')[];
@@ -10,28 +10,28 @@ export type Filters = {
   ward: string[];
 };
 
-export function SpecialistsUsers() {
+export function UsersSpecialist() {
   const [filters, setFilters] = useState<Filters>({
     analyzes: ['all'],
     questionnaire: ['all'],
     ward: ['all'],
   });
   const {
-    data: users = [],
+    data: specialists = [],
     isLoading,
     isFetching,
   } = useGetAllUsersQuery({
-    roles: [ROLE.CLIENT],
+    roles: [ROLE.TRAINER],
     isAnalyzesPassed: analyzePassedStatus[filters.analyzes[0]],
   });
 
   return (
     <div>
-      {users ? (
-        <UserList
+      {specialists ? (
+        <SpecialistList
           isLoading={isLoading || isFetching}
           filters={filters}
-          users={users}
+          specialists={specialists}
           setFilters={setFilters}
         />
       ) : (

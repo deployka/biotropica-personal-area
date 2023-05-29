@@ -1,0 +1,41 @@
+@import "./../../../styles/mixins.scss";
+
+.header {
+    padding: 20px 17px;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    flex-wrap: wrap;
+
+    row-gap: 10px;
+
+    box-shadow: inset 0px -1px 0px #e4e4e7;
+
+    .searchInput {
+        max-width: 220px;
+        width: 100%;
+        @include for-tablet {
+            max-width: unset;
+        }
+    }
+
+    .title {
+        display: flex;
+        align-items: center;
+
+        .count {
+            margin: 0 0 0 10px;
+            padding: 4px 6px;
+            background: #f7f6fb;
+            border-radius: 4px;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+
+            color: #1e184d;
+        }
+    }
+}

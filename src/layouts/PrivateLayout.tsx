@@ -62,6 +62,7 @@ const pages = [
   { page: 'Тренер', link: 'specialists' },
   { page: 'Рекомендации', link: 'recommendations' },
   { page: 'Логи', link: 'logs' },
+  { page: 'Специалисты', link: 'specialists' },
 ];
 
 const clientNav: Nav[] = [
@@ -84,6 +85,10 @@ const clientNav: Nav[] = [
   {
     ...pages[6],
     svg: <SidebarSvgSelector id="services" />,
+  },
+  {
+    ...pages[13],
+    svg: <SidebarSvgSelector id="users" />,
   },
 ];
 

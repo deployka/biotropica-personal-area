@@ -134,3 +134,21 @@
 .emptyData {
   margin-top: 10px;
 }
+
+.subscribeStatus {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 50px;
+  border: 1px solid rgb(231, 226, 226);
+  color:rgb(255, 255, 255);
+}
+
+.rejectedSubscribe {
+  background-color: rgb(218, 8, 8);
+}
+
+.progressSubscribe {
+  background-color: rgb(17, 221, 6);
+}

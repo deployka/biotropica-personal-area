@@ -2,7 +2,7 @@ import { BaseUser } from '../../../../@types/entities/BaseUser';
 import { Client } from '../../../../@types/entities/Client';
 import { FilterField } from '../../../../components/Filter/Filter';
 
-export const usersFilters: FilterField[] = [
+export const specialistFilters: FilterField[] = [
   // {
   //   name: 'Рекомендация',
   //   key: 'waitingForRecommendation',
@@ -77,7 +77,7 @@ export const usersFilters: FilterField[] = [
   },
 ];
 
-export function filterUsersByQuery(users: BaseUser[], q: string) {
+export function filterSpecialistByQuery(users: BaseUser[], q: string) {
   const query = q.toLowerCase().trim();
   return users.filter(user => {
     return (
@@ -88,7 +88,7 @@ export function filterUsersByQuery(users: BaseUser[], q: string) {
   });
 }
 
-export function filterUsersByWard(
+export function filterSpecialistByWard(
   users: BaseUser,
   wards: string[],
   specialistId: number,
@@ -107,7 +107,7 @@ export function filterUsersByWard(
   }
 }
 
-export function filterUsersByWaiting(users: BaseUser[], q: string) {
+export function filterSpecialistByWaiting(users: BaseUser[], q: string) {
   const query = q.toLowerCase().trim();
   return users.filter(user => {
     return (
@@ -118,7 +118,7 @@ export function filterUsersByWaiting(users: BaseUser[], q: string) {
   });
 }
 
-export function filterUserByQuestionnaire(
+export function filterSpecialistByQuestionnaire(
   user: BaseUser,
   value: 'all' | 'finished' | 'notFinished',
 ) {

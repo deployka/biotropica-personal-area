@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router';
-import { useGetFollowedUsersQuery } from '../../api/user';
 import { getTabByKey } from '../../utils/tabsHelper';
 import { SpecialistCard } from '../../components/Profile/Card/SpecialistCard';
 import type { Specialization } from '../../@types/entities/Specialization';
@@ -16,6 +15,11 @@ import { eventBus, EventTypes } from '../../services/EventBus';
 import { Tabs } from '../../shared/Global/Tabs/Tabs';
 
 import s from './Profile.module.scss';
+import { useRemoveSubscribByIdMutation, useUpdateSubscribByIdMutation, useSubscribersByUserIdMutation } from '../../api/subscribers';
+import { Subscribe } from '../../@types/entities/Subscribe';
+import { SubscribersListTab } from '../../components/SubscribersListTab/SubscribersListTab';
+import { SubscribeStatus } from '../../@types/dto/subscribers/update-subscriber.dto';
+import { Specialist } from '../../@types/entities/Specialist';
 
 const tabs: Tab[] = [
   {
@@ -24,7 +28,11 @@ const tabs: Tab[] = [
   },
   {
     key: 'users',
-    value: 'Пользователи',
+    value: 'Клиенты',
+  },
+  {
+    key: 'subscribes',
+    value: 'Заявки',
   },
 ];
 
@@ -52,15 +60,36 @@ const PrivateSpecialistProfile = () => {
     isError,
   } = useGetCurrentSpecialistQuery();
 
-  const currentSpecialistId = currentSpecialist?.user?.id || 0;
-  const {
-    data: users = [],
-    isLoading: isUsersLoading,
-    isError: isUsersError,
-  } = useGetFollowedUsersQuery(
-    { id: currentSpecialistId },
-    { skip: !currentSpecialistId || activeTab !== tabs[1].key },
-  );
+  const [updateSubscribes] = useUpdateSubscribByIdMutation();
+  const [removeSubscribe] = useRemoveSubscribByIdMutation();
+
+  // const {
+  //   data: users = [],
+  //   isLoading: isUsersLoading,
+  //   isError: isUsersError,
+  // } = useGetFollowedUsersQuery(
+  //   { id: currentSpecialistId },
+  //   { skip: !currentSpecialistId || activeTab !== tabs[1].key },
+  // );
+
+  const [getSpecialistSubscribers] = useSubscribersByUserIdMutation();
+
+  const [subscribers, setSubscribes] = useState<Subscribe[]>([]);
+
+  useEffect(() => {
+    getSpecialistSubscribers((currentSpecialist as Specialist)?.id)
+      .then(({ data }: any) => {
+        if (data) {
+          setSubscribes(data);
+        }
+      })
+      .catch(e => console.log(e));
+  }, [getSpecialistSubscribers, activeTab, currentSpecialist]);
+
+  const users = useMemo(() => {
+    const activeSubscribers = subscribers?.filter((s: Subscribe) => s.status === SubscribeStatus.SUBSCRIBE);
+    return activeSubscribers?.map(s => s.user);
+  }, [subscribers]);
 
   const { data } = useGetSignUpLinkQuery(
     {
@@ -84,6 +113,32 @@ const PrivateSpecialistProfile = () => {
       );
     }
   }, [active]);
+
+  const changeStatusHandler = useCallback((id: number, status: SubscribeStatus) => {
+    const newSubscribes = [...subscribers];
+    const idx = newSubscribes.findIndex(s => s.id === id);
+    newSubscribes[idx] = {
+      ...newSubscribes[idx],
+      status,
+    };
+    setSubscribes(newSubscribes);
+  }, [subscribers]);
+
+  const handleRejectClick = useCallback(async (id: number) => {
+    await updateSubscribes({ id, status: SubscribeStatus.REJECTED });
+    changeStatusHandler(id, SubscribeStatus.REJECTED);
+  }, [changeStatusHandler, updateSubscribes]);
+
+  const handleApplyClick = useCallback(async (id: number) => {
+    await updateSubscribes({ id, status: SubscribeStatus.SUBSCRIBE });
+    changeStatusHandler(id, SubscribeStatus.SUBSCRIBE);
+  }, [changeStatusHandler, updateSubscribes]);
+
+  const handleRemoveClick = useCallback(async (id: number) => {
+    await removeSubscribe(id);
+    const newArray = subscribers.filter(s => s.id !== id);
+    setSubscribes(newArray);
+  }, [removeSubscribe, subscribers]);
 
   if (isLoading) {
     return <p>Загрузка...</p>;
@@ -159,9 +214,16 @@ const PrivateSpecialistProfile = () => {
           )}
           {activeTab === tabs[1].key && (
             <UsersListTab
-              isLoading={isUsersLoading}
-              isError={isUsersError}
               users={users}
+            />
+          )}
+          {activeTab === tabs[2].key && (
+            <SubscribersListTab
+              subscribes={subscribers}
+              isSpecialist={true}
+              handleRejectClick={handleRejectClick}
+              handleApplyClick={handleApplyClick}
+              handleRemoveClick={handleRemoveClick}
             />
           )}
         </div>
