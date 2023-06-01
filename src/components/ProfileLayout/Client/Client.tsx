@@ -13,6 +13,8 @@ import { useGetCurrentSpecialistQuery } from '../../../api/specialists';
 import { useCreateSubscribersMutation, useSubscribersByUserIdMutation } from '../../../api/subscribers';
 import { SubscribeStatus } from '../../../@types/dto/subscribers/update-subscriber.dto';
 import { Subscribe } from '../../../@types/entities/Subscribe';
+import { useAppSelector } from '../../../store/storeHooks';
+import { selectCurrentUser } from '../../../store/slices/authSlice';
 
 type Props = PropsWithChildren<{
   user: BaseUser;
@@ -59,6 +61,8 @@ export const ClientProfileLayout = ({
   ] = useCreateSubscribersMutation();
   const [getUserSubscribers] = useSubscribersByUserIdMutation();
 
+  const currentUser = useAppSelector(selectCurrentUser);
+
   const [subscribers, setSubscribes] = useState<Subscribe[]>([]);
 
   useEffect(() => {
@@ -70,6 +74,8 @@ export const ClientProfileLayout = ({
       })
       .catch(e => console.log(e));
   }, [getUserSubscribers, activeTab, user.id]);
+
+  const isMe = useMemo(() => user.id === currentUser?.id, [currentUser, user]);
 
   const isFollower = useMemo(() => {
     if (!user.specialists.length) {
@@ -107,6 +113,22 @@ export const ClientProfileLayout = ({
       return <div className={[s.subscribeStatus, s.rejectedSubscribe].join(' ')}><h5>Заявка отклонена</h5></div>;
     }
   }, [subscribeStatus, isCreateSuccess]);
+
+  const renderInformation = useMemo(() => (
+    <div className={s.content}>
+    <div className={s.tabs__container}>
+      <div className={s.horizontalScroll}>
+        <Tabs
+          tabs={tabs}
+          activeTab={activeTab}
+          onActiveTabChanged={onActiveTabChange}
+          spaceBetween={50}
+        />
+      </div>
+    </div>
+    {children}
+  </div>
+  ), [activeTab, children, onActiveTabChange, tabs]);
 
   const renderButtons = useMemo(() => {
     if (isCreateLoading || isCreateSuccess) {
@@ -183,19 +205,9 @@ export const ClientProfileLayout = ({
           {isPublic && renderSubscribeStatus}
         </div>
       </div>
-      <div className={s.content}>
-        <div className={s.tabs__container}>
-          <div className={s.horizontalScroll}>
-            <Tabs
-              tabs={tabs}
-              activeTab={activeTab}
-              onActiveTabChanged={onActiveTabChange}
-              spaceBetween={50}
-            />
-          </div>
-        </div>
-        {children}
-      </div>
+      {
+        (isFollower || isMe) && renderInformation
+      }
     </div>
   );
 };
