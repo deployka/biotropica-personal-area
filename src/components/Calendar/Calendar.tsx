@@ -13,7 +13,6 @@ interface Props {
   doneButtonHandler(): void;
 }
 
-
 export const Calendar = ({ tasks, currentMonth, onClickTask, doneButtonHandler }: Props) => {
   const [daysWithTasks, setDaysWithTasks] = useState<CalendarDayType[]>([]);
 
