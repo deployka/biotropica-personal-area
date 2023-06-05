@@ -37,7 +37,7 @@ export const Header = memo(
                 <h2>{page}</h2>
               </div>
            </div>
-         
+
           {centerComponent || ''}
           {!isMobile && (
             <div className={s.header__links}>
