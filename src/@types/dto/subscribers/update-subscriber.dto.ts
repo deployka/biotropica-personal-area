@@ -4,6 +4,7 @@ export enum SubscribeStatus {
   REJECTED = 'REJECTED',
   IN_PROGRESS = 'IN_PROGRESS',
   SUBSCRIBE = 'SUBSCRIBE',
+  BLOCKED = 'BLOCKED',
 }
 
 export type UpdateSubscribersDto = Readonly<{

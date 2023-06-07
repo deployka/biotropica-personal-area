@@ -120,8 +120,8 @@ const ClientProfilePrivate = ({ user }: Props) => {
   }, [subscribes]);
 
   const handleRejectClick = useCallback(async (id: number) => {
-    await updateSubscribes({ id, status: SubscribeStatus.REJECTED });
-    changeStatusHandler(id, SubscribeStatus.REJECTED);
+    await updateSubscribes({ id, status: SubscribeStatus.BLOCKED });
+    changeStatusHandler(id, SubscribeStatus.BLOCKED);
   }, [changeStatusHandler, updateSubscribes]);
 
   const handleApplyClick = useCallback(async (id: number) => {
