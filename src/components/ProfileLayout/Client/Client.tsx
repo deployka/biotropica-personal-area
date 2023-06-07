@@ -99,8 +99,6 @@ export const ClientProfileLayout = ({
     }
   }, [createSubscriber, currentSpecialist, user]);
 
-  console.log(subscribeStatus);
-
   const renderSubscribeStatus = useMemo(() => {
     if (subscribeStatus === SubscribeStatus.IN_PROGRESS || isCreateSuccess) {
       return <div className={[s.subscribeStatus, s.progressSubscribe].join(' ')}><h5>Заявка на рассмотрении</h5></div>;
