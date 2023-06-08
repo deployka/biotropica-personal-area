@@ -167,12 +167,19 @@ const PublicSpecialistProfile = () => {
   }, [specialist?.id, subscribers]);
 
   const renderSubscribeStatus = useMemo(() => {
+
     if (subscribeStatus === SubscribeStatus.IN_PROGRESS || isCreateSuccess) {
       return <div className={[s.subscribeStatus, s.progressSubscribe].join(' ')}><h5>Заявка на рассмотрении</h5></div>;
     }
+
     if (subscribeStatus === SubscribeStatus.REJECTED) {
       return <div className={[s.subscribeStatus, s.rejectedSubscribe].join(' ')}><h5>Заявка отклонена</h5></div>;
     }
+
+    if (subscribeStatus === SubscribeStatus.BLOCKED) {
+      return <div className={[s.subscribeStatus, s.blockedSubscribe].join(' ')}><h5>Заблокировано</h5></div>;
+    }
+
   }, [subscribeStatus, isCreateSuccess]);
 
   const renderButtons = useMemo(() => {
