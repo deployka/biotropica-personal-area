@@ -109,10 +109,10 @@ export const SigninForm = ({ onSubmit, loader, validationSchema }: Props) => {
             <Link className={s.signin} to="/signup">
               Нет учетной записи? Создайте сейчас
             </Link>
-            <Link className={s.signin} to="https://biotropika.ru/instruction/">
+            <a className={s.signin} href="https://biotropika.ru/instruction/">
                Инструкция по установке приложения
                "Дневник спортсмена"
-            </Link>
+            </a>
           </div>
         )}
       </Formik>
