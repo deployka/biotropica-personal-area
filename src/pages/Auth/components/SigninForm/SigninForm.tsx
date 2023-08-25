@@ -111,7 +111,7 @@ export const SigninForm = ({ onSubmit, loader, validationSchema }: Props) => {
             </Link>
             <a className={s.signin} href="https://biotropika.ru/instruction/">
                Инструкция по установке приложения
-               "Дневник спортсмена"
+               «Дневник спортсмена»
             </a>
           </div>
         )}
