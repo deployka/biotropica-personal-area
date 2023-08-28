@@ -17,6 +17,7 @@ import { Button } from '../../../../shared/Form/Button/Button';
 import { SchemaOf } from 'yup';
 import { SignUpDto } from '../../../../@types/dto/auth/signup.dto';
 import { SelectCustom } from '../../../../shared/Form/Select/SelectCustom';
+import { useGetSpecializationListQuery } from '../../../../api/specializations';
 
 interface Props {
   onSubmit: (values: SignUpDto, options: FormikHelpers<SignUpDto>) => void;
@@ -25,11 +26,18 @@ interface Props {
 }
 
 export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
+  const { currentData: specList } = useGetSpecializationListQuery();
+
   const [checked, setChecked] = useState<boolean>(false);
+
   function isDisabled(isValid: boolean, dirty: boolean) {
     return (!isValid && !dirty) || !checked || loader;
   }
 
+  const transformSelectValue = (value: string) => {
+    const spec = specList?.find(el => el.title === value);
+    if (spec) return { value: spec.id, label: spec.title };
+  };
   return (
     <>
       <Formik
@@ -63,6 +71,7 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
           handleSubmit,
           dirty,
           setTouched,
+          setFieldValue,
         }) => (
           <div className={s.form}>
             <h1 className={s.title}>Регистрация</h1>
@@ -110,7 +119,7 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
               <SelectCustom
                 hideLabel
                 onChange={e => {
-                  handleChange(e.value);
+                  setFieldValue('specialty', e.label);
                 }}
                 onBlur={() => {
                   setTouched({ ...touched, specialty: true });
@@ -119,10 +128,13 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
                 name="specialty"
                 value={
                   values.specialty
-                    ? { value: values.specialty, label: values.specialty }
+                    ? transformSelectValue(values.specialty)
                     : undefined
                 }
-                options={[{ value: 'dsafdsa', label: 'dsaf' }]}
+                options={specList?.map(el => ({
+                  value: el.id,
+                  label: el.title,
+                }))}
                 settings={{ touched, errors }}
               />
             </div>
