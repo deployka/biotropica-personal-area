@@ -16,6 +16,7 @@ import { Input } from '../../../../shared/Form/Input/Input';
 import { Button } from '../../../../shared/Form/Button/Button';
 import { SchemaOf } from 'yup';
 import { SignUpDto } from '../../../../@types/dto/auth/signup.dto';
+import { SelectCustom } from '../../../../shared/Form/Select/SelectCustom';
 
 interface Props {
   onSubmit: (values: SignUpDto, options: FormikHelpers<SignUpDto>) => void;
@@ -40,9 +41,13 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
           lastname: '',
           phone: '',
           role: process.env.REACT_APP_ROLE_CLIENT || '',
+          specialty: '',
         }}
         validateOnBlur
-        onSubmit={(values: SignUpDto, options: FormikHelpers<SignUpDto>) => {
+        onSubmit={(
+          values: SignUpDto & { specialty?: string },
+          options: FormikHelpers<SignUpDto>,
+        ) => {
           if (!checked) return;
           onSubmit(values, options);
         }}
@@ -57,6 +62,7 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
           isValid,
           handleSubmit,
           dirty,
+          setTouched,
         }) => (
           <div className={s.form}>
             <h1 className={s.title}>Регистрация</h1>
@@ -97,6 +103,27 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
                 value={values.email}
                 type="email"
                 options={{ touched, errors }}
+              />
+            </div>
+
+            <div className={s.input__wrapper}>
+              <SelectCustom
+                hideLabel
+                onChange={e => {
+                  handleChange(e.value);
+                }}
+                onBlur={() => {
+                  setTouched({ ...touched, specialty: true });
+                }}
+                placeholder="Специальность"
+                name="specialty"
+                value={
+                  values.specialty
+                    ? { value: values.specialty, label: values.specialty }
+                    : undefined
+                }
+                options={[{ value: 'dsafdsa', label: 'dsaf' }]}
+                settings={{ touched, errors }}
               />
             </div>
 
