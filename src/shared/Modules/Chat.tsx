@@ -22,7 +22,7 @@ export type ChatProps = {
   accesses: string[];
   activeDialogId?: number;
   onClose(): void;
-  onChangeReading(usUnread: number) : void;
+  onChangeReading(usUnread: number): void;
 };
 
 export function Chat(props: ChatProps) {
@@ -30,18 +30,19 @@ export function Chat(props: ChatProps) {
     throw new Error('Добавьте REACT_APP_CHAT_FRONT_URL в .env');
   }
   return (
-    <Suspense fallback={'loading...'}>
-      <ChatApp
-        isOpened={true}
-        accesses={props.accesses}
-        isAuth={true}
-        isUnread={false}
-        token={props.token}
-        activeDialogId={props.activeDialogId}
-        currentUser={props.currentUser}
-        onClose={props.onClose}
-        onChangeReading={props.onChangeReading}
-      />
-    </Suspense>
+    // <Suspense fallback={'loading...'}>
+    //   <ChatApp
+    //     isOpened={true}
+    //     accesses={props.accesses}
+    //     isAuth={true}
+    //     isUnread={false}
+    //     token={props.token}
+    //     activeDialogId={props.activeDialogId}
+    //     currentUser={props.currentUser}
+    //     onClose={props.onClose}
+    //     onChangeReading={props.onChangeReading}
+    //   />
+    // </Suspense>
+    <div>F</div>
   );
 }

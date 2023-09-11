@@ -50,6 +50,7 @@ export const UserItem = ({
   const roleTranslation = ROLE_TRANSLATIONS[role?.name] || '-';
 
   const actions: Action[] = [
+    { title: 'Активировать', onClick: () => console.log('click') },
     {
       title: 'Перейти',
       onClick: onProfile,

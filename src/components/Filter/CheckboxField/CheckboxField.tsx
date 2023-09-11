@@ -21,6 +21,7 @@ export const FilterCheckboxField = ({
 
   const handleChange = (value: string) => {
     if (selectedFields.includes(value) && value !== 'all') {
+      if (value === 'inactive') return onChange(['all']);
       if (selectedFields.length === 1) return;
       const newFields = selectedFields.filter(option => option !== value);
       return onChange(newFields);

@@ -26,8 +26,8 @@ function RoleComponent({
   Specialist,
   Admin,
 }: Props): ReactElement {
-  const isSpecialist = useSelector(selectIsDoctor);
-  const isAdmin = useSelector(selectIsAdmin);
+  const isSpecialist = false; // useSelector(selectIsDoctor);
+  const isAdmin = true; // useSelector(selectIsAdmin);
   const isClient = useSelector(selectIsClient);
 
   if (isSpecialist && Specialist) {
