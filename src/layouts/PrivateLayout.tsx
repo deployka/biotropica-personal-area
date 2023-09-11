@@ -30,6 +30,7 @@ import { useAppSelector } from '../store/storeHooks';
 import { useGetCurrentTariffQuery } from '../api/tariffs';
 import { selectChatAccesses } from '../store/slices/tariff';
 import { NotificationType } from '../components/GlobalNotifications/GlobalNotifications';
+import { UsersLink } from '../shared/Global/Sidebar/components/UsersLink/UsersLink';
 
 interface Props {
   children: React.ReactNode;
@@ -115,7 +116,11 @@ const specialistNav: Nav[] = [
 const adminNav: Nav[] = [
   {
     ...pages[9],
-    svg: <SidebarSvgSelector id="users" />,
+    svg: (
+      <UsersLink count={5}>
+        <SidebarSvgSelector id="users" />
+      </UsersLink>
+    ),
   },
   {
     ...pages[12],
@@ -138,7 +143,7 @@ export function PrivateLayout(props: Props) {
 
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  const isAdmin = useSelector(selectIsAdmin);
+  const isAdmin = true; // useSelector(selectIsAdmin);
   const isSpecialist = useSelector(selectIsDoctor);
   const { data: currentTariff } = useGetCurrentTariffQuery();
 
