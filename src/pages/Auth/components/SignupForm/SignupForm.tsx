@@ -23,9 +23,17 @@ interface Props {
   onSubmit: (values: SignUpDto, options: FormikHelpers<SignUpDto>) => void;
   loader: boolean;
   validationSchema: SchemaOf<Omit<SignUpDto, 'role' | 'token'>>;
+  showRoleSelector?: boolean;
+  onBackToRole: () => void;
 }
 
-export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
+export const SignupForm = ({
+  onSubmit,
+  loader,
+  validationSchema,
+  showRoleSelector,
+  onBackToRole,
+}: Props) => {
   const { currentData: specList } = useGetSpecializationListQuery();
 
   const [checked, setChecked] = useState<boolean>(false);
@@ -38,19 +46,21 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
     const spec = specList?.find(el => el.title === value);
     if (spec) return { value: spec.id, label: spec.title };
   };
+
+  const initialValues = {
+    email: '',
+    password: '',
+    verificationPassword: '',
+    name: '',
+    lastname: '',
+    phone: '',
+    role: process.env.REACT_APP_ROLE_CLIENT || '',
+    specialty: showRoleSelector ? '' : 'sportsmen',
+  };
   return (
     <>
       <Formik
-        initialValues={{
-          email: '',
-          password: '',
-          verificationPassword: '',
-          name: '',
-          lastname: '',
-          phone: '',
-          role: process.env.REACT_APP_ROLE_CLIENT || '',
-          specialty: '',
-        }}
+        initialValues={initialValues}
         validateOnBlur
         onSubmit={(
           values: SignUpDto & { specialty?: string },
@@ -115,29 +125,31 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
               />
             </div>
 
-            <div className={s.input__wrapper}>
-              <SelectCustom
-                hideLabel
-                onChange={e => {
-                  setFieldValue('specialty', e.label);
-                }}
-                onBlur={() => {
-                  setTouched({ ...touched, specialty: true });
-                }}
-                placeholder="Специальность"
-                name="specialty"
-                value={
-                  values.specialty
-                    ? transformSelectValue(values.specialty)
-                    : undefined
-                }
-                options={specList?.map(el => ({
-                  value: el.id,
-                  label: el.title,
-                }))}
-                settings={{ touched, errors }}
-              />
-            </div>
+            {showRoleSelector && (
+              <div className={s.input__wrapper}>
+                <SelectCustom
+                  hideLabel
+                  onChange={e => {
+                    setFieldValue('specialty', e.label);
+                  }}
+                  onBlur={() => {
+                    setTouched({ ...touched, specialty: true });
+                  }}
+                  placeholder="Специальность"
+                  name="specialty"
+                  value={
+                    values.specialty
+                      ? transformSelectValue(values.specialty)
+                      : undefined
+                  }
+                  options={specList?.map(el => ({
+                    value: el.id,
+                    label: el.title,
+                  }))}
+                  settings={{ touched, errors }}
+                />
+              </div>
+            )}
 
             <div className={s.input__wrapper}>
               <Input
@@ -213,6 +225,9 @@ export const SignupForm = ({ onSubmit, loader, validationSchema }: Props) => {
 
             <Link className={s.signin} to="/signin">
               Уже есть учетная запись?
+            </Link>
+            <Link className={s.signin} to="/signup" onClick={onBackToRole}>
+              Изменить роль
             </Link>
           </div>
         )}

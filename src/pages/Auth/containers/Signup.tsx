@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormikHelpers } from 'formik';
 import { useHistory } from 'react-router';
 
@@ -10,13 +10,16 @@ import { SignUpDto } from '../../../@types/dto/auth/signup.dto';
 import { useSignUpMutation } from '../../../api/auth';
 import { ResponseError } from '../../../@types/api/response';
 import { useQuery } from '../../../hooks/useQuery';
+import { RoleSwitch } from '../components/RoleSwitch/RoleSwitch';
 
 const Signup = () => {
   const history = useHistory();
   const [signUp, { isLoading }] = useSignUpMutation();
   const query = useQuery();
   const token = query.get('invitedToken') || '';
-
+  const [currentRole, setCurrentRole] = useState<
+    'trainer' | 'sportsman' | null
+  >(null);
   async function onSubmit(
     values: SignUpDto,
     options: FormikHelpers<SignUpDto>,
@@ -41,11 +44,17 @@ const Signup = () => {
   }
   return (
     <div className="formContainer">
-      <SignupForm
-        onSubmit={onSubmit}
-        loader={isLoading}
-        validationSchema={validationSchema}
-      />
+      {!currentRole ? (
+        <RoleSwitch onClick={setCurrentRole} />
+      ) : (
+        <SignupForm
+          onSubmit={onSubmit}
+          loader={isLoading}
+          validationSchema={validationSchema}
+          showRoleSelector={currentRole === 'trainer'}
+          onBackToRole={() => setCurrentRole(null)}
+        />
+      )}
     </div>
   );
 };

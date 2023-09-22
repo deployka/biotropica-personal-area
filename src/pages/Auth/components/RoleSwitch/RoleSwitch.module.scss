@@ -1,0 +1,78 @@
+.switchContainer {
+  display: flex;
+  gap: 30px;
+}
+
+.cardContainer {
+  --main-color: #f0ecfb;
+  --hover-color: #7a69db;
+  --transition: 0.2s;
+  width: 415px;
+  height: 374px;
+  border-radius: 16px;
+  border: 6px solid var(--main-color);
+  transition: border var(--transition);
+  cursor: pointer;
+  &.hover {
+    border: 6px solid var(--hover-color);
+  }
+  .logoContainer {
+    width: 100%;
+    height: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .logoCircle {
+      width: 50%;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: var(--main-color);
+      transition: background-color var(--transition);
+      &.hover {
+        background-color: var(--main-color);
+      }
+      .logo {
+        path,
+        circle,
+        ellipse {
+          transition: fill var(--transition), stroke var(--transition);
+        }
+        &.hover {
+          path {
+            stroke: #7a69db;
+          }
+          circle {
+            fill: #7a69db;
+          }
+          ellipse {
+            fill: #7a69db;
+          }
+        }
+      }
+    }
+  }
+  .titleContainer {
+    width: 100%;
+    height: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 13px;
+    border-top-right-radius: 13px;
+    background-color: var(--main-color);
+    color: #958bad;
+    font-family: Montserrat;
+    font-size: 27px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    transition: background-color var(--transition), color var(--transition);
+    &.hover {
+      color: white;
+      background-color: var(--hover-color);
+    }
+  }
+}
