@@ -50,7 +50,6 @@ export const UserItem = ({
   const roleTranslation = ROLE_TRANSLATIONS[role?.name] || '-';
 
   const actions: Action[] = [
-    { title: 'Активировать', onClick: () => console.log('click') },
     {
       title: 'Перейти',
       onClick: onProfile,
@@ -66,6 +65,13 @@ export const UserItem = ({
     },
   ];
 
+  if (!user.isEnabled) {
+    actions.unshift({
+      title: 'Активировать',
+      onClick: () => console.log('click'),
+    });
+  }
+
   if (formattedUser.isBanned === true) {
     formattedUser.fullName += ' (Заблокирован)';
   }
@@ -79,7 +85,9 @@ export const UserItem = ({
         <p>{formattedUser.registrationDate}</p>
       </div>
       <div className={s.role}>
-        <p style={{ color: ROLE_COLOR[role?.name] }}>{roleTranslation}</p>
+        <p style={{ color: user.isEnabled ? ROLE_COLOR[role?.name] : 'red' }}>
+          {roleTranslation}
+        </p>
         <ActionMenu
           actions={actions}
           onClose={() => setVisible(false)}

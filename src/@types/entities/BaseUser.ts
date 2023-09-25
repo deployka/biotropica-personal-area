@@ -15,6 +15,7 @@ export type BaseUser = BaseEntity & {
   phone: string;
   confirmed: boolean;
   isOnline: boolean | null;
+  isEnabled: boolean | null;
   roles: Role[];
   banned: boolean;
   banReason: string;

@@ -8,6 +8,7 @@ import {
   filterUserByRoles,
   usersFilters,
   Filters,
+  filterUserByActiveStatus,
 } from '../adminUsersHelper';
 import { BaseUser } from '../../../@types/entities/BaseUser';
 import { AdminUsersHeader } from '../Header/Header';
@@ -45,8 +46,13 @@ export function AdminUsersList({
     );
     const isValidBanStatus = filterUserByBanStatus(user, filters.banned[0]);
     const isQueryValid = filterUserByQuery(user, query);
+    const isInactive = filterUserByActiveStatus(user, filters.status[0]);
     return (
-      isValidRole && isValidQuestionnaire && isValidBanStatus && isQueryValid
+      isValidRole &&
+      isValidQuestionnaire &&
+      isValidBanStatus &&
+      isQueryValid &&
+      isInactive
     );
   });
 

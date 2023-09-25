@@ -117,7 +117,7 @@ const adminNav: Nav[] = [
   {
     ...pages[9],
     svg: (
-      <UsersLink count={5}>
+      <UsersLink>
         <SidebarSvgSelector id="users" />
       </UsersLink>
     ),

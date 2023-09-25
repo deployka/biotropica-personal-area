@@ -37,5 +37,5 @@ export const validationSchema = yup.object().shape({
     .string()
     .oneOf([yup.ref('password')], 'Пароли не совпадают')
     .required('Повторите пароль'),
-  specialty: yup.string().required('Выберите специальность'),
+  specializationKeys: yup.array().min(1, 'Выберите специальность'),
 });

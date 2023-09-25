@@ -162,6 +162,15 @@ export function filterUserByBanStatus(
   return !user.banned;
 }
 
+export function filterUserByActiveStatus(
+  user: BaseUser,
+  isActive: 'all' | 'inactive',
+) {
+  if (isActive === 'all') return true;
+
+  return !user.isEnabled;
+}
+
 export function getUserTariff(tariffs: Tariff[], user: BaseUser) {
   let tariff =
     tariffs.find(tariff => tariff.id === +(user.tariff || ''))?.title ||

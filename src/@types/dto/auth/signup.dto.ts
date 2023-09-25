@@ -7,6 +7,7 @@ export type SignUpDto = Readonly<{
   phone: string;
   role: string;
   token?: string;
+  specializationKeys?: string[];
 }>;
 
 export type SignUpWithoutPassDto = Exclude<
