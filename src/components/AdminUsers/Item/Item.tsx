@@ -6,6 +6,7 @@ import { getFullName } from '../../../utils/getFullName';
 import { format } from 'date-fns';
 import dotsIcon from '../../../assets/icons/dots-horizontal.svg';
 import s from './Item.module.scss';
+import { useChangeUserStatusMutation } from '../../../api/user';
 
 type Props = {
   user: BaseUser;
@@ -38,6 +39,8 @@ export const UserItem = ({
     setVisible(prevState => !prevState);
   }
 
+  const [changeUserStatus] = useChangeUserStatusMutation();
+
   const formattedUser = {
     id: user.id,
     fullName: getFullName(user.name, user.lastname),
@@ -68,7 +71,7 @@ export const UserItem = ({
   if (!user.isEnabled) {
     actions.unshift({
       title: 'Активировать',
-      onClick: () => console.log('click'),
+      onClick: () => changeUserStatus({ userId: user.id }),
     });
   }
 

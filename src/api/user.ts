@@ -118,6 +118,15 @@ const userApi = baseApi.injectEndpoints({
         url: `users/${dto.id}/followedSpecialists`,
       }),
     }),
+
+    changeUserStatus: builder.mutation<BaseUser[], { userId: number }>({
+      query: dto => ({
+        method: 'POST',
+        url: 'users/change-enable-status',
+        body: dto,
+      }),
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
@@ -133,6 +142,7 @@ export const {
   useGetUserQuery,
   useGetFollowedUsersQuery,
   useGetFollowedSpecialistsQuery,
+  useChangeUserStatusMutation,
 } = userApi;
 
 export default userApi;
