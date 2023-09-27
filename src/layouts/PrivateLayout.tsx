@@ -143,7 +143,7 @@ export function PrivateLayout(props: Props) {
 
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  const isAdmin = true; // useSelector(selectIsAdmin);
+  const isAdmin = useSelector(selectIsAdmin);
   const isSpecialist = useSelector(selectIsDoctor);
   const { data: currentTariff } = useGetCurrentTariffQuery();
 
