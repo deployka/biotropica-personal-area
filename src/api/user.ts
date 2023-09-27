@@ -103,6 +103,9 @@ const userApi = baseApi.injectEndpoints({
           })),
           { type: 'User', id: 'LIST' },
         ] as { type: 'User'; id: string | number }[],
+      transformResponse(baseQueryReturnValue: BaseUser[]) {
+        return baseQueryReturnValue.filter(el => el.isEnabled);
+      },
     }),
 
     getFollowedUsers: builder.query<Client[], { id: number }>({
