@@ -30,19 +30,18 @@ export function Chat(props: ChatProps) {
     throw new Error('Добавьте REACT_APP_CHAT_FRONT_URL в .env');
   }
   return (
-    // <Suspense fallback={'loading...'}>
-    //   <ChatApp
-    //     isOpened={true}
-    //     accesses={props.accesses}
-    //     isAuth={true}
-    //     isUnread={false}
-    //     token={props.token}
-    //     activeDialogId={props.activeDialogId}
-    //     currentUser={props.currentUser}
-    //     onClose={props.onClose}
-    //     onChangeReading={props.onChangeReading}
-    //   />
-    // </Suspense>
-    <div>F</div>
+    <Suspense fallback={'loading...'}>
+      <ChatApp
+        isOpened={true}
+        accesses={props.accesses}
+        isAuth={true}
+        isUnread={false}
+        token={props.token}
+        activeDialogId={props.activeDialogId}
+        currentUser={props.currentUser}
+        onClose={props.onClose}
+        onChangeReading={props.onChangeReading}
+      />
+    </Suspense>
   );
 }
