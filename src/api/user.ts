@@ -10,6 +10,7 @@ import { BaseUser } from '../@types/entities/BaseUser';
 import { GetUsersDto } from '../@types/dto/users/get-all.dto';
 import { BanUserDto } from '../@types/dto/users/ban.dto';
 import { UnbanUserDto } from '../@types/dto/users/unban.dto';
+import { ROLE } from '../@types/entities/Role';
 
 const userApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -103,8 +104,15 @@ const userApi = baseApi.injectEndpoints({
           })),
           { type: 'User', id: 'LIST' },
         ] as { type: 'User'; id: string | number }[],
-      transformResponse(baseQueryReturnValue: BaseUser[]) {
-        return baseQueryReturnValue.filter(el => el.isEnabled);
+      transformResponse(
+        baseQueryReturnValue: BaseUser[],
+        _undefined,
+        args: Partial<GetUsersDto>,
+      ) {
+        if (args.roles?.find(el => el === ROLE.CLIENT || el === ROLE.TRAINER)) {
+          return baseQueryReturnValue.filter(el => el.isEnabled);
+        }
+        return baseQueryReturnValue;
       },
     }),
 
