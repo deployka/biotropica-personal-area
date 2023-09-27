@@ -135,10 +135,10 @@ export function PrivateLayout(props: Props) {
   const history = useHistory();
 
   async function sendMessage() {
-    // const dialog = dialogs.find(it => it.title === 'Техподдержка');
-    // if (dialog) {
-    //   eventBus.emit(EventTypes.chatOpen, dialog.id);
-    // }
+    const dialog = dialogs.find(it => it.title === 'Техподдержка');
+    if (dialog) {
+      eventBus.emit(EventTypes.chatOpen, dialog.id);
+    }
   }
 
   const dispatch = useDispatch();
@@ -210,45 +210,49 @@ export function PrivateLayout(props: Props) {
     [window],
   );
 
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     const connect = () => {
-  //       const ws = new WebSocket(`${process.env.REACT_APP_NOTIFICATIONS_WS_URL}?userId=${currentUser.id || ''}`);
-  //       ws.onopen = () => {
-  //         console.warn('Notifications WS is opened!');
-  //       };
-  //       ws.onclose = data => {
-  //         console.warn('Notifications WS is closed! ', data);
-  //         connect();
-  //       };
-  //       ws.onerror = err => {
-  //         console.warn('Something where wrong! ', err);
-  //         ws.close();
-  //       };
-  //       ws.onmessage = (e: MessageEvent) => {
-  //         const notification = JSON.parse(e.data);
-  //         setNotificationsUnread(prev => prev + 1);
-  //         eventBus.emit(EventTypes.notification, {
-  //           message: (
-  //             <div>
-  //               {notification.message}
-  //               <button
-  //                 style={{ marginLeft: '10px' }}
-  //                 onClick={() => history.push(notification.link)}
-  //               >
-  //                 перейти
-  //               </button>
-  //             </div>
-  //           ),
-  //           autoClose: 5000,
-  //           type: NotificationType.INFO,
-  //         });
-  //       };
-  //     };
+  useEffect(() => {
+    if (currentUser) {
+      const connect = () => {
+        const ws = new WebSocket(
+          `${process.env.REACT_APP_NOTIFICATIONS_WS_URL}?userId=${
+            currentUser.id || ''
+          }`,
+        );
+        ws.onopen = () => {
+          console.warn('Notifications WS is opened!');
+        };
+        ws.onclose = data => {
+          console.warn('Notifications WS is closed! ', data);
+          connect();
+        };
+        ws.onerror = err => {
+          console.warn('Something where wrong! ', err);
+          ws.close();
+        };
+        ws.onmessage = (e: MessageEvent) => {
+          const notification = JSON.parse(e.data);
+          setNotificationsUnread(prev => prev + 1);
+          eventBus.emit(EventTypes.notification, {
+            message: (
+              <div>
+                {notification.message}
+                <button
+                  style={{ marginLeft: '10px' }}
+                  onClick={() => history.push(notification.link)}
+                >
+                  перейти
+                </button>
+              </div>
+            ),
+            autoClose: 5000,
+            type: NotificationType.INFO,
+          });
+        };
+      };
 
-  //     connect();
-  //   }
-  // }, []);
+      connect();
+    }
+  }, []);
 
   return (
     <div className="global__container">
