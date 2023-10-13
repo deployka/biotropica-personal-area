@@ -2,6 +2,19 @@
   "name": "biotropika-personal-area",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject",
+    "build:sw": "webpack -c sw.webpack.config.js",
+    "lint": "eslint --ext .ts,.tsx src",
+    "lint:fix": "eslint --ext .ts,.tsx src --fix --color",
+    "prepare": "husky install",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
+  },
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "~7.16.7",
     "@reduxjs/toolkit": "~1.8.0",
@@ -56,19 +69,6 @@
     "web-vitals": "~1.0.1",
     "webpack": "~5.68.0",
     "yup": "~0.32.9"
-  },
-  "proxy": "http://localhost:5000",
-  "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject",
-    "build:sw": "webpack -c sw.webpack.config.js",
-    "lint": "eslint --ext .ts,.tsx src",
-    "lint:fix": "eslint --ext .ts,.tsx src --fix --color",
-    "prepare": "husky install",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": [
