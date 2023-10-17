@@ -19,4 +19,8 @@ export const tabs: Tab[] = [
     key: 'specialist',
     value: 'Специалисты',
   },
+  {
+    key: 'subscribes',
+    value: 'Заявки',
+  },
 ];

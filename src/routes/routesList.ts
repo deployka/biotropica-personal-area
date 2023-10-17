@@ -12,7 +12,6 @@ import { ConsultationPage } from '../pages/Consultation/Consultation';
 import { Tasks } from '../pages/Tasks/Tasks';
 import { Recommendations } from '../pages/Recommendations/Recommendations';
 import { AdminUsers } from '../pages/AdminUsers/AdminUsers';
-import { SpecialistUsers } from '../pages/SpecialistUsers/SpecialistUsers';
 import SpecialistConsultations from '../pages/SpecialistConsultations/SpecialistConsultations';
 import EditSpecialistProfile from '../pages/SpecialistProfile/Edit/Edit';
 import Logs from '../pages/Logs/Logs';
@@ -20,13 +19,20 @@ import PublicSpecialistProfile from '../pages/SpecialistProfile/PublicProfile';
 import { PrivateProfileLayout } from '../layouts/Profile/Private';
 import { PublicProfileLayout } from '../layouts/Profile/Public';
 import PrivateSpecialistProfile from '../pages/SpecialistProfile/Profile';
+import { SpecialistsUsers } from '../pages/SpecialistUsers/SpecialistUsers';
+import { UsersSpecialist } from '../pages/UsersSpecialists/UsersSpecialists';
 
 const routes = [
   {
     path: '/',
     clientComponent: Tasks,
-    specialistComponent: SpecialistUsers,
+    specialistComponent: SpecialistsUsers,
     adminComponent: AdminUsers,
+    exact: true,
+  },
+  {
+    path: 'specialists',
+    clientComponent: UsersSpecialist,
     exact: true,
   },
   {

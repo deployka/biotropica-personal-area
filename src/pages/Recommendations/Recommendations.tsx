@@ -142,7 +142,7 @@ export function Recommendations() {
               value: 'tasks',
             },
             {
-              label: 'Оповещения',
+              label: 'Рекомендации',
               value: 'recommendations',
             },
           ]}
@@ -170,7 +170,7 @@ export function Recommendations() {
             value: 'tasks',
           },
           {
-            label: 'Оповещения',
+            label: 'Рекомендации',
             value: 'recommendations',
           },
         ]}

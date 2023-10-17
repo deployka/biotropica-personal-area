@@ -185,3 +185,25 @@
 .lock {
     width: 15px;
 }
+
+.subscribeStatus {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 12px;
+    border-radius: 50px;
+    border: 1px solid rgb(231, 226, 226);
+    color:rgb(255, 255, 255);
+}
+
+.rejectedSubscribe {
+    background-color: rgb(218, 8, 8);
+}
+
+.blockedSubscribe {
+    background-color: rgb(245, 184, 184);
+  }
+
+.progressSubscribe {
+    background-color: rgb(17, 221, 6);
+}

@@ -22,12 +22,14 @@ interface Props {
   type?: string;
   taskId: string;
   isSpecialist: boolean;
+  isDoneButtonClick?: boolean;
   authorSpecialistId?: number;
   authorName: string;
   onClose(): void;
   onEditBtnClick(): void;
   onCreateTemplate(): void;
   onDeleteTask(): void;
+  onDoneTask(): void;
 }
 
 export const Header = ({
@@ -44,6 +46,8 @@ export const Header = ({
   onCreateTemplate,
   onEditBtnClick,
   onDeleteTask,
+  isDoneButtonClick,
+  onDoneTask,
 }: Props) => {
   let taskType = '';
   let headerColor = '';
@@ -125,7 +129,7 @@ export const Header = ({
             </div>
           )}
           {headerTitle}
-          
+
         </div>
 
         <div className={s.rightContent}>
@@ -149,39 +153,61 @@ export const Header = ({
 
       {mode === 'view' && (
         <>
-        <div className={s.editTaskButton}>
-          <div>
-              <Button 
-               style={{
-               marginBottom: '5px',
-               marginTop: '5px',
-               background: '#fff',
-               color: '#3b82f6',
-               }}
-               onClick={onEditBtnClick}
-               options={{
-               content: 'Редактировать задачу',
-               width: '140px',
-               height: '40px',
+          <div className={s.editTaskButton}>
+            <div>
+              <Button
+                style={{
+                  marginBottom: '5px',
+                  marginTop: '5px',
+                  marginRight: '5px',
+                  background: '#fff',
+                  color: '#3b82f6',
+                }}
+                onClick={onEditBtnClick}
+                options={{
+                  content: 'Редактировать задачу',
+                  width: '140px',
+                  height: '40px',
                 }}
               />
             </div>
             <div>
-            <Button 
-               style={{
-               marginBottom: '5px',
-               marginTop: '5px',
-               background: '#fff',
-               color: '#3b82f6',
-               }}
-               onClick={onDeleteTask}
-               options={{
-               content: 'Удалить задачу',
-               width: '140px',
-               height: '40px',
+              <Button
+                style={{
+                  marginBottom: '5px',
+                  marginTop: '5px',
+                  marginLeft: '5px',
+                  background: '#fff',
+                  color: '#3b82f6',
+                }}
+                onClick={onDeleteTask}
+                options={{
+                  content: 'Удалить задачу',
+                  width: '140px',
+                  height: '40px',
                 }}
               />
             </div>
+            {
+            isDoneButtonClick &&
+            <div>
+            <Button
+               style={{
+                 marginBottom: '5px',
+                 marginTop: '5px',
+                 background: '#fff',
+                 color: '#3b82f6',
+               }}
+               onClick={onDoneTask}
+               options={{
+                 content: 'Завершить задачу',
+                 width: '140px',
+                 height: '40px',
+               }}
+              />
+            </div>
+            }
+
           </div>
           <div className={s.taskInfo}>
             <div className={s.row}>

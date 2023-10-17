@@ -307,7 +307,7 @@ export function Tasks() {
             value: 'tasks',
           },
           {
-            label: 'Оповещения',
+            label: 'Рекомендации',
             value: 'recommendations',
           },
         ]}

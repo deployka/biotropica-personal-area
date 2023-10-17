@@ -46,7 +46,7 @@ export interface Nav extends Page {
 
 const pages = [
   { page: 'Профиль', link: 'profile' },
-  { page: 'Дневник спортсмена BUTMANA', link: '/' },
+  { page: 'Дневник BUTMANA', link: '/' },
   { page: 'Цели', link: 'goals' },
   { page: 'Тарифы', link: 'tariffs' },
   { page: 'Видеоконсультации', link: 'consultations' },
@@ -62,6 +62,7 @@ const pages = [
   { page: 'Специалист', link: 'specialists' },
   { page: 'Рекомендации', link: 'recommendations' },
   { page: 'Логи', link: 'logs' },
+  { page: 'Специалисты', link: 'specialists' },
 ];
 
 const clientNav: Nav[] = [
@@ -80,6 +81,10 @@ const clientNav: Nav[] = [
   {
     ...pages[6],
     svg: <SidebarSvgSelector id="services" />,
+  },
+  {
+    ...pages[13],
+    svg: <SidebarSvgSelector id="users" />,
   },
 ];
 

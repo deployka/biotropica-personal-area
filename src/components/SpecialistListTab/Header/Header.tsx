@@ -20,7 +20,7 @@ export const UsersListTabHeader = ({ usersCount, query, onChange }: Props) => {
         <SearchInput
           value={query}
           onChange={onChange}
-          placeholder="Поиск специалистов"
+          placeholder="Поиск специалиста"
         />
       </div>
     </div>

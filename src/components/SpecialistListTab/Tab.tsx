@@ -4,20 +4,19 @@ import type { BaseUser } from '../../@types/entities/BaseUser';
 
 import { getFullName } from '../../utils/getFullName';
 import { UsersListTabHeader } from './Header/Header';
-import { UsersListTabItem } from './Item/Item';
+import { SpecialistListTabItem } from './Item/Item';
 import { filterUserByQuery } from './usersListHelper';
 
 import s from './Tab.module.scss';
-import { getUserRolesList } from '../../utils/getUserRolesList';
-import { ROLE } from '../../@types/entities/Role';
 
 type Props = {
   isLoading?: boolean;
   isError?: boolean;
-  users: BaseUser[];
+  specialists: {user: BaseUser, subscribeId: number}[];
+  handleRemoveClick: (id:number) => void;
 };
 
-export const SpecialistListTab = ({ users, isLoading, isError }: Props) => {
+export const SpecialistListTab = ({ specialists, isLoading, isError, handleRemoveClick }: Props) => {
   const history = useHistory();
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -25,29 +24,29 @@ export const SpecialistListTab = ({ users, isLoading, isError }: Props) => {
     history.push(`/specialists/${user?.specialist?.id}`);
   };
 
-  const filteredUsers = users.filter(user =>
-    filterUserByQuery(user, searchQuery),
+  const filteredSpecialists = specialists.filter(specialist =>
+    filterUserByQuery(specialist.user, searchQuery),
   );
 
   if (isLoading) return <p>Загрузка...</p>;
 
   if (!isLoading && isError) return <p>Произошла ошибка</p>;
-
   return (
     <div className={s.users}>
       <UsersListTabHeader
         query={searchQuery}
-        usersCount={users.length}
+        usersCount={specialists.length}
         onChange={setSearchQuery}
       />
-      {filteredUsers.map(user => (
-        <UsersListTabItem
+      {filteredSpecialists.map(({ user, subscribeId }) => (
+        <SpecialistListTabItem
           key={user.id}
-          onClick={() => handleClick(user)}
+          handleUserClick={() => handleClick(user)}
+          handleRemoveClick={() => handleRemoveClick(subscribeId)}
           fullName={getFullName(user.name, user.lastname)}
         />
       ))}
-      {filteredUsers.length === 0 && (
+      {filteredSpecialists.length === 0 && (
         <div className={s.notFound}>Специалисты не найдены</div>
       )}
     </div>

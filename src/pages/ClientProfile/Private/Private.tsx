@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router';
 
 import type { BaseUser } from '../../../@types/entities/BaseUser';
 
 import { createCookie, readCookie } from '../../../utils/cookie';
-import { eventBus, EventTypes } from '../../../services/EventBus';
-import { NotificationType } from '../../../components/GlobalNotifications/GlobalNotifications';
 import { getTabByKey } from '../../../utils/tabsHelper';
 import { useGetGoalsQuery } from '../../../api/goals';
 import { ClientProfileLayout } from '../../../components/ProfileLayout/Client/Client';
 import { Analyzes } from './Analyzes';
 import { Questionnaire } from './Questionnaire';
 import { Progress } from './Progress';
-import { useGetFollowedSpecialistsQuery } from '../../../api/user';
 import { SpecialistListTab } from '../../../components/SpecialistListTab/Tab';
 
 import s from './Private.module.scss';
 import { SEVEN_DAYS, tabs } from './constants';
+import { SubscribersListTab } from '../../../components/SubscribersListTab/SubscribersListTab';
+import { SubscribeStatus } from '../../../@types/dto/subscribers/update-subscriber.dto';
+import { Subscribe } from '../../../@types/entities/Subscribe';
+import { useCurrentUserSubscribersMutation, useRemoveSubscribByIdMutation, useUpdateSubscribByIdMutation } from '../../../api/subscribers';
 
 type Props = {
   user: BaseUser;
@@ -26,7 +27,36 @@ const ClientProfilePrivate = ({ user }: Props) => {
   const history = useHistory();
   const { active } = useParams<{ active: string }>();
 
+  const [activeTab, setActiveTab] = useState(
+    getTabByKey(active, tabs)?.key || tabs[0].key,
+  );
+
+  const [updateSubscribes] = useUpdateSubscribByIdMutation();
+  const [removeSubscribe] = useRemoveSubscribByIdMutation();
+
   const { data: goals = [], isLoading: isGoalsLoading } = useGetGoalsQuery();
+
+  const [getUserSubscribers] = useCurrentUserSubscribersMutation();
+
+  const [subscribes, setSubscribes] = useState<Subscribe[]>([]);
+
+  useEffect(() => {
+    getUserSubscribers()
+      .then(({ data }: any) => {
+        if (data) {
+          setSubscribes(data);
+        }
+      })
+      .catch(e => console.log(e));
+  }, [getUserSubscribers, active]);
+
+  const specialists = useMemo(() => {
+    const activeSubscribers = subscribes?.filter((s: Subscribe) => s.status === SubscribeStatus.SUBSCRIBE);
+    return activeSubscribers?.map(s => ({
+      user: s.specialist?.user,
+      subscribeId: s.id,
+    }));
+  }, [subscribes]);
 
   // Тарифы скрыты
   // const { data: currentTariff } = useGetCurrentTariffQuery();
@@ -36,10 +66,6 @@ const ClientProfilePrivate = ({ user }: Props) => {
   const onEditClick = () => {
     history.push('/profile/edit');
   };
-
-  const [activeTab, setActiveTab] = useState(
-    getTabByKey(active, tabs)?.key || tabs[0].key,
-  );
 
   const handleChangeTab = (tab: string) => {
     setActiveTab(tab);
@@ -83,15 +109,42 @@ const ClientProfilePrivate = ({ user }: Props) => {
     // });
   }, []);
 
-  const currentUserId = user?.id || 0;
-  const {
-    data: users = [],
-    isLoading: isUsersLoading,
-    isError: isUsersError,
-  } = useGetFollowedSpecialistsQuery(
-    { id: currentUserId },
-    { skip: !currentUserId || activeTab !== tabs[2].key },
-  );
+  const changeStatusHandler = useCallback((id: number, status: SubscribeStatus) => {
+    const newSubscribes = [...subscribes];
+    const idx = newSubscribes.findIndex(s => s.id === id);
+    newSubscribes[idx] = {
+      ...newSubscribes[idx],
+      status,
+    };
+    setSubscribes(newSubscribes);
+  }, [subscribes]);
+
+  const handleRejectClick = useCallback(async (id: number) => {
+    await updateSubscribes({ id, status: SubscribeStatus.BLOCKED });
+    changeStatusHandler(id, SubscribeStatus.BLOCKED);
+  }, [changeStatusHandler, updateSubscribes]);
+
+  const handleApplyClick = useCallback(async (id: number) => {
+    await updateSubscribes({ id, status: SubscribeStatus.SUBSCRIBE });
+    changeStatusHandler(id, SubscribeStatus.SUBSCRIBE);
+  }, [changeStatusHandler, updateSubscribes]);
+
+  const handleRemoveClick = useCallback(async (id: number) => {
+    await updateSubscribes({ id, status: SubscribeStatus.REJECTED });
+    await removeSubscribe(id);
+    const newArray = subscribes.filter(s => s.id !== id);
+    setSubscribes(newArray);
+  }, [removeSubscribe, subscribes, updateSubscribes]);
+
+  // const currentUserId = user?.id || 0;
+  // const {
+  //   data: users = [],
+  //   isLoading: isUsersLoading,
+  //   isError: isUsersError,
+  // } = useGetFollowedSpecialistsQuery(
+  //   { id: currentUserId },
+  //   { skip: !currentUserId || activeTab !== tabs[2].key },
+  // );
 
   return (
     <>
@@ -103,6 +156,7 @@ const ClientProfilePrivate = ({ user }: Props) => {
         tabs={tabs}
         activeTab={activeTab}
         onActiveTabChange={handleChangeTab}
+        onEditClick={onEditClick}
       >
         <div className={s.content}>
           {activeTab === tabs[0].key && (
@@ -116,9 +170,16 @@ const ClientProfilePrivate = ({ user }: Props) => {
           )}
           {activeTab === tabs[3].key && (
             <SpecialistListTab
-              isLoading={isUsersLoading}
-              isError={isUsersError}
-              users={users}
+              specialists={specialists}
+              handleRemoveClick={handleRemoveClick}
+            />
+          )}
+          {activeTab === tabs[4].key && (
+            <SubscribersListTab
+              subscribes={subscribes}
+              handleRejectClick={handleRejectClick}
+              handleApplyClick={handleApplyClick}
+              handleRemoveClick={handleRemoveClick}
             />
           )}
         </div>

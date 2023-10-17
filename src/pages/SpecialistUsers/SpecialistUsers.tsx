@@ -10,7 +10,7 @@ export type Filters = {
   ward: string[];
 };
 
-export function SpecialistUsers() {
+export function SpecialistsUsers() {
   const [filters, setFilters] = useState<Filters>({
     analyzes: ['all'],
     questionnaire: ['all'],
