@@ -29,7 +29,7 @@ interface Props {
   onEditBtnClick(): void;
   onCreateTemplate(): void;
   onDeleteTask(): void;
-  onDoneTask(): void;
+  onDoneTask?(): void;
 }
 
 export const Header = ({

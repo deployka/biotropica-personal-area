@@ -3,11 +3,13 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --legacy-per-deeps
 
+ENV NODE_OPTIONS=--max-old-space-size=4096
+
 COPY . ./
 
 RUN yarn build
 
-FROM nginx:1.21.1
+FROM nginx:1.23.1
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=react-build /app/build /usr/share/nginx/html/
 

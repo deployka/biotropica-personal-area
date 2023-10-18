@@ -14,16 +14,18 @@ type Props = {
   onWrite: () => void;
 };
 
-export const ROLE_TRANSLATIONS = {
+export const ROLE_TRANSLATIONS: { [key in ROLE]: string } = {
   [ROLE.CLIENT]: 'Пользователь',
   [ROLE.ADMIN]: 'Администратор',
   [ROLE.SPECIALIST]: 'Специалист',
+  [ROLE.TRAINER]: 'Специалист',
 };
 
-export const ROLE_COLOR = {
+export const ROLE_COLOR: { [key in ROLE]: string } = {
   [ROLE.CLIENT]: '#6f61d0',
   [ROLE.ADMIN]: '#D06361',
   [ROLE.SPECIALIST]: '#309A74',
+  [ROLE.TRAINER]: '#309A74',
 };
 
 export const UserItem = ({

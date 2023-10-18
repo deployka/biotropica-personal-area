@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const ExternalTemplateRemotesPlugin = require('external-remotes-plugin');
 
-module.exports = function override(config, env) {
+module.exports = function override(config) {
   // config.output.publicPath = process.env.WEBPACK_PUBLIC_PATH;
   console.log('config.output', config.output);
 
