@@ -1,0 +1,13 @@
+stages:
+  - deploy
+
+DeployDEV:
+  stage: deploy
+  environment: production
+  tags:
+    - biotropika-prod-runner
+  only:
+    - main
+  script:
+    - cp $ENV .env
+    - docker compose up --build -d
