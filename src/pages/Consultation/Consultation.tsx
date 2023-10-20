@@ -39,7 +39,7 @@ export function ConsultationPage() {
     });
 
     const isSpecialist = currentUser.roles.find(
-      role => role.name === ROLE.SPECIALIST,
+      role => role.name === ROLE.TRAINER,
     );
     const role = isSpecialist ? 1 : 0;
     const userName = currentUser.name + ' ' + currentUser.lastname;
