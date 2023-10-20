@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { ROLE } from '../../@types/entities/Role';
-import { useGetAllUsersQuery } from '../../api/user';
+import React, { useMemo, useState } from 'react';
 import { UserList } from './components/UserList/UserList';
-import { analyzePassedStatus } from './components/UserList/usersHelper';
+import { useSubscribersByUserIdCorrectedQuery } from '../../api/subscribers';
+import { SubscribeStatus } from '../../@types/dto/subscribers/update-subscriber.dto';
+import { useGetCurrentSpecialistQuery } from '../../api/specialists';
 
 export type Filters = {
   analyzes: ('loaded' | 'notLoaded' | 'all')[];
@@ -16,22 +16,38 @@ export function SpecialistsUsers() {
     questionnaire: ['all'],
     ward: ['all'],
   });
-  const {
-    data: users = [],
-    isLoading,
-    isFetching,
-  } = useGetAllUsersQuery({
-    roles: [ROLE.CLIENT],
-    isAnalyzesPassed: analyzePassedStatus[filters.analyzes[0]],
-  });
+
+  // const {
+  //   data: users = [],
+  //   isLoading,
+  //   isFetching,
+  // } = useGetAllUsersQuery({
+  //   roles: [ROLE.CLIENT],
+  //   isAnalyzesPassed: analyzePassedStatus[filters.analyzes[0]],
+  // });
+
+  const { data: currentSpecialist } = useGetCurrentSpecialistQuery();
+
+  const { data: subs = [], isFetching } = useSubscribersByUserIdCorrectedQuery(
+    currentSpecialist?.id || 0,
+    {
+      skip: !currentSpecialist?.id,
+    },
+  );
+
+  const preparedUsers = useMemo(() => {
+    return subs
+      ?.filter(el => el.status !== SubscribeStatus.REJECTED)
+      .map(el => el.user);
+  }, [subs]);
 
   return (
     <div>
-      {users ? (
+      {preparedUsers ? (
         <UserList
-          isLoading={isLoading || isFetching}
+          isLoading={isFetching}
           filters={filters}
-          users={users}
+          users={preparedUsers}
           setFilters={setFilters}
         />
       ) : (

@@ -10,9 +10,16 @@ export type Filters = {
   questionnaire: ('all' | 'finished' | 'notFinished')[];
   analyzes: ('all' | 'loaded' | 'notLoaded')[];
   banned: ('all' | 'yes' | 'no')[];
+  status: ('all' | 'inactive')[];
 };
 
 export const usersFilters: FilterField[] = [
+  {
+    name: 'Статус',
+    key: 'status',
+    type: 'checkbox',
+    filters: [{ value: 'inactive', label: 'Ждут активации' }],
+  },
   {
     name: 'Роль',
     key: 'roles',
@@ -153,6 +160,15 @@ export function filterUserByBanStatus(
   if (isBanned === 'yes') return user.banned;
 
   return !user.banned;
+}
+
+export function filterUserByActiveStatus(
+  user: BaseUser,
+  isActive: 'all' | 'inactive',
+) {
+  if (isActive === 'all') return true;
+
+  return !user.isEnabled;
 }
 
 export function getUserTariff(tariffs: Tariff[], user: BaseUser) {

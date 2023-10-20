@@ -76,7 +76,11 @@ export const SelectCustom = (props: Props) => {
       />
       {touched[props.name] && errors[props.name] && (
         <ErrorMessage
-          message={(errors[props.name]?.[0] as { value: string }).value || ''}
+          message={
+            Array.isArray(errors[props.name])
+              ? (errors[props.name] as Array<string>)[0]
+              : (errors[props.name] as string)
+          }
         />
       )}
     </div>

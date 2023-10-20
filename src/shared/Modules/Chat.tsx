@@ -22,7 +22,7 @@ export type ChatProps = {
   accesses: string[];
   activeDialogId?: number;
   onClose(): void;
-  onChangeReading(usUnread: number) : void;
+  onChangeReading(usUnread: number): void;
 };
 
 export function Chat(props: ChatProps) {

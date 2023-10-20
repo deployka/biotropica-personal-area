@@ -10,6 +10,7 @@ import { BaseUser } from '../@types/entities/BaseUser';
 import { GetUsersDto } from '../@types/dto/users/get-all.dto';
 import { BanUserDto } from '../@types/dto/users/ban.dto';
 import { UnbanUserDto } from '../@types/dto/users/unban.dto';
+import { ROLE } from '../@types/entities/Role';
 
 const userApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -103,6 +104,16 @@ const userApi = baseApi.injectEndpoints({
           })),
           { type: 'User', id: 'LIST' },
         ] as { type: 'User'; id: string | number }[],
+      transformResponse(
+        baseQueryReturnValue: BaseUser[],
+        _undefined,
+        args: Partial<GetUsersDto>,
+      ) {
+        if (args.roles?.find(el => el === ROLE.CLIENT || el === ROLE.TRAINER)) {
+          return baseQueryReturnValue.filter(el => el.isEnabled);
+        }
+        return baseQueryReturnValue;
+      },
     }),
 
     getFollowedUsers: builder.query<Client[], { id: number }>({
@@ -117,6 +128,15 @@ const userApi = baseApi.injectEndpoints({
         method: 'GET',
         url: `users/${dto.id}/followedSpecialists`,
       }),
+    }),
+
+    changeUserStatus: builder.mutation<BaseUser[], { userId: number }>({
+      query: dto => ({
+        method: 'POST',
+        url: 'users/change-enable-status',
+        body: dto,
+      }),
+      invalidatesTags: ['User'],
     }),
   }),
 });
@@ -133,6 +153,7 @@ export const {
   useGetUserQuery,
   useGetFollowedUsersQuery,
   useGetFollowedSpecialistsQuery,
+  useChangeUserStatusMutation,
 } = userApi;
 
 export default userApi;

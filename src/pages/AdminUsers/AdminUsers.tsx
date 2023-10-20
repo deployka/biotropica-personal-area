@@ -39,6 +39,7 @@ export function AdminUsers() {
     questionnaire: ['all'],
     analyzes: ['all'],
     banned: ['all'],
+    status: ['all'],
   });
 
   const history = useHistory();

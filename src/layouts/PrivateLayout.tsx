@@ -30,6 +30,7 @@ import { useAppSelector } from '../store/storeHooks';
 import { useGetCurrentTariffQuery } from '../api/tariffs';
 import { selectChatAccesses } from '../store/slices/tariff';
 import { NotificationType } from '../components/GlobalNotifications/GlobalNotifications';
+import { UsersLink } from '../shared/Global/Sidebar/components/UsersLink/UsersLink';
 
 interface Props {
   children: React.ReactNode;
@@ -111,7 +112,11 @@ const specialistNav: Nav[] = [
 const adminNav: Nav[] = [
   {
     ...pages[9],
-    svg: <SidebarSvgSelector id="users" />,
+    svg: (
+      <UsersLink>
+        <SidebarSvgSelector id="users" />
+      </UsersLink>
+    ),
   },
   {
     ...pages[12],
@@ -204,7 +209,11 @@ export function PrivateLayout(props: Props) {
   useEffect(() => {
     if (currentUser) {
       const connect = () => {
-        const ws = new WebSocket(`${process.env.REACT_APP_NOTIFICATIONS_WS_URL}?userId=${currentUser.id || ''}`);
+        const ws = new WebSocket(
+          `${process.env.REACT_APP_NOTIFICATIONS_WS_URL}?userId=${
+            currentUser.id || ''
+          }`,
+        );
         ws.onopen = () => {
           console.warn('Notifications WS is opened!');
         };

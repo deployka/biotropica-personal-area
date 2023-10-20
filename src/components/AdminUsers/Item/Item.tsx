@@ -6,6 +6,7 @@ import { getFullName } from '../../../utils/getFullName';
 import { format } from 'date-fns';
 import dotsIcon from '../../../assets/icons/dots-horizontal.svg';
 import s from './Item.module.scss';
+import { useChangeUserStatusMutation } from '../../../api/user';
 
 type Props = {
   user: BaseUser;
@@ -40,6 +41,8 @@ export const UserItem = ({
     setVisible(prevState => !prevState);
   }
 
+  const [changeUserStatus] = useChangeUserStatusMutation();
+
   const formattedUser = {
     id: user.id,
     fullName: getFullName(user.name, user.lastname),
@@ -67,6 +70,13 @@ export const UserItem = ({
     },
   ];
 
+  if (!user.isEnabled) {
+    actions.unshift({
+      title: 'Активировать',
+      onClick: () => changeUserStatus({ userId: user.id }),
+    });
+  }
+
   if (formattedUser.isBanned === true) {
     formattedUser.fullName += ' (Заблокирован)';
   }
@@ -80,7 +90,9 @@ export const UserItem = ({
         <p>{formattedUser.registrationDate}</p>
       </div>
       <div className={s.role}>
-        <p style={{ color: ROLE_COLOR[role?.name] }}>{roleTranslation}</p>
+        <p style={{ color: user.isEnabled ? ROLE_COLOR[role?.name] : 'red' }}>
+          {roleTranslation}
+        </p>
         <ActionMenu
           actions={actions}
           onClose={() => setVisible(false)}

@@ -1,6 +1,9 @@
 import { baseApi } from './base-api';
 import { CreateSubscribersDto } from '../@types/dto/subscribers/create-subscriber.dto';
-import { ResponseSubscribers, UpdateSubscribersDto } from '../@types/dto/subscribers/update-subscriber.dto';
+import {
+  ResponseSubscribers,
+  UpdateSubscribersDto,
+} from '../@types/dto/subscribers/update-subscriber.dto';
 import { Subscribe } from '../@types/entities/Subscribe';
 
 const subscribersApi = baseApi.injectEndpoints({
@@ -12,6 +15,14 @@ const subscribersApi = baseApi.injectEndpoints({
       }),
     }),
     subscribersByUserId: builder.mutation<ResponseSubscribers, number>({
+      // guys... its get request, not mutation
+      query: id => ({
+        url: `/subscribers/${id}`,
+        method: 'GET',
+      }),
+    }),
+
+    subscribersByUserIdCorrected: builder.query<Subscribe[], number>({
       query: id => ({
         url: `/subscribers/${id}`,
         method: 'GET',
@@ -53,6 +64,7 @@ export const {
   useRemoveSubscribByIdMutation,
   useUpdateSubscribByIdMutation,
   useSubscribersByUserIdMutation,
+  useSubscribersByUserIdCorrectedQuery,
 } = subscribersApi;
 
 export default subscribersApi;
