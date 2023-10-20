@@ -54,7 +54,7 @@ export const SignupForm = ({
     lastname: '',
     phone: '',
     role: showRoleSelector
-      ? process.env.REACT_APP_ROLE_SPECIALIST || ''
+      ? process.env.REACT_APP_ROLE_TRAINER || ''
       : process.env.REACT_APP_ROLE_CLIENT || '',
     specializationKeys: showRoleSelector ? [] : ['sportsmen'],
   };
