@@ -82,13 +82,13 @@ export function ConsultationPage() {
       }}
     />
 
-    // <Zoom
-    //   className={s.consultation}
-    //   meetingNumber={consultation.meetingNumber}
-    //   password={consultation.meetingPassword}
-    //   role={0}
-    //   username={username}
-    //   onClose={() => history.push('/consultations/list')}
-    // />
+  // <Zoom
+  //   className={s.consultation}
+  //   meetingNumber={consultation.meetingNumber}
+  //   password={consultation.meetingPassword}
+  //   role={0}
+  //   username={username}
+  //   onClose={() => history.push('/consultations/list')}
+  // />
   );
 }

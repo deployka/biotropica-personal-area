@@ -135,7 +135,7 @@ export function Tasks() {
     try {
       eventBus.emit(EventTypes.removeNotification, 'delete-notification');
       await deleteTask(openedTaskId);
-      //  Скрываем плашку 
+      //  Скрываем плашку
       // eventBus.emit(EventTypes.notification, {
       //   type: NotificationType.SUCCESS,
       //   message: `Задача "${openedTask?.title}" успешно удалена!`,
@@ -154,12 +154,12 @@ export function Tasks() {
     // Скрываем плашку
 
     // вызвать API для удаления комментария
-      await deleteComment({ commentId });
+    await deleteComment({ commentId });
 
-      eventBus.emit(EventTypes.notification, {
-        type: NotificationType.SUCCESS,
-        message: 'Комментарий успешно удален!',
-      });
+    eventBus.emit(EventTypes.notification, {
+      type: NotificationType.SUCCESS,
+      message: 'Комментарий успешно удален!',
+    });
   }
   function onDiscard() {
     eventBus.emit(EventTypes.removeNotification, 'delete-notification');
