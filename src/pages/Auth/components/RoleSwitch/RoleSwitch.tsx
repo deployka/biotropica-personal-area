@@ -18,7 +18,7 @@ export const RoleSwitch = ({ onClick }: RoleSwitchType) => {
       />
       <RoleCard
         Logo={<TrainerSvg />}
-        title="Я - специалист/тренер"
+        title="Я - специалист / тренер"
         onClick={() => onClick('trainer')}
       />
     </div>
