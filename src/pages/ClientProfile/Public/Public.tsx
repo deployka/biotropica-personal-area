@@ -159,7 +159,6 @@ const ClientProfilePublic = ({ user }: Props) => {
   if (user.id === currentUser?.id) {
     history.push('/profile');
   }
-
   return (
     <>
       <ClientProfileLayout

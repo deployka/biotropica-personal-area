@@ -1,4 +1,10 @@
-import React, { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useHistory } from 'react-router';
 import { BaseUser } from '../../../@types/entities/BaseUser';
 import { CurrentTariff } from '../../../@types/entities/Tariff';
@@ -10,11 +16,16 @@ import { ProfileTariff } from '../../Profile/Tariffs/Tariff';
 
 import s from './Client.module.scss';
 import { useGetCurrentSpecialistQuery } from '../../../api/specialists';
-import { useCreateSubscribersMutation, useSubscribersByUserIdMutation } from '../../../api/subscribers';
+import {
+  useCreateSubscribersMutation,
+  useSubscribersByUserIdMutation,
+  useUpdateSubscribByIdMutation,
+} from '../../../api/subscribers';
 import { SubscribeStatus } from '../../../@types/dto/subscribers/update-subscriber.dto';
 import { Subscribe } from '../../../@types/entities/Subscribe';
 import { useAppSelector } from '../../../store/storeHooks';
 import { selectCurrentUser } from '../../../store/slices/authSlice';
+import { ROLE } from '../../../@types/entities/Role';
 
 type Props = PropsWithChildren<{
   user: BaseUser;
@@ -54,12 +65,11 @@ export const ClientProfileLayout = ({
 
   const [
     createSubscriber,
-    {
-      isLoading: isCreateLoading,
-      isSuccess: isCreateSuccess,
-    },
+    { isLoading: isCreateLoading, isSuccess: isCreateSuccess },
   ] = useCreateSubscribersMutation();
   const [getUserSubscribers] = useSubscribersByUserIdMutation();
+
+  const [updateSubscribes] = useUpdateSubscribByIdMutation();
 
   const currentUser = useAppSelector(selectCurrentUser);
 
@@ -86,7 +96,9 @@ export const ClientProfileLayout = ({
   }, [currentSpecialist?.id, user.specialists]);
 
   const subscribeStatus = useMemo(() => {
-    const subsc = subscribers?.filter(s => s.specialistId === currentSpecialist?.id)[0];
+    const subsc = subscribers?.filter(
+      s => s.specialistId === currentSpecialist?.id,
+    )[0];
     if (!subsc) {
       return null;
     }
@@ -105,34 +117,89 @@ export const ClientProfileLayout = ({
     }
   }, [createSubscriber, currentSpecialist, user]);
 
+  const handleApplyClick = useCallback(async () => {
+    if (currentUser) {
+      await updateSubscribes({
+        id: currentUser.id,
+        status: SubscribeStatus.SUBSCRIBE,
+      });
+    }
+    // changeStatusHandler(id, SubscribeStatus.SUBSCRIBE);
+  }, [currentUser, updateSubscribes]);
+
+  const handleRejectClick = useCallback(async () => {
+    if (currentUser) {
+      await updateSubscribes({
+        id: currentUser.id,
+        status: SubscribeStatus.REJECTED,
+      });
+    }
+  }, [currentUser, updateSubscribes]);
+
   const renderSubscribeStatus = useMemo(() => {
+    if (
+      subscribeStatus === SubscribeStatus.IN_PROGRESS &&
+      currentSpecialist?.user.roles.find(el => el.name === ROLE.TRAINER)
+    ) {
+      return (
+        <div className={s.buttonContainer}>
+          <button
+            className={[s.btn, s.apply].join(' ')}
+            onClick={handleApplyClick}
+          >
+            Подтвердить
+          </button>
+          <button
+            className={[s.btn, s.reject].join(' ')}
+            onClick={handleRejectClick}
+          >
+            Отказать
+          </button>
+        </div>
+      );
+    }
     if (subscribeStatus === SubscribeStatus.IN_PROGRESS || isCreateSuccess) {
-      return <div className={[s.subscribeStatus, s.progressSubscribe].join(' ')}><h5>Заявка на рассмотрении</h5></div>;
+      return (
+        <div className={[s.subscribeStatus, s.progressSubscribe].join(' ')}>
+          <h5>Заявка на рассмотрении</h5>
+        </div>
+      );
     }
     if (subscribeStatus === SubscribeStatus.REJECTED) {
-      return <div className={[s.subscribeStatus, s.rejectedSubscribe].join(' ')}><h5>Заявка отклонена</h5></div>;
+      return (
+        <div className={[s.subscribeStatus, s.rejectedSubscribe].join(' ')}>
+          <h5>Заявка отклонена</h5>
+        </div>
+      );
     }
 
     if (subscribeStatus === SubscribeStatus.BLOCKED) {
-      return <div className={[s.subscribeStatus, s.blockedSubscribe].join(' ')}><h5>Заблокировано</h5></div>;
+      return (
+        <div className={[s.subscribeStatus, s.blockedSubscribe].join(' ')}>
+          <h5>Заблокировано</h5>
+        </div>
+      );
     }
   }, [subscribeStatus, isCreateSuccess]);
 
-  const renderInformation = useMemo(() => (
-    <div className={s.content}>
-    <div className={s.tabs__container}>
-      <div className={s.horizontalScroll}>
-        <Tabs
-          tabs={tabs}
-          activeTab={activeTab}
-          onActiveTabChanged={onActiveTabChange}
-          spaceBetween={50}
-        />
+  const renderInformation = useMemo(
+    () => (
+      <div className={s.content}>
+        <div className={s.tabs__container}>
+          <div className={s.horizontalScroll}>
+            <Tabs
+              tabs={tabs}
+              activeTab={activeTab}
+              onActiveTabChanged={onActiveTabChange}
+              spaceBetween={50}
+            />
+          </div>
+        </div>
+        {children}
       </div>
-    </div>
-    {children}
-  </div>
-  ), [activeTab, children, onActiveTabChange, tabs]);
+    ),
+    [activeTab, children, onActiveTabChange, tabs],
+  );
 
   const renderButtons = useMemo(() => {
     if (isCreateLoading || isCreateSuccess) {
@@ -209,9 +276,7 @@ export const ClientProfileLayout = ({
           {isPublic && renderSubscribeStatus}
         </div>
       </div>
-      {
-        (isFollower || isMe) && renderInformation
-      }
+      {(isFollower || isMe) && renderInformation}
     </div>
   );
 };

@@ -207,3 +207,25 @@
 .progressSubscribe {
     background-color: rgb(17, 221, 6);
 }
+
+.buttonContainer{
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	gap: 10px;
+}
+
+.apply {
+	background-color: rgb(170, 244, 183);
+}
+
+.reject {
+	background-color: rgb(245, 196, 206);
+}
+
+.btn {
+	flex: 1;
+	border: 1px solid grey;
+	border-radius: 15px;
+	padding: 8px 13px;
+}
