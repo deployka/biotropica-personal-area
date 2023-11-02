@@ -3,7 +3,6 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useState,
 } from 'react';
 import { useHistory } from 'react-router';
 import { BaseUser } from '../../../@types/entities/BaseUser';
@@ -12,20 +11,20 @@ import { Tab, Tabs } from '../../../shared/Global/Tabs/Tabs';
 import Button from '../../Button/Button';
 import { ProfileCard } from '../../Profile/Card/UserCard';
 import { ProfileGoals } from '../../Profile/Goals/Goals';
-import { ProfileTariff } from '../../Profile/Tariffs/Tariff';
 
 import s from './Client.module.scss';
-import { useGetCurrentSpecialistQuery } from '../../../api/specialists';
+import specialistsApi, {
+  useGetCurrentSpecialistQuery,
+} from '../../../api/specialists';
 import {
   useCreateSubscribersMutation,
-  useSubscribersByUserIdMutation,
+  useSubscribersByUserIdCorrectedQuery,
   useUpdateSubscribByIdMutation,
 } from '../../../api/subscribers';
 import { SubscribeStatus } from '../../../@types/dto/subscribers/update-subscriber.dto';
-import { Subscribe } from '../../../@types/entities/Subscribe';
-import { useAppSelector } from '../../../store/storeHooks';
-import { selectCurrentUser } from '../../../store/slices/authSlice';
 import { ROLE } from '../../../@types/entities/Role';
+import userApi, { useCurrentUserQuery } from '../../../api/user';
+import { useAppDispatch } from '../../../store/storeHooks';
 
 type Props = PropsWithChildren<{
   user: BaseUser;
@@ -61,48 +60,45 @@ export const ClientProfileLayout = ({
     history.push('/goals');
   };
 
-  const { data: currentSpecialist } = useGetCurrentSpecialistQuery();
+  const { data: currentSpecialist, refetch } = useGetCurrentSpecialistQuery(
+    undefined,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: false,
+    },
+  );
 
   const [
     createSubscriber,
     { isLoading: isCreateLoading, isSuccess: isCreateSuccess },
   ] = useCreateSubscribersMutation();
-  const [getUserSubscribers] = useSubscribersByUserIdMutation();
+  const { data: subscribers } = useSubscribersByUserIdCorrectedQuery(user.id);
 
   const [updateSubscribes] = useUpdateSubscribByIdMutation();
 
-  const currentUser = useAppSelector(selectCurrentUser);
-
-  const [subscribers, setSubscribes] = useState<Subscribe[]>([]);
-
-  useEffect(() => {
-    getUserSubscribers(user.id)
-      .then(({ data }: any) => {
-        if (data) {
-          setSubscribes(data);
-        }
-      })
-      .catch(e => console.log(e));
-  }, [getUserSubscribers, activeTab, user.id]);
+  const { data: currentUser } = useCurrentUserQuery();
 
   const isMe = useMemo(() => user.id === currentUser?.id, [currentUser, user]);
 
   const isFollower = useMemo(() => {
+    console.log(user.specialists, currentSpecialist);
     if (!user.specialists.length) {
       return false;
     }
     const isMatch = user.specialists.find(s => s.id === currentSpecialist?.id);
     return Boolean(isMatch);
-  }, [currentSpecialist?.id, user.specialists]);
+  }, [currentSpecialist, user.specialists]);
 
-  const subscribeStatus = useMemo(() => {
-    const subsc = subscribers?.filter(
+  console.log(currentSpecialist);
+
+  const subscriber = useMemo(() => {
+    const subsc = subscribers?.find(
       s => s.specialistId === currentSpecialist?.id,
-    )[0];
+    );
     if (!subsc) {
       return null;
     }
-    return subsc.status;
+    return subsc;
   }, [currentSpecialist?.id, subscribers]);
 
   const onSubscribeClick = useCallback(async () => {
@@ -118,14 +114,15 @@ export const ClientProfileLayout = ({
   }, [createSubscriber, currentSpecialist, user]);
 
   const handleApplyClick = useCallback(async () => {
-    if (currentUser) {
+    if (subscriber) {
       await updateSubscribes({
-        id: currentUser.id,
+        id: subscriber.id,
         status: SubscribeStatus.SUBSCRIBE,
       });
+      refetch();
     }
     // changeStatusHandler(id, SubscribeStatus.SUBSCRIBE);
-  }, [currentUser, updateSubscribes]);
+  }, [refetch, subscriber, updateSubscribes]);
 
   const handleRejectClick = useCallback(async () => {
     if (currentUser) {
@@ -138,7 +135,7 @@ export const ClientProfileLayout = ({
 
   const renderSubscribeStatus = useMemo(() => {
     if (
-      subscribeStatus === SubscribeStatus.IN_PROGRESS &&
+      subscriber?.status === SubscribeStatus.IN_PROGRESS &&
       currentSpecialist?.user.roles.find(el => el.name === ROLE.TRAINER)
     ) {
       return (
@@ -158,14 +155,14 @@ export const ClientProfileLayout = ({
         </div>
       );
     }
-    if (subscribeStatus === SubscribeStatus.IN_PROGRESS || isCreateSuccess) {
+    if (subscriber?.status === SubscribeStatus.IN_PROGRESS || isCreateSuccess) {
       return (
         <div className={[s.subscribeStatus, s.progressSubscribe].join(' ')}>
           <h5>Заявка на рассмотрении</h5>
         </div>
       );
     }
-    if (subscribeStatus === SubscribeStatus.REJECTED) {
+    if (subscriber?.status === SubscribeStatus.REJECTED) {
       return (
         <div className={[s.subscribeStatus, s.rejectedSubscribe].join(' ')}>
           <h5>Заявка отклонена</h5>
@@ -173,14 +170,20 @@ export const ClientProfileLayout = ({
       );
     }
 
-    if (subscribeStatus === SubscribeStatus.BLOCKED) {
+    if (subscriber?.status === SubscribeStatus.BLOCKED) {
       return (
         <div className={[s.subscribeStatus, s.blockedSubscribe].join(' ')}>
           <h5>Заблокировано</h5>
         </div>
       );
     }
-  }, [subscribeStatus, isCreateSuccess]);
+  }, [
+    subscriber?.status,
+    currentSpecialist?.user.roles,
+    isCreateSuccess,
+    handleApplyClick,
+    handleRejectClick,
+  ]);
 
   const renderInformation = useMemo(
     () => (
@@ -205,7 +208,7 @@ export const ClientProfileLayout = ({
     if (isCreateLoading || isCreateSuccess) {
       return null;
     }
-    if (isFollower && subscribeStatus !== SubscribeStatus.BLOCKED) {
+    if (isFollower && subscriber?.status !== SubscribeStatus.BLOCKED) {
       return (
         <>
           <Button
@@ -226,7 +229,7 @@ export const ClientProfileLayout = ({
         </>
       );
     }
-    if (!subscribeStatus) {
+    if (!subscriber?.status) {
       return (
         <Button
           css={{ margin: '10px 0 0 0' }}
@@ -243,7 +246,7 @@ export const ClientProfileLayout = ({
     onChatClick,
     onMoveToTasks,
     onSubscribeClick,
-    subscribeStatus,
+    subscriber?.status,
     isCreateLoading,
     isCreateSuccess,
   ]);

@@ -14,6 +14,7 @@ const subscribersApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
     }),
+
     subscribersByUserId: builder.mutation<ResponseSubscribers, number>({
       // guys... its get request, not mutation
       query: id => ({
@@ -27,6 +28,7 @@ const subscribersApi = baseApi.injectEndpoints({
         url: `/subscribers/${id}`,
         method: 'GET',
       }),
+      providesTags: ['Subscribers'],
     }),
 
     createSubscribers: builder.mutation<Subscribe, CreateSubscribersDto>({
@@ -45,7 +47,12 @@ const subscribersApi = baseApi.injectEndpoints({
           body: { status: dto.status },
         };
       },
-      invalidatesTags: [{ type: 'User', id: 'LIST' }],
+      invalidatesTags: [
+        { type: 'User', id: 'LIST' },
+        'Subscribers',
+        'CurrentUser',
+        'Specialist',
+      ],
     }),
     removeSubscribById: builder.mutation<Subscribe, number>({
       query(id) {

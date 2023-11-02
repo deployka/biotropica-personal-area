@@ -27,6 +27,7 @@ export const baseApi = createApi({
     'Tariff',
     'QuestionnaireAnswers',
     'CurrentQuestion',
+    'Subscribers',
   ],
   endpoints: () => ({}),
 });
