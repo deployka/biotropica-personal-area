@@ -29,7 +29,7 @@ export const Tabs = ({
     onActiveTabChanged(tab.key);
   }
   return (
-    <div className={s.tabs} style={{ columnGap: spaceBetween || 40 }}>
+    <div className={s.tabs}>
       {tabs.map(
         (tab: Tab) =>
           !tab.isHidden && (

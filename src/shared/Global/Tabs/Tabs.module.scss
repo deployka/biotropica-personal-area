@@ -2,12 +2,14 @@
 @import '../../../styles/variables.scss';
 
 .tabs {
-  width: auto;
+  width: 100%;
 
   display: flex;
-
+	flex-wrap: wrap;
+	gap: 40px;
   @include for-phone {
-    column-gap: 10px !important;
+		justify-content: center;
+		gap: 10px;
   }
 
   .tab {
