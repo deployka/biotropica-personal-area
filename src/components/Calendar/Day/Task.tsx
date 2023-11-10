@@ -1,11 +1,10 @@
 import React from 'react';
 import cn from 'classnames';
-import { SomeTask } from '../../../@types/entities/Task';
+import { SomeTask, TaskStatus } from '../../../@types/entities/Task';
 
 import s from './Task.module.scss';
 import { getTaskDecor, getTaskStatus } from './dayHelper';
 import useMediaQuery from '../../../hooks/useMediaQuery';
-import { useSelector } from 'react-redux';
 import { useAppSelector } from '../../../store/storeHooks';
 import {
   selectCurrentUser,
@@ -15,7 +14,7 @@ import {
 interface Props {
   task: SomeTask;
   isPast: boolean;
-  onClickTask(taskId: string): void;
+  onClickTask(taskId: string, status?: TaskStatus): void;
 }
 
 export const CalendarTask = ({ task, onClickTask, isPast }: Props) => {
@@ -36,40 +35,72 @@ export const CalendarTask = ({ task, onClickTask, isPast }: Props) => {
   const backgroundColor = !isMobile ? undefined : isPrivate ? '#8f8f8f' : color;
 
   return (
-    <div
-      className={cn(s.task, { [s.old]: isPast, [s.private]: isPrivate })}
-      onClick={() => {
-        onClickTask(task.id);
-      }}
-      style={{ backgroundColor }}
-    >
-      {!isMobile && (
-        <div className={s.type}>
-          <div className={cn(s.dot, s[task.type])}></div>
-        </div>
-      )}
-      {isMobile && (
-        <div className={s.iconWrapper}>
-          <div
-            className={s.icon}
-            style={{
-              backgroundColor: task.isPrivate ? backgroundColor : color,
-              WebkitMaskImage: `url(${icon})`,
-              maskImage: `url(${icon})`,
-            }}
-          />
-        </div>
-      )}
-      <div className={cn(s.info)}>
-        {!isMobile && task.startTime && (
-          <div className={s.time}>
-            <p>
-              {startTime} {task.endTime ? `– ${endTime}` : ''}
-            </p>
+    <>
+      <div
+        className={cn(s.task, { [s.old]: isPast, [s.private]: isPrivate })}
+        onClick={() => {
+          onClickTask(task.id);
+        }}
+        style={{ backgroundColor }}
+      >
+        {!isMobile && (
+          <div className={s.type}>
+            <div className={cn(s.dot, s[task.type])}></div>
           </div>
         )}
-        <div className={cn(s.title, { [s[status]]: isPast })}>{task.title}</div>
+        {isMobile && (
+          <div className={s.iconWrapper}>
+            <div
+              className={s.icon}
+              style={{
+                backgroundColor: task.isPrivate ? backgroundColor : color,
+                WebkitMaskImage: `url(${icon})`,
+                maskImage: `url(${icon})`,
+              }}
+            />
+          </div>
+        )}
+        <div className={cn(s.info)}>
+          {!isMobile && task.startTime && (
+            <div className={s.time}>
+              <p>
+                {startTime} {task.endTime ? `– ${endTime}` : ''}
+              </p>
+            </div>
+          )}
+          <div
+            className={cn([
+              s.title,
+              { [s[status]]: isPast },
+              task.status === 'completed' && s.taskIsDoneText,
+            ])}
+          >
+            {task.title}
+          </div>
+        </div>
+        {isMobile && (
+          <button
+            className={[
+              s.button,
+              task.status === 'completed' && s.taskIsDone,
+            ].join(' ')}
+            disabled={isPast}
+          >
+            Выполнено
+          </button>
+        )}
       </div>
-    </div>
+      {!isMobile && (
+        <button
+          className={[
+            s.button,
+            task.status === 'completed' && s.taskIsDone,
+          ].join(' ')}
+          disabled={isPast}
+        >
+          Выполнено
+        </button>
+      )}
+    </>
   );
 };

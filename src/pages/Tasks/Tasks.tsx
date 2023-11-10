@@ -149,6 +149,12 @@ export function Tasks() {
     }
   }
 
+	async function handleDoneTask() {
+    openedTaskId &&
+    await updateTask({ id: openedTaskId, status: 'completed' }).unwrap();
+    handleCloseTask();
+  }
+
   async function handleDeleteComment(commentId: string) {
 
     // Скрываем плашку
@@ -357,6 +363,7 @@ export function Tasks() {
         onSaveFactValue={handleSaveFactValue}
         onDeleteComment={handleDeleteComment}
         isCommentsLoading={isCommentsLoading}
+				onDoneTask={handleDoneTask}
       />
     </>
   );

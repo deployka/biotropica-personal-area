@@ -30,6 +30,7 @@ type TasksModalProps = {
   onEditBtnClick(): void;
   onCreateTemplate(): void;
   onDeleteTask(): void;
+  onDoneTask(): void;
   onSave(task: CreateSomeTask): void;
   onSendComment(newCommentText: string): void;
   onSaveFactValue(value: string): void;
@@ -52,6 +53,7 @@ export const TasksModal = ({
   onClose,
   onSave,
   onDeleteTask,
+  onDoneTask,
   onEditBtnClick,
   onSendComment,
   onSaveFirstValue,
@@ -111,6 +113,7 @@ export const TasksModal = ({
       isOpened={isOpened}
       onClose={onClose}
       onEditBtnClick={onEditBtnClick}
+      onDoneTask={onDoneTask}
     >
       <TaskLayout
         isSpecialist={isSpecialist}

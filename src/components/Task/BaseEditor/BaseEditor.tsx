@@ -25,6 +25,7 @@ export type TaskBaseEditorProps = {
   authorName: string;
   onCreateTemplate: () => void;
   onDeleteTask(): void;
+  onDoneTask(): void;
   onClose(): void;
   onEditBtnClick(): void;
 };
@@ -43,6 +44,7 @@ export function TaskBaseEditor({
   taskId,
   authorName,
   authorSpecialistId,
+  onDoneTask,
   onClose,
   onCreateTemplate,
   onDeleteTask,
@@ -79,6 +81,7 @@ export function TaskBaseEditor({
           onClose={onClose}
           onCreateTemplate={onCreateTemplate}
           onEditBtnClick={onEditBtnClick}
+          onDoneTask={onDoneTask}
         />
         <div className={s.body}>{children}</div>
       </div>
