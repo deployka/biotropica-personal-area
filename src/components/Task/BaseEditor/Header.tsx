@@ -1,9 +1,7 @@
-import React, { RefObject, useState } from 'react';
+import React, { useState } from 'react';
 
 import classNames from 'classnames';
 import closeIcon from './../../../assets/icons/close_white.svg';
-import deleteTask from './../../../assets/icons/taskType/trash.png';
-import editIcon from './../../../assets/icons/edit_note.svg';
 import MoreIcon from '../../../assets/icons/global/more.svg';
 import { useHistory } from 'react-router';
 
@@ -11,6 +9,7 @@ import s from './Header.module.scss';
 import { Action, ActionMenu } from '../../UI/ActionsMenu/ActionsMenu';
 
 import { Button } from '../../../shared/Form/Button/Button';
+import { TaskStatus } from '../../../@types/entities/Task';
 
 interface Props {
   mode: 'edit' | 'view' | 'create';
@@ -30,6 +29,7 @@ interface Props {
   onCreateTemplate(): void;
   onDeleteTask(): void;
   onDoneTask?(): void;
+  taskStatus: TaskStatus | undefined;
 }
 
 export const Header = ({
@@ -48,6 +48,7 @@ export const Header = ({
   onDeleteTask,
   isDoneButtonClick,
   onDoneTask,
+  taskStatus,
 }: Props) => {
   let taskType = '';
   let headerColor = '';
@@ -171,15 +172,17 @@ export const Header = ({
                 height: '40px',
               }}
             />
-            <Button
-              className={s.editTaskButton}
-              onClick={onDoneTask}
-              options={{
-                content: 'Завершить задачу',
-                width: '140px',
-                height: '40px',
-              }}
-            />
+            {taskStatus !== 'completed' && (
+              <Button
+                className={s.editTaskButton}
+                onClick={onDoneTask}
+                options={{
+                  content: 'Завершить задачу',
+                  width: '140px',
+                  height: '40px',
+                }}
+              />
+            )}
           </div>
           <div className={s.taskInfo}>
             <div className={s.row}>

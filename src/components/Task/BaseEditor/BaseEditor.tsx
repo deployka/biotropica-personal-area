@@ -82,6 +82,7 @@ export function TaskBaseEditor({
           onCreateTemplate={onCreateTemplate}
           onEditBtnClick={onEditBtnClick}
           onDoneTask={onDoneTask}
+          taskStatus={task?.status}
         />
         <div className={s.body}>{children}</div>
       </div>
