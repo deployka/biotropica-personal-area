@@ -80,6 +80,9 @@ export const CalendarTask = ({ task, onClickTask, isPast }: Props) => {
         </div>
         {isMobile && (
           <button
+            onClick={() => {
+              onClickTask(task.id);
+            }}
             className={[
               s.button,
               task.status === 'completed' && s.taskIsDone,
@@ -92,6 +95,9 @@ export const CalendarTask = ({ task, onClickTask, isPast }: Props) => {
       </div>
       {!isMobile && (
         <button
+          onClick={() => {
+            onClickTask(task.id);
+          }}
           className={[
             s.button,
             task.status === 'completed' && s.taskIsDone,
