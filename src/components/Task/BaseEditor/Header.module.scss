@@ -150,6 +150,18 @@
     cursor: pointer;
   }
 
+  .editTaskButtonContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    .editTaskButton {
+      margin-bottom: unset;
+      background: #fff;
+      color: #3b82f6;
+    }
+  }
+
   .actionsMenu {
     margin: 0 12px 0 0;
     cursor: pointer;
@@ -161,10 +173,6 @@
     img {
       width: 32px;
       height: 32px;
-    }
-   
-    .editTaskButton{
-      display: flex;
     }
 
     @media screen and (max-width: 768px) {

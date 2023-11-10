@@ -11,6 +11,7 @@ interface Props {
   disabled?: boolean;
   style?: Styles;
   name?: string;
+  className?: string;
   options: {
     classes?: Classes;
     content: string | ReactElement;
@@ -21,7 +22,7 @@ interface Props {
 }
 
 export const Button = (props: Props) => {
-  const { options, ...buttonProps } = props;
+  const { options, className, ...buttonProps } = props;
   const { classes, content, setDisabledStyle, width, height } = options;
 
   return (
@@ -31,6 +32,7 @@ export const Button = (props: Props) => {
           [s.btn__discard]: classes?.discard,
           [s.btn]: true,
           [s.disabled]: setDisabledStyle,
+          [className || '']: true,
         })}
         {...buttonProps}
         style={{ ...buttonProps.style, height, width }}
