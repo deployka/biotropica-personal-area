@@ -23,7 +23,10 @@ import { getTabByKey } from '../../utils/tabsHelper';
 
 import s from './Profile.module.scss';
 import Button from '../../components/Button/Button';
-import { useCreateSubscribersMutation, useSubscribersByUserIdMutation } from '../../api/subscribers';
+import {
+  useCreateSubscribersMutation,
+  useSubscribersByUserIdMutation,
+} from '../../api/subscribers';
 import { SubscribeStatus } from '../../@types/dto/subscribers/update-subscriber.dto';
 import { Subscribe } from '../../@types/entities/Subscribe';
 
@@ -84,10 +87,7 @@ const PublicSpecialistProfile = () => {
 
   const [
     createSubscriber,
-    {
-      isLoading: isCreateLoading,
-      isSuccess: isCreateSuccess,
-    },
+    { isLoading: isCreateLoading, isSuccess: isCreateSuccess },
   ] = useCreateSubscribersMutation();
 
   const { data: dialogs } = useGetAllDialogsQuery();
@@ -143,7 +143,7 @@ const PublicSpecialistProfile = () => {
         return;
       }
       eventBus.emit(EventTypes.chatOpen, dialogId);
-    } catch (error) { }
+    } catch (error) {}
   }, [dialogs, specialist]);
 
   const onSubscribeClick = useCallback(async () => {
@@ -159,7 +159,9 @@ const PublicSpecialistProfile = () => {
   }, [createSubscriber, specialist, currentUser]);
 
   const subscribeStatus = useMemo(() => {
-    const subsc = subscribers?.filter(s => s.specialistId === specialist?.id)[0];
+    const subsc = subscribers?.filter(
+      s => s.specialistId === specialist?.id,
+    )[0];
     if (!subsc) {
       return null;
     }
@@ -167,23 +169,33 @@ const PublicSpecialistProfile = () => {
   }, [specialist?.id, subscribers]);
 
   const renderSubscribeStatus = useMemo(() => {
-
     if (subscribeStatus === SubscribeStatus.IN_PROGRESS || isCreateSuccess) {
-      return <div className={[s.subscribeStatus, s.progressSubscribe].join(' ')}><h5>Заявка на рассмотрении</h5></div>;
+      return (
+        <div className={[s.subscribeStatus, s.progressSubscribe].join(' ')}>
+          <h5>Заявка на рассмотрении</h5>
+        </div>
+      );
     }
 
     if (subscribeStatus === SubscribeStatus.REJECTED) {
-      return <div className={[s.subscribeStatus, s.rejectedSubscribe].join(' ')}><h5>Заявка отклонена</h5></div>;
+      return (
+        <div className={[s.subscribeStatus, s.rejectedSubscribe].join(' ')}>
+          <h5>Заявка отклонена</h5>
+        </div>
+      );
     }
 
     if (subscribeStatus === SubscribeStatus.BLOCKED) {
-      return <div className={[s.subscribeStatus, s.blockedSubscribe].join(' ')}><h5>Заблокировано</h5></div>;
+      return (
+        <div className={[s.subscribeStatus, s.blockedSubscribe].join(' ')}>
+          <h5>Заблокировано</h5>
+        </div>
+      );
     }
-
   }, [subscribeStatus, isCreateSuccess]);
 
   const renderButtons = useMemo(() => {
-    if (isCreateLoading || isCreateSuccess) {
+    if (isCreateLoading || isCreateSuccess || isAdmin) {
       return null;
     }
     if (isFollower) {
@@ -201,7 +213,15 @@ const PublicSpecialistProfile = () => {
         </button>
       );
     }
-  }, [handleCreateDialog, isCreateLoading, isCreateSuccess, isFollower, onSubscribeClick, subscribeStatus]);
+  }, [
+    handleCreateDialog,
+    isAdmin,
+    isCreateLoading,
+    isCreateSuccess,
+    isFollower,
+    onSubscribeClick,
+    subscribeStatus,
+  ]);
 
   if (isLoading) {
     return <p>Загрузка...</p>;

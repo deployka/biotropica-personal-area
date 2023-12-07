@@ -89,8 +89,6 @@ export const ClientProfileLayout = ({
     return Boolean(isMatch);
   }, [currentSpecialist, user.specialists]);
 
-  console.log(currentSpecialist);
-
   const subscriber = useMemo(() => {
     const subsc = subscribers?.find(
       s => s.specialistId === currentSpecialist?.id,
@@ -104,7 +102,7 @@ export const ClientProfileLayout = ({
   const onSubscribeClick = useCallback(async () => {
     const userId = user.id;
     const specialistId = currentSpecialist?.id;
-
+    console.log(specialistId, userId);
     if (specialistId && userId) {
       await createSubscriber({
         userId,
@@ -208,6 +206,29 @@ export const ClientProfileLayout = ({
     if (isCreateLoading || isCreateSuccess) {
       return null;
     }
+    console.log(currentUser?.roles);
+    if (currentUser?.roles.find(el => el.name === ROLE.ADMIN)) {
+      return (
+        <>
+          <Button
+            isPrimary
+            className={s.moveToTasksBtn}
+            onClick={onMoveToTasks}
+          >
+            Задачи и рекомендации
+          </Button>
+          <Button
+            css={{ margin: '10px 0 0 0' }}
+            isFunctional
+            className={s.moveToTasksBtn}
+            onClick={onChatClick}
+          >
+            Начать чат
+          </Button>
+        </>
+      );
+    }
+
     if (isFollower && subscriber?.status !== SubscribeStatus.BLOCKED) {
       return (
         <>
@@ -229,6 +250,7 @@ export const ClientProfileLayout = ({
         </>
       );
     }
+
     if (!subscriber?.status) {
       return (
         <Button
@@ -242,13 +264,14 @@ export const ClientProfileLayout = ({
       );
     }
   }, [
-    isFollower,
-    onChatClick,
-    onMoveToTasks,
-    onSubscribeClick,
-    subscriber?.status,
     isCreateLoading,
     isCreateSuccess,
+    currentUser?.roles,
+    isFollower,
+    subscriber?.status,
+    onMoveToTasks,
+    onChatClick,
+    onSubscribeClick,
   ]);
 
   return (
