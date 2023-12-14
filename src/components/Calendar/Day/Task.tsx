@@ -89,7 +89,7 @@ export const CalendarTask = ({ task, onClickTask, isPast }: Props) => {
             ].join(' ')}
             disabled={isPast}
           >
-            Выполнено
+            {task.status === 'completed' ? 'Выполнено' : 'Выполнить'}
           </button>
         )}
       </div>
@@ -104,7 +104,7 @@ export const CalendarTask = ({ task, onClickTask, isPast }: Props) => {
           ].join(' ')}
           disabled={isPast}
         >
-          Выполнено
+          {task.status === 'completed' ? 'Выполнено' : 'Выполнить'}
         </button>
       )}
     </>
