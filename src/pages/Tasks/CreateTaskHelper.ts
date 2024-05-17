@@ -20,7 +20,7 @@ export function createTaskByType(
   switch (selectedTaskType.type) {
     case 'event':
       return {
-        isPrivate: true,
+        isPrivate: false,
         type: 'event',
         authorId: 0,
         title: '',
@@ -35,7 +35,7 @@ export function createTaskByType(
       } as CreateEventTask;
     case 'training':
       return {
-        isPrivate: true,
+        isPrivate: false,
         type: 'training',
         kindOfSport: selectedTaskType.key as TrainingTask['kindOfSport'],
         category: TrainingCategory.muscleEndurance,
@@ -52,7 +52,7 @@ export function createTaskByType(
       } as CreateTrainingTask;
     case 'competition':
       return {
-        isPrivate: true,
+        isPrivate: false,
         type: 'competition',
         status: 'init',
         kindOfSport: selectedTaskType.key as CompetitionTask['kindOfSport'],
