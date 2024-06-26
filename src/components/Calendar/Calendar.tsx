@@ -29,11 +29,11 @@ export const Calendar = ({ tasks, currentMonth, onClickTask }: Props) => {
           isPast = false;
         }
 
-        const nameOfDay = new Date(
-          now.getFullYear(),
-          now.getMonth(),
-          +day,
-        ).toLocaleString('ru', { weekday: 'short' });
+        const [year, monthIndex] = month.split('-').map(Number);
+        const nameOfDay = new Date(year, monthIndex - 1, +day).toLocaleString(
+          'ru',
+          { weekday: 'short' },
+        );
 
         return {
           isPast,
